@@ -31,8 +31,8 @@ INITIAL_PARAMS = {
     "volume": 1000,
     "pullcast_speed": 10,
     "nitrogen": False,
-    "coupon_to_bath_wait_time": 120,
-    "nips_bath_wait_time": 1800,
+    "coupon_to_bath_wait_time": 10,
+    "nips_bath_wait_time": 50,
 }
 DATA_ROOT    = Path(__file__).parent
 CSV_OUT      = DATA_ROOT / "output2.csv"
@@ -106,7 +106,7 @@ def _run_pipeline_and_trigger_next(params):
         output = processing.process_zero_sample_pairs_pipeline(
             folder_name="compression-test-data",
             data_root=str(DATA_ROOT),
-            strict=True,
+            strict=False,
             load_cutoff=1.0,
             thickness_info=False,
             thickness_map=None,

@@ -743,7 +743,7 @@ def _pair_chronological_zero_sample(specimen_rows, strict=True, cluster_gap_minu
 
     pairs = []
     replicate = 1
-    for i in range(0, len(clusters), 2):
+    for i in range(0, len(clusters), 2): 
         zero_cluster    = clusters[i]
         membrane_cluster = clusters[i + 1]
         if strict and len(zero_cluster) != len(membrane_cluster):

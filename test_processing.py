@@ -16,12 +16,12 @@ import pandas as pd
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(__file__))
-import processing_updated as processing
-import activeLearning_updated as al
+import processing_29 as processing
+import activeLearning_29 as al
 
 # ── edit these ──────────────────────────────────────────────────────────────
 DATA_ROOT  = Path(__file__).parent.parent / "Auto-Membranes/"
-CONDITION  = "17-5deg-60s-N2-1800s"
+CONDITION  = "17-13deg-10s-N2-30s"
 OUTPUT_CSV = Path(__file__).parent / "test_output3.csv"
 LLM_CSV    = Path(__file__).parent / "test_llm_newfile.csv"
 JSON_OUT   = Path(__file__).parent / "test_llm_result.json"
@@ -32,7 +32,7 @@ print(f"Condition : {CONDITION}")
 print()
 
 output = processing.process_zero_sample_pairs_pipeline(
-    folder_name="old_data",
+    folder_name="compression-test-data",
     data_root=str(DATA_ROOT),
     strict=True,
     load_cutoff=1.0,
