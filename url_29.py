@@ -7,13 +7,13 @@ import json
 BASE_URL = "http://169.254.46.48:8000" # url of the http server running on the opentrons
 
 # run a test, takes a python object as arguments
-def run_test(params):
-    urllib.request.urlopen(f"{BASE_URL}/run", json.dumps(params).encode())
+def run_test(params, timeout=30):
+    urllib.request.urlopen(f"{BASE_URL}/run", json.dumps(params).encode(), timeout=timeout)
 
 # same idea but takes a json string as arguments
 # the llm active learning thing should spit out just a json string not a python object so this might be better
-def run_test_json(params):
-    urllib.request.urlopen(f"{BASE_URL}/run", params.encode())
+def run_test_json(params, timeout=30):
+    urllib.request.urlopen(f"{BASE_URL}/run", params.encode(), timeout=timeout)
 
 # methods for getting data about the machine
 def get_coupons():

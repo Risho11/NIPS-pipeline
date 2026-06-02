@@ -11,7 +11,7 @@ Usage:
     python run_loop.py
 """
 
-import json, threading, time, shutil, csv, os, sys
+import json, re, threading, time, shutil, csv, os, sys
 import pandas as pd
 import cv2
 from pathlib import Path
@@ -31,11 +31,12 @@ INITIAL_PARAMS = {
     "volume": 1000,
     "pullcast_speed": 10,
     "nitrogen": False,
-    "coupon_to_bath_wait_time": 10,
-    "nips_bath_wait_time": 40,
+    "coupon_to_bath_wait_time": 120,
+    "nips_bath_wait_time": 1800,
 }
 DATA_ROOT    = Path(__file__).parent
 CSV_OUT      = DATA_ROOT / "output2.csv"
+CSV_LLM_OUT  = DATA_ROOT / "output2_llm.csv"
 CSV_RAW_PATH = Path(r"C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed")
 IMAGES_PATH  = Path(r"C:\Users\opentrons\Documents\auto-membranes\images")
 SERVER_IP    = "169.254.230.148"
@@ -91,12 +92,17 @@ def move_and_rename(params):
     (directory / "params.json").write_text(json.dumps(params))
     return s
 
+MECH_KEYS = ["Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
+             "Slope Plateau", "Slope Densification", "Creep Strain",
+             "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
+             "Strain at 500 bar", "CV"]
+
 def _run_pipeline_and_trigger_next(params):
     try:
-        print("\n[1/4] organising files...")
+        print("\n[1/5] organising files...")
         condition_name = move_and_rename(params)
 
-        print(f"[2/4] processing pipeline for: {condition_name}")
+        print(f"[2/5] processing pipeline for: {condition_name}")
         output = processing.process_zero_sample_pairs_pipeline(
             folder_name="compression-test-data",
             data_root=str(DATA_ROOT),
@@ -109,22 +115,63 @@ def _run_pipeline_and_trigger_next(params):
             cutoff_load_displacement=2,
             condition_filter=condition_name,
         )
-        processing.save_to_csv(output)
+        processing.save_to_csv(output, data_root=DATA_ROOT,
+                               output_path=CSV_OUT, aggregate_path=CSV_LLM_OUT)
 
-        print("[3/4] running active learning...")
-        df = pd.read_csv(CSV_OUT)
-        new_params_json = activeLearning.LLM_AL(df.to_string(index=False), activeLearning.ranges)
-        #Something is going on here
-        print("Active Learning JSON:")
-        print(repr(new_params_json))
-        new_params = json.loads(new_params_json)
-        print("Active Learning Parameters:")
-        print(json.dumps(new_params, indent=2, sort_keys=True))
-        print(f"[4/4] next params: {new_params}")
+        # get average row for this condition
+        avg_row = None
+        for cond_data in output.values():
+            for trial in cond_data["mechanical_properties"]:
+                if trial.get("Trial") == "average":
+                    avg_row = trial
+                    break
+        if avg_row is None:
+            raise ValueError("No average row found in pipeline output")
+
+        print("[3/5] generating initial report...")
+        if not CSV_LLM_OUT.exists() or CSV_LLM_OUT.stat().st_size == 0:
+            raise ValueError(f"LLM CSV missing or empty after save_to_csv: {CSV_LLM_OUT}")
+        llm_df = pd.read_csv(CSV_LLM_OUT)
+        if llm_df.empty:
+            raise ValueError(f"LLM CSV has no data rows: {CSV_LLM_OUT}")
+        for col in ["initial_report", "final_report"]:
+            if col in llm_df.columns:
+                llm_df[col] = llm_df[col].astype(object)
+        mask = llm_df["name"] == condition_name
+        idx = llm_df[mask].index[-1] if mask.any() else llm_df.index[-1]
+        fmt_params = llm_df.at[idx, "formatted_parameters"]
+        initial_report = activeLearning.Generate_report(fmt_params)
+        print(f"  initial_report: {initial_report[:120]}...")
+
+        mech_dict = {k: avg_row[k] for k in MECH_KEYS if avg_row.get(k) is not None}
+        fmt_params_with_prop = str(mech_dict)
+        final_report = initial_report + "\n" + fmt_params_with_prop
+        print(f"final_report: {final_report[120:]}...")
+
+        # fill initial_report and final_report back into LLM CSV
+        llm_df.at[idx, "initial_report"] = initial_report
+        llm_df.at[idx, "final_report"] = final_report
+        llm_df.to_csv(CSV_LLM_OUT, index=False)
+        print(f"  LLM CSV updated: {CSV_LLM_OUT}")
+
+        print("[4/5] running active learning...")
+        params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
+        match = re.search(r'\{[^{}]*\}', params_suggestion)
+        if not match:
+            raise ValueError(f"LLM returned no JSON object:\n{params_suggestion}")
+        new_params = json.loads(match.group(0))
+
+        results = [{"condition": condition_name, "next_params": new_params}]
+        json_out = DATA_ROOT / f"llm_result_{condition_name}.json"
+        with open(json_out, "w") as f:
+            json.dump(results, f, indent=2)
+        print(f"  JSON result: {json_out}")
+
+        print(f"[5/5] next params: {new_params}")
         url.run_test(new_params)
 
     except json.JSONDecodeError:
-        print("Active learning returned invalid JSON — loop stopped:", new_params_json)
+        print("Active learning returned invalid JSON — loop stopped:", params_suggestion)
     except Exception as e:
         print(f"Pipeline error — loop stopped: {e}")
         raise

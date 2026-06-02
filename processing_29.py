@@ -990,8 +990,12 @@ def process_zero_sample_pairs_pipeline(
 
     return pipeline_result
 
+def formatted_parameters(row):
+    keys = ["mixing_temp", "bath_temp", "weight_percent", "volume", "pullcast_speed",
+            "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
+    return "; ".join(f"{k}={row.get(k)}" for k in keys if row.get(k) is not None)
 
-def save_to_csv(output, data_root=None, output_path=None):
+def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
     data_root = Path(data_root) if data_root is not None else Path(__file__).parent
     all_rows = []
     for condition_key in output:
@@ -1018,10 +1022,46 @@ def save_to_csv(output, data_root=None, output_path=None):
 
     if not all_rows:
         return
+    rep_rows = [r for r in all_rows if r.get("Trial") != "average"]
+    agg_rows = [r for r in all_rows if r.get("Trial") == "average"]
+    
+    # Main CSV
+    if rep_rows:
+        new_df = pd.DataFrame(rep_rows)
+        output_path = Path(output_path) if output_path is not None else data_root / "output2.csv"
+        aggregate_path = Path(aggregate_path) if aggregate_path is not None else data_root / "LLM_output.csv"
+        rep_col_order = ["name", "Trial", "Thickness", "Elastic Modulus",
+                         "Yield Strength", "Changepoint", "Slope Plateau", "Slope Densification",
+                         "Creep Strain", "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
+                         "Strain at 500 bar", "Good Fit", "Average Standard Deviation", "CV",
+                         "mixing_temp", "bath_temp", "weight_percent", "volume",
+                         "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
+        new_df = new_df.reindex(columns=[c for c in rep_col_order if c in new_df.columns])
+        if output_path.exists() and output_path.stat().st_size > 0:
+            existing = pd.read_csv(output_path)
+            existing = existing.loc[:, ~existing.columns.str.startswith('Unnamed')]
+            new_df = pd.concat([existing, new_df], ignore_index=True)
+        new_df.to_csv(output_path, index=False)
 
-    new_df = pd.DataFrame(all_rows)
-    output_path = Path(output_path) if output_path is not None else data_root / "output2.csv"
-    if output_path.exists():
-        existing = pd.read_csv(output_path)
-        new_df = pd.concat([existing, new_df], ignore_index=True)
-    new_df.to_csv(output_path, index=False)
+    # LLM CSV
+    if agg_rows:
+        mech_cols = ["Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
+                     "Slope Plateau", "Slope Densification", "Creep Strain",
+                     "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
+                     "Strain at 500 bar", "CV"]
+        for row in agg_rows:
+            mech_res = str({k: row[k] for k in mech_cols if row.get(k) is not None})
+            row["date"] = datetime.today().date().isoformat()
+            row["formatted_parameters"] = formatted_parameters(row)
+            row["initial_report"] = ""
+            row["formatted_parameters_withProp"] = formatted_parameters(row) + "\n\n" + mech_res
+            row["final_report"] = ""
+        col_order = (["date", "name", "formatted_parameters", "initial_report"]
+                     + mech_cols
+                     + ["formatted_parameters_withProp", "final_report"])
+        
+        new_df = pd.DataFrame(agg_rows).reindex(columns=col_order)
+        if aggregate_path.exists() and aggregate_path.stat().st_size > 0:
+            existing = pd.read_csv(aggregate_path)
+            new_df = pd.concat([existing, new_df], ignore_index = True)
+        new_df.to_csv(aggregate_path, index = False)
