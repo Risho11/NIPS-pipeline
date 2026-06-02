@@ -733,6 +733,10 @@ def _pair_chronological_zero_sample(specimen_rows, strict=True, cluster_gap_minu
             clusters.append([curr])
         else:
             clusters[-1].append(curr)
+    if len(clusters) == 1:
+        mid = len(clusters[0]) // 2
+        clusters = [clusters[0][:mid], clusters[0][mid:]]
+        print(f"Single cluster detected — split in half: {len(clusters[0])} zeros, {len(clusters[1])} membranes")
     if strict and len(clusters) % 2 != 0:
         raise ValueError(
             "Expected even number of clusters (zero+membrane pairs), got {}. "
@@ -789,7 +793,10 @@ def load_zero_sample_pairs_by_condition(folder_name, data_root="Data", strict=Tr
                 with open(params_file) as _pf:
                     _p = json.load(_pf)
                 nips_s = _p.get("nips_bath_wait_time", 900)
-                cluster_gap = nips_s / 60 / 2 + 4
+                if nips_s < 660:
+                    cluster_gap = 15
+                else:
+                    cluster_gap = nips_s / 60 / 2 + 4
             except Exception:
                 pass
         pairs = _pair_chronological_zero_sample(specimen_rows, strict=strict, cluster_gap_minutes=cluster_gap)

@@ -23,7 +23,7 @@ import activeLearning_29 as al
 DATA_ROOT  = Path(__file__).parent.parent / "Auto-Membranes/"
 CONDITION  = "17-13deg-10s-N2-30s"
 OUTPUT_CSV = Path(__file__).parent / "test_output3.csv"
-LLM_CSV    = Path(__file__).parent / "test_llm_newfile.csv"
+LLM_CSV    = Path(__file__).parent / "test_llm_output.csv"
 JSON_OUT   = Path(__file__).parent / "test_llm_result.json"
 # ────────────────────────────────────────────────────────────────────────────
 
@@ -56,7 +56,11 @@ print("\n" + "=" * 80)
 print("RUNNING LLM CALLS")
 print("=" * 80)
 
+if not LLM_CSV.exists() or LLM_CSV.stat().st_size == 0:
+    raise FileNotFoundError(f"LLM CSV missing or empty after save_to_csv — check CONDITION matches a folder in old_data: {LLM_CSV}")
 llm_df = pd.read_csv(LLM_CSV)
+if llm_df.empty:
+    raise ValueError(f"LLM CSV has no data rows: {LLM_CSV}")
 for col in ["formatted_parameters_withProp", "initial_report", "final_report"]:
     if col in llm_df.columns:
         llm_df[col] = llm_df[col].astype(object)
