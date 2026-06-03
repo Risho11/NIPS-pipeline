@@ -23,7 +23,7 @@ SETPOINT_COL = "Set Point ()"
 
 # ── Save config ──────────────────────────────────────────────────────────
 SAVE_PLOTS = True   # set False to disable saving
-SAVE_ROOT  = Path(__file__).parent / f"pipeline_plots_{datetime.date.today().strftime('%Y-%m-%d')}"
+SAVE_ROOT  = Path(__file__).parent / f"pipeline-plots"/f"run-{datetime.date.now().strftime('%Y-%m-%d %H:%M:%S')}"
 # ─────────────────────────────────────────────────────────────────────────
 
 
@@ -1058,7 +1058,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                      "Strain at 500 bar", "CV"]
         for row in agg_rows:
             mech_res = str({k: row[k] for k in mech_cols if row.get(k) is not None})
-            row["date"] = datetime.today().date().isoformat()
+            row["date"] = datetime.datetime.now().strftime("%Y-%m-%d\n%H:%M:%S")
             row["formatted_parameters"] = formatted_parameters(row)
             row["initial_report"] = ""
             row["formatted_parameters_withProp"] = formatted_parameters(row) + "\n\n" + mech_res
