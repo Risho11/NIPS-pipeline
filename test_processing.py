@@ -32,7 +32,7 @@ print(f"Condition : {CONDITION}")
 print()
 
 output = processing.process_zero_sample_pairs_pipeline(
-    folder_name="compression-test-data",
+    folder_name="compression-test-data/fake-data",
     data_root=str(DATA_ROOT),
     strict=True,
     load_cutoff=1.0,
