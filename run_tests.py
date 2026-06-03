@@ -20,7 +20,6 @@ import sys
 import tempfile
 import shutil
 from pathlib import Path
-from unittest.mock import patch
 
 sys.path.insert(0, os.path.dirname(__file__))
 import processing_29 as processing
@@ -147,8 +146,8 @@ def test_full_pipeline(condition, real_llm=False):
         fmt_params = llm_df.at[idx, "formatted_parameters"]
 
         # Step 4: LLM calls (mocked or real)
-        import activeLearning_29 as al
         if real_llm:
+            import activeLearning_29 as al
             initial_report   = al.Generate_report(fmt_params)
             avg_row = None
             for cond_data in output.values():

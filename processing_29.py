@@ -1032,7 +1032,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
     rep_rows = [r for r in all_rows if r.get("Trial") != "average"]
     agg_rows = [r for r in all_rows if r.get("Trial") == "average"]
     
-    # Main CSV
+    # Main CSV. 
     if rep_rows:
         new_df = pd.DataFrame(rep_rows)
         output_path = Path(output_path) if output_path is not None else data_root / "output2.csv"
