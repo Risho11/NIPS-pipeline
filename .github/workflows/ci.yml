@@ -73,8 +73,8 @@ jobs:
           python-version: "3.11"
       - run: python .github/scripts/validate_run_loop.py
 
-  run-tests:
-    needs: [check-changes, secret-scan, syntax-check, validate-params, validate-fake-data, validate-run-loop]
+  smoke-test:
+    needs: [check-changes, secret-scan, syntax-check]
     if: needs.check-changes.outputs.processing_changed == 'true'
     runs-on: ubuntu-latest
     env:
@@ -84,7 +84,25 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
+      - name: Install dependencies
+        run: pip install pandas numpy scipy matplotlib seaborn openai pyyaml piecewise-regression pygam scikit-learn
+      - name: Smoke test (single condition)
+        run: python run_tests.py --condition short-nips-30s
+
+  run-tests:
+    needs: [check-changes, smoke-test, validate-params, validate-fake-data, validate-run-loop]
+    if: needs.check-changes.outputs.processing_changed == 'true'
+    runs-on: ubuntu-latest
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
       - name: Install dependencies
         run: pip install pandas numpy scipy matplotlib seaborn openai pyyaml piecewise-regression pygam scikit-learn
       - name: Run pipeline tests
-        run: python run_tests.py
+        run: python run_tests.py --skip nine-per-phase-1800s

@@ -233,6 +233,8 @@ def main():
                         help="Use real OpenRouter API instead of mocks")
     parser.add_argument("--condition", default=None,
                         help="Run tests for a single condition only")
+    parser.add_argument("--skip", nargs="+", default=[],
+                        help="Conditions to skip (e.g. --skip nine-per-phase-1800s)")
     args = parser.parse_args()
 
     if args.real_llm:
@@ -241,6 +243,7 @@ def main():
             print("WARNING: --real-llm set but OPENROUTER_API_KEY not in environment")
 
     conditions = [args.condition] if args.condition else list(EXPECTED_PAIRS.keys())
+    conditions = [c for c in conditions if c not in args.skip]
 
     print(f"\nRunning tests ({'real LLM' if args.real_llm else 'mocked LLM'})\n")
 

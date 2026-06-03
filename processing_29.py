@@ -23,7 +23,7 @@ SETPOINT_COL = "Set Point ()"
 
 # ── Save config ──────────────────────────────────────────────────────────
 SAVE_PLOTS = True   # set False to disable saving
-SAVE_ROOT  = Path(__file__).parent / f"pipeline-plots"/f"run-{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+SAVE_ROOT  = Path(__file__).parent / f"pipeline-plots"/f"run-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
 # ─────────────────────────────────────────────────────────────────────────
 
 
@@ -700,16 +700,16 @@ def propertyDataFile(filename_old, filename_new):
     propertyData.to_csv(filename_new, index=False)
 
 import re
-from datetime import datetime
 SPECIMEN_PATTERN = re.compile(r"^Specimen_(\d+)_(\d{8})_(\d{6})\.csv$")
 def _parse_specimen_file_info(csv_path):
+    from datetime import datetime as _datetime
     name = Path(csv_path).name
     match = SPECIMEN_PATTERN.match(name)
     if not match:
         return None
     specimen_id = int(match.group(1))
     dt_str = "{}{}".format(match.group(2), match.group(3))
-    timestamp = datetime.strptime(dt_str, "%m%d%Y%H%M%S")
+    timestamp = _datetime.strptime(dt_str, "%m%d%Y%H%M%S")
     return {
         "path": str(Path(csv_path)),
         "name": name,
