@@ -23,7 +23,7 @@ SETPOINT_COL = "Set Point ()"
 
 # ── Save config ──────────────────────────────────────────────────────────
 SAVE_PLOTS = True   # set False to disable saving
-SAVE_ROOT  = Path(__file__).parent / f"pipeline_plots_{datetime.date.today().strftime('%Y-%m-%d')}"
+SAVE_ROOT  = Path(__file__).parent / f"pipeline-plots"/f"run-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
 # ─────────────────────────────────────────────────────────────────────────
 
 
@@ -700,16 +700,16 @@ def propertyDataFile(filename_old, filename_new):
     propertyData.to_csv(filename_new, index=False)
 
 import re
-from datetime import datetime
 SPECIMEN_PATTERN = re.compile(r"^Specimen_(\d+)_(\d{8})_(\d{6})\.csv$")
 def _parse_specimen_file_info(csv_path):
+    from datetime import datetime as _datetime
     name = Path(csv_path).name
     match = SPECIMEN_PATTERN.match(name)
     if not match:
         return None
     specimen_id = int(match.group(1))
     dt_str = "{}{}".format(match.group(2), match.group(3))
-    timestamp = datetime.strptime(dt_str, "%m%d%Y%H%M%S")
+    timestamp = _datetime.strptime(dt_str, "%m%d%Y%H%M%S")
     return {
         "path": str(Path(csv_path)),
         "name": name,
@@ -786,7 +786,7 @@ def load_zero_sample_pairs_by_condition(folder_name, data_root="Data", strict=Tr
         # Derive adaptive cluster gap from params.json so that nips_bath_wait_time
         # short conditions (e.g. 120s → 2min bath → ~8min zero→membrane gap) still
         # get cleanly split into two clusters. Formula: half of NIPS time + 4 min buffer.
-        cluster_gap = 15  # default fallback (minutes)
+        cluster_gap = 15  # default fallback (minutes) MINOR CHANGE
         params_file = condition_dir / "params.json"
         if params_file.exists():
             try:
@@ -1032,7 +1032,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
     rep_rows = [r for r in all_rows if r.get("Trial") != "average"]
     agg_rows = [r for r in all_rows if r.get("Trial") == "average"]
     
-    # Main CSV
+    # Main CSV. 
     if rep_rows:
         new_df = pd.DataFrame(rep_rows)
         output_path = Path(output_path) if output_path is not None else data_root / "output2.csv"
@@ -1050,7 +1050,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             new_df = pd.concat([existing, new_df], ignore_index=True)
         new_df.to_csv(output_path, index=False)
 
-    # LLM CSV
+    # LLM CSV 
     if agg_rows:
         mech_cols = ["Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
                      "Slope Plateau", "Slope Densification", "Creep Strain",
@@ -1058,7 +1058,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                      "Strain at 500 bar", "CV"]
         for row in agg_rows:
             mech_res = str({k: row[k] for k in mech_cols if row.get(k) is not None})
-            row["date"] = datetime.today().date().isoformat()
+            row["date"] = datetime.datetime.now().strftime("%Y-%m-%d\n%H:%M:%S")
             row["formatted_parameters"] = formatted_parameters(row)
             row["initial_report"] = ""
             row["formatted_parameters_withProp"] = formatted_parameters(row) + "\n\n" + mech_res
