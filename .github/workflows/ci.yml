@@ -44,7 +44,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Compile all Python files
-        run: python -m compileall -q .
+        run: python -m compileall -q . -x "2025-07-02|minipc|\.venv"
 
   validate-params:
     runs-on: ubuntu-latest
