@@ -85,6 +85,6 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install pandas numpy scipy matplotlib seaborn openai pyyaml
+        run: pip install pandas numpy scipy matplotlib seaborn openai pyyaml piecewise-regression pygam scikit-learn
       - name: Run pipeline tests
         run: python run_tests.py
