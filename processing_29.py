@@ -786,7 +786,7 @@ def load_zero_sample_pairs_by_condition(folder_name, data_root="Data", strict=Tr
         # Derive adaptive cluster gap from params.json so that nips_bath_wait_time
         # short conditions (e.g. 120s → 2min bath → ~8min zero→membrane gap) still
         # get cleanly split into two clusters. Formula: half of NIPS time + 4 min buffer.
-        cluster_gap = 15  # default fallback (minutes)
+        cluster_gap = 15  # default fallback (minutes) MINOR CHANGE
         params_file = condition_dir / "params.json"
         if params_file.exists():
             try:
