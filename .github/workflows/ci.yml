@@ -43,6 +43,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
       - name: Compile all Python files
         run: python -m compileall -q . -x "2025-07-02|minipc|\.venv"
 
@@ -53,6 +54,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
       - run: python .github/scripts/validate_params.py
 
   validate-fake-data:
@@ -62,6 +64,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
       - run: python .github/scripts/validate_fake_data.py
 
   validate-run-loop:
@@ -71,6 +74,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
       - run: python .github/scripts/validate_run_loop.py
 
   smoke-test:
@@ -86,7 +90,7 @@ jobs:
           python-version: "3.11"
           cache: "pip"
       - name: Install dependencies
-        run: pip install pandas numpy scipy matplotlib seaborn openai pyyaml piecewise-regression pygam scikit-learn
+        run: pip install -r requirements.txt
       - name: Smoke test (single condition)
         run: python run_tests.py --condition short-nips-30s
 
@@ -103,6 +107,6 @@ jobs:
           python-version: "3.11"
           cache: "pip"
       - name: Install dependencies
-        run: pip install pandas numpy scipy matplotlib seaborn openai pyyaml piecewise-regression pygam scikit-learn
+        run: pip install -r requirements.txt
       - name: Run pipeline tests
         run: python run_tests.py --skip nine-per-phase-1800s
