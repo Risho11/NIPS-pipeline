@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      processing_changed: ${{ steps.detect.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - id: detect
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep -qE "processing_29\.py|run_tests\.py|fake-data/"; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for API keys
+        run: |
+          if grep -rn "sk-or-v1-\|sk-ant-\|sk-proj-" --include="*.py" .; then
+            echo "FAIL: hardcoded API key found"
+            exit 1
+          fi
+          echo "PASS no secrets found"
+
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile all Python files
+        run: python -m compileall -q .
+
+  validate-params:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python .github/scripts/validate_params.py
+
+  validate-fake-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python .github/scripts/validate_fake_data.py
+
+  validate-run-loop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python .github/scripts/validate_run_loop.py
+
+  run-tests:
+    needs: [check-changes, secret-scan, syntax-check, validate-params, validate-fake-data, validate-run-loop]
+    if: needs.check-changes.outputs.processing_changed == 'true'
+    runs-on: ubuntu-latest
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pandas numpy scipy matplotlib seaborn openai pyyaml
+      - name: Run pipeline tests
+        run: python run_tests.py
