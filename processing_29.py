@@ -23,7 +23,7 @@ SETPOINT_COL = "Set Point ()"
 
 # ── Save config ──────────────────────────────────────────────────────────
 SAVE_PLOTS = True   # set False to disable saving
-SAVE_ROOT  = Path(__file__).parent / f"pipeline-plots"/f"run-{datetime.date.now().strftime('%Y-%m-%d %H:%M:%S')}"
+SAVE_ROOT  = Path(__file__).parent / f"pipeline-plots"/f"run-{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
 # ─────────────────────────────────────────────────────────────────────────
 
 
