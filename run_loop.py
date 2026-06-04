@@ -26,13 +26,13 @@ import activeLearning_29 as activeLearning
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {
     "mixing_temp": 25,
-    "bath_temp": 13,
+    "bath_temp": 5,
     "weight_percent": 17,
     "volume": 1000,
     "pullcast_speed": 10,
     "nitrogen": False,
-    "coupon_to_bath_wait_time": 10,
-    "nips_bath_wait_time": 50,
+    "coupon_to_bath_wait_time": 6,
+    "nips_bath_wait_time": 30,
 }
 DATA_ROOT    = Path(__file__).parent
 CSV_OUT      = DATA_ROOT / "output2.csv"
@@ -169,6 +169,7 @@ def _run_pipeline_and_trigger_next(params):
 
         print(f"[5/5] next params: {new_params}")
         url.run_test(new_params)
+        # response = urllib.request.urlopen("http://169.254.46.48:8000/run", json.dumps(new_params).encode())
 
     except json.JSONDecodeError:
         print("Active learning returned invalid JSON — loop stopped:", params_suggestion)

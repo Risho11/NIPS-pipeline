@@ -271,7 +271,8 @@ def find_changepoint_fit(data, bp1, bp2, bp3, creep_level):
     xPlateau = data[(bp1 <= data['strain']) & (data['strain'] <= changepoint)]
     xDensification = data[changepoint <= data['strain']]
     ### wait what is this
-    
+    predPlateau = None
+    predDensificationn = None
     if len(xDensification) > 0 and len(xPlateau) > 0:
             
         predPlateau = modelPlateau.predict(xPlateau[['strain']])

@@ -8,7 +8,8 @@ BASE_URL = "http://169.254.46.48:8000" # url of the http server running on the o
 
 # run a test, takes a python object as arguments
 def run_test(params, timeout=30):
-    urllib.request.urlopen(f"{BASE_URL}/run", json.dumps(params).encode(), timeout=timeout)
+    #urllib.request.urlopen(f"{BASE_URL}/run", json.dumps(params).encode(), timeout=timeout)
+    urllib.request.urlopen("http://169.254.46.48:8000/run", json.dumps(params).encode())
 
 # same idea but takes a json string as arguments
 # the llm active learning thing should spit out just a json string not a python object so this might be better
