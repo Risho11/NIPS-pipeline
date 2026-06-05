@@ -32,17 +32,12 @@ MOCK_INITIAL_REPORT = (
     "The solution was blade-cast and immersed in a NIPS bath at 13°C for the specified duration."
 )
 MOCK_LLM_AL_RESPONSE = (
-    'Based on the observations, I recommend the following parameters: '
+    'I notice from the data that the weight percent significantly affects the data and blahblah blah '
     '{"mixing_temp": 30, "bath_temp": 10, "weight_percent": 15, "pullcast_speed": 8, '
     '"coupon_to_bath_wait_time": 120, "nips_bath_wait_time": 1500, "nitrogen": false}'
 )
 
-MECH_KEYS = [
-    "Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
-    "Slope Plateau", "Slope Densification", "Creep Strain",
-    "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
-    "Strain at 500 bar", "CV",
-]
+LLM_PROP_KEYS = ["Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar", "Strain at 500 bar", "CV"]
 
 REQUIRED_PARAM_KEYS = [
     "mixing_temp", "bath_temp", "weight_percent",
@@ -146,38 +141,29 @@ def test_full_pipeline(condition, real_llm=False):
         fmt_params = llm_df.at[idx, "formatted_parameters"]
 
         # Step 4: LLM calls (mocked or real)
+        import pandas as pd
+        mech_subset = {f"{k} Mean": llm_df.at[idx, f"{k} Mean"]
+                       for k in LLM_PROP_KEYS
+                       if f"{k} Mean" in llm_df.columns and pd.notna(llm_df.at[idx, f"{k} Mean"])}
+        fmt_params_with_prop = str(mech_subset)
         if real_llm:
             import activeLearning_29 as al
-            initial_report   = al.Generate_report(fmt_params)
-            avg_row = None
-            for cond_data in output.values():
-                for trial in cond_data["mechanical_properties"]:
-                    if trial.get("Trial") == "average":
-                        avg_row = trial
-                        break
-            mech_dict         = {k: avg_row[k] for k in MECH_KEYS if avg_row and avg_row.get(k) is not None}
-            fmt_params_with   = str(mech_dict)
-            final_report      = initial_report + "\n" + fmt_params_with
+            initial_report    = al.Generate_report(fmt_params)
+            final_report      = initial_report + "\n" + fmt_params_with_prop
             params_suggestion = al.LLM_AL(final_report, al.ranges)
         else:
             initial_report    = MOCK_INITIAL_REPORT
-            avg_row = None
-            for cond_data in output.values():
-                for trial in cond_data["mechanical_properties"]:
-                    if trial.get("Trial") == "average":
-                        avg_row = trial
-                        break
-            mech_dict         = {k: avg_row[k] for k in MECH_KEYS if avg_row and avg_row.get(k) is not None}
-            fmt_params_with   = str(mech_dict)
-            final_report      = initial_report + "\n" + fmt_params_with
+            final_report      = initial_report + "\n" + fmt_params_with_prop
             params_suggestion = MOCK_LLM_AL_RESPONSE
 
         # Step 5: write reports back to CSV
         llm_df.at[idx, "initial_report"] = initial_report
+        llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + fmt_params_with_prop
         llm_df.at[idx, "final_report"]   = final_report
         llm_df.to_csv(tmp_llm_csv, index=False)
 
         # Step 6: parse and write JSON
+        llm_df.at[idx, "LLM_suggestion"] = params_suggestion
         match = re.search(r'\{[^{}]*\}', params_suggestion)
         if not match:
             report(label, False, "LLM returned no JSON block")

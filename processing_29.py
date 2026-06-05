@@ -1007,8 +1007,10 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
     data_root = Path(data_root) if data_root is not None else Path(__file__).parent
     all_rows = []
     for condition_key in output:
+        condition_date = datetime.datetime.now().strftime("%Y-%m-%d\n%H:%M:%S")
         for trial in output[condition_key]["mechanical_properties"]:
             row_out = trial.copy()
+            row_out["date"] = condition_date
             condition = trial["name"].split(" ")[0]
             # Search all immediate subdirs of data_root for a folder matching condition.
             params_path = None
@@ -1038,7 +1040,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
         new_df = pd.DataFrame(rep_rows)
         output_path = Path(output_path) if output_path is not None else data_root / "output2.csv"
         aggregate_path = Path(aggregate_path) if aggregate_path is not None else data_root / "LLM_output.csv"
-        rep_col_order = ["name", "Trial", "Thickness", "Elastic Modulus",
+        rep_col_order = ["date", "name", "Trial", "Thickness", "Elastic Modulus",
                          "Yield Strength", "Changepoint", "Slope Plateau", "Slope Densification",
                          "Creep Strain", "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
                          "Strain at 500 bar", "Good Fit", "Average Standard Deviation", "CV",
@@ -1051,25 +1053,44 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             new_df = pd.concat([existing, new_df], ignore_index=True)
         new_df.to_csv(output_path, index=False)
 
-    # LLM CSV 
-    if agg_rows:
+    # LLM CSV — computed from rep_rows grouped by condition
+    if rep_rows:
         mech_cols = ["Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
                      "Slope Plateau", "Slope Densification", "Creep Strain",
                      "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
                      "Strain at 500 bar", "CV"]
-        for row in agg_rows:
-            mech_res = str({k: row[k] for k in mech_cols if row.get(k) is not None})
-            row["date"] = datetime.datetime.now().strftime("%Y-%m-%d\n%H:%M:%S")
-            row["formatted_parameters"] = formatted_parameters(row)
-            row["initial_report"] = ""
-            row["formatted_parameters_withProp"] = formatted_parameters(row) + "\n\n" + mech_res
-            row["final_report"] = ""
+        param_cols = ["mixing_temp", "bath_temp", "weight_percent", "volume",
+                      "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
+        rep_df = pd.DataFrame(rep_rows)
+        rep_df["_condition"] = rep_df["name"].str.split(" ").str[0]
+
+        computed_agg_rows = []
+        for cond_name, group in rep_df.groupby("_condition"):
+            agg_row = {"name": cond_name, "date": group["date"].iloc[0]}
+            for p in param_cols:
+                if p in group.columns:
+                    agg_row[p] = group[p].iloc[0]
+            for k in mech_cols:
+                if k in group.columns:
+                    vals = pd.to_numeric(group[k], errors="coerce").dropna().values
+                    agg_row[f"{k} Mean"] = float(np.nanmean(vals)) if len(vals) > 0 else np.nan
+                    agg_row[f"{k} SD"]   = float(np.nanstd(vals))  if len(vals) > 0 else np.nan
+            mean_cols = [f"{k} Mean" for k in mech_cols]
+            sd_cols   = [f"{k} SD"   for k in mech_cols]
+            mech_res  = str({f"{k} Mean": agg_row.get(f"{k} Mean") for k in mech_cols if agg_row.get(f"{k} Mean") is not None})
+            agg_row["formatted_parameters"] = formatted_parameters(agg_row)
+            agg_row["initial_report"] = ""
+            agg_row["formatted_parameters_withProp"] = formatted_parameters(agg_row) + "\n\n" + mech_res
+            agg_row["final_report"] = ""
+            computed_agg_rows.append(agg_row)
+
+        interleaved = [col for k in mech_cols for col in (f"{k} Mean", f"{k} SD")]
         col_order = (["date", "name", "formatted_parameters", "initial_report"]
-                     + mech_cols
+                     + interleaved
                      + ["formatted_parameters_withProp", "final_report"])
-        
-        new_df = pd.DataFrame(agg_rows).reindex(columns=col_order)
+
+        new_df = pd.DataFrame(computed_agg_rows).reindex(columns=col_order)
         if aggregate_path.exists() and aggregate_path.stat().st_size > 0:
             existing = pd.read_csv(aggregate_path)
-            new_df = pd.concat([existing, new_df], ignore_index = True)
-        new_df.to_csv(aggregate_path, index = False)
+            new_df = pd.concat([existing, new_df], ignore_index=True)
+        new_df.to_csv(aggregate_path, index=False)

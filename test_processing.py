@@ -22,9 +22,9 @@ import activeLearning_29 as al
 # ── edit these ──────────────────────────────────────────────────────────────
 DATA_ROOT  = Path(__file__).parent.parent / "Auto-Membranes/"
 CONDITION  = "17-13deg-10s-N2-30s"
-OUTPUT_CSV = Path(__file__).parent / "test_output3.csv"
-LLM_CSV    = Path(__file__).parent / "test_llm_output.csv"
-JSON_OUT   = Path(__file__).parent / "test_llm_result.json"
+OUTPUT_CSV = Path(__file__).parent / "test_master.csv"
+LLM_CSV    = Path(__file__).parent / "test_llm.csv"
+JSON_OUT   = Path(__file__).parent / "test_llm_params.json"
 # ────────────────────────────────────────────────────────────────────────────
 
 print(f"Data root : {DATA_ROOT}")
@@ -49,8 +49,7 @@ print(f"\nReps CSV : {OUTPUT_CSV}")
 print(f"LLM CSV  : {LLM_CSV}")
 
 # ── LLM calls ───────────────────────────────────────────────────────────────
-MECH_KEYS = ["Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
-             "Strain at 500 bar", "CV"]
+LLM_PROP_KEYS = ["Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar", "Strain at 500 bar", "CV"]
 
 print("\n" + "=" * 80)
 print("RUNNING LLM CALLS")
@@ -73,11 +72,13 @@ initial = "this is the initial report thingy there is experiment and these are p
 llm_df.at[idx, "initial_report"] = initial
 print(f"  initial_report: {initial[:120]}...")
 
-mech_dict = {k: row[k] for k in MECH_KEYS if k in row and pd.notna(row[k])}
-fmt_params_with_prop = str(mech_dict)
-llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params_with_prop
-
+mech_subset = {f"{k} Mean": row[f"{k} Mean"]
+               for k in LLM_PROP_KEYS
+               if f"{k} Mean" in llm_df.columns and pd.notna(row[f"{k} Mean"])}
+fmt_params_with_prop = str(mech_subset)
 final_report = initial + "\n" + fmt_params_with_prop
+fmt_params = row["formatted_parameters"]
+llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + "\n\n" + fmt_params_with_prop
 llm_df.at[idx, "final_report"] = final_report
 #params_suggestion = al.LLM_AL(final_report, al.ranges)
 params_suggestion = 'Based on the observations, I recommend the following parameters: {"mixing_temp": 25, "bath_temp": 10, "weight_percent": 18, "pullcast_speed": 10, "coupon_to_bath_wait_time": 120, "nips_bath_wait_time": 1800, "nitrogen": true}'
