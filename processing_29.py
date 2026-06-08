@@ -1,3 +1,4 @@
+import sys
 import warnings
 import json
 from pathlib import Path
@@ -23,7 +24,11 @@ SETPOINT_COL = "Set Point ()"
 
 # ── Save config ──────────────────────────────────────────────────────────
 SAVE_PLOTS = True   # set False to disable saving
-SAVE_ROOT  = Path(__file__).parent / f"pipeline-plots"/f"run-{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
+# <<< PATH >>> plots saved beside processing_29.py, not beside run_loop.py
+_caller = Path(sys.argv[0]).stem if sys.argv else ""
+_ts = datetime.datetime.today().strftime('%Y-%m-%d') if "test" in _caller else datetime.datetime.today().strftime('%Y-%m-%d')
+_prefix = "test" if "test" in _caller else "run"
+SAVE_ROOT  = Path(__file__).parent / "pipeline-plots/pseudo-runs" / f"{_prefix}-{_ts}"
 # ─────────────────────────────────────────────────────────────────────────
 
 
@@ -106,41 +111,19 @@ def stress_GAM(gam, strain):
 
 def elastic_peak(data, predictions):
     #takes in the data, outputs breakpoint1 - useful in case we want to manually change breakpoint
-
-
-
-    #identify the elastic region
-    # normal way
-    data['2nd derivative'].idxmin()     #found the minimum of the 2nd derivative 
-    #breakpoint1 = data['strain'][data['2nd derivative'].idxmin()]
-
-    # ORIGINAL PROCESS
-    # Restrict search to strain <= 0.3
+    data['2nd derivative'].idxmin()     
     subset = data[data['strain'] <= 0.3]
-    
-   
-
-    #make GAM on the first derivative (wasnt working originally bc of inf and NaN points)
-    
-    #boolean because there shouldn't be any infinite points in here
     clean_mask = (
         np.isfinite(data['strain']) & 
         np.isfinite(data['1st derivative']) 
-        #(data['strain'] > 0.03)  # <-- This strips out the beginning data
     )
     X_clean = data['strain'][clean_mask].values.reshape(-1, 1) #for the GAM
     y_clean = data['1st derivative'][clean_mask].values
     
-    
     gam_d1 = LinearGAM(s(0, n_splines=25, lam=0.5, penalties='derivative')).fit(X_clean, y_clean)
-    #replace
     data['1st derivative'] = gam_d1.predict(data['strain'].values.reshape(-1, 1))
-
-    
     data['2nd derivative'] = np.gradient(data['1st derivative'], data['strain'])
 
-
-    
     #Implement V3 of noise reduction
     spike = data['2nd derivative'].diff().abs()
     data.loc[data['2nd derivative'].abs() > 25000, '2nd derivative'] = np.nan
@@ -149,7 +132,6 @@ def elastic_peak(data, predictions):
     subset = data[data['strain'] <= 0.3]
     if subset['strain'][subset['2nd derivative'].idxmin()] <= 0.02:
         subset = data[(data['strain'] > 0.03) & (data['strain'] <= 0.3)].copy() 
-    #breakpoint1 = subset['strain'][subset['2nd derivative'].idxmin()]
     idx_bottom = subset['strain'][subset['2nd derivative'].idxmin()]
 
     #get slope ig
@@ -186,7 +168,6 @@ def elastic_peak(data, predictions):
     recovery_zone = right_side[right_side['2nd derivative'] >= flattening_target_y]
     idx_end = recovery_zone.index[0] if not recovery_zone.empty else right_side.index[-1]
 
-    #strain
     strain_start = subset.loc[idx_start, 'strain']
     strain_end = subset.loc[idx_end, 'strain']
 
@@ -272,7 +253,7 @@ def find_changepoint_fit(data, bp1, bp2, bp3, creep_level):
     xDensification = data[changepoint <= data['strain']]
     ### wait what is this
     predPlateau = None
-    predDensificationn = None
+    predDensification = None
     if len(xDensification) > 0 and len(xPlateau) > 0:
             
         predPlateau = modelPlateau.predict(xPlateau[['strain']])
@@ -286,14 +267,20 @@ def find_changepoint_fit(data, bp1, bp2, bp3, creep_level):
 def create_fit_week3(data, bp1, changepoint, creep_level, bp2=None, bp3=None):
     pass
 
+def goodData_eval(thickness):
+    # thickness <= 50 (or negative) means membrane didn't dispense
+    return thickness > 50
+
 def goodFit_eval(modelPlateau, predPlateau, breakpoint1, elasticModulus, yieldStrength, xPlateau):
     slopePlateau = modelPlateau.coef_[0]
     #evaluate fit
     plateauModel = LinearGAM(s(0))
     plateauModel.fit(xPlateau[['strain']], xPlateau['stress (bar)'])
     plateauSpline = plateauModel.predict(xPlateau[['strain']])
-
-    correlation_coefficient = np.corrcoef(plateauSpline, predPlateau)[0, 1]
+    try:
+        correlation_coefficient = np.corrcoef(plateauSpline, predPlateau)[0, 1]
+    except IndexError:
+        correlation_coefficient = 0
     print(f"Correlation_coefficient: {correlation_coefficient:.4f}")
     
     #ensure the linear models align with each other
@@ -309,7 +296,7 @@ def goodFit_eval(modelPlateau, predPlateau, breakpoint1, elasticModulus, yieldSt
         eval = True
     return eval
 
-def plot_average_curve(processed_curves, cutoff_load_displacement=2, condition_name="", save_dir=None):
+def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=2, condition_name="", save_dir=None):
     """
     Call once per condition (after all reps processed) to show average stress-strain + CV.
     Comment out the call in process_zero_sample_pairs_pipeline to skip.
@@ -317,7 +304,7 @@ def plot_average_curve(processed_curves, cutoff_load_displacement=2, condition_n
     stress_data = []
     strain_data = []
 
-    for df in processed_curves:
+    for df in valid_curves:
         d = df[df['Ch:Load (N)'] > cutoff_load_displacement].copy()
         if 'Set Point ()' in d.columns and (d['Set Point ()'] > 1).any():
             d = d[d['Set Point ()'] <= 1].copy()
@@ -328,49 +315,58 @@ def plot_average_curve(processed_curves, cutoff_load_displacement=2, condition_n
         stress_data.append(d['stress (bar)'].values)
         strain_data.append(d['strain'].values)
 
-    if not stress_data:
-        return None
-
-    common_min = max(s[0]  for s in stress_data)
-    common_max = min(s[-1] for s in stress_data)
-    n_pts      = min(len(s) for s in stress_data)
-    common_stress = np.linspace(common_min, common_max, n_pts)
-
-    aligned = np.array([
-        np.interp(common_stress, stress, strain)
-        for stress, strain in zip(stress_data, strain_data)
-    ])
-    avg_strain = np.mean(aligned, axis=0)
-    std_strain = np.std(aligned,  axis=0)
-
-    overall_avg = np.mean(avg_strain)
-    overall_std = np.mean(std_strain)
-    cv = overall_std / overall_avg if overall_avg != 0 else np.nan
-
+    cv = np.nan
     plt.figure(figsize=(8, 5.5))
-    for i, (stress, strain) in enumerate(zip(stress_data, strain_data)):
-        plt.plot(strain, stress, alpha=0.35, linewidth=1, label=f"Rep {i+1}")
-    plt.plot(avg_strain, common_stress, color='black', linewidth=2.5, label='Average')
-    plt.fill_betweenx(common_stress,
-                      avg_strain - std_strain,
-                      avg_strain + std_strain,
-                      color='grey', alpha=0.3, label='+/-1 SD')
-    plt.plot([],[], label=f'CV = {cv}')
+
+    if stress_data:
+        common_min = max(s[0]  for s in stress_data)
+        common_max = min(s[-1] for s in stress_data)
+        n_pts      = min(len(s) for s in stress_data)
+        common_stress = np.linspace(common_min, common_max, n_pts)
+
+        aligned = np.array([
+            np.interp(common_stress, stress, strain)
+            for stress, strain in zip(stress_data, strain_data)
+        ])
+        avg_strain = np.mean(aligned, axis=0)
+        std_strain = np.std(aligned,  axis=0)
+
+        overall_avg = np.mean(avg_strain)
+        overall_std = np.mean(std_strain)
+        cv = overall_std / overall_avg if overall_avg != 0 else np.nan
+
+        for i, (stress, strain) in enumerate(zip(stress_data, strain_data)):
+            plt.plot(strain, stress, alpha=0.35, linewidth=1, label=f"Rep {i+1}")
+        plt.plot(avg_strain, common_stress, color='black', linewidth=2.5, label='Average')
+        plt.fill_betweenx(common_stress,
+                          avg_strain - std_strain,
+                          avg_strain + std_strain,
+                          color='grey', alpha=0.3, label='+/-1 SD')
+        plt.plot([], [], label=f'CV = {cv}')
+        plt.title(condition_name, fontsize=14)
+    else:
+        _colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+        for j, df in enumerate(processed_curves):
+            d = df[df['Ch:Load (N)'] > cutoff_load_displacement].copy()
+            if 'stress (bar)' not in d.columns or 'Disp_corrected (um)' not in d.columns:
+                continue
+            plt.scatter(d['Disp_corrected (um)'], d['stress (bar)'],
+                        color=_colors[j % len(_colors)], s=1, alpha=0.5, label=f"Rep {j+1}")
+        plt.title(condition_name + " — NO VALID CURVES", fontsize=14)
 
     plt.xlabel('Strain', fontsize=16)
     plt.ylabel('Stress (bar)', fontsize=16)
-    plt.title(condition_name, fontsize=14)
     plt.legend(fontsize=10)
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
     plt.tight_layout()
-    
+
     if SAVE_PLOTS and save_dir is not None:
         _sd = Path(save_dir)
         _sd.mkdir(parents=True, exist_ok=True)
         plt.savefig(_sd / "Comparison_CV.png", dpi=150, bbox_inches='tight')
     plt.close()
-    print(f"CV ({condition_name}): {cv:.4f}")
+    print(f"CV ({condition_name}): {cv}")
     return cv
 
 
@@ -441,6 +437,38 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             trial = f"sample {int(data_list[i]['sample_num'].iloc[0])}"
         else:
             trial = data_name.split('_')[-1]
+
+        if not goodData_eval(thickness[i]):
+            print(f"Skipping GAM for {data_name} (thickness={thickness[i]:.1f} µm — no membrane)")
+            _raw = data_list[i][data_list[i]['Ch:Load (N)'] > cutoff_load_displacement].copy()
+            plt.scatter(_raw['Disp_corrected (um)'], _raw['stress (bar)'],
+                        color='lightgrey', s=2, label='Raw Data')
+            plt.title(f"{data_name} — no membrane detected", fontsize=12)
+            plt.xlabel("Disp_corrected (um)")
+            plt.ylabel("stress (bar)")
+            plt.legend()
+            if SAVE_PLOTS and save_path is not None:
+                Path(save_path).parent.mkdir(parents=True, exist_ok=True)
+                plt.savefig(save_path, dpi=150, bbox_inches='tight')
+            plt.close()
+            mechanicalProperties.append({
+                'name': data_name,
+                'Trial': trial,
+                'Thickness': thickness[i],
+                'Elastic Modulus': np.nan,
+                'Yield Strength': np.nan,
+                'Changepoint': np.nan,
+                'Slope Plateau': np.nan,
+                'Slope Densification': np.nan,
+                'Creep Strain': np.nan,
+                'Strain at 50 bar': np.nan,
+                'Strain at 80 bar': np.nan,
+                'Strain at 150 bar': np.nan,
+                'Strain at 500 bar': np.nan,
+                'Good Fit': False,
+                'Average Standard Deviation': avg_standard_deviation,
+            })
+            continue
 
         #adjust data for interpretation
         data = data_list[i][data_list[i]['Ch:Load (N)'] > cutoff_load_displacement]      
@@ -574,8 +602,11 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
 
             #plotted linear models of each region
             plt.plot(elasticRegion['strain'], predElastic, color='blue',  label='Elastic Region', linewidth=3)
-            plt.plot(xPlateau['strain'], predPlateau, color='orange', label="Plateau Region", linewidth=3)
-            plt.plot(xDensification['strain'], predDensification, color='green', label="Densification Region", linewidth=3)
+            print(xPlateau)
+            if xPlateau['strain'] is not None and predPlateau is not None:
+                plt.plot(xPlateau['strain'], predPlateau, color='orange', label="Plateau Region", linewidth=3)
+            if xDensification['strain'] is not None and predDensification is not None:
+                plt.plot(xDensification['strain'], predDensification, color='green', label="Densification Region", linewidth=3)
 
             # Annotate strain at target stresses (drawn after all data so axis limits are set)
             _ref_points = [
@@ -867,12 +898,20 @@ def process_zero_sample_pairs_pipeline(
     pipeline_result = {}
 
     for condition_name, payload in pairs_by_condition.items():
-        ## MAKE CONDITION NAME FOLDER?
+        _cond_base = SAVE_ROOT / condition_name
+        if _cond_base.exists():
+            _n = 2
+            while (SAVE_ROOT / f"{condition_name}_run{_n}").exists():
+                _n += 1
+            condition_save_dir = SAVE_ROOT / f"{condition_name}_run{_n}"
+        else:
+            condition_save_dir = _cond_base
 
         print("=" * 110)
         print("Condition: {} | pairs: {}".format(condition_name, payload["num_pairs"]))
 
         condition_processed_curves = []
+        condition_valid_curves = []
         condition_properties = []
 
         for pair in payload["pairs"]:
@@ -948,7 +987,7 @@ def process_zero_sample_pairs_pipeline(
 
             plt.tight_layout()
             if SAVE_PLOTS:
-                _rep_dir = SAVE_ROOT / condition_name / f"rep-{replicate}"
+                _rep_dir = condition_save_dir / f"rep-{replicate}"
                 _rep_dir.mkdir(parents=True, exist_ok=True)
                 fig.savefig(_rep_dir / f"Pre-Processing_rep-{replicate}.png", dpi=150, bbox_inches='tight')
             plt.close()
@@ -968,12 +1007,14 @@ def process_zero_sample_pairs_pipeline(
                 creep_info=creep_info,
                 cutoff_load_thickness=cutoff_load_thickness,
                 cutoff_load_displacement=cutoff_load_displacement,
-                save_path=SAVE_ROOT / condition_name / f"rep-{replicate}" / f"Segmentation_rep-{replicate}.png" if SAVE_PLOTS else None,
+                save_path=condition_save_dir / f"rep-{replicate}" / f"Segmentation_rep-{replicate}.png" if SAVE_PLOTS else None,
             )
             condition_properties.extend(interpreted)
+            if interpreted and goodData_eval(interpreted[0].get("Thickness", 0)):
+                condition_valid_curves.append(processed_sample_curve)
 
-        # ---- average curve across replicates  ----
-        cv = plot_average_curve(condition_processed_curves, condition_name=condition_name, save_dir=SAVE_ROOT / condition_name if SAVE_PLOTS else None)
+        # ---- average curve across replicates (valid only) ----
+        cv = plot_average_curve(condition_processed_curves, condition_valid_curves, condition_name=condition_name, save_dir=condition_save_dir if SAVE_PLOTS else None)
        
         if cv is not None:
             for prop in condition_properties:
@@ -1019,7 +1060,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                     params_path = candidate / condition / "params.json"
                     break
             if params_path is None:
-                params_path = data_root / "compression-test-data" / condition / "params.json"
+                params_path = data_root / "compression-test-data" / condition / "params.json"  # <<< PATH >>> hardcoded subfolder fallback
             try:
                 with open(params_path, "r", encoding="utf-8") as f:
                     params = json.load(f)
@@ -1064,6 +1105,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
         rep_df = pd.DataFrame(rep_rows)
         rep_df["_condition"] = rep_df["name"].str.split(" ").str[0]
 
+        no_sd_cols = {"CV"}
         computed_agg_rows = []
         for cond_name, group in rep_df.groupby("_condition"):
             agg_row = {"name": cond_name, "date": group["date"].iloc[0]}
@@ -1074,9 +1116,8 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                 if k in group.columns:
                     vals = pd.to_numeric(group[k], errors="coerce").dropna().values
                     agg_row[f"{k} Mean"] = float(np.nanmean(vals)) if len(vals) > 0 else np.nan
-                    agg_row[f"{k} SD"]   = float(np.nanstd(vals))  if len(vals) > 0 else np.nan
-            mean_cols = [f"{k} Mean" for k in mech_cols]
-            sd_cols   = [f"{k} SD"   for k in mech_cols]
+                    if k not in no_sd_cols:
+                        agg_row[f"{k} SD"] = float(np.nanstd(vals)) if len(vals) > 0 else np.nan
             mech_res  = str({f"{k} Mean": agg_row.get(f"{k} Mean") for k in mech_cols if agg_row.get(f"{k} Mean") is not None})
             agg_row["formatted_parameters"] = formatted_parameters(agg_row)
             agg_row["initial_report"] = ""
@@ -1084,8 +1125,10 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             agg_row["final_report"] = ""
             computed_agg_rows.append(agg_row)
 
-        interleaved = [col for k in mech_cols for col in (f"{k} Mean", f"{k} SD")]
-        col_order = (["date", "name", "formatted_parameters", "initial_report"]
+        interleaved = [col for k in mech_cols for col in ([f"{k} Mean", f"{k} SD"] if k not in no_sd_cols else [f"{k} Mean"])]
+        condition_cols = ["mixing_temp", "bath_temp", "weight_percent", "volume",
+                          "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
+        col_order = (["date", "name"] + condition_cols + ["formatted_parameters", "initial_report"]
                      + interleaved
                      + ["formatted_parameters_withProp", "final_report"])
 

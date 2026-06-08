@@ -64,6 +64,16 @@ jobs:
           python-version: "3.11"
       - run: python .github/scripts/validate_fake_data.py
 
+  validate-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check folder and import references
+        run: python .github/scripts/validate_structure.py
+
   validate-run-loop:
     runs-on: ubuntu-latest
     steps:
@@ -74,7 +84,7 @@ jobs:
       - run: python .github/scripts/validate_run_loop.py
 
   smoke-test:
-    needs: [check-changes, secret-scan, syntax-check]
+    needs: [check-changes, secret-scan, syntax-check, validate-structure]
     if: needs.check-changes.outputs.processing_changed == 'true'
     runs-on: ubuntu-latest
     env:
@@ -91,7 +101,7 @@ jobs:
         run: python run_tests.py --condition short-nips-30s
 
   run-tests:
-    needs: [check-changes, smoke-test, validate-params, validate-fake-data, validate-run-loop]
+    needs: [check-changes, smoke-test, validate-params, validate-fake-data, validate-run-loop, validate-structure]
     if: needs.check-changes.outputs.processing_changed == 'true'
     runs-on: ubuntu-latest
     env:
