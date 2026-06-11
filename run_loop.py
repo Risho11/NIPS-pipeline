@@ -18,10 +18,10 @@ from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
 
-sys.path.insert(0, os.path.dirname(__file__))
-import url_29 as url
-import processing_29 as processing
-import activeLearning_29 as activeLearning
+sys.path.insert(0, os.path.dirname(__file__))  # <<< IMPORT >>> adds script's own folder to path — breaks if moved to subfolder
+import url_29 as url                           # <<< IMPORT >>> must be in same folder as run_loop.py
+import processing_29 as processing             # <<< IMPORT >>> must be in same folder
+import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same folder
 
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {
@@ -34,9 +34,12 @@ INITIAL_PARAMS = {
     "coupon_to_bath_wait_time": 6,
     "nips_bath_wait_time": 30,
 }
+# <<< PATH >>> project root = folder containing this script
 DATA_ROOT    = Path(__file__).parent
+# <<< PATH >>> output CSVs land beside this script
 CSV_OUT      = DATA_ROOT / "output2.csv"
 CSV_LLM_OUT  = DATA_ROOT / "output2_llm.csv"
+# <<< PATH >>> hardcoded Windows lab machine paths — change if machine changes
 CSV_RAW_PATH = Path(r"C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed")
 IMAGES_PATH  = Path(r"C:\Users\opentrons\Documents\auto-membranes\images")
 SERVER_IP    = "169.254.230.148"
@@ -47,6 +50,7 @@ CAMERA_INDEX = 2  # change if wrong camera after restart or replug
 cam = cv2.VideoCapture(CAMERA_INDEX)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+# <<< PATH >>> "images" folder relative to cwd, not DATA_ROOT
 if not os.path.isdir("images"):
     os.mkdir("images")
 
@@ -75,7 +79,7 @@ def move_and_rename(params):
         s += "No"
     s += "N2-"
     s += f"{params['nips_bath_wait_time']}s"
-    base = DATA_ROOT / "compression-test-data" / s
+    base = DATA_ROOT / "compression-test-data" / s  # <<< FOLDER NAME >>>
     directory = base
     if directory.exists():
         run = 2
@@ -92,10 +96,7 @@ def move_and_rename(params):
     (directory / "params.json").write_text(json.dumps(params))
     return s
 
-MECH_KEYS = ["Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
-             "Slope Plateau", "Slope Densification", "Creep Strain",
-             "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
-             "Strain at 500 bar", "CV"]
+LLM_PROP_KEYS = ["Strain at 50 bar", "CV"]
 
 def _run_pipeline_and_trigger_next(params):
     try:
@@ -104,7 +105,7 @@ def _run_pipeline_and_trigger_next(params):
 
         print(f"[2/5] processing pipeline for: {condition_name}")
         output = processing.process_zero_sample_pairs_pipeline(
-            folder_name="compression-test-data",
+            folder_name="compression-test-data",  # <<< FOLDER NAME >>>
             data_root=str(DATA_ROOT),
             strict=False,
             load_cutoff=1.0,
@@ -117,16 +118,6 @@ def _run_pipeline_and_trigger_next(params):
         )
         processing.save_to_csv(output, data_root=DATA_ROOT,
                                output_path=CSV_OUT, aggregate_path=CSV_LLM_OUT)
-
-        # get average row for this condition
-        avg_row = None
-        for cond_data in output.values():
-            for trial in cond_data["mechanical_properties"]:
-                if trial.get("Trial") == "average":
-                    avg_row = trial
-                    break
-        if avg_row is None:
-            raise ValueError("No average row found in pipeline output")
 
         print("[3/5] generating initial report...")
         if not CSV_LLM_OUT.exists() or CSV_LLM_OUT.stat().st_size == 0:
@@ -143,26 +134,32 @@ def _run_pipeline_and_trigger_next(params):
         initial_report = activeLearning.Generate_report(fmt_params)
         print(f"  initial_report: {initial_report[:120]}...")
 
-        mech_dict = {k: avg_row[k] for k in MECH_KEYS if avg_row.get(k) is not None}
-        fmt_params_with_prop = str(mech_dict)
+        mech_subset = {f"{k} Mean": llm_df.at[idx, f"{k} Mean"]
+                       for k in LLM_PROP_KEYS
+                       if f"{k} Mean" in llm_df.columns and pd.notna(llm_df.at[idx, f"{k} Mean"])}
+        fmt_params_with_prop = str(mech_subset)
         final_report = initial_report + "\n" + fmt_params_with_prop
         print(f"final_report: {final_report[120:]}...")
 
-        # fill initial_report and final_report back into LLM CSV
+        # fill reports back into LLM CSV
         llm_df.at[idx, "initial_report"] = initial_report
+        llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + fmt_params_with_prop
         llm_df.at[idx, "final_report"] = final_report
         llm_df.to_csv(CSV_LLM_OUT, index=False)
         print(f"  LLM CSV updated: {CSV_LLM_OUT}")
 
         print("[4/5] running active learning...")
         params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
+
+        llm_df.at[idx, "LLM_suggestion"] = params_suggestion
+        
         match = re.search(r'\{[^{}]*\}', params_suggestion)
         if not match:
             raise ValueError(f"LLM returned no JSON object:\n{params_suggestion}")
         new_params = json.loads(match.group(0))
 
         results = [{"condition": condition_name, "next_params": new_params}]
-        json_out = DATA_ROOT / f"llm_result_{condition_name}.json"
+        json_out = DATA_ROOT / f"llm_result_{condition_name}.json"  # <<< PATH >>>
         with open(json_out, "w") as f:
             json.dump(results, f, indent=2)
         print(f"  JSON result: {json_out}")
