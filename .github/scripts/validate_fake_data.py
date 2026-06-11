@@ -10,6 +10,8 @@ EXPECTED_PAIRS = {
     "nine-per-phase-1800s":       9,
     "double-run-4-clusters":      6,
     "multi-date-two-runs":        6,
+    "pipeline-all-pass":          3,
+    "pipeline-some-fail":         3,
 }
 
 SPECIMEN_RE = re.compile(r"^Specimen_\d+_\d{8}_\d{6}\.csv$")

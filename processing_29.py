@@ -161,8 +161,14 @@ def elastic_peak(data, predictions):
     data.loc[spike > 150, '2nd derivative'] = np.nan
     data['2nd derivative'] = data['2nd derivative'].interpolate(method='linear')
     subset = data[data['strain'] <= 0.3]
+    if subset.empty or subset['2nd derivative'].isna().all():
+        bp1_pw = pure_pw(data)
+        return bp1_pw if bp1_pw is not None else float(data['strain'].quantile(0.25))
     if subset['strain'][subset['2nd derivative'].idxmin()] <= 0.02:
         subset = data[(data['strain'] > 0.03) & (data['strain'] <= 0.3)].copy()
+    if subset.empty or subset['2nd derivative'].isna().all():
+        bp1_pw = pure_pw(data)
+        return bp1_pw if bp1_pw is not None else float(data['strain'].quantile(0.25))
     idx_bottom = subset['strain'][subset['2nd derivative'].idxmin()]
 
     #get slope ig
@@ -787,7 +793,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                 slopePlateau,
                 slopeDensification,
                 creep_level=creep_level,
-                pass_threshold=60,
+                pass_threshold=70,
             )
 
             '''
@@ -1422,3 +1428,25 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             existing = pd.read_csv(aggregate_path)
             new_df = pd.concat([existing, new_df], ignore_index=True)
         new_df.to_csv(aggregate_path, index=False)
+
+def promote_to_main(condition_name, source, agg_path, agg_llm_path):
+    """
+    source: "preDiscard", "postDiscard", or "" (no-failures case).
+    Reads the matching row from agg_path and upserts it (with clean name) into agg_llm_path.
+    Call with source="" when the condition had no failures (single row in agg CSV).
+    Call with source="postDiscard" (default) or "preDiscard" to choose which version feeds the LLM.
+    """
+    agg_df = pd.read_csv(agg_path)
+    target_name = f"{condition_name}_{source}" if source else condition_name
+    row = agg_df[agg_df["name"] == target_name].copy()
+    if row.empty:
+        raise ValueError(f"promote_to_main: no row named {target_name!r} in {agg_path}")
+    row["name"] = condition_name
+    agg_llm_path = Path(agg_llm_path)
+    if agg_llm_path.exists() and agg_llm_path.stat().st_size > 0:
+        main_df = pd.read_csv(agg_llm_path)
+        main_df = main_df[main_df["name"] != condition_name]
+        main_df = pd.concat([main_df, row], ignore_index=True)
+    else:
+        main_df = row
+    main_df.to_csv(agg_llm_path, index=False)

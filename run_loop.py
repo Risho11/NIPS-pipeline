@@ -37,8 +37,9 @@ INITIAL_PARAMS = {
 # <<< PATH >>> project root = folder containing this script
 DATA_ROOT    = Path(__file__).parent
 # <<< PATH >>> output CSVs land beside this script
-CSV_OUT      = DATA_ROOT / "output2.csv"
-CSV_LLM_OUT  = DATA_ROOT / "output2_llm.csv"
+CSV_REPS        = DATA_ROOT / "results_reps.csv"
+CSV_AGG         = DATA_ROOT / "results_agg.csv"
+CSV_AGG_LLM     = DATA_ROOT / "results_agg_llm.csv"
 # <<< PATH >>> hardcoded Windows lab machine paths — change if machine changes
 CSV_RAW_PATH = Path(r"C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed")
 IMAGES_PATH  = Path(r"C:\Users\opentrons\Documents\auto-membranes\images")
@@ -117,14 +118,19 @@ def _run_pipeline_and_trigger_next(params):
             condition_filter=condition_name,
         )
         processing.save_to_csv(output, data_root=DATA_ROOT,
-                               output_path=CSV_OUT, aggregate_path=CSV_LLM_OUT)
+                               output_path=CSV_REPS, aggregate_path=CSV_AGG)
+
+        _agg_df = pd.read_csv(CSV_AGG)
+        _has_post = (_agg_df["name"] == f"{condition_name}_postDiscard").any()
+        _source = "postDiscard" if _has_post else ""
+        processing.promote_to_main(condition_name, _source, CSV_AGG, CSV_AGG_LLM)
 
         print("[3/5] generating initial report...")
-        if not CSV_LLM_OUT.exists() or CSV_LLM_OUT.stat().st_size == 0:
-            raise ValueError(f"LLM CSV missing or empty after save_to_csv: {CSV_LLM_OUT}")
-        llm_df = pd.read_csv(CSV_LLM_OUT)
+        if not CSV_AGG_LLM.exists() or CSV_AGG_LLM.stat().st_size == 0:
+            raise ValueError(f"LLM CSV missing or empty after promote_to_main: {CSV_AGG_LLM}")
+        llm_df = pd.read_csv(CSV_AGG_LLM)
         if llm_df.empty:
-            raise ValueError(f"LLM CSV has no data rows: {CSV_LLM_OUT}")
+            raise ValueError(f"LLM CSV has no data rows: {CSV_AGG_LLM}")
         for col in ["initial_report", "final_report"]:
             if col in llm_df.columns:
                 llm_df[col] = llm_df[col].astype(object)
@@ -145,14 +151,15 @@ def _run_pipeline_and_trigger_next(params):
         llm_df.at[idx, "initial_report"] = initial_report
         llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + fmt_params_with_prop
         llm_df.at[idx, "final_report"] = final_report
-        llm_df.to_csv(CSV_LLM_OUT, index=False)
-        print(f"  LLM CSV updated: {CSV_LLM_OUT}")
+        llm_df.to_csv(CSV_AGG_LLM, index=False)
+        print(f"  LLM CSV updated: {CSV_AGG_LLM}")
 
         print("[4/5] running active learning...")
         params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
 
         llm_df.at[idx, "LLM_suggestion"] = params_suggestion
-        
+        llm_df.to_csv(CSV_AGG_LLM, index=False)
+
         match = re.search(r'\{[^{}]*\}', params_suggestion)
         if not match:
             raise ValueError(f"LLM returned no JSON object:\n{params_suggestion}")
