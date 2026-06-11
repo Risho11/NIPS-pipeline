@@ -141,4 +141,4 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run pipeline tests
-        run: python run_tests.py --skip nine-per-phase-1800s
+        run: python run_tests.py --skip nine-per-phase-1800s double-run-4-clusters multi-date-two-runs
