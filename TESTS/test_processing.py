@@ -22,7 +22,7 @@ import activeLearning_29 as al                 # <<< IMPORT >>> must be in same 
 # ── edit these ──────────────────────────────────────────────────────────────
 # <<< PATH >>> Chooses condition.
 DATA_ROOT  = Path(__file__).parent.parent 
-CONDITION  = "17-13deg-120s-N2-1800s"
+CONDITION  = "17-5deg-60s-N2-1800s"
 # <<< PATH >>> output files land beside this script
 OUTPUT_CSV = Path(__file__).parent / "csv_tests" / "test_master.csv"
 LLM_CSV    = Path(__file__).parent / "csv_tests" / "test_llm.csv"

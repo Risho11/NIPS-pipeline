@@ -12,6 +12,7 @@ import piecewise_regression
 from pygam import LinearGAM, s
 from scipy.signal import find_peaks, peak_prominences ##NEW -- for second deriv analysis
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 
 warnings.filterwarnings("ignore")
 
@@ -109,6 +110,36 @@ def stress_GAM(gam, strain):
         idx = np.array([[strain]])
         return gam.predict(idx)
 
+def pure_pw(data):
+    d1_peak = data["1st derivative"].max()
+    low_thresh = d1_peak * 0.15
+    in_plateau = data["1st derivative"] < low_thresh
+    plateau_start_approx = data["strain"][in_plateau].iloc[0] if in_plateau.any() else 0.1
+    plateau_end_approx   = data["strain"][in_plateau].iloc[-1] if in_plateau.any() else 0.5
+    cutoff = (plateau_start_approx + plateau_end_approx) / 2
+    region = data[data["strain"] <= cutoff]
+    try:
+        pw_fit = piecewise_regression.Fit(list(region['strain']), list(region['stress (bar)']), n_breakpoints=1)
+    except Exception as e:
+        print(f"pure_pw regression failed: {e}")
+        return None
+    pw_results = pw_fit.get_results()
+    if pw_results['estimates']:
+        return pw_results['estimates']['breakpoint1']['estimate']
+    return None
+
+def double_pw(data, bp1_init, interval):
+    tightened = data[(data['strain'] >= bp1_init - interval) & (data['strain'] <= bp1_init + interval)]
+    try:
+        pw_fit = piecewise_regression.Fit(list(tightened['strain']), list(tightened['stress (bar)']), n_breakpoints=1)
+    except Exception as e:
+        print(f"double_pw regression failed: {e}")
+        return None
+    pw_results = pw_fit.get_results()
+    if pw_results['estimates']:
+        return pw_results['estimates']['breakpoint1']['estimate']
+    return None
+
 def elastic_peak(data, predictions):
     #takes in the data, outputs breakpoint1 - useful in case we want to manually change breakpoint
     data['2nd derivative'].idxmin()     
@@ -131,7 +162,7 @@ def elastic_peak(data, predictions):
     data['2nd derivative'] = data['2nd derivative'].interpolate(method='linear')
     subset = data[data['strain'] <= 0.3]
     if subset['strain'][subset['2nd derivative'].idxmin()] <= 0.02:
-        subset = data[(data['strain'] > 0.03) & (data['strain'] <= 0.3)].copy() 
+        subset = data[(data['strain'] > 0.03) & (data['strain'] <= 0.3)].copy()
     idx_bottom = subset['strain'][subset['2nd derivative'].idxmin()]
 
     #get slope ig
@@ -144,15 +175,15 @@ def elastic_peak(data, predictions):
 
     # 2. Extract left wall metrics
     left_side = subset.loc[:idx_bottom]
-    val_start = left_side['2nd derivative'].max() 
+    val_start = left_side['2nd derivative'].max()
     idx_start = left_side['2nd derivative'].idxmax()
-    
+
     # 3. Extract right wall metrics safely
     right_side = subset.loc[idx_bottom:]
-    
+
     # Isolate the localized recovery window
     local_window = right_side[right_side['strain'] <= (strain_bottom + 0.05)]
-    
+
     # SAFE GUARD: Verify the window isn't empty before taking max
     if not local_window.empty:
         val_end_peak = local_window['2nd derivative'].max()
@@ -181,7 +212,18 @@ def elastic_peak(data, predictions):
         breakpoint1 = (strain_bottom + ((strain_end-strain_bottom) / 2.5))
     else:
         breakpoint1 = strain_bottom
-    
+
+    bp1_pw = pure_pw(data)
+    #breakpoint1 = find_drop(subset)
+    bp1_double = double_pw(data, bp1_pw, 0.1) if bp1_pw is not None else None  #last parameter should be dynamic
+    print(f"PW + Double: {bp1_double}")
+    if bp1_pw is not None and bp1_pw >= 0 and abs(bp1_pw-breakpoint1) < 0.1:
+        print(f"Piecewise Chosen! {bp1_pw} | Drop Calculation: {breakpoint1}")
+        return bp1_double if bp1_double is not None else bp1_pw
+        #return bp1_pw
+    print(f"Drop Chosen! {breakpoint1} | Piecewise Calculation: {bp1_pw}")
+    if double_pw(data, breakpoint1, 0.07):
+        return double_pw(data, breakpoint1, 0.07)
     return breakpoint1
 
 '''PLATEAU/DENSIFICATION - Returns changepoint, modelPlateau, modelDens'''
@@ -267,13 +309,187 @@ def find_changepoint_fit(data, bp1, bp2, bp3, creep_level):
 def create_fit_week3(data, bp1, changepoint, creep_level, bp2=None, bp3=None):
     pass
 
-def goodData_eval(thickness):
+def validData_eval(thickness):
     # thickness <= 50 (or negative) means membrane didn't dispense
     return thickness > 50
 
-def goodFit_eval(modelPlateau, predPlateau, breakpoint1, elasticModulus, yieldStrength, xPlateau):
+def goodData_eval(data, predictions):
+    # Toe ends at first extremum (local max OR min) of d1 within strain <= 0.2.
+    # Curve shape varies: some toes have rising-then-falling d1, others falling-then-rising.
+    d1 = np.gradient(predictions, data['strain'].values)
+    mask = data['strain'].values <= 0.3
+    if not mask.any():
+        print("goodData_eval: no data below strain 0.2")
+        return None
+    d1_region = d1[mask]
+    strains_region = data['strain'].values[mask]
+    window = max(5, len(d1_region) // 15)
+    d1_smooth = pd.Series(d1_region).rolling(window, center=True, min_periods=1).mean().values
+    prominence_thresh = (d1_smooth.max() - d1_smooth.min()) * 0.05
+    maxima, max_props = find_peaks(d1_smooth, prominence=prominence_thresh)
+    minima, min_props = find_peaks(-d1_smooth, prominence=prominence_thresh)
+    if len(maxima) == 0 and len(minima) == 0:
+        print("goodData_eval: no toe region detected (d1 monotone in 0-0.3)")
+        return float(strains_region[0])
+    candidates = []
+    for idx, prom in zip(maxima, max_props['prominences']):
+        candidates.append((idx, prom))
+    for idx, prom in zip(minima, min_props['prominences']):
+        candidates.append((idx, prom))
+    best_idx = max(candidates, key=lambda x: x[1])[0]
+    toe_end_strain = float(strains_region[best_idx])
+    if toe_end_strain >= 0.29:
+        print(f"goodData_eval: WARNING — toe extends to {toe_end_strain:.4f}, data may be invalid")
+    else:
+        print(f"Toe end strain (zero point): {toe_end_strain:.4f}")
+    return toe_end_strain
+
+def goodFit_eval(
+    data, elasticRegion, xPlateau, xDensification,
+    predElastic, predPlateau, predDensification,
+    modelElastic, modelPlateau,
+    gam,
+    breakpoint1,
+    changepoint,
+    yieldStrength,
+    elasticModulus,
+    slopePlateau,
+    slopeDensification,
+    creep_level=None,
+    pass_threshold=60,
+):
+    score = 0
+    breakdown = {}
+    catastrophic = False
+
+    # ── ELASTIC REGION (33 pts) ──────────────────────────────────────────
+
+    w = 18
+    if len(elasticRegion) > 1 and predElastic is not None:
+        r2_e = r2_score(elasticRegion['stress (bar)'], predElastic)
+        pts = round(w * max(r2_e, 0))
+        breakdown['elastic_r2'] = (pts, w, f'R²={r2_e:.3f}')
+        score += pts
+    else:
+        breakdown['elastic_r2'] = (0, w, 'insufficient data')
+
+    w = 10
+    gam_stress_at_bp1 = float(gam.predict([[breakpoint1]])[0])
+    yield_err = abs(float(yieldStrength) - gam_stress_at_bp1)
+    yield_err_pct = yield_err / (gam_stress_at_bp1 + 1e-9)
+    pts = round(w * max(0, 1 - yield_err_pct / 0.10))
+    breakdown['yield_accuracy'] = (pts, w, f'|linear-GAM|={yield_err:.2f} bar ({yield_err_pct*100:.1f}%)')
+    score += pts
+
+    w = 5
+    if elasticModulus > 0:
+        pts = w if (10 < elasticModulus < 5000) else round(w * 0.5)
+        breakdown['elastic_modulus'] = (pts, w, f'E={elasticModulus:.1f} bar')
+    else:
+        pts = 0
+        breakdown['elastic_modulus'] = (0, w, f'negative modulus={elasticModulus:.1f}')
+    score += pts
+
+    # ── PLATEAU REGION (43 pts) ──────────────────────────────────────────
+
+    w = 18
+    if modelPlateau is not None:
+        plateau_at_bp1 = float(modelPlateau.predict([[breakpoint1]])[0])
+        junction_err_pct = abs(plateau_at_bp1 - float(yieldStrength)) / (abs(float(yieldStrength)) + 1e-9)
+        pts = round(w * max(0, 1 - junction_err_pct / 0.10))
+        breakdown['junction_continuity'] = (pts, w, f'gap={junction_err_pct*100:.1f}%')
+        score += pts
+    else:
+        breakdown['junction_continuity'] = (0, w, 'no plateau model')
+
+    w = 5
+    if slopePlateau > elasticModulus:
+        pts = 0
+        catastrophic = True
+        breakdown['plateau_flatness'] = (0, w, f'CATASTROPHIC: slope={slopePlateau:.1f} > E={elasticModulus:.1f}')
+    else:
+        slope_ratio = abs(slopePlateau) / (abs(elasticModulus) + 1e-9)
+        if slope_ratio < 0.10:
+            pts = w
+        elif slope_ratio < 0.25:
+            pts = round(w * 0.5)
+        else:
+            pts = round(w * 0.2)
+        breakdown['plateau_flatness'] = (pts, w, f'slope/E={slope_ratio:.3f}')
+    score += pts
+
+    w = 10
+    if xPlateau is not None and len(xPlateau) > 1 and predPlateau is not None:
+        cutoff = int(len(xPlateau) * 0.40)
+        if cutoff >= 2:
+            r2_p = r2_score(xPlateau['stress (bar)'].iloc[:cutoff], predPlateau[:cutoff])
+        else:
+            r2_p = r2_score(xPlateau['stress (bar)'], predPlateau)
+        if r2_p < 0:
+            return False
+        pts = round(w * max(r2_p, 0))
+        breakdown['plateau_r2_start'] = (pts, w, f'R²(first 40%)={r2_p:.3f}')
+        score += pts
+    else:
+        breakdown['plateau_r2_start'] = (0, w, 'insufficient data')
+
+    w = 10
+    if xPlateau is not None and len(xPlateau) > 1 and predPlateau is not None:
+        r2_full = r2_score(xPlateau['stress (bar)'], predPlateau)
+        if r2_full >= 0.7:
+            pts = w
+        elif r2_full >= 0.5:
+            pts = round(w * 0.5)
+        else:
+            pts = 0
+        breakdown['plateau_r2_full'] = (pts, w, f'R²(full)={r2_full:.3f}')
+        score += pts
+    else:
+        breakdown['plateau_r2_full'] = (0, w, 'insufficient data')
+
+    # ── DENSIFICATION REGION (14 pts) ───────────────────────────────────
+
+    w = 10
+    if slopeDensification > slopePlateau:
+        pts = w
+    elif slopeDensification > 0:
+        pts = round(w * 0.4)
+    else:
+        pts = 0
+    breakdown['slope_ordering'] = (pts, w, f'densif={slopeDensification:.1f} > plateau={slopePlateau:.1f}')
+    score += pts
+
+    w = 4
+    if xDensification is not None and len(xDensification) > 1 and predDensification is not None:
+        r2_d = r2_score(xDensification['stress (bar)'], predDensification)
+        pts = round(w * max(r2_d, 0))
+        breakdown['densification_r2'] = (pts, w, f'R²={r2_d:.3f}')
+        score += pts
+    else:
+        breakdown['densification_r2'] = (0, w, 'insufficient data')
+
+    # ── PHYSICAL PLAUSIBILITY (10 pts) ──────────────────────────────────
+
+    w = 10
+    if elasticModulus > slopePlateau:
+        pts = w
+    else:
+        pts = 0
+    breakdown['elastic_vs_plateau'] = (pts, w, f'E={elasticModulus:.1f} > slope={slopePlateau:.1f}')
+    score += pts
+
+    if catastrophic:
+        score = round(score * 0.5)
+        breakdown['_catastrophic_penalty'] = (0, 0, 'slope > modulus — score halved')
+
+    good = score >= pass_threshold
+    print(f"Score: {score}/100 → {'PASS' if good else 'FAIL'}")
+    for k, (pts, max_pts, note) in breakdown.items():
+        print(f"  {k:35s} {pts:2d}/{max_pts}  {note}")
+    return good
+
+def goodFit_eval_old(modelPlateau, predPlateau, breakpoint1, elasticModulus, yieldStrength, xPlateau):
     slopePlateau = modelPlateau.coef_[0]
-    #evaluate fit
     plateauModel = LinearGAM(s(0))
     plateauModel.fit(xPlateau[['strain']], xPlateau['stress (bar)'])
     plateauSpline = plateauModel.predict(xPlateau[['strain']])
@@ -281,17 +497,13 @@ def goodFit_eval(modelPlateau, predPlateau, breakpoint1, elasticModulus, yieldSt
         correlation_coefficient = np.corrcoef(plateauSpline, predPlateau)[0, 1]
     except IndexError:
         correlation_coefficient = 0
-    print(f"Correlation_coefficient: {correlation_coefficient:.4f}")
-    
-    #ensure the linear models align with each other
-    rangeStart = yieldStrength - 3     #arbitrary range
+    #print(f"Correlation_coefficient: {correlation_coefficient:.4f}")
+    rangeStart = yieldStrength - 3
     rangeEnd = yieldStrength + 3
-
-    
     if rangeStart <= modelPlateau.predict(breakpoint1.reshape(1, -1)) <= rangeEnd and slopePlateau <= elasticModulus*1.25 and correlation_coefficient <= 0.98:
         eval = True
     else:
-        if breakpoint1 <= 0.05: #arbitrary
+        if breakpoint1 <= 0.05:
             eval = False
         eval = True
     return eval
@@ -416,6 +628,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
     min_length = min([len(stress) for stress in all_stress_data])
     truncated_stress_data = [stress[:min_length] for stress in all_stress_data]
     avg_standard_deviation = np.mean([np.std(stress) for stress in truncated_stress_data])
+    print("\n\n------------ NEW REP ---------------")
     print(f"Average Standard Deviation: {avg_standard_deviation}")
 
     #set up for loop for each trial in the batch
@@ -438,7 +651,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         else:
             trial = data_name.split('_')[-1]
 
-        if not goodData_eval(thickness[i]):
+        if not validData_eval(thickness[i]):
             print(f"Skipping GAM for {data_name} (thickness={thickness[i]:.1f} µm — no membrane)")
             _raw = data_list[i][data_list[i]['Ch:Load (N)'] > cutoff_load_displacement].copy()
             plt.scatter(_raw['Disp_corrected (um)'], _raw['stress (bar)'],
@@ -508,6 +721,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         gam = LinearGAM(s(0))
         gam.fit(data[['strain']], data['stress (bar)'])
         predictions = gam.predict(data[['strain']])
+        goodData_eval(data, predictions)
         # replace values in predictions that are greater than the predictions[-1] with predictions[-1] but make a copy of the predictions for the plot
         predictions_for_plot = predictions.copy()
         predictions_for_plot[predictions_for_plot > creep_level] = creep_level if creep_level is not None else predictions[-1]
@@ -569,7 +783,20 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         xPlateau, xDensification, predPlateau, predDensification, changepoint, slopePlateau, slopeDensification, modelPlateau = find_changepoint_fit(data, breakpoint1, bp2, bp3, creep_level)
 
         if True:
-            eval = goodFit_eval(modelPlateau, predPlateau, np.array([[breakpoint1]]), elasticModulus, yieldStrength, xPlateau)
+            good = goodFit_eval(
+                data, elasticRegion, xPlateau, xDensification,
+                predElastic, predPlateau, predDensification,
+                modelElastic, modelPlateau,
+                gam,
+                breakpoint1,
+                changepoint,
+                float(yieldStrength[0]),
+                elasticModulus,
+                slopePlateau,
+                slopeDensification,
+                creep_level=creep_level,
+                pass_threshold=60,
+            )
 
             '''
             wait why the heck is the dictionary only appended when its like not 0... anyway
@@ -594,7 +821,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                     "Strain at 80 bar":strain_80bar,
                     "Strain at 150 bar":strain_150bar,
                     "Strain at 500 bar":strain_500bar,
-                    "Good Fit":eval,
+                    "Good Fit":good,
                     "Average Standard Deviation":avg_standard_deviation}
             mechanicalProperties.append(dict)
 
@@ -602,7 +829,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
 
             #plotted linear models of each region
             plt.plot(elasticRegion['strain'], predElastic, color='blue',  label='Elastic Region', linewidth=3)
-            print(xPlateau)
+            #print(xPlateau)
             if xPlateau['strain'] is not None and predPlateau is not None:
                 plt.plot(xPlateau['strain'], predPlateau, color='orange', label="Plateau Region", linewidth=3)
             if xDensification['strain'] is not None and predDensification is not None:
@@ -626,7 +853,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             _ax.set_ylim(_ylim)
 
 
-            print(dict)
+            #print(dict)
 
         
         plt.title(data_name, fontsize=14)
@@ -640,7 +867,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             plt.savefig(save_path, dpi=150, bbox_inches='tight')
         plt.close()
 
-        print("Good Fit:", eval)
+        print(f"Good Fit: {good}")
 
         
 
@@ -1010,7 +1237,7 @@ def process_zero_sample_pairs_pipeline(
                 save_path=condition_save_dir / f"rep-{replicate}" / f"Segmentation_rep-{replicate}.png" if SAVE_PLOTS else None,
             )
             condition_properties.extend(interpreted)
-            if interpreted and goodData_eval(interpreted[0].get("Thickness", 0)):
+            if interpreted and validData_eval(interpreted[0].get("Thickness", 0)):
                 condition_valid_curves.append(processed_sample_curve)
 
         # ---- average curve across replicates (valid only) ----
