@@ -360,65 +360,33 @@ def goodFit_eval(
 ):
     score = 0
     breakdown = {}
+    data_flags = {}
     catastrophic = False
 
-    # ── ELASTIC REGION (33 pts) ──────────────────────────────────────────
+    # ── SCORED (100 pts): R²s + yield_accuracy + junction_continuity ─────
 
-    w = 18
+    w = 30
     if len(elasticRegion) > 1 and predElastic is not None:
-        r2_e = r2_score(elasticRegion['stress (bar)'], predElastic)
-        pts = round(w * max(r2_e, 0))
-        breakdown['elastic_r2'] = (pts, w, f'R²={r2_e:.3f}')
+        stress = elasticRegion['stress (bar)'].values
+        stress_range = stress.max() - stress.min()
+        rmse = np.sqrt(np.mean((stress - predElastic) ** 2))
+        nrmse_score = max(0.0, 1.0 - rmse / (stress_range + 1e-9))
+        pts = round(w * nrmse_score)
+        breakdown['elastic_r2'] = (pts, w, f'NRMSE-score={nrmse_score:.3f} (RMSE={rmse:.2f}, range={stress_range:.2f})')
         score += pts
+
+        n = len(elasticRegion)
+        if n >= 6:
+            h = n // 2
+            r2_first = r2_score(stress[:h], predElastic[:h])
+            r2_second = r2_score(stress[h:], predElastic[h:])
+            consistency_gap = abs(r2_first - r2_second)
+            if consistency_gap > 0.15:
+                data_flags['elastic_half_consistency'] = f'first-half R²={r2_first:.3f} vs second-half R²={r2_second:.3f} (gap={consistency_gap:.3f})'
     else:
         breakdown['elastic_r2'] = (0, w, 'insufficient data')
 
-    w = 10
-    gam_stress_at_bp1 = float(gam.predict([[breakpoint1]])[0])
-    yield_err = abs(float(yieldStrength) - gam_stress_at_bp1)
-    yield_err_pct = yield_err / (gam_stress_at_bp1 + 1e-9)
-    pts = round(w * max(0, 1 - yield_err_pct / 0.10))
-    breakdown['yield_accuracy'] = (pts, w, f'|linear-GAM|={yield_err:.2f} bar ({yield_err_pct*100:.1f}%)')
-    score += pts
-
-    w = 5
-    if elasticModulus > 0:
-        pts = w if (10 < elasticModulus < 5000) else round(w * 0.5)
-        breakdown['elastic_modulus'] = (pts, w, f'E={elasticModulus:.1f} bar')
-    else:
-        pts = 0
-        breakdown['elastic_modulus'] = (0, w, f'negative modulus={elasticModulus:.1f}')
-    score += pts
-
-    # ── PLATEAU REGION (43 pts) ──────────────────────────────────────────
-
-    w = 18
-    if modelPlateau is not None:
-        plateau_at_bp1 = float(modelPlateau.predict([[breakpoint1]])[0])
-        junction_err_pct = abs(plateau_at_bp1 - float(yieldStrength)) / (abs(float(yieldStrength)) + 1e-9)
-        pts = round(w * max(0, 1 - junction_err_pct / 0.10))
-        breakdown['junction_continuity'] = (pts, w, f'gap={junction_err_pct*100:.1f}%')
-        score += pts
-    else:
-        breakdown['junction_continuity'] = (0, w, 'no plateau model')
-
-    w = 5
-    if slopePlateau > elasticModulus:
-        pts = 0
-        catastrophic = True
-        breakdown['plateau_flatness'] = (0, w, f'CATASTROPHIC: slope={slopePlateau:.1f} > E={elasticModulus:.1f}')
-    else:
-        slope_ratio = abs(slopePlateau) / (abs(elasticModulus) + 1e-9)
-        if slope_ratio < 0.10:
-            pts = w
-        elif slope_ratio < 0.25:
-            pts = round(w * 0.5)
-        else:
-            pts = round(w * 0.2)
-        breakdown['plateau_flatness'] = (pts, w, f'slope/E={slope_ratio:.3f}')
-    score += pts
-
-    w = 10
+    w = 15
     if xPlateau is not None and len(xPlateau) > 1 and predPlateau is not None:
         cutoff = int(len(xPlateau) * 0.40)
         if cutoff >= 2:
@@ -426,40 +394,16 @@ def goodFit_eval(
         else:
             r2_p = r2_score(xPlateau['stress (bar)'], predPlateau)
         if r2_p < 0:
-            return False
-        pts = round(w * max(r2_p, 0))
-        breakdown['plateau_r2_start'] = (pts, w, f'R²(first 40%)={r2_p:.3f}')
-        score += pts
+            score -= 15
+            breakdown['plateau_r2_start'] = (0, w, f'R²(first 40%)={r2_p:.3f} — negative, -15 penalty applied')
+        else:
+            pts = round(w * max(r2_p, 0))
+            breakdown['plateau_r2_start'] = (pts, w, f'R²(first 40%)={r2_p:.3f}')
+            score += pts
     else:
         breakdown['plateau_r2_start'] = (0, w, 'insufficient data')
 
-    w = 10
-    if xPlateau is not None and len(xPlateau) > 1 and predPlateau is not None:
-        r2_full = r2_score(xPlateau['stress (bar)'], predPlateau)
-        if r2_full >= 0.7:
-            pts = w
-        elif r2_full >= 0.5:
-            pts = round(w * 0.5)
-        else:
-            pts = 0
-        breakdown['plateau_r2_full'] = (pts, w, f'R²(full)={r2_full:.3f}')
-        score += pts
-    else:
-        breakdown['plateau_r2_full'] = (0, w, 'insufficient data')
-
-    # ── DENSIFICATION REGION (14 pts) ───────────────────────────────────
-
-    w = 10
-    if slopeDensification > slopePlateau:
-        pts = w
-    elif slopeDensification > 0:
-        pts = round(w * 0.4)
-    else:
-        pts = 0
-    breakdown['slope_ordering'] = (pts, w, f'densif={slopeDensification:.1f} > plateau={slopePlateau:.1f}')
-    score += pts
-
-    w = 4
+    w = 15
     if xDensification is not None and len(xDensification) > 1 and predDensification is not None:
         r2_d = r2_score(xDensification['stress (bar)'], predDensification)
         pts = round(w * max(r2_d, 0))
@@ -468,25 +412,66 @@ def goodFit_eval(
     else:
         breakdown['densification_r2'] = (0, w, 'insufficient data')
 
-    # ── PHYSICAL PLAUSIBILITY (10 pts) ──────────────────────────────────
-
-    w = 10
-    if elasticModulus > slopePlateau:
-        pts = w
-    else:
-        pts = 0
-    breakdown['elastic_vs_plateau'] = (pts, w, f'E={elasticModulus:.1f} > slope={slopePlateau:.1f}')
+    w = 25
+    gam_stress_at_bp1 = float(gam.predict([[breakpoint1]])[0])
+    yield_err_pct = abs(float(yieldStrength) - gam_stress_at_bp1) / (gam_stress_at_bp1 + 1e-9)
+    pts = round(w * max(0, 1 - yield_err_pct / 0.20))
+    breakdown['yield_accuracy'] = (pts, w, f'linear vs GAM err={yield_err_pct*100:.1f}%')
     score += pts
 
+    w = 15
+    if modelPlateau is not None:
+        plateau_at_bp1 = float(modelPlateau.predict([[breakpoint1]])[0])
+        junction_err_pct = abs(plateau_at_bp1 - float(yieldStrength)) / (abs(float(yieldStrength)) + 1e-9)
+        pts = round(w * max(0, 1 - junction_err_pct / 0.15))
+        breakdown['junction_continuity'] = (pts, w, f'gap={junction_err_pct*100:.1f}%')
+        score += pts
+    else:
+        breakdown['junction_continuity'] = (0, w, 'no plateau model')
+
+    # ── PENALTIES (subtracted — bad fit indicators) ───────────────────────
+
+    if xPlateau is not None and len(xPlateau) > 1 and predPlateau is not None:
+        r2_full = r2_score(xPlateau['stress (bar)'], predPlateau)
+        penalty = -20 if r2_full < 0.5 else (-10 if r2_full < 0.7 else 0)
+        breakdown['plateau_r2_full_penalty'] = (penalty, 0, f'R²(full)={r2_full:.3f}')
+        score += penalty
+
+    if elasticModulus <= 0 or not (10 < elasticModulus < 5000):
+        breakdown['elastic_modulus_penalty'] = (-5, 0, f'E={elasticModulus:.1f} bar out of range')
+        score -= 5
+    else:
+        breakdown['elastic_modulus_penalty'] = (0, 0, f'E={elasticModulus:.1f} bar ok')
+
+    # ── CATASTROPHICS (bad DATA indicators — future: route to goodData_eval)
+
+    if slopePlateau > elasticModulus:
+        catastrophic = True
+        breakdown['catastrophic_slope_vs_modulus'] = (0, 0, f'slope={slopePlateau:.1f} > E={elasticModulus:.1f}')
+
+    if slopeDensification <= slopePlateau:
+        catastrophic = True
+        breakdown['catastrophic_slope_ordering'] = (0, 0, f'densif={slopeDensification:.1f} <= plateau={slopePlateau:.1f}')
+
+    pre_catastrophic_score = score
     if catastrophic:
         score = round(score * 0.5)
-        breakdown['_catastrophic_penalty'] = (0, 0, 'slope > modulus — score halved')
+
+    breakdown['_score_final'] = (score, 100, 'after catastrophic halving' if catastrophic else 'no catastrophic applied')
 
     good = score >= pass_threshold
-    print(f"Score: {score}/100 → {'PASS' if good else 'FAIL'}")
     for k, (pts, max_pts, note) in breakdown.items():
+        if k.startswith('_'):
+            continue
         print(f"  {k:35s} {pts:2d}/{max_pts}  {note}")
-    return good
+    if catastrophic:
+        print(f"  CATASTROPHIC HALVING: {pre_catastrophic_score} → {score}")
+    if data_flags:
+        print("  DATA FLAGS (no score impact — route to goodData_eval):")
+        for k, note in data_flags.items():
+            print(f"    {k}: {note}")
+    print(f"Score: {score}/100 → {'PASS' if good else 'FAIL'}")
+    return good, breakdown
 
 def goodFit_eval_old(modelPlateau, predPlateau, breakpoint1, elasticModulus, yieldStrength, xPlateau):
     slopePlateau = modelPlateau.coef_[0]
@@ -508,7 +493,7 @@ def goodFit_eval_old(modelPlateau, predPlateau, breakpoint1, elasticModulus, yie
         eval = True
     return eval
 
-def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=2, condition_name="", save_dir=None):
+def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=2, condition_name="", save_dir=None, label=""):
     """
     Call once per condition (after all reps processed) to show average stress-strain + CV.
     Comment out the call in process_zero_sample_pairs_pipeline to skip.
@@ -541,7 +526,8 @@ def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=
             for stress, strain in zip(stress_data, strain_data)
         ])
         avg_strain = np.mean(aligned, axis=0)
-        std_strain = np.std(aligned,  axis=0)
+        ##############CHEKC
+        std_strain = np.std(aligned,  axis=0, ddof=1)
 
         overall_avg = np.mean(avg_strain)
         overall_std = np.mean(std_strain)
@@ -554,8 +540,9 @@ def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=
                           avg_strain - std_strain,
                           avg_strain + std_strain,
                           color='grey', alpha=0.3, label='+/-1 SD')
+        title = f"{condition_name} — {label}" if label else condition_name
         plt.plot([], [], label=f'CV = {cv}')
-        plt.title(condition_name, fontsize=14)
+        plt.title(title, fontsize=14)
     else:
         _colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
         for j, df in enumerate(processed_curves):
@@ -564,7 +551,8 @@ def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=
                 continue
             plt.scatter(d['Disp_corrected (um)'], d['stress (bar)'],
                         color=_colors[j % len(_colors)], s=1, alpha=0.5, label=f"Rep {j+1}")
-        plt.title(condition_name + " — NO VALID CURVES", fontsize=14)
+        title = f"{condition_name} — {label} — NO VALID CURVES" if label else condition_name + " — NO VALID CURVES"
+        plt.title(title, fontsize=14)
 
     plt.xlabel('Strain', fontsize=16)
     plt.ylabel('Stress (bar)', fontsize=16)
@@ -576,9 +564,11 @@ def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=
     if SAVE_PLOTS and save_dir is not None:
         _sd = Path(save_dir)
         _sd.mkdir(parents=True, exist_ok=True)
-        plt.savefig(_sd / "Comparison_CV.png", dpi=150, bbox_inches='tight')
+        fname = f"Comparison_CV_{label}.png" if label else "Comparison_CV.png"
+        plt.savefig(_sd / fname, dpi=150, bbox_inches='tight')
     plt.close()
-    print(f"CV ({condition_name}): {cv}")
+    tag = f" [{label}]" if label else ""
+    print(f"CV ({condition_name}){tag}: {cv}")
     return cv
 
 
@@ -679,6 +669,8 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                 'Strain at 150 bar': np.nan,
                 'Strain at 500 bar': np.nan,
                 'Good Fit': False,
+                'Good Fit Score': None,
+                'Good Fit Breakdown': None,
                 'Average Standard Deviation': avg_standard_deviation,
             })
             continue
@@ -783,7 +775,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         xPlateau, xDensification, predPlateau, predDensification, changepoint, slopePlateau, slopeDensification, modelPlateau = find_changepoint_fit(data, breakpoint1, bp2, bp3, creep_level)
 
         if True:
-            good = goodFit_eval(
+            good, fit_breakdown = goodFit_eval(
                 data, elasticRegion, xPlateau, xDensification,
                 predElastic, predPlateau, predDensification,
                 modelElastic, modelPlateau,
@@ -822,6 +814,8 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                     "Strain at 150 bar":strain_150bar,
                     "Strain at 500 bar":strain_500bar,
                     "Good Fit":good,
+                    "Good Fit Score": fit_breakdown.get('_score_final', (None,))[0],
+                    "Good Fit Breakdown": json.dumps({k: {'pts': v[0], 'max': v[1], 'note': v[2]} for k, v in fit_breakdown.items()}),
                     "Average Standard Deviation":avg_standard_deviation}
             mechanicalProperties.append(dict)
 
@@ -1139,7 +1133,9 @@ def process_zero_sample_pairs_pipeline(
 
         condition_processed_curves = []
         condition_valid_curves = []
+        condition_passing_curves = []
         condition_properties = []
+        passing_properties = []
 
         for pair in payload["pairs"]:
             #MAKE REP FILE?
@@ -1239,14 +1235,48 @@ def process_zero_sample_pairs_pipeline(
             condition_properties.extend(interpreted)
             if interpreted and validData_eval(interpreted[0].get("Thickness", 0)):
                 condition_valid_curves.append(processed_sample_curve)
+                if interpreted[0].get("Good Fit", False):
+                    condition_passing_curves.append(processed_sample_curve)
+                    passing_properties.append(interpreted[0])
 
-        # ---- average curve across replicates (valid only) ----
-        cv = plot_average_curve(condition_processed_curves, condition_valid_curves, condition_name=condition_name, save_dir=condition_save_dir if SAVE_PLOTS else None)
-       
-        if cv is not None:
-            for prop in condition_properties:
-                prop["CV"] = cv
-        
+        # ---- skip aggregation if no pairs processed ----
+        if not condition_properties:
+            pipeline_result[condition_name] = {
+                "condition": condition_name,
+                "processed_curves": condition_processed_curves,
+                "mechanical_properties": [],
+                "pre_cv": np.nan,
+                "post_cv": np.nan,
+                "has_failures": False,
+                "passing_properties": [],
+            }
+            continue
+
+        # ---- average curve across replicates ----
+        has_failures = len(condition_passing_curves) < len(condition_valid_curves)
+
+        pre_cv = plot_average_curve(
+            condition_processed_curves, condition_valid_curves,
+            condition_name=condition_name,
+            label="preDiscard" if has_failures else "",
+            save_dir=condition_save_dir if SAVE_PLOTS else None,
+        )
+        pre_cv = pre_cv if pre_cv is not None else np.nan
+
+        if has_failures:
+            post_cv = plot_average_curve(
+                condition_processed_curves, condition_passing_curves,
+                condition_name=condition_name,
+                label="postDiscard",
+                save_dir=condition_save_dir if SAVE_PLOTS else None,
+            )
+            post_cv = post_cv if post_cv is not None else np.nan
+        else:
+            post_cv = pre_cv
+
+        for prop in condition_properties:
+            prop["CV"] = pre_cv
+
         avg_condition_properties = {"name": condition_name, "Trial": "average"}
         numeric_keys = ["Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
                 "Slope Plateau", "Slope Densification", "Creep Strain",
@@ -1262,6 +1292,10 @@ def process_zero_sample_pairs_pipeline(
             "condition": condition_name,
             "processed_curves": condition_processed_curves,
             "mechanical_properties": condition_properties,
+            "pre_cv": pre_cv,
+            "post_cv": post_cv,
+            "has_failures": has_failures,
+            "passing_properties": passing_properties,
         }
 
     return pipeline_result
@@ -1280,14 +1314,10 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             row_out = trial.copy()
             row_out["date"] = condition_date
             condition = trial["name"].split(" ")[0]
-            # Search all immediate subdirs of data_root for a folder matching condition.
-            params_path = None
-            for candidate in data_root.iterdir():
-                if candidate.is_dir() and (candidate / condition / "params.json").exists():
-                    params_path = candidate / condition / "params.json"
-                    break
-            if params_path is None:
-                params_path = data_root / "compression-test-data" / condition / "params.json"  # <<< PATH >>> hardcoded subfolder fallback
+            # Search up to 2 levels deep under data_root for {condition}/params.json
+            matches = sorted(data_root.glob(f"*/{condition}/params.json")) + \
+                      sorted(data_root.glob(f"**/{condition}/params.json"))
+            params_path = matches[0] if matches else data_root / "compression-test-data" / condition / "params.json"
             try:
                 with open(params_path, "r", encoding="utf-8") as f:
                     params = json.load(f)
@@ -1311,7 +1341,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
         rep_col_order = ["date", "name", "Trial", "Thickness", "Elastic Modulus",
                          "Yield Strength", "Changepoint", "Slope Plateau", "Slope Densification",
                          "Creep Strain", "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
-                         "Strain at 500 bar", "Good Fit", "Average Standard Deviation", "CV",
+                         "Strain at 500 bar", "Good Fit", "Good Fit Score", "Good Fit Breakdown", "Average Standard Deviation", "CV",
                          "mixing_temp", "bath_temp", "weight_percent", "volume",
                          "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
         new_df = new_df.reindex(columns=[c for c in rep_col_order if c in new_df.columns])
@@ -1321,7 +1351,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             new_df = pd.concat([existing, new_df], ignore_index=True)
         new_df.to_csv(output_path, index=False)
 
-    # LLM CSV — computed from rep_rows grouped by condition
+    # LLM CSV — one row per condition, two rows if some reps failed
     if rep_rows:
         mech_cols = ["Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
                      "Slope Plateau", "Slope Densification", "Creep Strain",
@@ -1329,28 +1359,56 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                      "Strain at 500 bar", "CV"]
         param_cols = ["mixing_temp", "bath_temp", "weight_percent", "volume",
                       "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
+        no_sd_cols = {"CV"}
+
+        computed_agg_rows = []
         rep_df = pd.DataFrame(rep_rows)
         rep_df["_condition"] = rep_df["name"].str.split(" ").str[0]
 
-        no_sd_cols = {"CV"}
-        computed_agg_rows = []
-        for cond_name, group in rep_df.groupby("_condition"):
-            agg_row = {"name": cond_name, "date": group["date"].iloc[0]}
-            for p in param_cols:
-                if p in group.columns:
-                    agg_row[p] = group[p].iloc[0]
-            for k in mech_cols:
-                if k in group.columns:
-                    vals = pd.to_numeric(group[k], errors="coerce").dropna().values
-                    agg_row[f"{k} Mean"] = float(np.nanmean(vals)) if len(vals) > 0 else np.nan
+        for condition_key, payload in output.items():
+            if not payload.get("mechanical_properties"):
+                continue
+            cond_name = payload["condition"]
+            has_failures = payload.get("has_failures", False)
+            pre_cv = payload.get("pre_cv", np.nan)
+            post_cv = payload.get("post_cv", np.nan)
+            cond_group = rep_df[rep_df["_condition"] == cond_name]
+            date_val = cond_group["date"].iloc[0] if not cond_group.empty else datetime.datetime.now().strftime("%Y-%m-%d\n%H:%M:%S")
+            params_row = {p: cond_group[p].iloc[0] if p in cond_group.columns and not cond_group.empty else None for p in param_cols}
+
+            def _build_agg_row(name, props_iter, cv_val):
+                agg_row = {"name": name, "date": date_val}
+                agg_row.update(params_row)
+                for k in mech_cols:
+                    if k == "CV":
+                        agg_row["CV Mean"] = float(cv_val) if cv_val is not None and not (isinstance(cv_val, float) and np.isnan(cv_val)) else np.nan
+                        continue
+                    vals = []
+                    for prop in props_iter:
+                        v = prop.get(k)
+                        if v is not None:
+                            try:
+                                vals.append(float(v))
+                            except (TypeError, ValueError):
+                                pass
+                    agg_row[f"{k} Mean"] = float(np.nanmean(vals)) if vals else np.nan
                     if k not in no_sd_cols:
-                        agg_row[f"{k} SD"] = float(np.nanstd(vals)) if len(vals) > 0 else np.nan
-            mech_res  = str({f"{k} Mean": agg_row.get(f"{k} Mean") for k in mech_cols if agg_row.get(f"{k} Mean") is not None})
-            agg_row["formatted_parameters"] = formatted_parameters(agg_row)
-            agg_row["initial_report"] = ""
-            agg_row["formatted_parameters_withProp"] = formatted_parameters(agg_row) + "\n\n" + mech_res
-            agg_row["final_report"] = ""
-            computed_agg_rows.append(agg_row)
+                        agg_row[f"{k} SD"] = float(np.nanstd(vals)) if vals else np.nan
+                mech_res = str({f"{k} Mean": agg_row.get(f"{k} Mean") for k in mech_cols if agg_row.get(f"{k} Mean") is not None})
+                agg_row["formatted_parameters"] = formatted_parameters(agg_row)
+                agg_row["initial_report"] = ""
+                agg_row["formatted_parameters_withProp"] = formatted_parameters(agg_row) + "\n\n" + mech_res
+                agg_row["final_report"] = ""
+                return agg_row
+
+            all_valid_props = [r for r in payload["mechanical_properties"] if r.get("Trial") != "average"]
+            pre_row_name = cond_name if not has_failures else f"{cond_name}_preDiscard"
+            computed_agg_rows.append(_build_agg_row(pre_row_name, all_valid_props, pre_cv))
+
+            if has_failures:
+                passing_props = payload.get("passing_properties", [])
+                if passing_props:
+                    computed_agg_rows.append(_build_agg_row(f"{cond_name}_postDiscard", passing_props, post_cv))
 
         interleaved = [col for k in mech_cols for col in ([f"{k} Mean", f"{k} SD"] if k not in no_sd_cols else [f"{k} Mean"])]
         condition_cols = ["mixing_temp", "bath_temp", "weight_percent", "volume",

@@ -12,16 +12,23 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       processing_changed: ${{ steps.detect.outputs.changed }}
+      csv_changed: ${{ steps.detect.outputs.csv_changed }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
       - id: detect
         run: |
-          if git diff --name-only HEAD~1 HEAD | grep -qE "processing_29\.py|run_tests\.py|fake-data/"; then
+          DIFF=$(git diff --name-only HEAD~1 HEAD)
+          if echo "$DIFF" | grep -qE "processing_29\.py|run_tests\.py|fake-data/"; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
             echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+          if echo "$DIFF" | grep -qE "processing_29\.py|TESTS/test_csv\.py|TESTS/test_guardrails\.py"; then
+            echo "csv_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "csv_changed=false" >> $GITHUB_OUTPUT
           fi
 
   secret-scan:
@@ -83,8 +90,27 @@ jobs:
           python-version: "3.11"
       - run: python .github/scripts/validate_run_loop.py
 
+  csv-tests:
+    needs: [check-changes, secret-scan, syntax-check]
+    if: needs.check-changes.outputs.csv_changed == 'true'
+    runs-on: ubuntu-latest
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: CSV edge case tests
+        run: python TESTS/test_csv.py
+      - name: Guardrail tests
+        run: python TESTS/test_guardrails.py
+
   smoke-test:
-    needs: [check-changes, secret-scan, syntax-check, validate-structure]
+    needs: [check-changes, secret-scan, syntax-check, validate-structure, csv-tests]
     if: needs.check-changes.outputs.processing_changed == 'true'
     runs-on: ubuntu-latest
     env:
