@@ -6,9 +6,10 @@ Edit DATA_ROOT and CONDITION below, then:
 
 Outputs:
   - pipeline_plots_YYYY-MM-DD/<condition>/  — PNG plots
-  - test_output.csv                         — per-rep mechanical properties
-  - test_llm_output.csv                     — LLM scaffold (averages, filled after API call)
-  - test_llm_result.json                    — parsed next-experiment params from LLM
+  - test_reps.csv                           — per-rep mechanical properties
+  - test_agg.csv                            — full aggregated CSV (pre+post rows when failures)
+  - test_agg_llm.csv                        — one promoted row per condition (sent to LLM)
+  - test_llm_params.json                    — parsed next-experiment params from LLM
 """
 
 import sys, json, re
@@ -24,9 +25,10 @@ import activeLearning_29 as al                 # <<< IMPORT >>> must be in same 
 DATA_ROOT  = Path(__file__).parent.parent 
 CONDITION  = "17-5deg-60s-N2-1800s"
 # <<< PATH >>> output files land beside this script
-OUTPUT_CSV = Path(__file__).parent / "csv_tests" / "test_master.csv"
-LLM_CSV    = Path(__file__).parent / "csv_tests" / "test_llm.csv"
-JSON_OUT   = Path(__file__).parent / "csv_tests" / "test_llm_params.json"
+OUTPUT_CSV  = Path(__file__).parent / "csv_tests" / "test_reps.csv"
+AGG_CSV     = Path(__file__).parent / "csv_tests" / "test_agg.csv"
+AGG_LLM_CSV = Path(__file__).parent / "csv_tests" / "test_agg_llm.csv"
+JSON_OUT    = Path(__file__).parent / "csv_tests" / "test_llm_params.json"
 # ────────────────────────────────────────────────────────────────────────────
 
 print(f"Data root : {DATA_ROOT}")
@@ -46,9 +48,17 @@ output = processing.process_zero_sample_pairs_pipeline(
     condition_filter=CONDITION,
 )
 
-processing.save_to_csv(output, data_root=DATA_ROOT, output_path=OUTPUT_CSV, aggregate_path=LLM_CSV)
-print(f"\nReps CSV : {OUTPUT_CSV}")
-print(f"LLM CSV  : {LLM_CSV}")
+processing.save_to_csv(output, data_root=DATA_ROOT, output_path=OUTPUT_CSV, aggregate_path=AGG_CSV)
+
+_agg_df = pd.read_csv(AGG_CSV)
+_has_post = (_agg_df["name"] == f"{CONDITION}_postDiscard").any()
+_source = "postDiscard" if _has_post else ""
+# Change _source to "preDiscard" to promote the pre-discard version instead
+processing.promote_to_main(CONDITION, _source, AGG_CSV, AGG_LLM_CSV)
+
+print(f"\nReps CSV    : {OUTPUT_CSV}")
+print(f"Agg CSV     : {AGG_CSV}")
+print(f"Agg LLM CSV : {AGG_LLM_CSV}")
 
 # ── LLM calls ───────────────────────────────────────────────────────────────
 LLM_PROP_KEYS = ["Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar", "Strain at 500 bar", "CV"]
@@ -57,11 +67,11 @@ print("\n" + "=" * 80)
 print("RUNNING LLM CALLS")
 print("=" * 80)
 
-if not LLM_CSV.exists() or LLM_CSV.stat().st_size == 0:
-    raise FileNotFoundError(f"LLM CSV missing or empty after save_to_csv — check CONDITION matches a folder in old_data: {LLM_CSV}")
-llm_df = pd.read_csv(LLM_CSV)
+if not AGG_LLM_CSV.exists() or AGG_LLM_CSV.stat().st_size == 0:
+    raise FileNotFoundError(f"Agg LLM CSV missing or empty after promote_to_main — check CONDITION matches a folder: {AGG_LLM_CSV}")
+llm_df = pd.read_csv(AGG_LLM_CSV)
 if llm_df.empty:
-    raise ValueError(f"LLM CSV has no data rows: {LLM_CSV}")
+    raise ValueError(f"Agg LLM CSV has no data rows: {AGG_LLM_CSV}")
 for col in ["formatted_parameters_withProp", "initial_report", "final_report"]:
     if col in llm_df.columns:
         llm_df[col] = llm_df[col].astype(object)
@@ -99,8 +109,8 @@ else:
         print(f"  WARNING: JSON parse failed ({e}):\n{match.group(0)}")
         results = [{"condition": row["name"], "next_params": None, "raw": params_suggestion}]
 
-llm_df.to_csv(LLM_CSV, index=False)
-print(f"\nLLM CSV updated: {LLM_CSV}")
+llm_df.to_csv(AGG_LLM_CSV, index=False)
+print(f"\nAgg LLM CSV updated: {AGG_LLM_CSV}")
 
 with open(JSON_OUT, "w") as f:
     json.dump(results, f, indent=2)

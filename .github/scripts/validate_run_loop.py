@@ -11,7 +11,8 @@ REQUIRED_CALLS = [
     "LLM_AL",
     "url.run_test",
     "aggregate_path",
-    "CSV_LLM_OUT.exists()",
+    "CSV_AGG_LLM",
+    "promote_to_main",
     "json.dump",
 ]
 

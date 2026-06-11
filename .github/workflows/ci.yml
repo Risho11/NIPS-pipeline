@@ -13,6 +13,8 @@ jobs:
     outputs:
       processing_changed: ${{ steps.detect.outputs.changed }}
       csv_changed: ${{ steps.detect.outputs.csv_changed }}
+      processing_core_changed: ${{ steps.detect.outputs.processing_core_changed }}
+      changed_tags: ${{ steps.detect.outputs.changed_tags }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,6 +31,26 @@ jobs:
             echo "csv_changed=true" >> $GITHUB_OUTPUT
           else
             echo "csv_changed=false" >> $GITHUB_OUTPUT
+          fi
+          # Detect meaningful (non-comment, non-whitespace) changes in processing_29.py
+          PY_DIFF=$(git diff HEAD~1 HEAD -- processing_29.py)
+          MEANINGFUL=$(echo "$PY_DIFF" | grep '^[+-]' | grep -v '^+++\|^---' | grep -v '^[+-][[:space:]]*#' | grep -v '^[+-][[:space:]]*$' | wc -l | tr -d ' ')
+          if [ "$MEANINGFUL" -gt "0" ]; then
+            echo "processing_core_changed=true" >> $GITHUB_OUTPUT
+            # Map changed function names to test tags
+            TAGS=""
+            if echo "$PY_DIFF" | grep -qE "load_zero_sample_pairs|pair_samples_with_zeros|cluster|_pair_chronological"; then
+              TAGS="$TAGS clustering"
+            fi
+            if echo "$PY_DIFF" | grep -qE "process_zero_sample_pairs_pipeline|save_to_csv|promote_to_main|goodFit_eval|elastic_peak|find_breakpoints|interpretData|pure_pw|double_pw|find_changepoint|validData_eval|subtract_zero|shift_sample|strain|slope|creep|elastic|yield"; then
+              TAGS="$TAGS pipeline"
+            fi
+            # Fallback: if no tags matched, run both
+            [ -z "$(echo "$TAGS" | tr -d ' ')" ] && TAGS="clustering pipeline"
+            echo "changed_tags=${TAGS}" >> $GITHUB_OUTPUT
+          else
+            echo "processing_core_changed=false" >> $GITHUB_OUTPUT
+            echo "changed_tags=" >> $GITHUB_OUTPUT
           fi
 
   secret-scan:
@@ -141,4 +163,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run pipeline tests
-        run: python run_tests.py --skip nine-per-phase-1800s double-run-4-clusters multi-date-two-runs
+        run: |
+          CORE="${{ needs.check-changes.outputs.processing_core_changed }}"
+          TAGS="${{ needs.check-changes.outputs.changed_tags }}"
+          if [ "$CORE" = "false" ]; then
+            echo "Only whitespace/comment changes in processing_29.py — skipping full test run"
+            exit 0
+          fi
+          python run_tests.py --tags $TAGS --skip nine-per-phase-1800s double-run-4-clusters multi-date-two-runs

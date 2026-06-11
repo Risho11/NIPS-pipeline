@@ -63,6 +63,20 @@ EXPECTED_PAIRS = {
     "nine-per-phase-1800s":       9,
     "double-run-4-clusters":      6,
     "multi-date-two-runs":        6,
+    "pipeline-all-pass":          3,
+    "pipeline-some-fail":         3,
+}
+
+CONDITION_TAGS = {
+    "short-nips-30s":             {"clustering"},
+    "nips-300s-gap-within-zeros": {"clustering"},
+    "nips-600s-tight-boundary":   {"clustering"},
+    "nips-660s-just-over":        {"clustering"},
+    "nine-per-phase-1800s":       {"clustering"},
+    "double-run-4-clusters":      {"clustering"},
+    "multi-date-two-runs":        {"clustering"},
+    "pipeline-all-pass":          {"pipeline"},
+    "pipeline-some-fail":         {"pipeline"},
 }
 
 pass_count = 0
@@ -103,9 +117,10 @@ def test_full_pipeline(condition, real_llm=False):
     label = f"{condition:35s} full pipeline"
     tmp = tempfile.mkdtemp()
     try:
-        tmp_csv     = Path(tmp) / "out.csv"
-        tmp_llm_csv = Path(tmp) / "out_llm.csv"
-        tmp_json    = Path(tmp) / f"llm_result_{condition}.json"
+        tmp_csv         = Path(tmp) / "out.csv"
+        tmp_agg_csv     = Path(tmp) / "out_agg.csv"
+        tmp_agg_llm_csv = Path(tmp) / "out_agg_llm.csv"
+        tmp_json        = Path(tmp) / f"llm_result_{condition}.json"
 
         # Step 1: process pipeline
         output = processing.process_zero_sample_pairs_pipeline(
@@ -121,18 +136,22 @@ def test_full_pipeline(condition, real_llm=False):
             condition_filter=condition,
         )
 
-        # Step 2: save CSV
+        # Step 2: save agg CSV and promote one row to LLM CSV
         processing.save_to_csv(output, data_root=DATA_ROOT,
-                               output_path=tmp_csv, aggregate_path=tmp_llm_csv)
-
-        # Step 3: read LLM CSV
+                               output_path=tmp_csv, aggregate_path=tmp_agg_csv)
         import pandas as pd
-        if not tmp_llm_csv.exists() or tmp_llm_csv.stat().st_size == 0:
-            report(label, False, "LLM CSV not written by save_to_csv")
+        _agg = pd.read_csv(tmp_agg_csv)
+        _has_post = (_agg["name"] == f"{condition}_postDiscard").any()
+        _src = "postDiscard" if _has_post else ""
+        processing.promote_to_main(condition, _src, tmp_agg_csv, tmp_agg_llm_csv)
+
+        # Step 3: read LLM CSV (one promoted row per condition)
+        if not tmp_agg_llm_csv.exists() or tmp_agg_llm_csv.stat().st_size == 0:
+            report(label, False, "Agg LLM CSV not written by promote_to_main")
             return
-        llm_df = pd.read_csv(tmp_llm_csv)
+        llm_df = pd.read_csv(tmp_agg_llm_csv)
         if llm_df.empty:
-            report(label, False, "LLM CSV has no rows")
+            report(label, False, "Agg LLM CSV has no rows")
             return
         for col in ["initial_report", "final_report"]:
             if col in llm_df.columns:
@@ -142,7 +161,6 @@ def test_full_pipeline(condition, real_llm=False):
         fmt_params = llm_df.at[idx, "formatted_parameters"]
 
         # Step 4: LLM calls (mocked or real)
-        import pandas as pd
         mech_subset = {f"{k} Mean": llm_df.at[idx, f"{k} Mean"]
                        for k in LLM_PROP_KEYS
                        if f"{k} Mean" in llm_df.columns and pd.notna(llm_df.at[idx, f"{k} Mean"])}
@@ -157,14 +175,14 @@ def test_full_pipeline(condition, real_llm=False):
             final_report      = initial_report + "\n" + fmt_params_with_prop
             params_suggestion = MOCK_LLM_AL_RESPONSE
 
-        # Step 5: write reports back to CSV
+        # Step 5: write reports back to agg LLM CSV
         llm_df.at[idx, "initial_report"] = initial_report
         llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + fmt_params_with_prop
         llm_df.at[idx, "final_report"]   = final_report
-        llm_df.to_csv(tmp_llm_csv, index=False)
+        llm_df.at[idx, "LLM_suggestion"] = params_suggestion
+        llm_df.to_csv(tmp_agg_llm_csv, index=False)
 
         # Step 6: parse and write JSON
-        llm_df.at[idx, "LLM_suggestion"] = params_suggestion
         match = re.search(r'\{[^{}]*\}', params_suggestion)
         if not match:
             report(label, False, "LLM returned no JSON block")
@@ -177,8 +195,8 @@ def test_full_pipeline(condition, real_llm=False):
         # Validate
         failures = []
 
-        # CSV columns
-        llm_df2 = pd.read_csv(tmp_llm_csv)
+        # Agg LLM CSV columns and content (one promoted row per condition)
+        llm_df2 = pd.read_csv(tmp_agg_llm_csv)
         for col in ["name", "formatted_parameters", "initial_report", "final_report"]:
             if col not in llm_df2.columns:
                 failures.append(f"CSV missing column '{col}'")
@@ -221,6 +239,8 @@ def main():
                         help="Run tests for a single condition only")
     parser.add_argument("--skip", nargs="+", default=[],
                         help="Conditions to skip (e.g. --skip nine-per-phase-1800s)")
+    parser.add_argument("--tags", nargs="+", default=None,
+                        help="Only run conditions tagged with any of these tags (e.g. --tags clustering pipeline)")
     args = parser.parse_args()
 
     if args.real_llm:
@@ -230,6 +250,9 @@ def main():
 
     conditions = [args.condition] if args.condition else list(EXPECTED_PAIRS.keys())
     conditions = [c for c in conditions if c not in args.skip]
+    if args.tags:
+        tag_set = set(args.tags)
+        conditions = [c for c in conditions if CONDITION_TAGS.get(c, set()) & tag_set]
 
     print(f"\nRunning tests ({'real LLM' if args.real_llm else 'mocked LLM'})\n")
 
