@@ -85,11 +85,16 @@ def make_load_profile():
         l_list.append(300.0)
         sp_list.append(1800.0)
 
+    # Set Point drops back to 0 immediately once unload begins (matches real
+    # tester behavior). A proportional ramp-down here would leave low-load
+    # unload rows with Set Point > 1, which after subtract_zero_from_sample's
+    # sort-by-load can land at index 0 of the cutoff-filtered data and collapse
+    # the fracture-point trim to a single row.
     n_unload = 100
     for i in range(n_unload):
         t_list.append(round(45.1 + i * dt, 1))
         l_list.append(300.0 * (1 - i / (n_unload - 1)))
-        sp_list.append(1800.0 * (1 - i / (n_unload - 1)))
+        sp_list.append(0.0)
 
     return np.array(t_list), np.array(l_list), np.array(sp_list)
 
