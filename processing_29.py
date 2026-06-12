@@ -227,7 +227,7 @@ def elastic_peak(data, predictions):
         print(f"Piecewise Chosen! {bp1_pw} | Drop Calculation: {breakpoint1}")
         return bp1_double if bp1_double is not None and bp1_double <= 0 else bp1_pw
         #return bp1_pw
-    if bp1_pw < 0.2:
+    if bp1_pw is not None and bp1_pw < 0.2:
         print(f"Piecewise Chosen! {bp1_pw} | Drop Calculation: {breakpoint1}")
         return bp1_double if bp1_double is not None and bp1_double <= 0 else bp1_pw
     print(f"Drop Chosen! {breakpoint1} | Piecewise Calculation: {bp1_pw}")
