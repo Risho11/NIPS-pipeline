@@ -170,4 +170,4 @@ jobs:
             echo "Only whitespace/comment changes in processing_29.py — skipping full test run"
             exit 0
           fi
-          python run_tests.py --tags $TAGS --skip nine-per-phase-1800s
+          python run_tests.py --tags $TAGS --skip nine-per-phase-1800s double-run-4-clusters multi-date-two-runs
