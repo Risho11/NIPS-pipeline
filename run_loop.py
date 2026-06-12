@@ -99,6 +99,16 @@ def move_and_rename(params):
 
 LLM_PROP_KEYS = ["Strain at 50 bar", "CV"]
 
+def _fix_json_literals(s):
+    """Normalize Python-style True/False/None to JSON true/false/null.
+
+    LLMs sometimes emit Python dict syntax (capitalized booleans) instead of
+    valid JSON, which would otherwise raise json.JSONDecodeError and stop the loop.
+    """
+    return re.sub(r'\b(True|False|None)\b',
+                   lambda m: {'True': 'true', 'False': 'false', 'None': 'null'}[m.group(0)],
+                   s)
+
 def _run_pipeline_and_trigger_next(params):
     try:
         print("\n[1/5] organising files...")
@@ -163,7 +173,7 @@ def _run_pipeline_and_trigger_next(params):
         match = re.search(r'\{[^{}]*\}', params_suggestion)
         if not match:
             raise ValueError(f"LLM returned no JSON object:\n{params_suggestion}")
-        new_params = json.loads(match.group(0))
+        new_params = json.loads(_fix_json_literals(match.group(0)))
 
         json_out = DATA_ROOT / f"llm_result_{condition_name}.json"  # <<< PATH >>>
         with open(json_out, "w") as f:
