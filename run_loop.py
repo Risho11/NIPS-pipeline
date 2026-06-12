@@ -175,6 +175,13 @@ def _run_pipeline_and_trigger_next(params):
             raise ValueError(f"LLM returned no JSON object:\n{params_suggestion}")
         new_params = json.loads(_fix_json_literals(match.group(0)))
 
+        # The LLM only suggests values for params it was asked to tune, and may
+        # omit fixed ones (e.g. "volume"). Carry over any missing keys from the
+        # current run's params so new_params matches the INITIAL_PARAMS schema
+        # exactly before being sent to the robot.
+        for key in INITIAL_PARAMS:
+            new_params.setdefault(key, params[key])
+
         json_out = DATA_ROOT / f"llm_result_{condition_name}.json"  # <<< PATH >>>
         with open(json_out, "w") as f:
             json.dump(new_params, f, indent=2)
