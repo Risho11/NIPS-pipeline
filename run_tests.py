@@ -188,12 +188,19 @@ def test_full_pipeline(condition, real_llm=False):
             report(label, False, "LLM returned no JSON block")
             return
         new_params = json.loads(match.group(0))
-        results = [{"condition": condition, "next_params": new_params}]
         with open(tmp_json, "w") as f:
-            json.dump(results, f, indent=2)
+            json.dump(new_params, f, indent=2)
 
         # Validate
         failures = []
+
+        # JSON output must be a flat params dict matching params.json's schema
+        # (not wrapped in [{"condition":..., "next_params":...}])
+        with open(tmp_json) as f:
+            json_params = json.load(f)
+        if not isinstance(json_params, dict):
+            failures.append(f"llm_result JSON is not a flat params dict (got {type(json_params).__name__})")
+            json_params = {}
 
         # Agg LLM CSV columns and content (one promoted row per condition)
         llm_df2 = pd.read_csv(tmp_agg_llm_csv)
@@ -209,14 +216,14 @@ def test_full_pipeline(condition, real_llm=False):
 
         # JSON keys
         for key in REQUIRED_PARAM_KEYS:
-            if key not in new_params:
+            if key not in json_params:
                 failures.append(f"JSON missing key '{key}'")
 
         # Range check (real LLM only)
         if real_llm:
             for key, (lo, hi) in PARAM_RANGES.items():
-                if key in new_params:
-                    val = new_params[key]
+                if key in json_params:
+                    val = json_params[key]
                     if not (lo <= val <= hi):
                         failures.append(f"{key}={val} out of range [{lo},{hi}]")
 

@@ -165,10 +165,9 @@ def _run_pipeline_and_trigger_next(params):
             raise ValueError(f"LLM returned no JSON object:\n{params_suggestion}")
         new_params = json.loads(match.group(0))
 
-        results = [{"condition": condition_name, "next_params": new_params}]
         json_out = DATA_ROOT / f"llm_result_{condition_name}.json"  # <<< PATH >>>
         with open(json_out, "w") as f:
-            json.dump(results, f, indent=2)
+            json.dump(new_params, f, indent=2)
         print(f"  JSON result: {json_out}")
 
         print(f"[5/5] next params: {new_params}")
