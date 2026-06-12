@@ -31,7 +31,7 @@ INITIAL_PARAMS = {
     "volume": 1000,
     "pullcast_speed": 10,
     "nitrogen": False,
-    "coupon_to_bath_wait_time": 6,
+    "coupon_to_bath_wait_time": 7,
     "nips_bath_wait_time": 30,
 }
 # <<< PATH >>> project root = folder containing this script
