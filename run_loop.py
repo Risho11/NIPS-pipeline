@@ -182,14 +182,27 @@ def _run_pipeline_and_trigger_next(params):
         for key in INITIAL_PARAMS:
             new_params.setdefault(key, params[key])
 
+        # The LLM may emit numbers as floats or strings (e.g. 60.0 or "60")
+        # where the robot expects the exact types used in INITIAL_PARAMS
+        # (int/bool) — coerce so new_params matches those types exactly.
+        for key, reference in INITIAL_PARAMS.items():
+            if isinstance(reference, bool):
+                new_params[key] = bool(new_params[key])
+            elif isinstance(reference, int):
+                new_params[key] = int(new_params[key])
+
         json_out = DATA_ROOT / f"llm_result_{condition_name}.json"  # <<< PATH >>>
         with open(json_out, "w") as f:
             json.dump(new_params, f, indent=2)
         print(f"  JSON result: {json_out}")
 
         print(f"[5/5] next params: {new_params}")
-        url.run_test(new_params)
-        # response = urllib.request.urlopen("http://169.254.46.48:8000/run", json.dumps(new_params).encode())
+        try:
+            url.run_test(new_params)
+        except Exception as e:
+            print(f"  ERROR sending params to robot: {e}")
+            print(f"  payload was: {json.dumps(new_params)}")
+            raise
 
     except json.JSONDecodeError:
         print("Active learning returned invalid JSON — loop stopped:", params_suggestion)
