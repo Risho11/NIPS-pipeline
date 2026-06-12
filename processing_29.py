@@ -28,8 +28,8 @@ SAVE_PLOTS = True   # set False to disable saving
 # <<< PATH >>> plots saved beside processing_29.py, not beside run_loop.py
 _caller = Path(sys.argv[0]).stem if sys.argv else ""
 _ts = datetime.datetime.today().strftime('%Y-%m-%d') if "test" in _caller else datetime.datetime.today().strftime('%Y-%m-%d')
-_prefix = "test" if "test" in _caller else "run"
-SAVE_ROOT  = Path(__file__).parent / "pipeline-plots/pseudo-runs" / f"{_prefix}-{_ts}"
+_prefix = "pseudo-runs/test" if "test" in _caller else "run"
+SAVE_ROOT  = Path(__file__).parent / "pipeline-plots" / f"{_prefix}-{_ts}"
 # ─────────────────────────────────────────────────────────────────────────
 
 
