@@ -784,12 +784,27 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         breakpoint1 = elastic_peak(data, predictions)
         elasticRegion = data[data['strain'] <= breakpoint1]
 
+        if len(elasticRegion) < 2:
+            # elastic_peak returned a breakpoint outside the data's strain range
+            # (e.g. a degenerate piecewise-regression fit) — retry with a
+            # conservative fallback breakpoint before giving up
+            breakpoint1 = float(data['strain'].quantile(0.25))
+            elasticRegion = data[data['strain'] <= breakpoint1]
+
+        elastic_fit_failed = len(elasticRegion) < 2
+
         #calculate the elastic modulus and yield strength
-        modelElastic = LinearRegression()
-        modelElastic.fit(elasticRegion['strain'].values.reshape(-1, 1), elasticRegion['stress (bar)'].values)
-        elasticModulus = modelElastic.coef_[0]
-        yieldStrength = modelElastic.predict(np.array([[breakpoint1]]))
-        predElastic = modelElastic.predict(elasticRegion[['strain']])
+        if elastic_fit_failed:
+            modelElastic = None
+            elasticModulus = 0.0
+            yieldStrength = np.array([0.0])
+            predElastic = None
+        else:
+            modelElastic = LinearRegression()
+            modelElastic.fit(elasticRegion['strain'].values.reshape(-1, 1), elasticRegion['stress (bar)'].values)
+            elasticModulus = modelElastic.coef_[0]
+            yieldStrength = modelElastic.predict(np.array([[breakpoint1]]))
+            predElastic = modelElastic.predict(elasticRegion[['strain']])
 
         regions = data[data['strain'] >= breakpoint1]
 
@@ -800,20 +815,25 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         xPlateau, xDensification, predPlateau, predDensification, changepoint, slopePlateau, slopeDensification, modelPlateau = find_changepoint_fit(data, breakpoint1, bp2, bp3, creep_level)
 
         if True:
-            good, fit_breakdown = goodFit_eval(
-                data, elasticRegion, xPlateau, xDensification,
-                predElastic, predPlateau, predDensification,
-                modelElastic, modelPlateau,
-                gam,
-                breakpoint1,
-                changepoint,
-                float(yieldStrength[0]),
-                elasticModulus,
-                slopePlateau,
-                slopeDensification,
-                creep_level=creep_level,
-                pass_threshold=70,
-            )
+            if elastic_fit_failed:
+                good = False
+                fit_breakdown = {'_score_final': (0, 100, 'elastic region fit failed — no points to fit')}
+                print("  ELASTIC FIT FAILED: breakpoint1 outside data range — score forced to 0")
+            else:
+                good, fit_breakdown = goodFit_eval(
+                    data, elasticRegion, xPlateau, xDensification,
+                    predElastic, predPlateau, predDensification,
+                    modelElastic, modelPlateau,
+                    gam,
+                    breakpoint1,
+                    changepoint,
+                    float(yieldStrength[0]),
+                    elasticModulus,
+                    slopePlateau,
+                    slopeDensification,
+                    creep_level=creep_level,
+                    pass_threshold=70,
+                )
 
             '''
             wait why the heck is the dictionary only appended when its like not 0... anyway
@@ -847,7 +867,8 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
 
 
             #plotted linear models of each region
-            plt.plot(elasticRegion['strain'], predElastic, color='blue',  label='Elastic Region', linewidth=3)
+            if predElastic is not None:
+                plt.plot(elasticRegion['strain'], predElastic, color='blue',  label='Elastic Region', linewidth=3)
             #print(xPlateau)
             if xPlateau['strain'] is not None and predPlateau is not None:
                 plt.plot(xPlateau['strain'], predPlateau, color='orange', label="Plateau Region", linewidth=3)
