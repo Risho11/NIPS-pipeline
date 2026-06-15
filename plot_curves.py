@@ -30,7 +30,7 @@ def show():
     display(Image(buf.read()))
 
 # %% Pick condition — edit this, then run the cell below
-CONDITION = None  # None = all; or e.g. "17-13deg-10s-NoN2-30s"
+CONDITION = "17-5deg-7s-NoN2-30s"  # None = all; or e.g. "17-13deg-10s-NoN2-30s"
 
 # %% List conditions
 conditions = sorted(
@@ -39,7 +39,7 @@ conditions = sorted(
 )
 print(f"{'All' if CONDITION is None else CONDITION} — {len(conditions)} available:")
 for c in conditions:
-    print(f"  {c}")
+    print   (f"  {c}")
 
 # %% Run — segmentation + derivative plots per curve
 pairs_by_condition = p.load_zero_sample_pairs_by_condition(
@@ -148,9 +148,19 @@ for condition_name, payload in pairs_by_condition.items():
             slopePlateau, slopeDensification, modelPlateau = \
             p.find_changepoint_fit(data, breakpoint1, bp2, bp3, creep_level)
 
-        eval_result = p.goodFit_eval(modelPlateau, predPlateau,
-                                     np.array([[breakpoint1]]),
-                                     elastic_modulus, yield_strength, xPlateau)
+        eval_result, _ = p.goodFit_eval(
+            data, elastic_region, xPlateau, xDensification,
+            pred_elastic, predPlateau, predDensification,
+            model_elastic, modelPlateau,
+            gam,
+            breakpoint1,
+            changepoint,
+            float(yield_strength[0]),
+            elastic_modulus,
+            slopePlateau,
+            slopeDensification,
+            creep_level=creep_level,
+        )
 
         plt.plot(elastic_region["strain"], pred_elastic, color="blue", label="Elastic", linewidth=3)
         if predPlateau is not None and len(xPlateau) > 0:
@@ -224,3 +234,5 @@ for condition_name, payload in pairs_by_condition.items():
         ax2.set_xlabel("Strain"); ax2.legend()
         plt.tight_layout()
         show()
+
+# %%

@@ -18,7 +18,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where processing_29.py lives
 import processing_29 as processing             # <<< IMPORT >>> must be in same folder
-import activeLearning_29 as al                 # <<< IMPORT >>> must be in same folder
+#import activeLearning_29 as al                 # <<< IMPORT >>> must be in same folder
 
 # ── edit these ──────────────────────────────────────────────────────────────
 # <<< PATH >>> Chooses condition.

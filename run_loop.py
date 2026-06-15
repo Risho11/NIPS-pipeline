@@ -31,8 +31,18 @@ INITIAL_PARAMS = {
     "volume": 1000,
     "pullcast_speed": 10,
     "nitrogen": False,
-    "coupon_to_bath_wait_time": 6,
+    "coupon_to_bath_wait_time": 9,
     "nips_bath_wait_time": 30,
+}
+PARAMS_SCHEMA = {
+    "mixing_temp":              (int, float),
+    "bath_temp":                (int, float),
+    "weight_percent":           (int, float),
+    "volume":                   (int, float),
+    "pullcast_speed":           (int, float),
+    "nitrogen":                 (bool,),
+    "coupon_to_bath_wait_time": (int, float),
+    "nips_bath_wait_time":      (int, float),
 }
 # <<< PATH >>> project root = folder containing this script
 DATA_ROOT    = Path(__file__).parent
@@ -99,15 +109,84 @@ def move_and_rename(params):
 
 LLM_PROP_KEYS = ["Strain at 50 bar", "CV"]
 
-def _fix_json_literals(s):
-    """Normalize Python-style True/False/None to JSON true/false/null.
 
-    LLMs sometimes emit Python dict syntax (capitalized booleans) instead of
-    valid JSON, which would otherwise raise json.JSONDecodeError and stop the loop.
-    """
-    return re.sub(r'\b(True|False|None)\b',
-                   lambda m: {'True': 'true', 'False': 'false', 'None': 'null'}[m.group(0)],
-                   s)
+def _extract_next_params(raw_text):
+    """Extract the next_params dict from LLM output. Tries multiple formats."""
+    def _navigate(parsed):
+        if isinstance(parsed, list) and parsed:
+            parsed = parsed[0]
+        if isinstance(parsed, dict):
+            if "next_params" in parsed:
+                return parsed["next_params"]
+            if set(PARAMS_SCHEMA).issubset(parsed.keys()):
+                return {k: parsed[k] for k in PARAMS_SCHEMA}
+        return None
+
+    # 1. parse full text directly
+    try:
+        result = _navigate(json.loads(raw_text.strip()))
+        if result is not None:
+            return result
+    except (json.JSONDecodeError, ValueError):
+        pass
+
+    # 2. extract from markdown code fence
+    fence = re.search(r'```(?:json)?\s*([\s\S]*?)```', raw_text)
+    if fence:
+        try:
+            result = _navigate(json.loads(fence.group(1).strip()))
+            if result is not None:
+                return result
+        except (json.JSONDecodeError, ValueError):
+            pass
+
+    # 3. find outermost [...] or {...} then navigate
+    for pattern in (r'\[[\s\S]*\]', r'\{[\s\S]*\}'):
+        m = re.search(pattern, raw_text)
+        if m:
+            try:
+                result = _navigate(json.loads(m.group(0)))
+                if result is not None:
+                    return result
+            except (json.JSONDecodeError, ValueError):
+                pass
+
+    # 4. innermost flat {} (original fallback)
+    m = re.search(r'\{[^{}]*\}', raw_text)
+    if m:
+        try:
+            candidate = json.loads(m.group(0))
+            if isinstance(candidate, dict):
+                return candidate
+        except (json.JSONDecodeError, ValueError):
+            pass
+
+    raise ValueError(f"LLM returned no parseable params:\n{raw_text[:300]}")
+
+
+def _validate_params(params):
+    """Raise ValueError if params don't exactly match PARAMS_SCHEMA keys and types."""
+    expected = set(PARAMS_SCHEMA)
+    got = set(params)
+    missing = expected - got
+    extra = got - expected
+    if missing:
+        raise ValueError(f"next_params missing keys: {sorted(missing)}")
+    if extra:
+        raise ValueError(f"next_params has unexpected keys: {sorted(extra)}")
+    for key, allowed_types in PARAMS_SCHEMA.items():
+        val = params[key]
+        if isinstance(val, bool) and bool not in allowed_types:
+            raise ValueError(
+                f"next_params['{key}'] wrong type: got bool, expected "
+                f"{tuple(t.__name__ for t in allowed_types)}"
+            )
+        if not isinstance(val, allowed_types):
+            raise ValueError(
+                f"next_params['{key}'] wrong type: got {type(val).__name__}, expected "
+                f"{tuple(t.__name__ for t in allowed_types)}"
+            )
+
 
 def _run_pipeline_and_trigger_next(params):
     try:
@@ -170,26 +249,8 @@ def _run_pipeline_and_trigger_next(params):
         llm_df.at[idx, "LLM_suggestion"] = params_suggestion
         llm_df.to_csv(CSV_AGG_LLM, index=False)
 
-        match = re.search(r'\{[^{}]*\}', params_suggestion)
-        if not match:
-            raise ValueError(f"LLM returned no JSON object:\n{params_suggestion}")
-        new_params = json.loads(_fix_json_literals(match.group(0)))
-
-        # The LLM only suggests values for params it was asked to tune, and may
-        # omit fixed ones (e.g. "volume"). Carry over any missing keys from the
-        # current run's params so new_params matches the INITIAL_PARAMS schema
-        # exactly before being sent to the robot.
-        for key in INITIAL_PARAMS:
-            new_params.setdefault(key, params[key])
-
-        # The LLM may emit numbers as floats or strings (e.g. 60.0 or "60")
-        # where the robot expects the exact types used in INITIAL_PARAMS
-        # (int/bool) — coerce so new_params matches those types exactly.
-        for key, reference in INITIAL_PARAMS.items():
-            if isinstance(reference, bool):
-                new_params[key] = bool(new_params[key])
-            elif isinstance(reference, int):
-                new_params[key] = int(new_params[key])
+        new_params = _extract_next_params(params_suggestion)
+        _validate_params(new_params)
 
         json_out = DATA_ROOT / f"llm_result_{condition_name}.json"  # <<< PATH >>>
         with open(json_out, "w") as f:

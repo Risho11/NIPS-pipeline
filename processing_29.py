@@ -28,8 +28,8 @@ SAVE_PLOTS = True   # set False to disable saving
 # <<< PATH >>> plots saved beside processing_29.py, not beside run_loop.py
 _caller = Path(sys.argv[0]).stem if sys.argv else ""
 _ts = datetime.datetime.today().strftime('%Y-%m-%d') if "test" in _caller else datetime.datetime.today().strftime('%Y-%m-%d')
-_prefix = "test" if "test" in _caller else "run"
-SAVE_ROOT  = Path(__file__).parent / "pipeline-plots/pseudo-runs" / f"{_prefix}-{_ts}"
+_prefix = "pseudo-runs/test" if "test" in _caller else "run"
+SAVE_ROOT  = Path(__file__).parent / "pipeline-plots" / f"{_prefix}-{_ts}"
 # ─────────────────────────────────────────────────────────────────────────
 
 
@@ -160,7 +160,7 @@ def elastic_peak(data, predictions):
     data.loc[data['2nd derivative'].abs() > 25000, '2nd derivative'] = np.nan
     data.loc[spike > 150, '2nd derivative'] = np.nan
     data['2nd derivative'] = data['2nd derivative'].interpolate(method='linear')
-    subset = data[data['strain'] <= 0.3]
+    subset = data[(data['strain'] <= 0.3) & (data['strain'] > 0)]
     if subset.empty or subset['2nd derivative'].isna().all():
         bp1_pw = pure_pw(data)
         return bp1_pw if bp1_pw is not None else float(data['strain'].quantile(0.25))
@@ -225,8 +225,11 @@ def elastic_peak(data, predictions):
     print(f"PW + Double: {bp1_double}")
     if bp1_pw is not None and bp1_pw >= 0 and abs(bp1_pw-breakpoint1) < 0.1:
         print(f"Piecewise Chosen! {bp1_pw} | Drop Calculation: {breakpoint1}")
-        return bp1_double if bp1_double is not None else bp1_pw
+        return bp1_double if bp1_double is not None and bp1_double <= 0 else bp1_pw
         #return bp1_pw
+    if bp1_pw is not None and bp1_pw < 0.2:
+        print(f"Piecewise Chosen! {bp1_pw} | Drop Calculation: {breakpoint1}")
+        return bp1_double if bp1_double is not None and bp1_double <= 0 else bp1_pw
     print(f"Drop Chosen! {breakpoint1} | Piecewise Calculation: {bp1_pw}")
     if double_pw(data, breakpoint1, 0.07):
         return double_pw(data, breakpoint1, 0.07)
@@ -448,6 +451,22 @@ def goodFit_eval(
         score -= 5
     else:
         breakdown['elastic_modulus_penalty'] = (0, 0, f'E={elasticModulus:.1f} bar ok')
+
+    if xPlateau is not None and len(xPlateau) > 1:
+        plateau_strain_range = xPlateau['strain'].max() - xPlateau['strain'].min()
+        plateau_stress_rise = slopePlateau * plateau_strain_range
+        remaining_stress = data['stress (bar)'].max() - float(yieldStrength)
+        rise_fraction = plateau_stress_rise / (remaining_stress + 1e-9)
+        if rise_fraction > 0.5:
+            penalty = -30
+            breakdown['bp1_accuracy_penalty'] = (penalty, 0, f'plateau spans {rise_fraction*100:.0f}% of remaining stress — elastic peak likely wrong')
+            score += penalty
+        elif rise_fraction > 0.3:
+            penalty = -15
+            breakdown['bp1_accuracy_penalty'] = (penalty, 0, f'plateau spans {rise_fraction*100:.0f}% of remaining stress — bp1 suspect')
+            score += penalty
+        else:
+            breakdown['bp1_accuracy_penalty'] = (0, 0, f'plateau spans {rise_fraction*100:.0f}% of remaining stress — ok')
 
     # ── CATASTROPHICS (bad DATA indicators — future: route to goodData_eval)
 
