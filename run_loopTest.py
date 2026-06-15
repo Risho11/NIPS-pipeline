@@ -318,25 +318,29 @@ if __name__ == "__main__":
     # llm_df = pd.read_csv(CSV_AGG_LLM)
     # final_report = llm_df.at[0, "final_report"]
     # params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
-    # print(f"what it said: {params_suggestion}")
-    # new_params = _extract_next_params(params_suggestion)
-    # _validate_params(new_params)
-    # json_out = DATA_ROOT / f"llm_result_reused.json"  # <<< PATH >>>
-    # with open(json_out, "w") as f:
-    #     json.dump(new_params, f, indent=2)
-    # print(f"  JSON result: {json_out}")
-    new_params = {
-        "mixing_temp":              25,
-        "bath_temp":                5,
-        "weight_percent":           17,
-        "volume":                   1000,
-        "pullcast_speed":           10,
-        "nitrogen":                 False,
-        "coupon_to_bath_wait_time": 9,
-        "nips_bath_wait_time":      30,
-    }
+    params_suggestion = """\
+I'll analyze the experimental parameters and results to suggest the next experiment.
+
+```json
+{
+  "mixing_temp": 25,
+  "bath_temp": 5,
+  "weight_percent": 17,
+  "volume": 1000,
+  "pullcast_speed": 10,
+  "nitrogen": false,
+  "coupon_to_bath_wait_time": 9,
+  "nips_bath_wait_time": 30
+}
+```"""
+    print(f"what it said: {params_suggestion}")
+    new_params = _extract_next_params(params_suggestion)
     _validate_params(new_params)
-    print(f"[5/5] next params (hardcoded): {new_params}")
+    json_out = DATA_ROOT / f"llm_result_reused.json"  # <<< PATH >>>
+    with open(json_out, "w") as f:
+        json.dump(new_params, f, indent=2)
+    print(f"  JSON result: {json_out}")
+    print(f"[5/5] next params: {new_params}")
     url.run_test(new_params)
     print("robot started — loop running. Ctrl+C to stop.")
 
