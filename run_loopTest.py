@@ -318,7 +318,7 @@ if __name__ == "__main__":
     llm_df = pd.read_csv(CSV_AGG_LLM)
     final_report = llm_df.at[0, "final_report"]
     params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
-
+    print(f"what it said: {params_suggestion}")
     new_params = _extract_next_params(params_suggestion)
     _validate_params(new_params)
 

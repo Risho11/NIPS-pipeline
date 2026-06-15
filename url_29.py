@@ -12,10 +12,13 @@ def run_test(params, timeout=30):
     """Run a test, takes either a python dict/list or a JSON string/bytes object."""
     # 1. Safely normalize whatever type comes in into bytes
     if isinstance(params, (dict, list)):
+        print("Python recieved!")
         payload = json.dumps(params).encode('utf-8')
     elif isinstance(params, str):
+        print("JSON string recieved!")
         payload = params.encode('utf-8')
     elif isinstance(params, bytes):
+        print("Pure JSON bytes recieved!")
         payload = params
     else:
         raise TypeError(f"Unsupported parameters type: {type(params)}")

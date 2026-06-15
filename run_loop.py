@@ -30,9 +30,9 @@ INITIAL_PARAMS = {
     "weight_percent": 17,
     "volume": 1000,
     "pullcast_speed": 10,
-    "nitrogen": False,
-    "coupon_to_bath_wait_time": 9,
-    "nips_bath_wait_time": 30,
+    "nitrogen": True,
+    "coupon_to_bath_wait_time": 5,
+    "nips_bath_wait_time": 20,
 }
 PARAMS_SCHEMA = {
     "mixing_temp":              (int, float),
