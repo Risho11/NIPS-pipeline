@@ -53,6 +53,18 @@ opentrons = OT2(tip_index = tip_index, heater = True, heater_well_index = heater
 opentrons._drop() # drop tip if we have one
 xArm.open_gripper()
 
+stop_event = threading.Event()
+
+def emergency_stop(reason=""):
+    if stop_event.is_set():
+        return
+    stop_event.set()
+    print(f"EMERGENCY STOP: {reason}")
+    try:
+        xArm.xArm.set_state(4)  # halt all xArm motion immediately
+    except Exception as e:
+        print(f"  xArm halt error: {e}")
+
 # prompt user to make sure machine is the state specified by the file
 print("Please confirm that the machine is in the following state:\n")
 print("Coupons in Pile: " + str(coupons))
@@ -109,6 +121,8 @@ def load_parameters():
     parametersLock.release()
 
 def zero_and_place_coupon():
+    if stop_event.is_set():
+        return
     if globals()["opentrons_stand_status"] != "empty":
         print("Opentrons coupon platform should be empty before grabbing a new coupon. Unsure what to do, exiting.")
         sys.exit()
@@ -134,6 +148,8 @@ def zero_and_place_coupon():
                     safe = True
                     recent = True
                     for test in tests:
+                        if stop_event.is_set():
+                            return
                         if safe and recent:
                             xArm.put_down(test)
                             armLock.release() # we can release the arm while we run the test, it's not time sensitive
@@ -148,6 +164,8 @@ def zero_and_place_coupon():
                             print("Recent: " + str(recent))
                             print("Time: " + str(time.time()))
                             print("mTime: " + str(data["time"]))
+                        if stop_event.is_set():
+                            return
                         if safe and recent:
                             armLock.acquire() # acquire the arm again to pick up the coupon
                             xArm.pick_up(test)
@@ -195,13 +213,22 @@ def delayed_knife_cleaning(delay = 0):
     armLock.release()
 
 def run_test(param = None):
+    stop_event.clear()
+    try:
+        _run_test_inner(param)
+    except Exception as e:
+        print(f"run_test failed: {type(e).__name__}: {e}")
+        emergency_stop("OpenTrons or protocol error — stopping xArm")
+        raise
+
+def _run_test_inner(param = None):
     if param == None:
         # load parameters from .json file
         with open('parameters.json') as file:
             parameters = json.load(file)
     else:
         parameters = param
-    
+
     load_parameters()
 
     # Background task 1: start chilling the chiller
@@ -237,6 +264,8 @@ def run_test(param = None):
     place_coupon_process.join()
     # 0 background tasks now
     print("Joined both subprocesses")
+    if stop_event.is_set():
+        raise RuntimeError("Stop triggered during background tasks (xArm/chiller phase)")
     
     # from here until we put the coupon in the camera box, we technically can't release the arm or anything, since everything has a deadline
     # therefore we need to lock the camera box right now even though we won't use it for like 30 minutes or so

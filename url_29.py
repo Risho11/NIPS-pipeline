@@ -30,13 +30,19 @@ def run_test(params, timeout=30):
     # 3. Open the connection safely using a 'with' block so it never hangs open
     try:
         with urllib.request.urlopen(req, timeout=timeout) as response:
-            return response.read().decode('utf-8')
+            result = response.read().decode('utf-8')
+            print(f"Opentrons response: {result}")
+            return result
     except urllib.error.HTTPError as e:
-        print(f"Opentrons rejected request! Code: {e.code}, Message: {e.reason}")
-        raise e
+        body = e.read().decode('utf-8', errors='replace')
+        print(f"Opentrons rejected request! Code: {e.code}, Reason: {e.reason}, Body: {body}")
+        raise
     except urllib.error.URLError as e:
         print(f"Network connection issue to Opentrons: {e.reason}")
-        raise e
+        raise
+    except Exception as e:
+        print(f"Unexpected error in run_test: {type(e).__name__}: {e}")
+        raise
 
 # same idea but takes a json string as arguments
 # the llm active learning thing should spit out just a json string not a python object so this might be better
