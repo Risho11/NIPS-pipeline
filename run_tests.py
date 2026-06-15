@@ -40,8 +40,18 @@ MOCK_LLM_AL_RESPONSE = (
 
 LLM_PROP_KEYS = ["Strain at 50 bar", "CV"]
 
+def _fix_json_literals(s):
+    """Normalize Python-style True/False/None to JSON true/false/null.
+
+    LLMs sometimes emit Python dict syntax (capitalized booleans) instead of
+    valid JSON, which would otherwise raise json.JSONDecodeError and stop the loop.
+    """
+    return re.sub(r'\b(True|False|None)\b',
+                   lambda m: {'True': 'true', 'False': 'false', 'None': 'null'}[m.group(0)],
+                   s)
+
 REQUIRED_PARAM_KEYS = [
-    "mixing_temp", "bath_temp", "weight_percent",
+    "mixing_temp", "bath_temp", "weight_percent", "volume",
     "pullcast_speed", "coupon_to_bath_wait_time",
     "nips_bath_wait_time", "nitrogen",
 ]
@@ -187,7 +197,15 @@ def test_full_pipeline(condition, real_llm=False):
         if not match:
             report(label, False, "LLM returned no JSON block")
             return
-        new_params = json.loads(match.group(0))
+        new_params = json.loads(_fix_json_literals(match.group(0)))
+
+        # Mirror run_loop.py: LLM may omit fixed params (e.g. "volume") it
+        # wasn't asked to tune — carry those over from the condition's params.json
+        # so new_params matches the INITIAL_PARAMS schema exactly.
+        current_params = json.loads((DATA_ROOT / FAKE_FOLDER / condition / "params.json").read_text())
+        for key in current_params:
+            new_params.setdefault(key, current_params[key])
+
         with open(tmp_json, "w") as f:
             json.dump(new_params, f, indent=2)
 
