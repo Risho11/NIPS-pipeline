@@ -248,6 +248,7 @@ def _run_pipeline_and_trigger_next(params):
 
         llm_df.at[idx, "LLM_suggestion"] = params_suggestion
         llm_df.to_csv(CSV_AGG_LLM, index=False)
+        params_suggestion = llm_df["LLM_suggestion"].dropna().iloc[-1]
 
         new_params = _extract_next_params(params_suggestion)
         _validate_params(new_params)
@@ -316,11 +317,12 @@ if __name__ == "__main__":
     print(f"server listening on {SERVER_IP}:{SERVER_PORT}")
 
     llm_df = pd.read_csv(CSV_AGG_LLM)
-    # final_report = llm_df.at[0, "final_report"]
-    # params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
+    #final_report = llm_df.at[0, "final_report"]
+    #params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
     params_suggestion = llm_df["LLM_suggestion"].dropna().iloc[-1]
     print(f"what it said: {params_suggestion}")
     new_params = _extract_next_params(params_suggestion)
+    print(new_params)
     _validate_params(new_params)
     json_out = DATA_ROOT / f"llm_result_reused.json"  # <<< PATH >>>
     with open(json_out, "w") as f:
