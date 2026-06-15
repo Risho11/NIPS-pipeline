@@ -315,24 +315,10 @@ if __name__ == "__main__":
     threading.Thread(target=server.serve_forever, daemon=True).start()
     print(f"server listening on {SERVER_IP}:{SERVER_PORT}")
 
-    # llm_df = pd.read_csv(CSV_AGG_LLM)
+    llm_df = pd.read_csv(CSV_AGG_LLM)
     # final_report = llm_df.at[0, "final_report"]
     # params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
-    params_suggestion = """\
-I'll analyze the experimental parameters and results to suggest the next experiment.
-
-```json
-{
-  "mixing_temp": 60,
-  "bath_temp": 25,
-  "weight_percent": 10,
-  "volume": 1000,
-  "pullcast_speed": 1,
-  "nitrogen": true,
-  "coupon_to_bath_wait_time": 300,
-  "nips_bath_wait_time": 1800
-}
-```"""
+    params_suggestion = llm_df["LLM_suggestion"].dropna().iloc[-1]
     print(f"what it said: {params_suggestion}")
     new_params = _extract_next_params(params_suggestion)
     _validate_params(new_params)
