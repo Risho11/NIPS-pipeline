@@ -323,14 +323,14 @@ I'll analyze the experimental parameters and results to suggest the next experim
 
 ```json
 {
-  "mixing_temp": 25,
-  "bath_temp": 5,
-  "weight_percent": 17,
+  "mixing_temp": 60,
+  "bath_temp": 25,
+  "weight_percent": 10,
   "volume": 1000,
-  "pullcast_speed": 10,
-  "nitrogen": false,
-  "coupon_to_bath_wait_time": 9,
-  "nips_bath_wait_time": 30
+  "pullcast_speed": 1,
+  "nitrogen": true,
+  "coupon_to_bath_wait_time": 300,
+  "nips_bath_wait_time": 1800
 }
 ```"""
     print(f"what it said: {params_suggestion}")
