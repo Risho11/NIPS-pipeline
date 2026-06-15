@@ -1,6 +1,8 @@
 import urllib.request
 import json
 
+
+
 # this file is a small library for holding code about sending http requests to the opentrons
 # used for starting a compression test or getting information about the status of the machine
 
@@ -8,8 +10,32 @@ BASE_URL = "http://169.254.46.48:8000" # url of the http server running on the o
 
 # run a test, takes a python object as arguments
 def run_test(params, timeout=30):
-    #urllib.request.urlopen(f"{BASE_URL}/run", json.dumps(params).encode(), timeout=timeout)
-    urllib.request.urlopen("http://169.254.46.48:8000/run", json.dumps(params).encode())
+    """Run a test, takes either a python dict/list or a JSON string/bytes object."""
+    # 1. Safely normalize whatever type comes in into bytes
+    if isinstance(params, (dict, list)):
+        payload = json.dumps(params).encode('utf-8')
+    elif isinstance(params, str):
+        payload = params.encode('utf-8')
+    elif isinstance(params, bytes):
+        payload = params
+    else:
+        raise TypeError(f"Unsupported parameters type: {type(params)}")
+    # 2. Build the Request object to explicitly inject JSON headers
+    url = f"{BASE_URL}/run"
+    headers = {"Content-Type": "application/json"}
+    req = urllib.request.Request(url, data=payload, headers=headers)
+
+    # 3. Open the connection safely using a 'with' block so it never hangs open
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            return response.read().decode('utf-8')
+    except urllib.error.HTTPError as e:
+        print(f"Opentrons rejected request! Code: {e.code}, Message: {e.reason}")
+        raise e
+    except urllib.error.URLError as e:
+        print(f"Network connection issue to Opentrons: {e.reason}")
+        raise e
+    urllib.request.urlopen("http://169.254.46.48:8000/run", payload)
 
 # same idea but takes a json string as arguments
 # the llm active learning thing should spit out just a json string not a python object so this might be better
