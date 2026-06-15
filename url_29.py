@@ -1,4 +1,5 @@
 import urllib.request
+import urllib.error
 import json
 
 # this file is a small library for holding code about sending http requests to the opentrons
@@ -8,8 +9,20 @@ BASE_URL = "http://169.254.46.48:8000" # url of the http server running on the o
 
 # run a test, takes a python object as arguments
 def run_test(params, timeout=30):
-    #urllib.request.urlopen(f"{BASE_URL}/run", json.dumps(params).encode(), timeout=timeout)
-    urllib.request.urlopen("http://169.254.46.48:8000/run", json.dumps(params).encode())
+    data = json.dumps(params).encode()
+    try:
+        with urllib.request.urlopen(f"{BASE_URL}/run", data, timeout=timeout) as response:
+            return response.read().decode()
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(
+            f"Opentrons at {BASE_URL}/run rejected params {params} "
+            f"with HTTP {e.code} {e.reason}: {e.read().decode(errors='replace')}"
+        ) from e
+    except urllib.error.URLError as e:
+        raise RuntimeError(
+            f"No response from opentrons at {BASE_URL}/run within {timeout}s "
+            f"for params {params}. Reason: {e.reason}"
+        ) from e
 
 # same idea but takes a json string as arguments
 # the llm active learning thing should spit out just a json string not a python object so this might be better

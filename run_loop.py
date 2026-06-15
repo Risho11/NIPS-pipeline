@@ -198,11 +198,17 @@ def _run_pipeline_and_trigger_next(params):
 
         print(f"[5/5] next params: {new_params}")
         try:
-            url.run_test(new_params)
+            response = url.run_test(new_params)
+            print(f"  robot response: {response}")
         except Exception as e:
-            print(f"  ERROR sending params to robot: {e}")
+            # The robot gave no (or a bad) response — the opentrons would
+            # otherwise sit idle while the rest of the loop carries on as if
+            # nothing happened. Stop the whole process so this can't go
+            # unnoticed.
+            print(f"  FATAL: opentrons did not respond to run_test — stopping run_loop.")
+            print(f"  {e}")
             print(f"  payload was: {json.dumps(new_params)}")
-            raise
+            os._exit(1)
 
     except json.JSONDecodeError:
         print("Active learning returned invalid JSON — loop stopped:", params_suggestion)
@@ -259,7 +265,14 @@ if __name__ == "__main__":
     print(f"server listening on {SERVER_IP}:{SERVER_PORT}")
 
     print(f"kicking off first experiment: {INITIAL_PARAMS}")
-    url.run_test(INITIAL_PARAMS)
+    try:
+        response = url.run_test(INITIAL_PARAMS)
+        print(f"  robot response: {response}")
+    except Exception as e:
+        print(f"FATAL: opentrons did not respond to run_test — stopping run_loop.")
+        print(f"  {e}")
+        print(f"  payload was: {json.dumps(INITIAL_PARAMS)}")
+        sys.exit(1)
     print("robot started — loop running. Ctrl+C to stop.")
 
     try:
