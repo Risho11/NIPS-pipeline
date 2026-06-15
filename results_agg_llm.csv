@@ -91,3 +91,171 @@ I'll explore a significantly different region of the parameter space with condit
   ""nips_bath_wait_time"": 1800
 }
 ```"
+"2026-06-12
+12:50:33",17-5deg-9s-NoN2-30s,25,5,17,1000,10,False,9,30,mixing_temp=25; bath_temp=5; weight_percent=17; volume=1000; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=9; nips_bath_wait_time=30,"# Experimental Report: Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
+
+## Materials & Solution Preparation
+
+A polysulfone (PSf) dope solution was prepared in PolarClean solvent at a concentration of **17 wt%** with a total volume of **1000 µL**. The solution was mixed and heated at **25°C** until homogeneous.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **10 mm/s**. Following casting, the membrane coupon was exposed to **ambient conditions** (no nitrogen purge) for **9 seconds** prior to bath immersion.
+
+## Phase Inversion
+
+The cast membrane was subsequently immersed in a non-solvent (NIPS) bath maintained at **5°C** for a total immersion time of **30 seconds**, during which phase inversion occurred.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer Concentration | 17 wt% |
+| Mixing Temperature | 25°C |
+| Cast Volume | 1000 µL |
+| Casting Speed | 10 mm/s |
+| Nitrogen Purge | No |
+| Pre-Immersion Wait Time | 9 s |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 30 s |",141.4864666666667,3.883533653202383,143.2255948660717,11.983185573511095,18.67205912652956,2.38021637019769,0.5965154254612334,0.0306947587811716,46.84989248924916,12.49103361451915,917.0666191146314,75.04084791743406,0.0576492239895248,0.0046277731302512,0.5337749045241599,0.0184192495637144,0.6331108244767799,0.0229809608299737,0.7106069576896972,0.0324007898630164,,,0.0643640797564179,"mixing_temp=25; bath_temp=5; weight_percent=17; volume=1000; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=9; nips_bath_wait_time=30{'Strain at 50 bar Mean': 0.5337749045241599, 'CV Mean': 0.0643640797564179}","# Experimental Report: Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
+
+## Materials & Solution Preparation
+
+A polysulfone (PSf) dope solution was prepared in PolarClean solvent at a concentration of **17 wt%** with a total volume of **1000 µL**. The solution was mixed and heated at **25°C** until homogeneous.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **10 mm/s**. Following casting, the membrane coupon was exposed to **ambient conditions** (no nitrogen purge) for **9 seconds** prior to bath immersion.
+
+## Phase Inversion
+
+The cast membrane was subsequently immersed in a non-solvent (NIPS) bath maintained at **5°C** for a total immersion time of **30 seconds**, during which phase inversion occurred.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer Concentration | 17 wt% |
+| Mixing Temperature | 25°C |
+| Cast Volume | 1000 µL |
+| Casting Speed | 10 mm/s |
+| Nitrogen Purge | No |
+| Pre-Immersion Wait Time | 9 s |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 30 s |
+{'Strain at 50 bar Mean': 0.5337749045241599, 'CV Mean': 0.0643640797564179}","I'll analyze the prior observation and suggest the next experiment to maximize strain at 50 bar.
+
+From the single prior observation:
+- 17 wt%, 25°C mixing, 10 mm/s, no nitrogen, 9s wait, 5°C bath, 30s immersion → Strain at 50 bar = 0.534
+
+To maximize strain at 50 bar, I'll consider the following reasoning:
+- **Higher bath temperature** (25°C) may slow phase inversion, creating a more flexible, less brittle membrane structure
+- **Lower weight percent** (10 wt%) could reduce polymer density, potentially increasing flexibility/strain
+- **Longer coupon_to_bath_wait_time** allows more solvent evaporation, which can affect skin layer formation
+- **Higher mixing temperature** (60°C) improves polymer chain mobility and homogeneity
+- **Slower casting speed** (1 mm/s) may produce more uniform films
+- **Nitrogen purge** can control surface evaporation
+- **Longer nips_bath_wait_time** (1800s) ensures complete phase inversion
+
+I'll explore a significantly different region of the parameter space with conditions expected to promote higher strain:
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 25,
+  ""weight_percent"": 10,
+  ""volume"": 1000,
+  ""pullcast_speed"": 1,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 300,
+  ""nips_bath_wait_time"": 1800
+}
+```"
+"2026-06-12
+13:36:56",17-5deg-9s-NoN2-29s,25,5,17,1000,10,False,9,29,mixing_temp=25; bath_temp=5; weight_percent=17; volume=1000; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=9; nips_bath_wait_time=29,"# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Materials & Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with a total solution volume of **1000 µL**. The solution was mixed and thermally equilibrated at **25°C**.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **10 mm/s** using the automated robotic casting system.
+
+## Pre-Immersion Conditions
+
+Following casting, the membrane coupon was exposed to **ambient conditions** (no dry nitrogen purge) for a waiting period of **9 seconds** prior to immersion in the coagulation bath. During this time, the nascent membrane film was subject to natural atmospheric humidity.
+
+## Phase Inversion (NIPS Bath)
+
+The cast film was subsequently immersed into a non-solvent coagulation bath maintained at **5°C**. The membrane was allowed to undergo phase separation for **29 seconds** before removal from the bath.
+
+---
+
+**Summary Table**
+
+| Parameter | Value |
+|---|---|
+| Polymer Concentration | 17 wt% |
+| Mixing Temperature | 25°C |
+| Casting Speed | 10 mm/s |
+| Pre-Immersion Wait Time | 9 s |
+| Nitrogen Purge | No |
+| NIPS Bath Temperature | 5°C |
+| Bath Immersion Time | 29 s |",-0.9398000000000004,4.629401147736784,,,,,,,,,,,,,,,,,,,,,,mixing_temp=25; bath_temp=5; weight_percent=17; volume=1000; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=9; nips_bath_wait_time=29{},"# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Materials & Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with a total solution volume of **1000 µL**. The solution was mixed and thermally equilibrated at **25°C**.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **10 mm/s** using the automated robotic casting system.
+
+## Pre-Immersion Conditions
+
+Following casting, the membrane coupon was exposed to **ambient conditions** (no dry nitrogen purge) for a waiting period of **9 seconds** prior to immersion in the coagulation bath. During this time, the nascent membrane film was subject to natural atmospheric humidity.
+
+## Phase Inversion (NIPS Bath)
+
+The cast film was subsequently immersed into a non-solvent coagulation bath maintained at **5°C**. The membrane was allowed to undergo phase separation for **29 seconds** before removal from the bath.
+
+---
+
+**Summary Table**
+
+| Parameter | Value |
+|---|---|
+| Polymer Concentration | 17 wt% |
+| Mixing Temperature | 25°C |
+| Casting Speed | 10 mm/s |
+| Pre-Immersion Wait Time | 9 s |
+| Nitrogen Purge | No |
+| NIPS Bath Temperature | 5°C |
+| Bath Immersion Time | 29 s |
+{}","I'll analyze the experimental parameters and results to suggest the next experiment that maximizes modulus.
+
+From the single prior observation, I need to reason about what parameters might increase membrane modulus:
+
+1. **Weight percent**: Higher polymer concentration (17 wt%) is already at maximum - keep at 17%
+2. **Mixing temperature**: Higher mixing temperature can improve polymer chain mobility and homogeneity - try higher (60°C)
+3. **Bath temperature**: Lower bath temperature (5°C) slows phase inversion, potentially creating denser structures - already at minimum, keep at 5°C
+4. **Pullcast speed**: Slower casting speed may allow better film formation - try slower (1 mm/s)
+5. **Nitrogen**: Using nitrogen purge reduces humidity effects and can create more controlled phase separation - try True
+6. **Coupon to bath wait time**: Longer evaporation time can create denser skin layer - try longer (300s)
+7. **NIPS bath wait time**: Longer immersion ensures complete phase separation - try maximum (1800s)
+
+These parameters aim to maximize structural density and mechanical integrity of the membrane.
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 5,
+  ""weight_percent"": 17,
+  ""volume"": 1000,
+  ""pullcast_speed"": 1,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 300,
+  ""nips_bath_wait_time"": 1800
+}
+```"
