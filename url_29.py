@@ -1,7 +1,6 @@
 import urllib.request
+import urllib.error
 import json
-
-
 
 # this file is a small library for holding code about sending http requests to the opentrons
 # used for starting a compression test or getting information about the status of the machine
@@ -35,7 +34,6 @@ def run_test(params, timeout=30):
     except urllib.error.URLError as e:
         print(f"Network connection issue to Opentrons: {e.reason}")
         raise e
-    urllib.request.urlopen("http://169.254.46.48:8000/run", payload)
 
 # same idea but takes a json string as arguments
 # the llm active learning thing should spit out just a json string not a python object so this might be better
