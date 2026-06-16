@@ -23,7 +23,7 @@ import processing_29 as processing             # <<< IMPORT >>> must be in same 
 # ── edit these ──────────────────────────────────────────────────────────────
 # <<< PATH >>> Chooses condition.
 DATA_ROOT  = Path(__file__).parent.parent 
-CONDITION  = "17-5deg-60s-N2-1800s"
+CONDITION  = "10-25degMix-25deg-0s-NoN2-1800s"
 # <<< PATH >>> output files land beside this script
 OUTPUT_CSV  = Path(__file__).parent / "csv_tests" / "test_reps.csv"
 AGG_CSV     = Path(__file__).parent / "csv_tests" / "test_agg.csv"
@@ -36,7 +36,7 @@ print(f"Condition : {CONDITION}")
 print()
 
 output = processing.process_zero_sample_pairs_pipeline(
-    folder_name="compression-test-data/old data",  # <<< FOLDER NAME >>>
+    folder_name="compression-test-data",  # <<< FOLDER NAME >>>
     data_root=str(DATA_ROOT),
     strict=True,
     load_cutoff=1.0,
@@ -87,7 +87,7 @@ print(f"  initial_report: {initial[:120]}...")
 mech_subset = {f"{k} Mean": row[f"{k} Mean"]
                for k in LLM_PROP_KEYS
                if f"{k} Mean" in llm_df.columns and pd.notna(row[f"{k} Mean"])}
-fmt_params_with_prop = str(mech_subset)
+fmt_params_with_prop = str(mech_subset) if mech_subset else "WARNING: all replicates had bad fits — all mechanical properties NaN"
 final_report = initial + "\n" + fmt_params_with_prop
 fmt_params = str(row["formatted_parameters"]) if pd.notna(row["formatted_parameters"]) else ""
 llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + "\n\n" + fmt_params_with_prop

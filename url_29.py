@@ -23,6 +23,7 @@ def run_test(params, timeout=30):
     else:
         raise TypeError(f"Unsupported parameters type: {type(params)}")
     # 2. Build the Request object to explicitly inject JSON headers
+    print(f"Exact payload being sent: {payload.decode('utf-8')}")
     url = f"{BASE_URL}/run"
     headers = {"Content-Type": "application/json"}
     req = urllib.request.Request(url, data=payload, headers=headers)

@@ -232,7 +232,7 @@ def _run_pipeline_and_trigger_next(params):
         mech_subset = {f"{k} Mean": llm_df.at[idx, f"{k} Mean"]
                        for k in LLM_PROP_KEYS
                        if f"{k} Mean" in llm_df.columns and pd.notna(llm_df.at[idx, f"{k} Mean"])}
-        fmt_params_with_prop = str(mech_subset)
+        fmt_params_with_prop = str(mech_subset) if mech_subset else "WARNING: all replicates had bad fits — all mechanical properties NaN"
         final_report = initial_report + "\n" + fmt_params_with_prop
         print(f"final_report: {final_report[120:]}...")
 

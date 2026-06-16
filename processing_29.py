@@ -286,6 +286,10 @@ def find_changepoint_fit(data, bp1, bp2, bp3, creep_level):
     plateauRegion = data[(bp1 <= data['strain']) & (data['strain'] <= bp2)]
     densificationRegion = data[bp3 <= data['strain']]
     
+    if len(plateauRegion) < 2 or len(densificationRegion) < 2:
+        raise ValueError(
+            f"fit region too small - plateau = {len(plateauRegion)} pts, densification={len(densificationRegion)} pts"
+        )
     #calculate the plateau region slope
     modelPlateau = LinearRegression() 
     modelPlateau.fit(plateauRegion['strain'].values.reshape(-1, 1), plateauRegion['stress (bar)'].values)
@@ -735,9 +739,23 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         
 
         #generate spline model
-        gam = LinearGAM(s(0))
-        gam.fit(data[['strain']], data['stress (bar)'])
-        predictions = gam.predict(data[['strain']])
+        try:
+            gam = LinearGAM(s(0))
+            gam.fit(data[['strain']], data['stress (bar)'])
+            predictions = gam.predict(data[['strain']])
+        except Exception as e:
+            print(f"  GAM fit failed: {e} — skipping trial")
+            mechanicalProperties.append({
+                "name": data_name, "Trial": trial, "Thickness": thickness[i],
+                "Elastic Modulus": np.nan, "Yield Strength": np.nan, "Changepoint": np.nan,
+                "Slope Plateau": np.nan, "Slope Densification": np.nan, "Creep Strain": creep_strain,
+                "Strain at 50 bar": np.nan, "Strain at 80 bar": np.nan,
+                "Strain at 150 bar": np.nan, "Strain at 500 bar": np.nan,
+                "Good Fit": False, "Good Fit Score": 0, "Good Fit Breakdown": None,
+                "Average Standard Deviation": avg_standard_deviation,
+            })
+            plt.close()
+            continue
         goodData_eval(data, predictions)
         # replace values in predictions that are greater than the predictions[-1] with predictions[-1] but make a copy of the predictions for the plot
         predictions_for_plot = predictions.copy()
@@ -781,7 +799,11 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         data['2nd derivative'] = np.gradient(data['1st derivative'], data['strain'])
         subset = data[data['strain'] <= 0.3]
         
-        breakpoint1 = elastic_peak(data, predictions)
+        try:
+            breakpoint1 = elastic_peak(data, predictions)
+        except Exception as e:
+            print(f"  elastic_peak failed: {e} — using quantile fallback")
+            breakpoint1 = float(data['strain'].quantile(0.25))
         elasticRegion = data[data['strain'] <= breakpoint1]
 
         if len(elasticRegion) < 2:
@@ -810,30 +832,69 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
 
         bp2, bp3 = find_breakpoints(data, regions)
         if bp2 is None:
+            print(f"  find_breakpoints returned None — skipping trial")
+            mechanicalProperties.append({
+                "name": data_name, "Trial": trial, "Thickness": thickness[i],
+                "Elastic Modulus": elasticModulus, "Yield Strength": float(yieldStrength[0]),
+                "Changepoint": np.nan, "Slope Plateau": np.nan, "Slope Densification": np.nan,
+                "Creep Strain": creep_strain,
+                "Strain at 50 bar": strain_50bar, "Strain at 80 bar": strain_80bar,
+                "Strain at 150 bar": strain_150bar, "Strain at 500 bar": strain_500bar,
+                "Good Fit": False, "Good Fit Score": 0, "Good Fit Breakdown": None,
+                "Average Standard Deviation": avg_standard_deviation,
+            })
+            plt.close()
             continue
-
-        xPlateau, xDensification, predPlateau, predDensification, changepoint, slopePlateau, slopeDensification, modelPlateau = find_changepoint_fit(data, breakpoint1, bp2, bp3, creep_level)
-
+        
+        try:
+            xPlateau, xDensification, predPlateau, predDensification, changepoint, slopePlateau, slopeDensification, modelPlateau = find_changepoint_fit(data, breakpoint1, bp2, bp3, creep_level)
+        except ValueError as e:
+            print(f"  FIND_CHANGEPOINT_FIT FAILED: {e} - score forced to 0")
+            mechanicalProperties.append({
+                "name": data_name,
+                "Trial": trial,
+                "Thickness": thickness[i],
+                "Elastic Modulus":elasticModulus,
+                "Yield Strength": float(yieldStrength[0]),
+                "Changepoint": np.nan,
+                "Slope Plateau": np.nan,
+                "Slope Densification": np.nan,
+                "Creep Strain":creep_strain,
+                "Strain at 50 bar":strain_50bar,
+                "Strain at 80 bar":strain_80bar,
+                "Strain at 150 bar":strain_150bar,
+                "Strain at 500 bar":strain_500bar,
+                "Good Fit": False,
+                "Good Fit Score": 0,
+                "Good Fit Breakdown": None,
+                "Average Standard Deviation":avg_standard_deviation,
+            })
+            continue
         if True:
             if elastic_fit_failed:
                 good = False
                 fit_breakdown = {'_score_final': (0, 100, 'elastic region fit failed — no points to fit')}
                 print("  ELASTIC FIT FAILED: breakpoint1 outside data range — score forced to 0")
             else:
-                good, fit_breakdown = goodFit_eval(
-                    data, elasticRegion, xPlateau, xDensification,
-                    predElastic, predPlateau, predDensification,
-                    modelElastic, modelPlateau,
-                    gam,
-                    breakpoint1,
-                    changepoint,
-                    float(yieldStrength[0]),
-                    elasticModulus,
-                    slopePlateau,
-                    slopeDensification,
-                    creep_level=creep_level,
-                    pass_threshold=70,
-                )
+                try:
+                    good, fit_breakdown = goodFit_eval(
+                        data, elasticRegion, xPlateau, xDensification,
+                        predElastic, predPlateau, predDensification,
+                        modelElastic, modelPlateau,
+                        gam,
+                        breakpoint1,
+                        changepoint,
+                        float(yieldStrength[0]),
+                        elasticModulus,
+                        slopePlateau,
+                        slopeDensification,
+                        creep_level=creep_level,
+                        pass_threshold=70,
+                    )
+                except Exception as e:
+                    print(f"  goodFit_eval failed: {e} — score forced to 0")
+                    good = False
+                    fit_breakdown = {'_score_final': (0, 100, f'goodFit_eval error: {e}')}
 
             '''
             wait why the heck is the dictionary only appended when its like not 0... anyway
@@ -1068,12 +1129,14 @@ def _pair_chronological_zero_sample(specimen_rows, strict=True, cluster_gap_minu
             replicate += 1
     return pairs
 
-def load_zero_sample_pairs_by_condition(folder_name, data_root="Data", strict=True, load_dataframes=False):
+def load_zero_sample_pairs_by_condition(folder_name, data_root="Data", strict=True, load_dataframes=False, condition_filter=None):
     base_dir = Path(data_root) / folder_name
     if not base_dir.exists():
         raise FileNotFoundError("Folder not found: {}".format(base_dir))
     result = {}
     for condition_dir in sorted([p for p in base_dir.iterdir() if p.is_dir()]):
+        if condition_filter and condition_dir.name != condition_filter:
+            continue
         csv_files = sorted(condition_dir.glob("*.csv"))
         specimen_rows = []
         for csv_file in csv_files:
@@ -1156,11 +1219,8 @@ def process_zero_sample_pairs_pipeline(
         data_root=data_root,
         strict=strict,
         load_dataframes=False,
+        condition_filter=condition_filter,
     )
-    #-----------#
-    if condition_filter:
-        pairs_by_condition = {k: v for k, v in pairs_by_condition.items() if k == condition_filter}
-    #-----------#
 
     pipeline_result = {}
 
@@ -1269,15 +1329,27 @@ def process_zero_sample_pairs_pipeline(
                 current_thickness_list = None
 
             #the actual thing
-            interpreted = interpretData(
-                [processed_sample_curve],
-                thickness_info=current_thickness_info,
-                thickness_list=current_thickness_list,
-                creep_info=creep_info,
-                cutoff_load_thickness=cutoff_load_thickness,
-                cutoff_load_displacement=cutoff_load_displacement,
-                save_path=condition_save_dir / f"rep-{replicate}" / f"Segmentation_rep-{replicate}.png" if SAVE_PLOTS else None,
-            )
+            try:
+                interpreted = interpretData(
+                    [processed_sample_curve],
+                    thickness_info=current_thickness_info,
+                    thickness_list=current_thickness_list,
+                    creep_info=creep_info,
+                    cutoff_load_thickness=cutoff_load_thickness,
+                    cutoff_load_displacement=cutoff_load_displacement,
+                    save_path=condition_save_dir / f"rep-{replicate}" / f"Segmentation_rep-{replicate}.png" if SAVE_PLOTS else None,
+                )
+            except Exception as e:
+                print(f"  interpretData crashed for rep {replicate}: {e} — recording as Good Fit=False")
+                interpreted = [{"name": condition_name, "Trial": str(replicate),
+                                "Thickness": np.nan, "Elastic Modulus": np.nan,
+                                "Yield Strength": np.nan, "Changepoint": np.nan,
+                                "Slope Plateau": np.nan, "Slope Densification": np.nan,
+                                "Creep Strain": np.nan, "Strain at 50 bar": np.nan,
+                                "Strain at 80 bar": np.nan, "Strain at 150 bar": np.nan,
+                                "Strain at 500 bar": np.nan, "Good Fit": False,
+                                "Good Fit Score": 0, "Good Fit Breakdown": None,
+                                "Average Standard Deviation": np.nan}]
             condition_properties.extend(interpreted)
             if interpreted and validData_eval(interpreted[0].get("Thickness", 0)):
                 condition_valid_curves.append(processed_sample_curve)
@@ -1455,6 +1527,20 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                 passing_props = payload.get("passing_properties", [])
                 if passing_props:
                     computed_agg_rows.append(_build_agg_row(f"{cond_name}_postDiscard", passing_props, post_cv))
+                else:
+                    # all reps had bad fits — write postDiscard with params intact, all mech props NaN
+                    nan_row = {"name": f"{cond_name}_postDiscard", "date": date_val}
+                    nan_row.update(params_row)
+                    for k in mech_cols:
+                        nan_row[f"{k} Mean"] = np.nan
+                        if k not in no_sd_cols:
+                            nan_row[f"{k} SD"] = np.nan
+                    nan_row["formatted_parameters"] = formatted_parameters(nan_row)
+                    nan_row["initial_report"] = ""
+                    nan_row["formatted_parameters_withProp"] = formatted_parameters(nan_row) + "\n\nAll mechanical properties NaN — all replicates had bad fits."
+                    nan_row["final_report"] = ""
+                    computed_agg_rows.append(nan_row)
+                    print(f"  All fits failed for {cond_name} — wrote NaN postDiscard row")
 
         interleaved = [col for k in mech_cols for col in ([f"{k} Mean", f"{k} SD"] if k not in no_sd_cols else [f"{k} Mean"])]
         condition_cols = ["mixing_temp", "bath_temp", "weight_percent", "volume",

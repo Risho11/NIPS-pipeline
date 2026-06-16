@@ -213,11 +213,18 @@ def delayed_knife_cleaning(delay = 0):
     armLock.release()
 
 def run_test(param = None):
+    print(f"run_test called with: {param}")
     stop_event.clear()
     try:
         _run_test_inner(param)
     except Exception as e:
         print(f"run_test failed: {type(e).__name__}: {e}")
+        # release any locks that may have been left held so future runs aren't blocked
+        for lock in [opentronsLock, armLock, compressionTesterLock, chillerLock, opentronsStandLock, cameraLock]:
+            try:
+                lock.release()
+            except RuntimeError:
+                pass  # wasn't held
         emergency_stop("OpenTrons or protocol error — stopping xArm")
         raise
 
