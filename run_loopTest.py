@@ -319,7 +319,7 @@ if __name__ == "__main__":
     llm_df = pd.read_csv(CSV_AGG_LLM)
     #final_report = llm_df.at[0, "final_report"]
     #params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
-    params_suggestion = llm_df["LLM_suggestion"].dropna().iloc[-1]
+    params_suggestion = llm_df["LLM_suggestion"].dropna().iloc[-2]
     print(f"what it said: {params_suggestion}")
     new_params = _extract_next_params(params_suggestion)
     print(new_params)
