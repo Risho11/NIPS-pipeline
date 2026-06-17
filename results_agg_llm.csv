@@ -336,3 +336,134 @@ I'll explore a lower polymer concentration with warmer bath conditions and faste
   ""nips_bath_wait_time"": 1800
 }
 ```"
+"2026-06-16
+12:07:50",17-5deg-1s-N2-23s,25,5,17,1000,10,True,1,23,mixing_temp=25; bath_temp=5; weight_percent=17; volume=1000; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=1; nips_bath_wait_time=23,"Here is a short experimental report based on the provided parameters:
+
+---
+
+**Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)**
+
+A polysulfone (PSf) solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with a total solution volume of **1000 µL**. The polymer solution was mixed and heated at **25°C** until fully dissolved and homogeneous.
+
+The solution was then blade-cast onto a substrate at a pulling speed of **10 mm/s**. Immediately following casting, the film was exposed to a **laminar dry nitrogen purge** for **1 second** to displace ambient humidity from the film surface before immersion.
+
+After the brief nitrogen purge period, the cast film was immersed into the NIPS coagulation bath, which was maintained at a reduced temperature of **5°C**, to induce phase separation. The membrane was left in the coagulation bath for **23 seconds** to allow sufficient phase separation and solidification of the polymer film.
+
+---
+
+Let me know if you'd like any additional details or modifications to the report!",135.97203007809358,0.0,165.31749538453644,0.0,22.9171287851034,0.0,0.5757284559602901,0.0,53.23241883452368,0.0,948.950301378398,0.0,0.0749570840274247,0.0,0.5031408722357118,0.0,0.5995319691651974,0.0,0.6803567521468967,0.0,,,,mixing_temp=25; bath_temp=5; weight_percent=17; volume=1000; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=1; nips_bath_wait_time=23{'Strain at 50 bar Mean': 0.5031408722357118},"Here is a short experimental report based on the provided parameters:
+
+---
+
+**Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)**
+
+A polysulfone (PSf) solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with a total solution volume of **1000 µL**. The polymer solution was mixed and heated at **25°C** until fully dissolved and homogeneous.
+
+The solution was then blade-cast onto a substrate at a pulling speed of **10 mm/s**. Immediately following casting, the film was exposed to a **laminar dry nitrogen purge** for **1 second** to displace ambient humidity from the film surface before immersion.
+
+After the brief nitrogen purge period, the cast film was immersed into the NIPS coagulation bath, which was maintained at a reduced temperature of **5°C**, to induce phase separation. The membrane was left in the coagulation bath for **23 seconds** to allow sufficient phase separation and solidification of the polymer film.
+
+---
+
+Let me know if you'd like any additional details or modifications to the report!
+{'Strain at 50 bar Mean': 0.5031408722357118}","I'll analyze the prior observations to identify trends that minimize strain at 50 bar.
+
+**Key observations:**
+1. Exp 1: mixing_temp=25, bath_temp=5, wp=17, speed=10, N2=False, wait=7, nips=30s → Strain=0.461, CV=0.103
+2. Exp 2: mixing_temp=25, bath_temp=5, wp=17, speed=10, N2=False, wait=9, nips=30s → Strain=0.534, CV=0.064
+3. Exp 3: Same as Exp 2 but nips=29s → No result (empty)
+4. **Exp 4: mixing_temp=60, bath_temp=5, wp=17, speed=1, N2=True, wait=300, nips=1800s → Strain=0.321 (BEST)**
+5. Exp 5: mixing_temp=25, bath_temp=5, wp=17, speed=10, N2=True, wait=1, nips=23s → Strain=0.503
+
+**Analysis:**
+- Experiment 4 gave the lowest strain (0.321) with: high mixing temp (60°C), slow cast speed (1 mm/s), nitrogen=True, long wait (300s), long bath time (1800s), cold bath (5°C)
+- The combination of slow casting, nitrogen purge, long pre-immersion wait, and long bath immersion appears beneficial
+- To further explore this direction, I should try pushing toward maximum bath time (1800s already), and explore slightly different wait times or bath temperatures while keeping the winning parameters
+
+I'll keep the best-performing parameters and explore a slightly warmer bath temperature to see if that further reduces strain, while maintaining all other optimal settings.
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 5,
+  ""weight_percent"": 17,
+  ""volume"": 1000,
+  ""pullcast_speed"": 1,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 600,
+  ""nips_bath_wait_time"": 1800
+}
+```"
+"2026-06-16
+16:23:18",17-5deg-60s-N2-1800s,25,5,17,1000,1,True,60,1800,mixing_temp=25; bath_temp=5; weight_percent=17; volume=1000; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800,"# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Materials & Solution Preparation
+
+A polysulfone (PSf) polymer solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with a total solution volume of **1000 µL**. The solution was mixed and heated at **25°C** until homogeneous.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled pull-casting speed of **1 mm/s**. Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for **60 seconds** prior to immersion in the coagulation bath. This nitrogen blow step was employed to control surface humidity and influence the early-stage phase separation kinetics.
+
+## Phase Separation (NIPS Bath)
+
+After the 60-second nitrogen exposure period, the cast membrane was immersed into the non-solvent-induced phase separation (NIPS) bath, maintained at a temperature of **5°C**. The membrane remained in the coagulation bath for **1800 seconds (30 minutes)** to ensure complete phase separation and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer Concentration | 17 wt% |
+| Solution Volume | 1000 µL |
+| Mixing Temperature | 25°C |
+| Pull-Cast Speed | 1 mm/s |
+| Nitrogen Purge | Yes (60 s) |
+| NIPS Bath Temperature | 5°C |
+| NIPS Bath Immersion Time | 1800 s |",152.40846666666664,1.3957422621036475,223.80403311955843,5.877044086746749,24.43226400314664,2.497860334056297,0.5969411638339818,0.0063969348926639,60.716736704536025,15.062844144104522,946.5896161193732,84.685007318653,0.0600643921918487,0.0062349239245969,0.4822885333383123,0.0649601572506363,0.6151297314107415,0.0048804064741096,0.6950667079016973,0.0045504272012748,,,0.0481270116568554,"mixing_temp=25; bath_temp=5; weight_percent=17; volume=1000; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800{'Strain at 50 bar Mean': 0.4822885333383123, 'CV Mean': 0.0481270116568554}","# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Materials & Solution Preparation
+
+A polysulfone (PSf) polymer solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with a total solution volume of **1000 µL**. The solution was mixed and heated at **25°C** until homogeneous.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled pull-casting speed of **1 mm/s**. Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for **60 seconds** prior to immersion in the coagulation bath. This nitrogen blow step was employed to control surface humidity and influence the early-stage phase separation kinetics.
+
+## Phase Separation (NIPS Bath)
+
+After the 60-second nitrogen exposure period, the cast membrane was immersed into the non-solvent-induced phase separation (NIPS) bath, maintained at a temperature of **5°C**. The membrane remained in the coagulation bath for **1800 seconds (30 minutes)** to ensure complete phase separation and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer Concentration | 17 wt% |
+| Solution Volume | 1000 µL |
+| Mixing Temperature | 25°C |
+| Pull-Cast Speed | 1 mm/s |
+| Nitrogen Purge | Yes (60 s) |
+| NIPS Bath Temperature | 5°C |
+| NIPS Bath Immersion Time | 1800 s |
+{'Strain at 50 bar Mean': 0.4822885333383123, 'CV Mean': 0.0481270116568554}","I'll analyze the experimental data to identify trends that minimize strain at 50 bar.
+
+**Key observations:**
+1. The lowest strain (0.321) came from: mixing_temp=60°C, pullcast_speed=1 mm/s, nitrogen=True, coupon_to_bath_wait_time=300s, nips_bath_wait_time=1800s, bath_temp=5°C, weight_percent=17%
+2. Nitrogen purge + slow casting speed (1 mm/s) + longer bath time (1800s) + higher mixing temp seem beneficial for reducing strain
+3. The experiment with 300s wait time + nitrogen gave the best result (0.321)
+4. The experiment with 60s wait time + nitrogen gave 0.482 — suggesting longer pre-immersion wait under nitrogen is better
+5. Low CV values are preferred for reliability
+
+**Strategy:** Build on the best result (60°C, 1 mm/s, nitrogen=True, 1800s bath) and push the nitrogen wait time higher (toward 600s) to further explore that trend, while keeping other winning parameters fixed.
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 5,
+  ""weight_percent"": 17,
+  ""volume"": 1000,
+  ""pullcast_speed"": 1,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 600,
+  ""nips_bath_wait_time"": 1800
+}
+```"

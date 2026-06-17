@@ -25,14 +25,14 @@ import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same 
 
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {
-    "mixing_temp": 25,
+    "mixing_temp": 30,
     "bath_temp": 5,
     "weight_percent": 17,
     "volume": 1000,
-    "pullcast_speed": 10,
+    "pullcast_speed": 1,
     "nitrogen": True,
-    "coupon_to_bath_wait_time": 5,
-    "nips_bath_wait_time": 20,
+    "coupon_to_bath_wait_time": 400,
+    "nips_bath_wait_time": 1807,
 }
 PARAMS_SCHEMA = {
     "mixing_temp":              (int, float),
@@ -249,6 +249,8 @@ def _run_pipeline_and_trigger_next(params):
 
         llm_df.at[idx, "LLM_suggestion"] = params_suggestion
         llm_df.to_csv(CSV_AGG_LLM, index=False)
+
+        params_suggestion = llm_df["LLM_suggestion"].dropna().iloc[-1]
 
         new_params = _extract_next_params(params_suggestion)
         _validate_params(new_params)

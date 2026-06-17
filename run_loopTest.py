@@ -244,10 +244,12 @@ def _run_pipeline_and_trigger_next(params):
         print(f"  LLM CSV updated: {CSV_AGG_LLM}")
 
         print("[4/5] running active learning...")
-        params_suggestion = activeLearning.LLM_AL(final_report, activeLearning.ranges)
+        all_observations = "\n\n---\n\n".join(llm_df["final_report"].dropna().tolist())
+        params_suggestion = activeLearning.LLM_AL(all_observations, activeLearning.ranges)
 
         llm_df.at[idx, "LLM_suggestion"] = params_suggestion
         llm_df.to_csv(CSV_AGG_LLM, index=False)
+
         params_suggestion = llm_df["LLM_suggestion"].dropna().iloc[-1]
 
         new_params = _extract_next_params(params_suggestion)
