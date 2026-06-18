@@ -25,14 +25,14 @@ import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same 
 
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {
-    "mixing_temp": 30,
+    "mixing_temp": 6,
     "bath_temp": 5,
     "weight_percent": 17,
     "volume": 1000,
     "pullcast_speed": 1,
-    "nitrogen": True,
-    "coupon_to_bath_wait_time": 400,
-    "nips_bath_wait_time": 1807,
+    "nitrogen": False,
+    "coupon_to_bath_wait_time": 50,
+    "nips_bath_wait_time": 100,
 }
 PARAMS_SCHEMA = {
     "mixing_temp":              (int, float),
