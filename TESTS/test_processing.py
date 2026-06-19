@@ -117,3 +117,10 @@ with open(JSON_OUT, "w") as f:
 
 print(f"\nJSON output: {JSON_OUT}")
 print(json.dumps(results, indent=2))
+
+# ── Auto-regenerate the fit evaluation log ───────────────────────────────────
+try:
+    import generate_fit_log
+    generate_fit_log.generate(extra_csv_paths=[OUTPUT_CSV])
+except Exception as _e:
+    print(f"\n[fit log] skipped: {_e}")
