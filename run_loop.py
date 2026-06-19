@@ -11,12 +11,33 @@ Usage:
     python run_loop.py
 """
 
-import json, re, threading, time, shutil, csv, os, sys
+import json, re, threading, time, shutil, csv, os, sys, datetime
 import pandas as pd
 import cv2
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
+
+class _TeeLogger:
+    def __init__(self, filepath, stream):
+        Path(filepath).parent.mkdir(parents=True, exist_ok=True)
+        self._file = open(filepath, "a", encoding="utf-8", buffering=1)
+        self._stream = stream
+    def write(self, msg):
+        self._stream.write(msg)
+        if msg.strip():
+            ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self._file.write(f"[{ts}] {msg}" if msg.endswith("\n") else f"[{ts}] {msg}\n")
+        else:
+            self._file.write(msg)
+    def flush(self):
+        self._stream.flush(); self._file.flush()
+    def __getattr__(self, name):
+        return getattr(self._stream, name)
+
+_log_path = Path(__file__).parent / "logs" / f"run_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
+sys.stdout = _TeeLogger(_log_path, sys.__stdout__)
+sys.stderr = _TeeLogger(_log_path, sys.__stderr__)
 
 sys.path.insert(0, os.path.dirname(__file__))  # <<< IMPORT >>> adds script's own folder to path — breaks if moved to subfolder
 import url_29 as url                           # <<< IMPORT >>> must be in same folder as run_loop.py
@@ -188,11 +209,19 @@ def _validate_params(params):
             )
 
 
-def _run_pipeline_and_trigger_next(params):
+def _run_pipeline_and_trigger_next(params, protocol_log=None):
+    _t0 = time.time()
+    if protocol_log:
+        print("── PROTOCOL LOG (Opentrons) " + "─" * 40)
+        for line in protocol_log:
+            print(line)
+        print("── END PROTOCOL LOG " + "─" * 47)
     try:
+        condition_name = None
         print("\n[1/5] organising files...")
         condition_name = move_and_rename(params)
 
+        print(f"[START] condition={condition_name}")
         print(f"[2/5] processing pipeline for: {condition_name}")
         output = processing.process_zero_sample_pairs_pipeline(
             folder_name="compression-test-data",  # <<< FOLDER NAME >>>
@@ -262,11 +291,13 @@ def _run_pipeline_and_trigger_next(params):
 
         print(f"[5/5] next params: {new_params}")
         url.run_test(new_params)
-        # response = urllib.request.urlopen("http://169.254.46.48:8000/run", json.dumps(new_params).encode())
+        print(f"[DONE] {condition_name}  elapsed={time.time()-_t0:.1f}s")
 
     except json.JSONDecodeError:
+        print(f"[ERROR] {condition_name}  JSONDecodeError: active learning returned invalid JSON")
         print("Active learning returned invalid JSON — loop stopped:", params_suggestion)
     except Exception as e:
+        print(f"[ERROR] {condition_name}  {type(e).__name__}: {e}")
         print(f"Pipeline error — loop stopped: {e}")
         raise
 
@@ -298,7 +329,9 @@ class LoopHandler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         if path == "/server/process":
             length = int(self.headers.get("Content-Length", 0))
-            params = json.loads(self.rfile.read(length).decode())
+            body = json.loads(self.rfile.read(length).decode())
+            params = body.get("parameters", body)  # new format: {"parameters": {...}, "protocol_log": [...]}
+            protocol_log = body.get("protocol_log", [])
             self.send_response(200)
             self.send_header("Content-Type", "text/plain; charset=utf-8")
             self.end_headers()
@@ -306,7 +339,7 @@ class LoopHandler(BaseHTTPRequestHandler):
             # respond immediately, run pipeline + AL + next trigger in background
             threading.Thread(
                 target=_run_pipeline_and_trigger_next,
-                args=(params,),
+                args=(params, protocol_log),
                 daemon=True,
             ).start()
         else:

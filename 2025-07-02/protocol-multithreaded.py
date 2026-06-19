@@ -2,6 +2,7 @@
 import json
 import time
 import sys
+import datetime
 sys.path.append("/var/lib/jupyter/notebooks/2025-07-02/lib/")
 from arm import Arm
 from ot2 import OT2
@@ -10,6 +11,24 @@ from arduino import Uno
 import url as url
 
 import threading
+
+class _LogCapture:
+    def __init__(self, stream):
+        self._stream = stream
+        self.lines = []
+    def write(self, msg):
+        self._stream.write(msg)
+        if msg.strip():
+            ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self.lines.append(f"[{ts}] {msg.rstrip()}")
+    def flush(self):
+        self._stream.flush()
+    def __getattr__(self, name):
+        return getattr(self._stream, name)
+
+_capture = _LogCapture(sys.__stdout__)
+sys.stdout = _capture
+sys.stderr = _LogCapture(sys.__stderr__)
 
 # mutexes for the different machines, since they can be doing only 1 task at a time
 opentronsLock = threading.Lock()
@@ -444,7 +463,8 @@ def _run_test_inner(param = None):
     armLock.release()
     knife_cleaning_process.join() # make sure the knife is clean before we say we're done, it would cause a problem if we tried to make another membrane and the knife is not clean yet (robot.json currently does not store the status of the knife, might want to add that)
     print("Done")
-    url.start_processing(parameters) # tell the pc that the test is done so it can go process the files
+    url.start_processing(parameters, protocol_log=_capture.lines.copy()) # tell the pc that the test is done so it can go process the files
+    _capture.lines.clear()  # reset log buffer for next run
 
 runProcess = None
 
