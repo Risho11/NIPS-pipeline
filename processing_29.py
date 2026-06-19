@@ -408,13 +408,9 @@ def goodFit_eval(
             r2_p = r2_score(xPlateau['stress (bar)'].iloc[:cutoff], predPlateau[:cutoff])
         else:
             r2_p = r2_score(xPlateau['stress (bar)'], predPlateau)
-        if r2_p < 0:
-            score -= 15
-            breakdown['plateau_r2_start'] = (0, w, f'R²(first 40%)={r2_p:.3f} — negative, -15 penalty applied')
-        else:
-            pts = round(w * max(r2_p, 0))
-            breakdown['plateau_r2_start'] = (pts, w, f'R²(first 40%)={r2_p:.3f}')
-            score += pts
+        pts = round(w * max(r2_p, 0))  # clamp to 0 — no negative scores
+        breakdown['plateau_r2_start'] = (pts, w, f'R²(first 40%)={r2_p:.3f}')
+        score += pts
     else:
         breakdown['plateau_r2_start'] = (0, w, 'insufficient data')
 
@@ -427,12 +423,29 @@ def goodFit_eval(
     else:
         breakdown['densification_r2'] = (0, w, 'insufficient data')
 
+    # yield_accuracy: does the elastic linear fit overshoot/undershoot the raw data near bp1?
+    # checks the last 25% of the elastic region (the tail closest to bp1)
     w = 25
-    gam_stress_at_bp1 = float(gam.predict([[breakpoint1]])[0])
-    yield_err_pct = abs(float(yieldStrength) - gam_stress_at_bp1) / (gam_stress_at_bp1 + 1e-9)
-    pts = round(w * max(0, 1 - yield_err_pct / 0.20))
-    breakdown['yield_accuracy'] = (pts, w, f'linear vs GAM err={yield_err_pct*100:.1f}%')
-    score += pts
+    if len(elasticRegion) >= 4 and predElastic is not None:
+        tail_start = int(len(elasticRegion) * 0.75)
+        tail_actual = elasticRegion['stress (bar)'].values[tail_start:]
+        tail_pred = predElastic[tail_start:]
+        mean_residual = float(np.mean(tail_actual - tail_pred))  # negative = linear overshoots data
+        elastic_stress_range = elasticRegion['stress (bar)'].max() - elasticRegion['stress (bar)'].min()
+        overshoot_frac = abs(mean_residual) / (elastic_stress_range + 1e-9)
+        direction = "overshoots" if mean_residual < 0 else "undershoots"
+        if overshoot_frac > 0.5:
+            pts = 0
+        elif overshoot_frac > 0.2:
+            pts = 20   # -5
+        elif overshoot_frac > 0.1:
+            pts = 24   # -1
+        else:
+            pts = 25
+        breakdown['yield_accuracy'] = (pts, w, f'elastic tail {direction} data by {overshoot_frac*100:.1f}% of elastic range')
+        score += pts
+    else:
+        breakdown['yield_accuracy'] = (0, w, 'insufficient elastic data for tail check')
 
     w = 15
     if modelPlateau is not None:
@@ -448,7 +461,8 @@ def goodFit_eval(
 
     if xPlateau is not None and len(xPlateau) > 1 and predPlateau is not None:
         r2_full = r2_score(xPlateau['stress (bar)'], predPlateau)
-        penalty = -20 if r2_full < 0.5 else (-10 if r2_full < 0.7 else 0)
+        # only penalise genuinely bad plateau fits — R² < 0.5
+        penalty = -10 if r2_full < 0.5 else 0
         breakdown['plateau_r2_full_penalty'] = (penalty, 0, f'R²(full)={r2_full:.3f}')
         score += penalty
 
@@ -466,10 +480,6 @@ def goodFit_eval(
         if rise_fraction > 0.5:
             penalty = -30
             breakdown['bp1_accuracy_penalty'] = (penalty, 0, f'plateau spans {rise_fraction*100:.0f}% of remaining stress — elastic peak likely wrong')
-            score += penalty
-        elif rise_fraction > 0.3:
-            penalty = -15
-            breakdown['bp1_accuracy_penalty'] = (penalty, 0, f'plateau spans {rise_fraction*100:.0f}% of remaining stress — bp1 suspect')
             score += penalty
         else:
             breakdown['bp1_accuracy_penalty'] = (0, 0, f'plateau spans {rise_fraction*100:.0f}% of remaining stress — ok')

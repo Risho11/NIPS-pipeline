@@ -23,7 +23,7 @@ import processing_29 as processing             # <<< IMPORT >>> must be in same 
 # ── edit these ──────────────────────────────────────────────────────────────
 # <<< PATH >>> Set to a folder name to run one condition, or None to run ALL real conditions.
 DATA_ROOT  = Path(__file__).parent.parent
-CONDITION  = None  # None = all conditions (skips fake-data)
+CONDITION  = "17-5deg-50s-NoN2-100s"
 # <<< PATH >>> output files land beside this script
 OUTPUT_CSV  = Path(__file__).parent / "csv_tests" / "test_reps.csv"
 AGG_CSV     = Path(__file__).parent / "csv_tests" / "test_agg.csv"
