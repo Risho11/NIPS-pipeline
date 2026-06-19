@@ -1,0 +1,525 @@
+[2026-06-18 17:58:00] ════════════════════════════════════════════════════════════════════════════
+[2026-06-18 17:58:00] SESSION START — 2026-06-18  (run_loop.py + protocol-multithreaded.py)
+[2026-06-18 17:58:00] ════════════════════════════════════════════════════════════════════════════
+
+[2026-06-18 17:58:00] ── OPENTRONS STARTUP ──────────────────────────────────────────────────────
+[2026-06-18 17:58:00] SDK_VERSION: 1.18.5
+[2026-06-18 17:58:01] ROBOT_IP: 192.168.1.198, VERSION: v1.11.1, PROTOCOL: V1, DETAIL: 7,7,XS1203,AC1300,v1.11.1, TYPE1300: [1, 0]
+[2026-06-18 17:58:01] change protocol identifier to 3
+[2026-06-18 17:58:02] [motion_enable], xArm is not ready to move
+[2026-06-18 17:58:03] [motion_enable], xArm is not ready to move
+[2026-06-18 17:58:04] [motion_enable], xArm is not ready to move
+[2026-06-18 17:58:05] [set_state], xArm is ready to move
+[2026-06-18 17:58:05] /data/robot_settings.json not found. Loading defaults
+[2026-06-18 17:58:06] Failed to initialize character device, will not be able to control gpios (lights, button, smoothiekill, smoothie reset). Only one connection can be made to the gpios at a time. If you need to control gpios, first stop the robot server with systemctl stop opentrons-robot-server.
+[2026-06-18 17:58:06] /data/deck_calibration.json not found. Loading defaults
+[2026-06-18 17:58:10] detach tip called with no tip
+[2026-06-18 17:59:00] Please confirm that the machine is in the following state:
+[2026-06-18 17:59:00] Coupons in Pile: 9
+[2026-06-18 17:59:00] Rings on Stand: 9
+[2026-06-18 17:59:00] Assemblies in Discard Pile: 0
+[2026-06-18 17:59:00] The first tip in the tip rack is in well no. 5
+[2026-06-18 17:59:00] The first clean well in the heater is well no. 2
+[2026-06-18 17:59:00] All coupon stands (opentrons, bath, compression tester) are empty
+[2026-06-18 17:59:00] The knife is dry and on the knife stand
+[2026-06-18 17:59:00] The N2 cap is on the stand
+[2026-06-18 17:59:00] All baths (knife cleaning bath, nips bath, chiller bath) are filled with water
+[2026-06-18 18:00:45] is this correct? (Y/N)y
+[2026-06-18 18:00:46] Received positive answer, continuing.
+[2026-06-18 18:00:46] ── END OPENTRONS STARTUP ──────────────────────────────────────────────────
+
+[2026-06-18 18:00:50] ── WINDOWS STARTUP ────────────────────────────────────────────────────────
+[2026-06-18 18:00:50] server listening on 169.254.230.148:8000
+[2026-06-18 18:00:51] kicking off first experiment: {'mixing_temp': 6, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': False, 'coupon_to_bath_wait_time': 50, 'nips_bath_wait_time': 100}
+[2026-06-18 18:00:51] Python recieved!
+[2026-06-18 18:00:51] Exact payload being sent: {"mixing_temp": 6, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": false, "coupon_to_bath_wait_time": 50, "nips_bath_wait_time": 100}
+[2026-06-18 18:01:30] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 6, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": false, "coupon_to_bath_wait_time": 50, "nips_bath_wait_time": 100}
+[2026-06-18 18:01:30] robot started — loop running. Ctrl+C to stop.
+[2026-06-18 18:01:30] ── END WINDOWS STARTUP ────────────────────────────────────────────────────
+
+
+[2026-06-18 18:32:05] ════ RUN 1: 17-5deg-50s-NoN2-100s ════════════════════════════════════════
+[2026-06-18 18:32:05] ── PROTOCOL LOG (Opentrons, 18:01→18:32) ─────────────────────────────────
+[2026-06-18 18:01:30] Received request for membrane with parameters:
+[2026-06-18 18:01:30] {'mixing_temp': 6, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': False, 'coupon_to_bath_wait_time': 50, 'nips_bath_wait_time': 100}
+[2026-06-18 18:01:30] Bath chilling process started.
+[2026-06-18 18:01:30] Beginning zero tests on coupons.
+[2026-06-18 18:01:30] Opentrons process started.
+[2026-06-18 18:01:30] Solution will be pulled directly from bottle.
+[2026-06-18 18:05:14] Test has started!
+[2026-06-18 18:05:14] Test complete!
+[2026-06-18 18:05:14] Safe: True
+[2026-06-18 18:05:14] Recent: True
+[2026-06-18 18:08:40] Test has started!
+[2026-06-18 18:08:40] entered if statement!!!
+[2026-06-18 18:08:40] Test complete!
+[2026-06-18 18:08:40] Safe: True
+[2026-06-18 18:08:40] Recent: True
+[2026-06-18 18:12:10] Test has started!
+[2026-06-18 18:12:10] Finished drawing solution.
+[2026-06-18 18:12:10] Test complete!
+[2026-06-18 18:12:10] Safe: True
+[2026-06-18 18:12:10] Recent: True
+[2026-06-18 18:12:20] Joined both subprocesses
+[2026-06-18 18:12:20] ArmLock Acquired
+[2026-06-18 18:12:20] CameraLock Acquired
+[2026-06-18 18:12:30] Pullcast complete.
+[2026-06-18 18:13:10] Membrane sitting in bath for 100 seconds.
+[2026-06-18 18:15:00] Ring has been placed on the coupon.
+[2026-06-18 18:15:10] Initial membrane picture taken.
+[2026-06-18 18:22:24] Test has started!
+[2026-06-18 18:22:24] Cleaning knife
+[2026-06-18 18:22:35] Knife cleaning finished.
+[2026-06-18 18:22:35] Test complete!
+[2026-06-18 18:22:35] Safe: True
+[2026-06-18 18:22:35] Recent: True
+[2026-06-18 18:26:42] Test has started!
+[2026-06-18 18:26:42] Test complete!
+[2026-06-18 18:26:42] Safe: True
+[2026-06-18 18:26:42] Recent: True
+[2026-06-18 18:31:00] Test has started!
+[2026-06-18 18:31:00] Test complete!
+[2026-06-18 18:31:00] Safe: True
+[2026-06-18 18:31:00] Recent: True
+[2026-06-18 18:31:15] Final membrane picture taken.
+[2026-06-18 18:31:40] Coupon successfully discarded.
+[2026-06-18 18:32:00] Done
+[2026-06-18 18:32:05] ── END PROTOCOL LOG ───────────────────────────────────────────────────────
+
+[2026-06-18 18:32:05] [1/5] organising files...
+[2026-06-18 18:32:06] [START] condition=17-5deg-50s-NoN2-100s
+[2026-06-18 18:32:06] [2/5] processing pipeline for: 17-5deg-50s-NoN2-100s
+[2026-06-18 18:32:06] Single cluster detected — split in half: 3 zeros, 3 membranes
+[2026-06-18 18:32:06] ==============================================================================================================
+[2026-06-18 18:32:06] Condition: 17-5deg-50s-NoN2-100s | pairs: 3
+[2026-06-18 18:32:07]
+[2026-06-18 18:32:07] ------------ NEW REP ---------------
+[2026-06-18 18:32:07] Average Standard Deviation: 57.36009578942451
+[2026-06-18 18:32:07] Toe end strain (zero point): -0.0336
+[2026-06-18 18:32:07] PW + Double: 0.04627085689911408
+[2026-06-18 18:32:07] Piecewise Chosen! 0.04356474812040685 | Drop Calculation: 0.036722123799191285
+[2026-06-18 18:32:07]   elastic_r2                          22/30  NRMSE-score=0.745 (RMSE=6.04, range=23.67)
+[2026-06-18 18:32:07]   plateau_r2_start                    11/15  R²(first 40%)=0.702
+[2026-06-18 18:32:07]   densification_r2                    14/15  R²=0.944
+[2026-06-18 18:32:07]   yield_accuracy                      17/25  linear vs GAM err=6.2%
+[2026-06-18 18:32:07]   junction_continuity                  2/15  gap=13.1%
+[2026-06-18 18:32:07]   plateau_r2_full_penalty              0/0  R²(full)=0.890
+[2026-06-18 18:32:07]   elastic_modulus_penalty              0/0  E=158.0 bar ok
+[2026-06-18 18:32:07]   bp1_accuracy_penalty                 0/0  plateau spans 28% of remaining stress — ok
+[2026-06-18 18:32:07]   DATA FLAGS: elastic_half_consistency: first-half R²=-2.533 vs second-half R²=-1.757 (gap=0.776)
+[2026-06-18 18:32:07] Score: 66/100 → FAIL
+[2026-06-18 18:32:07] Good Fit: False
+[2026-06-18 18:32:07]
+[2026-06-18 18:32:08] ------------ NEW REP ---------------
+[2026-06-18 18:32:08] Average Standard Deviation: 57.13496775278043
+[2026-06-18 18:32:08] Toe end strain (zero point): 0.0918
+[2026-06-18 18:32:08] PW + Double: 0.021129279983602024
+[2026-06-18 18:32:08] Piecewise Chosen! 0.019967671515221476 | Drop Calculation: 0.020797562232216182
+[2026-06-18 18:32:08]   elastic_r2                          25/30  NRMSE-score=0.842 (RMSE=2.61, range=16.48)
+[2026-06-18 18:32:08]   plateau_r2_start                    12/15  R²(first 40%)=0.827
+[2026-06-18 18:32:08]   densification_r2                    12/15  R²=0.797
+[2026-06-18 18:32:08]   yield_accuracy                       1/25  linear vs GAM err=19.6%
+[2026-06-18 18:32:08]   junction_continuity                 12/15  gap=3.0%
+[2026-06-18 18:32:08]   plateau_r2_full_penalty             -20/0  R²(full)=0.359
+[2026-06-18 18:32:08]   elastic_modulus_penalty              0/0  E=711.6 bar ok
+[2026-06-18 18:32:08]   bp1_accuracy_penalty                 0/0  plateau spans 14% of remaining stress — ok
+[2026-06-18 18:32:08]   DATA FLAGS: elastic_half_consistency: first-half R²=-0.862 vs second-half R²=0.086 (gap=0.948)
+[2026-06-18 18:32:08] Score: 42/100 → FAIL
+[2026-06-18 18:32:08] Good Fit: False
+[2026-06-18 18:32:08]
+[2026-06-18 18:32:09] ------------ NEW REP ---------------
+[2026-06-18 18:32:09] Average Standard Deviation: 57.83095595830158
+[2026-06-18 18:32:09] Toe end strain (zero point): 0.0367
+[2026-06-18 18:32:09] PW + Double: 0.08147248196165886
+[2026-06-18 18:32:09] Piecewise Chosen! 0.08030088893107962 | Drop Calculation: 0.08144122062453663
+[2026-06-18 18:32:09]   elastic_r2                          28/30  NRMSE-score=0.946 (RMSE=1.34, range=24.82)
+[2026-06-18 18:32:09]   plateau_r2_start                    12/15  R²(first 40%)=0.819
+[2026-06-18 18:32:09]   densification_r2                    13/15  R²=0.860
+[2026-06-18 18:32:09]   yield_accuracy                      20/25  linear vs GAM err=3.9%
+[2026-06-18 18:32:09]   junction_continuity                 14/15  gap=0.5%
+[2026-06-18 18:32:09]   plateau_r2_full_penalty             -20/0  R²(full)=0.284
+[2026-06-18 18:32:09]   elastic_modulus_penalty              0/0  E=290.0 bar ok
+[2026-06-18 18:32:09]   bp1_accuracy_penalty                 0/0  plateau spans 11% of remaining stress — ok
+[2026-06-18 18:32:09]   DATA FLAGS: elastic_half_consistency: first-half R²=0.564 vs second-half R²=0.931 (gap=0.367)
+[2026-06-18 18:32:09] Score: 67/100 → FAIL
+[2026-06-18 18:32:09] Good Fit: False
+[2026-06-18 18:32:09] CV (17-5deg-50s-NoN2-100s) [preDiscard]: 0.08533594193181132
+[2026-06-18 18:32:09] CV (17-5deg-50s-NoN2-100s) [postDiscard]: nan
+[2026-06-18 18:32:09]   All fits failed for 17-5deg-50s-NoN2-100s — wrote NaN postDiscard row
+[2026-06-18 18:32:10] [3/5] generating initial report...
+[2026-06-18 18:32:10]   initial_report: Here is a short experimental report based on the provided parameters: ...
+[2026-06-18 18:32:22] WARNING: all replicates had bad fits — all mechanical properties NaN
+[2026-06-18 18:32:22]   LLM CSV updated: C:\Users\opentrons\Documents\Auto-Membranes\results_agg_llm.csv
+[2026-06-18 18:32:22] [4/5] running active learning...
+[2026-06-18 18:33:00]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\llm_result_17-5deg-50s-NoN2-100s.json
+[2026-06-18 18:33:05] [5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 550, 'nips_bath_wait_time': 1800}
+[2026-06-18 18:33:05] Python recieved!
+[2026-06-18 18:33:05] Exact payload being sent: {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 550, "nips_bath_wait_time": 1800}
+[2026-06-18 18:33:20] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, ..., "coupon_to_bath_wait_time": 550, "nips_bath_wait_time": 1800}
+[2026-06-18 18:33:20] [DONE] 17-5deg-50s-NoN2-100s  elapsed=75.3s
+
+
+[2026-06-18 19:40:35] ════ RUN 2: 17-5deg-550s-N2-1800s ════════════════════════════════════════
+[2026-06-18 19:40:35] ── PROTOCOL LOG (Opentrons, 18:33→19:40) ─────────────────────────────────
+[2026-06-18 18:33:23] Received request for membrane with parameters:
+[2026-06-18 18:33:23] {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 550, 'nips_bath_wait_time': 1800}
+[2026-06-18 18:33:23] Bath chilling process started.
+[2026-06-18 18:33:23] Beginning zero tests on coupons.
+[2026-06-18 18:33:23] Opentrons process started.
+[2026-06-18 18:33:23] Solution will be pulled directly from bottle.
+[2026-06-18 18:33:30] 4.89
+[2026-06-18 18:33:35] 4.9
+[2026-06-18 18:33:40] 4.9
+[2026-06-18 18:33:45] 4.9
+[2026-06-18 18:33:50] 4.9
+[2026-06-18 18:33:55] 4.9
+[2026-06-18 18:34:00] 4.9
+[2026-06-18 18:34:05] 4.9
+[2026-06-18 18:37:03] Test has started!
+[2026-06-18 18:37:03] Test complete!
+[2026-06-18 18:37:03] Safe: True
+[2026-06-18 18:37:03] Recent: True
+[2026-06-18 18:40:26] Test has started!
+[2026-06-18 18:40:26] Test complete!
+[2026-06-18 18:40:26] entered if statement!!!
+[2026-06-18 18:40:26] Safe: True
+[2026-06-18 18:40:26] Recent: True
+[2026-06-18 18:43:43] Test has started!
+[2026-06-18 18:43:43] Finished drawing solution.
+[2026-06-18 18:43:43] Test complete!
+[2026-06-18 18:43:43] Safe: True
+[2026-06-18 18:43:43] Recent: True
+[2026-06-18 18:43:55] Joined both subprocesses
+[2026-06-18 18:43:55] ArmLock Acquired
+[2026-06-18 18:43:55] CameraLock Acquired
+[2026-06-18 18:44:10] Pullcast complete.
+[2026-06-18 18:44:20] Nitrogen on.
+[2026-06-18 18:44:21] Nitrogen off.
+[2026-06-18 18:44:30] Membrane sitting in bath for 1800 seconds.
+[2026-06-18 18:44:35] Nitrogen cap has been put away.
+[2026-06-18 19:14:30] Ring has been placed on the coupon.
+[2026-06-18 19:14:40] Initial membrane picture taken.
+[2026-06-18 19:14:50] Cleaning knife
+[2026-06-18 19:15:05] Test has started!
+[2026-06-18 19:15:10] Knife cleaning finished.
+[2026-06-18 19:30:48] Test complete!
+[2026-06-18 19:30:48] Safe: True
+[2026-06-18 19:30:48] Recent: True
+[2026-06-18 19:35:01] Test has started!
+[2026-06-18 19:35:01] Test complete!
+[2026-06-18 19:35:01] Safe: True
+[2026-06-18 19:35:01] Recent: True
+[2026-06-18 19:39:08] Test has started!
+[2026-06-18 19:39:08] Test complete!
+[2026-06-18 19:39:08] Safe: True
+[2026-06-18 19:39:08] Recent: True
+[2026-06-18 19:39:20] Final membrane picture taken.
+[2026-06-18 19:39:45] Coupon successfully discarded.
+[2026-06-18 19:40:30] Done
+[2026-06-18 19:40:35] ── END PROTOCOL LOG ───────────────────────────────────────────────────────
+
+[2026-06-18 19:40:35] [1/5] organising files...
+[2026-06-18 19:40:36] [START] condition=17-5deg-550s-N2-1800s
+[2026-06-18 19:40:36] [2/5] processing pipeline for: 17-5deg-550s-N2-1800s
+[2026-06-18 19:40:36] ==============================================================================================================
+[2026-06-18 19:40:36] Condition: 17-5deg-550s-N2-1800s | pairs: 3
+[2026-06-18 19:40:37]
+[2026-06-18 19:40:37] ------------ NEW REP ---------------
+[2026-06-18 19:40:37] Average Standard Deviation: 56.730915092931966
+[2026-06-18 19:40:37] Toe end strain (zero point): 0.0080
+[2026-06-18 19:40:37] Piecewise Chosen! 0.05192765923266626 | Drop Calculation: 0.043235712209004885
+[2026-06-18 19:40:37]   elastic_r2                          27/30  NRMSE-score=0.907 (RMSE=1.74, range=18.57)
+[2026-06-18 19:40:37]   plateau_r2_start                    14/15  R²(first 40%)=0.957
+[2026-06-18 19:40:37]   densification_r2                    14/15  R²=0.955
+[2026-06-18 19:40:37]   yield_accuracy                      14/25  linear vs GAM err=8.8%
+[2026-06-18 19:40:37]   junction_continuity                 12/15  gap=3.2%
+[2026-06-18 19:40:37]   plateau_r2_full_penalty              0/0  R²(full)=0.950
+[2026-06-18 19:40:37]   elastic_modulus_penalty              0/0  E=318.6 bar ok
+[2026-06-18 19:40:37]   bp1_accuracy_penalty                -15/0  plateau spans 33% of remaining stress — bp1 suspect
+[2026-06-18 19:40:37]   DATA FLAGS: elastic_half_consistency: first-half R²=0.146 vs second-half R²=0.695 (gap=0.549)
+[2026-06-18 19:40:37] Score: 66/100 → FAIL
+[2026-06-18 19:40:37] Good Fit: False
+[2026-06-18 19:40:38]
+[2026-06-18 19:40:38] ------------ NEW REP ---------------
+[2026-06-18 19:40:38] Average Standard Deviation: 57.11423307037415
+[2026-06-18 19:40:38] Toe end strain (zero point): 0.2698
+[2026-06-18 19:40:38] Piecewise Chosen! 0.14024942459415207 | Drop Calculation: 0.15807708894165623
+[2026-06-18 19:40:38]   elastic_r2                          29/30  NRMSE-score=0.968 (RMSE=0.93, range=28.74)
+[2026-06-18 19:40:38]   plateau_r2_start                    14/15  R²(first 40%)=0.958
+[2026-06-18 19:40:38]   densification_r2                    14/15  R²=0.913
+[2026-06-18 19:40:38]   yield_accuracy                      22/25  linear vs GAM err=2.7%
+[2026-06-18 19:40:38]   junction_continuity                 15/15  gap=0.4%
+[2026-06-18 19:40:38]   plateau_r2_full_penalty              0/0  R²(full)=0.828
+[2026-06-18 19:40:38]   elastic_modulus_penalty              0/0  E=181.6 bar ok
+[2026-06-18 19:40:38]   bp1_accuracy_penalty                 0/0  plateau spans 25% of remaining stress — ok
+[2026-06-18 19:40:38] Score: 94/100 → PASS
+[2026-06-18 19:40:38] Good Fit: True
+[2026-06-18 19:40:39]
+[2026-06-18 19:40:39] ------------ NEW REP ---------------
+[2026-06-18 19:40:39] Average Standard Deviation: 56.56899791645565
+[2026-06-18 19:40:39] Toe end strain (zero point): 0.0312
+[2026-06-18 19:40:39] Piecewise Chosen! 0.07473844768582195 | Drop Calculation: 0.08065969482578608
+[2026-06-18 19:40:39]   elastic_r2                          28/30  NRMSE-score=0.929 (RMSE=1.49, range=20.95)
+[2026-06-18 19:40:39]   plateau_r2_start                    14/15  R²(first 40%)=0.963
+[2026-06-18 19:40:39]   densification_r2                    14/15  R²=0.928
+[2026-06-18 19:40:39]   yield_accuracy                      16/25  linear vs GAM err=7.2%
+[2026-06-18 19:40:39]   junction_continuity                 14/15  gap=0.9%
+[2026-06-18 19:40:39]   plateau_r2_full_penalty              0/0  R²(full)=0.925
+[2026-06-18 19:40:39]   elastic_modulus_penalty              0/0  E=334.8 bar ok
+[2026-06-18 19:40:39]   bp1_accuracy_penalty                -15/0  plateau spans 31% of remaining stress — bp1 suspect
+[2026-06-18 19:40:39]   DATA FLAGS: elastic_half_consistency: first-half R²=0.517 vs second-half R²=0.837 (gap=0.319)
+[2026-06-18 19:40:39] Score: 71/100 → PASS
+[2026-06-18 19:40:39] Good Fit: True
+[2026-06-18 19:40:39] CV (17-5deg-550s-N2-1800s) [preDiscard]: 0.09248673086750939
+[2026-06-18 19:40:39] CV (17-5deg-550s-N2-1800s) [postDiscard]: 0.04089080316840341
+[2026-06-18 19:40:40] [3/5] generating initial report...
+[2026-06-18 19:40:40]   initial_report: # Experimental Report: Automated Membrane Synthesis via NIPS ...
+[2026-06-18 19:41:00]   {'Strain at 50 bar Mean': 0.3901902915330604, 'CV Mean': 0.0408908031684034}
+[2026-06-18 19:41:00]   LLM CSV updated: C:\Users\opentrons\Documents\Auto-Membranes\results_agg_llm.csv
+[2026-06-18 19:41:00] [4/5] running active learning...
+[2026-06-18 19:41:40]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\llm_result_17-5deg-550s-N2-1800s.json
+[2026-06-18 19:41:45] [5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 350, 'nips_bath_wait_time': 1800}
+[2026-06-18 19:41:45] Python recieved!
+[2026-06-18 19:41:45] Exact payload being sent: {"mixing_temp": 60, ..., "coupon_to_bath_wait_time": 350, "nips_bath_wait_time": 1800}
+[2026-06-18 19:41:50] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, ..., "coupon_to_bath_wait_time": 350, "nips_bath_wait_time": 1800}
+[2026-06-18 19:41:50] [DONE] 17-5deg-550s-N2-1800s  elapsed=75.1s
+
+
+[2026-06-18 20:44:05] ════ RUN 3: 17-5deg-350s-N2-1800s ════════════════════════════════════════
+[2026-06-18 20:44:05] ── PROTOCOL LOG (Opentrons, 19:41→20:43) ─────────────────────────────────
+[2026-06-18 19:41:54] Received request for membrane with parameters:
+[2026-06-18 19:41:54] {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 350, 'nips_bath_wait_time': 1800}
+[2026-06-18 19:41:54] Bath chilling process started.
+[2026-06-18 19:41:54] Beginning zero tests on coupons.
+[2026-06-18 19:41:54] Opentrons process started.
+[2026-06-18 19:41:54] Solution will be pulled directly from bottle.
+[2026-06-18 19:45:17] Test has started!
+[2026-06-18 19:45:17] Test complete!
+[2026-06-18 19:45:17] Safe: True
+[2026-06-18 19:45:17] Recent: True
+[2026-06-18 19:48:28] Test has started!
+[2026-06-18 19:48:28] Test complete!
+[2026-06-18 19:48:28] Safe: True
+[2026-06-18 19:48:28] Recent: True
+[2026-06-18 19:51:36] Test has started!
+[2026-06-18 19:51:36] entered if statement!!!
+[2026-06-18 19:51:36] Finished drawing solution.
+[2026-06-18 19:51:36] Test complete!
+[2026-06-18 19:51:36] Safe: True
+[2026-06-18 19:51:36] Recent: True
+[2026-06-18 19:51:50] Joined both subprocesses
+[2026-06-18 19:51:50] ArmLock Acquired
+[2026-06-18 19:51:50] CameraLock Acquired
+[2026-06-18 19:52:05] Pullcast complete.
+[2026-06-18 19:52:15] Nitrogen on.
+[2026-06-18 19:52:16] Nitrogen off.
+[2026-06-18 19:52:25] Membrane sitting in bath for 1800 seconds.
+[2026-06-18 19:52:30] Nitrogen cap has been put away.
+[2026-06-18 20:22:25] Ring has been placed on the coupon.
+[2026-06-18 20:22:35] Initial membrane picture taken.
+[2026-06-18 20:22:45] Cleaning knife
+[2026-06-18 20:23:00] Test has started!
+[2026-06-18 20:23:05] Knife cleaning finished.
+[2026-06-18 20:34:56] Test complete!
+[2026-06-18 20:34:56] Safe: True
+[2026-06-18 20:34:56] Recent: True
+[2026-06-18 20:38:41] Test has started!
+[2026-06-18 20:38:41] Test complete!
+[2026-06-18 20:38:41] Safe: True
+[2026-06-18 20:38:41] Recent: True
+[2026-06-18 20:42:38] Test has started!
+[2026-06-18 20:42:38] Test complete!
+[2026-06-18 20:42:38] Safe: True
+[2026-06-18 20:42:38] Recent: True
+[2026-06-18 20:42:50] Final membrane picture taken.
+[2026-06-18 20:43:15] Coupon successfully discarded.
+[2026-06-18 20:44:00] Done
+[2026-06-18 20:44:05] ── END PROTOCOL LOG ───────────────────────────────────────────────────────
+
+[2026-06-18 20:44:05] [1/5] organising files...
+[2026-06-18 20:44:06] [START] condition=17-5deg-350s-N2-1800s
+[2026-06-18 20:44:06] [2/5] processing pipeline for: 17-5deg-350s-N2-1800s
+[2026-06-18 20:44:06] ==============================================================================================================
+[2026-06-18 20:44:06] Condition: 17-5deg-350s-N2-1800s | pairs: 3
+[2026-06-18 20:44:07]   elastic_r2                          26/30  NRMSE-score=0.878 (RMSE=2.13, range=17.48)
+[2026-06-18 20:44:07]   plateau_r2_start                    15/15  R²(first 40%)=0.974
+[2026-06-18 20:44:07]   densification_r2                    14/15  R²=0.941
+[2026-06-18 20:44:07]   yield_accuracy                      16/25  linear vs GAM err=7.4%
+[2026-06-18 20:44:07]   junction_continuity                 14/15  gap=0.7%
+[2026-06-18 20:44:07]   bp1_accuracy_penalty                -15/0  plateau spans 43% of remaining stress — bp1 suspect
+[2026-06-18 20:44:07]   DATA FLAGS: elastic_half_consistency: first-half R²=-0.516 vs second-half R²=0.667 (gap=1.183)
+[2026-06-18 20:44:07] Score: 70/100 → PASS  |  Good Fit: True
+[2026-06-18 20:44:08]   elastic_r2                          25/30  NRMSE-score=0.845 (RMSE=2.57, range=16.61)
+[2026-06-18 20:44:08]   plateau_r2_start                    15/15  R²(first 40%)=0.974
+[2026-06-18 20:44:08]   densification_r2                    15/15  R²=0.971
+[2026-06-18 20:44:08]   yield_accuracy                      16/25  linear vs GAM err=7.2%
+[2026-06-18 20:44:08]   junction_continuity                 10/15  gap=5.3%
+[2026-06-18 20:44:08]   bp1_accuracy_penalty                -15/0  plateau spans 43% of remaining stress — bp1 suspect
+[2026-06-18 20:44:08]   DATA FLAGS: elastic_half_consistency: first-half R²=-1.584 vs second-half R²=0.349 (gap=1.933)
+[2026-06-18 20:44:08] Score: 66/100 → FAIL  |  Good Fit: False
+[2026-06-18 20:44:09]   elastic_r2                          28/30  NRMSE-score=0.949 (RMSE=1.15, range=22.49)
+[2026-06-18 20:44:09]   plateau_r2_start                    14/15  R²(first 40%)=0.948
+[2026-06-18 20:44:09]   densification_r2                    15/15  R²=0.992
+[2026-06-18 20:44:09]   yield_accuracy                      18/25  linear vs GAM err=5.5%
+[2026-06-18 20:44:09]   junction_continuity                 15/15  gap=0.2%
+[2026-06-18 20:44:09]   bp1_accuracy_penalty                 0/0  plateau spans 27% of remaining stress — ok
+[2026-06-18 20:44:09] Score: 90/100 → PASS  |  Good Fit: True
+[2026-06-18 20:44:09] CV (17-5deg-350s-N2-1800s) [preDiscard]: 0.1381593732512248
+[2026-06-18 20:44:09] CV (17-5deg-350s-N2-1800s) [postDiscard]: 0.17180963003426206
+[2026-06-18 20:44:10] [3/5] generating initial report...
+[2026-06-18 20:44:10]   initial_report: # Experimental Report: Automated Membrane Synthesis via NIPS ...
+[2026-06-18 20:44:30]   {'Strain at 50 bar Mean': 0.2502997568558263, 'CV Mean': 0.171809630034262}
+[2026-06-18 20:44:30]   LLM CSV updated: C:\Users\opentrons\Documents\Auto-Membranes\results_agg_llm.csv
+[2026-06-18 20:44:30] [4/5] running active learning...
+[2026-06-18 20:44:55]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\llm_result_17-5deg-350s-N2-1800s.json
+[2026-06-18 20:45:00] [5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 325, 'nips_bath_wait_time': 1800}
+[2026-06-18 20:45:00] Python recieved!
+[2026-06-18 20:45:00] Exact payload being sent: {"mixing_temp": 60, ..., "coupon_to_bath_wait_time": 325, "nips_bath_wait_time": 1800}
+[2026-06-18 20:45:02] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, ..., "coupon_to_bath_wait_time": 325, "nips_bath_wait_time": 1800}
+[2026-06-18 20:45:02] [DONE] 17-5deg-350s-N2-1800s  elapsed=57.4s
+
+
+[2026-06-18 21:43:05] ════ RUN 4: 17-5deg-325s-N2-1800s ════════════════════════════════════════
+[2026-06-18 21:43:05] ── PROTOCOL LOG (Opentrons, 20:45→21:43) ─────────────────────────────────
+[2026-06-18 20:45:04] Received request for membrane with parameters:
+[2026-06-18 20:45:04] {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 325, 'nips_bath_wait_time': 1800}
+[2026-06-18 20:45:04] Bath chilling process started.
+[2026-06-18 20:45:04] Beginning zero tests on coupons.
+[2026-06-18 20:45:04] Opentrons process started.
+[2026-06-18 20:45:04] Solution will be pulled directly from bottle.
+[2026-06-18 20:48:18] Test has started!
+[2026-06-18 20:48:18] Test complete!
+[2026-06-18 20:48:18] Safe: True
+[2026-06-18 20:48:18] Recent: True
+[2026-06-18 20:51:20] Test has started!
+[2026-06-18 20:51:20] Test complete!
+[2026-06-18 20:51:20] Safe: True
+[2026-06-18 20:51:20] Recent: True
+[2026-06-18 20:54:23] Test has started!
+[2026-06-18 20:54:23] entered if statement!!!
+[2026-06-18 20:54:23] Test complete!
+[2026-06-18 20:54:23] Finished drawing solution.
+[2026-06-18 20:54:23] Safe: True
+[2026-06-18 20:54:23] Recent: True
+[2026-06-18 20:54:35] Joined both subprocesses
+[2026-06-18 20:54:35] ArmLock Acquired
+[2026-06-18 20:54:35] CameraLock Acquired
+[2026-06-18 20:54:50] Pullcast complete.
+[2026-06-18 20:55:00] Nitrogen on.
+[2026-06-18 20:55:01] Nitrogen off.
+[2026-06-18 20:55:10] Membrane sitting in bath for 1800 seconds.
+[2026-06-18 20:55:15] Nitrogen cap has been put away.
+[2026-06-18 21:25:10] Ring has been placed on the coupon.
+[2026-06-18 21:25:20] Initial membrane picture taken.
+[2026-06-18 21:25:30] Cleaning knife
+[2026-06-18 21:25:45] Test has started!
+[2026-06-18 21:25:50] Knife cleaning finished.
+[2026-06-18 21:36:36] Test complete!
+[2026-06-18 21:36:36] Safe: True
+[2026-06-18 21:36:36] Recent: True
+[2026-06-18 21:39:40] Test has started!
+[2026-06-18 21:39:40] Test complete!
+[2026-06-18 21:39:40] Safe: True
+[2026-06-18 21:39:40] Recent: True
+[2026-06-18 21:42:38] Test has started!
+[2026-06-18 21:42:38] Test complete!
+[2026-06-18 21:42:38] Safe: True
+[2026-06-18 21:42:38] Recent: True
+[2026-06-18 21:42:50] Final membrane picture taken.
+[2026-06-18 21:43:00] Coupon successfully discarded.
+[2026-06-18 21:43:00] Done
+[2026-06-18 21:43:05] ── END PROTOCOL LOG ───────────────────────────────────────────────────────
+
+[2026-06-18 21:43:05] [1/5] organising files...
+[2026-06-18 21:43:06] [START] condition=17-5deg-325s-N2-1800s
+[2026-06-18 21:43:06] [2/5] processing pipeline for: 17-5deg-325s-N2-1800s
+[2026-06-18 21:43:06] ==============================================================================================================
+[2026-06-18 21:43:06] Condition: 17-5deg-325s-N2-1800s | pairs: 3
+[2026-06-18 21:43:07] Average Standard Deviation: 38.330820308676614
+[2026-06-18 21:43:07] Skipping GAM for 17-5deg-325s-N2-1800s | rep 1 (thickness=-3.6 µm — no membrane)
+[2026-06-18 21:43:07] Average Standard Deviation: 39.078689382757766
+[2026-06-18 21:43:07] Skipping GAM for 17-5deg-325s-N2-1800s | rep 2 (thickness=-3.7 µm — no membrane)
+[2026-06-18 21:43:07] Average Standard Deviation: 41.2024348433955
+[2026-06-18 21:43:07] Skipping GAM for 17-5deg-325s-N2-1800s | rep 3 (thickness=-2.9 µm — no membrane)
+[2026-06-18 21:43:07] CV (17-5deg-325s-N2-1800s): nan
+[2026-06-18 21:43:08] [3/5] generating initial report...
+[2026-06-18 21:43:08]   initial_report: # Experimental Report: Automated Membrane Synthesis via NIPS ...
+[2026-06-18 21:43:25] WARNING: all replicates had bad fits — all mechanical properties NaN
+[2026-06-18 21:43:25]   LLM CSV updated: C:\Users\opentrons\Documents\Auto-Membranes\results_agg_llm.csv
+[2026-06-18 21:43:25] [4/5] running active learning...
+[2026-06-18 21:43:40]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\llm_result_17-5deg-325s-N2-1800s.json
+[2026-06-18 21:43:43] [5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 375, 'nips_bath_wait_time': 1800}
+[2026-06-18 21:43:43] Python recieved!
+[2026-06-18 21:43:43] Exact payload being sent: {"mixing_temp": 60, ..., "coupon_to_bath_wait_time": 375, "nips_bath_wait_time": 1800}
+[2026-06-18 21:43:45] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, ..., "coupon_to_bath_wait_time": 375, "nips_bath_wait_time": 1800}
+[2026-06-18 21:43:45] [DONE] 17-5deg-325s-N2-1800s  elapsed=40.2s
+
+
+[2026-06-18 22:37:09] ════ RUN 5: 17-5deg-375s-N2-1800s — ABORTED ══════════════════════════════
+[2026-06-18 22:37:09] ── PROTOCOL LOG (Opentrons, 21:43→22:37 — INCOMPLETE) ────────────────────
+[2026-06-18 21:43:47] Received request for membrane with parameters:
+[2026-06-18 21:43:47] {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 375, 'nips_bath_wait_time': 1800}
+[2026-06-18 21:43:47] Bath chilling process started.
+[2026-06-18 21:43:47] Beginning zero tests on coupons.
+[2026-06-18 21:43:47] Opentrons process started.
+[2026-06-18 21:43:47] Solution will be pulled directly from bottle.
+[2026-06-18 21:47:06] Test has started!
+[2026-06-18 21:47:06] Test complete!
+[2026-06-18 21:47:06] Safe: True
+[2026-06-18 21:47:06] Recent: True
+[2026-06-18 21:50:16] Test has started!
+[2026-06-18 21:50:16] Test complete!
+[2026-06-18 21:50:16] entered if statement!!!
+[2026-06-18 21:50:16] Safe: True
+[2026-06-18 21:50:16] Recent: True
+[2026-06-18 21:53:29] Test has started!
+[2026-06-18 21:53:29] Finished drawing solution.
+[2026-06-18 21:53:29] Test complete!
+[2026-06-18 21:53:29] Safe: True
+[2026-06-18 21:53:29] Recent: True
+[2026-06-18 21:53:42] Joined both subprocesses
+[2026-06-18 21:53:42] ArmLock Acquired
+[2026-06-18 21:53:42] CameraLock Acquired
+[2026-06-18 21:53:55] Pullcast complete.
+[2026-06-18 21:54:05] Nitrogen on.
+[2026-06-18 21:54:06] Nitrogen off.
+[2026-06-18 21:54:15] Membrane sitting in bath for 1800 seconds.
+[2026-06-18 21:54:20] Nitrogen cap has been put away.
+[2026-06-18 22:24:15] Ring has been placed on the coupon.
+[2026-06-18 22:24:25] Initial membrane picture taken.
+[2026-06-18 22:24:35] Cleaning knife
+[2026-06-18 22:24:50] Test has started!
+[2026-06-18 22:24:55] Knife cleaning finished.
+[2026-06-18 22:36:38] Test complete!
+[2026-06-18 22:36:38] Safe: True
+[2026-06-18 22:36:38] Recent: True
+[2026-06-18 22:37:09] Test has started!
+[2026-06-18 22:37:09] Test complete!
+[2026-06-18 22:37:09] Safe: False
+[2026-06-18 22:37:09] Recent: True
+[2026-06-18 22:37:09] Compression tester is unsafe! exiting...
+[2026-06-18 22:37:09] [ERROR] 17-5deg-375s-N2-1800s  compression tester UNSAFE — arm moved to middle, sys.exit()
+[2026-06-18 22:37:10] Traceback (most recent call last):
+[2026-06-18 22:37:10]   File "/var/lib/jupyter/notebooks/2026-06-11/protocol-multithreaded.py", line 468, in <module>
+[2026-06-18 22:37:10]     server.serve_forever()
+[2026-06-18 22:37:10]   File "/usr/lib/python3.10/socketserver.py", line 232, in serve_forever
+[2026-06-18 22:37:10]   File "/usr/lib/python3.10/selectors.py", line 416, in select
+[2026-06-18 22:37:10] KeyboardInterrupt
+[2026-06-18 22:37:11] Polling exception — RuntimeError: cannot schedule new futures after shutdown
+[2026-06-18 22:37:11]   (opentrons/hardware_control/poller.py → tempdeck.py → serial_connection.py)
+[2026-06-18 22:37:12] Exception during post-run finish steps — RuntimeError: cannot schedule new futures after shutdown
+[2026-06-18 22:37:12]   (protocol_engine/protocol_engine.py → hardware_stopper.py → thread_manager.py → controller.py → smoothie_drivers/driver_3_0.py → serial_connection.py)
+[2026-06-18 22:37:13] Exception ignored in atexit callback: _clear_cached_hardware_controller
+[2026-06-18 22:37:13]   (execute.py → thread_manager.py → hardware_control/api.py → module_control.py → tempdeck.py → serial_connection.py)
+[2026-06-18 22:37:13] RuntimeError: cannot schedule new futures after shutdown
+[2026-06-18 22:37:13] ── END PROTOCOL LOG (INCOMPLETE — Opentrons crashed before calling start_processing) ──
+
+[2026-06-18 22:37:13] NOTE: url.start_processing() was never called — Windows pipeline did NOT run for this condition
+[2026-06-18 22:37:13] Windows server continued waiting for next POST request.
+
+[2026-06-18 23:15:00] stopping server...  (Ctrl+C on Windows)
+[2026-06-18 23:15:00] ════════════════════════════════════════════════════════════════════════════
+[2026-06-18 23:15:00] SESSION END
+[2026-06-18 23:15:00] Conditions run: 17-5deg-50s-NoN2-100s, 17-5deg-550s-N2-1800s, 17-5deg-350s-N2-1800s, 17-5deg-325s-N2-1800s
+[2026-06-18 23:15:00] Aborted:        17-5deg-375s-N2-1800s (compression tester unsafe at run 2 of 3 compression tests)
+[2026-06-18 23:15:00] ════════════════════════════════════════════════════════════════════════════
