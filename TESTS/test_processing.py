@@ -21,9 +21,9 @@ import processing_29 as processing             # <<< IMPORT >>> must be in same 
 #import activeLearning_29 as al                 # <<< IMPORT >>> must be in same folder
 
 # ── edit these ──────────────────────────────────────────────────────────────
-# <<< PATH >>> Chooses condition.
-DATA_ROOT  = Path(__file__).parent.parent 
-CONDITION  = "10-25degMix-25deg-0s-NoN2-1800s"
+# <<< PATH >>> Set to a folder name to run one condition, or None to run ALL real conditions.
+DATA_ROOT  = Path(__file__).parent.parent
+CONDITION  = None  # None = all conditions (skips fake-data)
 # <<< PATH >>> output files land beside this script
 OUTPUT_CSV  = Path(__file__).parent / "csv_tests" / "test_reps.csv"
 AGG_CSV     = Path(__file__).parent / "csv_tests" / "test_agg.csv"
@@ -31,30 +31,38 @@ AGG_LLM_CSV = Path(__file__).parent / "csv_tests" / "test_agg_llm.csv"
 JSON_OUT    = Path(__file__).parent / "csv_tests" / "test_llm_params.json"
 # ────────────────────────────────────────────────────────────────────────────
 
-print(f"Data root : {DATA_ROOT}")
-print(f"Condition : {CONDITION}")
+_all_conditions = sorted([
+    d.name for d in (DATA_ROOT / "compression-test-data").iterdir()
+    if d.is_dir() and d.name not in ("fake-data",)
+]) if CONDITION is None else [CONDITION]
+
+print(f"Data root  : {DATA_ROOT}")
+print(f"Conditions : {CONDITION or f'ALL ({len(_all_conditions)})'}")
 print()
 
 output = processing.process_zero_sample_pairs_pipeline(
     folder_name="compression-test-data",  # <<< FOLDER NAME >>>
     data_root=str(DATA_ROOT),
-    strict=True,
+    strict=False,
     load_cutoff=1.0,
     thickness_info=False,
     thickness_map=None,
     creep_info=True,
     cutoff_load_thickness=1,
     cutoff_load_displacement=2,
-    condition_filter=CONDITION,
+    condition_filter=CONDITION,  # None = all
 )
 
 processing.save_to_csv(output, data_root=DATA_ROOT, output_path=OUTPUT_CSV, aggregate_path=AGG_CSV)
 
 _agg_df = pd.read_csv(AGG_CSV)
-_has_post = (_agg_df["name"] == f"{CONDITION}_postDiscard").any()
-_source = "postDiscard" if _has_post else ""
-# Change _source to "preDiscard" to promote the pre-discard version instead
-processing.promote_to_main(CONDITION, _source, AGG_CSV, AGG_LLM_CSV)
+for _cond in _all_conditions:
+    _has_post = (_agg_df["name"] == f"{_cond}_postDiscard").any()
+    _source = "postDiscard" if _has_post else ""
+    try:
+        processing.promote_to_main(_cond, _source, AGG_CSV, AGG_LLM_CSV)
+    except Exception as _e:
+        print(f"  [promote_to_main skip] {_cond}: {_e}")
 
 print(f"\nReps CSV    : {OUTPUT_CSV}")
 print(f"Agg CSV     : {AGG_CSV}")
