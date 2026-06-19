@@ -80,7 +80,7 @@ if not AGG_LLM_CSV.exists() or AGG_LLM_CSV.stat().st_size == 0:
 llm_df = pd.read_csv(AGG_LLM_CSV)
 if llm_df.empty:
     raise ValueError(f"Agg LLM CSV has no data rows: {AGG_LLM_CSV}")
-for col in ["formatted_parameters_withProp", "initial_report", "final_report"]:
+for col in ["formatted_parameters_withProp", "initial_report", "final_report", "LLM_suggestion"]:
     if col in llm_df.columns:
         llm_df[col] = llm_df[col].astype(object)
 idx = llm_df.index[-1]
