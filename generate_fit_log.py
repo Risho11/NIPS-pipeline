@@ -80,17 +80,23 @@ def load_csvs(extra_csv_paths=None):
     return df
 
 
+def img_to_data_uri(path: Path) -> str:
+    """Read a PNG and return a data URI string for embedding in HTML."""
+    data = path.read_bytes()
+    b64 = base64.b64encode(data).decode("ascii")
+    return f"data:image/png;base64,{b64}"
+
+
 def find_plots(condition_name: str):
     """
     Search pipeline-plots/ for the most recent run folder that contains
-    this condition. Returns (seg_images, comparison_images, run_folder_name).
-
-    Seg images are relative paths from ROOT; sorted by rep number.
+    this condition. Returns (seg_paths, comparison_paths, run_folder_name)
+    where each path is an absolute Path object.
     """
     if not PLOTS_DIR.exists():
         return [], [], None
 
-    # Run folders sorted newest-first (names are date-stamped so lexsort works)
+    # Run folders sorted newest-first (date-stamped names → lexsort works)
     run_dirs = sorted(PLOTS_DIR.glob("*/"), reverse=True)
     for run_dir in run_dirs:
         cond_dir = run_dir / condition_name
@@ -101,11 +107,9 @@ def find_plots(condition_name: str):
         for rep_dir in sorted(cond_dir.glob("rep-*/")):
             hits = sorted(rep_dir.glob("Segmentation_rep-*.png"))
             if hits:
-                seg.append(hits[0].relative_to(ROOT))
+                seg.append(hits[0])
 
-        comps = sorted(
-            [p.relative_to(ROOT) for p in cond_dir.glob("Comparison_CV*.png")]
-        )
+        comps = sorted(cond_dir.glob("Comparison_CV*.png"))
         return seg, comps, run_dir.name
 
     return [], [], None
@@ -394,20 +398,28 @@ def condition_card(cond_name, group_df, seg_images, comp_images, run_folder):
     imgs_html = ""
     for img_path in seg_images:
         label = img_path.parent.name  # e.g. "rep-1"
-        imgs_html += f"""
+        try:
+            uri = img_to_data_uri(img_path)
+            imgs_html += f"""
         <div class="img-group">
-          <img src="{img_path}" alt="{label}" loading="lazy">
+          <img src="{uri}" alt="{label}">
           <span class="img-label">{label}</span>
         </div>"""
+        except Exception:
+            pass
 
     # Comparison CVs (if any)
     for img_path in comp_images:
         label = img_path.stem  # e.g. "Comparison_CV_postDiscard"
-        imgs_html += f"""
+        try:
+            uri = img_to_data_uri(img_path)
+            imgs_html += f"""
         <div class="img-group">
-          <img src="{img_path}" alt="{label}" loading="lazy">
+          <img src="{uri}" alt="{label}">
           <span class="img-label">{label}</span>
         </div>"""
+        except Exception:
+            pass
 
     if not imgs_html:
         imgs_html = '<span class="no-plots">No plots found — run processing first</span>'
