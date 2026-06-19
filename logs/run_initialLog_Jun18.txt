@@ -1,0 +1,753 @@
+----- OPENTRONS SERVER -----
+# python protocol-multithreaded.py
+SDK_VERSION: 1.18.5
+ROBOT_IP: 192.168.1.198, VERSION: v1.11.1, PROTOCOL: V1, DETAIL: 7,7,XS1203,AC1300,v1.11.1, TYPE1300: [1, 0]
+change protocol identifier to 3
+[motion_enable], xArm is not ready to move
+[motion_enable], xArm is not ready to move
+[motion_enable], xArm is not ready to move
+[set_state], xArm is ready to move
+/data/robot_settings.json not found. Loading defaults
+Failed to initialize character device, will not be able to control gpios (lights, button, smoothiekill, smoothie reset). Only one connection can be made to the gpios at a time. If you need to control gpios, first stop the robot server with systemctl stop opentrons-robot-server. Until you restart the server with systemctl start opentrons-robot-server, you will be unable to control the robot using the Opentrons app.
+/data/deck_calibration.json not found. Loading defaults
+detach tip called with no tip
+Please confirm that the machine is in the following state:
+
+Coupons in Pile: 9
+Rings on Stand: 9
+Assemblies in Discard Pile: 0
+The first tip in the tip rack is in well no. 5
+The first clean well in the heater is well no. 2
+All coupon stands (opentrons, bath, compression tester) are empty
+The knife is dry and on the knife stand
+The N2 cap is on the stand
+All baths (knife cleaning bath, nips bath, chiller bath) are filled with water
+is this correct? (Y/N)y
+Recieved positive answer, continuing.
+169.254.230.148 - - [18/Jun/2026 18:01:30] "POST /run HTTP/1.1" 200 -
+Recievied request for membrane with following parameters:
+{'mixing_temp': 6, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': False, 'coupon_to_bath_wait_time': 50, 'nips_bath_wait_time': 100}
+Bath chilling process started.
+Beginning zero tests on coupons.
+Opentrons process started.
+Solution will be pulled directly from bottle.
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781805914.5435822
+mTime: 1781806200.2037382
+Test has started!
+entered if statement!!!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781806120.6969352
+mTime: 1781806406.3543746
+Test has started!
+Finished drawing solution.
+Test complete!
+Safe: True
+Recent: True
+Time: 1781806330.58759
+mTime: 1781806616.2014866
+Joined both subprocesses
+ArmLock Acquired
+CameraLock Acquired
+Pullcast complete.
+Membrane sitting in bath for 100 seconds.
+Ring has been placed on the coupon.
+Initial membrane picture taken.
+Test has started!
+Cleaning knife
+Knife cleaning finished.
+Test complete!
+Safe: True
+Recent: True
+Time: 1781806944.4825306
+mTime: 1781807229.8918047
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781807202.8986475
+mTime: 1781807488.5034525
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781807460.484492
+mTime: 1781807746.0950458
+Final membrane picture taken.
+Coupon successfully discarded.
+Done
+169.254.230.148 - - [18/Jun/2026 18:33:23] "POST /run HTTP/1.1" 200 -
+Recievied request for membrane with following parameters:
+{'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 550, 'nips_bath_wait_time': 1800}
+Bath chilling process started.
+Beginning zero tests on coupons.
+Opentrons process started.
+Solution will be pulled directly from bottle.
+4.89
+4.9
+4.9
+4.9
+4.9
+4.9
+4.9
+4.9
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781807823.1809032
+mTime: 1781808108.80837
+Test has started!
+Test complete!
+entered if statement!!!
+Safe: True
+Recent: True
+Time: 1781808026.2454727
+mTime: 1781808311.8805006
+Test has started!
+Finished drawing solution.
+Test complete!
+Safe: True
+Recent: True
+Time: 1781808223.253212
+mTime: 1781808508.8766253
+Joined both subprocesses
+ArmLock Acquired
+CameraLock Acquired
+Pullcast complete.
+Nitrogen on.
+Nitrogen off.
+Membrane sitting in bath for 1800 seconds.
+Nitrogen cap has been put away.
+Ring has been placed on the coupon.
+Initial membrane picture taken.
+Cleaning knife
+Test has started!
+Knife cleaning finished.
+Test complete!
+Safe: True
+Recent: True
+Time: 1781811048.8787167
+mTime: 1781811334.4751742
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781811301.400367
+mTime: 1781811587.027809
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781811548.5201197
+mTime: 1781811834.1614912
+Final membrane picture taken.
+Coupon successfully discarded.
+Done
+169.254.230.148 - - [18/Jun/2026 19:41:54] "POST /run HTTP/1.1" 200 -
+Recievied request for membrane with following parameters:
+{'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 350, 'nips_bath_wait_time': 1800}
+Bath chilling process started.
+Beginning zero tests on coupons.
+Opentrons process started.
+Solution will be pulled directly from bottle.
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781811917.937859
+mTime: 1781812203.560033
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781812108.044163
+mTime: 1781812393.661617
+Test has started!
+entered if statement!!!
+Finished drawing solution.
+Test complete!
+Safe: True
+Recent: True
+Time: 1781812296.7019336
+mTime: 1781812582.4395478
+Joined both subprocesses
+ArmLock Acquired
+CameraLock Acquired
+Pullcast complete.
+Nitrogen on.
+Nitrogen off.
+Membrane sitting in bath for 1800 seconds.
+Nitrogen cap has been put away.
+Ring has been placed on the coupon.
+Initial membrane picture taken.
+Cleaning knife
+Test has started!
+Knife cleaning finished.
+Test complete!
+Safe: True
+Recent: True
+Time: 1781814896.586129
+mTime: 1781815182.1150753
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781815121.8355508
+mTime: 1781815407.3951533
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781815358.009338
+mTime: 1781815643.514059
+Final membrane picture taken.
+Coupon successfully discarded.
+Done
+169.254.230.148 - - [18/Jun/2026 20:45:04] "POST /run HTTP/1.1" 200 -
+Recievied request for membrane with following parameters:
+{'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 325, 'nips_bath_wait_time': 1800}
+Bath chilling process started.
+Beginning zero tests on coupons.
+Opentrons process started.
+Solution will be pulled directly from bottle.
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781815698.864206
+mTime: 1781815984.446375
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781815880.5476696
+mTime: 1781816166.103788
+Test has started!
+entered if statement!!!
+Test complete!
+Finished drawing solution.
+Safe: True
+Recent: True
+Time: 1781816063.5644636
+mTime: 1781816349.1992028
+Joined both subprocesses
+ArmLock Acquired
+CameraLock Acquired
+Pullcast complete.
+Nitrogen on.
+Nitrogen off.
+Membrane sitting in bath for 1800 seconds.
+Nitrogen cap has been put away.
+Ring has been placed on the coupon.
+Initial membrane picture taken.
+Cleaning knife
+Test has started!
+Knife cleaning finished.
+Test complete!
+Safe: True
+Recent: True
+Time: 1781818596.7522092
+mTime: 1781818882.333557
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781818780.566043
+mTime: 1781819066.1552773
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781818958.7856016
+mTime: 1781819244.32539
+Final membrane picture taken.
+Coupon successfully discarded.
+Done
+169.254.230.148 - - [18/Jun/2026 21:43:47] "POST /run HTTP/1.1" 200 -
+Recievied request for membrane with following parameters:
+{'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 375, 'nips_bath_wait_time': 1800}
+Bath chilling process started.
+Beginning zero tests on coupons.
+Opentrons process started.
+Solution will be pulled directly from bottle.
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781819226.7009387
+mTime: 1781819512.2044268
+Test has started!
+Test complete!
+Safe: True
+Recent: True
+Time: 1781819416.0013425
+mTime: 1781819701.5290213
+Test has started!
+entered if statement!!!
+Finished drawing solution.
+Test complete!
+Safe: True
+Recent: True
+Time: 1781819609.7199934
+mTime: 1781819895.2333615
+Joined both subprocesses
+ArmLock Acquired
+CameraLock Acquired
+Pullcast complete.
+Nitrogen on.
+Nitrogen off.
+Membrane sitting in bath for 1800 seconds.
+Nitrogen cap has been put away.
+Ring has been placed on the coupon.
+Initial membrane picture taken.
+Cleaning knife
+Test has started!
+Knife cleaning finished.
+Test complete!
+Safe: True
+Recent: True
+Time: 1781822198.1819508
+mTime: 1781822483.6892128
+Test has started!
+Test complete!
+Safe: False
+Recent: True
+Time: 1781822229.2671134
+mTime: 1781822515.086679
+Compression tester is unsafe! exiting...
+^CTraceback (most recent call last):
+  File "/var/lib/jupyter/notebooks/2026-06-11/protocol-multithreaded.py", line 468, in <module>
+    server.serve_forever()
+  File "/usr/lib/python3.10/socketserver.py", line 232, in serve_forever
+  File "/usr/lib/python3.10/selectors.py", line 416, in select
+KeyboardInterrupt
+Polling exception
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/poller.py", line 111, in _poll_once
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/modules/tempdeck.py", line 306, in read
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 135, in get_temperature
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 194, in _send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 152, in send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 187, in send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 205, in _send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 106, in write
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
+Exception during post-run finish steps.
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 175, in timeout_override
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/protocol_engine/protocol_engine.py", line 589, in finish
+  File "/usr/lib/python3.10/contextlib.py", line 656, in aclose
+  File "/usr/lib/python3.10/contextlib.py", line 714, in __aexit__
+  File "/usr/lib/python3.10/contextlib.py", line 697, in __aexit__
+  File "/usr/lib/python3.10/contextlib.py", line 608, in _exit_wrapper
+  File "/usr/lib/python3.10/site-packages/opentrons/protocol_engine/execution/hardware_stopper.py", line 140, in do_stop_and_recover
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 149, in wrapper
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 52, in call_coroutine_threadsafe
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/api.py", line 572, in stop
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/backends/controller.py", line 354, in halt
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/smoothie_drivers/driver_3_0.py", line 1800, in kill
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/smoothie_drivers/driver_3_0.py", line 816, in _reset_from_error
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/smoothie_drivers/driver_3_0.py", line 868, in _send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/smoothie_drivers/driver_3_0.py", line 895, in _send_command_unsynchronized
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 152, in send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 184, in send_data
+  File "/usr/lib/python3.10/contextlib.py", line 199, in __aenter__
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 182, in timeout_override
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
+Polling exception
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/poller.py", line 111, in _poll_once
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/modules/tempdeck.py", line 306, in read
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 135, in get_temperature
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 194, in _send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 152, in send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 187, in send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 205, in _send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 106, in write
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
+Exception ignored in atexit callback: <function _clear_cached_hardware_controller at 0x73177100>
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/execute.py", line 732, in _clear_cached_hardware_controller
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 403, in call_both
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 397, in clean_and_notify
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 149, in wrapper
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 52, in call_coroutine_threadsafe
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/api.py", line 1350, in clean_up
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/backends/controller.py", line 369, in clean_up
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/module_control.py", line 113, in clean_up
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/modules/tempdeck.py", line 129, in cleanup
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 88, in disconnect
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 234, in close
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 146, in close
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
+
+------- END OF OPENTRONS SERVER OUTPUTS --------
+
+
+------- WINDOWS TERMINAL --------
+
+$ python3 run_loop.py
+server listening on 169.254.230.148:8000
+kicking off first experiment: {'mixing_temp': 6, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': False, 'coupon_to_bath_wait_time': 50, 'nips_bath_wait_time': 100}
+Python recieved!
+Exact payload being sent: {"mixing_temp": 6, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": false, "coupon_to_bath_wait_time": 50, "nips_bath_wait_time": 100}
+Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 6, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": false, "coupon_to_bath_wait_time": 50, "nips_bath_wait_time": 100}
+robot started — loop running. Ctrl+C to stop.
+
+[1/5] organising files...
+[2/5] processing pipeline for: 17-5deg-50s-NoN2-100s
+Single cluster detected — split in half: 3 zeros, 3 membranes
+==============================================================================================================
+Condition: 17-5deg-50s-NoN2-100s | pairs: 3
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 57.36009578942451
+Toe end strain (zero point): -0.0336
+PW + Double: 0.04627085689911408
+Piecewise Chosen! 0.04356474812040685 | Drop Calculation: 0.036722123799191285
+  elastic_r2                          22/30  NRMSE-score=0.745 (RMSE=6.04, range=23.67)
+  plateau_r2_start                    11/15  R²(first 40%)=0.702
+  densification_r2                    14/15  R²=0.944
+  yield_accuracy                      17/25  linear vs GAM err=6.2%
+  junction_continuity                  2/15  gap=13.1%
+  plateau_r2_full_penalty              0/0  R²(full)=0.890
+  elastic_modulus_penalty              0/0  E=158.0 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 28% of remaining stress — ok
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=-2.533 vs second-half R²=-1.757 (gap=0.776)
+Score: 66/100 → FAIL
+Good Fit: False
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 57.13496775278043
+Toe end strain (zero point): 0.0918
+PW + Double: 0.021129279983602024
+Piecewise Chosen! 0.019967671515221476 | Drop Calculation: 0.020797562232216182
+  elastic_r2                          25/30  NRMSE-score=0.842 (RMSE=2.61, range=16.48)
+  plateau_r2_start                    12/15  R²(first 40%)=0.827
+  densification_r2                    12/15  R²=0.797
+  yield_accuracy                       1/25  linear vs GAM err=19.6%
+  junction_continuity                 12/15  gap=3.0%
+  plateau_r2_full_penalty             -20/0  R²(full)=0.359
+  elastic_modulus_penalty              0/0  E=711.6 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 14% of remaining stress — ok
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=-0.862 vs second-half R²=0.086 (gap=0.948)
+Score: 42/100 → FAIL
+Good Fit: False
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 57.83095595830158
+Toe end strain (zero point): 0.0367
+PW + Double: 0.08147248196165886
+Piecewise Chosen! 0.08030088893107962 | Drop Calculation: 0.08144122062453663
+  elastic_r2                          28/30  NRMSE-score=0.946 (RMSE=1.34, range=24.82)
+  plateau_r2_start                    12/15  R²(first 40%)=0.819
+  densification_r2                    13/15  R²=0.860
+  yield_accuracy                      20/25  linear vs GAM err=3.9%
+  junction_continuity                 14/15  gap=0.5%
+  plateau_r2_full_penalty             -20/0  R²(full)=0.284
+  elastic_modulus_penalty              0/0  E=290.0 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 11% of remaining stress — ok
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=0.564 vs second-half R²=0.931 (gap=0.367)
+Score: 67/100 → FAIL
+Good Fit: False
+CV (17-5deg-50s-NoN2-100s) [preDiscard]: 0.08533594193181132
+CV (17-5deg-50s-NoN2-100s) [postDiscard]: nan
+  All fits failed for 17-5deg-50s-NoN2-100s — wrote NaN postDiscard row
+[3/5] generating initial report...
+  initial_report: Here is a short experimental report based on the provided parameters:
+
+---
+
+**Membrane Synthesis via Non-Solvent-Induced...
+final_report:  Phase Separation (NIPS)**
+
+A polysulfone membrane was fabricated using an automated robotic system via the NIPS process. A polymer solution was prepared by dissolving polysulfone at a concentration of **17 wt%** in PolarClean solvent, with a total solution volume of **1000 µL**. The solution was mixed and heated at **6°C** to ensure homogeneity.
+
+The polymer solution was then blade-cast onto a substrate at a pull-casting speed of **1 mm/s**. Following casting, the film was allowed to sit under **ambient conditions** (no nitrogen purge) for **50 seconds** before immersion into the NIPS bath.
+
+The cast film was subsequently immersed into the non-solvent bath, maintained at a temperature of **5°C**, where it remained for **100 seconds** to allow phase separation and membrane formation to complete.
+
+---
+
+Let me know if you'd like any modifications or additional details included!
+WARNING: all replicates had bad fits — all mechanical properties NaN...
+  LLM CSV updated: C:\Users\opentrons\Documents\Auto-Membranes\results_agg_llm.csv
+[4/5] running active learning...
+  JSON result: C:\Users\opentrons\Documents\Auto-Membranes\llm_result_17-5deg-50s-NoN2-100s.json
+[5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 550, 'nips_bath_wait_time': 1800}
+Python recieved!
+Exact payload being sent: {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 550, "nips_bath_wait_time": 1800}
+Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 550, "nips_bath_wait_time": 1800}
+
+[1/5] organising files...
+[2/5] processing pipeline for: 17-5deg-550s-N2-1800s
+==============================================================================================================
+Condition: 17-5deg-550s-N2-1800s | pairs: 3
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 56.730915092931966
+Toe end strain (zero point): 0.0080
+PW + Double: 0.03401882607450257
+Piecewise Chosen! 0.05192765923266626 | Drop Calculation: 0.043235712209004885
+  elastic_r2                          27/30  NRMSE-score=0.907 (RMSE=1.74, range=18.57)
+  plateau_r2_start                    14/15  R²(first 40%)=0.957
+  densification_r2                    14/15  R²=0.955
+  yield_accuracy                      14/25  linear vs GAM err=8.8%
+  junction_continuity                 12/15  gap=3.2%
+  plateau_r2_full_penalty              0/0  R²(full)=0.950
+  elastic_modulus_penalty              0/0  E=318.6 bar ok
+  bp1_accuracy_penalty                -15/0  plateau spans 33% of remaining stress — bp1 suspect
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=0.146 vs second-half R²=0.695 (gap=0.549)
+Score: 66/100 → FAIL
+Good Fit: False
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 57.11423307037415
+Toe end strain (zero point): 0.2698
+PW + Double: 0.14767040547955226
+Piecewise Chosen! 0.14024942459415207 | Drop Calculation: 0.15807708894165623
+  elastic_r2                          29/30  NRMSE-score=0.968 (RMSE=0.93, range=28.74)
+  plateau_r2_start                    14/15  R²(first 40%)=0.958
+  densification_r2                    14/15  R²=0.913
+  yield_accuracy                      22/25  linear vs GAM err=2.7%
+  junction_continuity                 15/15  gap=0.4%
+  plateau_r2_full_penalty              0/0  R²(full)=0.828
+  elastic_modulus_penalty              0/0  E=181.6 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 25% of remaining stress — ok
+Score: 94/100 → PASS
+Good Fit: True
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 56.56899791645565
+Toe end strain (zero point): 0.0312
+PW + Double: 0.065698223531871
+Piecewise Chosen! 0.07473844768582195 | Drop Calculation: 0.08065969482578608
+  elastic_r2                          28/30  NRMSE-score=0.929 (RMSE=1.49, range=20.95)
+  plateau_r2_start                    14/15  R²(first 40%)=0.963
+  densification_r2                    14/15  R²=0.928
+  yield_accuracy                      16/25  linear vs GAM err=7.2%
+  junction_continuity                 14/15  gap=0.9%
+  plateau_r2_full_penalty              0/0  R²(full)=0.925
+  elastic_modulus_penalty              0/0  E=334.8 bar ok
+  bp1_accuracy_penalty                -15/0  plateau spans 31% of remaining stress — bp1 suspect
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=0.517 vs second-half R²=0.837 (gap=0.319)
+Score: 71/100 → PASS
+Good Fit: True
+CV (17-5deg-550s-N2-1800s) [preDiscard]: 0.09248673086750939
+CV (17-5deg-550s-N2-1800s) [postDiscard]: 0.04089080316840341
+[3/5] generating initial report...
+  initial_report: # Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Materials & Solution Preparation
+
+A polysulfone (PSf) c...
+final_report: asting solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with a total solution volume of **1000 µL**. The solution was mixed and heated at **60°C** to ensure complete polymer dissolution and homogeneity.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled pulling speed of **1 mm/s**. Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for **550 seconds** prior to bath immersion. This nitrogen blow step was employed to minimize ambient humidity exposure and to potentially promote selective surface skin layer formation through controlled solvent evaporation.
+
+## Phase Inversion (NIPS Bath)
+
+After the pre-immersion period, the cast film was immersed into a non-solvent (water) bath maintained at a reduced temperature of **5°C**. The membrane was allowed to undergo phase separation in the bath for **1800 seconds (30 minutes)** to ensure complete precipitation and membrane solidification.
+
+## Notes
+
+The combination of a relatively long nitrogen exposure time (550 s) and a cold NIPS bath (5°C) suggests this protocol is designed to investigate the effects of delayed demixing and reduced bath temperature on membrane morphology and performance.
+{'Strain at 50 bar Mean': 0.3901902915330604, 'CV Mean': 0.0408908031684034}...
+  LLM CSV updated: C:\Users\opentrons\Documents\Auto-Membranes\results_agg_llm.csv
+[4/5] running active learning...
+  JSON result: C:\Users\opentrons\Documents\Auto-Membranes\llm_result_17-5deg-550s-N2-1800s.json
+[5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 350, 'nips_bath_wait_time': 1800}
+Python recieved!
+Exact payload being sent: {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 350, "nips_bath_wait_time": 1800}
+Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 350, "nips_bath_wait_time": 1800}
+
+[1/5] organising files...
+[2/5] processing pipeline for: 17-5deg-350s-N2-1800s
+==============================================================================================================
+Condition: 17-5deg-350s-N2-1800s | pairs: 3
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 54.69425209233872
+Toe end strain (zero point): 0.1816
+PW + Double: 0.023937717804099732
+Piecewise Chosen! 0.030162757578771886 | Drop Calculation: 0.030756558328176233
+  elastic_r2                          26/30  NRMSE-score=0.878 (RMSE=2.13, range=17.48)
+  plateau_r2_start                    15/15  R²(first 40%)=0.974
+  densification_r2                    14/15  R²=0.941
+  yield_accuracy                      16/25  linear vs GAM err=7.4%
+  junction_continuity                 14/15  gap=0.7%
+  plateau_r2_full_penalty              0/0  R²(full)=0.975
+  elastic_modulus_penalty              0/0  E=399.3 bar ok
+  bp1_accuracy_penalty                -15/0  plateau spans 43% of remaining stress — bp1 suspect
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=-0.516 vs second-half R²=0.667 (gap=1.183)
+Score: 70/100 → PASS
+Good Fit: True
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 54.0279675969139
+Toe end strain (zero point): 0.2008
+PW + Double: 0.340867581576469
+Drop Chosen! 0.04487365374479639 | Piecewise Calculation: 0.3523153809294816
+  elastic_r2                          25/30  NRMSE-score=0.845 (RMSE=2.57, range=16.61)
+  plateau_r2_start                    15/15  R²(first 40%)=0.974
+  densification_r2                    15/15  R²=0.971
+  yield_accuracy                      16/25  linear vs GAM err=7.2%
+  junction_continuity                 10/15  gap=5.3%
+  plateau_r2_full_penalty              0/0  R²(full)=0.986
+  elastic_modulus_penalty              0/0  E=473.0 bar ok
+  bp1_accuracy_penalty                -15/0  plateau spans 43% of remaining stress — bp1 suspect
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=-1.584 vs second-half R²=0.349 (gap=1.933)
+Score: 66/100 → FAIL
+Good Fit: False
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 53.11687334972347
+Toe end strain (zero point): 0.2013
+PW + Double: 0.06339161757056282
+Piecewise Chosen! 0.0771039347088341 | Drop Calculation: 0.0730391244722853
+  elastic_r2                          28/30  NRMSE-score=0.949 (RMSE=1.15, range=22.49)
+  plateau_r2_start                    14/15  R²(first 40%)=0.948
+  densification_r2                    15/15  R²=0.992
+  yield_accuracy                      18/25  linear vs GAM err=5.5%
+  junction_continuity                 15/15  gap=0.2%
+  plateau_r2_full_penalty              0/0  R²(full)=0.988
+  elastic_modulus_penalty              0/0  E=298.0 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 27% of remaining stress — ok
+Score: 90/100 → PASS
+Good Fit: True
+CV (17-5deg-350s-N2-1800s) [preDiscard]: 0.1381593732512248
+CV (17-5deg-350s-N2-1800s) [postDiscard]: 0.17180963003426206
+[3/5] generating initial report...
+  initial_report: # Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Materials & Solution Preparation
+
+A polysulfone (PSf) d...
+final_report: ope solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with a total volume of **1000 µL**. The solution was mixed and heated at **60°C** to ensure complete polymer dissolution and homogeneity.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled pulling speed of **1 mm/s**. Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for **350 seconds** prior to bath immersion. This nitrogen blow was applied to minimize atmospheric humidity exposure and control the evaporation environment at the film surface during the pre-immersion period.
+
+## Phase Inversion (NIPS Bath)
+
+After the pre-immersion waiting period, the cast film was immersed into the non-solvent bath, which was maintained at a reduced temperature of **5°C**. The membrane was left in the bath for **1800 seconds (30 minutes)** to allow complete phase separation and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer Concentration | 17 wt% |
+| Solution Volume | 1000 µL |
+| Mixing Temperature | 60°C |
+| Cast Speed | 1 mm/s |
+| Nitrogen Purge | Yes |
+| Pre-immersion Wait Time | 350 s |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 1800 s |
+{'Strain at 50 bar Mean': 0.2502997568558263, 'CV Mean': 0.171809630034262}...
+  LLM CSV updated: C:\Users\opentrons\Documents\Auto-Membranes\results_agg_llm.csv
+[4/5] running active learning...
+  JSON result: C:\Users\opentrons\Documents\Auto-Membranes\llm_result_17-5deg-350s-N2-1800s.json
+[5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 325, 'nips_bath_wait_time': 1800}
+Python recieved!
+Exact payload being sent: {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 325, "nips_bath_wait_time": 1800}
+Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 325, "nips_bath_wait_time": 1800}
+
+[1/5] organising files...
+[2/5] processing pipeline for: 17-5deg-325s-N2-1800s
+==============================================================================================================
+Condition: 17-5deg-325s-N2-1800s | pairs: 3
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 38.330820308676614
+Skipping GAM for 17-5deg-325s-N2-1800s | rep 1 (thickness=-3.6 µm — no membrane)
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 39.078689382757766
+Skipping GAM for 17-5deg-325s-N2-1800s | rep 2 (thickness=-3.7 µm — no membrane)
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 41.2024348433955
+Skipping GAM for 17-5deg-325s-N2-1800s | rep 3 (thickness=-2.9 µm — no membrane)
+CV (17-5deg-325s-N2-1800s): nan
+[3/5] generating initial report...
+  initial_report: # Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Materials & Solution Preparation
+
+A polysulfone (PSf) d...
+final_report: ope solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with a total solution volume of **1000 µL**. The polymer solution was mixed and heated at **60°C** to ensure complete dissolution and homogeneity.
+
+## Membrane Casting
+
+The dope solution was blade-cast onto the substrate at a controlled speed of **1 mm/s** using the automated robotic casting system. Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for **325 seconds** prior to bath immersion. This nitrogen blow step was employed to control surface humidity and influence the early-stage solvent-nonsolvent exchange dynamics.
+
+## Phase Inversion (NIPS Bath)
+
+After the **325-second** nitrogen exposure period, the cast membrane was immersed into the non-solvent bath, maintained at a reduced temperature of **5°C**. The membrane was allowed to undergo phase separation in the bath for **1800 seconds (30 minutes)**, facilitating complete precipitation and solidification of the polymer matrix.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer Concentration | 17 wt% |
+| Mixing Temperature | 60°C |
+| Cast Speed | 1 mm/s |
+| Pre-Bath Wait Time | 325 s (N₂ purge) |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 1800 s |
+WARNING: all replicates had bad fits — all mechanical properties NaN...
+  LLM CSV updated: C:\Users\opentrons\Documents\Auto-Membranes\results_agg_llm.csv
+[4/5] running active learning...
+  JSON result: C:\Users\opentrons\Documents\Auto-Membranes\llm_result_17-5deg-325s-N2-1800s.json
+[5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'weight_percent': 17, 'volume': 1000, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 375, 'nips_bath_wait_time': 1800}
+Python recieved!
+Exact payload being sent: {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 375, "nips_bath_wait_time": 1800}
+Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, "volume": 1000, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 375, "nips_bath_wait_time": 1800}
+
+stopping server...
