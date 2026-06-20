@@ -490,11 +490,11 @@ def goodFit_eval(
         d1_end   = float(d1_smooth[-3])
         if d1_start > 0:
             drop_frac = (d1_start - d1_end) / (d1_start + 1e-9)
-            if drop_frac > 0.5:
+            if drop_frac > 0.70:
                 bp1_penalty += -20
                 bp1_notes.append(f'GAM slope drops {drop_frac*100:.0f}% in early plateau — bp1 too early')
-            elif drop_frac > 0.3:
-                bp1_penalty += -10
+            elif drop_frac > 0.40:
+                bp1_penalty += -5
                 bp1_notes.append(f'GAM slope drops {drop_frac*100:.0f}% in early plateau — bp1 suspect')
             else:
                 bp1_notes.append(f'GAM slope stable in early plateau (drop={drop_frac*100:.0f}%) — ok')
@@ -521,17 +521,18 @@ def goodFit_eval(
     if slope_ratio < 0.4:
         breakdown['slope_ratio_penalty'] = (0, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — good separation')
     elif slope_ratio < 0.6:
-        breakdown['slope_ratio_penalty'] = (-5, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — borderline')
-        score -= 5
-    elif slope_ratio < 1.0:
-        breakdown['slope_ratio_penalty'] = (-15, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — nearly parallel, no real transition')
-        score -= 15
+        breakdown['slope_ratio_penalty'] = (-3, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — borderline')
+        score -= 3
+    elif slope_ratio < 0.95:
+        breakdown['slope_ratio_penalty'] = (-35, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — nearly parallel, no real transition')
+        score -= 35
 
     # ── CATASTROPHICS (bad DATA indicators — future: route to goodData_eval)
 
-    if slopePlateau > elasticModulus:
+    # plateau within 5% of elastic slope → no meaningful transition exists
+    if slopePlateau > elasticModulus or slope_ratio >= 0.95:
         catastrophic = True
-        breakdown['catastrophic_slope_vs_modulus'] = (0, 0, f'slope={slopePlateau:.1f} > E={elasticModulus:.1f}')
+        breakdown['catastrophic_slope_vs_modulus'] = (0, 0, f'slope ratio={slope_ratio:.2f} — plateau slope ≥95% of elastic')
 
     if slopeDensification <= slopePlateau:
         catastrophic = True
