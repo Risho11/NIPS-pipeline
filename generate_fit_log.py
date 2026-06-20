@@ -42,9 +42,10 @@ COMPONENTS = [
     ("plateau_r2_full_penalty",   0, "plateau full R² pen"),
     ("elastic_modulus_penalty",   0, "E-mod penalty"),
     ("bp1_accuracy_penalty",      0, "bp1 penalty"),
+    ("slope_ratio_penalty",       0, "slope ratio pen"),
 ]
 
-PENALTY_KEYS = {"plateau_r2_full_penalty", "elastic_modulus_penalty", "bp1_accuracy_penalty"}
+PENALTY_KEYS = {"plateau_r2_full_penalty", "elastic_modulus_penalty", "bp1_accuracy_penalty", "slope_ratio_penalty"}
 CAT_KEYS     = {"catastrophic_slope_vs_modulus", "catastrophic_slope_ordering"}
 
 
@@ -178,13 +179,16 @@ h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
 .breakdown-table td.comp { color: #546e7a; width: 140px; }
 .breakdown-table td.pts  { text-align: right; font-weight: 600; width: 34px; }
 .breakdown-table td.note { color: #90a4ae; font-size: 10px;
-    max-width: 90px; overflow: hidden; text-overflow: ellipsis; }
+    white-space: normal; word-break: break-word; max-width: 200px; }
 /* penalty row */
 .pen-row td { background: #fff3e0 !important; color: #bf360c; }
 /* clear penalty row (didn't fire) */
 .ok-row  td { background: #f1f8e9 !important; color: #33691e; }
 /* catastrophic row */
 .cat-row td { background: #ffebee !important; color: #b71c1c; font-weight: 700; }
+/* subtotal row (shown before catastrophic halving) */
+.subtotal-row td { border-top: 1px dashed #bbb !important; padding-top: 3px !important;
+    font-style: italic; color: #78909c; font-size: 11px; }
 /* total score row */
 .total-row td { border-top: 1px solid #ccc !important; padding-top: 4px !important;
     font-weight: 700; font-size: 12px; }
@@ -277,7 +281,22 @@ def build_rep_breakdown(rep_data, rep_index):
             f'</tr>'
         )
 
-    # Catastrophic flags (if present)
+    # Catastrophic flags (if present) — show subtotal before halving
+    has_catastrophic = any(k in bd for k in CAT_KEYS)
+    if has_catastrophic:
+        pre_sum = sum(
+            (e.get("pts") or 0)
+            for k, e in bd.items()
+            if not k.startswith("_") and k not in CAT_KEYS
+            and isinstance(e.get("pts"), (int, float))
+        )
+        rows.append(
+            f'<tr class="subtotal-row">'
+            f'<td class="comp">subtotal</td>'
+            f'<td class="pts">{pre_sum}</td>'
+            f'<td class="note">before catastrophic ×0.5</td>'
+            f'</tr>'
+        )
     for cat_key in CAT_KEYS:
         if cat_key in bd:
             note = bd[cat_key].get("note", "")
@@ -285,7 +304,7 @@ def build_rep_breakdown(rep_data, rep_index):
             rows.append(
                 f'<tr class="cat-row">'
                 f'<td class="comp">{label}</td>'
-                f'<td class="pts">!</td>'
+                f'<td class="pts">×0.5</td>'
                 f'<td class="note" title="{note}">{note}</td>'
                 f'</tr>'
             )
