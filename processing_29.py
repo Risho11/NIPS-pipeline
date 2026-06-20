@@ -472,17 +472,60 @@ def goodFit_eval(
     else:
         breakdown['elastic_modulus_penalty'] = (0, 0, f'E={elasticModulus:.1f} bar ok')
 
+    # bp1_accuracy: two sub-checks
+    # (A) early-plateau derivative drop — is the GAM still actively bending just after bp1?
+    #     a real yield point has the spline settling to a flat slope quickly;
+    #     a too-early bp1 keeps losing slope across the first half of the plateau
+    bp1_penalty = 0
+    bp1_notes = []
+    if (changepoint is not None and changepoint > breakpoint1 + 0.05
+            and xPlateau is not None and len(xPlateau) > 1):
+        window_end = breakpoint1 + (changepoint - breakpoint1) * 0.45
+        strain_samples = np.linspace(breakpoint1, window_end, 50)
+        gam_preds = gam.predict(strain_samples.reshape(-1, 1)).ravel()
+        d1 = np.gradient(gam_preds, strain_samples)
+        # smooth noisy GAM derivatives
+        d1_smooth = pd.Series(d1).rolling(3, center=True, min_periods=1).mean().values
+        d1_start = float(d1_smooth[2])   # a few samples in, past edge noise
+        d1_end   = float(d1_smooth[-3])
+        if d1_start > 0:
+            drop_frac = (d1_start - d1_end) / (d1_start + 1e-9)
+            if drop_frac > 0.5:
+                bp1_penalty += -20
+                bp1_notes.append(f'GAM slope drops {drop_frac*100:.0f}% in early plateau — bp1 too early')
+            elif drop_frac > 0.3:
+                bp1_penalty += -10
+                bp1_notes.append(f'GAM slope drops {drop_frac*100:.0f}% in early plateau — bp1 suspect')
+            else:
+                bp1_notes.append(f'GAM slope stable in early plateau (drop={drop_frac*100:.0f}%) — ok')
+        else:
+            bp1_notes.append('GAM already flat at bp1 — ok')
+
+    # (B) remaining-stress safeguard (geometrically extreme cases)
     if xPlateau is not None and len(xPlateau) > 1:
         plateau_strain_range = xPlateau['strain'].max() - xPlateau['strain'].min()
         plateau_stress_rise = slopePlateau * plateau_strain_range
         remaining_stress = data['stress (bar)'].max() - float(yieldStrength)
         rise_fraction = plateau_stress_rise / (remaining_stress + 1e-9)
         if rise_fraction > 0.5:
-            penalty = -30
-            breakdown['bp1_accuracy_penalty'] = (penalty, 0, f'plateau spans {rise_fraction*100:.0f}% of remaining stress — elastic peak likely wrong')
-            score += penalty
+            bp1_penalty += -30
+            bp1_notes.append(f'plateau spans {rise_fraction*100:.0f}% of remaining stress — elastic peak likely wrong')
         else:
-            breakdown['bp1_accuracy_penalty'] = (0, 0, f'plateau spans {rise_fraction*100:.0f}% of remaining stress — ok')
+            bp1_notes.append(f'plateau spans {rise_fraction*100:.0f}% of remaining stress — ok')
+
+    breakdown['bp1_accuracy_penalty'] = (bp1_penalty, 0, ' | '.join(bp1_notes))
+    score += bp1_penalty
+
+    # slope_ratio: plateau nearly as steep as elastic → no real transition visible
+    slope_ratio = slopePlateau / (elasticModulus + 1e-9)
+    if slope_ratio < 0.4:
+        breakdown['slope_ratio_penalty'] = (0, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — good separation')
+    elif slope_ratio < 0.6:
+        breakdown['slope_ratio_penalty'] = (-5, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — borderline')
+        score -= 5
+    elif slope_ratio < 1.0:
+        breakdown['slope_ratio_penalty'] = (-15, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — nearly parallel, no real transition')
+        score -= 15
 
     # ── CATASTROPHICS (bad DATA indicators — future: route to goodData_eval)
 
