@@ -82,44 +82,57 @@ def img_to_data_uri(path: Path) -> str:
     return f"data:image/png;base64,{b64}"
 
 
-def _collect_seg(cond_dir: Path) -> list:
-    seg = []
-    for rep_dir in sorted(cond_dir.glob("rep-*/")):
-        hits = sorted(rep_dir.glob("Segmentation_rep-*.png"))
-        if not hits:
-            hits = sorted(rep_dir.glob("Pre-Processing_rep-*.png"))
-        if hits:
-            seg.append(hits[0])
-    return seg
-
-
 def find_plots(condition_name: str):
     """
-    Return (seg_paths, comp_paths, run_folder_name) for the most recent run
-    that contains this condition. seg_paths is a list sorted by rep directory
-    so index 0 → rep-1, index 1 → rep-2, etc.
-    Falls back to pipeline_plots_* (old flat format) when not found in
-    pipeline-plots/run-*/.
-    Falls back to Pre-Processing images when Segmentation images are missing.
+    Return (seg_paths, comp_paths, run_folder_name) for the best available run.
+    Priority: real run-* dirs first, then pseudo-runs/test-* dirs, then old
+    pipeline_plots_* flat dirs. Within each group, most-recent first.
+    Prefers Segmentation images; falls back to Pre-Processing only if no
+    Segmentation images exist anywhere.
     """
-    if PLOTS_DIR.exists():
-        for run_dir in sorted(PLOTS_DIR.glob("*/"), reverse=True):
-            cond_dir = run_dir / condition_name
-            if not cond_dir.is_dir():
-                continue
-            seg = _collect_seg(cond_dir)
-            comps = sorted(cond_dir.glob("Comparison_CV*.png"))
-            return seg, comps, run_dir.name
+    candidates = []
 
-    # Fall back to old-format pipeline_plots_* directories
-    for old_dir in sorted(ROOT.glob("pipeline_plots_*/"), reverse=True):
-        cond_dir = old_dir / condition_name
-        if not cond_dir.is_dir():
-            continue
-        seg = _collect_seg(cond_dir)
-        comps = sorted(cond_dir.glob("Comparison_CV*.png"))
+    if PLOTS_DIR.exists():
+        # 1. Real runs: pipeline-plots/run-YYYY-MM-DD/
+        for d in sorted(PLOTS_DIR.glob("run-*/"), reverse=True):
+            cond = d / condition_name
+            if cond.is_dir():
+                candidates.append(cond)
+        # 2. Test runs: pipeline-plots/pseudo-runs/test-YYYY-MM-DD/
+        pseudo = PLOTS_DIR / "pseudo-runs"
+        if pseudo.exists():
+            for d in sorted(pseudo.glob("test-*/"), reverse=True):
+                cond = d / condition_name
+                if cond.is_dir():
+                    candidates.append(cond)
+
+    # 3. Old flat format: pipeline_plots_YYYY-MM-DD/condition/
+    for old in sorted(ROOT.glob("pipeline_plots_*/"), reverse=True):
+        cond = old / condition_name
+        if cond.is_dir():
+            candidates.append(cond)
+
+    # First pass: prefer any candidate with Segmentation images
+    for cond_dir in candidates:
+        seg = []
+        for rep_dir in sorted(cond_dir.glob("rep-*/")):
+            hits = sorted(rep_dir.glob("Segmentation_rep-*.png"))
+            if hits:
+                seg.append(hits[0])
         if seg:
-            return seg, comps, old_dir.name
+            comps = sorted(cond_dir.glob("Comparison_CV*.png"))
+            return seg, comps, cond_dir.parent.name
+
+    # Second pass: Pre-Processing fallback
+    for cond_dir in candidates:
+        seg = []
+        for rep_dir in sorted(cond_dir.glob("rep-*/")):
+            hits = sorted(rep_dir.glob("Pre-Processing_rep-*.png"))
+            if hits:
+                seg.append(hits[0])
+        if seg:
+            comps = sorted(cond_dir.glob("Comparison_CV*.png"))
+            return seg, comps, cond_dir.parent.name
 
     return [], [], None
 
