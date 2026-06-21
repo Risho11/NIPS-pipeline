@@ -42,10 +42,11 @@ COMPONENTS = [
     ("plateau_r2_full_penalty",   0, "plateau full R² pen"),
     ("elastic_modulus_penalty",   0, "E-mod penalty"),
     ("bp1_accuracy_penalty",      0, "bp1 penalty"),
-    ("slope_ratio_penalty",       0, "slope ratio pen"),
+    ("slope_ratio_penalty",            0, "slope ratio pen"),
+    ("changepoint_curvature_penalty",  0, "CP curvature pen"),
 ]
 
-PENALTY_KEYS = {"plateau_r2_full_penalty", "elastic_modulus_penalty", "bp1_accuracy_penalty", "slope_ratio_penalty"}
+PENALTY_KEYS = {"plateau_r2_full_penalty", "elastic_modulus_penalty", "bp1_accuracy_penalty", "slope_ratio_penalty", "changepoint_curvature_penalty"}
 CAT_KEYS     = {"catastrophic_slope_vs_modulus", "catastrophic_slope_ordering"}
 
 

@@ -516,6 +516,36 @@ def goodFit_eval(
     breakdown['bp1_accuracy_penalty'] = (bp1_penalty, 0, ' | '.join(bp1_notes))
     score += bp1_penalty
 
+    # changepoint_curvature: d² of GAM at changepoint — near-zero means changepoint
+    # landed in a linear (densification) region rather than at the true inflection
+    if (gam is not None and xDensification is not None and len(xDensification) >= 5
+            and abs(slopeDensification) > 1e-3):
+        x_start = float(changepoint)
+        x_end   = xDensification['strain'].values[-1]
+        plateau_width = float(changepoint) - float(breakpoint1) + 1e-9
+        expected_d2   = abs(slopeDensification - slopePlateau) / plateau_width
+        if expected_d2 >= 1e-3:
+            h = max((x_end - x_start) * 0.05, 1e-6)
+            x_probe = np.array([[x_start - h], [x_start], [x_start + h]])
+            g_probe = gam.predict(x_probe).ravel()
+            d1_cp = (g_probe[2] - g_probe[0]) / (2 * h)
+            d2_cp = (g_probe[2] - 2 * g_probe[1] + g_probe[0]) / (h ** 2)
+            normalized_d2 = max(0.0, d2_cp / (expected_d2 + 1e-9))
+
+            x_scan  = np.linspace(x_start, x_end, 30)
+            g_scan  = gam.predict(x_scan.reshape(-1, 1)).ravel()
+            d1_scan = np.gradient(g_scan, x_scan)
+            d1_ref  = abs(d1_cp) + 1e-9
+            still_linear = np.abs(d1_scan - d1_cp) / d1_ref < 0.30
+            nonlinear    = np.where(~still_linear)[0]
+            linear_frac  = nonlinear[0] / len(x_scan) if len(nonlinear) > 0 else 1.0
+
+            severity = max(0.0, 1.0 - min(normalized_d2, 1.0)) * linear_frac
+            cp_pts   = round(-10 * severity)
+            cp_note  = f'd2_norm={normalized_d2:.2f}, linear_stretch={linear_frac:.0%}'
+            breakdown['changepoint_curvature_penalty'] = (cp_pts, 0, cp_note)
+            score += cp_pts
+
     # slope_ratio: plateau nearly as steep as elastic → no real transition visible
     slope_ratio = slopePlateau / (elasticModulus + 1e-9)
     if slope_ratio < 0.4:
