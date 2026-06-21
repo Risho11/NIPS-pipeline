@@ -27,10 +27,12 @@ SETPOINT_COL = "Set Point ()"
 
 # ── Save config ──────────────────────────────────────────────────────────
 SAVE_PLOTS = True   # set False to disable saving
-# <<< PATH >>> plots saved beside processing_29.py, not beside run_loop.py
+# <<< PATH >>> Only the real run_loop.py gets a "run-" folder; everything
+# else (test scripts, run_loopTest, plot_curves, notebooks, etc.) goes to
+# pseudo-runs/test-YYYY-MM-DD so Saturday experiments never pollute run history.
 _caller = Path(sys.argv[0]).stem if sys.argv else ""
-_ts = datetime.datetime.today().strftime('%Y-%m-%d') if "test" in _caller else datetime.datetime.today().strftime('%Y-%m-%d')
-_prefix = "pseudo-runs/test" if "test" in _caller else "run"
+_ts     = datetime.datetime.today().strftime('%Y-%m-%d')
+_prefix = "run" if _caller == "run_loop" else "pseudo-runs/test"
 SAVE_ROOT  = Path(__file__).parent / "pipeline-plots" / f"{_prefix}-{_ts}"
 # ─────────────────────────────────────────────────────────────────────────
 
