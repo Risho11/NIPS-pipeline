@@ -258,16 +258,14 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         initial_report = activeLearning.Generate_report(fmt_params)
         print(f"  initial_report: {initial_report[:120]}...")
 
-        mech_subset = {f"{k} Mean": llm_df.at[idx, f"{k} Mean"]
-                       for k in LLM_PROP_KEYS
-                       if f"{k} Mean" in llm_df.columns and pd.notna(llm_df.at[idx, f"{k} Mean"])}
-        fmt_params_with_prop = str(mech_subset) if mech_subset else "WARNING: all replicates had bad fits — all mechanical properties NaN"
+        _fp_withprop = str(llm_df.at[idx, "formatted_parameters_withProp"])
+        fmt_params_with_prop = _fp_withprop[len(fmt_params):]  # result string = withProp minus the params prefix
         final_report = initial_report + "\n" + fmt_params_with_prop
         print(f"final_report: {final_report[120:]}...")
 
         # fill reports back into LLM CSV
         llm_df.at[idx, "initial_report"] = initial_report
-        llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + fmt_params_with_prop
+        llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + fmt_params_with_prop  # idempotent
         llm_df.at[idx, "final_report"] = final_report
         llm_df.to_csv(CSV_AGG_LLM, index=False)
         print(f"  LLM CSV updated: {CSV_AGG_LLM}")

@@ -330,6 +330,156 @@ def validData_eval(thickness):
     # thickness <= 50 (or negative) means membrane didn't dispense
     return thickness > 50
 
+
+def _outcome_interpretation(n_membrane, n_fit, total, mech_res=""):
+    """
+    Returns a human+LLM-readable outcome string for a single membrane condition.
+    Edit this function as hardware matures — all scenario text lives here.
+
+    n_membrane : int  — replicates where validData_eval passed (membrane detected)
+    n_fit      : int  — of those, replicates where Good Fit == True
+    total      : int  — total replicates run
+    mech_res   : str  — pre-computed mechanical properties string (empty if none)
+    """
+    measured_line = f"MEASURED: {mech_res}" if mech_res and n_fit > 0 else ""
+
+    if n_membrane == 0:
+        return (
+            f"OUTCOME: NO_MEMBRANE\n"
+            f"INTERPRETATION: Zero replicates detected a membrane ({n_membrane}/{total}). "
+            f"The blade likely scraped off all dispensed solution (too much humidity on the substrate surface), "
+            f"condensation formed on the coupon before immersion, or the Opentrons failed to dispense. "
+            f"This result carries NO information about polymer chemistry or NIPS phase-separation kinetics. "
+            f"Do NOT adjust chemical or thermal parameters based on this. "
+            f"Check hardware: blade cleanliness, ambient humidity, solution volume in the bottle, and Opentrons tip seal."
+        )
+
+    if n_membrane == 1:
+        if n_fit == 1:
+            return (
+                f"OUTCOME: PARTIAL_SINGLE_GOOD_FIT\n"
+                f"INTERPRETATION: Only 1/{total} replicate detected a membrane. "
+                f"The casting solution most likely ran out before covering the full coupon, or there was a large "
+                f"positional offset during the compression test. "
+                f"Single-replicate data has no statistical validity — CV and averages are meaningless with N=1. "
+                f"Use the measured modulus and strain directionally only to infer a broad trend. "
+                f"A wide parameter change is warranted; do not make fine-tuning moves. Low confidence.\n"
+                + (measured_line if measured_line else "")
+            )
+        else:  # n_fit == 0
+            return (
+                f"OUTCOME: PARTIAL_SINGLE_BAD_FIT\n"
+                f"INTERPRETATION: Only 1/{total} replicate detected a membrane AND that single measurement "
+                f"failed the fit quality check. No usable mechanical data whatsoever. "
+                f"The membrane that formed (if any) was spatially isolated and mechanically degenerate. "
+                f"These parameters likely produce an inconsistent, very thin, or structurally collapsed film. "
+                f"A major parameter change is needed."
+            )
+
+    # 2 <= n_membrane < total  (partial coverage, multiple reps detected)
+    if n_membrane < total:
+        missing = total - n_membrane
+        if n_fit == n_membrane:
+            return (
+                f"OUTCOME: PARTIAL_COVERAGE_GOOD_FIT\n"
+                f"INTERPRETATION: {n_membrane}/{total} replicates detected a membrane; {missing} missed. "
+                f"This suggests a minor positional offset during compression testing or a slight solution volume "
+                f"shortage that left part of the coupon uncovered. "
+                f"The {n_membrane} valid measurements are mechanically reliable but CV should NOT be the primary "
+                f"metric here (low N from partial coverage). Focus on strain and modulus for parameter guidance. "
+                f"These conditions likely produce a real membrane but with some spatial inconsistency — "
+                f"a small adjustment to solution volume or casting speed may improve full-coupon coverage.\n"
+                + (measured_line if measured_line else "")
+            )
+        elif n_fit > 0:
+            return (
+                f"OUTCOME: PARTIAL_COVERAGE_MIXED_FIT\n"
+                f"INTERPRETATION: {n_membrane}/{total} replicates detected a membrane and {n_fit}/{n_membrane} "
+                f"of those passed the fit. Partial coverage plus inconsistent fits suggests the membrane is "
+                f"near a phase boundary — possibly inadequate evaporation time creating a non-uniform skin layer, "
+                f"or humidity interference disrupting phase separation at the surface. "
+                f"Use the {n_fit} passing fit(s) directionally but do not over-weight the result. "
+                f"A larger parameter change is warranted.\n"
+                + (measured_line if measured_line else "")
+            )
+        else:  # n_fit == 0
+            return (
+                f"OUTCOME: PARTIAL_COVERAGE_NO_FIT\n"
+                f"INTERPRETATION: {n_membrane}/{total} replicates detected a membrane but none passed the "
+                f"fit quality check. The membrane that did form was structurally unacceptable — likely a very "
+                f"thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined "
+                f"elastic/plateau/densification regime. "
+                f"These parameters sit near a phase boundary where only poor structures form. "
+                f"A major parameter change is needed — consider adjusting polymer concentration, "
+                f"evaporation time, or bath temperature significantly."
+            )
+
+    # n_membrane == total  (full coverage)
+    if n_fit == total:
+        return (
+            f"OUTCOME: GOOD\n"
+            f"INTERPRETATION: All {total}/{total} replicates detected a membrane and all passed quality checks. "
+            f"High-confidence result — CV is statistically valid, averages are meaningful. "
+            f"Use all measured properties to make precise parameter refinements toward the optimization target "
+            f"(maximize modulus). Small, targeted adjustments are appropriate.\n"
+            + (measured_line if measured_line else "")
+        )
+    elif n_fit == total - 1:
+        return (
+            f"OUTCOME: MOSTLY_GOOD\n"
+            f"INTERPRETATION: Full membrane coverage ({n_membrane}/{total}), {n_fit}/{total} fits passed. "
+            f"One replicate likely had a localized morphological defect, an edge effect on the coupon, "
+            f"or a minor environmental fluctuation during the compression test. "
+            f"Reliable result overall — use strain and modulus for parameter guidance but treat CV with caution "
+            f"(one outlier was removed in the postDiscard pass). Moderate parameter refinement is appropriate.\n"
+            + (measured_line if measured_line else "")
+        )
+    elif n_fit > 0:
+        return (
+            f"OUTCOME: POOR_FIT\n"
+            f"INTERPRETATION: Full membrane coverage ({n_membrane}/{total}) but only {n_fit}/{total} fit(s) passed. "
+            f"The membrane forms consistently but is mechanically inconsistent across the coupon — likely near a "
+            f"morphological transition (e.g., spongy vs. finger-like pore structure, or partial skin-layer collapse). "
+            f"Most replicates show anomalous compression curves (catastrophic slope, poor junction continuity, "
+            f"or inconsistent elastic region). "
+            f"Use the {n_fit} passing fit(s) to infer a directional change, but a significant parameter adjustment "
+            f"is needed. Do not make fine-tuning moves.\n"
+            + (measured_line if measured_line else "")
+        )
+    else:  # n_fit == 0
+        return (
+            f"OUTCOME: NO_FIT\n"
+            f"INTERPRETATION: A membrane was detected in all {total}/{total} replicates but zero fits passed "
+            f"quality checks. This strongly indicates the current parameters produce a structurally degenerate "
+            f"membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no "
+            f"well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting "
+            f"a normal elastic-plateau-densification response. "
+            f"These parameters are mechanically unacceptable. "
+            f"A major shift in parameter space is required — significantly change at least one of: "
+            f"evaporation time, polymer concentration, or bath temperature."
+        )
+
+
+def _membrane_outcome_string(all_props, mech_res=""):
+    """
+    Computes membrane/fit counts from all_props and calls _outcome_interpretation.
+    all_props : list of per-rep dicts with 'Thickness' and 'Good Fit' keys.
+    mech_res  : pre-computed mechanical properties string from _build_agg_row.
+    """
+    total = len(all_props)
+    if total == 0:
+        return "OUTCOME: NO_DATA\nINTERPRETATION: No replicate data available for this condition."
+    membrane_reps = [p for p in all_props if validData_eval(p.get("Thickness", 0) or 0)]
+    n_membrane = len(membrane_reps)
+    n_fit = sum(1 for p in membrane_reps if p.get("Good Fit", False))
+    header = f"MEMBRANE DETECTION: {n_membrane}/{total} replicates detected a membrane.\n"
+    header += (
+        f"FIT DETECTION: {n_fit}/{n_membrane} of detected membranes passed quality checks.\n"
+        if n_membrane > 0 else "FIT DETECTION: N/A — no membrane detected.\n"
+    )
+    return header + _outcome_interpretation(n_membrane, n_fit, total, mech_res)
+
+
 def goodData_eval(data, predictions):
     # Toe ends at first extremum (local max OR min) of d1 within strain <= 0.2.
     # Curve shape varies: some toes have rising-then-falling d1, others falling-then-rising.
@@ -1582,7 +1732,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             date_val = cond_group["date"].iloc[0] if not cond_group.empty else datetime.datetime.now().strftime("%Y-%m-%d\n%H:%M:%S")
             params_row = {p: cond_group[p].iloc[0] if p in cond_group.columns and not cond_group.empty else None for p in param_cols}
 
-            def _build_agg_row(name, props_iter, cv_val):
+            def _build_agg_row(name, props_iter, cv_val, all_props=None):
                 agg_row = {"name": name, "date": date_val}
                 agg_row.update(params_row)
                 for k in mech_cols:
@@ -1603,7 +1753,10 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                 mech_res = str({f"{k} Mean": agg_row.get(f"{k} Mean") for k in mech_cols if agg_row.get(f"{k} Mean") is not None})
                 agg_row["formatted_parameters"] = formatted_parameters(agg_row)
                 agg_row["initial_report"] = ""
-                agg_row["formatted_parameters_withProp"] = formatted_parameters(agg_row) + "\n\n" + mech_res
+                _context = all_props if all_props is not None else list(props_iter)
+                agg_row["formatted_parameters_withProp"] = (
+                    formatted_parameters(agg_row) + "\n" + _membrane_outcome_string(_context, mech_res)
+                )
                 agg_row["final_report"] = ""
                 return agg_row
 
@@ -1614,7 +1767,8 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             if has_failures:
                 passing_props = payload.get("passing_properties", [])
                 if passing_props:
-                    computed_agg_rows.append(_build_agg_row(f"{cond_name}_postDiscard", passing_props, post_cv))
+                    computed_agg_rows.append(_build_agg_row(f"{cond_name}_postDiscard", passing_props, post_cv,
+                                                            all_props=all_valid_props))
                 else:
                     # all reps had bad fits — write postDiscard with params intact, all mech props NaN
                     nan_row = {"name": f"{cond_name}_postDiscard", "date": date_val}
@@ -1625,7 +1779,9 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                             nan_row[f"{k} SD"] = np.nan
                     nan_row["formatted_parameters"] = formatted_parameters(nan_row)
                     nan_row["initial_report"] = ""
-                    nan_row["formatted_parameters_withProp"] = formatted_parameters(nan_row) + "\n\nAll mechanical properties NaN — all replicates had bad fits."
+                    nan_row["formatted_parameters_withProp"] = (
+                        formatted_parameters(nan_row) + "\n" + _membrane_outcome_string(all_valid_props, "")
+                    )
                     nan_row["final_report"] = ""
                     computed_agg_rows.append(nan_row)
                     print(f"  All fits failed for {cond_name} — wrote NaN postDiscard row")
