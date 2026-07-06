@@ -238,10 +238,7 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         processing.save_to_csv(output, data_root=DATA_ROOT,
                                output_path=CSV_REPS, aggregate_path=CSV_AGG)
 
-        _agg_df = pd.read_csv(CSV_AGG)
-        _has_post = (_agg_df["name"] == f"{condition_name}_postDiscard").any()
-        _source = "postDiscard" if _has_post else ""
-        processing.promote_to_main(condition_name, _source, CSV_AGG, CSV_AGG_LLM)
+        processing.promote_condition(condition_name, CSV_AGG, CSV_AGG_LLM)
 
         print("[3/5] generating initial report...")
         if not CSV_AGG_LLM.exists() or CSV_AGG_LLM.stat().st_size == 0:

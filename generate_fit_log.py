@@ -7,10 +7,12 @@ corresponding segmentation plots, and writes a side-by-side HTML log.
 
 Layout per condition:
   ┌─ condition header (colour = all-pass / mixed / all-fail / preproc-failure) ─┐
-  │ rep 1 breakdown  │  Segmentation_rep-1.png                                  │
-  │ rep 2 breakdown  │  Segmentation_rep-2.png                                  │
-  │ rep 3 breakdown  │  Segmentation_rep-3.png                                  │
-  │ Comparison_CV images (full width, if present)                                │
+  │ rep 1: toe ε / supervisor checkboxes / breakdown table | Segmentation image  │
+  │ rep 2: ...                                                                    │
+  │ rep 3: ...                                                                    │
+  │ Comparison_CV images + raw_average_curves (full width)                        │
+  │ Pre CV / Post CV summary                                                      │
+  │ [▶ Average Fits] (collapsed by default)                                       │
   └──────────────────────────────────────────────────────────────────────────────┘
 
 Run standalone:
@@ -23,6 +25,7 @@ dated entry wins — re-running always replaces, never appends.
 
 import base64
 import json
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -30,6 +33,7 @@ import pandas as pd
 ROOT      = Path(__file__).parent
 PLOTS_DIR = ROOT / "pipeline-plots"
 MAIN_CSV  = ROOT / "results_reps.csv"
+MAIN_AGG  = ROOT / "results_agg.csv"
 OUTPUT    = ROOT / "fit_evaluation_log.html"
 PASS_THRESHOLD = 70
 
@@ -77,6 +81,46 @@ def load_csvs(extra_csv_paths=None):
     return df
 
 
+def load_agg_cvs(agg_csv_paths=None):
+    """Return dict: condition_name -> (pre_cv, post_cv) from agg CSVs."""
+    frames = []
+    for p in [MAIN_AGG] + list(agg_csv_paths or []):
+        p = Path(p)
+        if p.exists() and p.stat().st_size > 0:
+            try:
+                frames.append(pd.read_csv(p))
+            except Exception:
+                pass
+    if not frames:
+        return {}
+    df = pd.concat(frames, ignore_index=True)
+    df["_date_sort"] = pd.to_datetime(
+        df["date"].str.replace(r"\n", " ", regex=True), errors="coerce"
+    )
+    df = df.sort_values("_date_sort", ascending=True)
+    df = df.drop_duplicates(subset=["name"], keep="last")
+
+    result = {}
+    for _, row in df.iterrows():
+        raw_name = str(row.get("name", ""))
+        cv_val = row.get("CV Mean")
+        if pd.isna(cv_val):
+            cv_val = None
+        if raw_name.endswith("_preDiscard"):
+            cond = raw_name[: -len("_preDiscard")]
+            entry = result.setdefault(cond, [None, None])
+            entry[0] = cv_val
+        elif raw_name.endswith("_postDiscard"):
+            cond = raw_name[: -len("_postDiscard")]
+            entry = result.setdefault(cond, [None, None])
+            entry[1] = cv_val
+        else:
+            entry = result.setdefault(raw_name, [None, None])
+            if entry[0] is None:
+                entry[0] = cv_val
+    return {k: tuple(v) for k, v in result.items()}
+
+
 def img_to_data_uri(path: Path) -> str:
     b64 = base64.b64encode(path.read_bytes()).decode("ascii")
     return f"data:image/png;base64,{b64}"
@@ -84,21 +128,19 @@ def img_to_data_uri(path: Path) -> str:
 
 def find_plots(condition_name: str):
     """
-    Return (seg_paths, comp_paths, run_folder_name) for the best available run.
-    Priority: real run-* dirs first, then pseudo-runs/test-* dirs, then old
-    pipeline_plots_* flat dirs. Within each group, most-recent first.
-    Prefers Segmentation images; falls back to Pre-Processing only if no
-    Segmentation images exist anywhere.
+    Return (seg_paths, comp_paths, avg_fit_paths, run_folder_name).
+    comp_paths includes raw_average_curves.png if present.
+    avg_fit_paths contains average_fit_*.png from averageFits/.
+    Priority: real run-* dirs first, then pseudo-runs/test-* dirs.
+    Prefers Segmentation images; falls back to Pre-Processing.
     """
     candidates = []
 
     if PLOTS_DIR.exists():
-        # 1. Real runs: pipeline-plots/run-YYYY-MM-DD/
         for d in sorted(PLOTS_DIR.glob("run-*/"), reverse=True):
             cond = d / condition_name
             if cond.is_dir():
                 candidates.append(cond)
-        # 2. Test runs: pipeline-plots/pseudo-runs/test-YYYY-MM-DD/
         pseudo = PLOTS_DIR / "pseudo-runs"
         if pseudo.exists():
             for d in sorted(pseudo.glob("test-*/"), reverse=True):
@@ -106,11 +148,19 @@ def find_plots(condition_name: str):
                 if cond.is_dir():
                     candidates.append(cond)
 
-    # 3. Old flat format: pipeline_plots_YYYY-MM-DD/condition/
     for old in sorted(ROOT.glob("pipeline_plots_*/"), reverse=True):
         cond = old / condition_name
         if cond.is_dir():
             candidates.append(cond)
+
+    def get_avg_fits(cond_dir):
+        avg_dir = cond_dir / "averageFits"
+        if not avg_dir.is_dir():
+            return [], []
+        raw_avg = avg_dir / "raw_average_curves.png"
+        raw_list = [raw_avg] if raw_avg.exists() else []
+        fit_list = sorted(avg_dir.glob("average_fit_*.png"))
+        return raw_list, fit_list
 
     # First pass: prefer any candidate with Segmentation images
     for cond_dir in candidates:
@@ -121,7 +171,9 @@ def find_plots(condition_name: str):
                 seg.append(hits[0])
         if seg:
             comps = sorted(cond_dir.glob("Comparison_CV*.png"))
-            return seg, comps, cond_dir.parent.name
+            raw_list, fit_list = get_avg_fits(cond_dir)
+            comps = list(comps) + raw_list
+            return seg, comps, fit_list, cond_dir.parent.name
 
     # Second pass: Pre-Processing fallback
     for cond_dir in candidates:
@@ -132,9 +184,11 @@ def find_plots(condition_name: str):
                 seg.append(hits[0])
         if seg:
             comps = sorted(cond_dir.glob("Comparison_CV*.png"))
-            return seg, comps, cond_dir.parent.name
+            raw_list, fit_list = get_avg_fits(cond_dir)
+            comps = list(comps) + raw_list
+            return seg, comps, fit_list, cond_dir.parent.name
 
-    return [], [], None
+    return [], [], [], None
 
 
 def parse_breakdown(json_str):
@@ -156,6 +210,10 @@ def score_color(score):
     return "#b71c1c"
 
 
+def _safe_key(s: str) -> str:
+    return re.sub(r"[^A-Za-z0-9]", "_", s)
+
+
 # ── HTML pieces ───────────────────────────────────────────────────────────────
 
 CSS = """
@@ -165,10 +223,16 @@ body { font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 13px;
 h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff; }
 .meta { font-size: 11px; color: #90a4ae; padding: 3px 22px 10px;
         background: #263238; }
-.legend { display: flex; gap: 14px; flex-wrap: wrap;
+.legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
           padding: 8px 22px; background: #37474f; font-size: 11px; }
 .legend-item { display: flex; align-items: center; gap: 5px; color: #eceff1; }
 .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+#toggle-all {
+    margin-left: auto; padding: 4px 10px; font-size: 11px; cursor: pointer;
+    background: #546e7a; color: #eceff1; border: 1px solid #78909c;
+    border-radius: 3px; white-space: nowrap;
+}
+#toggle-all:hover { background: #607d8b; }
 
 /* ── condition card ── */
 .card {
@@ -182,18 +246,26 @@ h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
     display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
     padding: 9px 14px;
     color: #fff; font-weight: 600; font-size: 0.97rem;
+    cursor: pointer; user-select: none;
 }
+.card-header .toggle-icon { font-size: 12px; opacity: .8; transition: transform .18s; flex-shrink: 0; }
+.card-header.collapsed .toggle-icon { transform: rotate(-90deg); }
 .card-header .run-tag  { font-size: 11px; opacity: .8; font-weight: normal; }
 .card-header .summary  { font-size: 11px; opacity: .9; margin-left: auto; }
+.card-body.collapsed   { display: none; }
 
 /* ── rep row ── */
 .rep-row {
     display: grid;
-    grid-template-columns: 270px 1fr;
+    grid-template-columns: minmax(220px, 30%) 1fr;
     border-top: 1px solid #e8e8e8;
     min-height: 0;
 }
 .rep-row:first-of-type { border-top: none; }
+@media (max-width: 750px) {
+    .rep-row { grid-template-columns: 1fr; }
+    .rep-left { border-right: none; border-bottom: 1px solid #e8e8e8; }
+}
 
 /* breakdown side */
 .rep-left {
@@ -204,16 +276,15 @@ h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
 .score-badge {
     font-size: 1.05rem; font-weight: 700; letter-spacing: .02em;
 }
-.breakdown-table { border-collapse: collapse; width: 100%; }
+.breakdown-table { border-collapse: collapse; width: 100%; table-layout: fixed; }
 .breakdown-table td {
     padding: 2px 5px; font-size: 11px;
     border-bottom: 1px solid #f2f2f2;
-    white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.breakdown-table td.comp { color: #546e7a; width: 140px; }
-.breakdown-table td.pts  { text-align: right; font-weight: 600; width: 34px; }
-.breakdown-table td.note { color: #90a4ae; font-size: 10px;
-    white-space: normal; word-break: break-word; max-width: 200px; }
+.breakdown-table td.comp { color: #546e7a; width: 72%; }
+.breakdown-table td.pts  { text-align: right; font-weight: 600; width: 28%; }
+.breakdown-table td.note { display: none; }
 /* penalty row */
 .pen-row td { background: #fff3e0 !important; color: #bf360c; }
 /* clear penalty row (didn't fire) */
@@ -226,6 +297,19 @@ h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
 /* total score row */
 .total-row td { border-top: 1px solid #ccc !important; padding-top: 4px !important;
     font-weight: 700; font-size: 12px; }
+
+/* toe region */
+.toe-val { font-size: 11px; color: #607d8b; }
+
+/* supervisor checkboxes */
+.supervisor-row { display: flex; gap: 10px; flex-wrap: wrap; padding: 3px 0; }
+.sv-label { font-size: 11px; display: flex; align-items: center; gap: 3px;
+            cursor: pointer; color: #444; }
+.sv-label input[type=checkbox] { accent-color: #546e7a; cursor: pointer; }
+.sv-label.sv-good input { accent-color: #2e7d32; }
+.sv-label.sv-badfit input { accent-color: #b71c1c; }
+.sv-label.sv-badeval input { accent-color: #e65100; }
+.sv-label.sv-disabled { opacity: 0.32; pointer-events: none; }
 
 /* image side */
 .rep-right {
@@ -258,6 +342,51 @@ h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
 }
 .comp-group img:hover { box-shadow: 0 0 0 2px #90a4ae; }
 .img-label { font-size: 10px; color: #9e9e9e; }
+
+/* CV summary line */
+.cv-summary {
+    padding: 5px 14px; font-size: 11px; color: #546e7a;
+    background: #f3f3f3; border-top: 1px solid #e0e0e0;
+}
+
+/* average fits collapsible */
+.avg-fits-header {
+    padding: 6px 14px; font-size: 11px; font-weight: 600;
+    cursor: pointer; background: #eceff1; color: #455a64;
+    border-top: 1px solid #cfd8dc; user-select: none;
+}
+.avg-fits-header:hover { background: #e0e7eb; }
+.avg-fits-body {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    padding: 10px 14px; background: #f9f9f9;
+    border-top: 1px solid #e0e0e0;
+}
+.avg-fits-body.collapsed { display: none; }
+.avg-fits-body .comp-group img { max-height: 280px; }
+
+/* ── filter bar ── */
+#filter-bar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
+    padding: 8px 22px; background: #455a64; font-size: 11px; color: #eceff1;
+    border-bottom: 1px solid #37474f;
+}
+#filter-bar label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+#filter-bar input[type=checkbox] { accent-color: #90a4ae; cursor: pointer; }
+#run-select { margin-left: auto; background: #546e7a; color: #eceff1;
+    border: 1px solid #78909c; border-radius: 3px; padding: 3px 7px;
+    font-size: 11px; cursor: pointer; }
+#filter-count { color: #90a4ae; font-style: italic; }
+
+/* hover tooltip for breakdown notes */
+#bd-tooltip {
+    position: fixed; z-index: 9999; pointer-events: none;
+    background: #263238; color: #eceff1; font-size: 11px;
+    padding: 5px 9px; border-radius: 4px; max-width: 280px;
+    white-space: normal; word-break: break-word;
+    box-shadow: 0 2px 8px rgba(0,0,0,.35);
+    opacity: 0; transition: opacity .1s;
+}
+.breakdown-table td.comp[data-note] { cursor: help; }
 """
 
 JS = """
@@ -268,6 +397,107 @@ document.querySelectorAll('img[data-fullsrc], .rep-right img, .comp-group img').
       + img.src + '" style="max-width:100%;height:auto;display:block;margin:auto"></body>');
   });
 });
+document.querySelectorAll('.card-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const isOpen = !header.classList.contains('collapsed');
+    header.nextElementSibling.classList.toggle('collapsed', isOpen);
+    header.classList.toggle('collapsed', isOpen);
+    syncToggleAllLabel();
+  });
+});
+function syncToggleAllLabel() {
+  const btn = document.getElementById('toggle-all');
+  const allCollapsed = [...document.querySelectorAll('.card-header')].every(h => h.classList.contains('collapsed'));
+  btn.textContent = allCollapsed ? 'Expand All' : 'Collapse All';
+}
+// ── filters ──────────────────────────────────────────────────────────────────
+const cards = [...document.querySelectorAll('.card')];
+
+// build run-date dropdown dynamically from cards
+const runSelect = document.getElementById('run-select');
+const uniqueRuns = [...new Set(cards.map(c => c.dataset.run))].sort().reverse();
+uniqueRuns.forEach(run => {
+  const opt = document.createElement('option');
+  opt.value = run; opt.textContent = run;
+  runSelect.appendChild(opt);
+});
+
+function applyFilters() {
+  const activeStatus = new Set(
+    [...document.querySelectorAll('#filter-bar input[data-status]:checked')].map(i => i.dataset.status)
+  );
+  const runVal = runSelect.value;
+  let visible = 0;
+  cards.forEach(card => {
+    const runMatch = !runVal || card.dataset.run === runVal;
+    const show = activeStatus.has(card.dataset.status) && runMatch;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('filter-count').textContent = `${visible} / ${cards.length} shown`;
+}
+
+document.querySelectorAll('#filter-bar input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', applyFilters);
+});
+runSelect.addEventListener('change', applyFilters);
+applyFilters();
+// ─────────────────────────────────────────────────────────────────────────────
+
+const tip = document.getElementById('bd-tooltip');
+document.querySelectorAll('.breakdown-table td.comp[data-note]').forEach(td => {
+  td.addEventListener('mouseenter', e => {
+    const note = td.dataset.note;
+    if (!note) return;
+    tip.textContent = note;
+    tip.style.opacity = '1';
+  });
+  td.addEventListener('mousemove', e => {
+    tip.style.left = (e.clientX + 12) + 'px';
+    tip.style.top  = (e.clientY + 12) + 'px';
+  });
+  td.addEventListener('mouseleave', () => { tip.style.opacity = '0'; });
+});
+document.getElementById('toggle-all').addEventListener('click', () => {
+  const allCollapsed = [...document.querySelectorAll('.card-header')].every(h => h.classList.contains('collapsed'));
+  document.querySelectorAll('.card-header').forEach(h => {
+    h.classList.toggle('collapsed', !allCollapsed);
+    h.nextElementSibling.classList.toggle('collapsed', !allCollapsed);
+  });
+  syncToggleAllLabel();
+});
+
+// ── average fits toggle ───────────────────────────────────────────────────────
+document.querySelectorAll('.avg-fits-header').forEach(h => {
+  h.addEventListener('click', () => {
+    const body = h.nextElementSibling;
+    const nowCollapsed = body.classList.toggle('collapsed');
+    h.textContent = (nowCollapsed ? '▶' : '▼') + ' Average Fits';
+  });
+});
+
+// ── supervisor checkboxes — localStorage persistence ─────────────────────────
+function _updateSvRow(row) {
+  const badfit  = row.querySelector('[data-flag="badfit"]').checked;
+  const badeval = row.querySelector('[data-flag="badeval"]').checked;
+  const good    = row.querySelector('[data-flag="good"]').checked;
+  const goodLabel  = row.querySelector('.sv-good');
+  const badLabels  = [...row.querySelectorAll('.sv-label:not(.sv-good)')];
+  goodLabel.classList.toggle('sv-disabled',  badfit || badeval);
+  badLabels.forEach(l => l.classList.toggle('sv-disabled', good));
+  const k = row.dataset.key;
+  localStorage.setItem('sv_badfit_'  + k, badfit);
+  localStorage.setItem('sv_badeval_' + k, badeval);
+  localStorage.setItem('sv_good_'    + k, good);
+}
+document.querySelectorAll('.supervisor-row').forEach(row => {
+  const k = row.dataset.key;
+  row.querySelector('[data-flag="badfit"]').checked  = localStorage.getItem('sv_badfit_'  + k) === 'true';
+  row.querySelector('[data-flag="badeval"]').checked = localStorage.getItem('sv_badeval_' + k) === 'true';
+  row.querySelector('[data-flag="good"]').checked    = localStorage.getItem('sv_good_'    + k) === 'true';
+  _updateSvRow(row);
+  row.querySelectorAll('[data-flag]').forEach(cb => cb.addEventListener('change', () => _updateSvRow(row)));
+});
 """
 
 
@@ -277,6 +507,21 @@ def build_rep_breakdown(rep_data, rep_index):
     score = rep_data["score"]
     passed = rep_data["pass"]
     is_preproc = rep_data["is_preproc_failure"]
+    toe   = rep_data.get("toe_region")
+    sv_key = rep_data.get("sv_key", "")
+
+    # Toe region line
+    if toe is not None and not (isinstance(toe, float) and pd.isna(toe)):
+        toe_html = f'<div class="toe-val">toe ε = {float(toe):.4f}</div>'
+    else:
+        toe_html = '<div class="toe-val">toe ε = —</div>'
+
+    # Supervisor checkboxes
+    sv_html = f"""<div class="supervisor-row" data-key="{sv_key}">
+  <label class="sv-label sv-badfit"><input type="checkbox" data-flag="badfit"> Bad Fit</label>
+  <label class="sv-label sv-badeval"><input type="checkbox" data-flag="badeval"> Bad Eval</label>
+  <label class="sv-label sv-good"><input type="checkbox" data-flag="good"> Good</label>
+</div>"""
 
     # Score badge
     if is_preproc:
@@ -290,7 +535,8 @@ def build_rep_breakdown(rep_data, rep_index):
         badge = f'<span class="score-badge" style="color:{col}">{s}/100 {mark}</span>'
 
     if is_preproc:
-        return badge + '<div style="font-size:11px;color:#9e9e9e;margin-top:4px">No fit data — membrane not detected</div>'
+        return (toe_html + sv_html + badge
+                + '<div style="font-size:11px;color:#9e9e9e;margin-top:4px">No fit data — membrane not detected</div>')
 
     rows = []
     for key, max_pts, label in COMPONENTS:
@@ -309,13 +555,12 @@ def build_rep_breakdown(rep_data, rep_index):
         row_class = "pen-row" if fired else ("ok-row" if clear else "")
         rows.append(
             f'<tr class="{row_class}">'
-            f'<td class="comp">{label}</td>'
+            f'<td class="comp" data-note="{note}">{label}</td>'
             f'<td class="pts">{pts_str}{max_str}</td>'
-            f'<td class="note" title="{note}">{note}</td>'
+            f'<td class="note">{note}</td>'
             f'</tr>'
         )
 
-    # Catastrophic flags (if present) — show subtotal before halving
     has_catastrophic = any(k in bd for k in CAT_KEYS)
     if has_catastrophic:
         pre_sum = sum(
@@ -343,7 +588,6 @@ def build_rep_breakdown(rep_data, rep_index):
                 f'</tr>'
             )
 
-    # Total row
     s_val = int(score) if score is not None and not (isinstance(score, float) and pd.isna(score)) else "—"
     col = score_color(score) if s_val != "—" else "#9e9e9e"
     rows.append(
@@ -355,21 +599,26 @@ def build_rep_breakdown(rep_data, rep_index):
     )
 
     table = '<table class="breakdown-table">' + "".join(rows) + "</table>"
-    return badge + table
+    return toe_html + sv_html + badge + table
 
 
-def condition_card(cond_name, group_df, seg_images, comp_images, run_folder):
+def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
+                   run_folder, pre_cv=None, post_cv=None):
     group_df = group_df.sort_values("Trial").reset_index(drop=True)
+    cond_safe = _safe_key(cond_name)
 
     reps_data = []
-    for _, row in group_df.iterrows():
+    for idx, (_, row) in enumerate(group_df.iterrows()):
         score = row.get("Good Fit Score")
         is_preproc = score is None or (isinstance(score, float) and pd.isna(score))
+        toe = row.get("Toe Region")
         reps_data.append({
             "score": score,
             "pass": bool(row.get("Good Fit", False)),
             "breakdown": parse_breakdown(row.get("Good Fit Breakdown")),
             "is_preproc_failure": is_preproc,
+            "toe_region": toe,
+            "sv_key": f"{cond_safe}_{idx}",
         })
 
     n_pass  = sum(r["pass"] for r in reps_data)
@@ -377,12 +626,16 @@ def condition_card(cond_name, group_df, seg_images, comp_images, run_folder):
 
     if all(r["is_preproc_failure"] for r in reps_data):
         hdr_color = "#78909c"
+        status = "preproc"
     elif n_pass == n_total:
         hdr_color = "#2e7d32"
+        status = "pass"
     elif n_pass == 0:
         hdr_color = "#b71c1c"
+        status = "fail"
     else:
         hdr_color = "#e65100"
+        status = "mixed"
 
     score_bits = []
     for r in reps_data:
@@ -395,12 +648,10 @@ def condition_card(cond_name, group_df, seg_images, comp_images, run_folder):
 
     run_tag = run_folder or "unknown run"
 
-    # ── build one row per rep ─────────────────────────────────────────────────
+    # ── rep rows ─────────────────────────────────────────────────────────────
     rep_rows_html = ""
     for i, rep_data in enumerate(reps_data):
         breakdown_html = build_rep_breakdown(rep_data, i)
-
-        # Match image by index — seg_images[i] if it exists
         img_html = '<span class="no-img">No plot found</span>'
         if i < len(seg_images):
             try:
@@ -408,14 +659,13 @@ def condition_card(cond_name, group_df, seg_images, comp_images, run_folder):
                 img_html = f'<img src="{uri}" alt="rep-{i+1}">'
             except Exception:
                 pass
-
         rep_rows_html += f"""
   <div class="rep-row">
     <div class="rep-left">{breakdown_html}</div>
     <div class="rep-right">{img_html}</div>
   </div>"""
 
-    # ── comparison CV images (full width) ─────────────────────────────────────
+    # ── comparison CV + raw average images ───────────────────────────────────
     comp_html = ""
     for img_path in comp_images:
         try:
@@ -430,24 +680,60 @@ def condition_card(cond_name, group_df, seg_images, comp_images, run_folder):
             pass
     comp_row = f'<div class="comp-row">{comp_html}</div>' if comp_html else ""
 
+    # ── CV summary line ───────────────────────────────────────────────────────
+    cv_parts = []
+    if pre_cv is not None:
+        cv_parts.append(f"Pre CV: {pre_cv:.4f}")
+    if post_cv is not None:
+        cv_parts.append(f"Post CV: {post_cv:.4f}")
+    cv_summary = (f'<div class="cv-summary">{" &nbsp;|&nbsp; ".join(cv_parts)}</div>'
+                  if cv_parts else "")
+
+    # ── average fits collapsible ──────────────────────────────────────────────
+    avg_fits_html = ""
+    if avg_fit_images:
+        inner = ""
+        for img_path in avg_fit_images:
+            try:
+                uri = img_to_data_uri(img_path)
+                label = img_path.stem
+                inner += f"""
+      <div class="comp-group">
+        <img src="{uri}" alt="{label}">
+        <span class="img-label">{label}</span>
+      </div>"""
+            except Exception:
+                pass
+        if inner:
+            avg_fits_html = f"""
+  <div class="avg-fits-header">▶ Average Fits</div>
+  <div class="avg-fits-body collapsed">{inner}
+  </div>"""
+
     return f"""
-<div class="card">
+<div class="card" data-status="{status}" data-run="{run_tag}">
   <div class="card-header" style="background:{hdr_color}">
+    <span class="toggle-icon">▾</span>
     <span>{cond_name}</span>
     <span class="run-tag">{run_tag}</span>
     <span class="summary">{n_pass}/{n_total} pass &nbsp;|&nbsp; {summary_str}</span>
   </div>
-  {rep_rows_html}
-  {comp_row}
+  <div class="card-body">
+    {rep_rows_html}
+    {comp_row}
+    {cv_summary}
+    {avg_fits_html}
+  </div>
 </div>"""
 
 
 # ── main ──────────────────────────────────────────────────────────────────────
 
-def generate(extra_csv_paths=None, output_path=None):
+def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
     """
     Regenerate fit_evaluation_log.html from scratch.
-    extra_csv_paths: additional CSVs to merge (e.g. from test_processing.py).
+    extra_csv_paths: additional reps CSVs to merge (e.g. from test_processing.py).
+    agg_csv_paths:   additional agg CSVs for pre/postDiscard CV values.
     output_path:     override output location.
     """
     out = Path(output_path) if output_path else OUTPUT
@@ -456,6 +742,8 @@ def generate(extra_csv_paths=None, output_path=None):
     if df.empty:
         print("[fit log] No data found — skipping HTML generation.")
         return
+
+    cv_map = load_agg_cvs(agg_csv_paths)
 
     df["_date_sort"] = pd.to_datetime(
         df["date"].str.replace(r"\n", " ", regex=True), errors="coerce"
@@ -470,8 +758,12 @@ def generate(extra_csv_paths=None, output_path=None):
     cards_html = ""
     for cond in cond_order:
         group = df[df["condition"] == cond]
-        seg_imgs, comp_imgs, run_folder = find_plots(cond)
-        cards_html += condition_card(cond, group, seg_imgs, comp_imgs, run_folder)
+        seg_imgs, comp_imgs, avg_fit_imgs, run_folder = find_plots(cond)
+        pre_cv, post_cv = cv_map.get(cond, (None, None))
+        cards_html += condition_card(
+            cond, group, seg_imgs, comp_imgs, avg_fit_imgs, run_folder,
+            pre_cv=pre_cv, post_cv=post_cv,
+        )
 
     from datetime import datetime
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -494,8 +786,19 @@ def generate(extra_csv_paths=None, output_path=None):
   <div class="legend-item"><div class="dot" style="background:#b71c1c"></div>all fail</div>
   <div class="legend-item"><div class="dot" style="background:#78909c"></div>pre-processing failure</div>
   <div class="legend-item" style="color:#cfd8dc;font-size:11px">newest first · re-run processing to update</div>
+  <button id="toggle-all">Collapse All</button>
+</div>
+<div id="filter-bar">
+  <span style="opacity:.7;font-weight:600">Filter:</span>
+  <label><input type="checkbox" data-status="pass"    checked> <span class="dot" style="background:#2e7d32"></span> all pass</label>
+  <label><input type="checkbox" data-status="mixed"   checked> <span class="dot" style="background:#e65100"></span> mixed</label>
+  <label><input type="checkbox" data-status="fail"    checked> <span class="dot" style="background:#b71c1c"></span> all fail</label>
+  <label><input type="checkbox" data-status="preproc" checked> <span class="dot" style="background:#78909c"></span> pre-proc failure</label>
+  <select id="run-select"><option value="">All dates</option></select>
+  <span id="filter-count"></span>
 </div>
 {cards_html}
+<div id="bd-tooltip"></div>
 <script>{JS}</script>
 </body>
 </html>"""

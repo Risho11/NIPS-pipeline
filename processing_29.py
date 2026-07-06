@@ -4,8 +4,13 @@ import json
 from pathlib import Path
 import datetime
 
-import matplotlib
-matplotlib.use('Agg')
+import matplotlib as _mpl
+try:
+    import IPython as _ipy
+    if _ipy.get_ipython() is None:
+        _mpl.use('Agg')
+except ImportError:
+    _mpl.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import copy
@@ -23,6 +28,11 @@ def namestr(obj, namespace):          #read the file name of data
 
 LOAD_COL = "Ch:Load (N)"
 LVDT_COL = "S:LVDT (in)"
+
+# ── Data handling config ───────────────────────────────────────────────────────
+EXTENDED_CONTEXT    = True  # include _membrane_outcome_string() in result string
+PROMOTE_POSTDISCARD = True  # True=LLM sees postDiscard; False=LLM sees preDiscard
+USE_FIT_COUNT       = True  # True=n_fit counts Good Fit flag; False=counts _rep_is_usable()
 SETPOINT_COL = "Set Point ()"
 
 # ── Save config ──────────────────────────────────────────────────────────
@@ -331,6 +341,19 @@ def validData_eval(thickness):
     return thickness > 50
 
 
+def _partial_props(prop):
+    """Properties a bad-fit valid-thickness rep contributes to preDiscard aggregation.
+    Edit this when the subset of useful-but-unfitted properties changes."""
+    return {"Strain at 50 bar": prop.get("Strain at 50 bar")}
+
+
+def _rep_is_usable(prop):
+    """Counts as a usable rep for n_fit when USE_FIT_COUNT=False.
+    Edit this when the 'enough data' criterion changes."""
+    v = prop.get("Strain at 50 bar")
+    return v is not None and not (isinstance(v, float) and np.isnan(v))
+
+
 def _outcome_interpretation(n_membrane, n_fit, total, mech_res=""):
     """
     Returns a human+LLM-readable outcome string for a single membrane condition.
@@ -471,7 +494,11 @@ def _membrane_outcome_string(all_props, mech_res=""):
         return "OUTCOME: NO_DATA\nINTERPRETATION: No replicate data available for this condition."
     membrane_reps = [p for p in all_props if validData_eval(p.get("Thickness", 0) or 0)]
     n_membrane = len(membrane_reps)
-    n_fit = sum(1 for p in membrane_reps if p.get("Good Fit", False))
+    n_fit = (
+        sum(1 for p in membrane_reps if p.get("Good Fit", False))
+        if USE_FIT_COUNT
+        else sum(1 for p in membrane_reps if _rep_is_usable(p))
+    )
     header = f"MEMBRANE DETECTION: {n_membrane}/{total} replicates detected a membrane.\n"
     header += (
         f"FIT DETECTION: {n_fit}/{n_membrane} of detected membranes passed quality checks.\n"
@@ -763,44 +790,87 @@ def goodFit_eval_old(modelPlateau, predPlateau, breakpoint1, elasticModulus, yie
 def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=2, condition_name="", save_dir=None, label=""):
     """
     Call once per condition (after all reps processed) to show average stress-strain + CV.
-    Comment out the call in process_zero_sample_pairs_pipeline to skip.
+    Creep region excluded from plot and CV. Returns (cv, avg_df) where avg_df is a
+    DataFrame with 'strain' and 'stress (bar)' of the average curve (creep-excluded).
     """
-    stress_data = []
-    strain_data = []
+    stress_nc = []
+    strain_nc = []
+    # full data (with creep) for avg_df return value — strain-indexed
+    stress_full = []
+    strain_full = []
+    creep_starts = []
+    creep_ends = []
 
     for df in valid_curves:
-        d = df[df['Ch:Load (N)'] > cutoff_load_displacement].copy()
-        if 'Set Point ()' in d.columns and (d['Set Point ()'] > 1).any():
-            d = d[d['Set Point ()'] <= 1].copy()
-        if 'stress (bar)' not in d.columns or 'strain' not in d.columns:
+        d_all = df[df['Ch:Load (N)'] > cutoff_load_displacement].copy()
+        if 'stress (bar)' not in d_all.columns or 'strain' not in d_all.columns:
             continue
-        d = d.sort_values('stress (bar)').reset_index(drop=True)
-        d['strain'] = d['strain'] - d['strain'].iloc[0]
-        stress_data.append(d['stress (bar)'].values)
-        strain_data.append(d['strain'].values)
+
+        # full curve sorted by strain
+        d_f = d_all.sort_values('strain').reset_index(drop=True)
+        d_f['strain'] = d_f['strain'] - d_f['strain'].iloc[0]
+        stress_full.append(d_f['stress (bar)'].values)
+        strain_full.append(d_f['strain'].values)
+
+        # record creep strain bounds from this rep
+        if 'Set Point ()' in d_f.columns and (d_f['Set Point ()'] > 1).any():
+            creep_rows = d_f[d_f['Set Point ()'] > 1]
+            creep_starts.append(float(creep_rows['strain'].min()))
+            creep_ends.append(float(creep_rows['strain'].max()))
+
+        # creep-stripped for CV
+        d_nc = d_all[d_all['Set Point ()'] <= 1].copy() if (
+            'Set Point ()' in d_all.columns and (d_all['Set Point ()'] > 1).any()
+        ) else d_all.copy()
+        d_nc = d_nc.sort_values('stress (bar)').reset_index(drop=True)
+        d_nc['strain'] = d_nc['strain'] - d_nc['strain'].iloc[0]
+        stress_nc.append(d_nc['stress (bar)'].values)
+        strain_nc.append(d_nc['strain'].values)
 
     cv = np.nan
+    avg_df = None
     plt.figure(figsize=(8, 5.5))
 
-    if stress_data:
-        common_min = max(s[0]  for s in stress_data)
-        common_max = min(s[-1] for s in stress_data)
-        n_pts      = min(len(s) for s in stress_data)
+    if stress_nc:
+        # stress-indexed alignment for CV (creep-stripped)
+        common_min = max(s[0]  for s in stress_nc)
+        common_max = min(s[-1] for s in stress_nc)
+        n_pts      = min(len(s) for s in stress_nc)
         common_stress = np.linspace(common_min, common_max, n_pts)
-
         aligned = np.array([
             np.interp(common_stress, stress, strain)
-            for stress, strain in zip(stress_data, strain_data)
+            for stress, strain in zip(stress_nc, strain_nc)
         ])
         avg_strain = np.mean(aligned, axis=0)
-        ##############CHEKC
-        std_strain = np.std(aligned,  axis=0, ddof=1)
-
+        std_strain = np.std(aligned, axis=0, ddof=1)
         overall_avg = np.mean(avg_strain)
         overall_std = np.mean(std_strain)
         cv = overall_std / overall_avg if overall_avg != 0 else np.nan
 
-        for i, (stress, strain) in enumerate(zip(stress_data, strain_data)):
+        # avg_df: strain-indexed average over FULL data (includes creep)
+        # use max of end strains so creep region isn't clipped by the shortest rep
+        common_strain_min = max(s[0]  for s in strain_full)
+        common_strain_max = max(s[-1] for s in strain_full)
+        n_pts_full = max(len(s) for s in strain_full)
+        common_strain_full = np.linspace(common_strain_min, common_strain_max, n_pts_full)
+        aligned_full = np.array([
+            np.interp(common_strain_full, strain, stress)
+            for strain, stress in zip(strain_full, stress_full)
+        ])
+        avg_stress_full = np.mean(aligned_full, axis=0)
+        avg_df = pd.DataFrame({
+            'strain': common_strain_full,
+            'stress (bar)': avg_stress_full,
+        })
+        if creep_starts:
+            avg_creep_start = float(np.mean(creep_starts))
+            avg_creep_end   = float(np.mean(creep_ends))
+            avg_df['Set Point ()'] = np.where(
+                (avg_df['strain'] >= avg_creep_start) & (avg_df['strain'] <= avg_creep_end),
+                2.0, 0.0
+            )
+
+        for i, (stress, strain) in enumerate(zip(stress_nc, strain_nc)):
             plt.plot(strain, stress, alpha=0.35, linewidth=1, label=f"Rep {i+1}")
         plt.plot(avg_strain, common_stress, color='black', linewidth=2.5, label='Average')
         plt.fill_betweenx(common_stress,
@@ -836,11 +906,11 @@ def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=
     plt.close()
     tag = f" [{label}]" if label else ""
     print(f"CV ({condition_name}){tag}: {cv}")
-    return cv
+    return cv, avg_df
 
 
 #EXTRACT KNOWLEDGE OF A DATA BATCH
-def interpretData(data_list, thickness_info = True, thickness_list = None, creep_info = True, cutoff_load_thickness=1, cutoff_load_displacement=2, save_path=None):
+def interpretData(data_list, thickness_info = True, thickness_list = None, creep_info = True, cutoff_load_thickness=1, cutoff_load_displacement=2, save_path=None, skip_preproc=False):
     '''
     Returns mechanical properties of a data batch as a list
 
@@ -860,7 +930,9 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
     '''
     #retrieves thickness information
     thickness = []
-    if thickness_info:
+    if skip_preproc:
+        thickness = [np.nan] * len(data_list)
+    elif thickness_info:
         thickness = thickness_list
     else:
         for i in range(len(data_list)):
@@ -868,19 +940,21 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
 
     #add concentration and heating to returned list
     mechanicalProperties = []
-    
+
     #set up stress strain curve
-    for i in range(len(data_list)): 
-        data_list[i]['stress (bar)'] = data_list[i]['Ch:Load (N)'] / 19.635 *10      #create stress column which is load / area, the area is 19.635 mm^2
-        data_list[i]['strain'] = data_list[i]['Disp_corrected (um)'] / thickness[i]      #create strain column which is displacement / thickness, the thickness is shown above
-    
+    if not skip_preproc:
+        for i in range(len(data_list)):
+            data_list[i]['stress (bar)'] = data_list[i]['Ch:Load (N)'] / 19.635 *10      #create stress column which is load / area, the area is 19.635 mm^2
+            data_list[i]['strain'] = data_list[i]['Disp_corrected (um)'] / thickness[i]      #create strain column which is displacement / thickness, the thickness is shown above
+
     # Calculate average standard deviation for all data points
     all_stress_data = []
     for i in range(len(data_list)):
-        data = data_list[i][data_list[i]['Ch:Load (N)'] > cutoff_load_displacement]
-        data['strain'] = data['strain'] - data['strain'].iloc[0]     #shift the data so that the first point is at 0 in 'S:LVDT (in)'
-        data = data.reset_index(drop=True)
-        all_stress_data.append(data['stress (bar)'].values)
+        _d = data_list[i] if skip_preproc else data_list[i][data_list[i]['Ch:Load (N)'] > cutoff_load_displacement]
+        _d = _d.copy()
+        _d['strain'] = _d['strain'] - _d['strain'].iloc[0]
+        _d = _d.reset_index(drop=True)
+        all_stress_data.append(_d['stress (bar)'].values)
 
     min_length = min([len(stress) for stress in all_stress_data])
     truncated_stress_data = [stress[:min_length] for stress in all_stress_data]
@@ -908,7 +982,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         else:
             trial = data_name.split('_')[-1]
 
-        if not validData_eval(thickness[i]):
+        if not skip_preproc and not validData_eval(thickness[i]):
             print(f"Skipping GAM for {data_name} (thickness={thickness[i]:.1f} µm — no membrane)")
             _raw = data_list[i][data_list[i]['Ch:Load (N)'] > cutoff_load_displacement].copy()
             plt.scatter(_raw['Disp_corrected (um)'], _raw['stress (bar)'],
@@ -939,15 +1013,16 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                 'Good Fit Score': None,
                 'Good Fit Breakdown': None,
                 'Average Standard Deviation': avg_standard_deviation,
+                'Toe Region': np.nan,
             })
             continue
 
         #adjust data for interpretation
-        data = data_list[i][data_list[i]['Ch:Load (N)'] > cutoff_load_displacement]      
+        data = data_list[i].copy() if skip_preproc else data_list[i][data_list[i]['Ch:Load (N)'] > cutoff_load_displacement]
         data['strain'] = data['strain'] - data['strain'].iloc[0]     #shift the data so that the first point is at 0 in 'S:LVDT (in)'
         data = data.reset_index(drop=True)     #resets indexing
         fracture_index = data['stress (bar)'].idxmax()
-        has_creep_segment = creep_info and (data['Set Point ()'] > 1).any()
+        has_creep_segment = creep_info and 'Set Point ()' in data.columns and (data['Set Point ()'] > 1).any()
         if has_creep_segment:
             fracture_index = data[data['Set Point ()'] > 1].index[0] #find index of fracture point
             fracture_index += 1
@@ -991,13 +1066,15 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                 "Strain at 150 bar": np.nan, "Strain at 500 bar": np.nan,
                 "Good Fit": False, "Good Fit Score": 0, "Good Fit Breakdown": None,
                 "Average Standard Deviation": avg_standard_deviation,
+                "Toe Region": np.nan,
             })
             plt.close()
             continue
-        goodData_eval(data, predictions)
+        toe_end_strain = goodData_eval(data, predictions)
         # replace values in predictions that are greater than the predictions[-1] with predictions[-1] but make a copy of the predictions for the plot
         predictions_for_plot = predictions.copy()
-        predictions_for_plot[predictions_for_plot > creep_level] = creep_level if creep_level is not None else predictions[-1]
+        _cap = creep_level if creep_level is not None else predictions[-1]
+        predictions_for_plot[predictions_for_plot > _cap] = _cap
         #print(gam.summary())
         plt.plot(data['strain'], predictions_for_plot, color='black',label='Spline Model')
 
@@ -1080,10 +1157,11 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                 "Strain at 150 bar": strain_150bar, "Strain at 500 bar": strain_500bar,
                 "Good Fit": False, "Good Fit Score": 0, "Good Fit Breakdown": None,
                 "Average Standard Deviation": avg_standard_deviation,
+                "Toe Region": toe_end_strain,
             })
             plt.close()
             continue
-        
+
         try:
             xPlateau, xDensification, predPlateau, predDensification, changepoint, slopePlateau, slopeDensification, modelPlateau = find_changepoint_fit(data, breakpoint1, bp2, bp3, creep_level)
         except ValueError as e:
@@ -1106,6 +1184,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                 "Good Fit Score": 0,
                 "Good Fit Breakdown": None,
                 "Average Standard Deviation":avg_standard_deviation,
+                "Toe Region": toe_end_strain,
             })
             continue
         if True:
@@ -1160,7 +1239,8 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                     "Good Fit":good,
                     "Good Fit Score": fit_breakdown.get('_score_final', (None,))[0],
                     "Good Fit Breakdown": json.dumps({k: {'pts': v[0], 'max': v[1], 'note': v[2]} for k, v in fit_breakdown.items()}),
-                    "Average Standard Deviation":avg_standard_deviation}
+                    "Average Standard Deviation":avg_standard_deviation,
+                    "Toe Region": toe_end_strain}
             mechanicalProperties.append(dict)
 
 
@@ -1611,7 +1691,7 @@ def process_zero_sample_pairs_pipeline(
         # ---- average curve across replicates ----
         has_failures = len(condition_passing_curves) < len(condition_valid_curves)
 
-        pre_cv = plot_average_curve(
+        pre_cv, pre_avg_df = plot_average_curve(
             condition_processed_curves, condition_valid_curves,
             condition_name=condition_name,
             label="preDiscard" if has_failures else "",
@@ -1620,7 +1700,7 @@ def process_zero_sample_pairs_pipeline(
         pre_cv = pre_cv if pre_cv is not None else np.nan
 
         if has_failures:
-            post_cv = plot_average_curve(
+            post_cv, post_avg_df = plot_average_curve(
                 condition_processed_curves, condition_passing_curves,
                 condition_name=condition_name,
                 label="postDiscard",
@@ -1628,7 +1708,63 @@ def process_zero_sample_pairs_pipeline(
             )
             post_cv = post_cv if post_cv is not None else np.nan
         else:
-            post_cv = pre_cv
+            post_cv, post_avg_df = pre_cv, pre_avg_df
+
+        # ---- fit average curves ----
+        _avg_save_dir = condition_save_dir / "averageFits" if SAVE_PLOTS else None
+
+        # raw average curves saved BEFORE fitting (mirrors pre-processing plot before each rep fit)
+        if SAVE_PLOTS and _avg_save_dir is not None and pre_avg_df is not None:
+            _panels = [("preDiscard" if has_failures else "average", pre_avg_df, condition_valid_curves)]
+            if has_failures and post_avg_df is not None and post_avg_df is not pre_avg_df:
+                _panels.append(("postDiscard", post_avg_df, condition_passing_curves))
+            n_panels = len(_panels)
+            fig, axes = plt.subplots(1, n_panels, figsize=(7 * n_panels, 5.5), squeeze=False)
+            _rep_colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+            for ax, (_lbl, _df, _reps) in zip(axes[0], _panels):
+                for j, _rep_df in enumerate(_reps):
+                    _r = _rep_df[_rep_df['Ch:Load (N)'] > cutoff_load_displacement].copy() if 'Ch:Load (N)' in _rep_df.columns else _rep_df.copy()
+                    if 'strain' not in _r.columns or 'stress (bar)' not in _r.columns:
+                        continue
+                    _r = _r.sort_values('strain')
+                    _r_strain = _r['strain'] - _r['strain'].iloc[0]
+                    ax.plot(_r_strain, _r['stress (bar)'], color=_rep_colors[j % len(_rep_colors)],
+                            alpha=0.25, linewidth=1, label=f"Rep {j+1}")
+                ax.scatter(_df['strain'], _df['stress (bar)'], s=2, color='black', zorder=5, label='Average')
+                if 'Set Point ()' in _df.columns and (_df['Set Point ()'] > 1).any():
+                    _cr = _df[_df['Set Point ()'] > 1]
+                    _clevel = float(_cr['stress (bar)'].mean())
+                    _cstart = float(_cr['strain'].min())
+                    _cend   = float(_cr['strain'].max())
+                    ax.hlines(_clevel, _cstart, _cend, color='red', linewidth=3, zorder=10, label=f'Creep ~ {_clevel:.1f} bar')
+                ax.set_title(f"{condition_name} | {_lbl}", fontsize=12)
+                ax.set_xlabel('Strain', fontsize=13)
+                ax.set_ylabel('Stress (bar)', fontsize=13)
+                ax.legend(fontsize=9)
+            fig.tight_layout()
+            _avg_save_dir.mkdir(parents=True, exist_ok=True)
+            fig.savefig(_avg_save_dir / "raw_average_curves.png", dpi=150, bbox_inches='tight')
+            plt.close(fig)
+
+        if pre_avg_df is not None:
+            _label = "preDiscard" if has_failures else "average"
+            pre_avg_df["display_name"] = f"{condition_name} | {_label}"
+            _creep_in_pre = 'Set Point ()' in pre_avg_df.columns and (pre_avg_df['Set Point ()'] > 1).any()
+            interpretData(
+                [pre_avg_df],
+                skip_preproc=True,
+                creep_info=_creep_in_pre,
+                save_path=_avg_save_dir / f"average_fit_{_label}.png" if _avg_save_dir is not None else None,
+            )
+        if has_failures and post_avg_df is not None:
+            post_avg_df["display_name"] = f"{condition_name} | postDiscard"
+            _creep_in_post = 'Set Point ()' in post_avg_df.columns and (post_avg_df['Set Point ()'] > 1).any()
+            interpretData(
+                [post_avg_df],
+                skip_preproc=True,
+                creep_info=_creep_in_post,
+                save_path=_avg_save_dir / "average_fit_postDiscard.png" if _avg_save_dir is not None else None,
+            )
 
         for prop in condition_properties:
             prop["CV"] = pre_cv
@@ -1652,6 +1788,8 @@ def process_zero_sample_pairs_pipeline(
             "post_cv": post_cv,
             "has_failures": has_failures,
             "passing_properties": passing_properties,
+            "pre_avg_df": pre_avg_df,
+            "post_avg_df": post_avg_df,
         }
 
     return pipeline_result
@@ -1742,6 +1880,8 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                     vals = []
                     for prop in props_iter:
                         v = prop.get(k)
+                        if v is None and not prop.get("Good Fit", True) and validData_eval(prop.get("Thickness", 0) or 0):
+                            v = _partial_props(prop).get(k)
                         if v is not None:
                             try:
                                 vals.append(float(v))
@@ -1754,9 +1894,12 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                 agg_row["formatted_parameters"] = formatted_parameters(agg_row)
                 agg_row["initial_report"] = ""
                 _context = all_props if all_props is not None else list(props_iter)
-                agg_row["formatted_parameters_withProp"] = (
-                    formatted_parameters(agg_row) + "\n" + _membrane_outcome_string(_context, mech_res)
-                )
+                if EXTENDED_CONTEXT:
+                    outcome = "\n" + _membrane_outcome_string(_context, mech_res)
+                    print(outcome)
+                else:
+                    outcome = "\n\n" + mech_res
+                agg_row["formatted_parameters_withProp"] = formatted_parameters(agg_row) + outcome
                 agg_row["final_report"] = ""
                 return agg_row
 
@@ -1820,3 +1963,17 @@ def promote_to_main(condition_name, source, agg_path, agg_llm_path):
     else:
         main_df = row
     main_df.to_csv(agg_llm_path, index=False)
+
+
+def promote_condition(condition_name, agg_path, agg_llm_path):
+    """Selects pre vs postDiscard source based on PROMOTE_POSTDISCARD flag."""
+    agg_df = pd.read_csv(agg_path)
+    has_post = (agg_df["name"] == f"{condition_name}_postDiscard").any()
+    has_pre  = (agg_df["name"] == f"{condition_name}_preDiscard").any()
+    if PROMOTE_POSTDISCARD and has_post:
+        source = "postDiscard"
+    elif has_pre:
+        source = "preDiscard"
+    else:
+        source = ""
+    promote_to_main(condition_name, source, agg_path, agg_llm_path)

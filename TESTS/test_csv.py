@@ -146,9 +146,9 @@ def test_all_fail():
 
         check(llm.exists(), "LLM CSV written")
         llm_df = pd.read_csv(llm)
-        check(len(llm_df) == 2, f"LLM CSV has 2 rows (postDiscard NaN when passing_props empty) (got {len(llm_df)})")
+        check(len(llm_df) == 2, f"LLM CSV has 2 rows (preDiscard + postDiscard NaN) (got {len(llm_df)})")
         check("cond-C_preDiscard" in llm_df["name"].values, "preDiscard row present")
-        check("cond-C_postDiscard" in llm_df["name"].values, "postDiscard row NaN")
+        check("cond-C_postDiscard" in llm_df["name"].values, "postDiscard NaN row present")
 
 
 def test_single_rep():
