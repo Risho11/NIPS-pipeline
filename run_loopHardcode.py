@@ -10,8 +10,7 @@ Usage:
     python run_loopHardcode.py
 """
 
-import json, threading, time, csv, os, sys, datetime
-import cv2
+import json, threading, time, os, sys, datetime
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
@@ -55,26 +54,9 @@ BASE_PARAMS = {
     "nips_bath_wait_time": 100,
 }
 
-# <<< PATH >>> hardcoded Windows lab machine paths
-CSV_RAW_PATH = Path(r"C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed")
-IMAGES_PATH  = Path(r"C:\Users\opentrons\Documents\auto-membranes\images")
-SERVER_IP    = "169.254.230.148"
-SERVER_PORT  = 8000
-CAMERA_INDEX = 2
+SERVER_IP   = "169.254.230.148"
+SERVER_PORT = 8000
 # ──────────────────────────────────────────────────────────────────────────────
-
-cam = cv2.VideoCapture(CAMERA_INDEX)
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-if not os.path.isdir("images"):
-    os.mkdir("images")
-
-def take_snapshot():
-    ret, img = cam.read()
-    if ret:
-        cv2.imwrite(os.path.join("images", str(time.time())) + ".jpg", img)
-    else:
-        print("Error: unable to take picture")
 
 
 def _send_next(params):
@@ -94,24 +76,8 @@ class LoopHandler(BaseHTTPRequestHandler):
         pass
 
     def do_GET(self):
-        path = urlparse(self.path).path
-        if path == "/compressiontester/status":
-            self.send_response(200)
-            self.end_headers()
-            files = list(CSV_RAW_PATH.glob("**/*.csv"))
-            latest = max(files, key=os.path.getctime)
-            with open(latest) as f:
-                data = list(csv.reader(f))
-            safe = float(data[-1][5]) < -6
-            self.wfile.write(json.dumps({"safe": safe, "time": os.path.getmtime(latest)}).encode())
-        elif path == "/camera/snapshot":
-            self.send_response(200)
-            self.end_headers()
-            take_snapshot()
-            self.wfile.write(json.dumps(True).encode())
-        else:
-            self.send_response(404)
-            self.end_headers()
+        self.send_response(404)
+        self.end_headers()
 
     def do_POST(self):
         path = urlparse(self.path).path
