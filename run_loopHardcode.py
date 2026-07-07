@@ -14,6 +14,7 @@ import json, threading, time, os, sys, datetime
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
+import cv2
 
 class _TeeLogger:
     def __init__(self, filepath, stream):
@@ -54,9 +55,28 @@ BASE_PARAMS = {
     "nips_bath_wait_time": 100,
 }
 
-SERVER_IP   = "169.254.230.148"
-SERVER_PORT = 8000
+SERVER_IP    = "169.254.230.148"
+SERVER_PORT  = 8000
+CAMERA_INDEX = 2  # change if wrong camera after restart or replug
+IMAGES_PATH  = Path(r"C:\Users\opentrons\Documents\auto-membranes\images")
 # ──────────────────────────────────────────────────────────────────────────────
+
+cam = cv2.VideoCapture(CAMERA_INDEX)
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+if not os.path.isdir("images"):
+    os.mkdir("images")
+
+def take_snapshot():
+    ret, img = cam.read()
+    if ret:
+        cv2.imwrite(os.path.join("images", str(time.time())) + ".jpg", img)
+    else:
+        print("Error: unable to take picture")
+
+def get_last_set_img():
+    files = sorted(IMAGES_PATH.glob("*.jpg"), key=os.path.getctime)
+    return files[-2:]
 
 
 def _send_next(params):
@@ -76,8 +96,15 @@ class LoopHandler(BaseHTTPRequestHandler):
         pass
 
     def do_GET(self):
-        self.send_response(404)
-        self.end_headers()
+        path = urlparse(self.path).path
+        if path == "/camera/snapshot":
+            self.send_response(200)
+            self.end_headers()
+            take_snapshot()
+            self.wfile.write(json.dumps(True).encode())
+        else:
+            self.send_response(404)
+            self.end_headers()
 
     def do_POST(self):
         path = urlparse(self.path).path
