@@ -153,42 +153,63 @@ def find_plots(condition_name: str):
         if cond.is_dir():
             candidates.append(cond)
 
+    def get_seg(cond_dir, pattern):
+        seg = []
+        for rep_dir in sorted(cond_dir.glob("rep-*/")):
+            hits = sorted(rep_dir.glob(pattern))
+            if hits:
+                seg.append(hits[0])
+        return seg
+
+    def get_comps(cond_dir):
+        comps = sorted(cond_dir.glob("Comparison_CV*.png"))
+        avg_dir = cond_dir / "averageFits"
+        if avg_dir.is_dir():
+            raw_avg = avg_dir / "raw_average_curves.png"
+            if raw_avg.exists():
+                comps = list(comps) + [raw_avg]
+        return comps
+
     def get_avg_fits(cond_dir):
         avg_dir = cond_dir / "averageFits"
         if not avg_dir.is_dir():
-            return [], []
-        raw_avg = avg_dir / "raw_average_curves.png"
-        raw_list = [raw_avg] if raw_avg.exists() else []
-        fit_list = sorted(avg_dir.glob("average_fit_*.png"))
-        return raw_list, fit_list
+            return []
+        return sorted(avg_dir.glob("average_fit_*.png"))
 
-    # First pass: prefer any candidate with Segmentation images
+    # Seg: real runs first (most recent), then test runs — first with Segmentation images.
+    # Comp/avg: test runs first (most recent), then real runs — so updated CV plots and
+    #           averageFits from test_processing.py runs are always preferred over old real runs.
+    test_cands = [c for c in candidates if c.parent.name.startswith("test-")]
+    real_cands = [c for c in candidates if not c.parent.name.startswith("test-")]
+    comp_search_order = test_cands + real_cands
+
+    seg = []
+    seg_run = None
     for cond_dir in candidates:
-        seg = []
-        for rep_dir in sorted(cond_dir.glob("rep-*/")):
-            hits = sorted(rep_dir.glob("Segmentation_rep-*.png"))
-            if hits:
-                seg.append(hits[0])
-        if seg:
-            comps = sorted(cond_dir.glob("Comparison_CV*.png"))
-            raw_list, fit_list = get_avg_fits(cond_dir)
-            comps = list(comps) + raw_list
-            return seg, comps, fit_list, cond_dir.parent.name
+        s = get_seg(cond_dir, "Segmentation_rep-*.png")
+        if s:
+            seg = s
+            seg_run = cond_dir.parent.name
+            break
+    if not seg:
+        for cond_dir in candidates:
+            s = get_seg(cond_dir, "Pre-Processing_rep-*.png")
+            if s:
+                seg = s
+                seg_run = cond_dir.parent.name
+                break
 
-    # Second pass: Pre-Processing fallback
-    for cond_dir in candidates:
-        seg = []
-        for rep_dir in sorted(cond_dir.glob("rep-*/")):
-            hits = sorted(rep_dir.glob("Pre-Processing_rep-*.png"))
-            if hits:
-                seg.append(hits[0])
-        if seg:
-            comps = sorted(cond_dir.glob("Comparison_CV*.png"))
-            raw_list, fit_list = get_avg_fits(cond_dir)
-            comps = list(comps) + raw_list
-            return seg, comps, fit_list, cond_dir.parent.name
+    comps = []
+    avg_fits = []
+    for cond_dir in comp_search_order:
+        c = get_comps(cond_dir)
+        a = get_avg_fits(cond_dir)
+        if c or a:
+            comps = c
+            avg_fits = a
+            break
 
-    return [], [], [], None
+    return seg, comps, avg_fits, seg_run
 
 
 def parse_breakdown(json_str):
@@ -427,10 +448,12 @@ function applyFilters() {
     [...document.querySelectorAll('#filter-bar input[data-status]:checked')].map(i => i.dataset.status)
   );
   const runVal = runSelect.value;
+  const toeOnly = document.getElementById('filter-toe').checked;
   let visible = 0;
   cards.forEach(card => {
     const runMatch = !runVal || card.dataset.run === runVal;
-    const show = activeStatus.has(card.dataset.status) && runMatch;
+    const toeMatch = !toeOnly || card.dataset.hasToe === '1';
+    const show = activeStatus.has(card.dataset.status) && runMatch && toeMatch;
     card.style.display = show ? '' : 'none';
     if (show) visible++;
   });
@@ -441,6 +464,7 @@ document.querySelectorAll('#filter-bar input[type=checkbox]').forEach(cb => {
   cb.addEventListener('change', applyFilters);
 });
 runSelect.addEventListener('change', applyFilters);
+document.getElementById('filter-toe').addEventListener('change', applyFilters);
 applyFilters();
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -607,8 +631,20 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
     group_df = group_df.sort_values("Trial").reset_index(drop=True)
     cond_safe = _safe_key(cond_name)
 
+    # Split avg_ rows (average curve fits) from regular rep rows
+    is_avg_row = group_df["Trial"].astype(str).str.startswith("avg_")
+    avg_rows_df = group_df[is_avg_row].reset_index(drop=True)
+    rep_rows_df = group_df[~is_avg_row].reset_index(drop=True)
+
+    # Build avg_row lookup: trial suffix → row dict (e.g. "preDiscard" → {...})
+    avg_row_map = {}
+    for _, row in avg_rows_df.iterrows():
+        trial = str(row.get("Trial", ""))
+        suffix = trial[len("avg_"):]  # e.g. "preDiscard", "postDiscard", "average"
+        avg_row_map[suffix] = row
+
     reps_data = []
-    for idx, (_, row) in enumerate(group_df.iterrows()):
+    for idx, (_, row) in enumerate(rep_rows_df.iterrows()):
         score = row.get("Good Fit Score")
         is_preproc = score is None or (isinstance(score, float) and pd.isna(score))
         toe = row.get("Toe Region")
@@ -696,11 +732,31 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         for img_path in avg_fit_images:
             try:
                 uri = img_to_data_uri(img_path)
-                label = img_path.stem
-                inner += f"""
+                stem = img_path.stem  # e.g. "average_fit_preDiscard"
+                # derive suffix: "preDiscard", "postDiscard", "average"
+                suffix = stem.replace("average_fit_", "")
+                avg_row = avg_row_map.get(suffix)
+                if avg_row is not None:
+                    bd_data = {
+                        "score": avg_row.get("Good Fit Score"),
+                        "pass": bool(avg_row.get("Good Fit", False)),
+                        "breakdown": parse_breakdown(avg_row.get("Good Fit Breakdown")),
+                        "is_preproc_failure": False,
+                        "toe_region": avg_row.get("Toe Region"),
+                        "sv_key": f"{cond_safe}_avg_{suffix}",
+                    }
+                    bd_html = build_rep_breakdown(bd_data, 0)
+                    inner += f"""
+      <div class="rep-row" style="width:100%;border-top:1px solid #e0e0e0">
+        <div class="rep-left" style="background:#f7f9fa">{bd_html}</div>
+        <div class="rep-right"><img src="{uri}" alt="{stem}"><br>
+          <span class="img-label">{stem}</span></div>
+      </div>"""
+                else:
+                    inner += f"""
       <div class="comp-group">
-        <img src="{uri}" alt="{label}">
-        <span class="img-label">{label}</span>
+        <img src="{uri}" alt="{stem}">
+        <span class="img-label">{stem}</span>
       </div>"""
             except Exception:
                 pass
@@ -710,8 +766,14 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
   <div class="avg-fits-body collapsed">{inner}
   </div>"""
 
+    has_toe = any(
+        r.get("toe_region") is not None
+        and not (isinstance(r["toe_region"], float) and pd.isna(r["toe_region"]))
+        for r in reps_data
+    )
+
     return f"""
-<div class="card" data-status="{status}" data-run="{run_tag}">
+<div class="card" data-status="{status}" data-run="{run_tag}" data-has-toe="{'1' if has_toe else '0'}">
   <div class="card-header" style="background:{hdr_color}">
     <span class="toggle-icon">▾</span>
     <span>{cond_name}</span>
@@ -785,7 +847,7 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
   <div class="legend-item"><div class="dot" style="background:#e65100"></div>mixed</div>
   <div class="legend-item"><div class="dot" style="background:#b71c1c"></div>all fail</div>
   <div class="legend-item"><div class="dot" style="background:#78909c"></div>pre-processing failure</div>
-  <div class="legend-item" style="color:#cfd8dc;font-size:11px">newest first · re-run processing to update</div>
+  <div class="legend-item" style="color:#cfd8dc;font-size:11px">newest first &nbsp;·&nbsp; to update plots: run <code style="background:#37474f;padding:1px 4px;border-radius:2px">python TESTS/test_processing.py</code> then <code style="background:#37474f;padding:1px 4px;border-radius:2px">python generate_fit_log.py</code></div>
   <button id="toggle-all">Collapse All</button>
 </div>
 <div id="filter-bar">
@@ -794,6 +856,7 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
   <label><input type="checkbox" data-status="mixed"   checked> <span class="dot" style="background:#e65100"></span> mixed</label>
   <label><input type="checkbox" data-status="fail"    checked> <span class="dot" style="background:#b71c1c"></span> all fail</label>
   <label><input type="checkbox" data-status="preproc" checked> <span class="dot" style="background:#78909c"></span> pre-proc failure</label>
+  <label><input type="checkbox" id="filter-toe"> toe region only</label>
   <select id="run-select"><option value="">All dates</option></select>
   <span id="filter-count"></span>
 </div>
@@ -808,4 +871,9 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
 
 
 if __name__ == "__main__":
-    generate()
+    _test_reps = ROOT / "TESTS" / "csv_tests" / "test_reps.csv"
+    _test_agg  = ROOT / "TESTS" / "csv_tests" / "test_agg.csv"
+    generate(
+        extra_csv_paths=[_test_reps] if _test_reps.exists() else [],
+        agg_csv_paths=[_test_agg]   if _test_agg.exists()  else [],
+    )

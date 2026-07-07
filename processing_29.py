@@ -1750,21 +1750,29 @@ def process_zero_sample_pairs_pipeline(
             _label = "preDiscard" if has_failures else "average"
             pre_avg_df["display_name"] = f"{condition_name} | {_label}"
             _creep_in_pre = 'Set Point ()' in pre_avg_df.columns and (pre_avg_df['Set Point ()'] > 1).any()
-            interpretData(
+            _pre_avg_result = interpretData(
                 [pre_avg_df],
                 skip_preproc=True,
                 creep_info=_creep_in_pre,
                 save_path=_avg_save_dir / f"average_fit_{_label}.png" if _avg_save_dir is not None else None,
             )
+            if _pre_avg_result:
+                _r = _pre_avg_result[0].copy()
+                _r["Trial"] = f"avg_{_label}"
+                condition_properties.append(_r)
         if has_failures and post_avg_df is not None:
             post_avg_df["display_name"] = f"{condition_name} | postDiscard"
             _creep_in_post = 'Set Point ()' in post_avg_df.columns and (post_avg_df['Set Point ()'] > 1).any()
-            interpretData(
+            _post_avg_result = interpretData(
                 [post_avg_df],
                 skip_preproc=True,
                 creep_info=_creep_in_post,
                 save_path=_avg_save_dir / "average_fit_postDiscard.png" if _avg_save_dir is not None else None,
             )
+            if _post_avg_result:
+                _r = _post_avg_result[0].copy()
+                _r["Trial"] = "avg_postDiscard"
+                condition_properties.append(_r)
 
         for prop in condition_properties:
             prop["CV"] = pre_cv
@@ -1834,7 +1842,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
         aggregate_path = Path(aggregate_path) if aggregate_path is not None else data_root / "LLM_output.csv"
         rep_col_order = ["date", "name", "Trial", "Thickness", "Elastic Modulus",
                          "Yield Strength", "Changepoint", "Slope Plateau", "Slope Densification",
-                         "Creep Strain", "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
+                         "Creep Strain", "Toe Region", "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
                          "Strain at 500 bar", "Good Fit", "Good Fit Score", "Good Fit Breakdown", "Average Standard Deviation", "CV",
                          "mixing_temp", "bath_temp", "weight_percent", "volume",
                          "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
