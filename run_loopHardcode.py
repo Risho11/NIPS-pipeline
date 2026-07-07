@@ -52,7 +52,7 @@ BASE_PARAMS = {
     "pullcast_speed": 10,
     "nitrogen": False,
     "coupon_to_bath_wait_time": 60,
-    "nips_bath_wait_time": 1000,
+    "nips_bath_wait_time": 60,
     "additive_percent": 0
 }
 
