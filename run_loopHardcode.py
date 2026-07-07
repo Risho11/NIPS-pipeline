@@ -52,7 +52,8 @@ BASE_PARAMS = {
     "pullcast_speed": 1,
     "nitrogen": False,
     "coupon_to_bath_wait_time": 60,
-    "nips_bath_wait_time": 100,
+    "nips_bath_wait_time": 1000,
+    "additive_percent": 0
 }
 
 SERVER_IP    = "169.254.230.148"
