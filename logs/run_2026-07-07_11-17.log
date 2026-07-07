@@ -13,3 +13,137 @@
 [2026-07-07 12:42:15] 
 stopping server...
 
+(opentrons portion)
+
+Polling exception
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/utils.py", line 62, in parse_temperature_response
+KeyError: 'T'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/poller.py", line 111, in _poll_once
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/modules/tempdeck.py", line 306, in read
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 136, in get_temperature
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/utils.py", line 65, in parse_temperature_response
+opentrons.drivers.utils.ParseError: ParseError(error_message=Unexpected argument to parse_temperature_response, parse_source=:36.292
+k
+ok
+:nne C:36.292)
+Polling gcode error: /dev/ot_module_tempdeck2: No response to 'M105
+
+'
+Polling exception
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/utils.py", line 62, in parse_temperature_response
+KeyError: 'T'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/poller.py", line 111, in _poll_once
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/modules/tempdeck.py", line 306, in read
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 136, in get_temperature
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/utils.py", line 65, in parse_temperature_response
+opentrons.drivers.utils.ParseError: ParseError(error_message=Unexpected argument to parse_temperature_response, parse_source=one C:35.781)
+Polling exception
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/poller.py", line 111, in _poll_once
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/modules/tempdeck.py", line 306, in read
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 135, in get_temperature
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 194, in _send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 152, in send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 187, in send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 207, in _send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 91, in read_until
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 58, in run
+  File "/usr/lib/python3.10/site-packages/serial/serialutil.py", line 663, in read_until
+  File "/usr/lib/python3.10/site-packages/serial/serialposix.py", line 595, in read
+serial.serialutil.SerialException: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
+^CTraceback (most recent call last):
+  File "/var/lib/jupyter/notebooks/2026-06-11/protocol-multithreaded.py", line 575, in <module>
+    server.serve_forever()
+  File "/usr/lib/python3.10/socketserver.py", line 232, in serve_forever
+  File "/usr/lib/python3.10/selectors.py", line 416, in select
+KeyboardInterrupt
+^CException ignored in: <module 'threading' from '/usr/lib/python3.10/threading.pyc'>
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1567, in _shutdown
+KeyboardInterrupt:
+Polling exception
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/poller.py", line 111, in _poll_once
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/modules/tempdeck.py", line 306, in read
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 135, in get_temperature
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 194, in _send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 152, in send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 187, in send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 205, in _send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 106, in write
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
+Polling exception
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/poller.py", line 111, in _poll_once
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/modules/tempdeck.py", line 306, in read
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 135, in get_temperature
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 194, in _send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 152, in send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 187, in send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 205, in _send_data
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 106, in write
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
+Exception during post-run finish steps.
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 175, in timeout_override
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/protocol_engine/protocol_engine.py", line 589, in finish
+  File "/usr/lib/python3.10/contextlib.py", line 656, in aclose
+  File "/usr/lib/python3.10/contextlib.py", line 714, in __aexit__
+  File "/usr/lib/python3.10/contextlib.py", line 697, in __aexit__
+  File "/usr/lib/python3.10/contextlib.py", line 608, in _exit_wrapper
+  File "/usr/lib/python3.10/site-packages/opentrons/protocol_engine/execution/hardware_stopper.py", line 140, in do_stop_and_recover
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 149, in wrapper
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 52, in call_coroutine_threadsafe
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/api.py", line 572, in stop
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/backends/controller.py", line 354, in halt
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/smoothie_drivers/driver_3_0.py", line 1800, in kill
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/smoothie_drivers/driver_3_0.py", line 816, in _reset_from_error
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/smoothie_drivers/driver_3_0.py", line 868, in _send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/smoothie_drivers/driver_3_0.py", line 895, in _send_command_unsynchronized
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 152, in send_command
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 184, in send_data
+  File "/usr/lib/python3.10/contextlib.py", line 199, in __aenter__
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 182, in timeout_override
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
+Exception ignored in atexit callback: <function _clear_cached_hardware_controller at 0x730481d8>
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/site-packages/opentrons/execute.py", line 732, in _clear_cached_hardware_controller
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 403, in call_both
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 458, in result
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 403, in __get_result
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 397, in clean_and_notify
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 149, in wrapper
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/thread_manager.py", line 52, in call_coroutine_threadsafe
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/api.py", line 1350, in clean_up
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/backends/controller.py", line 369, in clean_up
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/module_control.py", line 113, in clean_up
+  File "/usr/lib/python3.10/site-packages/opentrons/hardware_control/modules/tempdeck.py", line 129, in cleanup
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/temp_deck/driver.py", line 88, in disconnect
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/serial_connection.py", line 234, in close
+  File "/usr/lib/python3.10/site-packages/opentrons/drivers/asyncio/communication/async_serial.py", line 146, in close
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 821, in run_in_executor
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 167, in submit
+RuntimeError: cannot schedule new futures after shutdown
