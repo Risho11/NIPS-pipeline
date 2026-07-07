@@ -45,11 +45,11 @@ adtv_amts = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 count = 0
 
 BASE_PARAMS = {
-    "mixing_temp": 6,
+    "mixing_temp": 25,
     "bath_temp": 5,
     "weight_percent": 17,
     "volume": 1000,
-    "pullcast_speed": 1,
+    "pullcast_speed": 10,
     "nitrogen": False,
     "coupon_to_bath_wait_time": 60,
     "nips_bath_wait_time": 1000,
@@ -82,13 +82,13 @@ def get_last_set_img():
 
 def _send_next(params):
     global count
-    print(f"[DONE] received signal for additive={params.get('additive')}  count={count}")
+    print(f"[DONE] received signal for additive={params.get('additive_percent')}  count={count}")
     if count >= len(adtv_amts):
         print("[DONE] all adtv_amts exhausted — no more experiments to send")
         return
-    next_params = {**BASE_PARAMS, "additive": adtv_amts[count]}
+    next_params = {**BASE_PARAMS, "additive_percent": adtv_amts[count]}
     count += 1
-    print(f"[NEXT] sending additive={next_params['additive']}  (count now {count})")
+    print(f"[NEXT] sending additive={next_params['additive_percent']}  (count now {count})")
     url.run_test(next_params)
 
 
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     threading.Thread(target=server.serve_forever, daemon=True).start()
     print(f"server listening on {SERVER_IP}:{SERVER_PORT}")
 
-    first_params = {**BASE_PARAMS, "additive": adtv_amts[count]}
+    first_params = {**BASE_PARAMS, "additive_percent": adtv_amts[count]}
     count += 1
     print(f"kicking off experiment {count + 1}: {first_params}")
     url.run_test(first_params)
