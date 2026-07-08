@@ -374,6 +374,8 @@ def run_test(param = None):
     # new background task 1: clean the knife
     # wait at least 5 minutes before trying to clean the knife (currently we won't release the arm until after we place the rings but hey maybe in the future we'll figure out some premption or something)
     # we will join this process at the end of the protocol most likely since we don't actually care about the knife it's very low priority as long as it's clean for the next run
+
+    # set up knife cleaning
     knife_cleaning_process = threading.Thread(target=delayed_knife_cleaning, args=(300, ))
     knife_cleaning_process.start()
 
@@ -534,12 +536,17 @@ def run_test(param = None):
     xArm.pick_up("coupon camera tester", pitch = False)
     cameraLock.release()
     xArm.discard(pitch = False)
+    # need to release here if simulating tests
+ 
     save_parameters() # number of assemblies in discard pile has changed, update file
     print("Coupon successfully discarded.")
 
-    knife_cleaning_process.join() # make sure the knife is clean before we say we're done, it would cause a problem if we tried to make another membrane and the knife is not clean yet (robot.json currently does not store the status of the knife, might want to add that)
-    xArm.dry_tester() # dry compression tester
-    
+    armLock.release()              # let the knife-cleaning thread grab the arm if it needs to
+    knife_cleaning_process.join()  # wait for it to finish
+    armLock.acquire()               # reclaim the lock for the remaining arm operations
+
+    xArm.dry_tester()  # dry compression tester
+
     # always end in middle, as next run will assume we're in the middle
     xArm.immigrate("middle")
     armLock.release()

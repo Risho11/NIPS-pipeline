@@ -110,6 +110,14 @@ nitrogen_cap_tests = 0
 tests = ["coupon test 1", "coupon test 2", "coupon test 3", "coupon test 4"]
 pullcast_enable = True
 
+armLock = threading.Lock()
+armLock.acquire()
+print("1")
+armLock.release()
+print("2")
+armLock.release()
+print("3")
+
 if test_clean:
     xArm.clean_knife()
     #xArm.clean_knife(brush_cycles = 5, dry_cycles = 15)
@@ -124,9 +132,9 @@ for i in range(nitrogen_cap_tests):
     xArm.currentZone = "opentrons"
     xArm.put_down("coupon angled opentrons", pitch = False)
 
-#xArm.dry_tester(squeegee_cycles = 3, middle = True)
+#xArm.dry_tester(squeegee_cycles = 2, middle = False)
     
-while robot["coupons"] > 7:
+while robot["coupons"] > 9:
     # place new coupon
     xArm.pick_up_coupon()
     save_parameters()
