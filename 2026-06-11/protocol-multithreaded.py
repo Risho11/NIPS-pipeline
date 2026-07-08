@@ -297,8 +297,11 @@ def run_test(param = None):
     if desired_additive_percent > 0:
         print("Solution will have additives.")
         mixing_temp = parameters["mixing_temp"]
+        # have heater start in a thread, slightly speeds up mixing process
         if(opentrons.has_temp()):
-            opentrons._set_temp(mixing_temp)
+            opentrons_heater = threading.Thread(target=opentrons._set_temp, args=(mixing_temp))
+            opentrons_heater.start()
+        # prepare solution
         opentrons._prepare_additive_solution(total_vol, desired_weight_percent, desired_additive_percent)
         print("Finished mixing additive solution.")
         save_parameters()
