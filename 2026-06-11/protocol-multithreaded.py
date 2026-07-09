@@ -46,6 +46,7 @@ heater_well_index = robot["heater_well_index"] # current index of the heater blo
 opentrons_stand_status = robot["opentrons_stand_status"] # "empty", "clean" or "dirty"
 camera_box_open = robot["camera_box_open"] # True if the box is open and false if it's closed
 
+runProcess = None # no current process
 
 # ==================================================
 # SECTION: Error Check
@@ -670,8 +671,6 @@ def run_test(param = None):
 # ==================================================
 # SECTION: Server inialization
 # ==================================================  
-
-runProcess = None # no current process
 
 # set up server, class definition at top of the document
 if __name__ == '__main__':
