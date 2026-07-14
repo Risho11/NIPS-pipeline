@@ -4,9 +4,11 @@ from opentrons import protocol_api
 import opentrons.execute
 import numpy as np
 #import opentrons.simulate
+import calculations as calc
 
 stock_weight_percent = 17
 stock_additive_percent = 50
+stock_additive_polymer_percent = 17
 
 solution_slot_no = 9
 solution_well_no = 0
@@ -418,6 +420,39 @@ class OT2:
             self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_i)
         
     def _prepare_additive_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):
+        # declare variables to pass to function
+        target_recipe = calc.TargetRecipe(total_vol, target_polymer_wt_percent, target_additive_wt_percent)
+        stock = calc.StockParameters(stock_weight_percent, stock_additive_polymer_percent, stock_additive_percent)
+
+        # get and display result
+        result = calc.calculate_batch(target_recipe, stock)
+        calc.print_result(target_recipe, result)
+
+        # convert to result normal variables
+        V_normal_polymer = result.normal_polymer_stock_uL
+        V_additive_polymer = result.polymer_additive_stock_uL
+        V_solvent = result.solvent_uL
+
+        # mix the solution
+        if V_normal_polymer != 0 or V_additive_polymer != 0 or V_solvent != 0:
+            # add solvent to well
+            if V_solvent > 0:
+                self.attach_next_tip()
+                self._transfer(solvent_slot_no, solvent_well_no, heater_slot_no, self.heater_well_index, V_solvent, False)
+                self._drop()
+            # add additive solution to well
+            if V_additive_polymer > 0:
+                self.attach_next_tip()
+                self._transfer(additive_1_slot_no, additive_1_well_no, heater_slot_no, self.heater_well_index, V_additive_polymer)
+                self._drop()
+            # add stock solution to well
+            if V_normal_polymer > 0:
+                self.attach_next_tip()
+                self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_normal_polymer)
+                self._mix(heater_slot_no, self.heater_well_index)
+
+    """    
+    def _prepare_additive_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):
         rho_solvent = 1.0148
         rho_polymer_stock = 1.114867
         rho_additive_polymer_stock = 1.114867 # update when actual value is known
@@ -501,6 +536,8 @@ class OT2:
                 self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_normal_polymer)
                 self._mix(heater_slot_no, self.heater_well_index)
         
+    """            
+
     def runhome(self):
         self.protocol.home()
         if self.pipette.has_tip:

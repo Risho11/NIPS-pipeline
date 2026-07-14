@@ -46,6 +46,7 @@ heater_well_index = robot["heater_well_index"] # current index of the heater blo
 opentrons_stand_status = robot["opentrons_stand_status"] # "empty", "clean" or "dirty"
 camera_box_open = robot["camera_box_open"] # True if the box is open and false if it's closed
 
+runProcess = None # no current process
 
 # ==================================================
 # SECTION: Error Check
@@ -322,18 +323,15 @@ def run_test(param = None):
     load_parameters()
 
     # variable declaration
-    desired_weight_percent = parameters["weight_percent"]
-    total_vol = parameters["volume"]
+    mixing_temp = parameters["mixing_temp"]
+    bath_temp = parameters["bath_temp"]
+    pullcast_speed = parameters["pullcast_speed"]
     nitrogen = parameters["nitrogen"]
     coupon_to_bath_wait_time = parameters["coupon_to_bath_wait_time"]
     nips_bath_time = parameters["nips_bath_wait_time"]
-    bath_temp = parameters["bath_temp"]
-    
-    # check if additive_percent is in parameters
-    if "additive_percent" not in parameters:
-        desired_additive_percent = 0
-    else:
-        desired_additive_percent = parameters["additive_percent"]
+    desired_weight_percent = parameters["polymer_wt"]
+    desired_additive_percent = parameters["additive_wt"]
+    total_vol = 1000
 
     # if weight percent is higher than what we have, exit
     if desired_weight_percent > opentrons.get_stock_weight_percent():
@@ -374,10 +372,9 @@ def run_test(param = None):
     # creation solution with additives
     if desired_additive_percent > 0:
         print("Solution will have additives.")
-        mixing_temp = parameters["mixing_temp"]
         # have heater start in a thread, slightly speeds up mixing process
         if(opentrons.has_temp()):
-            opentrons_heater = threading.Thread(target=opentrons._set_temp, args=(mixing_temp))
+            opentrons_heater = threading.Thread(target=opentrons._set_temp, args=(mixing_temp,))
             opentrons_heater.start()
         # prepare solution
         opentrons._prepare_additive_solution(total_vol, desired_weight_percent, desired_additive_percent)
@@ -396,9 +393,10 @@ def run_test(param = None):
     # mix a diluted solution           
     else:
         print("Solution will be mixed.")
-        mixing_temp = parameters["mixing_temp"]
+        # have heater start in a thread, slightly speeds up mixing process
         if(opentrons.has_temp()):
-            opentrons._set_temp(mixing_temp) # does not seem to be a convenient way to make sure we have hit the desired temp, so we set it at least before we start pulling solutions from the stock bottles, which will take some time
+            opentrons_heater = threading.Thread(target=opentrons._set_temp, args=(mixing_temp,))
+            opentrons_heater.start()
             print(f"Mixing temperature set at {mixing_temp} C.")
         opentrons._prepare_solution(desired_weight_percent, total_vol)
         print("Finished mixing solution.")
@@ -454,7 +452,7 @@ def run_test(param = None):
     dropProcess.start()
     
     # pullcast membrane
-    xArm.pullcast(speed = parameters["pullcast_speed"])
+    xArm.pullcast(speed = pullcast_speed)
     print("Pullcast complete.")
 
     # don't need the opentrons anymore, just the stand
@@ -670,8 +668,6 @@ def run_test(param = None):
 # ==================================================
 # SECTION: Server inialization
 # ==================================================  
-
-runProcess = None # no current process
 
 # set up server, class definition at top of the document
 if __name__ == '__main__':
