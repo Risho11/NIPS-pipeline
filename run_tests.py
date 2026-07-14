@@ -34,14 +34,14 @@ MOCK_INITIAL_REPORT = (
 )
 MOCK_LLM_AL_RESPONSE = (
     'I notice from the data that the weight percent significantly affects the data and blahblah blah '
-    '{"mixing_temp": 30, "bath_temp": 10, "weight_percent": 15, "pullcast_speed": 8, '
+    '{"mixing_temp": 30, "bath_temp": 10, "polymer_wt": 15, "additive_wt": 2, "pullcast_speed": 8, '
     '"coupon_to_bath_wait_time": 120, "nips_bath_wait_time": 1500, "nitrogen": false}'
 )
 
 LLM_PROP_KEYS = ["Strain at 50 bar", "CV"]
 
 REQUIRED_PARAM_KEYS = [
-    "mixing_temp", "bath_temp", "weight_percent",
+    "mixing_temp", "bath_temp", "polymer_wt", "additive_wt",
     "pullcast_speed", "coupon_to_bath_wait_time",
     "nips_bath_wait_time", "nitrogen",
 ]
@@ -49,7 +49,8 @@ REQUIRED_PARAM_KEYS = [
 PARAM_RANGES = {
     "mixing_temp":              (25, 80),
     "bath_temp":                (5, 25),
-    "weight_percent":           (10, 17),
+    "polymer_wt":               (0, 21),
+    "additive_wt":              (0, 5),
     "pullcast_speed":           (1, 20),
     "coupon_to_bath_wait_time": (0, 600),
     "nips_bath_wait_time":      (1200, 1800),

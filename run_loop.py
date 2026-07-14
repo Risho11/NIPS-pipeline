@@ -48,22 +48,22 @@ import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same 
 INITIAL_PARAMS = {
     "mixing_temp": 6,
     "bath_temp": 5,
-    "weight_percent": 17,
-    "volume": 1000,
     "pullcast_speed": 1,
     "nitrogen": False,
     "coupon_to_bath_wait_time": 55,
     "nips_bath_wait_time": 101,
+    "polymer_wt": 17,
+    "additive_wt": 5
 }
 PARAMS_SCHEMA = {
     "mixing_temp":              (int, float),
     "bath_temp":                (int, float),
-    "weight_percent":           (int, float),
-    "volume":                   (int, float),
     "pullcast_speed":           (int, float),
     "nitrogen":                 (bool,),
     "coupon_to_bath_wait_time": (int, float),
     "nips_bath_wait_time":      (int, float),
+    "polymer_wt":               (int, float),
+    "additive_wt":              (int, float),
 }
 # <<< PATH >>> project root = folder containing this script
 DATA_ROOT    = Path(__file__).parent
@@ -102,8 +102,8 @@ def get_last_set_img():
     return files[-2:]
 
 def move_and_rename(params):
-    s = f"{params['weight_percent']}-"
-    if params["weight_percent"] != 17:
+    s = f"{params['polymer_wt']}-{params['additive_wt']}add-"
+    if params["additive_wt"] != 0:
         s += f"{params['mixing_temp']}degMix-"
     s += f"{params['bath_temp']}deg-"
     s += f"{params['coupon_to_bath_wait_time']}s-"
@@ -210,6 +210,9 @@ def _validate_params(params):
 
 
 def _run_pipeline_and_trigger_next(params, protocol_log=None):
+    # robot echoes back whatever we posted, including stock_metadata — strip it here so
+    # it never reaches params.json / move_and_rename / the CSV pipeline
+    params = {k: v for k, v in params.items() if k != "stock_metadata"}
     _t0 = time.time()
     if protocol_log:
         print("── PROTOCOL LOG (Opentrons) " + "─" * 40)
@@ -277,7 +280,20 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         params_suggestion = llm_df["LLM_suggestion"].dropna().iloc[-1]
 
         new_params = _extract_next_params(params_suggestion)
+
+        # snap to feasible triangle
+        p, a = activeLearning.bounds.test_target(new_params["polymer_wt"], new_params["additive_wt"])
+        if p != new_params["polymer_wt"] or a != new_params["additive_wt"]:
+            print(f"\nLLM params out of range -- ({new_params["polymer_wt"]}, {new_params["additive_wt"]})")
+            print(f"New: ({p},{a})")
+
+        new_params["polymer_wt"] = p
+        new_params["additive_wt"] = a
+
         _validate_params(new_params)
+
+        # attach stock class metadata so the opentrons server has it alongside the params
+        new_params["stock_metadata"] = activeLearning.bounds.send_metadata()
 
         json_out = DATA_ROOT / f"llm_result_{condition_name}.json"  # <<< PATH >>>
         with open(json_out, "w") as f:
@@ -346,6 +362,7 @@ if __name__ == "__main__":
     threading.Thread(target=server.serve_forever, daemon=True).start()
     print(f"server listening on {SERVER_IP}:{SERVER_PORT}")
 
+    INITIAL_PARAMS["stock_metadata"] = activeLearning.bounds.send_metadata()
     print(f"kicking off first experiment: {INITIAL_PARAMS}")
     url.run_test(INITIAL_PARAMS)
     print("robot started — loop running. Ctrl+C to stop.")

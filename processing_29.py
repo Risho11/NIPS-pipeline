@@ -17,7 +17,6 @@ import copy
 import pandas as pd
 import piecewise_regression
 from pygam import LinearGAM, s
-from scipy.signal import find_peaks, peak_prominences ##NEW -- for second deriv analysis
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 
@@ -507,33 +506,124 @@ def _membrane_outcome_string(all_props, mech_res=""):
     return header + _outcome_interpretation(n_membrane, n_fit, total, mech_res)
 
 
-def goodData_eval(data, predictions):
-    # Toe ends at first extremum (local max OR min) of d1 within strain <= 0.2.
-    # Curve shape varies: some toes have rising-then-falling d1, others falling-then-rising.
-    d1 = np.gradient(predictions, data['strain'].values)
-    mask = data['strain'].values <= 0.3
-    if not mask.any():
-        print("goodData_eval: no data below strain 0.2")
+def _toe_piecewise_knee(data, strain_limit, slope_ratio_max):
+    """
+    Secondary toe check via piecewise linear regression (1 breakpoint) on raw stress.
+    Finds the knee where the curve transitions from a flat pre-contact region to
+    elastic loading.
+
+    Validation: slope before breakpoint must be < slope_ratio_max × slope after
+    breakpoint. A true flat zone has near-zero first slope; a J-curve has both
+    slopes in the same ballpark → fails validation → returns None.
+    """
+    early = data[data['strain'] <= strain_limit].copy()
+    if len(early) < 10:
         return None
-    d1_region = d1[mask]
-    strains_region = data['strain'].values[mask]
-    window = max(5, len(d1_region) // 15)
-    d1_smooth = pd.Series(d1_region).rolling(window, center=True, min_periods=1).mean().values
-    prominence_thresh = (d1_smooth.max() - d1_smooth.min()) * 0.05
-    maxima, max_props = find_peaks(d1_smooth, prominence=prominence_thresh)
-    minima, min_props = find_peaks(-d1_smooth, prominence=prominence_thresh)
-    if len(maxima) == 0 and len(minima) == 0:
-        print("goodData_eval: no toe region detected (d1 monotone in 0-0.3)")
+    try:
+        pw = piecewise_regression.Fit(
+            list(early['strain']), list(early['stress (bar)']), n_breakpoints=1
+        )
+        res = pw.get_results()
+    except Exception:
+        return None
+
+    if not res or not res.get('estimates'):
+        return None
+
+    bp      = res['estimates']['breakpoint1']['estimate']
+    alpha1  = res['estimates']['alpha1']['estimate']   # slope of first segment
+    beta1   = res['estimates']['beta1']['estimate']    # slope CHANGE at breakpoint
+
+    slope_after = alpha1 + beta1
+    if slope_after <= 0:
+        return None                     # post-bp slope must be positive (elastic)
+    alpha1 = max(alpha1, 0.0)          # treat negative pre-bp slope as 0
+
+    if alpha1 / slope_after >= slope_ratio_max:
+        return None                     # first segment not flat enough vs second
+
+    lo = float(early['strain'].iloc[0])
+    hi = float(early['strain'].iloc[-1])
+    if not (lo < bp < hi):
+        return None                     # breakpoint outside valid range
+
+    return float(bp)
+
+
+def goodData_eval(data, predictions):
+    # Flat pre-contact zone only — J-curve onset is real material response, must NOT be masked.
+    #
+    # Two-stage strategy:
+    #
+    # Stage 1 — d1 half-max walk (primary, uses GAM spline):
+    #   Gate: if median(d1[:5]) >= FLAT_FRACTION × d1_peak, the curve is already
+    #   responding from ε=0 → try Stage 2 instead of immediately returning 0.
+    #   Walk: find last index where smoothed d1 < 0.5 × d1_peak ("halfway up the peak")
+    #   using N_CONSEC consecutive above-threshold points to confirm exit.
+    #
+    # Stage 2 — piecewise knee (fallback, uses raw stress):
+    #   When d1 gate fires, fit a 1-breakpoint piecewise linear to raw stress in the
+    #   early region. If the slope before the breakpoint is much smaller than after
+    #   (flat→elastic transition), that breakpoint is the toe end. Catches cases where
+    #   the GAM spline smooths out a sharp flat zone, making d1 appear elevated early.
+    #
+    # FLAT_FRACTION: gate sensitivity (d1 stage) and slope-ratio cap (piecewise stage).
+    strains = data['strain'].values
+    d1 = np.gradient(predictions, strains)
+
+    mask_early = strains <= 0.15
+    if not mask_early.any():
+        mask_early = strains <= 0.3
+    if not mask_early.any():
+        print("goodData_eval: no data below strain 0.3 — returning strain[0]")
+        return float(strains[0])
+
+    d1_region      = d1[mask_early]
+    strains_region = strains[mask_early]
+
+    window    = max(3, len(d1_region) // 20)
+    d1_smooth = (pd.Series(d1_region)
+                   .rolling(window, center=True, min_periods=1)
+                   .mean().values)
+
+    d1_peak = d1_smooth.max()
+    if d1_peak <= 0:
         return float(strains_region[0])
-    candidates = []
-    for idx, prom in zip(maxima, max_props['prominences']):
-        candidates.append((idx, prom))
-    for idx, prom in zip(minima, min_props['prominences']):
-        candidates.append((idx, prom))
-    best_idx = max(candidates, key=lambda x: x[1])[0]
-    toe_end_strain = float(strains_region[best_idx])
-    if toe_end_strain >= 0.29:
-        print(f"goodData_eval: WARNING — toe extends to {toe_end_strain:.4f}, data may be invalid")
+
+    FLAT_FRACTION = 0.15   # d1 gate threshold AND piecewise slope-ratio cap
+    N_CONSEC      = 3      # consecutive above-half-max points to confirm toe exit
+
+    # ── Stage 1 gate ─────────────────────────────────────────────────────────────
+    gate_n  = min(5, len(d1_region))
+    d1_gate = float(np.median(d1_region[:gate_n]))
+
+    if d1_gate >= FLAT_FRACTION * d1_peak:
+        # d1 says curve already responding. Try piecewise knee as secondary check.
+        bp = _toe_piecewise_knee(data, float(strains_region[-1]), FLAT_FRACTION)
+        if bp is not None:
+            print(f"Toe end strain (zero point): {bp:.4f} [knee]")
+            return bp
+        print(f"Toe end strain (zero point): {strains_region[0]:.4f}")
+        return float(strains_region[0])
+
+    # ── Stage 1 half-max walk ─────────────────────────────────────────────────────
+    i_peak   = int(np.argmax(d1_smooth))
+    half_max = 0.5 * d1_peak
+
+    toe_end_idx = 0
+    above_count = 0
+    for i in range(i_peak + 1):
+        if d1_smooth[i] < half_max:
+            above_count = 0
+            toe_end_idx = i
+        else:
+            above_count += 1
+            if above_count >= N_CONSEC:
+                break
+
+    toe_end_strain = float(strains_region[toe_end_idx])
+    if toe_end_strain >= 0.14:
+        print(f"goodData_eval: WARNING — toe extends to {toe_end_strain:.4f}, may be overestimated")
     else:
         print(f"Toe end strain (zero point): {toe_end_strain:.4f}")
     return toe_end_strain
@@ -645,9 +735,12 @@ def goodFit_eval(
         breakdown['plateau_r2_full_penalty'] = (penalty, 0, f'R²(full)={r2_full:.3f}')
         score += penalty
 
-    if elasticModulus <= 0 or not (10 < elasticModulus < 5000):
+    if not (10 < elasticModulus < 5000):
         breakdown['elastic_modulus_penalty'] = (-5, 0, f'E={elasticModulus:.1f} bar out of range')
         score -= 5
+    elif elasticModulus <= 0:
+        breakdown['elastic_modulus_penalty'] = (-20, 0, f'E={elasticModulus:.1f} not possible')
+        score -= 20
     else:
         breakdown['elastic_modulus_penalty'] = (0, 0, f'E={elasticModulus:.1f} bar ok')
 
@@ -727,19 +820,18 @@ def goodFit_eval(
 
     # slope_ratio: plateau nearly as steep as elastic → no real transition visible
     slope_ratio = slopePlateau / (elasticModulus + 1e-9)
-    if slope_ratio < 0.4:
+    if slope_ratio < 0.6:
         breakdown['slope_ratio_penalty'] = (0, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — good separation')
-    elif slope_ratio < 0.6:
-        breakdown['slope_ratio_penalty'] = (-3, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — borderline')
-        score -= 3
     elif slope_ratio < 0.95:
-        breakdown['slope_ratio_penalty'] = (-35, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — nearly parallel, no real transition')
-        score -= 35
+        # gradient: -5 at 0.6 → -20 at 0.95
+        _sr_pen = int(round(-5 - 15 * (slope_ratio - 0.6) / 0.35))
+        breakdown['slope_ratio_penalty'] = (_sr_pen, 0, f'plateau/elastic slope ratio={slope_ratio:.2f} — nearly parallel ({_sr_pen} pts)')
+        score += _sr_pen
 
     # ── CATASTROPHICS (bad DATA indicators — future: route to goodData_eval)
 
     # plateau within 5% of elastic slope → no meaningful transition exists
-    if slopePlateau > elasticModulus or slope_ratio >= 0.95:
+    if slopePlateau > elasticModulus or slope_ratio >= 1:
         catastrophic = True
         breakdown['catastrophic_slope_vs_modulus'] = (0, 0, f'slope ratio={slope_ratio:.2f} — plateau slope ≥95% of elastic')
 
@@ -847,28 +939,18 @@ def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=
         overall_std = np.mean(std_strain)
         cv = overall_std / overall_avg if overall_avg != 0 else np.nan
 
-        # avg_df: strain-indexed average over FULL data (includes creep)
-        # use max of end strains so creep region isn't clipped by the shortest rep
-        common_strain_min = max(s[0]  for s in strain_full)
-        common_strain_max = max(s[-1] for s in strain_full)
-        n_pts_full = max(len(s) for s in strain_full)
-        common_strain_full = np.linspace(common_strain_min, common_strain_max, n_pts_full)
-        aligned_full = np.array([
-            np.interp(common_strain_full, strain, stress)
-            for strain, stress in zip(strain_full, stress_full)
+        # avg_df: stress-indexed (horizontal) average — same approach as CV averaging
+        n_pts_full = max(len(s) for s in stress_nc)
+        common_stress_h = np.linspace(common_min, common_max, n_pts_full)
+        aligned_h = np.array([
+            np.interp(common_stress_h, stress, strain)
+            for stress, strain in zip(stress_nc, strain_nc)
         ])
-        avg_stress_full = np.mean(aligned_full, axis=0)
+        avg_strain_h = np.mean(aligned_h, axis=0)
         avg_df = pd.DataFrame({
-            'strain': common_strain_full,
-            'stress (bar)': avg_stress_full,
+            'strain': avg_strain_h,
+            'stress (bar)': common_stress_h,
         })
-        if creep_starts:
-            avg_creep_start = float(np.mean(creep_starts))
-            avg_creep_end   = float(np.mean(creep_ends))
-            avg_df['Set Point ()'] = np.where(
-                (avg_df['strain'] >= avg_creep_start) & (avg_df['strain'] <= avg_creep_end),
-                2.0, 0.0
-            )
 
         for i, (stress, strain) in enumerate(zip(stress_nc, strain_nc)):
             plt.plot(strain, stress, alpha=0.35, linewidth=1, label=f"Rep {i+1}")
@@ -1187,6 +1269,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                 "Toe Region": toe_end_strain,
             })
             continue
+        toe_shaded_end = None
         if True:
             if elastic_fit_failed:
                 good = False
@@ -1212,6 +1295,84 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                     print(f"  goodFit_eval failed: {e} — score forced to 0")
                     good = False
                     fit_breakdown = {'_score_final': (0, 100, f'goodFit_eval error: {e}')}
+
+            # ── toe-mask retry: if slope inversion detected, mask data before bp1 and refit ──
+            if (not skip_preproc
+                    and not elastic_fit_failed
+                    and 'catastrophic_slope_vs_modulus' in fit_breakdown):
+                toe_shaded_end = breakpoint1
+                _data_m = data[data['strain'] >= toe_shaded_end].copy().reset_index(drop=True)
+                if len(_data_m) >= 10:
+                    try:
+                        _gam_m = LinearGAM(s(0))
+                        _gam_m.fit(_data_m[['strain']], _data_m['stress (bar)'])
+                        _pred_m = _gam_m.predict(_data_m[['strain']])
+                        _data_m['1st derivative'] = np.gradient(_pred_m, _data_m['strain'])
+                        _data_m['2nd derivative'] = np.gradient(_data_m['1st derivative'], _data_m['strain'])
+                        try:
+                            _bp1_m = elastic_peak(_data_m, _pred_m)
+                        except Exception:
+                            _bp1_m = float(_data_m['strain'].quantile(0.25))
+                        _elR_m = _data_m[_data_m['strain'] <= _bp1_m]
+                        if len(_elR_m) < 2:
+                            _bp1_m = float(_data_m['strain'].quantile(0.25))
+                            _elR_m = _data_m[_data_m['strain'] <= _bp1_m]
+                        if len(_elR_m) >= 2:
+                            _mE_m = LinearRegression()
+                            _mE_m.fit(_elR_m['strain'].values.reshape(-1, 1), _elR_m['stress (bar)'].values)
+                            _eMod_m = _mE_m.coef_[0]
+                            _ys_m = _mE_m.predict(np.array([[_bp1_m]]))
+                            _predE_m = _mE_m.predict(_elR_m[['strain']])
+                            _reg_m = _data_m[_data_m['strain'] >= _bp1_m]
+                            _bp2_m, _bp3_m = find_breakpoints(_data_m, _reg_m)
+                            if _bp2_m is not None:
+                                _xPl_m, _xDens_m, _predPl_m, _predDens_m, _cp_m, _slPl_m, _slDens_m, _mPl_m = \
+                                    find_changepoint_fit(_data_m, _bp1_m, _bp2_m, _bp3_m, creep_level)
+                                _good_m, _bd_m = goodFit_eval(
+                                    _data_m, _elR_m, _xPl_m, _xDens_m,
+                                    _predE_m, _predPl_m, _predDens_m,
+                                    _mE_m, _mPl_m, _gam_m,
+                                    _bp1_m, _cp_m, float(_ys_m[0]),
+                                    _eMod_m, _slPl_m, _slDens_m,
+                                    creep_level=creep_level, pass_threshold=70,
+                                )
+                                # commit retry results
+                                breakpoint1        = _bp1_m
+                                elasticRegion      = _elR_m
+                                modelElastic       = _mE_m
+                                elasticModulus     = _eMod_m
+                                yieldStrength      = _ys_m
+                                predElastic        = _predE_m
+                                bp2, bp3           = _bp2_m, _bp3_m
+                                xPlateau           = _xPl_m
+                                xDensification     = _xDens_m
+                                predPlateau        = _predPl_m
+                                predDensification  = _predDens_m
+                                changepoint        = _cp_m
+                                slopePlateau       = _slPl_m
+                                slopeDensification = _slDens_m
+                                modelPlateau       = _mPl_m
+                                good, fit_breakdown = _good_m, _bd_m
+                                toe_end_strain     = toe_shaded_end
+                                # recompute strain-at-stress from masked GAM
+                                _lr_m = loading_region[loading_region['strain'] >= toe_shaded_end][['strain']].dropna().copy()
+                                def _s_at_stress_m(tgt, _lr=_lr_m, _g=_gam_m):
+                                    if _lr.empty: return np.nan
+                                    gs = _g.predict(_lr[['strain']]).astype(float)
+                                    if tgt < gs.min() or tgt > gs.max(): return np.nan
+                                    return float(_lr['strain'].iloc[int(np.argmin(np.abs(gs - tgt)))])
+                                strain_50bar  = _s_at_stress_m(50)
+                                strain_80bar  = _s_at_stress_m(80)
+                                strain_150bar = _s_at_stress_m(150)
+                                strain_500bar = _s_at_stress_m(500)
+                                # overplot masked-region spline (same black, covers toe portion)
+                                _cap_m = creep_level if creep_level is not None else _pred_m[-1]
+                                _pred_m_plot = _pred_m.copy()
+                                _pred_m_plot[_pred_m_plot > _cap_m] = _cap_m
+                                plt.plot(_data_m['strain'], _pred_m_plot, color='black', zorder=4)
+                                print(f"  toe-mask retry: masked strain < {toe_shaded_end:.4f}, good={_good_m}")
+                    except Exception as _e_retry:
+                        print(f"  toe-mask retry failed: {_e_retry} — keeping first-pass result")
 
             '''
             wait why the heck is the dictionary only appended when its like not 0... anyway
@@ -1247,12 +1408,12 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
 
             #plotted linear models of each region
             if predElastic is not None:
-                plt.plot(elasticRegion['strain'], predElastic, color='blue',  label='Elastic Region', linewidth=3)
+                plt.plot(elasticRegion['strain'], predElastic, color='blue',  label='Elastic Region', linewidth=3, zorder=6)
             #print(xPlateau)
             if xPlateau['strain'] is not None and predPlateau is not None:
-                plt.plot(xPlateau['strain'], predPlateau, color='orange', label="Plateau Region", linewidth=3)
+                plt.plot(xPlateau['strain'], predPlateau, color='orange', label="Plateau Region", linewidth=3, zorder=6)
             if xDensification['strain'] is not None and predDensification is not None:
-                plt.plot(xDensification['strain'], predDensification, color='green', label="Densification Region", linewidth=3)
+                plt.plot(xDensification['strain'], predDensification, color='green', label="Densification Region", linewidth=3, zorder=6)
 
             # Annotate strain at target stresses (drawn after all data so axis limits are set)
             _ref_points = [
@@ -1275,6 +1436,9 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             #print(dict)
 
         
+        if toe_shaded_end is not None:
+            plt.axvspan(plt.gca().get_xlim()[0], toe_shaded_end,
+                        alpha=0.3, color='grey', zorder=0, label='Toe (masked)')
         plt.title(data_name, fontsize=14)
         plt.xlabel('Strain', fontsize=20)
         plt.ylabel('Stress (bar)', fontsize=20)
@@ -1285,6 +1449,35 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             Path(save_path).parent.mkdir(parents=True, exist_ok=True)
             plt.savefig(save_path, dpi=150, bbox_inches='tight')
         plt.close()
+
+        # ── derivative plots ──────────────────────────────────────────────────
+        if SAVE_PLOTS and save_path is not None:
+            _seg_name = Path(save_path).name
+            _deriv_name = _seg_name.replace("Segmentation", "Derivatives") if "Segmentation" in _seg_name else "Derivatives_" + _seg_name
+            _deriv_path = Path(save_path).parent / _deriv_name
+            _bps = {
+                "breakpoint1": (breakpoint1, "purple"),
+                "bp2":         (bp2,         "blue"),
+                "changepoint": (changepoint, "red"),
+            }
+            if bp3 is not None:
+                _bps["bp3"] = (bp3, "orange")
+            fig_d, (ax1, ax2) = plt.subplots(2, 1, figsize=(6, 8))
+            ax1.plot(data['strain'], data['1st derivative'], color='green', linewidth=1)
+            ax1.set_title("1st Derivative", fontsize=12)
+            ax1.set_xlabel("Strain"); ax1.set_ylabel("d(stress)/d(strain)")
+            ax2.scatter(data['strain'], data['2nd derivative'], color='#e91e8c', s=1)
+            ax2.set_title("2nd Derivative", fontsize=12)
+            ax2.set_xlabel("Strain"); ax2.set_ylabel("d²(stress)/d(strain²)")
+            for _lbl, (_val, _col) in _bps.items():
+                if _val is not None and not (isinstance(_val, float) and np.isnan(_val)):
+                    ax1.axvline(x=_val, color=_col, linestyle=':', linewidth=1.2, label=_lbl)
+                    ax2.axvline(x=_val, color=_col, linestyle=':', linewidth=1.2, label=_lbl)
+            ax1.legend(fontsize=8); ax2.legend(fontsize=8)
+            fig_d.suptitle(data_name, fontsize=11)
+            fig_d.tight_layout()
+            fig_d.savefig(_deriv_path, dpi=150, bbox_inches='tight')
+            plt.close(fig_d)
 
         print(f"Good Fit: {good}")
 
@@ -1746,33 +1939,25 @@ def process_zero_sample_pairs_pipeline(
             fig.savefig(_avg_save_dir / "raw_average_curves.png", dpi=150, bbox_inches='tight')
             plt.close(fig)
 
+        def _run_avg_fit(avg_df, label, save_dir):
+            avg_df["display_name"] = f"{condition_name} | {label}"
+            _creep = 'Set Point ()' in avg_df.columns and (avg_df['Set Point ()'] > 1).any()
+            result = interpretData(
+                [avg_df],
+                skip_preproc=True,
+                creep_info=_creep,
+                save_path=save_dir / f"average_fit_{label}.png" if save_dir is not None else None,
+            )
+            if result and save_dir is not None:
+                _eval = {k: (float(v) if isinstance(v, (int, float, np.floating)) and not (isinstance(v, float) and np.isnan(v)) else (None if isinstance(v, float) and np.isnan(v) else v))
+                         for k, v in result[0].items() if k not in ("display_name",)}
+                (save_dir / f"average_fit_{label}_eval.json").write_text(json.dumps(_eval))
+
         if pre_avg_df is not None:
             _label = "preDiscard" if has_failures else "average"
-            pre_avg_df["display_name"] = f"{condition_name} | {_label}"
-            _creep_in_pre = 'Set Point ()' in pre_avg_df.columns and (pre_avg_df['Set Point ()'] > 1).any()
-            _pre_avg_result = interpretData(
-                [pre_avg_df],
-                skip_preproc=True,
-                creep_info=_creep_in_pre,
-                save_path=_avg_save_dir / f"average_fit_{_label}.png" if _avg_save_dir is not None else None,
-            )
-            if _pre_avg_result:
-                _r = _pre_avg_result[0].copy()
-                _r["Trial"] = f"avg_{_label}"
-                condition_properties.append(_r)
+            _run_avg_fit(pre_avg_df, _label, _avg_save_dir)
         if has_failures and post_avg_df is not None:
-            post_avg_df["display_name"] = f"{condition_name} | postDiscard"
-            _creep_in_post = 'Set Point ()' in post_avg_df.columns and (post_avg_df['Set Point ()'] > 1).any()
-            _post_avg_result = interpretData(
-                [post_avg_df],
-                skip_preproc=True,
-                creep_info=_creep_in_post,
-                save_path=_avg_save_dir / "average_fit_postDiscard.png" if _avg_save_dir is not None else None,
-            )
-            if _post_avg_result:
-                _r = _post_avg_result[0].copy()
-                _r["Trial"] = "avg_postDiscard"
-                condition_properties.append(_r)
+            _run_avg_fit(post_avg_df, "postDiscard", _avg_save_dir)
 
         for prop in condition_properties:
             prop["CV"] = pre_cv
@@ -1851,6 +2036,14 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             existing = pd.read_csv(output_path)
             existing = existing.loc[:, ~existing.columns.str.startswith('Unnamed')]
             new_df = pd.concat([existing, new_df], ignore_index=True)
+        # deduplicate: keep latest row per (condition-name, trial)
+        if "date" in new_df.columns and "name" in new_df.columns and "Trial" in new_df.columns:
+            new_df["_date_sort"] = pd.to_datetime(
+                new_df["date"].astype(str).str.replace(r"\n", " ", regex=True), errors="coerce"
+            )
+            new_df = new_df.sort_values("_date_sort").drop_duplicates(
+                subset=["name", "Trial"], keep="last"
+            ).drop(columns=["_date_sort"])
         new_df.to_csv(output_path, index=False)
 
     # LLM CSV — one row per condition, two rows if some reps failed

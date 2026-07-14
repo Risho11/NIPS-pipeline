@@ -17,7 +17,9 @@ def take_snapshot():
 
 # POST method, since we want to pass the parameters to the server
 def start_processing(params, protocol_log=None):
-    body = {"parameters": params, "protocol_log": protocol_log or []}
+    body = {"parameters": params}
+    if protocol_log:
+        body["protocol_log"] = protocol_log
     data = json.dumps(body).encode()
     with urllib.request.urlopen(f"{BASE_URL}/server/process", data=data, timeout=86400) as response:
         return json.loads(response.read())

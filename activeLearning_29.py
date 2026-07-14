@@ -14,6 +14,7 @@ import re
 import base64
 from pathlib import Path
 
+import polymer_additive_bounds as bounds
 
 # ignore warnings
 import warnings
@@ -35,18 +36,25 @@ client = OpenAI(
   api_key=_api_key,
 )
 
+
+params = {
+    "mixing_temp": "the temperature in Celsius at which the polymer solution is mixed and heated",
+    "pullcast_speed": "the speed in mm/s at which the blade moves when casting the polymer solution",
+    "coupon_to_bath_wait_time": "how long the sample is waited in seconds after blade casting before immersion in the NIPS bath. If nitrogen is True, the sample is being blown with dry nitrogen for the time period. If nitrogen is False, the sample is just sitting in ambient conditions for the time period",
+    "nitrogen": "whether the polymer solution undergoes a laminar dry nitrogen blow to remove humidity after it is blade-cast until it is immersed into the NIPS bath",
+    "nips_bath_wait_time": "how long the sample is waited in seconds in the NIPS bath after immersion",
+    "bath_temp": "the temperature in Celsius of the NIPS bath",
+    "polymer_wt": "the polymer (polysulfone) concentration in the final solution (solvent is PolarClean)",
+    "additive_wt": "the additive (PVP) concentration in the final solution",
+}
+
 def Generate_report(Formatted_Parameters, Model = "anthropic/claude-sonnet-4.6", Temperature = 0.0, sleep = 0.5):
+    param_descriptions = " ".join(f'"{k}" means {v}.' for k, v in params.items())
     response = client.chat.completions.create(
       model= Model,
-      messages=[{"role": "system", "content": 
-                 f'Here I have a set of experimental parameters for my automated membrane synthesis via non-solvent-induced phase seperation (NIPS) using my robotic system. '
-                 f'"weight_percent" means the polymer (polysulfone) concentration in the solution (solvent is PolarClean). '
-                 f'"mixing_temp" means the temperature in Celsius at which the polymer solution is mixed and heated. '
-                 f'"pullcast_speed" means the speed in mm/s at which the blade moves when casting the polymer solution. '
-                 f'"coupon_to_bath_wait_time" means how long the sample is waited in seconds after blade casting before immersion in the NIPS bath. If nitrogen is True, the sample is being blown with dry nitrogen for the time period. If nitrogen is False, the sample is just sitting in ambient conditions for the time period. '
-                 f'"nitrogen" means whether the polymer solution undergoes a laminar dry nitrgen blow to remove humidity after it is blade-cast until it is immersed into the NIPS bath. '
-                 f'"nips_bath_wait_time" means how long the sample is waited in seconds in the NIPS bath after immersion. '
-                 f'"bath_temp" means the temperature in Celsius of the NIPS bath. '
+      messages=[{"role": "system", "content":
+                 f'Here I have a set of experimental parameters for my automated membrane synthesis via non-solvent-induced phase separation (NIPS) using my robotic system. '
+                 f'{param_descriptions} '
                  f'Can you translate that into a short experimental report? '},
                 {"role": "user", "content": Formatted_Parameters}
                 ],
@@ -56,7 +64,11 @@ def Generate_report(Formatted_Parameters, Model = "anthropic/claude-sonnet-4.6",
     return response.choices[0].message.content
 
 ranges = 'The "mixing_temp" can be between 25 and 80 degrees Celsius. The "bath_temp" can be between 5 and 25 degrees Celsius. The "weight_percent" can be between 10 and 17 percent. The "pullcast_speed" can be between 1 and 20 mm/s. The "coupon_to_bath_wait_time" can be between 0 and 600 seconds. The "nips_bath_wait_time" can be between 1200 and 1800seconds. The "nitrogen" can be either True or False.'
-
+triangle = bounds.get_composition_bounds()
+tri_ranges = f' The "polymer_wt" maximum is {triangle['polymer_wt_max']} and the "additive_wt" maximum is {triangle['additive_wt_max']}. The "polymer_wt" and "additive_wt" should be within the triangular bounds {triangle['vertices']}.'
+ranges += tri_ranges
+print(ranges)
+### we want the triangle range, but it would be generated from the tester function i believe...
 #-----------#
 def _encode_image(path):
     with open(path, "rb") as f:
@@ -82,7 +94,7 @@ def LLM_AL(observations_str, ranges, image_paths=None, Model="anthropic/claude-s
                 f"Here I have a set of structured experimental parameters for my automated membrane synthesis via non-solvent-induced phase separation (NIPS). "
                 f"My goal is to iteratively find the best experiment to maximize modulus. "
                 f"Based on the following previous experimental observations, recommend the next experiment that minimizes strain at 50 bar, taking the coefficient of variation (CV) into account when it is appropriate. "
-                f"Suggest the next set of experimental parameters that is expected to maximize modulus given the parameter ranges: {ranges}. "
+                f"Suggest the next set of experimental parameters that is expected to maximize modulus given the parameter ranges: {ranges}." 
             
             },
             

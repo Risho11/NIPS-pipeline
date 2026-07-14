@@ -23,7 +23,7 @@ import processing_29 as processing             # <<< IMPORT >>> must be in same 
 # ── edit these ──────────────────────────────────────────────────────────────
 # <<< PATH >>> Set to a folder name to run one condition, or None to run ALL real conditions.
 DATA_ROOT  = Path(__file__).parent.parent
-CONDITION  = None  # None = all conditions (excludes fake-data)
+CONDITION  = '17-5deg-55s-NoN2-101s'
 # <<< PATH >>> output files land beside this script
 OUTPUT_CSV  = Path(__file__).parent / "csv_tests" / "test_reps.csv"
 AGG_CSV     = Path(__file__).parent / "csv_tests" / "test_agg.csv"
@@ -101,7 +101,7 @@ fmt_params = str(row["formatted_parameters"]) if pd.notna(row["formatted_paramet
 llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + "\n\n" + fmt_params_with_prop
 llm_df.at[idx, "final_report"] = final_report
 #params_suggestion = al.LLM_AL(final_report, al.ranges)
-params_suggestion = 'Based on the observations, I recommend the following parameters: {"mixing_temp": 25, "bath_temp": 10, "weight_percent": 18, "pullcast_speed": 10, "coupon_to_bath_wait_time": 120, "nips_bath_wait_time": 1800, "nitrogen": true}'
+params_suggestion = 'Based on the observations, I recommend the following parameters: {"mixing_temp": 25, "bath_temp": 10, "polymer_wt": 17, "additive_wt": 2, "pullcast_speed": 10, "coupon_to_bath_wait_time": 120, "nips_bath_wait_time": 1800, "nitrogen": true}'
 print(f"  params_suggestion: {params_suggestion[:120]}...")
 llm_df.at[idx, "LLM_suggestion"] = params_suggestion
 match = re.search(r'\{[^{}]*\}', params_suggestion)
