@@ -331,7 +331,11 @@ def run_test(param = None):
     nips_bath_time = parameters["nips_bath_wait_time"]
     desired_weight_percent = parameters["polymer_wt"]
     desired_additive_percent = parameters["additive_wt"]
-    total_vol = 1000
+    total_vol = 1000 # volume is always 1000
+
+    # if metadata exists, update OT2 variables
+    if "stock_metadata" in parameters:
+        opentrons.update_metadata(parameters["stock_metadata"])
 
     # if weight percent is higher than what we have, exit
     if desired_weight_percent > opentrons.get_stock_weight_percent():

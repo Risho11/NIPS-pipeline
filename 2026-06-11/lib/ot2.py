@@ -6,9 +6,9 @@ import numpy as np
 #import opentrons.simulate
 import calculations as calc
 
-stock_weight_percent = 17
-stock_additive_percent = 50
-stock_additive_polymer_percent = 17
+polymer_stock_wt_percent = 17
+additive_stock_additive_wt_percent = 50
+additive_stock_polymer_wt_percent = 17
 
 solution_slot_no = 9
 solution_well_no = 0
@@ -397,7 +397,7 @@ class OT2:
     def _prepare_solution(self, desired_weight_percent, total_vol, viscous: bool = True, position: str = "bottom"):
         rho_solution = 1.114867
         rho_solvent = 1.0148
-        C_i = stock_weight_percent/100
+        C_i = polymer_stock_wt_percent/100
         C_f = desired_weight_percent/100
         V_f = total_vol
         V_c = round(((C_i-C_f)*V_f*rho_solution)/(C_i*rho_solution - C_f*rho_solution + C_f*rho_solvent),0)
@@ -422,7 +422,7 @@ class OT2:
     def _prepare_additive_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):
         # declare variables to pass to function
         target_recipe = calc.TargetRecipe(total_vol, target_polymer_wt_percent, target_additive_wt_percent)
-        stock = calc.StockParameters(stock_weight_percent, stock_additive_polymer_percent, stock_additive_percent)
+        stock = calc.StockParameters(polymer_stock_wt_percent, additive_stock_polymer_wt_percent, additive_stock_additive_wt_percent)
 
         # get and display result
         result = calc.calculate_batch(target_recipe, stock)
@@ -460,8 +460,8 @@ class OT2:
         Cp_f = target_polymer_wt_percent / 100
         Ca_f = target_additive_wt_percent / 100
 
-        Cp_i = stock_weight_percent / 100
-        Ca_i = stock_additive_percent / 100
+        Cp_i = polymer_stock_wt_percent / 100
+        Ca_i = additive_stock_additive_wt_percent / 100
 
         rho_p = rho_polymer_stock
         rho_a = rho_additive_polymer_stock
@@ -474,11 +474,11 @@ class OT2:
             raise ValueError("Final volume cannot exceed 1000 µL.")
         if target_polymer_wt_percent <= 0:
             raise ValueError("Target polymer concentration must be positive.")
-        if target_polymer_wt_percent > stock_weight_percent:
+        if target_polymer_wt_percent > polymer_stock_wt_percent:
             raise ValueError("Target polymer concentration cannot exceed stock polymer concentration.")
         if target_additive_wt_percent < 0:
             raise ValueError("Target additive concentration cannot be negative.")
-        if target_additive_wt_percent > stock_additive_percent:
+        if target_additive_wt_percent > additive_stock_additive_wt_percent:
             raise ValueError("Target additive concentration cannot exceed additive stock concentration.")
 
         A = np.array([
@@ -515,8 +515,8 @@ class OT2:
         print(f"Stock volume: {V_normal_polymer}")
         print(f"Additive volume: {V_additive_polymer}")
         print(f"Solvent volume: {V_solvent}")
-        print(f"\nWeight percent: {(V_normal_polymer + V_additive_polymer) * stock_weight_percent * 0.001}")
-        print(f"Additive percent: {V_additive_polymer * stock_additive_percent * 0.001}")
+        print(f"\nWeight percent: {(V_normal_polymer + V_additive_polymer) * polymer_stock_wt_percent * 0.001}")
+        print(f"Additive percent: {V_additive_polymer * additive_stock_additive_wt_percent * 0.001}")
         
         # mix the solution
         if V_normal_polymer != 0 or V_additive_polymer != 0 or V_solvent != 0:
@@ -543,8 +543,13 @@ class OT2:
         if self.pipette.has_tip:
             self.pipette.drop_tip()
 
+    def update_metadata(self, params):
+        polymer_stock_wt_percent = params["polymer_stock_wt_percent"]
+        additive_stock_additive_wt_percent = params["additive_stock_additive_wt_percent"]
+        additive_stock_polymer_wt_percent = params["additive_stock_polymer_wt_percent"]
+
     def get_stock_weight_percent(self):
-        return stock_weight_percent
+        return polymer_stock_wt_percent
                            
     def get_additive_percent(self):
-        return stock_additive_percent
+        return additive_stock_additive_wt_percent
