@@ -8,7 +8,7 @@ sys.path.append("/var/lib/jupyter/notebooks/2026-06-11/lib/")
 from arm import Arm
 from ot2 import OT2
 from chiller import BathChiller
-from arduino import Uno
+from uno_control import Uno
 import url as url
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -20,7 +20,7 @@ import threading
 
 # variables to simulate actions
 simulate_compression_tests = True
-take_picture = False
+take_picture = True
 
 # set number of tests we want
 tests = ["coupon test 1", "coupon test 2", "coupon test 3", "coupon test 4"]
