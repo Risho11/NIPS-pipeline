@@ -10,7 +10,7 @@ Usage:
     python run_loopHardcode.py
 """
 
-import json, threading, time, os, sys, datetime
+import json, threading, time, os, sys, datetime, pprint
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
@@ -39,6 +39,7 @@ sys.stderr = _TeeLogger(_log_path, sys.__stderr__)
 
 sys.path.insert(0, os.path.dirname(__file__))
 import url_29 as url
+import polymer_additive_bounds as bounds
 
 # ── edit these before going to the lab ────────────────────────────────────────
 adtv_amts = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -47,13 +48,12 @@ count = 0
 BASE_PARAMS = {
     "mixing_temp": 25,
     "bath_temp": 5,
-    "weight_percent": 17,
-    "volume": 1000,
     "pullcast_speed": 10,
     "nitrogen": False,
     "coupon_to_bath_wait_time": 60,
-    "nips_bath_wait_time": 60,
-    "additive_percent": 0
+    "nips_bath_wait_time": 101,
+    "polymer_wt": 17,
+    "additive_wt": 7
 }
 
 SERVER_IP    = "169.254.230.148"
@@ -127,10 +127,22 @@ if __name__ == "__main__":
     server = HTTPServer((SERVER_IP, SERVER_PORT), LoopHandler)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     print(f"server listening on {SERVER_IP}:{SERVER_PORT}")
+    
+    line = "\n-----------------------------------\n"
+    first_params = {**BASE_PARAMS, "additive_wt": adtv_amts[count]}
+    p, a = bounds.test_target(first_params["polymer_wt"], first_params["additive_wt"])
+    if a != first_params["additive_wt"] or p != first_params["polymer_wt"]:
+        print(f"{line}Set params out of range -- ({first_params["polymer_wt"]}, {first_params["additive_wt"]})")
+        print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |{line}")
 
-    first_params = {**BASE_PARAMS, "additive_percent": adtv_amts[count]}
+    first_params["polymer_wt"] = p
+    first_params["additive_wt"] = a
+    first_params["stock_metadata"] = bounds.send_metadata()
+
     count += 1
-    print(f"kicking off experiment {count + 1}: {first_params}")
+
+    print(f"kicking off experiment {count + 1}: {json.dumps(first_params, indent=4)}\n")
+    
     url.run_test(first_params)
     print("robot started — loop running. Ctrl+C to stop.")
 

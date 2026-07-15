@@ -221,6 +221,7 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         print("── END PROTOCOL LOG " + "─" * 47)
     try:
         condition_name = None
+        line = "\n-----------------------------------\n"
         print("\n[1/5] organising files...")
         condition_name = move_and_rename(params)
 
@@ -285,7 +286,7 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         p, a = activeLearning.bounds.test_target(new_params["polymer_wt"], new_params["additive_wt"])
         if p != new_params["polymer_wt"] or a != new_params["additive_wt"]:
             print(f"\nLLM params out of range -- ({new_params["polymer_wt"]}, {new_params["additive_wt"]})")
-            print(f"New: ({p},{a})")
+            print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |{line}")
 
         new_params["polymer_wt"] = p
         new_params["additive_wt"] = a
