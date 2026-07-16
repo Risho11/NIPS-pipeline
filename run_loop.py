@@ -285,7 +285,7 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         # snap to feasible triangle
         p, a = activeLearning.bounds.test_target(new_params["polymer_wt"], new_params["additive_wt"])
         if p != new_params["polymer_wt"] or a != new_params["additive_wt"]:
-            print(f"\nLLM params out of range -- ({new_params["polymer_wt"]}, {new_params["additive_wt"]})")
+            print(f"\nLLM params out of range -- ({new_params['polymer_wt']}, {new_params['additive_wt']})")
             print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |{line}")
 
         new_params["polymer_wt"] = p

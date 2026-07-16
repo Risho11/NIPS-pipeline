@@ -11,12 +11,14 @@ from IPython.display import display, Image
 from pygam import LinearGAM, s
 from sklearn.linear_model import LinearRegression
 from pathlib import Path
+import sys
 
+sys.path.insert(0, str(Path(__file__).parent.parent))  # points to project root where processing_29.py lives
 import processing_29 as p
 
 p.SAVE_PLOTS = False
 
-DATAROOT   = "."
+DATAROOT   = str(Path(__file__).parent.parent)
 DATAFOLDER = "compression-test-data"
 CUTOFF_LOAD_DISP  = 2
 CUTOFF_LOAD_THICK = 1
@@ -34,7 +36,7 @@ CONDITION = "17-5deg-7s-NoN2-30s"  # None = all; or e.g. "17-13deg-10s-NoN2-30s"
 
 # %% List conditions
 conditions = sorted(
-    d.name for d in Path(DATAFOLDER).iterdir()
+    d.name for d in (Path(DATAROOT) / DATAFOLDER).iterdir()
     if d.is_dir() and not d.name.startswith(".") and d.name not in ("fake-data", "old data")
 )
 print(f"{'All' if CONDITION is None else CONDITION} — {len(conditions)} available:")

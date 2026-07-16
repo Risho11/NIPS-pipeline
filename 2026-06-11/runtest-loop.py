@@ -44,30 +44,30 @@ safe = True
 recent = True
 while True:
     for test in tests:
-    if safe and recent:
-        xArm.put_down(test)
-        safe = not arduino.run_test()
-    if safe:
-        time.sleep(5) # make sure newton software has finished processing the test into a .csv file
-        # use the data from the laptop to make sure the test finished correctly
-        data = url.get()
-        safe = data["safe"]
-        recent = (time.time() - data["time"]) < 30
-        print("Safe: " + str(safe))
-        print("Recent: " + str(recent))
-        print("Time: " + str(time.time()))
-        print("mTime: " + str(data["time"]))
-    if safe and recent:
-        xArm.pick_up(test)
-        
-    if not safe:
-        print("Compression tester is unsafe! exiting...")
-        xArm.immigrate("middle")
-        sys.exit()
-    elif not recent:
-        print("Compression test is out of date, tester could still be running. Unsure. exiting...")
-        xArm.immigrate("middle")
-        sys.exit()
+        if safe and recent:
+            xArm.put_down(test)
+            safe = not arduino.run_test()
+        if safe:
+            time.sleep(5) # make sure newton software has finished processing the test into a .csv file
+            # use the data from the laptop to make sure the test finished correctly
+            data = url.get()
+            safe = data["safe"]
+            recent = (time.time() - data["time"]) < 30
+            print("Safe: " + str(safe))
+            print("Recent: " + str(recent))
+            print("Time: " + str(time.time()))
+            print("mTime: " + str(data["time"]))
+        if safe and recent:
+            xArm.pick_up(test)
+
+        if not safe:
+            print("Compression tester is unsafe! exiting...")
+            xArm.immigrate("middle")
+            sys.exit()
+        elif not recent:
+            print("Compression test is out of date, tester could still be running. Unsure. exiting...")
+            xArm.immigrate("middle")
+            sys.exit()
 
 # put coupon back on intermediate platform
 xArm.unprep_coupon_test()

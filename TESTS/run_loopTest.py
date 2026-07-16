@@ -18,7 +18,7 @@ from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
 
-sys.path.insert(0, os.path.dirname(__file__))  # <<< IMPORT >>> adds script's own folder to path — breaks if moved to subfolder
+sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where url_29.py/processing_29.py live
 import url_29 as url                           # <<< IMPORT >>> must be in same folder as run_loop.py
 import processing_29 as processing             # <<< IMPORT >>> must be in same folder
 import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same folder
@@ -44,8 +44,8 @@ PARAMS_SCHEMA = {
     "coupon_to_bath_wait_time": (int, float),
     "nips_bath_wait_time":      (int, float),
 }
-# <<< PATH >>> project root = folder containing this script
-DATA_ROOT    = Path(__file__).parent
+# <<< PATH >>> project root = parent of the folder containing this script
+DATA_ROOT    = Path(__file__).parent.parent
 # <<< PATH >>> output CSVs land beside this script
 CSV_REPS        = DATA_ROOT / "results_reps.csv"
 CSV_AGG         = DATA_ROOT / "results_agg.csv"

@@ -132,7 +132,7 @@ if __name__ == "__main__":
     first_params = {**BASE_PARAMS, "additive_wt": adtv_amts[count]}
     p, a = bounds.test_target(first_params["polymer_wt"], first_params["additive_wt"])
     if a != first_params["additive_wt"] or p != first_params["polymer_wt"]:
-        print(f"{line}Set params out of range -- ({first_params["polymer_wt"]}, {first_params["additive_wt"]})")
+        print(f"{line}Set params out of range -- ({first_params['polymer_wt']}, {first_params['additive_wt']})")
         print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |{line}")
 
     first_params["polymer_wt"] = p
