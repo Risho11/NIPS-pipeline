@@ -98,7 +98,12 @@ class Uno:
             return None
         try:
             temp_str, hum_str = response.split(",")
-            return float(temp_str), float(hum_str)
+            air_data = {
+                "temperature": temp_str,
+                "humidity": hum_str
+            }
+            #return float(temp_str), float(hum_str)
+            return air_data
         except (ValueError, AttributeError):
             print(f"Unexpected response from sensor: {response!r}")
             return None
