@@ -109,7 +109,7 @@ positions = {
         "pullcast end waypoint": [110, -540+2, 240, 180, 20, 0],
         
         "coupon angled waypoint": [300, -469, 300, 180, 45, -91.5],
-        "coupon angled": [300, -470, 248, 180, 45, -91.5],
+        "coupon angled": [300, -469, 248, 180, 45, -91.5],
         
         "cap waypoint": [300, -394, 240, 180, 0, -90],
         "cap hover": [300, -449, 248+2, 180, 30, -90],
