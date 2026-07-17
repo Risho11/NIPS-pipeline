@@ -30,11 +30,12 @@ from pathlib import Path
 
 import pandas as pd
 
-ROOT      = Path(__file__).parent
+FILE_DIR  = Path(__file__).parent
+ROOT      = FILE_DIR.parent  # project root — this script lives in EVALUATE/
 PLOTS_DIR = ROOT / "pipeline-plots"
 MAIN_CSV  = ROOT / "results_reps.csv"
 MAIN_AGG  = ROOT / "results_agg.csv"
-OUTPUT    = ROOT / "fit_evaluation_log.html"
+OUTPUT    = FILE_DIR / "fit_evaluation_log.html"
 PASS_THRESHOLD = 70
 
 COMPONENTS = [

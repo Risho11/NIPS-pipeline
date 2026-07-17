@@ -128,7 +128,7 @@ print(json.dumps(results, indent=2))
 
 # ── Auto-regenerate the fit evaluation log ───────────────────────────────────
 try:
-    import generate_fit_log
+    import EVALUATE.generate_fit_log as generate_fit_log
     generate_fit_log.generate(extra_csv_paths=[OUTPUT_CSV], agg_csv_paths=[AGG_CSV])
 except Exception as _e:
     print(f"\n[fit log] skipped: {_e}")

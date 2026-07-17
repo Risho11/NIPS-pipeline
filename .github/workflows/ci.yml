@@ -22,7 +22,7 @@ jobs:
       - id: detect
         run: |
           DIFF=$(git diff --name-only HEAD~1 HEAD)
-          if echo "$DIFF" | grep -qE "processing_29\.py|run_tests\.py|fake-data/"; then
+          if echo "$DIFF" | grep -qE "processing_29\.py|TESTS/run_tests\.py|fake-data/"; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
             echo "changed=false" >> $GITHUB_OUTPUT
@@ -146,7 +146,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Smoke test (single condition)
-        run: python run_tests.py --condition short-nips-30s
+        run: python TESTS/run_tests.py --condition short-nips-30s
 
   run-tests:
     needs: [check-changes, smoke-test, validate-params, validate-fake-data, validate-run-loop, validate-structure]
@@ -170,4 +170,4 @@ jobs:
             echo "Only whitespace/comment changes in processing_29.py — skipping full test run"
             exit 0
           fi
-          python run_tests.py --tags $TAGS --skip nine-per-phase-1800s double-run-4-clusters multi-date-two-runs
+          python TESTS/run_tests.py --tags $TAGS --skip nine-per-phase-1800s double-run-4-clusters multi-date-two-runs

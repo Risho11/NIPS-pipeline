@@ -65,7 +65,7 @@ def Generate_report(Formatted_Parameters, Model = "anthropic/claude-sonnet-4.6",
 
 ranges = 'The "mixing_temp" can be between 25 and 80 degrees Celsius. The "bath_temp" can be between 5 and 25 degrees Celsius. The "weight_percent" can be between 10 and 17 percent. The "pullcast_speed" can be between 1 and 20 mm/s. The "coupon_to_bath_wait_time" can be between 0 and 600 seconds. The "nips_bath_wait_time" can be between 1200 and 1800seconds. The "nitrogen" can be either True or False.'
 triangle = bounds.get_composition_bounds()
-tri_ranges = f' The "polymer_wt" maximum is {triangle['polymer_wt_max']} and the "additive_wt" maximum is {triangle['additive_wt_max']}. The "polymer_wt" and "additive_wt" should be within the triangular bounds {triangle['vertices']}.'
+tri_ranges = f' The "polymer_wt" maximum is {triangle["polymer_wt_max"]} and the "additive_wt" maximum is {triangle["additive_wt_max"]}. The "polymer_wt" and "additive_wt" should be within the triangular bounds {triangle["vertices"]}.'
 ranges += tri_ranges
 print(ranges)
 ### we want the triangle range, but it would be generated from the tester function i believe...
