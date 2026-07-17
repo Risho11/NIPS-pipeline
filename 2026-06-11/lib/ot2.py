@@ -204,8 +204,7 @@ class OT2:
             print("entered if statement!!!")
             self.pipette.move_to(well.top(z=top_offset), speed = self.var[viscosity]["asp_with"])
         self.protocol.delay(self.var[viscosity]["asp_delay"])
-        
-        
+           
     
     def _dispense(self, slot_no, well_no, vol, viscous: bool = True, for_mixing: bool = False, blow_out: bool = True, \
                   before_air: bool = False, position: str = "bottom"): # dispense custom height?
@@ -362,37 +361,27 @@ class OT2:
             self.prep_pullcast_dispense(vol)
         else:
             print("unsafe volume for pullcasting!")
+    
     def prep_pullcast_asperate(self, slot_no, well_no, vol, viscous: bool = True):
         self._aspirate(slot_no, well_no, vol/2, viscous, position="elevated", lift_after_aspirate = False)
         self._aspirate(slot_no, well_no, vol/2, viscous, position="bottom")
+    
     def prep_pullcast_dispense(self, vol):
         volumes = [vol/6 - 60, vol/6 - 20, vol/6 - 10, vol/6 + 10, vol/6 + 20, vol/6 + 60]
         for i in range(6):
             blow_out = False
             if (i==5): blow_out = True
             self._dispense(1, i, volumes[i], viscous = False, blow_out = blow_out)
-    
-    # instead of dispensing in 6 different points, control the motors directly to dispense in a continuous line
-    # NOT FUNCTIONAL apparently you can only use the robotcontext on Flex robots not the OT-2 idk why
-    def prep_pullcast_dispense_continuous(self):
-        robot = self.protocol.robot
-        plunger_position = robot.plunger_coordinates_for_named_position(mount="left", position_name="blowout")
-        start_well = self.labware[1].wells()[0]
-        end_well = self.labware[1].wells()[5]
-        start = robot.axis_coordinates_for(mount="left", location=start_well)
-        end = robot.axis_coordinates_for(mount="left", location=end_well)
-        end = end + plunger_position
-        
-        robot.move_axis_to(start)
-        robot.move_axis_to(end)
 
     def prep_pullcast_from_mix(self, vol, viscous: bool = True):
         self.prep_pullcast(heater_slot_no, self.heater_well_index, vol, viscous)
         self.heater_well_index += 1
+    
     def prep_pullcast_from_mix_asperate(self, vol, viscous: bool = True):
         self.prep_pullcast_asperate(heater_slot_no, self.heater_well_index, vol, viscous)
         self.heater_well_index += 1
 
+    """"
     # assume no pippette tip to begin, but does not drop tip at the end (we'll use the same tip for pullcast)
     def _prepare_solution(self, desired_weight_percent, total_vol, viscous: bool = True, position: str = "bottom"):
         rho_solution = 1.114867
@@ -419,7 +408,9 @@ class OT2:
             self.attach_next_tip()
             self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_i)
         
-    def _prepare_additive_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):
+    """        
+
+    def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):
         # declare variables to pass to function
         target_recipe = calc.TargetRecipe(total_vol, target_polymer_wt_percent, target_additive_wt_percent)
         stock = calc.StockParameters(polymer_stock_wt_percent, additive_stock_polymer_wt_percent, additive_stock_additive_wt_percent)
@@ -435,28 +426,45 @@ class OT2:
 
         # only additive solution
         if V_additive_polymer == total_vol:
+            print("Solution will be pulled from additive bottle.")
             self.attach_next_tip()
-            opentrons.prep_pullcast_asperate(9, 1, total_vol)
+            self.prep_pullcast_asperate(additive_1_slot_no, additive_1_well_no, total_vol)
+
+        # only polymer solution
+        elif V_normal_polymer == total_vol:
+            print("Solution will be pulled from stock polymer bottle.")
+            self.attach_next_tip()
+            self.prep_pullcast_asperate(solution_slot_no, solution_well_no, total_vol)
+
+        # only solvent, not sure if this would ever happen but just incase
+        elif V_solvent == total_vol:
+            print("Only solvent will be used. If this is an error, correct it ASAP.")
+            self.attach_next_tip()
+            self.prep_pullcast_asperate(solvent_slot_no, solvent_well_no, total_vol)
         
-        # mix the solution
-        if V_normal_polymer != 0:
+        # else, solution must be mixed
+        else:
             # add solvent to well
             if V_solvent > 0:
                 self.attach_next_tip()
                 self._transfer(solvent_slot_no, solvent_well_no, heater_slot_no, self.heater_well_index, V_solvent, False)
                 self._drop()
+
             # add additive solution to well
             if V_additive_polymer > 0:
                 self.attach_next_tip()
                 self._transfer(additive_1_slot_no, additive_1_well_no, heater_slot_no, self.heater_well_index, V_additive_polymer)
-                self._drop()
+                
             # add stock solution to well
             if V_normal_polymer > 0:
+                if V_additive_polymer > 0:
+                    self._drop() # only drop tip if additive solution used
                 self.attach_next_tip()
                 self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_normal_polymer)
-                self._mix(heater_slot_no, self.heater_well_index)
-                
-        opentrons.prep_pullcast_from_mix_asperate(total_vol, True)
+            
+            # mix solution and prep for pullcast
+            self._mix(heater_slot_no, self.heater_well_index)
+            self.prep_pullcast_from_mix_asperate(total_vol, True)
 
     """    
     def _prepare_additive_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):

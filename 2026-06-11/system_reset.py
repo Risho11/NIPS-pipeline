@@ -1,16 +1,16 @@
 import sys
 sys.path.append("/var/lib/jupyter/notebooks/2026-06-11/lib/")
 
-#from arduino import Uno
-#import url as url
-
+reset_arm = True
 reset_OT2 = False
+reset_chiller = True
 
 # arm reset
-from arm import Arm
-xArm = Arm(home=False)
-xArm.clean()
-xArm.teach()
+if reset_arm:
+    from arm import Arm
+    xArm = Arm(home=False)
+    xArm.clean()
+    xArm.teach()
 
 # heater and opentrons reset
 if reset_OT2:
@@ -26,9 +26,10 @@ if reset_OT2:
     opentrons._drop()
 
 # turn off chiller
-from chiller import BathChiller
-chiller = BathChiller()
-chiller.turn_off()
+if reset_chiller:
+    from chiller import BathChiller
+    chiller = BathChiller()
+    chiller.turn_off()
 
 # exit program
 print("System is reset. Exiting program.")

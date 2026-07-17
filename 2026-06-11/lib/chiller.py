@@ -38,9 +38,11 @@ class BathChiller():
             time.sleep(timestep)
             current_temperature = self.get_temperature()
 
-        
         return 0
     
     def turn_off(self):
         self.chiller.stop_heating()
+    
+    def turn_on(self):
+        self.chiller.start_heating()
     

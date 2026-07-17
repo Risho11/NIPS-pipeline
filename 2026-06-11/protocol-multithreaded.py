@@ -1,4 +1,6 @@
-# import libraries
+# ==================================================
+# SECTION: Import Libraries
+# ==================================================
 import json
 import time
 import sys
@@ -224,6 +226,7 @@ def zero_and_place_coupon():
                             xArm.put_down(test)
                             armLock.release() # we can release the arm while we run the test, it's not time sensitive
                             safe = not arduino.run_test()
+
                         if safe:
                             time.sleep(5) # make sure newton software has finished processing the test into a .csv file
                             # use the data from the laptop to make sure the test finished correctly
@@ -234,6 +237,7 @@ def zero_and_place_coupon():
                             print("Recent: " + str(recent))
                             print("Time: " + str(time.time()))
                             print("mTime: " + str(data["time"]))
+
                         if safe and recent:
                             armLock.acquire() # acquire the arm again to pick up the coupon
                             xArm.pick_up(test)
@@ -268,6 +272,57 @@ def zero_and_place_coupon():
                     xArm.immigrate("middle")
                 opentronsStandLock.release()
             armLock.release()
+
+# do the compression tests
+def run_compression_tests():
+    # assume coupon is on tester coupon stand
+    # assume armLock is already acquired 
+
+    done = False
+    while not done:
+        if compressionTesterLock.acquire(False):        
+            # take coupon to compression tester
+            xArm.prep_coupon_test()
+            safe = True
+            recent = True
+
+            for test in tests:
+                if safe and recent:
+                    xArm.put_down(test)
+                    armLock.release() # nothing here needs a deadline anymore so we're free to release the arm
+                    safe = not arduino.run_test()
+                if safe:
+                    time.sleep(5) # make sure newton software has finished processing the test into a .csv file
+                    # use the data from the laptop to make sure the test finished correctly
+                    data = url.get_compressiontester_status()
+                    safe = data["safe"]
+                    recent = (time.time() - data["time"]) < 30
+                    print("Safe: " + str(safe))
+                    print("Recent: " + str(recent))
+                    print("Time: " + str(time.time()))
+                    print("mTime: " + str(data["time"]))
+                if safe and recent:
+                    armLock.acquire()
+                    xArm.pick_up(test)
+
+            if not safe:
+                print("Compression tester is unsafe! exiting...")
+                armLock.acquire()
+                xArm.immigrate("middle")
+                sys.exit()
+            elif not recent:
+                print("Compression test is out of date, tester could still be running. Unsure. exiting...")
+                xArm.immigrate("middle")
+                armLock.acquire()
+                sys.exit()
+                    
+            # put coupon back on intermediate platform
+            xArm.unprep_coupon_test()
+
+            # release lock, finish program  
+            compressionTesterLock.release()
+            done = True
+
 
 # clean the knife after a given delay
 def delayed_knife_cleaning(delay = 0):
@@ -373,41 +428,14 @@ def run_test(param = None):
     opentronsLock.acquire()
     print("Opentrons process started.")
 
-    # creation solution with additives
-    if desired_additive_percent > 0:
-        print("Solution will have additives.")
-        # have heater start in a thread, slightly speeds up mixing process
-        if(opentrons.has_temp()):
-            opentrons_heater = threading.Thread(target=opentrons._set_temp, args=(mixing_temp,))
-            opentrons_heater.start()
-        # prepare solution
-        opentrons._prepare_additive_solution(total_vol, desired_weight_percent, desired_additive_percent)
-        print("Finished mixing additive solution.")
-        save_parameters()
-        opentrons.prep_pullcast_from_mix_asperate(total_vol, True)
-    
-    # pull solution directly from bottle
-    elif desired_weight_percent == opentrons.get_stock_weight_percent():
-        print("Solution will be pulled directly from bottle.")
-        opentrons.attach_next_tip()
-        save_parameters() # tip index has changed
-        opentrons.prep_pullcast_asperate(9, 0, total_vol) # directly from stock bottle
-        print("Finished drawing solution.")
+    # start heater in all cases including straight bottle pulls, but this simplifies code greatly
+    if(opentrons.has_temp()):
+        opentrons_heater = threading.Thread(target=opentrons._set_temp, args=(mixing_temp,))
+        opentrons_heater.start()
 
-    # mix a diluted solution           
-    else:
-        print("Solution will be mixed.")
-        # have heater start in a thread, slightly speeds up mixing process
-        if(opentrons.has_temp()):
-            opentrons_heater = threading.Thread(target=opentrons._set_temp, args=(mixing_temp,))
-            opentrons_heater.start()
-            print(f"Mixing temperature set at {mixing_temp} C.")
-        opentrons._prepare_solution(desired_weight_percent, total_vol)
-        print("Finished mixing solution.")
-        save_parameters() # tip index & heater well index should have changed, update file incase we end the protocol early
-        # opentrons prep for cast from mixing
-        opentrons.prep_pullcast_from_mix_asperate(total_vol, True)
-    
+    # prepare membrane solution
+    opentrons.prepare_membrane_solution(total_vol, desired_weight_percent, desired_additive_percent)
+
     # deactivate opentrons heater when done mixing
     if(opentrons.has_temp()):
         opentrons._deactivate_temp()
@@ -418,28 +446,6 @@ def run_test(param = None):
 
     # 0 background tasks now
     print("Joined both subprocesses.")
-    
-    # ==================================================
-    # SECTION: Thread Lock Acquistion
-    # ==================================================
-
-    # from here until we put the coupon in the camera box, we technically can't release the arm or anything, since everything has a deadline
-    # therefore we need to lock the camera box right now even though we won't use it for like 30 minutes or so
-    # but we need to make sure that we aren't waiting for it
-    done = False
-    while not done:
-        if armLock.acquire(False):
-            print("ArmLock Acquired")
-            if cameraLock.acquire(False):
-                print("CameraLock Acquired")
-                xArm.open_camera_box()
-                done = True
-                break
-                
-                cameraLock.release()
-                print("CameraLock Released")
-            armLock.release()
-            print("ArmLock Released")
     
     # ==================================================
     # SECTION: Dispense and Pullcast
@@ -513,11 +519,12 @@ def run_test(param = None):
     xArm.put_down("ring bath")
     print("Ring has been placed on the coupon.")
 
-    # technically like I said earlier we shouldn't release the arm here, since we have no way of ensuring that we'll be able to get it back before the nips_bath_time deadline
-    # really sucks but I want to make sure this program hits all the deadlines properly no matter what
+    # release arm, time in bath is not important
+    armLock.release()
     
     # wait until the nips timer is up
     nips_timer_process.join()
+    armLock.acquire()
 
     # ==================================================
     # SECTION: Iniatial Picture
@@ -573,50 +580,16 @@ def run_test(param = None):
             done = True
             
         # real compression tests
-        elif compressionTesterLock.acquire(False):
+        else:
             xArm.open_camera_box()
             xArm.currentZone = "tester" # speeds up process
             xArm.pick_up("coupon camera tester", pitch = False)
             cameraLock.release() # don't need the camera box right now
             xArm.put_down("coupon angled tester", pitch = False)
                 
-            # take coupon to compression tester
-            xArm.prep_coupon_test()
-            safe = True
-            recent = True
-
-            for test in tests:
-                if safe and recent:
-                    xArm.put_down(test)
-                    armLock.release() # nothing here needs a deadline anymore so we're free to release the arm
-                    safe = not arduino.run_test()
-                if safe:
-                    time.sleep(5) # make sure newton software has finished processing the test into a .csv file
-                    # use the data from the laptop to make sure the test finished correctly
-                    data = url.get_compressiontester_status()
-                    safe = data["safe"]
-                    recent = (time.time() - data["time"]) < 30
-                    print("Safe: " + str(safe))
-                    print("Recent: " + str(recent))
-                    print("Time: " + str(time.time()))
-                    print("mTime: " + str(data["time"]))
-                if safe and recent:
-                    armLock.acquire()
-                    xArm.pick_up(test)
-
-            if not safe:
-                print("Compression tester is unsafe! exiting...")
-                armLock.acquire()
-                xArm.immigrate("middle")
-                sys.exit()
-            elif not recent:
-                print("Compression test is out of date, tester could still be running. Unsure. exiting...")
-                xArm.immigrate("middle")
-                armLock.acquire()
-                sys.exit()
-                    
-            # put coupon back on intermediate platform
-            xArm.unprep_coupon_test()
+            # perform tests
+            run_compression_tests()
+            
             cameraLock.acquire()
             xArm.open_camera_box()
             xArm.pick_up("coupon angled tester", pitch = False)
@@ -625,10 +598,6 @@ def run_test(param = None):
             xArm.put_down("coupon camera tester", pitch = False)
             xArm.currentZone = "middle"
             xArm.close_camera_box()
-                
-            done = True
-            # don't break, we want to release the compression tester
-            compressionTesterLock.release()
     
     # ==================================================
     # SECTION: Final Picture
@@ -652,12 +621,18 @@ def run_test(param = None):
     save_parameters() # number of assemblies in discard pile has changed, update file
     print("Coupon successfully discarded.")
 
-    # release arm incase knife cleaning is not finished
+    # ensure knife is clean
     armLock.release()              
     knife_cleaning_process.join()  
     armLock.acquire()               
 
-    xArm.dry_tester()  # dry compression tester
+    # dry compression tester, acquire locks
+    compressionTesterLock.acquire()
+    xArm.dry_tester()  
+    compressionTesterLock.release()
+
+    # turn off chiller, save electricity
+    chiller.turn_off()
 
     # always end in middle, as next run will assume we're in the middle
     xArm.immigrate("middle")
