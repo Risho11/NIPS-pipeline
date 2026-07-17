@@ -4,7 +4,7 @@ import time
 chiller_port = "/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort-if00"
 
 epsilon = 0.1 # accetable error in temperature
-timestep = 0.1
+timestep = 1
 
 class BathChiller():
     chiller = None
@@ -40,3 +40,7 @@ class BathChiller():
 
         
         return 0
+    
+    def turn_off(self):
+        self.chiller.stop_heating()
+    

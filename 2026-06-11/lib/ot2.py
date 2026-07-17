@@ -6,9 +6,9 @@ import numpy as np
 #import opentrons.simulate
 import calculations as calc
 
-polymer_stock_wt_percent = 17
-additive_stock_additive_wt_percent = 50
-additive_stock_polymer_wt_percent = 17
+polymer_stock_wt_percent = 21
+additive_stock_additive_wt_percent = 4
+additive_stock_polymer_wt_percent = 21
 
 solution_slot_no = 9
 solution_well_no = 0
@@ -433,8 +433,13 @@ class OT2:
         V_additive_polymer = result.polymer_additive_stock_uL
         V_solvent = result.solvent_uL
 
+        # only additive solution
+        if V_additive_polymer == total_vol:
+            self.attach_next_tip()
+            opentrons.prep_pullcast_asperate(9, 1, total_vol)
+        
         # mix the solution
-        if V_normal_polymer != 0 or V_additive_polymer != 0 or V_solvent != 0:
+        if V_normal_polymer != 0:
             # add solvent to well
             if V_solvent > 0:
                 self.attach_next_tip()
@@ -450,6 +455,8 @@ class OT2:
                 self.attach_next_tip()
                 self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_normal_polymer)
                 self._mix(heater_slot_no, self.heater_well_index)
+                
+        opentrons.prep_pullcast_from_mix_asperate(total_vol, True)
 
     """    
     def _prepare_additive_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):
@@ -553,3 +560,6 @@ class OT2:
                            
     def get_additive_percent(self):
         return additive_stock_additive_wt_percent
+    
+    def get_additive_polymer_percent(self):
+        return additive_stock_polymer_wt_percent
