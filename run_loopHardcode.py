@@ -42,7 +42,7 @@ import url_29 as url
 import polymer_additive_bounds as bounds
 
 # ── edit these before going to the lab ────────────────────────────────────────
-adtv_amts = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+adtv_amts = [4, 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
 count = 0
 
 BASE_PARAMS = {
@@ -52,8 +52,8 @@ BASE_PARAMS = {
     "nitrogen": False,
     "coupon_to_bath_wait_time": 60,
     "nips_bath_wait_time": 101,
-    "polymer_wt": 17,
-    "additive_wt": 7
+    "polymer_wt": 21,
+    "additive_wt": 4
 }
 
 SERVER_IP    = "169.254.230.148"
