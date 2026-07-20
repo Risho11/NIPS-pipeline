@@ -22,7 +22,7 @@ import threading
 
 # variables to simulate actions
 simulate_compression_tests = True
-take_picture = True
+take_picture = False
 
 # set number of tests we want
 tests = ["coupon test 1", "coupon test 2", "coupon test 3", "coupon test 4"]
@@ -338,6 +338,8 @@ def delayed_knife_cleaning(delay = 0):
 
 # simulation zero tests if compression tester is not working
 def simulate_zero_and_place_coupon():
+    armLock.acquire()
+    
     xArm.pick_up_coupon()
     save_parameters()
     xArm.put_down("coupon angled tester", pitch = False)
