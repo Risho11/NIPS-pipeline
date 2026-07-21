@@ -410,7 +410,7 @@ class OT2:
         
     """        
 
-    def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):
+    def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent, mixing_temp):
         # declare variables to pass to function
         target_recipe = calc.TargetRecipe(total_vol, target_polymer_wt_percent, target_additive_wt_percent)
         stock = calc.StockParameters(polymer_stock_wt_percent, additive_stock_polymer_wt_percent, additive_stock_additive_wt_percent)
@@ -444,6 +444,10 @@ class OT2:
         
         # else, solution must be mixed
         else:
+            # set mixing temperature
+            if(self.has_temp()):
+                self._set_temp(mixing_temp)
+
             # add solvent to well
             if V_solvent > 0:
                 self.attach_next_tip()
@@ -465,6 +469,10 @@ class OT2:
             # mix solution and prep for pullcast
             self._mix(heater_slot_no, self.heater_well_index)
             self.prep_pullcast_from_mix_asperate(total_vol, True)
+        
+        # deactivate opentrons heater when done mixing
+        if(self.has_temp()):
+            self._deactivate_temp()
 
     """    
     def _prepare_additive_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):

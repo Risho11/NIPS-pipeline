@@ -26,6 +26,7 @@ class BathChiller():
     
     def go_to_temperature(self, temperature):
         self.set_target_temperature(temperature)
+        self.chiller.start_heating()
         
         if self.get_target_temperature() != temperature:
             print("Chiller not responding")

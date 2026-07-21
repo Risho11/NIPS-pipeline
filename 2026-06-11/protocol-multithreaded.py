@@ -196,6 +196,7 @@ def load_parameters():
     opentrons.heater_well_index = robot["heater_well_index"] 
     globals()["opentrons_stand_status"] = robot["opentrons_stand_status"]
     xArm.camera_box_open = robot["camera_box_open"]
+
     parametersLock.release()
 
 # perform zero tests on coupon
@@ -312,8 +313,8 @@ def run_compression_tests():
                 sys.exit()
             elif not recent:
                 print("Compression test is out of date, tester could still be running. Unsure. exiting...")
-                xArm.immigrate("middle")
                 armLock.acquire()
+                xArm.immigrate("middle")
                 sys.exit()
                     
             # put coupon back on intermediate platform
@@ -357,6 +358,7 @@ def simulate_zero_and_place_coupon():
 
     # move arm out of the way
     xArm.immigrate("middle")
+    armLock.release()
 
 
 
@@ -430,17 +432,8 @@ def run_test(param = None):
     opentronsLock.acquire()
     print("Opentrons process started.")
 
-    # start heater in all cases including straight bottle pulls, but this simplifies code greatly
-    if(opentrons.has_temp()):
-        opentrons_heater = threading.Thread(target=opentrons._set_temp, args=(mixing_temp,))
-        opentrons_heater.start()
-
     # prepare membrane solution
-    opentrons.prepare_membrane_solution(total_vol, desired_weight_percent, desired_additive_percent)
-
-    # deactivate opentrons heater when done mixing
-    if(opentrons.has_temp()):
-        opentrons._deactivate_temp()
+    opentrons.prepare_membrane_solution(total_vol, desired_weight_percent, desired_additive_percent, mixing_temp)
     
     # make sure the chiller is at temp and that the clean (and zeroed) coupon has been placed before continuing
     chiller_process.join()
@@ -464,6 +457,7 @@ def run_test(param = None):
     dropProcess.start()
     
     # pullcast membrane
+    armLock.acquire()
     xArm.pullcast(speed = pullcast_speed)
     print("Pullcast complete.")
 
@@ -521,19 +515,19 @@ def run_test(param = None):
     xArm.put_down("ring bath")
     print("Ring has been placed on the coupon.")
 
-    # release arm, time in bath is not important
-    armLock.release()
-    
     # wait until the nips timer is up
+    armLock.release()
     nips_timer_process.join()
-    armLock.acquire()
 
     # ==================================================
     # SECTION: Iniatial Picture
     # ==================================================
 
-    # move coupon to the camera to take the pre-test picture
+    # acquire thread locks
+    armLock.acquire()
     cameraLock.acquire()
+
+    # move coupon to the camera to take the pre-test picture
     xArm.pick_up("coupon bath", pitch = False)
     xArm.hover_bath(wait_time = 600) # submerge in a water bath
     xArm.put_down("coupon camera tester", pitch = False)
@@ -549,79 +543,64 @@ def run_test(param = None):
     # SECTION: Compression tests
     # ==================================================
 
-    # we need the arm back and to get the compression tester
-    done = False
-    while not done:
+    # move coupon to compression tester
+    xArm.open_camera_box()
+    xArm.currentZone = "tester" # speeds up process
+    xArm.pick_up("coupon camera tester", pitch = False)
+    xArm.put_down("coupon angled tester", pitch = False)
+    cameraLock.release() # don't need the camera box right now
 
-        # simulated tests
-        if simulate_compression_tests:
-            xArm.open_camera_box()
-            xArm.currentZone = "tester" # speeds up process
-            xArm.pick_up("coupon camera tester", pitch = False)
-            cameraLock.release() # don't need the camera box right now
-            xArm.put_down("coupon angled tester", pitch = False)
+    # simulated tests
+    if simulate_compression_tests:            
+        # take coupon to compression tester
+        compressionTesterLock.acquire()
+        xArm.prep_coupon_test()
             
-            # take coupon to compression tester
-            xArm.prep_coupon_test()
-            
-            print("Simulating compression tests.")
-            for test in tests:
-                xArm.put_down(test)
-                xArm.pick_up(test)
+        print("Simulating compression tests.")
+        for test in tests:
+            xArm.put_down(test)
+            xArm.pick_up(test)
 
-            # put coupon back on intermediate platform
-            xArm.unprep_coupon_test()
-            cameraLock.acquire()
-            xArm.open_camera_box()
-            xArm.pick_up("coupon angled tester", pitch = False)
+        # put coupon back on intermediate platform
+        xArm.unprep_coupon_test()
+        compressionTesterLock.release()
             
-            # go put the coupon in the box for the post-test picture
-            xArm.put_down("coupon camera tester", pitch = False)
-            xArm.currentZone = "middle"
-            xArm.close_camera_box()
-            
-            done = True
-            
-        # real compression tests
-        else:
-            xArm.open_camera_box()
-            xArm.currentZone = "tester" # speeds up process
-            xArm.pick_up("coupon camera tester", pitch = False)
-            cameraLock.release() # don't need the camera box right now
-            xArm.put_down("coupon angled tester", pitch = False)
-                
-            # perform tests
-            run_compression_tests()
-            
-            cameraLock.acquire()
-            xArm.open_camera_box()
-            xArm.pick_up("coupon angled tester", pitch = False)
-                
-            # go put the coupon in the box for the post-test picture
-            xArm.put_down("coupon camera tester", pitch = False)
-            xArm.currentZone = "middle"
-            xArm.close_camera_box()
-    
+    # perform real compression tests
+    else:                
+        run_compression_tests()
+
     # ==================================================
     # SECTION: Final Picture
     # ==================================================
+
+    # get coupon from tester stand    
+    cameraLock.acquire()
+    xArm.open_camera_box()
+    xArm.pick_up("coupon angled tester", pitch = False)
+                
+    # go put the coupon in the box for the post-test picture
+    xArm.put_down("coupon camera tester", pitch = False)
+    xArm.currentZone = "middle"
+    xArm.close_camera_box()
 
     if(take_picture):
         time.sleep(2) # give time for camera to adjust to lighting
         url.take_snapshot()
         print("Final membrane picture taken.")
-    xArm.open_camera_box()
-    xArm.currentZone = "tester"
     
     # ==================================================
     # SECTION: Clean up
     # ==================================================
 
     # put coupon in discard pile
+    xArm.open_camera_box()
+    xArm.currentZone = "tester" # speeds up process
     xArm.pick_up("coupon camera tester", pitch = False)
-    cameraLock.release()
     xArm.discard(pitch = False)
-    save_parameters() # number of assemblies in discard pile has changed, update file
+
+    # save parameters and release camera lock
+    cameraLock.release()
+    save_parameters() 
     print("Coupon successfully discarded.")
 
     # ensure knife is clean
@@ -641,6 +620,7 @@ def run_test(param = None):
     xArm.immigrate("middle")
     armLock.release()
     
+    # finish
     print("Done")
     url.start_processing(parameters, protocol_log=_capture.lines.copy()) # tell the pc that the test is done so it can go process the files
     _capture.lines.clear()  # reset log buffer for next run
