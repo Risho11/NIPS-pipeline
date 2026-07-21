@@ -533,6 +533,7 @@ def run_test(param = None):
     # ==================================================
 
     # move coupon to the camera to take the pre-test picture
+    cameraLock.acquire()
     xArm.pick_up("coupon bath", pitch = False)
     xArm.hover_bath(wait_time = 600) # submerge in a water bath
     xArm.put_down("coupon camera tester", pitch = False)
