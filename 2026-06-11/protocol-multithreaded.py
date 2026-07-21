@@ -469,11 +469,6 @@ def run_test(param = None):
     knife_cleaning_process = threading.Thread(target=delayed_knife_cleaning, args=(300, ))
     knife_cleaning_process.start()
     
-    # don't release the arm or opentrons stand, we still need them to be ours
-    # I would really like a way to be able to release the arm temporarily, but currently the only way to make sure we will have the arm in time to meet the coupon_to_bath_wait_time deadline is to hold the arm for now
-    # perhaps we figure out how long each background task will take and only release it if the combined time of all background tasks is shorter than the time we have to wait for? kind of like preemptive multitasking
-    # or maybe add a way to forcefully pause the background tasks and take the arm from them if we need it here?
-    
     # new background task 1: clean the knife
     # wait at least 5 minutes before trying to clean the knife (currently we won't release the arm until after we place the rings but hey maybe in the future we'll figure out some premption or something)
     # we will join this process at the end of the protocol most likely since we don't actually care about the knife it's very low priority as long as it's clean for the next run
