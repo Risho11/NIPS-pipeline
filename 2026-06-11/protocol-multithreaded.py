@@ -54,27 +54,30 @@ runProcess = None # no current process
 # SECTION: Error Check
 # ==================================================
 
-# make sure we have at least 1 ring and 1 coupon
-errors = ""
-if coupons <= 0:
-    errors += "There must be at least 1 coupon in the pile. \n"
-if rings <= 0:
-    errors += "There must be at least 1 ring on the stand. \n"
-# make sure opentrons stand is empty
-if opentrons_stand_status != "empty":
-    errors += "Opentrons stand must be empty. \n"
-# must have enough tips
-if tip_index > 96 - 3:
-    errors += "There must be at least 3 available tips \n"
-# must have empty wells
-if heater_well_index >= 24:
-    errors += "There must be at least 1 clean heater well. \n"
-# print errors
-if errors != "":
-    print(errors)
-    print("Please fix errors and update robot.json accordingly. Exiting.")
-    exit()
+def error_check():
+    # make sure we have at least 1 ring and 1 coupon
+    errors = ""
+    if coupons <= 0:
+        errors += "There must be at least 1 coupon in the pile. \n"
+    if rings <= 0:
+        errors += "There must be at least 1 ring on the stand. \n"
+    # make sure opentrons stand is empty
+    if opentrons_stand_status != "empty":
+        errors += "Opentrons stand must be empty. \n"
+    # must have enough tips
+    if tip_index > 96 - 3:
+        errors += "There must be at least 3 available tips \n"
+    # must have empty wells
+    if heater_well_index >= 24:
+        errors += "There must be at least 1 clean heater well. \n"
+    # print errors
+    if errors != "":
+        print(errors)
+        print("Please fix errors and update robot.json accordingly. Exiting.")
+        exit()
 
+error_check()
+        
 # ==================================================
 # SECTION: Equipment Initalization
 # ==================================================
@@ -339,7 +342,9 @@ def delayed_knife_cleaning(delay = 0):
 
 # simulation zero tests if compression tester is not working
 def simulate_zero_and_place_coupon():
+    # acquire locks
     armLock.acquire()
+    compressionTesterLock.acquire()
     
     xArm.pick_up_coupon()
     save_parameters()
@@ -358,20 +363,23 @@ def simulate_zero_and_place_coupon():
 
     # move arm out of the way
     xArm.immigrate("middle")
+    
+    # release locks
+    compressionTesterLock.release()
     armLock.release()
 
 
 
-# ============================================================================
+# ==============================================================================================================================
 # SECTION: Main Function
-# ============================================================================
+# ==============================================================================================================================
 
 def run_test(param = None):
     
-    # ==================================================
+    # ====================================================================================================
     # SECTION: Load Variables
-    # ==================================================
-
+    # ====================================================================================================
+    
     # load parameter file
     if param == None:
         # load parameters from .json file
@@ -380,6 +388,9 @@ def run_test(param = None):
     else:
         parameters = param
     load_parameters()
+    
+    # check for errors
+    error_check()
 
     # variable declaration
     mixing_temp = parameters["mixing_temp"]
@@ -406,9 +417,9 @@ def run_test(param = None):
         print("Desired additive percent is too high. Exiting.")
         exit()
 
-    # ==================================================
+    # ====================================================================================================
     # SECTION: Begin Background Tasks
-    # ==================================================
+    # ====================================================================================================
 
     # Background task 1: start chilling the chiller
     chiller_process = threading.Thread(target=chiller.go_to_temperature, args=(bath_temp, ))
@@ -424,9 +435,9 @@ def run_test(param = None):
     place_coupon_process.start()
     print("Beginning zero tests on coupons.")
     
-    # ==================================================
+    # ====================================================================================================
     # SECTION: Prepare membrane solution
-    # ==================================================
+    # ====================================================================================================
 
     # Foreground task: mix/asperate the correct concentration of solution
     opentronsLock.acquire()
@@ -442,9 +453,9 @@ def run_test(param = None):
     # 0 background tasks now
     print("Joined both subprocesses.")
     
-    # ==================================================
+    # ====================================================================================================
     # SECTION: Dispense and Pullcast
-    # ==================================================
+    # ====================================================================================================
 
     # dispense solution on coupon
     opentronsStandLock.acquire()
@@ -473,9 +484,9 @@ def run_test(param = None):
     # wait at least 5 minutes before trying to clean the knife (currently we won't release the arm until after we place the rings but hey maybe in the future we'll figure out some premption or something)
     # we will join this process at the end of the protocol most likely since we don't actually care about the knife it's very low priority as long as it's clean for the next run
 
-    # ==================================================
+    # ====================================================================================================
     # SECTION: Membrane formation
-    # ==================================================
+    # ====================================================================================================
 
     # foreground task: do NIPS stuff, coupon will sit on opentrons stand
     if nitrogen:
@@ -514,9 +525,9 @@ def run_test(param = None):
     armLock.release()
     nips_timer_process.join()
 
-    # ==================================================
+    # ====================================================================================================
     # SECTION: Iniatial Picture
-    # ==================================================
+    # ====================================================================================================
 
     # acquire thread locks
     armLock.acquire()
@@ -534,9 +545,9 @@ def run_test(param = None):
         url.take_snapshot()
         print("Initial membrane picture taken.")
     
-    # ==================================================
+    # ====================================================================================================
     # SECTION: Compression tests
-    # ==================================================
+    # ====================================================================================================
 
     # move coupon to compression tester
     xArm.open_camera_box()
@@ -564,9 +575,9 @@ def run_test(param = None):
     else:                
         run_compression_tests()
 
-    # ==================================================
+    # ====================================================================================================
     # SECTION: Final Picture
-    # ==================================================
+    # ====================================================================================================
 
     # get coupon from tester stand    
     cameraLock.acquire()
@@ -583,9 +594,9 @@ def run_test(param = None):
         url.take_snapshot()
         print("Final membrane picture taken.")
     
-    # ==================================================
+    # ====================================================================================================
     # SECTION: Clean up
-    # ==================================================
+    # ====================================================================================================
 
     # put coupon in discard pile
     xArm.open_camera_box()
