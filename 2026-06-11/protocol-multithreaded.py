@@ -641,6 +641,7 @@ def run_test(param = None):
     armLock.release()
     
     print("Done")
+    parameters["air_data"] = arduino.read_temp_humidity()
     url.start_processing(parameters, protocol_log=_capture.lines.copy()) # tell the pc that the test is done so it can go process the files
     _capture.lines.clear()  # reset log buffer for next run
 
