@@ -95,12 +95,8 @@ positions = {
         "knife bath": [32, -460, 218, 180, 20, -90],
         "knife brush waypoint": [32, -420, 240, 180, 0, -90],
         "knife brush": [32, -438, 227, 180, 20, -90],
-        "knife brush 1": [32 + 20, -440+2, 227, 180, 20, -90],
-        "knife brush 2": [32 - 18, -440+2, 227, 180, 20, -90],
         "knife dry waypoint": [34, -380, 240, 180, 0, -90],
         "knife dry": [34, -395, 223, 180, 20, -90],
-        "knife dry 1": [32 + 18, -395, 223, 180, 20, -90],
-        "knife dry 2": [32 - 18, -395, 223, 180, 20, -90],
 
         "pullcast start waypoint": [215, -540+2, 240, 180, 20, 0],
         "pullcast start": [215, -540+2, 224, 180, 20, 0],
@@ -188,13 +184,13 @@ positions = {
         "squeegee stand waypoint": [94, 288, 185, 180, 0, 90],
         "squeegee stand": [94, 288, 163, 180, 0, 90],
         
-        "squeegee 1 waypoint 1": [270, 220, 254, 180, 0, 90],
+        "squeegee 1 waypoint 1": [270, 200, 254, 180, 0, 90],
         "squeegee 1 waypoint 2": [270, 400, 254, 180, 0, 90],
         "squeegee 1 waypoint 3": [242, 420, 261, 180, 0, 90],
         "squeegee 1 start": [242, 420, 259, 180, 10, 90],
         "squeegee 1 end": [242, 180, 251, 180, 10, 90],
         
-        "squeegee 2 waypoint 1": [60, 220, 245, 180, 0, 90],
+        "squeegee 2 waypoint 1": [60, 200, 245, 180, 0, 90],
         "squeegee 2 waypoint 2": [60, 400, 245, 180, 0, 90],
         "squeegee 2 waypoint 3": [100, 420, 261, 180, 0, 90],
         "squeegee 2 start": [95, 420, 257, 180, 10, 90],
@@ -344,6 +340,9 @@ class Arm():
         self.go_to_position("opentrons", "pullcast start pulldown")
         self.go_to_position("opentrons", "pullcast end pulldown", speed = speed)# actual pull
         self.go_to_position("opentrons", "pullcast end waypoint")
+        # move so arm doesn't hit solution bottle
+        #self.go_to_position_offset("opentrons", "pullcast end waypoint", [0,80,0,0,0,-45])
+        self.immigrate("opentrons")
         
         self.put_down("knife bath")
         self.xArm.set_bio_gripper_force(100)
@@ -468,7 +467,10 @@ class Arm():
         # brush knife
         self.go_to_position("opentrons", "knife brush waypoint")
         self.go_to_position("opentrons", "knife brush")
-        for i in range(brush_cycles):
+        for i in range(brush_cycles): # brush front to back
+            self.go_to_position_offset("opentrons", "knife brush", [0,20,0,0,0,0])
+            self.go_to_position_offset("opentrons", "knife brush", [0,-30,0,0,0,0])
+        for i in range(brush_cycles): # brush horizontally
             self.go_to_position_offset("opentrons", "knife brush", [18,0,0,0,0,0])
             self.go_to_position_offset("opentrons", "knife brush", [-18,0,0,0,0,0])
         self.go_to_position("opentrons", "knife brush")
@@ -486,25 +488,24 @@ class Arm():
         # put knife back on stand
         self.put_down("knife stand")
 
+    def squeegee(self, position, speed):
+        self.go_to_position("tester", "squeegee " + position + " waypoint 1")
+        self.go_to_position("tester", "squeegee " + position + " waypoint 2")
+        self.go_to_position("tester", "squeegee " + position + " start")
+        self.go_to_position("tester", "squeegee " + position + " end", speed = speed)
+        
     def dry_tester(self, squeegee_cycles = 1, pin_cycles = 2, speed = 200, middle = False):
         # pickup squeegee
         self.go_to_position("tester", "squeegee stand waypoint 1")
         self.go_to_position("tester", "squeegee stand waypoint 2")
-        self.xArm.set_bio_gripper_force(200)
         self.pick_up("squeegee")
         self.go_to_position("tester", "squeegee stand waypoint 2")
         self.go_to_position("tester", "squeegee stand waypoint 1")
         
         # squeegee testing platform
         for i in range(squeegee_cycles):
-            self.go_to_position("tester", "squeegee 1 waypoint 1")
-            self.go_to_position("tester", "squeegee 1 waypoint 2")
-            self.go_to_position("tester", "squeegee 1 start")
-            self.go_to_position("tester", "squeegee 1 end", speed = speed)
-            self.go_to_position("tester", "squeegee 2 waypoint 1")
-            self.go_to_position("tester", "squeegee 2 waypoint 2")
-            self.go_to_position("tester", "squeegee 2 start")
-            self.go_to_position("tester", "squeegee 2 end", speed = speed)
+            self.squeegee(position = "1", speed = 200)
+            self.squeegee(position = "2", speed = 200)
         
         # dry compression pin
         if pin_cycles > 0:
@@ -516,23 +517,16 @@ class Arm():
             self.go_to_position("tester", "squeegee pin waypoint", speed = 50)
             
             # remove water on left side again
-            self.go_to_position("tester", "squeegee 2 waypoint 1")
-            self.go_to_position("tester", "squeegee 2 waypoint 2")
-            self.go_to_position("tester", "squeegee 2 start")
-            self.go_to_position("tester", "squeegee 2 end", speed = speed)
+            self.squeegee(position = "2", speed = 200)
         
         # squeegee middle
         if middle:
-            self.go_to_position("tester", "squeegee middle waypoint 1")
-            self.go_to_position("tester", "squeegee middle waypoint 2")
-            self.go_to_position("tester", "squeegee middle start")
-            self.go_to_position("tester", "squeegee middle end", speed = speed)
+            self.squeegee(position = "middle", speed = 200)
         
         # put away squeegee
         self.go_to_position("tester", "squeegee stand waypoint 1")
         self.go_to_position("tester", "squeegee stand waypoint 2")
         self.put_down("squeegee")
-        self.xArm.set_bio_gripper_force(100)
         self.go_to_position("tester", "squeegee stand waypoint 2")
         self.go_to_position("tester", "squeegee stand waypoint 1")
         
