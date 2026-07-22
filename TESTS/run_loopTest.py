@@ -107,7 +107,7 @@ def move_and_rename(params):
     (directory / "params.json").write_text(json.dumps(params))
     return s
 
-LLM_PROP_KEYS = ["Strain at 50 bar", "CV"]
+LLM_PROP_KEYS = processing.LLM_PROP_KEYS
 
 
 def _extract_next_params(raw_text):

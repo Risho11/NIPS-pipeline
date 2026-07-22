@@ -128,8 +128,6 @@ def move_and_rename(params):
     (directory / "params.json").write_text(json.dumps(params))
     return s
 
-LLM_PROP_KEYS = ["Strain at 50 bar", "CV"]
-
 
 def _extract_next_params(raw_text):
     """Extract the next_params dict from LLM output. Tries multiple formats."""
@@ -220,6 +218,10 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
             print(line)
         print("── END PROTOCOL LOG " + "─" * 47)
     try:
+        air = params.get("air_data") or {}
+        air_temp = air.get("temperature")
+        humidity = air.get("humidity")
+
         condition_name = None
         line = "\n-----------------------------------\n"
         print("\n[1/5] organising files...")

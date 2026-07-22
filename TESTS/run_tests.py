@@ -38,7 +38,7 @@ MOCK_LLM_AL_RESPONSE = (
     '"coupon_to_bath_wait_time": 120, "nips_bath_wait_time": 1500, "nitrogen": false}'
 )
 
-LLM_PROP_KEYS = ["Strain at 50 bar", "CV"]
+LLM_PROP_KEYS = processing.LLM_PROP_KEYS
 
 REQUIRED_PARAM_KEYS = [
     "mixing_temp", "bath_temp", "weight_percent",

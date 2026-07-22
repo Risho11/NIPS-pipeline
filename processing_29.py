@@ -32,6 +32,38 @@ LVDT_COL = "S:LVDT (in)"
 EXTENDED_CONTEXT    = True  # include _membrane_outcome_string() in result string
 PROMOTE_POSTDISCARD = True  # True=LLM sees postDiscard; False=LLM sees preDiscard
 USE_FIT_COUNT       = True  # True=n_fit counts Good Fit flag; False=counts _rep_is_usable()
+
+# Single source of truth for per-condition mech/env columns in the aggregate & LLM CSVs.
+# "sd": whether an SD column is computed alongside the Mean column.
+# "llm": whether this key is included in the mech_res string sent to the LLM.
+# To add a new column here (e.g. a new sensor reading), add one entry — mech_cols,
+# no_sd_cols, and LLM_PROP_KEYS in save_to_csv() all derive from this automatically.
+MECH_PROP_SCHEMA = {
+    "Thickness":         {"sd": True,  "llm": False},
+    "Elastic Modulus":   {"sd": True,  "llm": False},
+    "Yield Strength":    {"sd": True,  "llm": False},
+    "Changepoint":       {"sd": True,  "llm": False},
+    "Slope Plateau":     {"sd": True,  "llm": False},
+    "Slope Densification": {"sd": True, "llm": False},
+    "Creep Strain":      {"sd": True,  "llm": False},
+    "Strain at 50 bar":  {"sd": True,  "llm": True},
+    "Strain at 80 bar":  {"sd": True,  "llm": False},
+    "Strain at 150 bar": {"sd": True,  "llm": False},
+    "Strain at 500 bar": {"sd": True,  "llm": False},
+    "CV":                {"sd": False, "llm": True},
+    "Air Temp":          {"sd": False,  "llm": True},
+    "Humidity":          {"sd": False,  "llm": True},
+}
+LLM_PROP_KEYS = [k for k, v in MECH_PROP_SCHEMA.items() if v["llm"]]  # mech props sent to the LLM in mech_res
+
+# Per-rep fields that come from the Opentrons (params.json), not from the curve-fit
+# output, pulled into each trial dict. Maps trial-dict key -> (params.json top-level key, sub-key).
+# Add an entry here (and to MECH_PROP_SCHEMA above) instead of hand-writing injection code.
+OT2_FIELDS = {
+    "Air Temp": ("air_data", "temperature"),
+    "Humidity": ("air_data", "humidity"),
+}
+
 SETPOINT_COL = "Set Point ()"
 
 # ── Save config ──────────────────────────────────────────────────────────
@@ -2011,6 +2043,10 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                 for key in ("mixing_temp", "bath_temp", "weight_percent", "volume",
                             "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"):
                     row_out[key] = params.get(key)
+                for trial_key, (top_key, sub_key) in OT2_FIELDS.items():
+                    value = (params.get(top_key) or {}).get(sub_key)
+                    trial[trial_key] = value
+                    row_out[trial_key] = value
             except FileNotFoundError:
                 print(f"params.json not found: {params_path}")
             all_rows.append(row_out)
@@ -2048,13 +2084,10 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
 
     # LLM CSV — one row per condition, two rows if some reps failed
     if rep_rows:
-        mech_cols = ["Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
-                     "Slope Plateau", "Slope Densification", "Creep Strain",
-                     "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
-                     "Strain at 500 bar", "CV"]
+        mech_cols = list(MECH_PROP_SCHEMA)
         param_cols = ["mixing_temp", "bath_temp", "weight_percent", "volume",
                       "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
-        no_sd_cols = {"CV"}
+        no_sd_cols = {k for k, v in MECH_PROP_SCHEMA.items() if not v["sd"]}
 
         computed_agg_rows = []
         rep_df = pd.DataFrame(rep_rows)
@@ -2091,7 +2124,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                     agg_row[f"{k} Mean"] = float(np.nanmean(vals)) if vals else np.nan
                     if k not in no_sd_cols:
                         agg_row[f"{k} SD"] = float(np.nanstd(vals)) if vals else np.nan
-                mech_res = str({f"{k} Mean": agg_row.get(f"{k} Mean") for k in mech_cols if agg_row.get(f"{k} Mean") is not None})
+                mech_res = str({f"{k} Mean": agg_row.get(f"{k} Mean") for k in LLM_PROP_KEYS if agg_row.get(f"{k} Mean") is not None})
                 agg_row["formatted_parameters"] = formatted_parameters(agg_row)
                 agg_row["initial_report"] = ""
                 _context = all_props if all_props is not None else list(props_iter)
