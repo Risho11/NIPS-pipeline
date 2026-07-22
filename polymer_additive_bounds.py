@@ -20,7 +20,7 @@ Feasible region:
         (0, 0)
 
 For the current system this is:
-    (21, 0), (21, 5), (0, 0)
+    (21, 0), (21, 4), (0, 0)
 """
 
 from __future__ import annotations
@@ -30,7 +30,7 @@ from dataclasses import asdict, dataclass
 
 @dataclass
 class StockParameters:
-    polymer_stock_wt_percent: float = 17.0
+    polymer_stock_wt_percent: float = 21.0
     additive_stock_polymer_wt_percent: float = 21.0
     additive_stock_additive_wt_percent: float = 4.0
 

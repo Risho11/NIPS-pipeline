@@ -19,17 +19,19 @@ additive_1_slot_no = 9
 additive_1_well_no = 1
 
 dict_labware = {
-                1: 'amlab_cast_stage_v7',# coupon holder
+                1: 'amlab_cast_stage_v7', # coupon holder
+                8: 'amlab_96_tiprack_1000ul_v3', # Axygen T-1005-WB-C pipette tips in 3D printed tiprack
+                6: 'pyrex_2_reservoir_50000ul', # solution bottle and additive bottle
+                9: 'pyrexoffset_2_reservoir_50000ul', # solvent, offset to account for knife stand
+                11: 'amlab_24_aluminumblock_2000ul_cap',
+
 #                5: 'pyrex_1_reservoir_50000ul', # extra solution for mixing
 #                6: 'amlab_24_aluminumblock_2000ul_cap',
-                8: 'amlab_96_tiprack_1000ul_v3', # Axygen T-1005-WB-C pipette tips in 3D printed tiprack
 #                8: 'opentrons_96_tiprack_1000ul_cut', # Opentrons 1000ul tips with the tips cut off
 #                7: 'pyrex_1_reservoir_50000ul',
-#                6: 'pyrex_1_reservoir_50000ul', # solution bottle
-                6: 'pyrex_2_reservoir_50000ul', # solution bottle and additive bottle
-                9: 'pyrex_2_reservoir_50000ul', # polar clean
+#                6: 'pyrex_1_reservoir_50000ul', # solution bottle        
+#                9: 'pyrex_2_reservoir_50000ul', # polar clean     
 #                9: 'pyrex_1_reservoir_50000ul',
-                11: 'amlab_24_aluminumblock_2000ul_cap',
                 }
 
 # pipetting parameters
@@ -410,7 +412,7 @@ class OT2:
         
     """        
 
-    def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):
+    def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent, mixing_temp):
         # declare variables to pass to function
         target_recipe = calc.TargetRecipe(total_vol, target_polymer_wt_percent, target_additive_wt_percent)
         stock = calc.StockParameters(polymer_stock_wt_percent, additive_stock_polymer_wt_percent, additive_stock_additive_wt_percent)
@@ -444,6 +446,10 @@ class OT2:
         
         # else, solution must be mixed
         else:
+            # set mixing temperature
+            if(self.has_temp()):
+                self._set_temp(mixing_temp)
+
             # add solvent to well
             if V_solvent > 0:
                 self.attach_next_tip()
@@ -465,6 +471,10 @@ class OT2:
             # mix solution and prep for pullcast
             self._mix(heater_slot_no, self.heater_well_index)
             self.prep_pullcast_from_mix_asperate(total_vol, True)
+        
+        # deactivate opentrons heater when done mixing
+        if(self.has_temp()):
+            self._deactivate_temp()
 
     """    
     def _prepare_additive_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):

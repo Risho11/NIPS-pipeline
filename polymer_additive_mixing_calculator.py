@@ -50,7 +50,7 @@ class StockParameters:
     """
     polymer_stock_wt_percent: float = 21.0
     additive_stock_polymer_wt_percent: float = 21.0
-    additive_stock_additive_wt_percent: float = 5.0
+    additive_stock_additive_wt_percent: float = 4.0
     polymer_stock_density: float = 1.10
     additive_stock_density: float = 1.12
     solvent_density: float = 1.028  # approximate NMP density near room temperature

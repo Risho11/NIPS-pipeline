@@ -42,7 +42,7 @@ import url_29 as url
 import polymer_additive_bounds as bounds
 
 # ── edit these before going to the lab ────────────────────────────────────────
-adtv_amts = [4, 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5]
+adtv_amts = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 count = 0
 
 BASE_PARAMS = {
