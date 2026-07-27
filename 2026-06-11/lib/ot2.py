@@ -21,8 +21,8 @@ additive_1_well_no = 1
 dict_labware = {
                 1: 'amlab_cast_stage_v7', # coupon holder
                 8: 'amlab_96_tiprack_1000ul_v3', # Axygen T-1005-WB-C pipette tips in 3D printed tiprack
-                6: 'pyrex_2_reservoir_50000ul', # solution bottle and additive bottle
-                9: 'pyrexoffset_2_reservoir_50000ul', # solvent, offset to account for knife stand
+                6: 'pyrexoffset_2_reservoir_50000ul', # solvent, offset to account for knife stand
+                9: 'pyrex_2_reservoir_50000ul', # solution bottle and additive bottle
                 11: 'amlab_24_aluminumblock_2000ul_cap',
 
 #                5: 'pyrex_1_reservoir_50000ul', # extra solution for mixing
