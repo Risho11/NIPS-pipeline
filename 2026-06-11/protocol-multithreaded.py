@@ -163,7 +163,7 @@ sys.stderr = _LogCapture(sys.__stderr__)
 
 
 # ==================================================
-# SECTION: Helper Functions
+# SECTION: Parameter Helper Functions
 # ==================================================
 
 # helper function to save the current state of the machine into the file, as we will save many times during the protocol incase the protocol is interrupted
@@ -202,6 +202,38 @@ def load_parameters():
 
     parametersLock.release()
 
+# ==================================================
+# SECTION: Compression Tester Helper Functions
+# ==================================================
+
+# simulation zero tests if compression tester is not working
+def simulate_zero_and_place_coupon():
+    # acquire locks
+    armLock.acquire()
+    compressionTesterLock.acquire()
+    
+    xArm.pick_up_coupon()
+    save_parameters()
+    xArm.put_down("coupon angled tester", pitch = False)
+
+    # take coupon to compression tester
+    xArm.prep_coupon_test()
+    # move coupon to the test points, and then run the zero tests (3 tests where the membrane will be)
+    for test in tests:
+        xArm.put_down(test)
+        xArm.pick_up(test)
+
+    xArm.unprep_coupon_test()
+    xArm.pick_up("coupon angled tester")
+    xArm.put_down("coupon angled opentrons", pitch = False)
+
+    # move arm out of the way
+    xArm.immigrate("middle")
+    
+    # release locks
+    compressionTesterLock.release()
+    armLock.release()
+
 # perform zero tests on coupon
 def zero_and_place_coupon():
     if globals()["opentrons_stand_status"] != "empty":
@@ -211,71 +243,27 @@ def zero_and_place_coupon():
     # this whole thing with the loop and the nested if statements feels silly but it should avoid hold and wait to avoid deadlock and keeps things mostly efficient
     # the idea is that we try to acquire each lock, but if we can't acquire it immediately, then we should release all of our current locks and then try again
     # this same pattern gets used several times in this file, basically whenver we need to acquire 2 or more locks at a time
-    done = False
-    while not done:
-        if armLock.acquire(False):
-            if opentronsStandLock.acquire(False):
-                if compressionTesterLock.acquire(False):
-                    xArm.pick_up_coupon()
-                    save_parameters() # number of coupons has changed, update file
-                    xArm.put_down("coupon angled tester", pitch = False)
 
-                    # take coupon to compression tester
-                    xArm.prep_coupon_test()
+    if armLock.acquire(False):
+        if opentronsStandLock.acquire(False):
+            xArm.pick_up_coupon()
+            save_parameters() # number of coupons has changed, update file
+            xArm.put_down("coupon angled tester", pitch = False)
 
-                    safe = True
-                    recent = True
-                    for test in tests:
-                        if safe and recent:
-                            xArm.put_down(test)
-                            armLock.release() # we can release the arm while we run the test, it's not time sensitive
-                            safe = not arduino.run_test()
+            # run compression test
+            run_compression_tests()
 
-                        if safe:
-                            time.sleep(5) # make sure newton software has finished processing the test into a .csv file
-                            # use the data from the laptop to make sure the test finished correctly
-                            data = url.get_compressiontester_status()
-                            safe = data["safe"]
-                            recent = (time.time() - data["time"]) < 30
-                            print("Safe: " + str(safe))
-                            print("Recent: " + str(recent))
-                            print("Time: " + str(time.time()))
-                            print("mTime: " + str(data["time"]))
+            # move coupon to opentrons
+            xArm.pick_up("coupon angled tester")         
+            xArm.put_down("coupon angled opentrons", pitch = False)
+            globals()["opentrons_stand_status"] = "clean"
+            save_parameters()
 
-                        if safe and recent:
-                            armLock.acquire() # acquire the arm again to pick up the coupon
-                            xArm.pick_up(test)
+            # move arm out of the way
+            xArm.immigrate("middle")
 
-                    # if we aren't safe or recent here, that means we must have released the arm and need to acquire it again
-                    if not safe:
-                        print("Compression tester is unsafe! exiting...")
-                        armLock.acquire()
-                        xArm.immigrate("middle")
-                        sys.exit()
-                    elif not recent:
-                        print("Compression test is out of date, tester could still be running. Unsure. exiting...")
-                        armLock.acquire()
-                        xArm.immigrate("middle")
-                        sys.exit()
-
-                    # but if we are safe and recent, then we must still have the arm locked so we don't need to acquire it again
-                    # put coupon back on intermediate platform
-                    xArm.unprep_coupon_test()
-                    xArm.pick_up("coupon angled tester")
-                    compressionTesterLock.release()
-                    
-                    done = True
-                    
-                if done:
-                    # finish everything that doesn't still need the compression tester
-                    # there's no real reason not do to this in the previous block since there's nothing that would need the compressiontester but not the arm but this is technically what you should do
-                    xArm.put_down("coupon angled opentrons", pitch = False)
-                    globals()["opentrons_stand_status"] = "clean"
-                    save_parameters()
-                    # move arm out of the way
-                    xArm.immigrate("middle")
-                opentronsStandLock.release()
-            armLock.release()
+            opentronsStandLock.release()
+        armLock.release()
 
 # do the compression tests
 def run_compression_tests():
@@ -327,6 +315,9 @@ def run_compression_tests():
             compressionTesterLock.release()
             done = True
 
+# ==================================================
+# SECTION: Background Helper Functions
+# ==================================================
 
 # clean the knife after a given delay
 def delayed_knife_cleaning(delay = 0):
@@ -340,33 +331,7 @@ def delayed_knife_cleaning(delay = 0):
     armLock.release()
     print("Knife cleaning finished.")
 
-# simulation zero tests if compression tester is not working
-def simulate_zero_and_place_coupon():
-    # acquire locks
-    armLock.acquire()
-    compressionTesterLock.acquire()
-    
-    xArm.pick_up_coupon()
-    save_parameters()
-    xArm.put_down("coupon angled tester", pitch = False)
 
-    # take coupon to compression tester
-    xArm.prep_coupon_test()
-    # move coupon to the test points, and then run the zero tests (3 tests where the membrane will be)
-    for test in tests:
-        xArm.put_down(test)
-        xArm.pick_up(test)
-
-    xArm.unprep_coupon_test()
-    xArm.pick_up("coupon angled tester")
-    xArm.put_down("coupon angled opentrons", pitch = False)
-
-    # move arm out of the way
-    xArm.immigrate("middle")
-    
-    # release locks
-    compressionTesterLock.release()
-    armLock.release()
 
 
 
@@ -399,6 +364,7 @@ def run_test(param = None):
     nitrogen = parameters["nitrogen"]
     coupon_to_bath_wait_time = parameters["coupon_to_bath_wait_time"]
     nips_bath_time = parameters["nips_bath_wait_time"]
+    second_bath_time = 600 # always 10 minutes
     desired_weight_percent = parameters["polymer_wt"]
     desired_additive_percent = parameters["additive_wt"]
     total_vol = 1000 # volume is always 1000
@@ -535,7 +501,7 @@ def run_test(param = None):
 
     # move coupon to the camera to take the pre-test picture
     xArm.pick_up("coupon bath", pitch = False)
-    xArm.hover_bath(wait_time = 600) # submerge in a water bath
+    xArm.hover_bath(wait_time = second_bath_time) # submerge in a water bath
     xArm.put_down("coupon camera tester", pitch = False)
     xArm.currentZone = "middle" # speed up process
     xArm.close_camera_box()
