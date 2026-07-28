@@ -21,8 +21,8 @@ import tempfile
 import shutil
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where processing_29.py lives
-import processing_29 as processing             # <<< IMPORT >>> must be in same folder
+sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where curve_segmentation.py lives
+import curve_segmentation as processing             # <<< IMPORT >>> must be in same folder
 
 # <<< PATH >>> points INTO compression-test-data, differs from run_loop.py which points to project root
 DATA_ROOT      = Path(__file__).parent / "compression-test-data"

@@ -14,7 +14,7 @@ import pandas as pd
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-import processing_29 as processing
+import curve_segmentation as processing
 
 _PASS, _FAIL = 0, 0
 

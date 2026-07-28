@@ -22,7 +22,7 @@ import threading
 
 # variables to simulate actions
 simulate_compression_tests = True
-take_picture = False
+take_picture = True
 
 # set number of tests we want
 tests = ["coupon test 1", "coupon test 2", "coupon test 3", "coupon test 4"]

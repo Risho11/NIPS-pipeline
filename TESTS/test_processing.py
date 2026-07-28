@@ -16,8 +16,8 @@ import sys, json, re
 import pandas as pd
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where processing_29.py lives
-import processing_29 as processing             # <<< IMPORT >>> must be in same folder
+sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where curve_segmentation.py lives
+import curve_segmentation as processing             # <<< IMPORT >>> must be in same folder
 #import activeLearning_29 as al                 # <<< IMPORT >>> must be in same folder
 
 # ── edit these ──────────────────────────────────────────────────────────────

@@ -5,15 +5,16 @@ import json, re, sys
 src = open("run_loop.py").read()
 errors = []
 
-REQUIRED_IMPORTS = ["processing_29", "activeLearning_29", "url_29"]
+REQUIRED_IMPORTS = ["master_processing", "llm_context", "activeLearning_29", "url_29"]
 REQUIRED_CALLS = [
-    "save_to_csv",
-    "Generate_report",
-    "LLM_AL",
+    "master_processing.run_branches",
+    "master_processing.any_branch_enabled",
+    "master_processing.confirm_settings",
+    "llm_context.ensure_condition_row",
+    "llm_context.attach_all_branch_results",
+    "llm_context.generate_reports_and_suggestion",
+    "_next_iteration_params",
     "url.run_test",
-    "aggregate_path",
-    "CSV_AGG_LLM",
-    "promote_to_main",
     "json.dump",
 ]
 REQUIRED_NEW = ["PARAMS_SCHEMA", "_extract_next_params", "_validate_params"]

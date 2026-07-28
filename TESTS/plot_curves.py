@@ -1,6 +1,6 @@
 # %% [markdown]
 # # Curve Viewer
-# Sandbox — all display logic lives here. processing_29.py untouched.
+# Sandbox — all display logic lives here. curve_segmentation.py untouched.
 # Run cells with Shift+Enter.
 
 # %% Imports & setup
@@ -13,8 +13,8 @@ from sklearn.linear_model import LinearRegression
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path(__file__).parent.parent))  # points to project root where processing_29.py lives
-import processing_29 as p
+sys.path.insert(0, str(Path(__file__).parent.parent))  # points to project root where curve_segmentation.py lives
+import curve_segmentation as p
 
 p.SAVE_PLOTS = False
 

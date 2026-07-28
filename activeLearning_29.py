@@ -76,8 +76,12 @@ def _encode_image(path):
 #-----------#
 
 
-def LLM_AL(observations_str, ranges, image_paths=None, Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5):
-    user_content = [{"type": "text", "text": f'\nPrior Observations: {observations_str}'}]
+def LLM_AL(performance_observations, ranges, quality_observations=None, image_paths=None,
+           Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5):
+    text = f'\nPrior Performance Observations: {performance_observations}'
+    if quality_observations:
+        text += f'\n\nPrior Quality Observations: {quality_observations}'
+    user_content = [{"type": "text", "text": text}]
     if image_paths:
         for p in image_paths:
             p = Path(p)

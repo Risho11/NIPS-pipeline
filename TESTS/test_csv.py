@@ -2,7 +2,7 @@
 test_csv.py — unit tests for save_to_csv edge cases.
 
 Tests call save_to_csv directly with mock output dicts (no pipeline, no real CSV files).
-Changing processing_29.py internals (curve fitting, goodFit_eval logic) does NOT
+Changing curve_segmentation.py internals (curve fitting, goodFit_eval logic) does NOT
 break these tests — only changes to the save_to_csv input/output contract would.
 
 Run:
@@ -16,7 +16,7 @@ import pandas as pd
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-import processing_29 as processing
+import curve_segmentation as processing
 
 # ── Helpers ─────────────────────────────────────────────────────────────────
 

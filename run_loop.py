@@ -12,7 +12,6 @@ Usage:
 """
 
 import json, re, threading, time, shutil, csv, os, sys, datetime
-import pandas as pd
 import cv2
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -41,8 +40,9 @@ sys.stderr = _TeeLogger(_log_path, sys.__stderr__)
 
 sys.path.insert(0, os.path.dirname(__file__))  # <<< IMPORT >>> adds script's own folder to path — breaks if moved to subfolder
 import url_29 as url                           # <<< IMPORT >>> must be in same folder as run_loop.py
-import processing_29 as processing             # <<< IMPORT >>> must be in same folder
 import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same folder
+import master_processing                       # <<< IMPORT >>> dispatches curve_segmentation + image_processing branches
+import llm_context                             # <<< IMPORT >>> what branch results become CSV/report text for the LLM
 
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {
@@ -55,6 +55,24 @@ INITIAL_PARAMS = {
     "polymer_wt": 17,
     "additive_wt": 5
 }
+
+# When True, next_params always advances through ADDITIVE_ITERATION_LIST instead of asking
+# the LLM for a suggestion (branches still run normally for data collection if enabled).
+# Forced on regardless of this flag whenever no branches are enabled at all — a pure test
+# has no data to run active learning on, so it has to sweep a fixed list instead.
+ITERATE_ADDITIVES = False
+ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
+ITERATION_BASE_PARAMS = {
+    "mixing_temp": 25,
+    "bath_temp": 5,
+    "pullcast_speed": 10,
+    "nitrogen": False,
+    "coupon_to_bath_wait_time": 60,
+    "nips_bath_wait_time": 101,
+    "polymer_wt": 21,
+}
+_iteration_count = 0
+
 PARAMS_SCHEMA = {
     "mixing_temp":              (int, float),
     "bath_temp":                (int, float),
@@ -100,6 +118,21 @@ def get_last_set_csv():
 def get_last_set_img():
     files = sorted(IMAGES_PATH.glob("*.jpg"), key=os.path.getctime)
     return files[-2:]
+
+def _next_iteration_params():
+    """Next fixed-sweep params from ADDITIVE_ITERATION_LIST, clamped to the feasible
+    triangle via bounds.test_target(). Returns None once the list is exhausted."""
+    global _iteration_count
+    if _iteration_count >= len(ADDITIVE_ITERATION_LIST):
+        print(f"[ITERATE] all {len(ADDITIVE_ITERATION_LIST)} additive amounts exhausted — no more experiments to send")
+        return None
+    additive_wt = ADDITIVE_ITERATION_LIST[_iteration_count]
+    _iteration_count += 1
+    p, a = activeLearning.bounds.test_target(ITERATION_BASE_PARAMS["polymer_wt"], additive_wt)
+    if p != ITERATION_BASE_PARAMS["polymer_wt"] or a != additive_wt:
+        print(f"\nIteration params out of range -- ({ITERATION_BASE_PARAMS['polymer_wt']}, {additive_wt})")
+        print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |\n-----------------------------------\n")
+    return {**ITERATION_BASE_PARAMS, "polymer_wt": p, "additive_wt": a}
 
 def move_and_rename(params):
     s = f"{params['polymer_wt']}-{params['additive_wt']}add-"
@@ -217,11 +250,16 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         for line in protocol_log:
             print(line)
         print("── END PROTOCOL LOG " + "─" * 47)
-    try:
-        air = params.get("air_data") or {}
-        air_temp = air.get("temperature")
-        humidity = air.get("humidity")
+    if not master_processing.any_branch_enabled():
+        # no branches active — no testing, no data collection; just cycle the additive sweep
+        print("[master_processing] no branches enabled — pure test, cycling additive sweep")
+        next_params = _next_iteration_params()
+        if next_params is not None:
+            next_params["stock_metadata"] = activeLearning.bounds.send_metadata()
+            url.run_test(next_params)
+        return
 
+    try:
         condition_name = None
         line = "\n-----------------------------------\n"
         print("\n[1/5] organising files...")
@@ -229,69 +267,37 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
 
         print(f"[START] condition={condition_name}")
         print(f"[2/5] processing pipeline for: {condition_name}")
-        output = processing.process_zero_sample_pairs_pipeline(
-            folder_name="compression-test-data",  # <<< FOLDER NAME >>>
-            data_root=str(DATA_ROOT),
-            strict=False,
-            load_cutoff=1.0,
-            thickness_info=False,
-            thickness_map=None,
-            creep_info=True,
-            cutoff_load_thickness=1,
-            cutoff_load_displacement=2,
-            condition_filter=condition_name,
-        )
-        processing.save_to_csv(output, data_root=DATA_ROOT,
-                               output_path=CSV_REPS, aggregate_path=CSV_AGG)
+        branch_results = master_processing.run_branches(condition_name, DATA_ROOT)
 
-        processing.promote_condition(condition_name, CSV_AGG, CSV_AGG_LLM)
+        llm_context.scrub_raw_result_columns(CSV_AGG_LLM)
+        condition_dir = master_processing.get_condition_dir(condition_name, DATA_ROOT)
+        llm_context.ensure_condition_row(condition_name, condition_dir, CSV_AGG_LLM)
+        llm_context.attach_all_branch_results(condition_name, branch_results, master_processing.BRANCH_CONFIG,
+                                               CSV_AGG, CSV_AGG_LLM)
 
         print("[3/5] generating initial report...")
         if not CSV_AGG_LLM.exists() or CSV_AGG_LLM.stat().st_size == 0:
             raise ValueError(f"LLM CSV missing or empty after promote_to_main: {CSV_AGG_LLM}")
-        llm_df = pd.read_csv(CSV_AGG_LLM)
-        if llm_df.empty:
-            raise ValueError(f"LLM CSV has no data rows: {CSV_AGG_LLM}")
-        for col in ["initial_report", "final_report"]:
-            if col in llm_df.columns:
-                llm_df[col] = llm_df[col].astype(object)
-        mask = llm_df["name"] == condition_name
-        idx = llm_df[mask].index[-1] if mask.any() else llm_df.index[-1]
-        fmt_params = llm_df.at[idx, "formatted_parameters"]
-        initial_report = activeLearning.Generate_report(fmt_params)
-        print(f"  initial_report: {initial_report[:120]}...")
 
-        _fp_withprop = str(llm_df.at[idx, "formatted_parameters_withProp"])
-        fmt_params_with_prop = _fp_withprop[len(fmt_params):]  # result string = withProp minus the params prefix
-        final_report = initial_report + "\n" + fmt_params_with_prop
-        print(f"final_report: {final_report[120:]}...")
+        if ITERATE_ADDITIVES:
+            print("[4/5] additive iteration mode — skipping active learning...")
+            new_params = _next_iteration_params()
+            if new_params is None:
+                return
+        else:
+            print("[4/5] running active learning...")
+            params_suggestion = llm_context.generate_reports_and_suggestion(condition_name, CSV_AGG_LLM, activeLearning)
 
-        # fill reports back into LLM CSV
-        llm_df.at[idx, "initial_report"] = initial_report
-        llm_df.at[idx, "formatted_parameters_withProp"] = fmt_params + fmt_params_with_prop  # idempotent
-        llm_df.at[idx, "final_report"] = final_report
-        llm_df.to_csv(CSV_AGG_LLM, index=False)
-        print(f"  LLM CSV updated: {CSV_AGG_LLM}")
+            new_params = _extract_next_params(params_suggestion)
 
-        print("[4/5] running active learning...")
-        all_observations = "\n\n---\n\n".join(llm_df["final_report"].dropna().tolist())
-        params_suggestion = activeLearning.LLM_AL(all_observations, activeLearning.ranges)
+            # snap to feasible triangle
+            p, a = activeLearning.bounds.test_target(new_params["polymer_wt"], new_params["additive_wt"])
+            if p != new_params["polymer_wt"] or a != new_params["additive_wt"]:
+                print(f"\nLLM params out of range -- ({new_params['polymer_wt']}, {new_params['additive_wt']})")
+                print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |{line}")
 
-        llm_df.at[idx, "LLM_suggestion"] = params_suggestion
-        llm_df.to_csv(CSV_AGG_LLM, index=False)
-
-        params_suggestion = llm_df["LLM_suggestion"].dropna().iloc[-1]
-
-        new_params = _extract_next_params(params_suggestion)
-
-        # snap to feasible triangle
-        p, a = activeLearning.bounds.test_target(new_params["polymer_wt"], new_params["additive_wt"])
-        if p != new_params["polymer_wt"] or a != new_params["additive_wt"]:
-            print(f"\nLLM params out of range -- ({new_params['polymer_wt']}, {new_params['additive_wt']})")
-            print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |{line}")
-
-        new_params["polymer_wt"] = p
-        new_params["additive_wt"] = a
+            new_params["polymer_wt"] = p
+            new_params["additive_wt"] = a
 
         _validate_params(new_params)
 
@@ -361,13 +367,23 @@ class LoopHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 if __name__ == "__main__":
+    master_processing.confirm_settings()
+
     server = HTTPServer((SERVER_IP, SERVER_PORT), LoopHandler)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     print(f"server listening on {SERVER_IP}:{SERVER_PORT}")
 
-    INITIAL_PARAMS["stock_metadata"] = activeLearning.bounds.send_metadata()
-    print(f"kicking off first experiment: {INITIAL_PARAMS}")
-    url.run_test(INITIAL_PARAMS)
+    if ITERATE_ADDITIVES or not master_processing.any_branch_enabled():
+        first_params = _next_iteration_params()
+        if first_params is None:
+            print("[ITERATE] ADDITIVE_ITERATION_LIST is empty — nothing to run")
+            sys.exit(1)
+    else:
+        first_params = dict(INITIAL_PARAMS)
+
+    first_params["stock_metadata"] = activeLearning.bounds.send_metadata()
+    print(f"kicking off first experiment: {first_params}")
+    url.run_test(first_params)
     print("robot started — loop running. Ctrl+C to stop.")
 
     try:

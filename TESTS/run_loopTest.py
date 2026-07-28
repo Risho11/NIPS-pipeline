@@ -18,9 +18,9 @@ from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
 
-sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where url_29.py/processing_29.py live
+sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where url_29.py/curve_segmentation.py live
 import url_29 as url                           # <<< IMPORT >>> must be in same folder as run_loop.py
-import processing_29 as processing             # <<< IMPORT >>> must be in same folder
+import curve_segmentation as processing             # <<< IMPORT >>> must be in same folder
 import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same folder
 
 # ── edit these before going to the lab ────────────────────────────────────────
