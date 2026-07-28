@@ -19,8 +19,14 @@ parameters = {
     }
 }
 
-print("5")
+air_data = {
+    "air_temperature" : 15,
+    "air_humidity" : 40
+}
 
+combined = {**parameters, **air_data}
+print(combined)
 
-if "stock_metadata" in parameters:
-    _print(parameters["stock_metadata"])
+parameters.update(air_data)
+print(parameters)
+

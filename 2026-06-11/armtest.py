@@ -103,20 +103,12 @@ def load_parameters():
     parametersLock.release()
 
 # test parameters
-nitrogen = False
+nitrogen = True
 test_clean = False
 nitrogen_cap_tests = 0
 #tests = ["coupon test 1"]
 tests = ["coupon test 1", "coupon test 2", "coupon test 3", "coupon test 4"]
 pullcast_enable = True
-
-armLock = threading.Lock()
-armLock.acquire()
-print("1")
-armLock.release()
-print("2")
-armLock.release()
-print("3")
 
 if test_clean:
     xArm.clean_knife()
@@ -132,7 +124,13 @@ for i in range(nitrogen_cap_tests):
     xArm.currentZone = "opentrons"
     xArm.put_down("coupon angled opentrons", pitch = False)
 
-#xArm.dry_tester(squeegee_cycles = 2, middle = False)
+#xArm.dry_tester(squeegee_cycles = 1, middle = False)
+    
+xArm.pick_up_coupon()
+xArm.put_down("2nd bath", pitch = False)
+xArm.pick_up("2nd bath")
+xArm.put_down_coupon()
+#xArm.discard()
     
 while robot["coupons"] > 9:
     # place new coupon
@@ -173,7 +171,7 @@ while robot["coupons"] > 9:
     #xArm.pick_up("coupon bath", pitch = False, speed = 50)
     xArm.pick_up("coupon bath", pitch = False)
     xArm.immigrate("middle", pitch = False)
-    xArm.hover_bath(wait_time = 10)
+    xArm.hover_bath(wait_time = 5)
     xArm.put_down("coupon camera tester", pitch = False)
     xArm.currentZone = "middle"
     xArm.close_camera_box()
