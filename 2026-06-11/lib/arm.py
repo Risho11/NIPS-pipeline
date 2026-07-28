@@ -81,6 +81,10 @@ items = {
     "squeegee": {
         "home zone": "tester",
         "home position": "squeegee stand"
+    },
+    "2nd bath": {
+        "home zone": "tester",
+        "home position": "2nd bath"
     }
 }
         
@@ -171,12 +175,14 @@ positions = {
         "coupon test 3": [160, 365, 223.5, 180, 1, 90],
         "coupon test 4": [170, 365, 223.5, 180, 1, 90],
         
-        "discard waypoint": [40, 250, 350, 180, 45, 90],
-        "discard": [40, 250, 136, 180, 45, 90],
-        #"discard waypoint": [270, 225, 310, 180, 45, 90], # new discard bath location
-        #"discard": [270, 225, 170, 180, 45, 90],
+        #"discard waypoint": [40, 250, 350, 180, 45, 90],
+        #"discard": [40, 250, 136, 180, 45, 90],
+        "discard waypoint": [0, 240, 350, 180, 45, 90], # new discard bath location
+        "discard": [0, 280, 117, 180, 45, 90],
         
-        "hover bath waypoint": [270, 225, 310, 180, 45, 90], # new discard bath location
+        "2nd bath waypoint": [280, 240, 300, 180, 45, 90], # leave in bath
+        "2nd bath": [290, 249, 113, 180, 45, 90],
+        "hover bath waypoint": [270, 225, 310, 180, 45, 90], # arm holds coupon in bath
         "hover bath": [270, 225, 170, 180, 45, 90],
         
         "squeegee stand waypoint 1": [100, 165, 250, 180, 0, 90],
