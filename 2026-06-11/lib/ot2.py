@@ -467,15 +467,16 @@ class OT2:
             if V_additive_polymer > 0:
                 self.attach_next_tip()
                 self._transfer(additive_1_slot_no, additive_1_well_no, heater_slot_no, self.heater_well_index, V_additive_polymer)
-                
+                self._drop()
+
             # add stock solution to well
             if V_normal_polymer > 0:
-                if V_additive_polymer > 0:
-                    self._drop() # only drop tip if additive solution used
                 self.attach_next_tip()
                 self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_normal_polymer)
-            
+                self._drop()
+
             # mix solution and prep for pullcast
+            self.attach_next_tip()
             self._mix(heater_slot_no, self.heater_well_index)
             self.prep_pullcast_from_mix_asperate(total_vol, True)
         

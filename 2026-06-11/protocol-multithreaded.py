@@ -65,8 +65,8 @@ def error_check():
     if opentrons_stand_status != "empty":
         errors += "Opentrons stand must be empty. \n"
     # must have enough tips
-    if tip_index > 96 - 3:
-        errors += "There must be at least 3 available tips \n"
+    if tip_index > 96 - 5:
+        errors += "There must be at least 5 available tips \n"
     # must have empty wells
     if heater_well_index >= 24:
         errors += "There must be at least 1 clean heater well. \n"
