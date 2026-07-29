@@ -330,15 +330,22 @@ class OT2:
             
             print("aspirate", i, self.var[viscosity]["mix_times"])
 
-            if (i != self.var[viscosity]["mix_times"]-1):
+            if (i != self.var[viscosity]["mix_times"] - 1):
                 #dispense in well at custome dispense flowrate
                 self._dispense(slot_no, well_no, self.var[viscosity]["mix_vol"]/2, for_mixing = True, blow_out = False\
                                , viscous = viscous, position = "bottom")
                 self._dispense(slot_no, well_no, self.var[viscosity]["mix_vol"]/2, for_mixing = True, blow_out = False\
                                , viscous = viscous, position = "top")
 
-                #allow the excess liquid in tip to settle towards tip orifice
+                # allow the excess liquid in tip to settle towards tip orifice
                 self.protocol.delay(self.var[viscosity]["mix_delay"])
+
+                # replace tip half way through
+                if i == 4 and self.var[viscosity]["mix_times"] >= 10:
+                    self._blowout(viscous = viscous)
+                    self._drop()
+                    self.attach_next_tip()
+
             else:
                 self._dispense(slot_no, well_no, self.var[viscosity]["mix_vol"]/2, for_mixing = True, blow_out = False\
                                , viscous = viscous, position = "bottom")
@@ -475,93 +482,7 @@ class OT2:
         # deactivate opentrons heater when done mixing
         if(self.has_temp()):
             self._deactivate_temp()
-
-    """    
-    def _prepare_additive_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent):
-        rho_solvent = 1.0148
-        rho_polymer_stock = 1.114867
-        rho_additive_polymer_stock = 1.114867 # update when actual value is known
-
-        Cp_f = target_polymer_wt_percent / 100
-        Ca_f = target_additive_wt_percent / 100
-
-        Cp_i = polymer_stock_wt_percent / 100
-        Ca_i = additive_stock_additive_wt_percent / 100
-
-        rho_p = rho_polymer_stock
-        rho_a = rho_additive_polymer_stock
-        rho_s = rho_solvent
-
-        # raise errors
-        if total_vol <= 0:
-            raise ValueError("Total volume must be positive.")
-        if total_vol > 1000:
-            raise ValueError("Final volume cannot exceed 1000 µL.")
-        if target_polymer_wt_percent <= 0:
-            raise ValueError("Target polymer concentration must be positive.")
-        if target_polymer_wt_percent > polymer_stock_wt_percent:
-            raise ValueError("Target polymer concentration cannot exceed stock polymer concentration.")
-        if target_additive_wt_percent < 0:
-            raise ValueError("Target additive concentration cannot be negative.")
-        if target_additive_wt_percent > additive_stock_additive_wt_percent:
-            raise ValueError("Target additive concentration cannot exceed additive stock concentration.")
-
-        A = np.array([
-        [(Cp_i - Cp_f) * rho_p,
-            (Cp_i - Cp_f) * rho_a,
-            -Cp_f * rho_s,],
-        [-Ca_f * rho_p,
-            (Ca_i - Ca_f) * rho_a,
-            -Ca_f * rho_s,],
-        [1, 1, 1,],
-        ])
-
-        b = np.array([0, 0, total_vol])
-
-        V_normal_polymer, V_additive_polymer, V_solvent = np.linalg.solve(A, b)
-
-        if (V_normal_polymer < -1e-6or V_additive_polymer < -1e-6 or V_solvent < -1e-6):
-            raise ValueError(
-                "Impossible formulation. Calculated negative volume:\n"
-                f"Normal polymer stock: {V_normal_polymer:.2f} uL\n"
-                f"Additive polymer stock: {V_additive_polymer:.2f} uL\n"
-                f"Solvent: {V_solvent:.2f} uL")
-
-        V_normal_polymer = max(V_normal_polymer, 0)
-        V_additive_polymer = max(V_additive_polymer, 0)
-        V_solvent = max(V_solvent, 0)
-
-        # round to nearest uL
-        V_normal_polymer = round(V_normal_polymer, 0)
-        V_additive_polymer = round(V_additive_polymer, 0)
-        V_solvent = round(total_vol - V_normal_polymer - V_additive_polymer, 0)
-        
-        # print volume amounts
-        print(f"Stock volume: {V_normal_polymer}")
-        print(f"Additive volume: {V_additive_polymer}")
-        print(f"Solvent volume: {V_solvent}")
-        print(f"\nWeight percent: {(V_normal_polymer + V_additive_polymer) * polymer_stock_wt_percent * 0.001}")
-        print(f"Additive percent: {V_additive_polymer * additive_stock_additive_wt_percent * 0.001}")
-        
-        # mix the solution
-        if V_normal_polymer != 0 or V_additive_polymer != 0 or V_solvent != 0:
-            # add solvent to well
-            if V_solvent > 0:
-                self.attach_next_tip()
-                self._transfer(solvent_slot_no, solvent_well_no, heater_slot_no, self.heater_well_index, V_solvent, False)
-                self._drop()
-            # add additive solution to well
-            if V_additive_polymer > 0:
-                self.attach_next_tip()
-                self._transfer(additive_1_slot_no, additive_1_well_no, heater_slot_no, self.heater_well_index, V_additive_polymer)
-                self._drop()
-            # add stock solution to well
-            if V_normal_polymer > 0:
-                self.attach_next_tip()
-                self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_normal_polymer)
-                self._mix(heater_slot_no, self.heater_well_index)
-        
-    """            
+     
 
     def runhome(self):
         self.protocol.home()
