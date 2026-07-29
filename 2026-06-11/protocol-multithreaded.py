@@ -499,9 +499,18 @@ def run_test(param = None):
     armLock.acquire()
     cameraLock.acquire()
 
-    # move coupon to the camera to take the pre-test picture
+    # move coupon to the camera 2nd bath
     xArm.pick_up("coupon bath", pitch = False)
-    xArm.hover_bath(wait_time = second_bath_time) # submerge in a water bath
+    xArm.put_down("2nd bath", pitch = False)
+
+    # start timer
+    second_timer_process = threading.Thread(target=time.sleep, args=(second_bath_time, ))
+    second_timer_process.start()
+    armLock.release()
+
+    # take pre-test picture of membrane
+    armLock.acquire()
+    xArm.pick_up("2nd bath")
     xArm.put_down("coupon camera tester", pitch = False)
     xArm.currentZone = "middle" # speed up process
     xArm.close_camera_box()
