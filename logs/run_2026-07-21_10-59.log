@@ -1,0 +1,49 @@
+[2026-07-21 10:59:23] server listening on 169.254.230.148:8000
+
+[2026-07-21 10:59:23] kicking off experiment 2: {
+    "mixing_temp": 25,
+    "bath_temp": 5,
+    "pullcast_speed": 10,
+    "nitrogen": false,
+    "coupon_to_bath_wait_time": 60,
+    "nips_bath_wait_time": 101,
+    "polymer_wt": 21.0,
+    "additive_wt": 4.0,
+    "stock_metadata": {
+        "polymer_stock_wt_percent": 17.0,
+        "additive_stock_polymer_wt_percent": 21.0,
+        "additive_stock_additive_wt_percent": 4.0
+    }
+}
+
+[2026-07-21 10:59:23] Python recieved!
+
+[2026-07-21 10:59:23] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": false, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 21.0, "additive_wt": 4.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 21.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-07-21 10:59:23] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": false, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 21.0, "additive_wt": 4.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 21.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-07-21 10:59:23] robot started — loop running. Ctrl+C to stop.
+
+[2026-07-21 11:26:39] [DONE] received signal for additive=None  count=1
+
+[2026-07-21 11:26:39] [NEXT] sending additive=0  (count now 2)
+
+[2026-07-21 11:26:39] Python recieved!
+
+[2026-07-21 11:26:39] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": false, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 21, "additive_wt": 4, "additive_percent": 0}
+
+[2026-07-21 11:26:39] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": false, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 21, "additive_wt": 4, "additive_percent": 0}
+
+[2026-07-21 11:53:05] [DONE] received signal for additive=0  count=2
+
+[2026-07-21 11:53:05] [NEXT] sending additive=0.5  (count now 3)
+
+[2026-07-21 11:53:05] Python recieved!
+
+[2026-07-21 11:53:05] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": false, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 21, "additive_wt": 4, "additive_percent": 0.5}
+
+[2026-07-21 11:53:05] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": false, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 21, "additive_wt": 4, "additive_percent": 0.5}
+
+[2026-07-21 12:55:07] 
+stopping server...
+

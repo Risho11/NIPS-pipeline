@@ -46,13 +46,13 @@ import llm_context                             # <<< IMPORT >>> what branch resu
 
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {
-    "mixing_temp": 6,
+    "mixing_temp": 25,
     "bath_temp": 5,
-    "pullcast_speed": 1,
-    "nitrogen": False,
+    "pullcast_speed": 10,
+    "nitrogen": True,
     "coupon_to_bath_wait_time": 55,
     "nips_bath_wait_time": 101,
-    "polymer_wt": 17,
+    "polymer_wt": 21,
     "additive_wt": 5
 }
 
@@ -60,13 +60,13 @@ INITIAL_PARAMS = {
 # the LLM for a suggestion (branches still run normally for data collection if enabled).
 # Forced on regardless of this flag whenever no branches are enabled at all — a pure test
 # has no data to run active learning on, so it has to sweep a fixed list instead.
-ITERATE_ADDITIVES = False
+ITERATE_ADDITIVES = True
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 ITERATION_BASE_PARAMS = {
     "mixing_temp": 25,
     "bath_temp": 5,
     "pullcast_speed": 10,
-    "nitrogen": False,
+    "nitrogen": True,
     "coupon_to_bath_wait_time": 60,
     "nips_bath_wait_time": 101,
     "polymer_wt": 21,
