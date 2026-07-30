@@ -144,8 +144,8 @@ positions = {
         "coupon rack": [182, -2, 175, 180, 90, 0],
         "coupon rack back": [182 - 30, -3, 175 + 30, 180, 90, 0],
         
-        "camera open waypoint": [395, 70, 250, 180, 45, 90],
-        "camera open": [395, 70, 147, 180, 45, 90],
+        "camera open waypoint": [393, 70, 250, 180, 45, 90],
+        "camera open": [393, 70, 147, 180, 45, 90],
         "camera closed": [395 - 178, 70, 147, 180, 45, 90],
         "camera closed waypoint": [395 - 178, 70, 180, 180, 45, 90],
         
@@ -178,10 +178,10 @@ positions = {
         #"discard waypoint": [40, 250, 350, 180, 45, 90],
         #"discard": [40, 250, 136, 180, 45, 90],
         "discard waypoint": [0, 240, 350, 180, 45, 90], # new discard bath location
-        "discard": [0, 280, 117, 180, 45, 90],
+        "discard": [-2, 280, 117, 180, 45, 90],
         
-        "2nd bath waypoint": [280, 240, 300, 180, 45, 90], # leave in bath
-        "2nd bath": [290, 249, 113, 180, 45, 90],
+        "2nd bath waypoint": [280, 240, 300, 180, 45, 89], # leave in bath
+        "2nd bath": [285, 250, 113, 180, 45, 89],
         "hover bath waypoint": [270, 225, 310, 180, 45, 90], # arm holds coupon in bath
         "hover bath": [270, 225, 170, 180, 45, 90],
         
@@ -389,7 +389,7 @@ class Arm():
         
     def unprep_coupon_test(self):
         self.go_to_position("tester", "coupon test 1 waypoint")
-        self.go_to_position_offset("tester", "coupon flat", [0, 4, 0, 0, 0, 0])
+        self.go_to_position_offset("tester", "coupon flat", [0, 3, 0, 0, 0, 0])
         self.open_gripper()
         self.go_to_position("tester", "coupon flat waypoint")
         
@@ -500,7 +500,7 @@ class Arm():
         self.go_to_position("tester", "squeegee " + position + " start")
         self.go_to_position("tester", "squeegee " + position + " end", speed = speed)
         
-    def dry_tester(self, squeegee_cycles = 1, pin_cycles = 2, speed = 200, middle = False):
+    def dry_tester(self, squeegee_cycles = 1, pin_cycles = 2, speed = 200, middle = True):
         # pickup squeegee
         self.go_to_position("tester", "squeegee stand waypoint 1")
         self.go_to_position("tester", "squeegee stand waypoint 2")

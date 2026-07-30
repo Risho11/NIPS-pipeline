@@ -509,6 +509,7 @@ def run_test(param = None):
     armLock.release()
 
     # take pre-test picture of membrane
+    second_timer_process.join()
     armLock.acquire()
     xArm.pick_up("2nd bath")
     xArm.put_down("coupon camera tester", pitch = False)
@@ -604,6 +605,7 @@ def run_test(param = None):
     # finish
     print("Done")
     parameters["air_data"] = arduino.read_temp_humidity()
+    print(parameters["air_data"])
     url.start_processing(parameters, protocol_log=_capture.lines.copy()) # tell the pc that the test is done so it can go process the files
     _capture.lines.clear()  # reset log buffer for next run
 
