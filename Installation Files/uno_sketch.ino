@@ -37,6 +37,7 @@ const uint8_t PIN_BLOWER_PIPETTE = 5;
 const uint8_t SHT40_ADDR = 0x44;
 const uint8_t SHT31_ADDR = 0x45;
 const uint8_t CMD_MEASURE_HIGH_PRECISION = 0xFD;
+const uint8_t CMD_SHT31_MEASURE_HIGH_REP[2] = {0x2C, 0x06}; // SHT31 single-shot, high repeatability, clock stretching enabled
 
 uint8_t crc8(const uint8_t* data, int len) {
   uint8_t crc = 0xFF;
