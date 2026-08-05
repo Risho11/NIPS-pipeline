@@ -7,13 +7,11 @@ only) — this one goes through the exact same shared functions run_loop.py call
 (llm_context.attach_all_branch_results, llm_context.generate_reports_and_suggestion), so there's
 no separate/simplified reimplementation here that could drift from what actually runs live.
 
-USE_REAL_LLM (below) controls whether that includes real API calls:
-  - False (default): activeLearning_29's Generate_report/LLM_AL and llm_context's
-    generate_quality_report_text are monkeypatched to stubs before the shared functions run --
-    fast, free, and still exercises the identical code path with both observation channels
-    (performance + quality) reaching one LLM_AL call.
-  - True: real Generate_report + Generate_quality_report (vision LLM) + LLM_AL calls -- costs
-    API calls, needs OPENROUTER_API_KEY, verifies the dual-LLM approach end-to-end for real.
+Each of the three LLM calls can be stubbed or run for real independently (USE_REAL_GENERATE_REPORT /
+USE_REAL_QUALITY_REPORT / USE_REAL_LLM_AL below) -- e.g. flip on only USE_REAL_QUALITY_REPORT to test
+a system_prompt.py quality-checker change against a real photo without paying for the other two calls.
+Stubbing a call monkeypatches it before the shared functions run -- fast, free, and still exercises
+the identical code path either way. Running any of them for real needs OPENROUTER_API_KEY.
 
 Edit DATA_ROOT and CONDITION below, then:
     python test_master.py
@@ -41,8 +39,16 @@ import activeLearning_29 as activeLearning      # <<< IMPORT >>> must be in same
 # ── edit these ──────────────────────────────────────────────────────────────
 DATA_ROOT = Path(__file__).parent.parent   # real repo root — real compression-test-data/
 CONDITION = '17-5deg-600s-N2-1800s'
-USE_REAL_LLM = True  # True = real Generate_report + Generate_quality_report + LLM_AL calls
-                      # (costs API calls) -- see module docstring above
+
+# Flip each independently -- True = real call (costs API, needs OPENROUTER_API_KEY), False = stub.
+USE_REAL_GENERATE_REPORT = True   # activeLearning_29.Generate_report (experimental-report text)
+USE_REAL_QUALITY_REPORT  = True   # membrane_quality_llm.Generate_quality_report (vision QC on photo)
+USE_REAL_LLM_AL          = True   # activeLearning_29.LLM_AL (next-params suggestion)
+
+# Which branches this test run exercises -- separate from master_processing.BRANCH_CONFIG's
+# production defaults, overridden here for this script only (doesn't touch master_processing.py).
+RUN_CURVE_SEGMENTATION = mp.BRANCH_CONFIG["curve_segmentation"]["enabled"]  # performance branch
+RUN_IMAGE_PROCESSING   = mp.BRANCH_CONFIG["image_processing"]["enabled"]   # quality branch
 # <<< PATH >>> output files land beside this script, isolated from test_processing.py's csv_tests/
 CSV_DIR   = Path(__file__).parent / "csv_tests_master"
 CSV_DIR.mkdir(exist_ok=True)
@@ -50,14 +56,23 @@ CSV_PATHS = (CSV_DIR / "test_reps.csv", CSV_DIR / "test_agg.csv", CSV_DIR / "tes
 REPS_CSV, AGG_CSV, AGG_LLM_CSV = CSV_PATHS
 # ────────────────────────────────────────────────────────────────────────────
 
-if not USE_REAL_LLM:
+if not USE_REAL_GENERATE_REPORT:
     activeLearning.Generate_report = lambda fmt_params, *a, **kw: "STUB initial report"
+
+if not USE_REAL_LLM_AL:
+    # keys match the current PARAMS_SCHEMA (run_loop.py) -- polymer_wt/additive_wt, not the old
+    # weight_percent/volume schema
     activeLearning.LLM_AL = lambda perf, ranges, quality_observations=None, *a, **kw: (
-        '[{"next_params": {"mixing_temp": 60, "bath_temp": 5, "weight_percent": 17, '
-        '"volume": 1000, "pullcast_speed": 1, "nitrogen": true, '
+        '[{"next_params": {"mixing_temp": 60, "bath_temp": 5, "polymer_wt": 17, "additive_wt": 2, '
+        '"pullcast_speed": 1, "nitrogen": true, '
         '"coupon_to_bath_wait_time": 600, "nips_bath_wait_time": 1800}}]'
     )
+
+if not USE_REAL_QUALITY_REPORT:
     llm_context.generate_quality_report_text = lambda result: "STUB quality report"
+
+mp.BRANCH_CONFIG["curve_segmentation"]["enabled"] = RUN_CURVE_SEGMENTATION
+mp.BRANCH_CONFIG["image_processing"]["enabled"] = RUN_IMAGE_PROCESSING
 
 
 def _short(p):
@@ -153,7 +168,7 @@ for branch_type in {cfg["type"] for cfg in mp.BRANCH_CONFIG.values()}:
 # ── dual-LLM check: same shared function run_loop.py calls in production ────────────────────
 if "curve_segmentation" in branch_results:
     suggestion = llm_context.generate_reports_and_suggestion(CONDITION, AGG_LLM_CSV, activeLearning)
-    print(f"\nLLM_AL suggestion ({'real' if USE_REAL_LLM else 'stubbed'}, dual-channel):\n{suggestion}")
+    print(f"\nLLM_AL suggestion ({'real' if USE_REAL_LLM_AL else 'stubbed'}, dual-channel):\n{suggestion}")
 else:
     print("\n(curve_segmentation disabled — no formatted_parameters row to build a suggestion "
           "from; generate_reports_and_suggestion needs the performance branch's row)")

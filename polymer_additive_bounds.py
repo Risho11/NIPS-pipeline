@@ -21,6 +21,12 @@ Feasible region:
 
 For the current system this is:
     (21, 0), (21, 4), (0, 0)
+
+A fourth bottle (pure additive, no polymer) is planned but not physically in the lab yet --
+StockParameters already carries its composition (no_polymer_polymer_wt_percent /
+no_polymer_additive_wt_percent), but USE_FOURTH_BOTTLE below stays False until it exists. Once
+True, the feasible region becomes the quadrilateral (21, 0), (21, 4), (0, 8), (0, 0) instead of
+the triangle -- the point-in-region/closest-point math already generalizes to either shape.
 """
 
 from __future__ import annotations
@@ -33,9 +39,17 @@ class StockParameters:
     polymer_stock_wt_percent: float = 21.0
     additive_stock_polymer_wt_percent: float = 21.0
     additive_stock_additive_wt_percent: float = 4.0
+    # fourth bottle -- not physically available yet, see USE_FOURTH_BOTTLE below
+    no_polymer_polymer_wt_percent: float = 0.0
+    no_polymer_additive_wt_percent: float = 8.0
 
 
 DEFAULT_STOCKS = StockParameters()
+
+# Set True once the fourth bottle (pure additive, no polymer) physically exists in the lab --
+# switches the feasible region from a triangle to a quadrilateral. False = unchanged 3-bottle
+# behavior (StockParameters' no_polymer_* fields are ignored).
+USE_FOURTH_BOTTLE = False
 
 
 def send_metadata(stocks: StockParameters = DEFAULT_STOCKS) -> dict:
@@ -71,16 +85,16 @@ def _sign(
     return (p1[0] - p3[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p3[1])
 
 
-def _point_in_triangle(
+def _point_in_polygon(
     p: tuple[float, float],
-    a: tuple[float, float],
-    b: tuple[float, float],
-    c: tuple[float, float],
+    vertices: list[tuple[float, float]],
 ) -> bool:
-    b1 = _sign(p, a, b) >= 0.0
-    b2 = _sign(p, b, c) >= 0.0
-    b3 = _sign(p, c, a) >= 0.0
-    return (b1 == b2) and (b2 == b3)
+    """Convex-polygon point test: same-sign cross product on every edge. vertices must be
+    listed in a consistent winding order (CW or CCW) -- reduces to the old triangle test
+    when given exactly 3 points."""
+    n = len(vertices)
+    signs = [_sign(p, vertices[i], vertices[(i + 1) % n]) >= 0.0 for i in range(n)]
+    return all(s == signs[0] for s in signs)
 
 
 def _closest_point_on_segment(
@@ -105,23 +119,19 @@ def _dist2(p: tuple[float, float], q: tuple[float, float]) -> float:
     return dx * dx + dy * dy
 
 
-def _closest_point_in_triangle(
+def _closest_point_in_polygon(
     p: tuple[float, float],
-    a: tuple[float, float],
-    b: tuple[float, float],
-    c: tuple[float, float],
+    vertices: list[tuple[float, float]],
 ) -> tuple[float, float]:
-    if _point_in_triangle(p, a, b, c):
+    """Closest point inside a convex polygon (or on its boundary). Reduces to the old
+    triangle behavior when given exactly 3 vertices."""
+    if _point_in_polygon(p, vertices):
         return p
 
+    n = len(vertices)
     candidates = [
-        _closest_point_on_segment(p, a, b),
-        _closest_point_on_segment(p, b, c),
-        _closest_point_on_segment(p, c, a),
-        a,
-        b,
-        c,
-    ]
+        _closest_point_on_segment(p, vertices[i], vertices[(i + 1) % n]) for i in range(n)
+    ] + list(vertices)
 
     best = candidates[0]
     best_d2 = _dist2(p, best)
@@ -135,6 +145,19 @@ def _closest_point_in_triangle(
     return best
 
 
+def _stock_vertices(stocks: StockParameters) -> list[tuple[float, float]]:
+    """Feasible-region vertices in winding order. Triangle by default; USE_FOURTH_BOTTLE
+    inserts the no-polymer additive stock as a 4th vertex, turning it into a quadrilateral."""
+    vertices = [
+        (stocks.polymer_stock_wt_percent, 0.0),
+        (stocks.additive_stock_polymer_wt_percent, stocks.additive_stock_additive_wt_percent),
+    ]
+    if USE_FOURTH_BOTTLE:
+        vertices.append((stocks.no_polymer_polymer_wt_percent, stocks.no_polymer_additive_wt_percent))
+    vertices.append((0.0, 0.0))
+    return vertices
+
+
 def closest_feasible_target(
     target_polymer_wt_percent: float,
     target_additive_wt_percent: float,
@@ -143,16 +166,8 @@ def closest_feasible_target(
     """
     Return the closest feasible target as (polymer_wt_percent, additive_wt_percent).
     """
-
-    v_normal = (stocks.polymer_stock_wt_percent, 0.0)
-    v_additive = (
-        stocks.additive_stock_polymer_wt_percent,
-        stocks.additive_stock_additive_wt_percent,
-    )
-    v_solvent = (0.0, 0.0)
-
     requested = (float(target_polymer_wt_percent), float(target_additive_wt_percent))
-    corrected = _closest_point_in_triangle(requested, v_normal, v_additive, v_solvent)
+    corrected = _closest_point_in_polygon(requested, _stock_vertices(stocks))
 
     return corrected[0], corrected[1]
 
@@ -161,24 +176,19 @@ def get_composition_bounds(stocks: StockParameters = DEFAULT_STOCKS) -> dict:
     """
     Return the feasible composition region from stock parameters alone.
 
-    The feasible region is a triangle with vertices:
-        (polymer_stock_wt_percent, 0)
-        (additive_stock_polymer_wt_percent, additive_stock_additive_wt_percent)
-        (0, 0)
+    The feasible region is a triangle (or, with USE_FOURTH_BOTTLE, a quadrilateral) --
+    see _stock_vertices().
 
     Returns a dict with:
-        vertices   — list of (polymer_wt, additive_wt) triangle corners
+        vertices   — list of (polymer_wt, additive_wt) region corners
         polymer_wt_max  — max achievable polymer wt%
         additive_wt_max — max achievable additive wt%
     """
+    vertices = _stock_vertices(stocks)
     return {
-        "vertices": [
-            (stocks.polymer_stock_wt_percent, 0.0),
-            (stocks.additive_stock_polymer_wt_percent, stocks.additive_stock_additive_wt_percent),
-            (0.0, 0.0),
-        ],
-        "polymer_wt_max": max(stocks.polymer_stock_wt_percent, stocks.additive_stock_polymer_wt_percent),
-        "additive_wt_max": stocks.additive_stock_additive_wt_percent,
+        "vertices": vertices,
+        "polymer_wt_max": max(v[0] for v in vertices),
+        "additive_wt_max": max(v[1] for v in vertices),
     }
 
 

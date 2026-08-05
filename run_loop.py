@@ -56,12 +56,18 @@ INITIAL_PARAMS = {
     "additive_wt": 5
 }
 
-# When True, next_params always advances through ADDITIVE_ITERATION_LIST instead of asking
-# the LLM for a suggestion (branches still run normally for data collection if enabled).
-# Forced on regardless of this flag whenever no branches are enabled at all — a pure test
-# has no data to run active learning on, so it has to sweep a fixed list instead.
+# When either is True, next_params advances through ADDITIVE_ITERATION_LIST and/or
+# POLYMER_ITERATION_LIST instead of asking the LLM for a suggestion (branches still run
+# normally for data collection if enabled). Both on = the two lists are paired in lockstep
+# by index (step i = ADDITIVE_ITERATION_LIST[i] + POLYMER_ITERATION_LIST[i]), not a grid
+# sweep — they're the same length on purpose. Only one on = the other param stays fixed at
+# ITERATION_BASE_PARAMS' value (additive_wt fixed at 0 if only ITERATE_POLYMER is on).
+# Sweeping is forced on regardless of these flags whenever no branches are enabled at all —
+# a pure test has no data to run active learning on, so it has to sweep a fixed list instead.
 ITERATE_ADDITIVES = True
+ITERATE_POLYMER = True
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
+POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
 ITERATION_BASE_PARAMS = {
     "mixing_temp": 25,
     "bath_temp": 5,
@@ -120,17 +126,30 @@ def get_last_set_img():
     return files[-2:]
 
 def _next_iteration_params():
-    """Next fixed-sweep params from ADDITIVE_ITERATION_LIST, clamped to the feasible
-    triangle via bounds.test_target(). Returns None once the list is exhausted."""
+    """Next fixed-sweep params, clamped to the feasible triangle via bounds.test_target().
+    Sweeps ADDITIVE_ITERATION_LIST and/or POLYMER_ITERATION_LIST in lockstep by index
+    depending on which of ITERATE_ADDITIVES/ITERATE_POLYMER is on (see their comment above).
+    If neither is on (pure-test forced fallback), defaults to sweeping additive alone -- the
+    original single-axis behavior. Returns None once the active list(s) are exhausted."""
     global _iteration_count
-    if _iteration_count >= len(ADDITIVE_ITERATION_LIST):
-        print(f"[ITERATE] all {len(ADDITIVE_ITERATION_LIST)} additive amounts exhausted — no more experiments to send")
+    sweep_additive = ITERATE_ADDITIVES or not ITERATE_POLYMER
+    active_lengths = []
+    if sweep_additive:
+        active_lengths.append(len(ADDITIVE_ITERATION_LIST))
+    if ITERATE_POLYMER:
+        active_lengths.append(len(POLYMER_ITERATION_LIST))
+    total_steps = min(active_lengths)
+    if _iteration_count >= total_steps:
+        print(f"[ITERATE] all {total_steps} iteration step(s) exhausted — no more experiments to send")
         return None
-    additive_wt = ADDITIVE_ITERATION_LIST[_iteration_count]
+    additive_wt = ADDITIVE_ITERATION_LIST[_iteration_count] if sweep_additive else 0
+    target_polymer_wt = (
+        POLYMER_ITERATION_LIST[_iteration_count] if ITERATE_POLYMER else ITERATION_BASE_PARAMS["polymer_wt"]
+    )
     _iteration_count += 1
-    p, a = activeLearning.bounds.test_target(ITERATION_BASE_PARAMS["polymer_wt"], additive_wt)
-    if p != ITERATION_BASE_PARAMS["polymer_wt"] or a != additive_wt:
-        print(f"\nIteration params out of range -- ({ITERATION_BASE_PARAMS['polymer_wt']}, {additive_wt})")
+    p, a = activeLearning.bounds.test_target(target_polymer_wt, additive_wt)
+    if p != target_polymer_wt or a != additive_wt:
+        print(f"\nIteration params out of range -- ({target_polymer_wt}, {additive_wt})")
         print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |\n-----------------------------------\n")
     return {**ITERATION_BASE_PARAMS, "polymer_wt": p, "additive_wt": a}
 
@@ -279,8 +298,8 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         if not CSV_AGG_LLM.exists() or CSV_AGG_LLM.stat().st_size == 0:
             raise ValueError(f"LLM CSV missing or empty after promote_to_main: {CSV_AGG_LLM}")
 
-        if ITERATE_ADDITIVES:
-            print("[4/5] additive iteration mode — skipping active learning...")
+        if ITERATE_ADDITIVES or ITERATE_POLYMER:
+            print("[4/5] iteration mode — skipping active learning...")
             new_params = _next_iteration_params()
             if new_params is None:
                 return
@@ -373,10 +392,10 @@ if __name__ == "__main__":
     threading.Thread(target=server.serve_forever, daemon=True).start()
     print(f"server listening on {SERVER_IP}:{SERVER_PORT}")
 
-    if ITERATE_ADDITIVES or not master_processing.any_branch_enabled():
+    if ITERATE_ADDITIVES or ITERATE_POLYMER or not master_processing.any_branch_enabled():
         first_params = _next_iteration_params()
         if first_params is None:
-            print("[ITERATE] ADDITIVE_ITERATION_LIST is empty — nothing to run")
+            print("[ITERATE] iteration list(s) empty — nothing to run")
             sys.exit(1)
     else:
         first_params = dict(INITIAL_PARAMS)
