@@ -37,6 +37,14 @@ class Uno:
     def stop_blow(self):
         self._send_command('0')  # close solenoid
 
+    def start_blow_pipette(self):
+        self._send_command('O')  # open solenoid to allow N2 blowing
+        
+    def stop_blow_pipette(self):
+        self._send_command('C')  # close solenoid
+
+    
+
     # ---------------- Compression Tester ----------------
 
     def test_in(self):
