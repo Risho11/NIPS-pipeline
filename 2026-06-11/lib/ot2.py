@@ -9,6 +9,10 @@ import calculations as calc
 polymer_stock_wt_percent = 21
 additive_stock_additive_wt_percent = 4
 additive_stock_polymer_wt_percent = 21
+# fourth bottle -- pure additive, no polymer. Not physically available yet, kept in sync via
+# update_metadata() regardless (see calculations.StockParameters / polymer_additive_bounds.py)
+no_polymer_polymer_wt_percent = 0
+no_polymer_additive_wt_percent = 8
 
 solution_slot_no = 9
 solution_well_no = 0
@@ -422,7 +426,11 @@ class OT2:
     def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent, mixing_temp):
         # declare variables to pass to function
         target_recipe = calc.TargetRecipe(total_vol, target_polymer_wt_percent, target_additive_wt_percent)
-        stock = calc.StockParameters(polymer_stock_wt_percent, additive_stock_polymer_wt_percent, additive_stock_additive_wt_percent)
+        stock = calc.StockParameters(
+            polymer_stock_wt_percent, additive_stock_polymer_wt_percent, additive_stock_additive_wt_percent,
+            no_polymer_polymer_wt_percent=no_polymer_polymer_wt_percent,
+            no_polymer_additive_wt_percent=no_polymer_additive_wt_percent,
+        )
 
         # get and display result
         result = calc.calculate_batch(target_recipe, stock)
@@ -491,9 +499,20 @@ class OT2:
             self.pipette.drop_tip()
 
     def update_metadata(self, params):
+        # NOTE: this previously assigned to locals without `global`, so it silently never
+        # updated anything -- prepare_membrane_solution() always used the hardcoded module
+        # defaults above regardless of what stock_metadata the mini PC actually sent.
+        global polymer_stock_wt_percent, additive_stock_additive_wt_percent, additive_stock_polymer_wt_percent
+        global no_polymer_polymer_wt_percent, no_polymer_additive_wt_percent
         polymer_stock_wt_percent = params["polymer_stock_wt_percent"]
         additive_stock_additive_wt_percent = params["additive_stock_additive_wt_percent"]
         additive_stock_polymer_wt_percent = params["additive_stock_polymer_wt_percent"]
+        # send_metadata() always includes these two (asdict() serializes every StockParameters
+        # field), whether or not the 4th bottle is actually in use -- see
+        # polymer_additive_bounds.USE_FOURTH_BOTTLE. .get() keeps this safe against an older
+        # sender that predates the 4th bottle fields.
+        no_polymer_polymer_wt_percent = params.get("no_polymer_polymer_wt_percent", no_polymer_polymer_wt_percent)
+        no_polymer_additive_wt_percent = params.get("no_polymer_additive_wt_percent", no_polymer_additive_wt_percent)
 
     def get_stock_weight_percent(self):
         return polymer_stock_wt_percent

@@ -12,6 +12,7 @@ curve_segmentation.FORMATTED_PARAMS_KEYS) — add or remove keys here, in one pl
 processing starts, rather than hunting through curve_segmentation.py/master_processing.py/
 run_loop.py.
 """
+import datetime
 import json
 from pathlib import Path
 
@@ -86,7 +87,7 @@ def ensure_condition_row(condition_name, condition_dir, agg_llm_path):
     with open(params_path, encoding="utf-8") as f:
         params = json.load(f)
 
-    row = {"name": condition_name}
+    row = {"name": condition_name, "date": datetime.datetime.now().strftime("%Y-%m-%d\n%H:%M:%S")}
     row.update({k: v for k, v in params.items() if k not in ("air_data", "stock_metadata")})
     air = params.get("air_data") or {}
     row["Air Temp Mean"] = air.get("temperature")
@@ -176,11 +177,31 @@ def generate_quality_report_text(image_processing_result):
     return membrane_quality_llm.Generate_quality_report(image_path)
 
 
+def _clear_stale_performance_outcome(condition_name, agg_llm_path):
+    """formatted_parameters_withProp is only ever appended to by curve_segmentation's own row
+    creation -- nothing else writes it, and ensure_condition_row no-ops on an existing row. So
+    if this round has no performance branch result, any fit-outcome text already sitting in that
+    column (from a previous round where curve_segmentation *was* on) is stale and must not keep
+    feeding final_report/LLM_AL as if a fit check just happened. Reset it back to bare
+    formatted_parameters (no-op if there was never any outcome text to begin with)."""
+    agg_llm_path = Path(agg_llm_path)
+    if not agg_llm_path.exists() or agg_llm_path.stat().st_size == 0:
+        return
+    df = pd.read_csv(agg_llm_path)
+    mask = df["name"] == condition_name
+    if mask.any() and "formatted_parameters" in df.columns:
+        df.loc[mask, "formatted_parameters_withProp"] = df.loc[mask, "formatted_parameters"]
+        df.to_csv(agg_llm_path, index=False)
+
+
 def attach_all_branch_results(condition_name, branch_results, branch_config, agg_path, agg_llm_path):
     """Same per-branch attach strategy for both run_loop.py and TESTS/test_master.py: skip
     "performance" (curve_segmentation already wrote its own native columns), generate a real
     quality report via the dedicated vision LLM for "quality"-type branches, attach everything
     else generically. One implementation, so the two callers can't drift apart."""
+    performance_ran = any(branch_config[name]["type"] == "performance" for name in branch_results)
+    if not performance_ran:
+        _clear_stale_performance_outcome(condition_name, agg_llm_path)
     for branch_name, result in branch_results.items():
         branch_type = branch_config[branch_name]["type"]
         if branch_type == "performance":

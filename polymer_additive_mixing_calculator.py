@@ -36,11 +36,20 @@ import argparse
 import csv
 import math
 
+# Composition fields (including the planned 4th no-polymer-additive bottle; see
+# USE_FOURTH_BOTTLE in that module) come from polymer_additive_bounds.py -- single source of
+# truth. Extended here with the density fields this file's volume/mass calculations need,
+# which polymer_additive_bounds.py has no reason to know about (it's composition/bounds only).
+# calculate_mix/check_final_composition below stay 3-bottle only regardless -- see
+# polymer_additive_bounds.py's docstring for why 4-bottle volume solving needs an extra rule
+# before it can be implemented.
+from polymer_additive_bounds import StockParameters as _CompositionStockParameters
+
 
 @dataclass
-class StockParameters:
+class StockParameters(_CompositionStockParameters):
     """
-    Stock solution parameters.
+    Stock solution parameters: composition (inherited) + density.
 
     Units:
         wt%      = percent by total solution mass
@@ -48,12 +57,12 @@ class StockParameters:
 
     The density unit only needs to be consistent across all three liquids.
     """
-    polymer_stock_wt_percent: float = 21.0
-    additive_stock_polymer_wt_percent: float = 21.0
-    additive_stock_additive_wt_percent: float = 4.0
     polymer_stock_density: float = 1.10
     additive_stock_density: float = 1.12
     solvent_density: float = 1.028  # approximate NMP density near room temperature
+
+
+DEFAULT_STOCKS = StockParameters()
 
 
 @dataclass
@@ -421,6 +430,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--additive-stock-density", type=float, default=1.12)
     parser.add_argument("--solvent-density", type=float, default=1.028)
 
+    # 4th bottle -- pure additive, no polymer. Not physically available yet (see
+    # polymer_additive_bounds.USE_FOURTH_BOTTLE); accepted here so the stock composition can
+    # be entered/carried regardless. calculate_mix still only solves the 3-bottle system.
+    parser.add_argument("--no-polymer-polymer-wt", type=float, default=DEFAULT_STOCKS.no_polymer_polymer_wt_percent)
+    parser.add_argument("--no-polymer-additive-wt", type=float, default=DEFAULT_STOCKS.no_polymer_additive_wt_percent)
+
     parser.add_argument(
         "--no-round",
         action="store_true",
@@ -457,6 +472,8 @@ def main() -> None:
         polymer_stock_density=args.polymer_stock_density,
         additive_stock_density=args.additive_stock_density,
         solvent_density=args.solvent_density,
+        no_polymer_polymer_wt_percent=args.no_polymer_polymer_wt,
+        no_polymer_additive_wt_percent=args.no_polymer_additive_wt,
     )
 
     round_to_uL = not args.no_round

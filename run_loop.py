@@ -95,6 +95,7 @@ DATA_ROOT    = Path(__file__).parent
 CSV_REPS        = DATA_ROOT / "results_reps.csv"
 CSV_AGG         = DATA_ROOT / "results_agg.csv"
 CSV_AGG_LLM     = DATA_ROOT / "results_agg_llm.csv"
+JSON_RESULTS_DIR = DATA_ROOT / "JSON_results"
 # <<< PATH >>> hardcoded Windows lab machine paths — change if machine changes
 CSV_RAW_PATH = Path(r"C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed")
 IMAGES_PATH  = Path(r"C:\Users\opentrons\Documents\auto-membranes\images")
@@ -269,14 +270,12 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         for line in protocol_log:
             print(line)
         print("── END PROTOCOL LOG " + "─" * 47)
-    if not master_processing.any_branch_enabled():
-        # no branches active — no testing, no data collection; just cycle the additive sweep
-        print("[master_processing] no branches enabled — pure test, cycling additive sweep")
-        next_params = _next_iteration_params()
-        if next_params is not None:
-            next_params["stock_metadata"] = activeLearning.bounds.send_metadata()
-            url.run_test(next_params)
-        return
+    # "iterating" covers both explicit sweep modes and the no-branch pure-test case (a pure
+    # test collects no data, so there's nothing for active learning to act on -- it has to
+    # sweep a fixed list instead). Report generation and the LLM_AL call always run regardless
+    # of this flag -- it only decides whose params (LLM's vs the sweep list's) actually get
+    # sent to the next physical test, and whether an unparseable LLM suggestion is fatal.
+    iterating = ITERATE_ADDITIVES or ITERATE_POLYMER or not master_processing.any_branch_enabled()
 
     try:
         condition_name = None
@@ -298,16 +297,24 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         if not CSV_AGG_LLM.exists() or CSV_AGG_LLM.stat().st_size == 0:
             raise ValueError(f"LLM CSV missing or empty after promote_to_main: {CSV_AGG_LLM}")
 
-        if ITERATE_ADDITIVES or ITERATE_POLYMER:
-            print("[4/5] iteration mode — skipping active learning...")
+        print("[4/5] running active learning...")
+        params_suggestion = llm_context.generate_reports_and_suggestion(condition_name, CSV_AGG_LLM, activeLearning)
+
+        llm_new_params = None
+        try:
+            llm_new_params = _extract_next_params(params_suggestion)
+        except ValueError as e:
+            if not iterating:
+                raise
+            print(f"[WARN] {condition_name}  LLM suggestion unusable, ignoring "
+                  f"(iteration mode drives next params): {e}")
+
+        if iterating:
             new_params = _next_iteration_params()
             if new_params is None:
                 return
         else:
-            print("[4/5] running active learning...")
-            params_suggestion = llm_context.generate_reports_and_suggestion(condition_name, CSV_AGG_LLM, activeLearning)
-
-            new_params = _extract_next_params(params_suggestion)
+            new_params = llm_new_params
 
             # snap to feasible triangle
             p, a = activeLearning.bounds.test_target(new_params["polymer_wt"], new_params["additive_wt"])
@@ -323,7 +330,8 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         # attach stock class metadata so the opentrons server has it alongside the params
         new_params["stock_metadata"] = activeLearning.bounds.send_metadata()
 
-        json_out = DATA_ROOT / f"llm_result_{condition_name}.json"  # <<< PATH >>>
+        JSON_RESULTS_DIR.mkdir(exist_ok=True)
+        json_out = JSON_RESULTS_DIR / f"llm_result_{condition_name}.json"  # <<< PATH >>>
         with open(json_out, "w") as f:
             json.dump(new_params, f, indent=2)
         print(f"  JSON result: {json_out}")

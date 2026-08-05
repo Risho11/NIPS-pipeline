@@ -24,6 +24,13 @@ class StockParameters:
     polymer_stock_density: float = 1.10
     additive_stock_density: float = 1.12
     solvent_density: float = 1.028  # approximate NMP density near room temperature
+    # Fourth bottle -- pure additive, no polymer. Not physically available yet, so
+    # calculate_mix()/check_final_composition() below don't use these (that's still a
+    # 3-bottle system; see polymer_additive_bounds.py for why 4-bottle mixing needs an
+    # extra rule before it can be solved). Carried here only so the actual stock
+    # composition can be received/stored end-to-end regardless of whether it's in use.
+    no_polymer_polymer_wt_percent: float = 0.0
+    no_polymer_additive_wt_percent: float = 8.0
 
 
 @dataclass

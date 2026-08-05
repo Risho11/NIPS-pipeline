@@ -27,6 +27,7 @@ so the two test scripts can't clobber each other's output files):
 
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -38,7 +39,15 @@ import activeLearning_29 as activeLearning      # <<< IMPORT >>> must be in same
 
 # ── edit these ──────────────────────────────────────────────────────────────
 DATA_ROOT = Path(__file__).parent.parent   # real repo root — real compression-test-data/
-CONDITION = '17-5deg-600s-N2-1800s'
+CONDITION = '10-0add-5deg-60s-N2-300s'
+
+# CONDITION names the real folder (compression-test-data/CONDITION) -- reused across every
+# manual run of this script. RUN_NAME is what actually gets written as the "name" for every
+# row in the isolated test csvs below, unique per invocation, so rerunning this script never
+# overwrites a prior run's row (and its date) -- it just adds a new one, same way production
+# never overwrites either (move_and_rename gives every real test its own _run2/_run3 folder
+# before any of this runs). Only the two isolated csv_tests_master/ files are affected.
+RUN_NAME = f"{CONDITION}__test-{datetime.now():%Y%m%d-%H%M%S}"
 
 # Flip each independently -- True = real call (costs API, needs OPENROUTER_API_KEY), False = stub.
 USE_REAL_GENERATE_REPORT = True   # activeLearning_29.Generate_report (experimental-report text)
@@ -86,6 +95,7 @@ def _short(p):
 
 print(f"Data root : {_short(DATA_ROOT)}")
 print(f"Condition : {CONDITION}")
+print(f"Run name  : {RUN_NAME}")
 print(f"Branches  : {[n for n, c in mp.BRANCH_CONFIG.items() if c['enabled']]}")
 print()
 
@@ -93,8 +103,13 @@ branch_results = mp.run_branches(CONDITION, data_root=DATA_ROOT, csv_paths=CSV_P
 
 llm_context.scrub_raw_result_columns(AGG_LLM_CSV)
 condition_dir = mp.get_condition_dir(CONDITION, DATA_ROOT)
-llm_context.ensure_condition_row(CONDITION, condition_dir, AGG_LLM_CSV)
-llm_context.attach_all_branch_results(CONDITION, branch_results, mp.BRANCH_CONFIG, AGG_CSV, AGG_LLM_CSV)
+llm_context.ensure_condition_row(RUN_NAME, condition_dir, AGG_LLM_CSV)
+# Note: since this passes RUN_NAME (not CONDITION), a non-performance branch's result won't
+# merge onto an existing curve_segmentation row in AGG_CSV even if one exists for CONDITION --
+# that merge needs the same name on both sides. Only matters if you flip RUN_CURVE_SEGMENTATION
+# on; harmless no-op otherwise (today's default). The AGG_LLM_CSV side (what the LLM actually
+# sees) always lands correctly on this run's fresh RUN_NAME row regardless.
+llm_context.attach_all_branch_results(RUN_NAME, branch_results, mp.BRANCH_CONFIG, AGG_CSV, AGG_LLM_CSV)
 
 print(f"branches ran: {list(branch_results.keys())}")
 
@@ -141,10 +156,10 @@ if AGG_CSV.exists():
 
 if AGG_LLM_CSV.exists():
     llm_df = pd.read_csv(AGG_LLM_CSV)
-    matches = llm_df[llm_df["name"] == CONDITION]
+    matches = llm_df[llm_df["name"] == RUN_NAME]
     if not matches.empty:
         row = matches.iloc[-1]
-        print(f"\n{_short(AGG_LLM_CSV)} row for {CONDITION}:")
+        print(f"\n{_short(AGG_LLM_CSV)} row for {RUN_NAME}:")
         for branch_name in branch_results:
             branch_type = mp.BRANCH_CONFIG[branch_name]["type"]
             if branch_type == "performance":
@@ -156,7 +171,7 @@ if AGG_LLM_CSV.exists():
         print(f"  formatted_parameters_withProp (tail): ...{tail}")
         print(f"  formatted_parameters: {row.get('formatted_parameters')}")
     else:
-        print(f"\nWARNING: no row named {CONDITION!r} in {_short(AGG_LLM_CSV)}")
+        print(f"\nWARNING: no row named {RUN_NAME!r} in {_short(AGG_LLM_CSV)}")
 
 print("\nbuild_observations:")
 for branch_type in {cfg["type"] for cfg in mp.BRANCH_CONFIG.values()}:
@@ -166,9 +181,7 @@ for branch_type in {cfg["type"] for cfg in mp.BRANCH_CONFIG.values()}:
     print(f"  {branch_type}: {obs!r}")
 
 # ── dual-LLM check: same shared function run_loop.py calls in production ────────────────────
-if "curve_segmentation" in branch_results:
-    suggestion = llm_context.generate_reports_and_suggestion(CONDITION, AGG_LLM_CSV, activeLearning)
-    print(f"\nLLM_AL suggestion ({'real' if USE_REAL_LLM_AL else 'stubbed'}, dual-channel):\n{suggestion}")
-else:
-    print("\n(curve_segmentation disabled — no formatted_parameters row to build a suggestion "
-          "from; generate_reports_and_suggestion needs the performance branch's row)")
+# run_loop.py now calls this unconditionally regardless of branch config (ensure_condition_row
+# builds the fallback row from params.json when curve_segmentation didn't) -- mirrored here.
+suggestion = llm_context.generate_reports_and_suggestion(RUN_NAME, AGG_LLM_CSV, activeLearning)
+print(f"\nLLM_AL suggestion ({'real' if USE_REAL_LLM_AL else 'stubbed'}, dual-channel):\n{suggestion}")
