@@ -11,6 +11,7 @@ import time
 
 arduino_port = '/dev/serial/by-id/usb-Arduino__www.arduino.cc__0043_75130303036351E02061-if00'
 BAUD_RATE = 115200
+timeout_time = 10
 
 
 class Uno:
@@ -71,13 +72,13 @@ class Uno:
         self._send_command('H')
 
         # wait until input shows that test has started
-        # if no signal shows up before 5 seconds, return 1
-        endTime = time.time() + 5
+        # if no signal shows up, timeout and return 1
+        endTime = time.time() + timeout_time
         while (time.time() < endTime) and (not self.test_in()):
             time.sleep(0.1)
 
         if time.time() > endTime:
-            print("Tester has not responded after 5 seconds, aborting.")
+            print(f"Tester has not responded after {timeout_time} seconds, aborting.")
             return 1
         else:
             print("Test has started!")
