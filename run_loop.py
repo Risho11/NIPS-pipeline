@@ -65,7 +65,7 @@ INITIAL_PARAMS = {
 # Sweeping is forced on regardless of these flags whenever no branches are enabled at all —
 # a pure test has no data to run active learning on, so it has to sweep a fixed list instead.
 ITERATE_ADDITIVES = False
-ITERATE_POLYMER = True
+ITERATE_POLYMER = False
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
 ITERATION_BASE_PARAMS = {

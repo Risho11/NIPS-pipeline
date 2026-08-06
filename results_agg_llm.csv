@@ -1781,3 +1781,143 @@ The membrane fragment shows visible wrinkling and folding at its edges, and the 
 - **Uniformity:** The membrane surface appears largely uniform in tone, with a consistent pale white/grey appearance across most of the area.
 - **Defects:** A faint linear streak/crease is visible near the center, suggesting a minor wrinkle; no clearly trapped air bubbles observed.
 - **Summary:** Membrane is present and mostly covers the aperture, with a minor edge gap on the lower-left and a faint central crease noted."
+"2026-08-06
+13:06:07",10.0-0.0add-5deg-60s-N2-101s_run2,25,5,,,10,True,60,101,mixing_temp=25; bath_temp=5; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=101; Air Temp Mean=23.80; Humidity Mean=50.72,"Here is a short experimental report based on the provided parameters:
+
+---
+
+**Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)**
+
+The polysulfone membrane was fabricated using an automated robotic system employing the non-solvent-induced phase separation (NIPS) method. The polymer solution was prepared and mixed at a temperature of **25°C**. The solution was then blade-cast onto the substrate at a casting speed of **10 mm/s**.
+
+Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for **60 seconds** prior to immersion in the coagulation bath, in order to minimize humidity exposure and control the evaporation step. The ambient conditions during this period were recorded at a mean air temperature of **23.80°C** and a mean relative humidity of **50.72%**.
+
+The cast membrane was subsequently immersed into the NIPS coagulation bath, which was maintained at a reduced temperature of **5°C**, and allowed to phase-separate for **101 seconds**.
+
+---
+
+Note: The polymer (polysulfone) concentration and additive (PVP) concentration were not provided in this experimental run.
+
+---
+
+Let me know if you would like any modifications or additional details included!",,,,,,,,,,,,,,,,,,,,,,,,mixing_temp=25; bath_temp=5; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=101; Air Temp Mean=23.80; Humidity Mean=50.72,"Here is a short experimental report based on the provided parameters:
+
+---
+
+**Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)**
+
+The polysulfone membrane was fabricated using an automated robotic system employing the non-solvent-induced phase separation (NIPS) method. The polymer solution was prepared and mixed at a temperature of **25°C**. The solution was then blade-cast onto the substrate at a casting speed of **10 mm/s**.
+
+Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for **60 seconds** prior to immersion in the coagulation bath, in order to minimize humidity exposure and control the evaporation step. The ambient conditions during this period were recorded at a mean air temperature of **23.80°C** and a mean relative humidity of **50.72%**.
+
+The cast membrane was subsequently immersed into the NIPS coagulation bath, which was maintained at a reduced temperature of **5°C**, and allowed to phase-separate for **101 seconds**.
+
+---
+
+Note: The polymer (polysulfone) concentration and additive (PVP) concentration were not provided in this experimental run.
+
+---
+
+Let me know if you would like any modifications or additional details included!
+","Looking at the data systematically:
+
+**Key observations:**
+- Best result: 60°C mixing, 1 mm/s cast speed, N₂=True, 350s wait, 5°C bath, 1800s NIPS → **Strain = 0.2503** (but CV=0.172, moderate variability)
+- Second best: 60°C, 1 mm/s, N₂=True, 300s wait, 5°C bath, 1800s → **Strain = 0.3209** (no CV reported)
+- Third: 60°C, 1 mm/s, N₂=True, 550s wait → **Strain = 0.3902**
+- 30°C, 1 mm/s, N₂=True, 400s wait → **Strain = 0.3679**
+- Many experiments at 60°C + N₂=True with wait times 250–600s (except 350s) → **NaN** (bad fits / failed membranes)
+
+**Pattern analysis:**
+- The 350s wait at 60°C gave the best valid result, but is surrounded by NaN failures (310, 325, 340, 355, 375, 450, 550, 600s all failed at 60°C)
+- The 300s wait at 60°C gave the second-best result with no CV
+- The 550s wait at 60°C gave a valid result (0.390)
+- There appears to be a narrow valid window near 300–350s, with a possible second window around 550s
+- High mixing temp (60°C), slow cast (1 mm/s), N₂=True, cold bath (5°C), long NIPS (1800s) are consistently the best-performing conditions when membranes form
+- To exploit the best-performing region while avoiding the NaN zone, targeting ~300s (which succeeded) is safer than 350s (which is surrounded by failures)
+- Slightly higher mixing temp could further densify the dope; 80°C is the max — worth trying to push stiffness further
+- Bath temp at minimum (5°C) consistently best
+
+**Recommendation:** Push mixing temp to 80°C (maximum, to increase dope viscosity/chain entanglement), keep all other winning conditions, and use 300s wait (the confirmed-valid anchor point near the best result).
+
+```json
+{
+  ""mixing_temp"": 80,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 1,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 300,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 17.0,
+  ""additive_wt"": 0.0
+}
+```",10.0,0.0,23.8,50.72,"- **Presence:** Membrane is visible, appearing as a pale grey/white material centrally located within the aperture.
+
+- **Coverage:** Partial — the membrane occupies roughly the central 50–60% of the aperture; substantial lateral gaps are visible on the left, right, and upper portions of the aperture, exposing the metallic backing.
+
+- **Uniformity:** Non-uniform; the membrane is bunched and raised into a pronounced conical/tent-like protrusion rather than lying flat.
+
+- **Defects:** Multiple visible wrinkles and fold lines radiating from the apex of the protrusion; at least one small bright spot near center suggesting a possible pinhole or tear; no clearly identifiable trapped air bubbles.
+
+- **Summary:** The membrane is severely misseated — significantly under-covering the aperture with prominent wrinkling and a large conical deformation."
+"2026-08-06
+14:46:34",11.0-0.0add-5deg-60s-N2-101s,25,5,,,10,True,60,101,mixing_temp=25; bath_temp=5; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=101; Air Temp Mean=24.24; Humidity Mean=48.93,"# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Solution Preparation & Casting
+The polymer solution was mixed and heated at **25°C**. The solution was blade-cast onto the substrate at a casting speed of **10 mm/s**.
+
+## Pre-Immersion Conditions
+Following blade casting, the coupon was exposed to a **laminar dry nitrogen purge** for **60 seconds** prior to immersion in the NIPS bath. Ambient conditions during this period were recorded at a mean temperature of **24.24°C** and a mean relative humidity of **48.93%**.
+
+## Phase Separation & Membrane Formation
+The cast film was subsequently immersed in the NIPS bath, which was maintained at a reduced temperature of **5°C**, and allowed to undergo phase separation for **101 seconds**.
+
+---
+
+**Note:** Polymer concentration, additive concentration, solvent identity, and additive identity were not specified in the provided parameter set and should be recorded separately for a complete experimental record.",,,,,,,,,,,,,,,,,,,,,,,,mixing_temp=25; bath_temp=5; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=101; Air Temp Mean=24.24; Humidity Mean=48.93,"# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Solution Preparation & Casting
+The polymer solution was mixed and heated at **25°C**. The solution was blade-cast onto the substrate at a casting speed of **10 mm/s**.
+
+## Pre-Immersion Conditions
+Following blade casting, the coupon was exposed to a **laminar dry nitrogen purge** for **60 seconds** prior to immersion in the NIPS bath. Ambient conditions during this period were recorded at a mean temperature of **24.24°C** and a mean relative humidity of **48.93%**.
+
+## Phase Separation & Membrane Formation
+The cast film was subsequently immersed in the NIPS bath, which was maintained at a reduced temperature of **5°C**, and allowed to undergo phase separation for **101 seconds**.
+
+---
+
+**Note:** Polymer concentration, additive concentration, solvent identity, and additive identity were not specified in the provided parameter set and should be recorded separately for a complete experimental record.
+","Looking at the data systematically:
+
+**Key observations:**
+- Best result: 60°C mixing, 1 mm/s cast speed, N₂=True, 350s wait, 5°C bath, 1800s NIPS → **Strain = 0.250** (lowest valid result)
+- Second best: 60°C, 1 mm/s, N₂=True, 300s wait, 5°C bath, 1800s → **Strain = 0.321**
+- Third: 60°C, 1 mm/s, N₂=True, 550s wait → **Strain = 0.390**
+- Fourth: 30°C, 1 mm/s, N₂=True, 400s wait → **Strain = 0.368**
+- Many NaN failures clustered around 310–600s wait at 60°C — suggests a fragile/narrow window around 325–600s at 60°C causes film failure
+- The 350s condition gave the best result with moderate CV (0.172); worth refining nearby
+- 250–340s range at 60°C produced NaNs; 350s succeeded; 300s succeeded → the viable window appears to be ~300–350s
+
+**Strategy:**
+- Stay in the regime: 60°C, 1 mm/s, N₂=True, 5°C bath, 1800s NIPS
+- Explore slightly above 350s (e.g., ~360–370s) to see if the trend continues downward before NaN territory resumes
+- 17 wt% polymer (maximum, for stiffness), 0 additive (no dilution of polymer network)
+- Try 365s as a targeted probe just above the best-performing 350s point
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 1,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 365,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 17.0,
+  ""additive_wt"": 0.0
+}
+```",11.0,0.0,24.24,48.93,"- **Presence:** Membrane is visible within the circular aperture.
+- **Coverage:** Membrane covers most of the aperture; a notable lateral gap is present on the right side where the membrane edge has pulled away from the cell wall, exposing an underlying region.
+- **Uniformity:** Subtle vertical streaking/banding across the membrane surface; overall tone is reasonably consistent but not fully uniform.
+- **Defects:** Several small bubbles visible along the left inner edge; no prominent large wrinkles, though faint linear surface marks are present.
+- **Summary:** The membrane is present and largely covers the aperture but shows a right-side edge gap, minor bubble accumulation on the left margin, and faint surface streaking."

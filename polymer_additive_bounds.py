@@ -36,8 +36,8 @@ from dataclasses import asdict, dataclass
 
 @dataclass
 class StockParameters:
-    polymer_stock_wt_percent: float = 17.0
-    additive_stock_polymer_wt_percent: float = 17.0
+    polymer_stock_wt_percent: float = 21.0
+    additive_stock_polymer_wt_percent: float = 21.0
     additive_stock_additive_wt_percent: float = 4.0
     # fourth bottle -- not physically available yet, see USE_FOURTH_BOTTLE below
     #no_polymer_polymer_wt_percent: float = 0.0
