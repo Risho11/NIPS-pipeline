@@ -1,0 +1,345 @@
+[2026-08-05 16:41:13] The "mixing_temp" can be between 25 and 80 degrees Celsius. The "bath_temp" can be between 5 and 25 degrees Celsius. The "pullcast_speed" can be between 1 and 20 mm/s. The "coupon_to_bath_wait_time" can be between 0 and 600 seconds. The "nips_bath_wait_time" can be between 1200 and 1800seconds. The "nitrogen" can be either True or False. The "polymer_wt" maximum is 21.0 and the "additive_wt" maximum is 4.0. The "polymer_wt" and "additive_wt" should be within the triangular bounds [(17.0, 0.0), (21.0, 4.0), (0.0, 0.0)].
+
+[2026-08-05 16:41:14] [master_processing] active branches: ['image_processing']
+
+[2026-08-05 16:41:14] server listening on 169.254.230.148:8000
+
+[2026-08-05 16:41:14] kicking off first experiment: {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 10, 'nitrogen': True, 'coupon_to_bath_wait_time': 60, 'nips_bath_wait_time': 101, 'polymer_wt': 10.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 21.0, 'additive_stock_additive_wt_percent': 4.0, 'no_polymer_polymer_wt_percent': 0.0, 'no_polymer_additive_wt_percent': 8.0}}
+
+[2026-08-05 16:41:14] Python recieved!
+
+[2026-08-05 16:41:14] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 10.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 21.0, "additive_stock_additive_wt_percent": 4.0, "no_polymer_polymer_wt_percent": 0.0, "no_polymer_additive_wt_percent": 8.0}}
+
+[2026-08-05 16:41:15] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 10.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 21.0, "additive_stock_additive_wt_percent": 4.0, "no_polymer_polymer_wt_percent": 0.0, "no_polymer_additive_wt_percent": 8.0}}
+
+[2026-08-05 16:41:15] robot started — loop running. Ctrl+C to stop.
+
+[2026-08-05 20:34:46] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Recievied request for membrane with following parameters:
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 10, 'nitrogen': True, 'coupon_to_bath_wait_time': 60, 'nips_bath_wait_time': 101, 'polymer_wt': 10.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 21.0, 'additive_stock_additive_wt_percent': 4.0, 'no_polymer_polymer_wt_percent': 0.0, 'no_polymer_additive_wt_percent': 8.0}}
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Bath chilling process started.
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Beginning zero tests on coupons.
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Opentrons process started.
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] 
+Target recipe
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] -------------
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Total volume:      1000.00 uL
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Target polymer:    10 wt%
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Target additive:   0 wt%
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] 
+Required volumes
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] ----------------
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Normal polymer stock:      572.00 uL
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Polymer-additive stock:    0.00 uL
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Pure solvent:              428.00 uL
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Total:                     1000.00 uL
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] 
+Final composition check
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] -----------------------
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Polymer:    10.0043 wt%
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Additive:   0.0000 wt%
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Solvent:    89.9957 wt%
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:29] Temperature set to 25.
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:42] entered if statement!!!
+
+[2026-08-05 20:34:46] [2026-08-05 20:41:56] Test has started!
+
+[2026-08-05 20:34:46] [2026-08-05 20:46:07] entered if statement!!!
+
+[2026-08-05 20:34:46] [2026-08-05 20:46:13] Test complete!
+
+[2026-08-05 20:34:46] [2026-08-05 20:46:18] Safe: True
+
+[2026-08-05 20:34:46] [2026-08-05 20:46:18] Recent: True
+
+[2026-08-05 20:34:46] [2026-08-05 20:46:18] Time: 1785962778.719784
+
+[2026-08-05 20:34:46] [2026-08-05 20:46:18] mTime: 1785962753.2366457
+
+[2026-08-05 20:34:46] [2026-08-05 20:46:31] Test has started!
+
+[2026-08-05 20:34:46] [2026-08-05 20:50:51] Test complete!
+
+[2026-08-05 20:34:46] [2026-08-05 20:50:56] Safe: True
+
+[2026-08-05 20:34:46] [2026-08-05 20:50:56] Recent: True
+
+[2026-08-05 20:34:46] [2026-08-05 20:50:56] Time: 1785963056.1341038
+
+[2026-08-05 20:34:46] [2026-08-05 20:50:56] mTime: 1785963030.6935198
+
+[2026-08-05 20:34:46] [2026-08-05 20:51:09] Test has started!
+
+[2026-08-05 20:34:46] [2026-08-05 20:55:27] Test complete!
+
+[2026-08-05 20:34:46] [2026-08-05 20:55:32] Safe: True
+
+[2026-08-05 20:34:46] [2026-08-05 20:55:32] Recent: True
+
+[2026-08-05 20:34:46] [2026-08-05 20:55:32] Time: 1785963332.696313
+
+[2026-08-05 20:34:46] [2026-08-05 20:55:32] mTime: 1785963307.2511194
+
+[2026-08-05 20:34:46] [2026-08-05 20:55:36] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 20:55:36] 0
+
+[2026-08-05 20:34:46] [2026-08-05 20:55:36] 10
+
+[2026-08-05 20:34:46] [2026-08-05 20:55:45] Test has started!
+
+[2026-08-05 20:34:46] [2026-08-05 20:57:54] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 20:57:54] 0
+
+[2026-08-05 20:34:46] [2026-08-05 20:57:54] 10
+
+[2026-08-05 20:34:46] [2026-08-05 20:59:23] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 20:59:23] 1
+
+[2026-08-05 20:34:46] [2026-08-05 20:59:23] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:00:03] Test complete!
+
+[2026-08-05 20:34:46] [2026-08-05 21:00:08] Safe: True
+
+[2026-08-05 20:34:46] [2026-08-05 21:00:08] Recent: True
+
+[2026-08-05 20:34:46] [2026-08-05 21:00:08] Time: 1785963608.9415157
+
+[2026-08-05 20:34:46] [2026-08-05 21:00:08] mTime: 1785963583.6144204
+
+[2026-08-05 20:34:46] [2026-08-05 21:01:42] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 21:01:42] 1
+
+[2026-08-05 20:34:46] [2026-08-05 21:01:42] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:03:11] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 21:03:11] 2
+
+[2026-08-05 20:34:46] [2026-08-05 21:03:11] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:05:29] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 21:05:29] 2
+
+[2026-08-05 20:34:46] [2026-08-05 21:05:29] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:06:58] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 21:06:58] 3
+
+[2026-08-05 20:34:46] [2026-08-05 21:06:58] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:09:17] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 21:09:17] 3
+
+[2026-08-05 20:34:46] [2026-08-05 21:09:17] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:10:46] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 21:10:46] 4
+
+[2026-08-05 20:34:46] [2026-08-05 21:10:46] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:13:04] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 21:13:04] 4
+
+[2026-08-05 20:34:46] [2026-08-05 21:13:04] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:14:33] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 21:14:33] 5
+
+[2026-08-05 20:34:46] [2026-08-05 21:14:33] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:16:52] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 21:16:52] 5
+
+[2026-08-05 20:34:46] [2026-08-05 21:16:52] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:18:21] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 21:18:21] 6
+
+[2026-08-05 20:34:46] [2026-08-05 21:18:21] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:20:39] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 21:20:39] 6
+
+[2026-08-05 20:34:46] [2026-08-05 21:20:39] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:22:08] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 21:22:08] 7
+
+[2026-08-05 20:34:46] [2026-08-05 21:22:08] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:24:27] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 21:24:27] 7
+
+[2026-08-05 20:34:46] [2026-08-05 21:24:27] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:25:56] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 21:25:56] 8
+
+[2026-08-05 20:34:46] [2026-08-05 21:25:56] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:28:15] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 21:28:15] 8
+
+[2026-08-05 20:34:46] [2026-08-05 21:28:15] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:29:43] aspirate
+
+[2026-08-05 20:34:46] [2026-08-05 21:29:43] 9
+
+[2026-08-05 20:34:46] [2026-08-05 21:29:43] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:32:18] dispense
+
+[2026-08-05 20:34:46] [2026-08-05 21:32:18] 9
+
+[2026-08-05 20:34:46] [2026-08-05 21:32:18] 10
+
+[2026-08-05 20:34:46] [2026-08-05 21:32:18] 2291.6599094895646
+
+[2026-08-05 20:34:46] [2026-08-05 21:39:09] entered if statement!!!
+
+[2026-08-05 20:34:46] [2026-08-05 21:40:41] Joined both subprocesses.
+
+[2026-08-05 20:34:46] [2026-08-05 21:41:29] Pullcast complete.
+
+[2026-08-05 20:34:46] [2026-08-05 21:41:29] Nitrogen on.
+
+[2026-08-05 20:34:46] [2026-08-05 21:42:42] Nitrogen off.
+
+[2026-08-05 20:34:46] [2026-08-05 21:42:52] Membrane sitting in bath for 101 seconds.
+
+[2026-08-05 20:34:46] [2026-08-05 21:43:01] Nitrogen cap has been put away.
+
+[2026-08-05 20:34:46] [2026-08-05 21:43:16] Ring has been placed on the coupon.
+
+[2026-08-05 20:34:46] [2026-08-05 21:46:30] Cleaning knife
+
+[2026-08-05 20:34:46] [2026-08-05 21:47:30] Knife cleaning finished.
+
+[2026-08-05 20:34:46] [2026-08-05 21:55:09] Initial membrane picture taken.
+
+[2026-08-05 20:34:46] [2026-08-05 21:55:39] Test has started!
+
+[2026-08-05 20:34:46] [2026-08-05 23:07:45] Test complete!
+
+[2026-08-05 20:34:46] [2026-08-05 23:07:50] Safe: True
+
+[2026-08-05 20:34:46] [2026-08-05 23:07:50] Recent: True
+
+[2026-08-05 20:34:46] [2026-08-05 23:07:50] Time: 1785971270.9386988
+
+[2026-08-05 20:34:46] [2026-08-05 23:07:50] mTime: 1785971241.8613489
+
+[2026-08-05 20:34:46] [2026-08-05 23:08:03] Test has started!
+
+[2026-08-05 20:34:46] [2026-08-06 00:26:25] Test complete!
+
+[2026-08-05 20:34:46] [2026-08-06 00:26:30] Safe: True
+
+[2026-08-05 20:34:46] [2026-08-06 00:26:30] Recent: True
+
+[2026-08-05 20:34:46] [2026-08-06 00:26:30] Time: 1785975990.3805773
+
+[2026-08-05 20:34:46] [2026-08-06 00:26:30] mTime: 1785975965.2807398
+
+[2026-08-05 20:34:46] [2026-08-06 00:26:43] Test has started!
+
+[2026-08-05 20:34:46] [2026-08-06 00:27:55] Test complete!
+
+[2026-08-05 20:34:46] [2026-08-06 00:28:01] Safe: True
+
+[2026-08-05 20:34:46] [2026-08-06 00:28:01] Recent: True
+
+[2026-08-05 20:34:46] [2026-08-06 00:28:01] Time: 1785976081.0312023
+
+[2026-08-05 20:34:46] [2026-08-06 00:28:01] mTime: 1785976055.9456353
+
+[2026-08-05 20:34:46] [2026-08-06 00:28:17] Test has started!
+
+[2026-08-05 20:34:46] [2026-08-06 00:33:26] Test complete!
+
+[2026-08-05 20:34:46] [2026-08-06 00:33:31] Safe: True
+
+[2026-08-05 20:34:46] [2026-08-06 00:33:31] Recent: True
+
+[2026-08-05 20:34:46] [2026-08-06 00:33:31] Time: 1785976411.5192046
+
+[2026-08-05 20:34:46] [2026-08-06 00:33:31] mTime: 1785976385.9444075
+
+[2026-08-05 20:34:46] [2026-08-06 00:33:57] Final membrane picture taken.
+
+[2026-08-05 20:34:46] [2026-08-06 00:34:15] Coupon successfully discarded.
+
+[2026-08-05 20:34:46] [2026-08-06 00:35:01] Done
+
+[2026-08-05 20:34:46] [2026-08-06 00:35:01] {'temperature': '23.55', 'humidity': '50.41'}
+
+[2026-08-05 20:34:46] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-08-05 20:34:46] 
+[1/5] organising files...
+
+[2026-08-05 20:34:47] [START] condition=10.0-0.0add-5deg-60s-N2-101s
+
+[2026-08-05 20:34:47] [2/5] processing pipeline for: 10.0-0.0add-5deg-60s-N2-101s
+
+[2026-08-05 20:34:57] [3/5] generating initial report...
+
+[2026-08-05 20:34:57] [4/5] iteration mode — skipping active learning...
+
+[2026-08-05 20:34:57]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\llm_result_10.0-0.0add-5deg-60s-N2-101s.json
+
+[2026-08-05 20:34:57] [5/5] next params: {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 10, 'nitrogen': True, 'coupon_to_bath_wait_time': 60, 'nips_bath_wait_time': 101, 'polymer_wt': 11.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 21.0, 'additive_stock_additive_wt_percent': 4.0, 'no_polymer_polymer_wt_percent': 0.0, 'no_polymer_additive_wt_percent': 8.0}}
+
+[2026-08-05 20:34:57] Python recieved!
+
+[2026-08-05 20:34:57] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 11.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 21.0, "additive_stock_additive_wt_percent": 4.0, "no_polymer_polymer_wt_percent": 0.0, "no_polymer_additive_wt_percent": 8.0}}
+
+[2026-08-05 20:34:57] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 101, "polymer_wt": 11.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 21.0, "additive_stock_additive_wt_percent": 4.0, "no_polymer_polymer_wt_percent": 0.0, "no_polymer_additive_wt_percent": 8.0}}
+
+[2026-08-05 20:34:57] [DONE] 10.0-0.0add-5deg-60s-N2-101s  elapsed=10.8s
+
+[2026-08-06 11:12:03] 
+stopping server...
+
