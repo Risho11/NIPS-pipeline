@@ -52,8 +52,8 @@ INITIAL_PARAMS = {
     "nitrogen": True,
     "coupon_to_bath_wait_time": 55,
     "nips_bath_wait_time": 101,
-    "polymer_wt": 21,
-    "additive_wt": 5
+    "polymer_wt": 17,
+    "additive_wt": 0
 }
 
 # When either is True, next_params advances through ADDITIVE_ITERATION_LIST and/or
@@ -64,7 +64,7 @@ INITIAL_PARAMS = {
 # ITERATION_BASE_PARAMS' value (additive_wt fixed at 0 if only ITERATE_POLYMER is on).
 # Sweeping is forced on regardless of these flags whenever no branches are enabled at all —
 # a pure test has no data to run active learning on, so it has to sweep a fixed list instead.
-ITERATE_ADDITIVES = True
+ITERATE_ADDITIVES = False
 ITERATE_POLYMER = True
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
@@ -75,7 +75,7 @@ ITERATION_BASE_PARAMS = {
     "nitrogen": True,
     "coupon_to_bath_wait_time": 60,
     "nips_bath_wait_time": 101,
-    "polymer_wt": 21,
+    "polymer_wt": 17,
 }
 _iteration_count = 0
 
