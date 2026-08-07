@@ -6,7 +6,7 @@ at a time (no "run ALL" mode) — there's no LLM/CSV aggregation step downstream
 
 With membrane_imaging.SEND_RAW_IMAGE = True (the default), run() just locates the photo --
 no pixel-math, no uniform_map/test_point/safe_radius, no LLM call here (see
-TESTS/test_master.py for the vision-LLM quality-report step). Flip SEND_RAW_IMAGE to False in
+tests/test_master.py for the vision-LLM quality-report step). Flip SEND_RAW_IMAGE to False in
 membrane_imaging.py to exercise the legacy pixel-math path instead; this script handles both.
 
 Edit DATA_ROOT and CONDITION below, then:
@@ -23,7 +23,7 @@ from pathlib import Path
 import cv2
 
 import sys
-sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where membrane_imaging.py lives
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "pipeline"))  # <<< IMPORT >>> points to src/pipeline where membrane_imaging.py lives
 import membrane_imaging as imaging              # <<< IMPORT >>> must be in same folder
 
 # ── edit these ──────────────────────────────────────────────────────────────
@@ -42,7 +42,7 @@ def _short(p):
         return str(p)
 
 
-condition_dir = DATA_ROOT / "compression-test-data" / CONDITION
+condition_dir = DATA_ROOT / "data" / "raw" / CONDITION
 print(f"Data root      : {_short(DATA_ROOT)}")
 print(f"Condition      : {CONDITION}")
 print(f"Folder         : {_short(condition_dir)}")
@@ -55,7 +55,7 @@ print(f"image used : {_short(result['image_path'])}")
 
 if "uniform_map" not in result:
     print("(SEND_RAW_IMAGE=True — no pixel-math ran; the raw photo is what a vision LLM would "
-          "see, see TESTS/test_master.py for the actual quality-report call)")
+          "see, see tests/test_master.py for the actual quality-report call)")
 else:
     print(f"test_point  : {result['test_point']}")
     print(f"safe_radius : {result['safe_radius']}")

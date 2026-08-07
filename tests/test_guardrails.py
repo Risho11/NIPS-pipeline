@@ -5,7 +5,7 @@ NOT testing correctness — testing that degenerate/edge-case inputs never crash
 the pipeline downstream. Each test verifies graceful degradation.
 
 Run:
-    python TESTS/test_guardrails.py
+    python tests/test_guardrails.py
 """
 import sys
 import tempfile
@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "pipeline"))
 import curve_segmentation as processing
 
 _PASS, _FAIL = 0, 0

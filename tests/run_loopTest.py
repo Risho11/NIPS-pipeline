@@ -18,7 +18,7 @@ from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse
 
-sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where url_29.py/curve_segmentation.py live
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "pipeline"))  # <<< IMPORT >>> points to src/pipeline where url_29.py/curve_segmentation.py live
 import url_29 as url                           # <<< IMPORT >>> must be in same folder as run_loop.py
 import curve_segmentation as processing             # <<< IMPORT >>> must be in same folder
 import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same folder
@@ -46,10 +46,10 @@ PARAMS_SCHEMA = {
 }
 # <<< PATH >>> project root = parent of the folder containing this script
 DATA_ROOT    = Path(__file__).parent.parent
-# <<< PATH >>> output CSVs land beside this script
-CSV_REPS        = DATA_ROOT / "results_reps.csv"
-CSV_AGG         = DATA_ROOT / "results_agg.csv"
-CSV_AGG_LLM     = DATA_ROOT / "results_agg_llm.csv"
+# <<< PATH >>> output CSVs live under data/results/
+CSV_REPS        = DATA_ROOT / "data" / "results" / "results_reps.csv"
+CSV_AGG         = DATA_ROOT / "data" / "results" / "results_agg.csv"
+CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / "results_agg_llm.csv"
 # <<< PATH >>> hardcoded Windows lab machine paths — change if machine changes
 CSV_RAW_PATH = Path(r"C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed")
 IMAGES_PATH  = Path(r"C:\Users\opentrons\Documents\auto-membranes\images")
@@ -90,7 +90,7 @@ def move_and_rename(params):
         s += "No"
     s += "N2-"
     s += f"{params['nips_bath_wait_time']}s"
-    base = DATA_ROOT / "compression-test-data" / s  # <<< FOLDER NAME >>>
+    base = DATA_ROOT / "data/raw" / s  # <<< FOLDER NAME >>>
     directory = base
     if directory.exists():
         run = 2
@@ -195,7 +195,7 @@ def _run_pipeline_and_trigger_next(params):
 
         print(f"[2/5] processing pipeline for: {condition_name}")
         output = processing.process_zero_sample_pairs_pipeline(
-            folder_name="compression-test-data",  # <<< FOLDER NAME >>>
+            folder_name="data/raw",  # <<< FOLDER NAME >>>
             data_root=str(DATA_ROOT),
             strict=False,
             load_cutoff=1.0,

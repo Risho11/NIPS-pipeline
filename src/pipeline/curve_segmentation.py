@@ -74,7 +74,7 @@ SAVE_PLOTS = True   # set False to disable saving
 _caller = Path(sys.argv[0]).stem if sys.argv else ""
 _ts     = datetime.datetime.today().strftime('%Y-%m-%d')
 _prefix = "run" if _caller == "run_loop" else "pseudo-runs/test"
-SAVE_ROOT  = Path(__file__).parent / "pipeline-plots" / f"{_prefix}-{_ts}"
+SAVE_ROOT  = Path(__file__).resolve().parent.parent.parent / "data" / "plots" / f"{_prefix}-{_ts}"
 # ─────────────────────────────────────────────────────────────────────────
 
 
@@ -2030,7 +2030,7 @@ def formatted_parameters(row):
     return "; ".join(f"{k}={row.get(k)}" for k in FORMATTED_PARAMS_KEYS if row.get(k) is not None)
 
 def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
-    data_root = Path(data_root) if data_root is not None else Path(__file__).parent
+    data_root = Path(data_root) if data_root is not None else Path(__file__).resolve().parent.parent.parent
     all_rows = []
     for condition_key in output:
         condition_date = datetime.datetime.now().strftime("%Y-%m-%d\n%H:%M:%S")
@@ -2041,7 +2041,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             # Search up to 2 levels deep under data_root for {condition}/params.json
             matches = sorted(data_root.glob(f"*/{condition}/params.json")) + \
                       sorted(data_root.glob(f"**/{condition}/params.json"))
-            params_path = matches[0] if matches else data_root / "compression-test-data" / condition / "params.json"
+            params_path = matches[0] if matches else data_root / "data" / "raw" / condition / "params.json"
             try:
                 with open(params_path, "r", encoding="utf-8") as f:
                     params = json.load(f)

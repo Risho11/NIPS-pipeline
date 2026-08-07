@@ -2,7 +2,7 @@
 and that param extraction/validation logic works on known LLM outputs."""
 import json, re, sys
 
-src = open("run_loop.py").read()
+src = open("src/pipeline/run_loop.py").read()
 errors = []
 
 REQUIRED_IMPORTS = ["master_processing", "llm_context", "activeLearning_29", "url_29"]
@@ -124,7 +124,7 @@ def _validate_params(params):
             )
 
 
-# ── Known LLM outputs from JSON_results/ and root ─────────────────────────────
+# ── Known LLM outputs from data/llm_results/ and root ─────────────────────────────
 
 GOOD_CASES = [
     # llm_result_17-5deg-7s-NoN2-30s.json

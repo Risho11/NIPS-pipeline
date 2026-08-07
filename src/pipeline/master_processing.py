@@ -16,8 +16,8 @@ from pathlib import Path
 import curve_segmentation
 import membrane_imaging
 
-DATA_ROOT = Path(__file__).parent
-SAMPLE_DATA_FOLDER = "compression-test-data"  # single source of truth for the folder convention
+DATA_ROOT = Path(__file__).resolve().parent.parent.parent  # src/pipeline/master_processing.py -> repo root
+SAMPLE_DATA_FOLDER = "data/raw"  # single source of truth for the folder convention
 
 BRANCH_CONFIG = {
     "curve_segmentation": {"enabled": False, "type": "performance"},
@@ -47,9 +47,9 @@ def confirm_settings():
 
 def _run_curve_segmentation(condition_name, data_root, csv_paths=None):
     reps_path, agg_path, agg_llm_path = csv_paths or (
-        data_root / "results_reps.csv",
-        data_root / "results_agg.csv",
-        data_root / "results_agg_llm.csv",
+        Path(data_root) / "data" / "results" / "results_reps.csv",
+        Path(data_root) / "data" / "results" / "results_agg.csv",
+        Path(data_root) / "data" / "results" / "results_agg_llm.csv",
     )
     output = curve_segmentation.process_zero_sample_pairs_pipeline(
         folder_name=SAMPLE_DATA_FOLDER,
@@ -89,7 +89,7 @@ def run_branches(condition_name, data_root=DATA_ROOT, csv_paths=None) -> dict:
     inputs/outputs can change freely without touching this file.
 
     csv_paths overrides curve_segmentation's output CSVs (reps, agg, agg_llm) — used by
-    TESTS/test_master.py to point at real compression-test-data/ for input while writing to
+    tests/test_master.py to point at real data/raw/ for input while writing to
     an isolated test folder. Defaults to today's production paths under data_root.
     """
     results = {}

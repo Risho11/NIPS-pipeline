@@ -32,16 +32,16 @@ from pathlib import Path
 
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where master_processing.py lives
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "pipeline"))  # <<< IMPORT >>> points to src/pipeline where master_processing.py lives
 import master_processing as mp                  # <<< IMPORT >>> must be in same folder
 import llm_context                              # <<< IMPORT >>> must be in same folder
 import activeLearning_29 as activeLearning      # <<< IMPORT >>> must be in same folder
 
 # ── edit these ──────────────────────────────────────────────────────────────
-DATA_ROOT = Path(__file__).parent.parent   # real repo root — real compression-test-data/
+DATA_ROOT = Path(__file__).parent.parent   # real repo root — real data/raw/
 CONDITION = '10-0add-5deg-60s-N2-300s'
 
-# CONDITION names the real folder (compression-test-data/CONDITION) -- reused across every
+# CONDITION names the real folder (data/raw/CONDITION) -- reused across every
 # manual run of this script. RUN_NAME is what actually gets written as the "name" for every
 # row in the isolated test csvs below, unique per invocation, so rerunning this script never
 # overwrites a prior run's row (and its date) -- it just adds a new one, same way production

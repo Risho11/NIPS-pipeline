@@ -13,13 +13,13 @@ from sklearn.linear_model import LinearRegression
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path(__file__).parent.parent))  # points to project root where curve_segmentation.py lives
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "pipeline"))  # points to src/pipeline where curve_segmentation.py lives
 import curve_segmentation as p
 
 p.SAVE_PLOTS = False
 
 DATAROOT   = str(Path(__file__).parent.parent)
-DATAFOLDER = "compression-test-data"
+DATAFOLDER = "data/raw"
 CUTOFF_LOAD_DISP  = 2
 CUTOFF_LOAD_THICK = 1
 

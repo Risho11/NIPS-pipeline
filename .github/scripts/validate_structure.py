@@ -34,11 +34,14 @@ for src in source_files:
     for match in FOLDER_MARKER.finditer(content):
         folder_name = match.group(1)
         checked += 1
-        # check relative to project root first, then one level deep
+        # check relative to project root, one level deep, then anywhere under root
+        # (handles folders nested further, e.g. data/raw/fake-data)
         candidates = [ROOT / folder_name] + list(ROOT.glob(f"*/{folder_name}"))
         found = any(p.is_dir() for p in candidates)
         if not found:
-            errors.append(f"{src.name}: folder '{folder_name}' not found at project root or one level deep")
+            found = any(p.is_dir() for p in ROOT.rglob(folder_name))
+        if not found:
+            errors.append(f"{src.name}: folder '{folder_name}' not found under project root")
         else:
             print(f"Test {checked} passed: '{folder_name}' found at {src.name}")
 
@@ -47,12 +50,17 @@ for src in source_files:
         if module in OPTIONAL_IMPORTS:
             continue
         checked += 1
-        # check both same dir and parent dir (handles scripts in subdfolders that add parent to sys.path)
+        # check same dir, parent dir, and anywhere under ROOT (handles scripts whose
+        # sys.path.insert points at a specific subfolder like src/pipeline, not just parent)
         candidates = [src.parent / f"{module}.py", src.parent.parent / f"{module}.py"]
-        if not any(p.exists() for p in candidates):
-            errors.append(f"{src.name}: import '{module}' not found in {src.parent} or {src.parent.parent}")
+        found = next((p for p in candidates if p.exists()), None)
+        if found is None:
+            matches = list(ROOT.rglob(f"{module}.py"))
+            found = matches[0] if matches else None
+        if found is None:
+            errors.append(f"{src.name}: import '{module}' not found in {src.parent}, {src.parent.parent}, or anywhere under {ROOT}")
         else:
-            print(f"Test {checked} passed: '{module}' found at {src.parent}")
+            print(f"Test {checked} passed: '{module}' found at {found.parent}")
 
 if errors:
     print(f"FAIL structure validation ({len(errors)} error(s)):")

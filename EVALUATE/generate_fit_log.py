@@ -18,7 +18,7 @@ Layout per condition:
 Run standalone:
     python generate_fit_log.py
 
-Called automatically by TESTS/test_processing.py after each test run.
+Called automatically by tests/test_processing.py after each test run.
 When the same condition appears in multiple CSVs, the most recently
 dated entry wins — re-running always replaces, never appends.
 """
@@ -32,9 +32,9 @@ import pandas as pd
 
 FILE_DIR  = Path(__file__).parent
 ROOT      = FILE_DIR.parent  # project root — this script lives in EVALUATE/
-PLOTS_DIR = ROOT / "pipeline-plots"
-MAIN_CSV  = ROOT / "results_reps.csv"
-MAIN_AGG  = ROOT / "results_agg.csv"
+PLOTS_DIR = ROOT / "data" / "plots"
+MAIN_CSV  = ROOT / "data" / "results" / "results_reps.csv"
+MAIN_AGG  = ROOT / "data" / "results" / "results_agg.csv"
 OUTPUT    = FILE_DIR / "fit_evaluation_log.html"
 PASS_THRESHOLD = 70
 
@@ -282,7 +282,12 @@ CSS = """
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 13px;
        background: #ececec; color: #222; }
-h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff; }
+h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
+       display: flex; align-items: baseline; gap: 16px; }
+.page-nav { display: flex; gap: 8px; font-size: 12px; font-weight: normal; }
+.page-nav a { color: #90a4ae; text-decoration: none; padding: 3px 9px; border-radius: 3px; }
+.page-nav a:hover { background: #37474f; color: #fff; }
+.page-nav a.active { background: #455a64; color: #fff; }
 .meta { font-size: 11px; color: #90a4ae; padding: 3px 22px 10px;
         background: #263238; }
 .legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
@@ -931,7 +936,12 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
 <style>{CSS}</style>
 </head>
 <body>
-<h1>Fit Evaluation Log</h1>
+<h1>Fit Evaluation Log
+  <span class="page-nav">
+    <a href="fit_evaluation_log.html" class="active">Fit Evaluation</a>
+    <a href="quality_evaluation_log.html">Quality Evaluation</a>
+  </span>
+</h1>
 <div class="meta">Generated {generated_at} &nbsp;·&nbsp; {len(cond_order)} condition(s) &nbsp;·&nbsp;
   Pass threshold: {PASS_THRESHOLD}/100 &nbsp;·&nbsp; Click any image to open full size</div>
 <div class="legend">
@@ -939,7 +949,7 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
   <div class="legend-item"><div class="dot" style="background:#e65100"></div>mixed</div>
   <div class="legend-item"><div class="dot" style="background:#b71c1c"></div>all fail</div>
   <div class="legend-item"><div class="dot" style="background:#78909c"></div>pre-processing failure</div>
-  <div class="legend-item" style="color:#cfd8dc;font-size:11px">newest first &nbsp;·&nbsp; to update plots: run <code style="background:#37474f;padding:1px 4px;border-radius:2px">python TESTS/test_processing.py</code> then <code style="background:#37474f;padding:1px 4px;border-radius:2px">python generate_fit_log.py</code></div>
+  <div class="legend-item" style="color:#cfd8dc;font-size:11px">newest first &nbsp;·&nbsp; to update plots: run <code style="background:#37474f;padding:1px 4px;border-radius:2px">python tests/test_processing.py</code> then <code style="background:#37474f;padding:1px 4px;border-radius:2px">python generate_fit_log.py</code></div>
 </div>
 <div id="filter-bar">
   <span style="opacity:.7;font-weight:600">Filter:</span>
@@ -965,8 +975,8 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
 
 
 if __name__ == "__main__":
-    _test_reps = ROOT / "TESTS" / "csv_tests" / "test_reps.csv"
-    _test_agg  = ROOT / "TESTS" / "csv_tests" / "test_agg.csv"
+    _test_reps = ROOT / "tests" / "csv_tests" / "test_reps.csv"
+    _test_agg  = ROOT / "tests" / "csv_tests" / "test_agg.csv"
     generate(
         extra_csv_paths=[_test_reps] if _test_reps.exists() else [],
         agg_csv_paths=[_test_agg]   if _test_agg.exists()  else [],

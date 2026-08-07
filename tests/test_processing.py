@@ -16,7 +16,7 @@ import sys, json, re
 import pandas as pd
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where curve_segmentation.py lives
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "pipeline"))  # <<< IMPORT >>> points to src/pipeline where curve_segmentation.py lives
 import curve_segmentation as processing             # <<< IMPORT >>> must be in same folder
 #import activeLearning_29 as al                 # <<< IMPORT >>> must be in same folder
 
@@ -32,7 +32,7 @@ JSON_OUT    = Path(__file__).parent / "csv_tests" / "test_llm_params.json"
 # ────────────────────────────────────────────────────────────────────────────
 
 _all_conditions = sorted([
-    d.name for d in (DATA_ROOT / "compression-test-data").iterdir()
+    d.name for d in (DATA_ROOT / "data" / "raw").iterdir()
     if d.is_dir() and d.name not in ("fake-data",)
 ]) if CONDITION is None else [CONDITION]
 
@@ -41,7 +41,7 @@ print(f"Conditions : {CONDITION or f'ALL ({len(_all_conditions)})'}")
 print()
 
 output = processing.process_zero_sample_pairs_pipeline(
-    folder_name="compression-test-data",  # <<< FOLDER NAME >>>
+    folder_name="data/raw",  # <<< FOLDER NAME >>>
     data_root=str(DATA_ROOT),
     strict=False,
     load_cutoff=1.0,

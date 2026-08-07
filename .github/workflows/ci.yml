@@ -22,12 +22,12 @@ jobs:
       - id: detect
         run: |
           DIFF=$(git diff --name-only HEAD~1 HEAD)
-          if echo "$DIFF" | grep -qE "processing_29\.py|TESTS/run_tests\.py|fake-data/"; then
+          if echo "$DIFF" | grep -qE "processing_29\.py|tests/run_tests\.py|fake-data/"; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
-          if echo "$DIFF" | grep -qE "processing_29\.py|TESTS/test_csv\.py|TESTS/test_guardrails\.py"; then
+          if echo "$DIFF" | grep -qE "processing_29\.py|tests/test_csv\.py|tests/test_guardrails\.py"; then
             echo "csv_changed=true" >> $GITHUB_OUTPUT
           else
             echo "csv_changed=false" >> $GITHUB_OUTPUT
@@ -73,7 +73,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Compile all Python files
-        run: python -m compileall -q . -x "2025-07-02|minipc|\.venv"
+        run: python -m compileall -q . -x "2025-07-02|src/server|\.venv"
 
   validate-params:
     runs-on: ubuntu-latest
@@ -127,9 +127,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: CSV edge case tests
-        run: python TESTS/test_csv.py
+        run: python tests/test_csv.py
       - name: Guardrail tests
-        run: python TESTS/test_guardrails.py
+        run: python tests/test_guardrails.py
 
   smoke-test:
     needs: [check-changes, secret-scan, syntax-check, validate-structure, csv-tests]
@@ -146,7 +146,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Smoke test (single condition)
-        run: python TESTS/run_tests.py --condition short-nips-30s
+        run: python tests/run_tests.py --condition short-nips-30s
 
   run-tests:
     needs: [check-changes, smoke-test, validate-params, validate-fake-data, validate-run-loop, validate-structure]
@@ -170,4 +170,4 @@ jobs:
             echo "Only whitespace/comment changes in processing_29.py — skipping full test run"
             exit 0
           fi
-          python TESTS/run_tests.py --tags $TAGS --skip nine-per-phase-1800s double-run-4-clusters multi-date-two-runs
+          python tests/run_tests.py --tags $TAGS --skip nine-per-phase-1800s double-run-4-clusters multi-date-two-runs

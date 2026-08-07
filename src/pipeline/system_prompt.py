@@ -40,7 +40,7 @@ EXPERIMENTAL_REPORT_PROMPT = (
 # ── LLM_AL ──────────────────────────────────────────────────────────────────────
 # Human-authored, static, hardcoded. Fixes the old prompt's self-contradiction ("maximize modulus"
 # stated twice, then "minimize strain at 50 bar") -- the correct objective is minimize Strain at 50
-# bar (see TESTS/llm_prompt_context.md). Adds materials-discovery framing so the model doesn't
+# bar (see tests/llm_prompt_context.md). Adds materials-discovery framing so the model doesn't
 # infer/suggest an out-of-scope application. Output contract (flat JSON, exact PARAMS_SCHEMA keys)
 # is unchanged -- run_loop.py's _extract_next_params/_validate_params depend on this shape.
 ACTIVE_LEARNING_PROMPT_TEMPLATE = (
@@ -74,25 +74,30 @@ class QualityChecker:
     )
     task: str = (
         "Assess, qualitatively, from the photo: (1) whether a membrane is present at all, "
-        "(2) whether it covers the test-cell aperture, (3) whether it looks uniform, "
+        "(2) whether it covers the full VERTICAL (top-to-bottom) extent of the test-cell aperture -- "
+        "a real defect if not -- (3) whether it looks uniform, "
         "(4) whether it is free of visible wrinkles or trapped air bubbles."
     )
     constraints: str = (
         "This is materials-discovery research, not a filtration or permeation product test -- do not "
         "discuss, infer, or evaluate filtration/permeation suitability, even if the rig resembles one. "
-        "Partial lateral coverage gaps against the test-cell aperture are expected -- note briefly if present, do not speculate about cause or consequence. "
+        "The test-cell aperture is intentionally oversized left-to-right relative to the coupon -- partial "
+        "LATERAL (left/right) gaps between the membrane edge and the aperture are a rig artifact, not a "
+        "membrane defect. Do not mention, describe, note, or factor lateral/horizontal coverage into the "
+        "assessment in any way. Only vertical (top/bottom) coverage gaps are relevant and should be "
+        "reported clearly if present. "
         "If no membrane is present, say so in one sentence; do not describe the exposed backing/"
         "surface texture in detail. Do not give a numeric score. Keep the entire response concise."
     )
     format: str = (
-        "Respond with short labeled bullets: Presence / Coverage / Uniformity / Defects / Summary. "
+        "Respond with short labeled bullets: Presence / Vertical Coverage / Uniformity / Defects / Summary. "
         "Keep the whole response under about 120 words."
     )
 
 
 # Where refine_quality_checker_prompt() saves its output. Tracked in git like everything else here
 # so a refine run is a reviewable diff, not a silent local-only change.
-QUALITY_CHECKER_PROMPT_CACHE_PATH = Path(__file__).parent / "quality_checker_prompt.txt"
+QUALITY_CHECKER_PROMPT_CACHE_PATH = Path(__file__).resolve().parent.parent.parent / "prompts" / "quality_checker_prompt.txt"
 
 
 def _assemble_from_checker(checker: QualityChecker) -> str:

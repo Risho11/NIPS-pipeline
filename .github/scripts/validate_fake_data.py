@@ -17,10 +17,10 @@ EXPECTED_PAIRS = {
 SPECIMEN_RE = re.compile(r"^Specimen_\d+_\d{8}_\d{6}\.csv$")
 
 errors = []
-base = Path("compression-test-data/fake-data")
+base = Path("data/raw/fake-data")
 
 if not base.exists():
-    print("FAIL compression-test-data/fake-data not found")
+    print("FAIL data/raw/fake-data not found")
     sys.exit(1)
 
 for condition, expected_pairs in EXPECTED_PAIRS.items():

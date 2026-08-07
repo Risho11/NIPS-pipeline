@@ -6,7 +6,7 @@ Changing curve_segmentation.py internals (curve fitting, goodFit_eval logic) doe
 break these tests — only changes to the save_to_csv input/output contract would.
 
 Run:
-    python TESTS/test_csv.py
+    python tests/test_csv.py
 """
 import sys
 import json
@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "pipeline"))
 import curve_segmentation as processing
 
 # ── Helpers ─────────────────────────────────────────────────────────────────

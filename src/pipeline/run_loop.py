@@ -34,11 +34,13 @@ class _TeeLogger:
     def __getattr__(self, name):
         return getattr(self._stream, name)
 
-_log_path = Path(__file__).parent / "logs" / f"run_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
+_REPO_ROOT = Path(__file__).resolve().parent.parent.parent  # src/pipeline/run_loop.py -> repo root
+
+_log_path = _REPO_ROOT / "logs" / f"run_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
 sys.stdout = _TeeLogger(_log_path, sys.__stdout__)
 sys.stderr = _TeeLogger(_log_path, sys.__stderr__)
 
-sys.path.insert(0, os.path.dirname(__file__))  # <<< IMPORT >>> adds script's own folder to path — breaks if moved to subfolder
+sys.path.insert(0, os.path.dirname(__file__))  # <<< IMPORT >>> adds script's own folder (src/pipeline) to path — siblings live here
 import url_29 as url                           # <<< IMPORT >>> must be in same folder as run_loop.py
 import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same folder
 import master_processing                       # <<< IMPORT >>> dispatches curve_segmentation + image_processing branches
@@ -89,13 +91,13 @@ PARAMS_SCHEMA = {
     "polymer_wt":               (int, float),
     "additive_wt":              (int, float),
 }
-# <<< PATH >>> project root = folder containing this script
-DATA_ROOT    = Path(__file__).parent
-# <<< PATH >>> output CSVs land beside this script
-CSV_REPS        = DATA_ROOT / "results_reps.csv"
-CSV_AGG         = DATA_ROOT / "results_agg.csv"
-CSV_AGG_LLM     = DATA_ROOT / "results_agg_llm.csv"
-JSON_RESULTS_DIR = DATA_ROOT / "JSON_results"
+# <<< PATH >>> project root = three levels up from src/pipeline/run_loop.py
+DATA_ROOT    = _REPO_ROOT
+# <<< PATH >>> output CSVs live under data/results/
+CSV_REPS        = DATA_ROOT / "data" / "results" / "results_reps.csv"
+CSV_AGG         = DATA_ROOT / "data" / "results" / "results_agg.csv"
+CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / "results_agg_llm.csv"
+JSON_RESULTS_DIR = DATA_ROOT / "data" / "llm_results"
 # <<< PATH >>> hardcoded Windows lab machine paths — change if machine changes
 CSV_RAW_PATH = Path(r"C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed")
 IMAGES_PATH  = Path(r"C:\Users\opentrons\Documents\auto-membranes\images")
@@ -164,7 +166,7 @@ def move_and_rename(params):
         s += "No"
     s += "N2-"
     s += f"{params['nips_bath_wait_time']}s"
-    base = DATA_ROOT / "compression-test-data" / s  # <<< FOLDER NAME >>>
+    base = DATA_ROOT / "data/raw" / s  # <<< FOLDER NAME >>>
     directory = base
     if directory.exists():
         run = 2

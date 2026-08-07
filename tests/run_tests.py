@@ -2,7 +2,7 @@
 run_tests.py — CI-ready test suite for the NIPS processing pipeline.
 
 Tests clustering logic and full pipeline (processing → CSV → LLM → JSON) using
-fake-data conditions in compression-test-data/fake-data/.
+fake-data conditions in data/raw/fake-data/.
 
 Usage:
     python run_tests.py                         # all tests, LLM mocked
@@ -21,12 +21,12 @@ import tempfile
 import shutil
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> points to project root where curve_segmentation.py lives
+sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "pipeline"))  # <<< IMPORT >>> points to src/pipeline where curve_segmentation.py lives
 import curve_segmentation as processing             # <<< IMPORT >>> must be in same folder
 
-# <<< PATH >>> points INTO compression-test-data, differs from run_loop.py which points to project root
-DATA_ROOT      = Path(__file__).parent / "compression-test-data"
-FAKE_FOLDER    = "fake-data"  # <<< FOLDER NAME >>> subfolder inside compression-test-data
+# <<< PATH >>> points INTO data/raw, differs from run_loop.py which points to project root
+DATA_ROOT      = Path(__file__).parent.parent / "data" / "raw"
+FAKE_FOLDER    = "fake-data"  # <<< FOLDER NAME >>> subfolder inside data/raw
 
 MOCK_INITIAL_REPORT = (
     "The membrane was synthesized using a polysulfone solution at 17 wt% in PolarClean. "

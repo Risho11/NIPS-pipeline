@@ -195,7 +195,7 @@ def _clear_stale_performance_outcome(condition_name, agg_llm_path):
 
 
 def attach_all_branch_results(condition_name, branch_results, branch_config, agg_path, agg_llm_path):
-    """Same per-branch attach strategy for both run_loop.py and TESTS/test_master.py: skip
+    """Same per-branch attach strategy for both run_loop.py and tests/test_master.py: skip
     "performance" (curve_segmentation already wrote its own native columns), generate a real
     quality report via the dedicated vision LLM for "quality"-type branches, attach everything
     else generically. One implementation, so the two callers can't drift apart."""
@@ -217,7 +217,7 @@ def generate_reports_and_suggestion(condition_name, agg_llm_path, activeLearning
     outcome text into final_report, join performance_observations across campaign history, pull
     quality_observations (already-built quality_report column), call activeLearning.LLM_AL with
     both. Returns the raw params_suggestion string. `activeLearning` is passed in (not imported
-    here) so TESTS/test_master.py can monkeypatch activeLearning_29.Generate_report/LLM_AL to
+    here) so tests/test_master.py can monkeypatch activeLearning_29.Generate_report/LLM_AL to
     stubs before calling this, rather than reimplementing the flow."""
     agg_llm_path = Path(agg_llm_path)
     llm_df = pd.read_csv(agg_llm_path)
