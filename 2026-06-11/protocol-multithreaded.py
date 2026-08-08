@@ -21,7 +21,7 @@ import threading
 # ==================================================
 
 # variables to simulate actions
-simulate_compression_tests = True
+simulate_compression_tests = False
 take_picture = True
 
 # set number of tests we want
@@ -36,18 +36,22 @@ opentronsStandLock = threading.Lock() # make sure two processes aren't trying to
 cameraLock = threading.Lock() # make sure two processing aren't fighting over the camera box, as in trying to open the box while another process is trying to take a picture
 parametersLock = threading.Lock() # make sure two processes aren't trying to save to the parameters.json file at the same time
 
-# load robot parameters from .json
-with open('robot.json') as robot_file:
-    robot = json.load(robot_file)
+def load_globals():
+    global coupons, rings, discard, tip_index, heater_well_index, opentrons_stand_status, camera_box_open
+    
+    # load robot parameters from .json
+    with open('robot.json') as robot_file:
+        robot = json.load(robot_file)
 
-coupons = robot["coupons"] # number of clean coupons in the stack
-rings = robot["rings"] # number of rings on the stand
-discard = robot["discard"] # number of dirty coupons/rings in the discard stack
-tip_index = robot["tip_index"] # current index of the tip rack in the opentrons, starting from 0
-heater_well_index = robot["heater_well_index"] # current index of the heater block in the opentrons, starting from 0
-opentrons_stand_status = robot["opentrons_stand_status"] # "empty", "clean" or "dirty"
-camera_box_open = robot["camera_box_open"] # True if the box is open and false if it's closed
+    coupons = robot["coupons"] # number of clean coupons in the stack
+    rings = robot["rings"] # number of rings on the stand
+    discard = robot["discard"] # number of dirty coupons/rings in the discard stack
+    tip_index = robot["tip_index"] # current index of the tip rack in the opentrons, starting from 0
+    heater_well_index = robot["heater_well_index"] # current index of the heater block in the opentrons, starting from 0
+    opentrons_stand_status = robot["opentrons_stand_status"] # "empty", "clean" or "dirty"
+    camera_box_open = robot["camera_box_open"] # True if the box is open and false if it's closed
 
+load_globals()
 runProcess = None # no current process
 
 # ==================================================
@@ -55,6 +59,9 @@ runProcess = None # no current process
 # ==================================================
 
 def error_check():
+    # update parameters
+    load_globals()
+    
     # make sure we have at least 1 ring and 1 coupon
     errors = ""
     if coupons <= 0:
@@ -74,7 +81,7 @@ def error_check():
     if errors != "":
         print(errors)
         print("Please fix errors and update robot.json accordingly. Exiting.")
-        exit()
+        sys.exit()
 
 error_check()
         
