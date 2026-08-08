@@ -36,22 +36,18 @@ opentronsStandLock = threading.Lock() # make sure two processes aren't trying to
 cameraLock = threading.Lock() # make sure two processing aren't fighting over the camera box, as in trying to open the box while another process is trying to take a picture
 parametersLock = threading.Lock() # make sure two processes aren't trying to save to the parameters.json file at the same time
 
-def load_globals():
-    global coupons, rings, discard, tip_index, heater_well_index, opentrons_stand_status, camera_box_open
-    
-    # load robot parameters from .json
-    with open('robot.json') as robot_file:
-        robot = json.load(robot_file)
+# load robot parameters from .json
+with open('robot.json') as robot_file:
+    robot = json.load(robot_file)
 
-    coupons = robot["coupons"] # number of clean coupons in the stack
-    rings = robot["rings"] # number of rings on the stand
-    discard = robot["discard"] # number of dirty coupons/rings in the discard stack
-    tip_index = robot["tip_index"] # current index of the tip rack in the opentrons, starting from 0
-    heater_well_index = robot["heater_well_index"] # current index of the heater block in the opentrons, starting from 0
-    opentrons_stand_status = robot["opentrons_stand_status"] # "empty", "clean" or "dirty"
-    camera_box_open = robot["camera_box_open"] # True if the box is open and false if it's closed
+coupons = robot["coupons"] # number of clean coupons in the stack
+rings = robot["rings"] # number of rings on the stand
+discard = robot["discard"] # number of dirty coupons/rings in the discard stack
+tip_index = robot["tip_index"] # current index of the tip rack in the opentrons, starting from 0
+heater_well_index = robot["heater_well_index"] # current index of the heater block in the opentrons, starting from 0
+opentrons_stand_status = robot["opentrons_stand_status"] # "empty", "clean" or "dirty"
+camera_box_open = robot["camera_box_open"] # True if the box is open and false if it's closed
 
-load_globals()
 runProcess = None # no current process
 
 # ==================================================
@@ -59,24 +55,25 @@ runProcess = None # no current process
 # ==================================================
 
 def error_check():
-    # update parameters
-    load_globals()
-    
     # make sure we have at least 1 ring and 1 coupon
     errors = ""
-    if coupons <= 0:
+    if robot["coupons"] <= 0:
         errors += "There must be at least 1 coupon in the pile. \n"
-    if rings <= 0:
+    if robot["rings"] <= 0:
         errors += "There must be at least 1 ring on the stand. \n"
+    
     # make sure opentrons stand is empty
-    if opentrons_stand_status != "empty":
+    if robot["opentrons_stand_status"] != "empty":
         errors += "Opentrons stand must be empty. \n"
+    
     # must have enough tips
-    if tip_index > 96 - 5:
+    if robot["tip_index"] > 96 - 5:
         errors += "There must be at least 5 available tips \n"
+    
     # must have empty wells
-    if heater_well_index >= 24:
+    if robot["heater_well_index"] >= 24:
         errors += "There must be at least 1 clean heater well. \n"
+    
     # print errors
     if errors != "":
         print(errors)
