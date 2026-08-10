@@ -21,7 +21,7 @@ import threading
 # ==================================================
 
 # variables to simulate actions
-simulate_compression_tests = True
+simulate_compression_tests = False
 take_picture = True
 
 # set number of tests we want
@@ -57,24 +57,28 @@ runProcess = None # no current process
 def error_check():
     # make sure we have at least 1 ring and 1 coupon
     errors = ""
-    if coupons <= 0:
+    if robot["coupons"] <= 0:
         errors += "There must be at least 1 coupon in the pile. \n"
-    if rings <= 0:
+    if robot["rings"] <= 0:
         errors += "There must be at least 1 ring on the stand. \n"
+    
     # make sure opentrons stand is empty
-    if opentrons_stand_status != "empty":
+    if robot["opentrons_stand_status"] != "empty":
         errors += "Opentrons stand must be empty. \n"
+    
     # must have enough tips
-    if tip_index > 96 - 5:
+    if robot["tip_index"] > 96 - 5:
         errors += "There must be at least 5 available tips \n"
+    
     # must have empty wells
-    if heater_well_index >= 24:
+    if robot["heater_well_index"] >= 24:
         errors += "There must be at least 1 clean heater well. \n"
+    
     # print errors
     if errors != "":
         print(errors)
         print("Please fix errors and update robot.json accordingly. Exiting.")
-        exit()
+        sys.exit()
 
 error_check()
         

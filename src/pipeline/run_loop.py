@@ -50,12 +50,12 @@ import llm_context                             # <<< IMPORT >>> what branch resu
 
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {
-    "mixing_temp": 25,
+    "mixing_temp": 60,
     "bath_temp": 5,
-    "pullcast_speed": 10,
+    "pullcast_speed": 1,
     "nitrogen": True,
-    "coupon_to_bath_wait_time": 55,
-    "nips_bath_wait_time": 101,
+    "coupon_to_bath_wait_time": 300,
+    "nips_bath_wait_time": 1800,
     "polymer_wt": 17,
     "additive_wt": 0
 }

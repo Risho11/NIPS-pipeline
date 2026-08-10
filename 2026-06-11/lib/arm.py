@@ -181,7 +181,7 @@ positions = {
         "discard": [-2, 280, 117, 180, 45, 90],
         
         "2nd bath waypoint": [280, 240, 300, 180, 45, 89], # leave in bath
-        "2nd bath": [285, 250, 113, 180, 45, 89],
+        "2nd bath": [286, 250, 113, 180, 45, 89],
         "hover bath waypoint": [270, 225, 310, 180, 45, 90], # arm holds coupon in bath
         "hover bath": [270, 225, 170, 180, 45, 90],
         
@@ -203,7 +203,7 @@ positions = {
         "squeegee 2 end": [95, 180, 249, 180, 10, 90],
         
         "squeegee middle waypoint 1": [160, 180, 254, 180, 0, 90],
-        "squeegee middle waypoint 2": [160, 290, 254, 180, 0, 90],
+        "squeegee middle waypoint 2": [160, 280, 254, 180, 0, 90],
         "squeegee middle start": [160, 310, 254, 180, 10, 90],
         "squeegee middle end": [160, 180, 249, 180, 10, 90],
         
@@ -219,7 +219,7 @@ ip_address = "192.168.1.198"
 default_speed = 250 # mm/s
 waypoint_speed = 250 # mm/s
 pullcast_speed = 50 # mm/s
-grab_speed = 150 # mm/s
+grab_speed = 100 # mm/s
 
 coupon_spacing = 20 # mm
 ring_spacing = 15 # mm
@@ -322,10 +322,10 @@ class Arm():
         self.close_gripper()
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch, speed = speed)
     
-    def put_down(self, item, pitch = True):
+    def put_down(self, item, pitch = True, speed  = grab_speed):
         item = items[item]
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch)
-        self.go_to_position(item["home zone"], item["home position"], speed=grab_speed)
+        self.go_to_position(item["home zone"], item["home position"], speed = speed)
         self.open_gripper()
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch)
         
@@ -374,7 +374,7 @@ class Arm():
         
         self.go_to_position("opentrons", "coupon bath waypoint", pitch = False)
         #self.go_to_position("opentrons", "coupon bath cap")
-        self.go_to_position("opentrons", "coupon bath")
+        self.go_to_position("opentrons", "coupon bath", speed = 50)
         
         self.open_gripper()
         self.go_to_position("opentrons", "coupon bath waypoint")
@@ -389,7 +389,7 @@ class Arm():
         
     def unprep_coupon_test(self):
         self.go_to_position("tester", "coupon test 1 waypoint")
-        self.go_to_position_offset("tester", "coupon flat", [0, 3, 0, 0, 0, 0])
+        self.go_to_position_offset("tester", "coupon flat", [0, 2, 0, 0, 0, 0])
         self.open_gripper()
         self.go_to_position("tester", "coupon flat waypoint")
         
@@ -500,7 +500,7 @@ class Arm():
         self.go_to_position("tester", "squeegee " + position + " start")
         self.go_to_position("tester", "squeegee " + position + " end", speed = speed)
         
-    def dry_tester(self, squeegee_cycles = 1, pin_cycles = 2, speed = 200, middle = True):
+    def dry_tester(self, squeegee_cycles = 1, pin_cycles = 2, speed = 250, middle = True):
         # pickup squeegee
         self.go_to_position("tester", "squeegee stand waypoint 1")
         self.go_to_position("tester", "squeegee stand waypoint 2")
@@ -510,8 +510,8 @@ class Arm():
         
         # squeegee testing platform
         for i in range(squeegee_cycles):
-            self.squeegee(position = "1", speed = 200)
-            self.squeegee(position = "2", speed = 200)
+            self.squeegee(position = "1", speed = speed)
+            self.squeegee(position = "2", speed = speed)
         
         # dry compression pin
         if pin_cycles > 0:
@@ -523,11 +523,11 @@ class Arm():
             self.go_to_position("tester", "squeegee pin waypoint", speed = 50)
             
             # remove water on left side again
-            self.squeegee(position = "2", speed = 200)
+            self.squeegee(position = "2", speed = speed)
         
         # squeegee middle
         if middle:
-            self.squeegee(position = "middle", speed = 200)
+            self.squeegee(position = "middle", speed = speed)
         
         # put away squeegee
         self.go_to_position("tester", "squeegee stand waypoint 1")
