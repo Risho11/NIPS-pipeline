@@ -116,8 +116,13 @@ def take_snapshot():
         print("Error: unable to take picture")
 
 def get_last_set_csv():
+    # Reps per condition varies by protocol -- 8 is today's number, not a hard rule. Since
+    # CSV_RAW_PATH accumulates every specimen ever tested with no per-run boundary, any condition
+    # that runs more than this constant loses its earliest specimens silently (they fall outside
+    # the tail slice). Bump this if the protocol's rep count changes again.
+    REPS_PER_CONDITION = 8
     files = sorted(CSV_RAW_PATH.glob("**/*.csv"), key=os.path.getctime)
-    return files[-6:]
+    return files[-REPS_PER_CONDITION:]
 
 def get_last_set_img():
     files = sorted(IMAGES_PATH.glob("*.jpg"), key=os.path.getctime)
