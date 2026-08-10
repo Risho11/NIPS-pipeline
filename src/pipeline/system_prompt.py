@@ -45,21 +45,33 @@ EXPERIMENTAL_REPORT_PROMPT = (
 # is unchanged -- run_loop.py's _extract_next_params/_validate_params depend on this shape.
 ACTIVE_LEARNING_PROMPT_TEMPLATE = (
     "Here I have a set of structured experimental parameters for my automated membrane synthesis via "
-    "non-solvent-induced phase separation (NIPS). This is early-stage materials-discovery research -- "
-    "the goal is to understand and improve membrane mechanical properties, not to evaluate or discuss "
-    "any downstream application (e.g. filtration or permeation performance). Do not suggest or assess "
-    "anything outside the current parameter/stock system. "
-    "OBJECTIVE: minimize Strain at 50 bar (a lower value means a stiffer, mechanically superior "
-    "membrane). Elastic Modulus is a secondary, directional signal only -- prefer Strain at 50 bar "
-    "when both are available. Take the coefficient of variation (CV) into account when appropriate, "
-    "but don't over-index on it when replicate counts are low. "
-    "Based on the following prior experimental observations, recommend the next set of experimental "
-    "parameters expected to minimize Strain at 50 bar, given these parameter ranges: {ranges} "
-    "Keep your reasoning concise and structured (short bullets are fine) -- don't repeat the "
-    "parameter ranges or prior observations back at length. "
+    "non-solvent-induced phase separation (NIPS). Do not suggest or assess "
+    "anything outside the current parameter/stock system."
+    "OBJECTIVE: Maximize the Elastic Modulus. *My goal is to iteratively find the best experiments to achieve this objective.*"
+    "Take the coefficient of variation (CV) and the membrane quality into account when appropriate. "
+    "Based on the following prior experimental observations and the objective, recommend the next set of experimental "
+    "parameters, given these parameter ranges: {ranges} "
+    "Keep your reasoning concise, structured and transparent."
     "Return your answer as a single JSON object (a ```json code fence is fine) with exactly these "
     "keys: mixing_temp, bath_temp, pullcast_speed, nitrogen, coupon_to_bath_wait_time, "
     "nips_bath_wait_time, polymer_wt, additive_wt. Do not add a wrapping key or omit any key."
+)
+
+# Historical reference only -- NOT used anywhere, never import/call this. The original inline
+# LLM_AL prompt before ACTIVE_LEARNING_PROMPT_TEMPLATE existed (see activeLearning_29.py at git
+# commit d7b31ed, pre-4f71143). Self-contradictory: says "maximize modulus" twice, then "minimize
+# strain at 50 bar" once. This is what produced the 10-25degMix-25deg-0s-NoN2-1800s campaign row
+# (LLM told to maximize when the real objective was minimize Strain at 50 bar) -- kept here so the
+# mistake and its exact wording aren't lost to git-log archaeology if it ever needs re-diagnosing.
+_ACTIVE_LEARNING_PROMPT_ORIGINAL_BUGGY_BACKUP = (
+    "Here I have a set of structured experimental parameters for my automated membrane synthesis "
+    "via non-solvent-induced phase separation (NIPS). "
+    "My goal is to iteratively find the best experiment to maximize modulus. "
+    "Based on the following previous experimental observations, recommend the next experiment "
+    "that minimizes strain at 50 bar, taking the coefficient of variation (CV) into account when "
+    "it is appropriate. "
+    "Suggest the next set of experimental parameters that is expected to maximize modulus given "
+    "the parameter ranges: {ranges}."
 )
 
 

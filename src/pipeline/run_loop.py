@@ -36,9 +36,11 @@ class _TeeLogger:
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent  # src/pipeline/run_loop.py -> repo root
 
-_log_path = _REPO_ROOT / "logs" / f"run_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
-sys.stdout = _TeeLogger(_log_path, sys.__stdout__)
-sys.stderr = _TeeLogger(_log_path, sys.__stderr__)
+# Log-file redirection and camera setup live in `if __name__ == "__main__":` below, not here --
+# doing it at module level meant merely `import run_loop` (a test script, a REPL, a one-off
+# helper check) silently created a new logs/run_*.log and hijacked stdout for the rest of that
+# process, and opened the physical camera device, neither of which should happen outside an
+# actual campaign run.
 
 sys.path.insert(0, os.path.dirname(__file__))  # <<< IMPORT >>> adds script's own folder (src/pipeline) to path — siblings live here
 import url_29 as url                           # <<< IMPORT >>> must be in same folder as run_loop.py
@@ -67,7 +69,7 @@ INITIAL_PARAMS = {
 # Sweeping is forced on regardless of these flags whenever no branches are enabled at all —
 # a pure test has no data to run active learning on, so it has to sweep a fixed list instead.
 ITERATE_ADDITIVES = False
-ITERATE_POLYMER = True
+ITERATE_POLYMER = False
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
 ITERATION_BASE_PARAMS = {
@@ -105,13 +107,6 @@ SERVER_IP    = "169.254.230.148"
 SERVER_PORT  = 8000
 CAMERA_INDEX = 2  # change if wrong camera after restart or replug
 # ──────────────────────────────────────────────────────────────────────────────
-
-cam = cv2.VideoCapture(CAMERA_INDEX)
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-# <<< PATH >>> "images" folder relative to cwd, not DATA_ROOT
-if not os.path.isdir("images"):
-    os.mkdir("images")
 
 def take_snapshot():
     ret, img = cam.read()
@@ -156,16 +151,27 @@ def _next_iteration_params():
         print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |\n-----------------------------------\n")
     return {**ITERATION_BASE_PARAMS, "polymer_wt": p, "additive_wt": a}
 
+def _fmt_num(v):
+    """Format a numeric param for use in a folder name -- no literal '.' (a dot like
+    "21.0-0.0add" reads as a file extension to some tools and complicates path parsing), and no
+    redundant trailing ".0" for whole numbers. Genuine fractions use 'p' in place of the dot
+    (e.g. 0.5 -> "0p5")."""
+    f = float(v)
+    if f == int(f):
+        return str(int(f))
+    return str(f).replace(".", "p")
+
+
 def move_and_rename(params):
-    s = f"{params['polymer_wt']}-{params['additive_wt']}add-"
+    s = f"{_fmt_num(params['polymer_wt'])}-{_fmt_num(params['additive_wt'])}add-"
     if params["additive_wt"] != 0:
-        s += f"{params['mixing_temp']}degMix-"
-    s += f"{params['bath_temp']}deg-"
-    s += f"{params['coupon_to_bath_wait_time']}s-"
+        s += f"{_fmt_num(params['mixing_temp'])}degMix-"
+    s += f"{_fmt_num(params['bath_temp'])}deg-"
+    s += f"{_fmt_num(params['coupon_to_bath_wait_time'])}s-"
     if not params["nitrogen"]:
         s += "No"
     s += "N2-"
-    s += f"{params['nips_bath_wait_time']}s"
+    s += f"{_fmt_num(params['nips_bath_wait_time'])}s"
     base = DATA_ROOT / "data/raw" / s  # <<< FOLDER NAME >>>
     directory = base
     if directory.exists():
@@ -396,6 +402,17 @@ class LoopHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 if __name__ == "__main__":
+    _log_path = _REPO_ROOT / "logs" / f"run_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
+    sys.stdout = _TeeLogger(_log_path, sys.__stdout__)
+    sys.stderr = _TeeLogger(_log_path, sys.__stderr__)
+
+    cam = cv2.VideoCapture(CAMERA_INDEX)
+    cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+    cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+    # <<< PATH >>> "images" folder relative to cwd, not DATA_ROOT
+    if not os.path.isdir("images"):
+        os.mkdir("images")
+
     master_processing.confirm_settings()
 
     server = HTTPServer((SERVER_IP, SERVER_PORT), LoopHandler)

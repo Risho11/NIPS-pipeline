@@ -39,7 +39,7 @@ import activeLearning_29 as activeLearning      # <<< IMPORT >>> must be in same
 
 # ── edit these ──────────────────────────────────────────────────────────────
 DATA_ROOT = Path(__file__).parent.parent   # real repo root — real data/raw/
-CONDITION = '10-0add-5deg-60s-N2-300s'
+CONDITION = '17-13deg-120s-NoN2-1800s'
 
 # CONDITION names the real folder (data/raw/CONDITION) -- reused across every
 # manual run of this script. RUN_NAME is what actually gets written as the "name" for every
@@ -102,13 +102,30 @@ print()
 branch_results = mp.run_branches(CONDITION, data_root=DATA_ROOT, csv_paths=CSV_PATHS)
 
 llm_context.scrub_raw_result_columns(AGG_LLM_CSV)
+
+# curve_segmentation's promote_condition (inside run_branches, if that branch is enabled) writes
+# its row into AGG_LLM_CSV under the real CONDITION name -- it has to, since it needs the actual
+# data/raw/CONDITION folder to find params.json and the specimen CSVs; RUN_NAME isn't a real
+# folder on disk. Rename that row to RUN_NAME now, before anything else touches AGG_LLM_CSV, so
+# every call below agrees on one identity for this run. Otherwise the real
+# formatted_parameters_withProp outcome (this row) and the quality report (attached below, under
+# RUN_NAME) end up split across two separate rows, and generate_reports_and_suggestion -- which
+# only ever writes final_report for whichever single row it's told to match -- never writes
+# final_report for this one, so its outcome text silently never reaches the LLM.
+if "curve_segmentation" in branch_results and AGG_LLM_CSV.exists() and AGG_LLM_CSV.stat().st_size > 0:
+    llm_df = pd.read_csv(AGG_LLM_CSV)
+    mask = llm_df["name"] == CONDITION
+    if mask.any():
+        llm_df.loc[mask, "name"] = RUN_NAME
+        llm_df.to_csv(AGG_LLM_CSV, index=False)
+
 condition_dir = mp.get_condition_dir(CONDITION, DATA_ROOT)
 llm_context.ensure_condition_row(RUN_NAME, condition_dir, AGG_LLM_CSV)
-# Note: since this passes RUN_NAME (not CONDITION), a non-performance branch's result won't
-# merge onto an existing curve_segmentation row in AGG_CSV even if one exists for CONDITION --
-# that merge needs the same name on both sides. Only matters if you flip RUN_CURVE_SEGMENTATION
-# on; harmless no-op otherwise (today's default). The AGG_LLM_CSV side (what the LLM actually
-# sees) always lands correctly on this run's fresh RUN_NAME row regardless.
+# Note: this still passes RUN_NAME (not CONDITION) for AGG_CSV, so a non-performance branch's
+# result won't merge onto an existing curve_segmentation row there even if one exists for
+# CONDITION -- that merge needs the same name on both sides. Only matters if you flip
+# RUN_CURVE_SEGMENTATION on; harmless no-op otherwise (today's default) and AGG_CSV isn't what
+# reaches the LLM anyway (see AGG_LLM_CSV rename above, which is the side that matters).
 llm_context.attach_all_branch_results(RUN_NAME, branch_results, mp.BRANCH_CONFIG, AGG_CSV, AGG_LLM_CSV)
 
 print(f"branches ran: {list(branch_results.keys())}")

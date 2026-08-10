@@ -20,7 +20,7 @@ DATA_ROOT = Path(__file__).resolve().parent.parent.parent  # src/pipeline/master
 SAMPLE_DATA_FOLDER = "data/raw"  # single source of truth for the folder convention
 
 BRANCH_CONFIG = {
-    "curve_segmentation": {"enabled": False, "type": "performance"},
+    "curve_segmentation": {"enabled": True, "type": "performance"},
     "image_processing": {"enabled": True, "type": "quality"},
 }
 
