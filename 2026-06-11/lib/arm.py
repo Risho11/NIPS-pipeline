@@ -318,11 +318,11 @@ class Arm():
     def pick_up(self, item, pitch = True, speed = default_speed):
         item = items[item]
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch)
-        self.go_to_position(item["home zone"], item["home position"], speed=grab_speed)
+        self.go_to_position(item["home zone"], item["home position"], speed = default_speed)
         self.close_gripper()
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch, speed = speed)
     
-    def put_down(self, item, pitch = True, speed  = grab_speed):
+    def put_down(self, item, pitch = True, speed  = default_speed):
         item = items[item]
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch)
         self.go_to_position(item["home zone"], item["home position"], speed = speed)
@@ -389,7 +389,7 @@ class Arm():
         
     def unprep_coupon_test(self):
         self.go_to_position("tester", "coupon test 1 waypoint")
-        self.go_to_position_offset("tester", "coupon flat", [0, 2, 0, 0, 0, 0])
+        self.go_to_position_offset("tester", "coupon flat", [0, 4, 0, 0, 0, 0])
         self.open_gripper()
         self.go_to_position("tester", "coupon flat waypoint")
         
