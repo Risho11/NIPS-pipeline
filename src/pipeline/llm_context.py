@@ -101,6 +101,7 @@ def ensure_condition_row(condition_name, condition_dir, agg_llm_path):
     if agg_llm_path.exists() and agg_llm_path.stat().st_size > 0:
         existing = pd.read_csv(agg_llm_path)
         new_df = pd.concat([existing, new_df], ignore_index=True)
+    agg_llm_path.parent.mkdir(parents=True, exist_ok=True)
     new_df.to_csv(agg_llm_path, index=False)
 
 

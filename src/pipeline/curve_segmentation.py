@@ -2085,6 +2085,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             new_df = new_df.sort_values("_date_sort").drop_duplicates(
                 subset=["name", "Trial"], keep="last"
             ).drop(columns=["_date_sort"])
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         new_df.to_csv(output_path, index=False)
 
     # LLM CSV — one row per condition, two rows if some reps failed
@@ -2179,6 +2180,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
         if aggregate_path.exists() and aggregate_path.stat().st_size > 0:
             existing = pd.read_csv(aggregate_path)
             new_df = pd.concat([existing, new_df], ignore_index=True)
+        aggregate_path.parent.mkdir(parents=True, exist_ok=True)
         new_df.to_csv(aggregate_path, index=False)
 
 def promote_to_main(condition_name, source, agg_path, agg_llm_path):
@@ -2201,6 +2203,7 @@ def promote_to_main(condition_name, source, agg_path, agg_llm_path):
         main_df = pd.concat([main_df, row], ignore_index=True)
     else:
         main_df = row
+    agg_llm_path.parent.mkdir(parents=True, exist_ok=True)
     main_df.to_csv(agg_llm_path, index=False)
 
 
