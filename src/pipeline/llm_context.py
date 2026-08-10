@@ -221,6 +221,8 @@ def generate_reports_and_suggestion(condition_name, agg_llm_path, activeLearning
     here) so tests/test_master.py can monkeypatch activeLearning_29.Generate_report/LLM_AL to
     stubs before calling this, rather than reimplementing the flow."""
     agg_llm_path = Path(agg_llm_path)
+    if not agg_llm_path.exists() or agg_llm_path.stat().st_size == 0:
+        raise ValueError(f"LLM CSV doesn't exist or is empty: {agg_llm_path}")
     llm_df = pd.read_csv(agg_llm_path)
     if llm_df.empty:
         raise ValueError(f"LLM CSV has no data rows: {agg_llm_path}")

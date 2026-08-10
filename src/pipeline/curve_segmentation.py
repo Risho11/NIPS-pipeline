@@ -2189,7 +2189,14 @@ def promote_to_main(condition_name, source, agg_path, agg_llm_path):
     Reads the matching row from agg_path and upserts it (with clean name) into agg_llm_path.
     Call with source="" when the condition had no failures (single row in agg CSV).
     Call with source="postDiscard" (default) or "preDiscard" to choose which version feeds the LLM.
+    No-ops (prints a warning, doesn't raise) if agg_path doesn't exist yet -- e.g. the very first
+    condition ever run, or one whose save_to_csv produced no rows at all, means there's genuinely
+    nothing to promote, not a bug.
     """
+    agg_path = Path(agg_path)
+    if not agg_path.exists() or agg_path.stat().st_size == 0:
+        print(f"[promote_to_main] {agg_path} doesn't exist yet -- nothing to promote for {condition_name!r}")
+        return
     agg_df = pd.read_csv(agg_path)
     target_name = f"{condition_name}_{source}" if source else condition_name
     row = agg_df[agg_df["name"] == target_name].copy()
@@ -2208,7 +2215,12 @@ def promote_to_main(condition_name, source, agg_path, agg_llm_path):
 
 
 def promote_condition(condition_name, agg_path, agg_llm_path):
-    """Selects pre vs postDiscard source based on PROMOTE_POSTDISCARD flag."""
+    """Selects pre vs postDiscard source based on PROMOTE_POSTDISCARD flag.
+    No-ops (prints a warning, doesn't raise) if agg_path doesn't exist yet -- see promote_to_main."""
+    agg_path = Path(agg_path)
+    if not agg_path.exists() or agg_path.stat().st_size == 0:
+        print(f"[promote_condition] {agg_path} doesn't exist yet -- nothing to promote for {condition_name!r}")
+        return
     agg_df = pd.read_csv(agg_path)
     has_post = (agg_df["name"] == f"{condition_name}_postDiscard").any()
     has_pre  = (agg_df["name"] == f"{condition_name}_preDiscard").any()
