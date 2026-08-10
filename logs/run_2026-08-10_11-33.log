@@ -1,0 +1,385 @@
+[2026-08-10 11:33:30] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-08-10 11:33:30] server listening on 169.254.230.148:8000
+
+[2026-08-10 11:33:30] kicking off first experiment: {'mixing_temp': 60, 'bath_temp': 5, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 300, 'nips_bath_wait_time': 1800, 'polymer_wt': 21, 'additive_wt': 0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 21.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-10 11:33:30] Python recieved!
+
+[2026-08-10 11:33:30] Exact payload being sent: {"mixing_temp": 60, "bath_temp": 5, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 300, "nips_bath_wait_time": 1800, "polymer_wt": 21, "additive_wt": 0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 21.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-10 11:33:30] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, "bath_temp": 5, "pullcast_speed": 1, "nitrogen": true, "coupon_to_bath_wait_time": 300, "nips_bath_wait_time": 1800, "polymer_wt": 21, "additive_wt": 0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 21.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-10 11:33:30] robot started — loop running. Ctrl+C to stop.
+
+[2026-08-10 13:02:30] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Recievied request for membrane with following parameters:
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] {'mixing_temp': 60, 'bath_temp': 5, 'pullcast_speed': 1, 'nitrogen': True, 'coupon_to_bath_wait_time': 300, 'nips_bath_wait_time': 1800, 'polymer_wt': 21, 'additive_wt': 0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 21.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Bath chilling process started.
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Beginning zero tests on coupons.
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Opentrons process started.
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] 
+Target recipe
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] -------------
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Total volume:      1000.00 uL
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Target polymer:    21 wt%
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Target additive:   0 wt%
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] 
+Required volumes
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] ----------------
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Normal polymer stock:      1000.00 uL
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Polymer-additive stock:    0.00 uL
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Pure solvent:              0.00 uL
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Total:                     1000.00 uL
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] 
+Final composition check
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] -----------------------
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Polymer:    21.0000 wt%
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Additive:   0.0000 wt%
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Solvent:    79.0000 wt%
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:47] Solution will be pulled from stock polymer bottle.
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:48] 4.86
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:49] 4.86
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:50] 4.86
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:51] 4.86
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:52] 4.86
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:53] 4.86
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:55] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:56] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:57] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:58] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:33:59] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:00] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:01] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:02] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:03] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:04] 4.87
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:06] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:07] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:08] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:09] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:10] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:11] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:12] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:13] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:14] Test has started!
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:14] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:16] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:17] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:18] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:19] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:20] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:21] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:22] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:23] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:24] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:25] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:27] 4.88
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:28] 4.89
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:29] 4.89
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:30] 4.89
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:31] 4.89
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:32] 4.89
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:33] 4.89
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:34] 4.89
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:35] 4.89
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:36] 4.89
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:38] 4.9
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:39] 4.9
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:40] 4.9
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:41] 4.9
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:42] 4.9
+
+[2026-08-10 13:02:30] [2026-08-10 15:34:43] 4.9
+
+[2026-08-10 13:02:30] [2026-08-10 15:38:41] Test complete!
+
+[2026-08-10 13:02:30] [2026-08-10 15:38:46] Safe: True
+
+[2026-08-10 13:02:30] [2026-08-10 15:38:46] Recent: True
+
+[2026-08-10 13:02:30] [2026-08-10 15:38:46] Time: 1786376326.3957305
+
+[2026-08-10 13:02:30] [2026-08-10 15:38:46] mTime: 1786376298.5819077
+
+[2026-08-10 13:02:30] [2026-08-10 15:38:59] Test has started!
+
+[2026-08-10 13:02:30] [2026-08-10 15:40:47] entered if statement!!!
+
+[2026-08-10 13:02:30] [2026-08-10 15:43:24] Test complete!
+
+[2026-08-10 13:02:30] [2026-08-10 15:43:29] Safe: True
+
+[2026-08-10 13:02:30] [2026-08-10 15:43:29] Recent: True
+
+[2026-08-10 13:02:30] [2026-08-10 15:43:29] Time: 1786376609.477893
+
+[2026-08-10 13:02:30] [2026-08-10 15:43:29] mTime: 1786376581.7358506
+
+[2026-08-10 13:02:30] [2026-08-10 15:43:42] Test has started!
+
+[2026-08-10 13:02:30] [2026-08-10 15:48:06] Test complete!
+
+[2026-08-10 13:02:30] [2026-08-10 15:48:11] Safe: True
+
+[2026-08-10 13:02:30] [2026-08-10 15:48:11] Recent: True
+
+[2026-08-10 13:02:30] [2026-08-10 15:48:11] Time: 1786376891.561937
+
+[2026-08-10 13:02:30] [2026-08-10 15:48:11] mTime: 1786376863.6323056
+
+[2026-08-10 13:02:30] [2026-08-10 15:48:24] Test has started!
+
+[2026-08-10 13:02:30] [2026-08-10 15:52:47] Test complete!
+
+[2026-08-10 13:02:30] [2026-08-10 15:52:53] Safe: True
+
+[2026-08-10 13:02:30] [2026-08-10 15:52:53] Recent: True
+
+[2026-08-10 13:02:30] [2026-08-10 15:52:53] Time: 1786377173.066616
+
+[2026-08-10 13:02:30] [2026-08-10 15:52:53] mTime: 1786377145.3055425
+
+[2026-08-10 13:02:30] [2026-08-10 15:53:18] Joined both subprocesses.
+
+[2026-08-10 13:02:30] [2026-08-10 15:55:41] Pullcast complete.
+
+[2026-08-10 13:02:30] [2026-08-10 15:55:41] Nitrogen on.
+
+[2026-08-10 13:02:30] [2026-08-10 16:00:54] Nitrogen off.
+
+[2026-08-10 13:02:30] [2026-08-10 16:01:05] Membrane sitting in bath for 1800 seconds.
+
+[2026-08-10 13:02:30] [2026-08-10 16:01:15] Nitrogen cap has been put away.
+
+[2026-08-10 13:02:30] [2026-08-10 16:01:30] Ring has been placed on the coupon.
+
+[2026-08-10 13:02:30] [2026-08-10 16:01:30] Cleaning knife
+
+[2026-08-10 13:02:30] [2026-08-10 16:02:30] Knife cleaning finished.
+
+[2026-08-10 13:02:30] [2026-08-10 16:41:39] Initial membrane picture taken.
+
+[2026-08-10 13:02:30] [2026-08-10 16:42:08] Test has started!
+
+[2026-08-10 13:02:30] [2026-08-10 16:46:36] Test complete!
+
+[2026-08-10 13:02:30] [2026-08-10 16:46:41] Safe: True
+
+[2026-08-10 13:02:30] [2026-08-10 16:46:41] Recent: True
+
+[2026-08-10 13:02:30] [2026-08-10 16:46:41] Time: 1786380401.4563625
+
+[2026-08-10 13:02:30] [2026-08-10 16:46:41] mTime: 1786380373.6864867
+
+[2026-08-10 13:02:30] [2026-08-10 16:46:54] Test has started!
+
+[2026-08-10 13:02:30] [2026-08-10 16:51:21] Test complete!
+
+[2026-08-10 13:02:30] [2026-08-10 16:51:26] Safe: True
+
+[2026-08-10 13:02:30] [2026-08-10 16:51:26] Recent: True
+
+[2026-08-10 13:02:30] [2026-08-10 16:51:26] Time: 1786380686.3175557
+
+[2026-08-10 13:02:30] [2026-08-10 16:51:26] mTime: 1786380658.554631
+
+[2026-08-10 13:02:30] [2026-08-10 16:51:39] Test has started!
+
+[2026-08-10 13:02:30] [2026-08-10 16:56:20] Test complete!
+
+[2026-08-10 13:02:30] [2026-08-10 16:56:25] Safe: True
+
+[2026-08-10 13:02:30] [2026-08-10 16:56:25] Recent: True
+
+[2026-08-10 13:02:30] [2026-08-10 16:56:25] Time: 1786380985.526229
+
+[2026-08-10 13:02:30] [2026-08-10 16:56:25] mTime: 1786380957.6568856
+
+[2026-08-10 13:02:30] [2026-08-10 16:56:38] Test has started!
+
+[2026-08-10 13:02:30] [2026-08-10 17:01:12] Test complete!
+
+[2026-08-10 13:02:30] [2026-08-10 17:01:18] Safe: True
+
+[2026-08-10 13:02:30] [2026-08-10 17:01:18] Recent: True
+
+[2026-08-10 13:02:30] [2026-08-10 17:01:18] Time: 1786381278.0677485
+
+[2026-08-10 13:02:30] [2026-08-10 17:01:18] mTime: 1786381250.1965876
+
+[2026-08-10 13:02:30] [2026-08-10 17:01:44] Final membrane picture taken.
+
+[2026-08-10 13:02:30] [2026-08-10 17:02:01] Coupon successfully discarded.
+
+[2026-08-10 13:02:30] [2026-08-10 17:02:46] Done
+
+[2026-08-10 13:02:30] [2026-08-10 17:02:46] {'temperature': '24.05', 'humidity': '46.59'}
+
+[2026-08-10 13:02:30] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-08-10 13:02:30] 
+[1/5] organising files...
+
+[2026-08-10 13:02:30] [START] condition=21-0add-5deg-300s-N2-1800s
+
+[2026-08-10 13:02:30] [2/5] processing pipeline for: 21-0add-5deg-300s-N2-1800s
+
+[2026-08-10 13:02:30] ==============================================================================================================
+
+[2026-08-10 13:02:30] Condition: 21-0add-5deg-300s-N2-1800s | pairs: 2
+
+[2026-08-10 13:02:30] 
+
+------------ NEW REP ---------------
+
+[2026-08-10 13:02:30] Average Standard Deviation: 68.79440202049886
+
+[2026-08-10 13:02:30] Skipping GAM for 21-0add-5deg-300s-N2-1800s | rep 1 (thickness=4.4 µm — no membrane)
+
+[2026-08-10 13:02:31] 
+
+------------ NEW REP ---------------
+
+[2026-08-10 13:02:31] Average Standard Deviation: 68.85335938927756
+
+[2026-08-10 13:02:31] Skipping GAM for 21-0add-5deg-300s-N2-1800s | rep 2 (thickness=5.1 µm — no membrane)
+
+[2026-08-10 13:02:32] CV (21-0add-5deg-300s-N2-1800s): nan
+
+[2026-08-10 13:02:32] [ERROR] 21-0add-5deg-300s-N2-1800s  OSError: Cannot save file into a non-existent directory: 'C:\Users\opentrons\Documents\Auto-Membranes\data\results'
+
+[2026-08-10 13:02:32] Pipeline error — loop stopped: Cannot save file into a non-existent directory: 'C:\Users\opentrons\Documents\Auto-Membranes\data\results'
+
+[2026-08-10 13:02:32] Exception in thread 
+[2026-08-10 13:02:32] Thread-2 (_run_pipeline_and_trigger_next)
+[2026-08-10 13:02:32] :
+[2026-08-10 13:02:32] Traceback (most recent call last):
+[2026-08-10 13:02:32]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\threading.py"[0m, line [35m1044[0m, in [35m_bootstrap_inner[0m
+    [31mself.run[0m[1;31m()[0m
+    [31m~~~~~~~~[0m[1;31m^^[0m
+[2026-08-10 13:02:32]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\threading.py"[0m, line [35m995[0m, in [35mrun[0m
+    [31mself._target[0m[1;31m(*self._args, **self._kwargs)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m296[0m, in [35m_run_pipeline_and_trigger_next[0m
+    branch_results = master_processing.run_branches(condition_name, DATA_ROOT)
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\master_processing.py"[0m, line [35m99[0m, in [35mrun_branches[0m
+    results[name] = [31mfn[0m[1;31m(condition_name, data_root, csv_paths)[0m
+                    [31m~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\master_processing.py"[0m, line [35m66[0m, in [35m_run_curve_segmentation[0m
+    [31mcurve_segmentation.save_to_csv[0m[1;31m([0m
+    [31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^[0m
+        [1;31moutput, data_root=data_root, output_path=reps_path, aggregate_path=agg_path[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    [1;31m)[0m
+    [1;31m^[0m
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\curve_segmentation.py"[0m, line [35m2088[0m, in [35msave_to_csv[0m
+    [31mnew_df.to_csv[0m[1;31m(output_path, index=False)[0m
+    [31m~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\pandas\util\_decorators.py"[0m, line [35m333[0m, in [35mwrapper[0m
+    return func(*args, **kwargs)
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\pandas\core\generic.py"[0m, line [35m3967[0m, in [35mto_csv[0m
+    return [31mDataFrameRenderer(formatter).to_csv[0m[1;31m([0m
+           [31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^[0m
+        [1;31mpath_or_buf,[0m
+        [1;31m^^^^^^^^^^^^[0m
+    ...<14 lines>...
+        [1;31mstorage_options=storage_options,[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    [1;31m)[0m
+    [1;31m^[0m
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\pandas\io\formats\format.py"[0m, line [35m1014[0m, in [35mto_csv[0m
+    [31mcsv_formatter.save[0m[1;31m()[0m
+    [31m~~~~~~~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\pandas\io\formats\csvs.py"[0m, line [35m251[0m, in [35msave[0m
+    with [31mget_handle[0m[1;31m([0m
+         [31m~~~~~~~~~~[0m[1;31m^[0m
+        [1;31mself.filepath_or_buffer,[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    ...<4 lines>...
+        [1;31mstorage_options=self.storage_options,[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    [1;31m)[0m as handles:
+    [1;31m^[0m
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\pandas\io\common.py"[0m, line [35m749[0m, in [35mget_handle[0m
+    [31mcheck_parent_directory[0m[1;31m(str(handle))[0m
+    [31m~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^[0m
+[2026-08-10 13:02:32]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\pandas\io\common.py"[0m, line [35m616[0m, in [35mcheck_parent_directory[0m
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+[2026-08-10 13:02:32] [1;35mOSError[0m: [35mCannot save file into a non-existent directory: 'C:\Users\opentrons\Documents\Auto-Membranes\data\results'[0m
+[2026-08-10 13:15:01] 
+stopping server...
+
