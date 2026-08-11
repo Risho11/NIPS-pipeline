@@ -119,7 +119,8 @@ def take_snapshot():
         # IMAGES_PATH, not a relative "images" -- must match get_last_set_img()'s read path
         # exactly, or snapshots silently land wherever the script's CWD happens to be instead
         # of where move_and_rename() looks for them.
-        cv2.imwrite(str(IMAGES_PATH / f"{time.time()}.jpg"), img)
+        ts = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        cv2.imwrite(str(IMAGES_PATH / f"{ts}.jpg"), img)
     else:
         print("Error: unable to take picture")
 
