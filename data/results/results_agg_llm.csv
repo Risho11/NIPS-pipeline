@@ -99,3 +99,789 @@ INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quali
   ""additive_wt"": 2.0
 }
 ```"
+"2026-08-10
+18:20:38",21-2add-60degMix-15deg-30s-NoN2-1800s,60,15,,,5,False,30,1800,mixing_temp=60; bath_temp=15; pullcast_speed=5; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Solution Preparation
+The polymer solution was prepared and mixed at a heating temperature of **60°C**.
+
+## Membrane Casting
+The polymer solution was cast onto the substrate using an automated blade-casting system at a pull-cast speed of **5 mm/s**.
+
+## Pre-Immersion Conditions
+Following casting, the membrane coupon was allowed to rest under **ambient conditions** (no dry nitrogen purge) for **30 seconds** prior to immersion in the coagulation bath. Ambient temperature and humidity data were **not recorded** during this period.
+
+## Phase Inversion (NIPS Bath)
+The cast membrane was subsequently immersed into the non-solvent coagulation bath, maintained at a temperature of **15°C**. The membrane remained in the bath for **1800 seconds (30 minutes)** to allow complete phase inversion.
+
+---
+**Note:** Ambient temperature and relative humidity values were unavailable (not recorded) for this experiment, which may limit the ability to fully assess the influence of atmospheric conditions on membrane formation during the pre-immersion period.",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=60; bath_temp=15; pullcast_speed=5; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+MEMBRANE DETECTION: 1/4 replicates detected a membrane.
+FIT DETECTION: 0/1 of detected membranes passed quality checks.
+OUTCOME: PARTIAL_SINGLE_BAD_FIT
+INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Solution Preparation
+The polymer solution was prepared and mixed at a heating temperature of **60°C**.
+
+## Membrane Casting
+The polymer solution was cast onto the substrate using an automated blade-casting system at a pull-cast speed of **5 mm/s**.
+
+## Pre-Immersion Conditions
+Following casting, the membrane coupon was allowed to rest under **ambient conditions** (no dry nitrogen purge) for **30 seconds** prior to immersion in the coagulation bath. Ambient temperature and humidity data were **not recorded** during this period.
+
+## Phase Inversion (NIPS Bath)
+The cast membrane was subsequently immersed into the non-solvent coagulation bath, maintained at a temperature of **15°C**. The membrane remained in the bath for **1800 seconds (30 minutes)** to allow complete phase inversion.
+
+---
+**Note:** Ambient temperature and relative humidity values were unavailable (not recorded) for this experiment, which may limit the ability to fully assess the influence of atmospheric conditions on membrane formation during the pre-immersion period.
+
+MEMBRANE DETECTION: 1/4 replicates detected a membrane.
+FIT DETECTION: 0/1 of detected membranes passed quality checks.
+OUTCOME: PARTIAL_SINGLE_BAD_FIT
+INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","I'll analyze the prior observations systematically before recommending the next experiment.
+
+## Analysis of Prior Experiments
+
+| Exp | polymer_wt | additive_wt | mixing_temp | bath_temp | pullcast_speed | N₂ | wait_time | bath_time | Outcome |
+|-----|-----------|-------------|-------------|-----------|----------------|-----|-----------|-----------|---------|
+| 1 | ? | ? | 60°C | 5°C | 1 mm/s | Yes | 300s | 1800s | PARTIAL_COVERAGE_NO_FIT |
+| 2 | ? | ? | 60°C | 15°C | 5 mm/s | No | 30s | 1800s | PARTIAL_SINGLE_BAD_FIT |
+
+**Key issues identified:**
+- Both experiments failed fit quality checks — structurally degenerate membranes
+- Quality observations show air bubble entrapment and non-uniformity → likely low polymer concentration or poor solution homogeneity
+- Slow casting (1 mm/s) + long N₂ wait (300s) → over-evaporation, skin collapse
+- Very fast phase inversion at 5°C bath → too rapid, causing structural collapse
+- No polymer/additive weights were specified in the reports, suggesting defaults may be low
+
+**Strategy for next experiment:**
+1. **Maximize polymer_wt** (→ 21.0) for structural integrity and higher elastic modulus
+2. **Add moderate additive_wt** (→ 2.0) to improve solution viscosity/casting quality, within triangular bounds (at polymer=21, additive can be 0–4, so 2.0 is valid)
+3. **Moderate bath_temp** (→ 15°C) — avoid too-rapid phase inversion (5°C caused collapse)
+4. **Moderate pullcast_speed** (→ 10 mm/s) — faster casting reduces bubble entrapment and improves film uniformity
+5. **Short wait time** (→ 60s) — minimal evaporation to avoid skin collapse, but not zero
+6. **No nitrogen** — N₂ purge at 300s contributed to over-evaporation/collapse in Exp 1
+7. **Max bath time** (→ 1800s) — ensure complete phase inversion
+8. **Lower mixing_temp** (→ 50°C) — slightly lower to reduce thermal degradation risk while maintaining dissolution
+
+```json
+{
+  ""mixing_temp"": 50,
+  ""bath_temp"": 15,
+  ""pullcast_speed"": 10,
+  ""nitrogen"": false,
+  ""coupon_to_bath_wait_time"": 60,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 21.0,
+  ""additive_wt"": 2.0
+}
+```"
+"2026-08-10
+20:29:57",21-2add-50degMix-15deg-60s-NoN2-1800s,50,15,,,10,False,60,1800,mixing_temp=50; bath_temp=15; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Overview
+Polysulfone membranes were fabricated using non-solvent-induced phase separation (NIPS) via an automated robotic casting system. The solvent used was PolarClean.
+
+---
+
+## Experimental Parameters
+
+### Solution Preparation
+The polymer solution was mixed and heated to a temperature of **50°C**.
+
+### Membrane Casting
+The polymer solution was blade-cast at a pulling speed of **10 mm/s**.
+
+### Pre-Immersion Conditions
+Following blade casting, the coupon was allowed to rest in **ambient conditions** (no dry nitrogen purge) for **60 seconds** prior to immersion in the NIPS bath. Ambient temperature and humidity data were **not recorded** for this experiment.
+
+### Phase Separation (NIPS Bath)
+The cast coupon was immersed in a NIPS bath maintained at **15°C** and allowed to undergo phase separation for **1800 seconds (30 minutes)**.
+
+---
+
+## Notes
+- No dry nitrogen blow was applied during the pre-immersion waiting period, meaning the film was exposed to ambient humidity conditions.
+- Ambient temperature and relative humidity were not logged during this run, which may limit reproducibility analysis.
+- Polymer concentration and additive concentration were **not specified** for this experiment.",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=50; bath_temp=15; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+MEMBRANE DETECTION: 1/4 replicates detected a membrane.
+FIT DETECTION: 0/1 of detected membranes passed quality checks.
+OUTCOME: PARTIAL_SINGLE_BAD_FIT
+INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.","# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Overview
+Polysulfone membranes were fabricated using non-solvent-induced phase separation (NIPS) via an automated robotic casting system. The solvent used was PolarClean.
+
+---
+
+## Experimental Parameters
+
+### Solution Preparation
+The polymer solution was mixed and heated to a temperature of **50°C**.
+
+### Membrane Casting
+The polymer solution was blade-cast at a pulling speed of **10 mm/s**.
+
+### Pre-Immersion Conditions
+Following blade casting, the coupon was allowed to rest in **ambient conditions** (no dry nitrogen purge) for **60 seconds** prior to immersion in the NIPS bath. Ambient temperature and humidity data were **not recorded** for this experiment.
+
+### Phase Separation (NIPS Bath)
+The cast coupon was immersed in a NIPS bath maintained at **15°C** and allowed to undergo phase separation for **1800 seconds (30 minutes)**.
+
+---
+
+## Notes
+- No dry nitrogen blow was applied during the pre-immersion waiting period, meaning the film was exposed to ambient humidity conditions.
+- Ambient temperature and relative humidity were not logged during this run, which may limit reproducibility analysis.
+- Polymer concentration and additive concentration were **not specified** for this experiment.
+
+MEMBRANE DETECTION: 1/4 replicates detected a membrane.
+FIT DETECTION: 0/1 of detected membranes passed quality checks.
+OUTCOME: PARTIAL_SINGLE_BAD_FIT
+INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","## Reasoning
+
+### Analysis of Prior Experiments
+
+All three prior experiments failed to produce mechanically acceptable membranes:
+
+1. **Exp 1** (60°C mix, 1 mm/s, N₂, 300s wait, 5°C bath): 3/4 detected but 0 passed fit — structurally degenerate, near phase boundary
+2. **Exp 2** (60°C mix, 5 mm/s, no N₂, 30s wait, 15°C bath): 1/4 detected, 0 passed — collapsed/inconsistent
+3. **Exp 3** (50°C mix, 10 mm/s, no N₂, 60s wait, 15°C bath): 1/4 detected, 0 passed — collapsed/inconsistent
+
+**Key observations:**
+- Low polymer concentration (unspecified in Exps 2 & 3, likely low) → poor membrane formation
+- Moderate-to-high bath temperatures (15°C) → too fast phase inversion causing collapse
+- Low casting speeds → thin films
+- Quality images show bubble entrapment and non-uniformity
+
+### Strategy for Next Experiment
+
+To maximize elastic modulus, I need a **mechanically robust, dense membrane**. Key levers:
+
+1. **Polymer concentration → maximize** at 21 wt% (highest viscosity, densest structure, strongest mechanical properties)
+2. **Additive** → use moderate additive (e.g., 2.0 wt%) to improve solution homogeneity while staying within triangular bounds (at polymer_wt=21, additive can be 0–4)
+3. **Bath temperature → minimize** (5°C) to slow phase inversion, promoting denser, more mechanically robust structure
+4. **Mixing temperature → higher** (70°C) to ensure full dissolution at high polymer loading
+5. **Casting speed → moderate** (3 mm/s) — not too slow (thin film) nor too fast (uneven)
+6. **Pre-bath wait → short** (30s) without nitrogen — avoid over-evaporation that caused degenerate skin in Exp 1
+7. **NIPS bath time → maximum** (1800s) for complete phase inversion
+8. **Nitrogen → False** — the N₂ purge in Exp 1 with long wait contributed to degenerate structure
+
+The triangular constraint: at polymer_wt=21.0, additive_wt can range 0–4.0 ✓
+
+```json
+{
+  ""mixing_temp"": 70,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 3,
+  ""nitrogen"": false,
+  ""coupon_to_bath_wait_time"": 30,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 21.0,
+  ""additive_wt"": 2.0
+}
+```"
+"2026-08-10
+22:41:21",21-2add-70degMix-5deg-30s-NoN2-1800s,70,5,,,3,False,30,1800,mixing_temp=70; bath_temp=5; pullcast_speed=3; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Solution Preparation
+The polymer solution was prepared and mixed at a heating temperature of **70°C**.
+
+## Membrane Casting
+The polymer solution was cast onto the substrate using an automated blade at a casting speed of **3 mm/s**.
+
+## Pre-Immersion Exposure
+Following casting, the membrane coupon was allowed to rest under **ambient conditions** (no dry nitrogen purge) for **30 seconds** prior to immersion. Ambient temperature and humidity data were **not recorded** during this period.
+
+## Phase Inversion (NIPS Bath)
+The cast membrane was subsequently immersed into the non-solvent bath, which was maintained at **5°C**. The membrane remained in the bath for **1800 seconds (30 minutes)** to allow complete phase inversion.
+
+---
+
+**Summary Table**
+
+| Parameter | Value |
+|---|---|
+| Mixing Temperature | 70°C |
+| Casting Speed | 3 mm/s |
+| Nitrogen Purge | No |
+| Pre-Immersion Wait Time | 30 s |
+| Ambient Temp / Humidity | Not recorded |
+| NIPS Bath Temperature | 5°C |
+| NIPS Bath Immersion Time | 1800 s |",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=70; bath_temp=5; pullcast_speed=3; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+MEMBRANE DETECTION: 3/4 replicates detected a membrane.
+FIT DETECTION: 0/3 of detected membranes passed quality checks.
+OUTCOME: PARTIAL_COVERAGE_NO_FIT
+INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Solution Preparation
+The polymer solution was prepared and mixed at a heating temperature of **70°C**.
+
+## Membrane Casting
+The polymer solution was cast onto the substrate using an automated blade at a casting speed of **3 mm/s**.
+
+## Pre-Immersion Exposure
+Following casting, the membrane coupon was allowed to rest under **ambient conditions** (no dry nitrogen purge) for **30 seconds** prior to immersion. Ambient temperature and humidity data were **not recorded** during this period.
+
+## Phase Inversion (NIPS Bath)
+The cast membrane was subsequently immersed into the non-solvent bath, which was maintained at **5°C**. The membrane remained in the bath for **1800 seconds (30 minutes)** to allow complete phase inversion.
+
+---
+
+**Summary Table**
+
+| Parameter | Value |
+|---|---|
+| Mixing Temperature | 70°C |
+| Casting Speed | 3 mm/s |
+| Nitrogen Purge | No |
+| Pre-Immersion Wait Time | 30 s |
+| Ambient Temp / Humidity | Not recorded |
+| NIPS Bath Temperature | 5°C |
+| NIPS Bath Immersion Time | 1800 s |
+
+MEMBRANE DETECTION: 3/4 replicates detected a membrane.
+FIT DETECTION: 0/3 of detected membranes passed quality checks.
+OUTCOME: PARTIAL_COVERAGE_NO_FIT
+INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","I'll analyze the prior experiments systematically before recommending the next parameters.
+
+## Analysis of Prior Experiments
+
+| Exp | polymer_wt | additive_wt | mixing_temp | bath_temp | pullcast_speed | N₂ | wait_time | Outcome |
+|-----|-----------|-------------|-------------|-----------|----------------|-----|-----------|---------|
+| 1 | ? | ? | 60°C | 5°C | 1 mm/s | Yes | 300s | PARTIAL_COVERAGE_NO_FIT |
+| 2 | ? | ? | 60°C | 15°C | 5 mm/s | No | 30s | PARTIAL_SINGLE_BAD_FIT |
+| 3 | ? | ? | 50°C | 15°C | 10 mm/s | No | 60s | PARTIAL_SINGLE_BAD_FIT |
+| 4 | ? | ? | 70°C | 5°C | 3 mm/s | No | 30s | PARTIAL_COVERAGE_NO_FIT |
+
+**Key observations:**
+- **Polymer/additive concentrations were never specified** — this is likely the primary failure mode. Without sufficient polymer concentration, no mechanically robust membrane can form.
+- All experiments failed fit quality checks — structurally degenerate membranes.
+- The quality images show bubble entrapment and non-uniformity, consistent with low polymer concentration and/or fast phase inversion.
+- The most critical lever is **maximizing polymer_wt** (up to 21 wt%) to ensure a thick, mechanically robust film.
+- Adding **additive_wt** (up to the triangular bound at 21% polymer → max 4%) can improve structure.
+- **Slow casting speed** reduces bubble entrapment.
+- **Cold bath (5°C)** slows phase inversion, promoting denser, stiffer structures.
+- **Nitrogen purge + moderate wait time** allows skin formation, increasing elastic modulus.
+- **Higher mixing temp** ensures full dissolution at high polymer loading.
+
+## Recommendation Rationale
+
+- **polymer_wt = 21.0**: Maximum concentration → thickest, stiffest membrane, highest elastic modulus.
+- **additive_wt = 4.0**: At polymer_wt = 21.0, the triangular bound allows up to 4.0; additive (e.g., PVP) promotes macrovoid suppression and denser sponge structure.
+- **mixing_temp = 75°C**: High temp ensures full dissolution of 21 wt% polymer.
+- **bath_temp = 5°C**: Cold bath slows exchange, promotes denser structure → higher modulus.
+- **pullcast_speed = 1 mm/s**: Slowest speed → thicker, more uniform film, fewer bubbles.
+- **nitrogen = true**: Dry purge promotes skin layer formation → higher elastic modulus.
+- **coupon_to_bath_wait_time = 120s**: Moderate evaporation to develop a dense skin without over-drying.
+- **nips_bath_wait_time = 1800s**: Maximum immersion for complete phase inversion.
+
+```json
+{
+  ""mixing_temp"": 75,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 1,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 120,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 21.0,
+  ""additive_wt"": 4.0
+}
+```"
+"2026-08-11
+00:03:49",21-4add-75degMix-5deg-120s-N2-1800s,75,5,,,1,True,120,1800,mixing_temp=75; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Overview
+Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
+
+---
+
+## Experimental Parameters
+
+### Solution Preparation
+The polymer solution was mixed and heated to a temperature of **75°C**.
+
+### Membrane Casting
+The polymer solution was blade-cast at a pulling speed of **1 mm/s**.
+
+### Pre-Immersion Conditions
+Following blade casting, the coupon was exposed to a **laminar dry nitrogen purge** for **120 seconds** prior to immersion in the NIPS bath. Ambient air temperature and humidity were not recorded during this period.
+
+### Phase Separation (NIPS Bath)
+The cast film was subsequently immersed in a NIPS bath maintained at **5°C** for a total immersion time of **1800 seconds (30 minutes)**.
+
+---
+
+## Notes
+- The dry nitrogen blow during the pre-immersion period was intended to minimize atmospheric humidity exposure and control the evaporation conditions at the film surface prior to phase separation.
+- Ambient temperature and humidity data were unavailable for this experiment and should be recorded in future runs for improved reproducibility.",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=75; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Overview
+Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
+
+---
+
+## Experimental Parameters
+
+### Solution Preparation
+The polymer solution was mixed and heated to a temperature of **75°C**.
+
+### Membrane Casting
+The polymer solution was blade-cast at a pulling speed of **1 mm/s**.
+
+### Pre-Immersion Conditions
+Following blade casting, the coupon was exposed to a **laminar dry nitrogen purge** for **120 seconds** prior to immersion in the NIPS bath. Ambient air temperature and humidity were not recorded during this period.
+
+### Phase Separation (NIPS Bath)
+The cast film was subsequently immersed in a NIPS bath maintained at **5°C** for a total immersion time of **1800 seconds (30 minutes)**.
+
+---
+
+## Notes
+- The dry nitrogen blow during the pre-immersion period was intended to minimize atmospheric humidity exposure and control the evaporation conditions at the film surface prior to phase separation.
+- Ambient temperature and humidity data were unavailable for this experiment and should be recorded in future runs for improved reproducibility.
+
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","## Reasoning
+
+### Analysis of Prior Experiments
+
+All 5 prior experiments failed to produce mechanically acceptable membranes (0 fits passed quality checks). Key observations:
+
+| Exp | polymer_wt | additive_wt | mixing_temp | bath_temp | pullcast_speed | N₂ | wait_time | Result |
+|-----|-----------|-------------|-------------|-----------|----------------|-----|-----------|--------|
+| 1 | unknown | unknown | 60°C | 5°C | 1 mm/s | Yes | 300s | PARTIAL_COVERAGE_NO_FIT |
+| 2 | unknown | unknown | 60°C | 15°C | 5 mm/s | No | 30s | PARTIAL_SINGLE_BAD_FIT |
+| 3 | unknown | unknown | 50°C | 15°C | 10 mm/s | No | 60s | PARTIAL_SINGLE_BAD_FIT |
+| 4 | unknown | unknown | 70°C | 5°C | 3 mm/s | No | 30s | PARTIAL_COVERAGE_NO_FIT |
+| 5 | unknown | unknown | 75°C | 5°C | 1 mm/s | Yes | 120s | NO_FIT (4/4 detected, 0 fit) |
+
+**Critical insight:** Polymer concentration and additive concentration were **not specified** in most experiments. This is almost certainly the root cause of failure — without sufficient polymer concentration, the membrane cannot form a mechanically robust structure. The quality observations consistently show non-uniform, bubble-laden membranes, suggesting low viscosity/concentration solutions.
+
+### Strategy
+
+1. **Maximize polymer concentration**: Use `polymer_wt = 21.0` (maximum allowed). This is the single most impactful lever for elastic modulus — higher polymer content → denser, stiffer membrane.
+2. **Add moderate additive**: Use `additive_wt = 2.0` (within triangular bounds at max polymer: at polymer_wt=21.0, additive_wt can be 0–4.0). A moderate additive amount can improve pore structure without sacrificing mechanical integrity.
+3. **Bath temperature**: Use `5°C` — cold bath promotes slower phase inversion, potentially denser skin layer and higher modulus.
+4. **Mixing temperature**: `60°C` — adequate dissolution without degradation.
+5. **Pullcast speed**: `3 mm/s` — moderate speed for uniform film thickness.
+6. **Nitrogen purge**: `True` — controls surface evaporation, promotes denser skin.
+7. **Wait time**: `120s` — moderate evaporation to build a denser skin layer before bath immersion.
+8. **NIPS bath time**: `1800s` — maximum for complete phase inversion.
+
+The triangular constraint: at `polymer_wt = 21.0`, `additive_wt` can range from 0 to 4.0 ✓ (2.0 is well within bounds).
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 3,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 120,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 21.0,
+  ""additive_wt"": 2.0
+}
+```"
+"2026-08-11
+02:16:48",21-2add-60degMix-5deg-120s-N2-1800s,60,5,,,3,True,120,1800,mixing_temp=60; bath_temp=5; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Solution Preparation & Casting
+The polymer solution was prepared and mixed at a heating temperature of **60°C**. The solution was blade-cast onto the substrate at a casting speed of **3 mm/s**.
+
+## Dry Phase (Pre-Immersion)
+Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for a duration of **120 seconds** prior to immersion in the coagulation bath. This nitrogen blanket was applied to minimize humidity exposure and control the evaporation step. Ambient air temperature and relative humidity were **not recorded** during this stage.
+
+## Coagulation (NIPS Bath)
+The cast membrane was subsequently immersed into the non-solvent coagulation bath, which was maintained at a temperature of **5°C**. The membrane remained in the bath for **1800 seconds (30 minutes)** to allow complete phase separation and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Mixing Temperature | 60°C |
+| Casting Speed | 3 mm/s |
+| Nitrogen Purge | Yes |
+| Pre-Immersion Wait Time | 120 s |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 1800 s |
+| Ambient Temperature | Not recorded |
+| Ambient Humidity | Not recorded |",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=60; bath_temp=5; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Solution Preparation & Casting
+The polymer solution was prepared and mixed at a heating temperature of **60°C**. The solution was blade-cast onto the substrate at a casting speed of **3 mm/s**.
+
+## Dry Phase (Pre-Immersion)
+Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for a duration of **120 seconds** prior to immersion in the coagulation bath. This nitrogen blanket was applied to minimize humidity exposure and control the evaporation step. Ambient air temperature and relative humidity were **not recorded** during this stage.
+
+## Coagulation (NIPS Bath)
+The cast membrane was subsequently immersed into the non-solvent coagulation bath, which was maintained at a temperature of **5°C**. The membrane remained in the bath for **1800 seconds (30 minutes)** to allow complete phase separation and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Mixing Temperature | 60°C |
+| Casting Speed | 3 mm/s |
+| Nitrogen Purge | Yes |
+| Pre-Immersion Wait Time | 120 s |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 1800 s |
+| Ambient Temperature | Not recorded |
+| Ambient Humidity | Not recorded |
+
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","## Reasoning
+
+### Summary of Prior Experiments
+
+All 6 prior experiments have failed to produce membranes with acceptable mechanical fits. Key observations:
+
+| Exp | mixing_temp | bath_temp | pullcast_speed | N₂ | wait_time | polymer_wt | additive_wt | Outcome |
+|-----|------------|-----------|----------------|-----|-----------|------------|-------------|---------|
+| 1 | 60°C | 5°C | 1 mm/s | Yes | 300s | ? | ? | PARTIAL_COVERAGE_NO_FIT |
+| 2 | 60°C | 15°C | 5 mm/s | No | 30s | ? | ? | PARTIAL_SINGLE_BAD_FIT |
+| 3 | 50°C | 15°C | 10 mm/s | No | 60s | ? | ? | PARTIAL_SINGLE_BAD_FIT |
+| 4 | 70°C | 5°C | 3 mm/s | No | 30s | ? | ? | PARTIAL_COVERAGE_NO_FIT |
+| 5 | 75°C | 5°C | 1 mm/s | Yes | 120s | ? | ? | NO_FIT |
+| 6 | 60°C | 5°C | 3 mm/s | Yes | 120s | ? | ? | NO_FIT |
+
+**Critical insight:** Polymer concentration and additive concentration appear to have been unspecified or at default/low values in most experiments. The quality observations consistently show bubble entrapment and non-uniformity. The structural degeneracy (no elastic/plateau/densification regime) strongly suggests **insufficient polymer concentration** — the films are too thin/weak to exhibit proper mechanical behavior.
+
+### Key Decisions
+
+1. **Polymer concentration → maximize at 21 wt%**: This is the single most impactful lever. Higher polymer content = denser, mechanically robust membrane with a well-defined elastic regime. All prior failures likely stem from low polymer wt%.
+
+2. **Additive → use moderate amount (2.0 wt%)**: Within triangular bounds (21.0, 2.0 satisfies: additive ≤ (4/21)×polymer = 4.0 at polymer=21, so 2.0 is valid). Additive (e.g., PVP) can improve pore structure and reduce macrovoid collapse.
+
+3. **Bath temperature → 15°C**: Cold bath (5°C) has repeatedly produced degenerate structures. A slightly warmer bath slows phase inversion, allowing better-defined morphology.
+
+4. **Mixing temperature → 60°C**: Moderate, well-dissolved solution.
+
+5. **Pullcast speed → 3 mm/s**: Moderate speed for uniform film.
+
+6. **Nitrogen → Yes**: Controlled evaporation helps form a defined skin layer.
+
+7. **Coupon_to_bath_wait_time → 60s**: Moderate evaporation to develop a skin before phase inversion.
+
+8. **nips_bath_wait_time → 1800s**: Maximum immersion for complete phase inversion.
+
+### Constraint Check
+- polymer_wt=21.0, additive_wt=2.0: Point (21.0, 2.0) — within triangle [(21,0),(21,4),(0,0)] ✓ (at polymer=21, additive can range 0–4)
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 15,
+  ""pullcast_speed"": 3,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 60,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 21.0,
+  ""additive_wt"": 2.0
+}
+```"
+"2026-08-11
+04:26:35",21-2add-60degMix-15deg-60s-N2-1800s,60,15,,,3,True,60,1800,mixing_temp=60; bath_temp=15; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Overview
+Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
+
+---
+
+## Experimental Parameters
+
+### Solution Preparation
+The polymer solution was mixed and heated to a temperature of **60°C** prior to casting.
+
+### Membrane Casting
+The polymer solution was blade-cast at a pulling speed of **3 mm/s**.
+
+### Pre-Immersion Conditions
+Following blade casting, the coupon was exposed to a **laminar dry nitrogen purge** for **60 seconds** before immersion into the NIPS bath. This nitrogen blow was applied to minimize humidity exposure and control the evaporation environment at the film surface. Ambient air temperature and humidity were **not recorded** during this experiment.
+
+### NIPS Bath Conditions
+The coupon was subsequently immersed into the NIPS bath, which was maintained at **15°C**. The membrane was allowed to phase-separate in the bath for a total of **1800 seconds (30 minutes)** before retrieval.
+
+---
+
+## Notes
+- Polymer concentration (polysulfone) and additive concentration (PVP) were **not specified** for this experiment.
+- The absence of ambient temperature and humidity data may limit reproducibility assessment for future comparisons.",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=60; bath_temp=15; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Overview
+Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
+
+---
+
+## Experimental Parameters
+
+### Solution Preparation
+The polymer solution was mixed and heated to a temperature of **60°C** prior to casting.
+
+### Membrane Casting
+The polymer solution was blade-cast at a pulling speed of **3 mm/s**.
+
+### Pre-Immersion Conditions
+Following blade casting, the coupon was exposed to a **laminar dry nitrogen purge** for **60 seconds** before immersion into the NIPS bath. This nitrogen blow was applied to minimize humidity exposure and control the evaporation environment at the film surface. Ambient air temperature and humidity were **not recorded** during this experiment.
+
+### NIPS Bath Conditions
+The coupon was subsequently immersed into the NIPS bath, which was maintained at **15°C**. The membrane was allowed to phase-separate in the bath for a total of **1800 seconds (30 minutes)** before retrieval.
+
+---
+
+## Notes
+- Polymer concentration (polysulfone) and additive concentration (PVP) were **not specified** for this experiment.
+- The absence of ambient temperature and humidity data may limit reproducibility assessment for future comparisons.
+
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","## Reasoning
+
+### Summary of Prior Observations
+All 7 experiments have failed to produce membranes with acceptable mechanical fits. Key patterns:
+- **Membrane detection** ranges from 1/4 to 4/4, but **zero fits** pass quality checks across all experiments
+- Quality observations consistently show: air bubble entrapment, opacity non-uniformity, patchy coverage — suggesting poor solution homogeneity or casting issues
+- Parameters explored so far: mixing temps 50–75°C, bath temps 5–15°C, casting speeds 1–10 mm/s, wait times 30–300s, nitrogen True/False
+- **Critically missing**: polymer_wt and additive_wt were not specified in most experiments — this is likely a major contributor to failure
+
+### Key Diagnosis
+The most glaring issue is that **polymer concentration has not been explicitly set** in most experiments. For NIPS membranes, polymer concentration is the dominant factor controlling mechanical properties. A higher polymer concentration (near the maximum of 21 wt%) will:
+- Increase solution viscosity → thicker, more mechanically robust membrane
+- Promote a denser, sponge-like morphology with better-defined elastic response
+- Reduce the likelihood of structural collapse
+
+### Strategy for Next Experiment
+1. **Maximize polymer_wt = 21.0** — this is the most impactful lever not yet exploited
+2. **Add moderate additive_wt = 2.0** — PVP aids miscibility and pore formation without compromising structure; stays within triangular bounds (21.0 + 2.0 ≤ constraint: at polymer_wt=21, additive can be 0–4, so 2.0 is valid)
+3. **Increase mixing_temp = 80°C** — higher temp improves dissolution of high-concentration polymer solution
+4. **Slow casting speed = 1 mm/s** — ensures uniform film deposition at high viscosity
+5. **Nitrogen = True, wait_time = 60s** — brief controlled evaporation to form a skin layer before bath immersion
+6. **Bath temp = 5°C** — cold bath promotes rapid phase inversion and denser structure
+7. **nips_bath_wait_time = 1800s** — maximum immersion for complete solidification
+
+```json
+{
+  ""mixing_temp"": 80,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 1,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 60,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 21.0,
+  ""additive_wt"": 2.0
+}
+```"
+"2026-08-11
+06:44:18",21-2add-80degMix-5deg-60s-N2-1800s,80,5,,,1,True,60,1800,mixing_temp=80; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"Here is a short experimental report based on the provided parameters:
+
+---
+
+**Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)**
+
+The polymer solution was prepared and mixed at a temperature of **80°C**. The membrane was cast using a blade moving at a speed of **1 mm/s**. Following casting, the membrane coupon was exposed to a **dry laminar nitrogen purge** for a duration of **60 seconds** prior to immersion in the NIPS bath, in order to control surface humidity and minimize atmospheric moisture exposure. Ambient air temperature and relative humidity were **not recorded** during this experiment.
+
+The cast membrane was subsequently immersed in a NIPS coagulation bath maintained at **5°C** and allowed to phase-separate for **1800 seconds (30 minutes)** before removal.
+
+---
+
+Let me know if you'd like to add polymer concentration, additive content, or any other details!",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=80; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","Here is a short experimental report based on the provided parameters:
+
+---
+
+**Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)**
+
+The polymer solution was prepared and mixed at a temperature of **80°C**. The membrane was cast using a blade moving at a speed of **1 mm/s**. Following casting, the membrane coupon was exposed to a **dry laminar nitrogen purge** for a duration of **60 seconds** prior to immersion in the NIPS bath, in order to control surface humidity and minimize atmospheric moisture exposure. Ambient air temperature and relative humidity were **not recorded** during this experiment.
+
+The cast membrane was subsequently immersed in a NIPS coagulation bath maintained at **5°C** and allowed to phase-separate for **1800 seconds (30 minutes)** before removal.
+
+---
+
+Let me know if you'd like to add polymer concentration, additive content, or any other details!
+
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","## Reasoning
+
+### Summary of Prior Experiments
+All 8 prior experiments have failed to produce membranes with acceptable mechanical fits. Key observations:
+- Membranes form (3-4/4 replicates) but consistently fail quality checks
+- All experiments used **unspecified or low polymer concentrations** (no polymer_wt/additive_wt specified in most reports)
+- Quality observations show: air bubble entrapment, non-uniform opacity, patchy coverage — consistent with **too-low polymer concentration** producing weak, structurally degenerate films
+- Bath temps tried: 5°C and 15°C — both failed
+- Mixing temps tried: 50–80°C — all failed
+- Nitrogen purge: both True and False — both failed
+- The consistent failure mode is **no defined elastic/plateau/densification regime** → likely insufficient polymer concentration
+
+### Key Diagnosis
+The most critical untested lever is **polymer concentration**. None of the reports specified polymer_wt, suggesting the system may have been using a default low concentration. Higher polymer_wt → denser, more mechanically robust membrane with defined compression phases.
+
+### Strategy
+- **Maximize polymer_wt = 21.0** (maximum allowed) — this is the most impactful change
+- **Add moderate additive_wt = 2.0** (within triangular bounds: at polymer_wt=21.0, additive_wt can be 0–4.0 ✓)
+- **Bath temp = 25°C** (warmer bath → slower phase inversion → more interconnected, mechanically defined structure)
+- **Mixing temp = 70°C** (good dissolution at high polymer loading)
+- **pullcast_speed = 3 mm/s** (moderate, avoids very thin films)
+- **coupon_to_bath_wait_time = 60 s** (moderate evaporation to form a skin)
+- **nips_bath_wait_time = 1800 s** (maximum, ensure complete phase inversion)
+- **nitrogen = True** (controlled evaporation environment, reduces bubble defects)
+
+```json
+{
+  ""mixing_temp"": 70,
+  ""bath_temp"": 25,
+  ""pullcast_speed"": 3,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 60,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 21.0,
+  ""additive_wt"": 2.0
+}
+```"
+"2026-08-11
+09:26:09",21-2add-70degMix-25deg-60s-N2-1800s,70,25,,,3,True,60,1800,mixing_temp=70; bath_temp=25; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"Here is a short experimental report based on the provided parameters:
+
+---
+
+**Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)**
+
+The polysulfone membrane was fabricated using an automated robotic system employing the non-solvent-induced phase separation (NIPS) method. The polymer solution was prepared and mixed at a temperature of **70°C**. The solution was then blade-cast onto the substrate at a casting speed of **3 mm/s**.
+
+Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for a duration of **60 seconds** prior to immersion in the coagulation bath. This nitrogen blow was applied to control surface humidity and minimize the effects of atmospheric moisture on the nascent membrane surface. Ambient air temperature and humidity were not recorded during this experiment.
+
+The cast membrane was subsequently immersed into the NIPS coagulation bath, which was maintained at **25°C**, and allowed to phase-separate for **1800 seconds (30 minutes)** before retrieval.
+
+---
+
+*Note: Polymer concentration (polysulfone wt%) and additive concentration (PVP wt%) were not specified in the provided parameter set and should be included in future reports for full experimental reproducibility.*
+
+---
+
+Let me know if you'd like any modifications to the tone, length, or detail level!",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=70; bath_temp=25; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","Here is a short experimental report based on the provided parameters:
+
+---
+
+**Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)**
+
+The polysulfone membrane was fabricated using an automated robotic system employing the non-solvent-induced phase separation (NIPS) method. The polymer solution was prepared and mixed at a temperature of **70°C**. The solution was then blade-cast onto the substrate at a casting speed of **3 mm/s**.
+
+Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for a duration of **60 seconds** prior to immersion in the coagulation bath. This nitrogen blow was applied to control surface humidity and minimize the effects of atmospheric moisture on the nascent membrane surface. Ambient air temperature and humidity were not recorded during this experiment.
+
+The cast membrane was subsequently immersed into the NIPS coagulation bath, which was maintained at **25°C**, and allowed to phase-separate for **1800 seconds (30 minutes)** before retrieval.
+
+---
+
+*Note: Polymer concentration (polysulfone wt%) and additive concentration (PVP wt%) were not specified in the provided parameter set and should be included in future reports for full experimental reproducibility.*
+
+---
+
+Let me know if you'd like any modifications to the tone, length, or detail level!
+
+MEMBRANE DETECTION: 4/4 replicates detected a membrane.
+FIT DETECTION: 0/4 of detected membranes passed quality checks.
+OUTCOME: NO_FIT
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","## Reasoning
+
+### Summary of Prior Experiments
+All 9 prior experiments have failed to produce membranes with acceptable mechanical fits (0 passing quality checks). Key observations:
+
+| Exp | mixing_temp | bath_temp | pullcast_speed | N₂ | wait_time | polymer_wt | additive_wt | Outcome |
+|-----|------------|-----------|----------------|-----|-----------|------------|-------------|---------|
+| 1 | 60 | 5 | 1 | Yes | 300 | ? | ? | PARTIAL_COVERAGE_NO_FIT |
+| 2 | 60 | 15 | 5 | No | 30 | ? | ? | PARTIAL_SINGLE_BAD_FIT |
+| 3 | 50 | 15 | 10 | No | 60 | ? | ? | PARTIAL_SINGLE_BAD_FIT |
+| 4 | 70 | 5 | 3 | No | 30 | ? | ? | PARTIAL_COVERAGE_NO_FIT |
+| 5 | 75 | 5 | 1 | Yes | 120 | ? | ? | NO_FIT |
+| 6 | 60 | 5 | 3 | Yes | 120 | ? | ? | NO_FIT |
+| 7 | 60 | 15 | 3 | Yes | 60 | ? | ? | NO_FIT |
+| 8 | 80 | 5 | 1 | Yes | 60 | ? | ? | NO_FIT |
+| 9 | 70 | 25 | 3 | Yes | 60 | ? | ? | NO_FIT |
+
+### Key Diagnosis
+- **Polymer concentration is unspecified in most experiments** — this is almost certainly the root cause. Without sufficient polymer concentration, the membrane cannot form a mechanically robust structure.
+- All quality observations show air bubble entrapment and non-uniformity — consistent with low-viscosity solutions (low polymer wt%).
+- The interpretations consistently call for **major changes to polymer concentration**.
+
+### Strategy
+- **Maximize polymer_wt**: Use 21.0 wt% (maximum allowed) to ensure a dense, mechanically robust membrane.
+- **Add moderate additive**: Use additive_wt = 2.0 (within triangular bounds at polymer_wt=21.0, max is 4.0 — valid).
+- **Moderate mixing temp**: 60°C for good dissolution without degradation.
+- **Slow casting speed**: 1 mm/s for uniform film.
+- **Moderate wait time**: 300 s with nitrogen to allow controlled solvent evaporation and skin formation, promoting a denser top layer.
+- **Cold bath**: 5°C to slow phase inversion and promote denser sponge structure → higher elastic modulus.
+- **Max bath time**: 1800 s for complete phase inversion.
+- **Nitrogen**: Yes, to control evaporation environment.
+
+The triangular constraint: at polymer_wt=21.0, additive_wt can range from 0 to 4.0. additive_wt=2.0 is valid.
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 1,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 300,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 21.0,
+  ""additive_wt"": 2.0
+}
+```"
