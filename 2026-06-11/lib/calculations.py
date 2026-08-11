@@ -24,13 +24,6 @@ class StockParameters:
     polymer_stock_density: float = 1.10
     additive_stock_density: float = 1.12
     solvent_density: float = 1.028  # approximate NMP density near room temperature
-    # Fourth bottle -- pure additive, no polymer. Not physically available yet, so
-    # calculate_mix()/check_final_composition() below don't use these (that's still a
-    # 3-bottle system; see polymer_additive_bounds.py for why 4-bottle mixing needs an
-    # extra rule before it can be solved). Carried here only so the actual stock
-    # composition can be received/stored end-to-end regardless of whether it's in use.
-    no_polymer_polymer_wt_percent: float = 0.0
-    no_polymer_additive_wt_percent: float = 8.0
 
 
 @dataclass
@@ -207,10 +200,28 @@ def calculate_mix(
     if min(rho_p, rho_a, rho_s) <= 0:
         raise ValueError("All densities must be positive.")
 
+    # No additive in play: target is 0% and the additive stock has none to give.
+    # Skip the additive-stock bottle entirely and solve the plain 2-bottle
+    # dilution (normal polymer stock + solvent) directly, since the 3x3 system
+    # becomes singular (a zero row) in this case.
+    if ca_target < 1e-9 and ca_add_stock < 1e-9:
+        va = 0.0
+        if abs(cp_stock - cp_target) < 1e-12:
+            vp = recipe.total_volume_uL
+            vs = 0.0
+        else:
+            denom = (cp_stock - cp_target) * rho_p + cp_target * rho_s
+            if abs(denom) < 1e-12:
+                raise ValueError(
+                    "Cannot solve polymer dilution; check polymer stock/target concentrations."
+                )
+            vp = (cp_target * rho_s * recipe.total_volume_uL) / denom
+            vs = recipe.total_volume_uL - vp
+        
     # Simple special case: if both stocks have the same polymer concentration and
     # the same density, the target additive fraction is just a direct dilution of
     # the additive stock. This is the common 10:1 polymer-to-additive case.
-    if (
+    elif (
         abs(rho_p - rho_a) < 1e-12
         and abs(cp_stock - cp_target) < 1e-12
         and abs(cp_add_stock - cp_target) < 1e-12
