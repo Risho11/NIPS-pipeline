@@ -37,11 +37,11 @@ from dataclasses import asdict, dataclass
 @dataclass
 class StockParameters:
     polymer_stock_wt_percent: float = 17.0
-    additive_stock_polymer_wt_percent: float = 21.0
-    additive_stock_additive_wt_percent: float = 0
+    additive_stock_polymer_wt_percent: float = 17.0
+    additive_stock_additive_wt_percent: float = 4.0
     # fourth bottle -- not physically available yet, see USE_FOURTH_BOTTLE below
-    #no_polymer_polymer_wt_percent: float = 0.0
-    #no_polymer_additive_wt_percent: float = 8.0
+    no_polymer_polymer_wt_percent: float = 0.0
+    no_polymer_additive_wt_percent: float = 8.0
 
 
 DEFAULT_STOCKS = StockParameters()
@@ -212,6 +212,6 @@ def test_target(
 if __name__ == "__main__":
     # Example manual test
     print(send_metadata())
-    p, a = test_target(11.0, 44)
+    p, a = test_target(15, 4)
     print(p, a)
     print(get_composition_bounds())

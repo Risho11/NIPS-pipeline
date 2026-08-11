@@ -12,18 +12,25 @@ Outputs:
   - test_llm_params.json                    — parsed next-experiment params from LLM
 """
 
-import sys, json, re
+import sys, json, re, datetime
 import pandas as pd
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src" / "pipeline"))  # <<< IMPORT >>> points to src/pipeline where curve_segmentation.py lives
+sys.path.insert(0, str(Path(__file__).parent.parent))  # <<< IMPORT >>> repo root, needed for `import EVALUATE.generate_fit_log` below
 import curve_segmentation as processing             # <<< IMPORT >>> must be in same folder
 #import activeLearning_29 as al                 # <<< IMPORT >>> must be in same folder
 
 # ── edit these ──────────────────────────────────────────────────────────────
-# <<< PATH >>> Set to a folder name to run one condition, or None to run ALL real conditions.
+# <<< PATH >>> Set to a folder name to run one condition, a list of names to run several, or
+# None to run ALL real conditions.
 DATA_ROOT  = Path(__file__).parent.parent
 CONDITION  = '21-0add-5deg-300s-N2-1800s'
+# <<< PATH >>> Set to "YYYY-MM-DD" to run every condition whose earliest specimen file was
+# recorded that day (reads the MMDDYYYY_HHMMSS timestamp baked into each
+# data/raw/<condition>/Specimen_*.csv filename -- same convention run_loop.py writes).
+# Overrides CONDITION above when set; leave as None to use CONDITION as-is.
+CAMPAIGN_DAY = None  # e.g. "2026-06-18"
 # <<< PATH >>> output files land beside this script
 OUTPUT_CSV  = Path(__file__).parent / "csv_tests" / "test_reps.csv"
 AGG_CSV     = Path(__file__).parent / "csv_tests" / "test_agg.csv"
@@ -31,10 +38,39 @@ AGG_LLM_CSV = Path(__file__).parent / "csv_tests" / "test_agg_llm.csv"
 JSON_OUT    = Path(__file__).parent / "csv_tests" / "test_llm_params.json"
 # ────────────────────────────────────────────────────────────────────────────
 
-_all_conditions = sorted([
-    d.name for d in (DATA_ROOT / "data" / "raw").iterdir()
-    if d.is_dir() and d.name not in ("fake-data",)
-]) if CONDITION is None else [CONDITION]
+_SPECIMEN_TS_RE = re.compile(r"(\d{8})_(\d{6})")
+
+
+def _conditions_for_day(day_str, raw_root):
+    """Every condition under raw_root whose earliest Specimen_*.csv timestamp falls on day_str."""
+    target = datetime.datetime.strptime(day_str, "%Y-%m-%d").date()
+    matches = []
+    for cond_dir in sorted(raw_root.iterdir()):
+        if not cond_dir.is_dir():
+            continue
+        stamps = []
+        for f in cond_dir.glob("Specimen_*.csv"):
+            m = _SPECIMEN_TS_RE.search(f.name)
+            if m:
+                stamps.append(datetime.datetime.strptime(m.group(1) + m.group(2), "%m%d%Y%H%M%S"))
+        if stamps and min(stamps).date() == target:
+            matches.append(cond_dir.name)
+    return matches
+
+
+if CAMPAIGN_DAY is not None:
+    CONDITION = _conditions_for_day(CAMPAIGN_DAY, DATA_ROOT / "data" / "raw")
+    print(f"[CAMPAIGN_DAY] {CAMPAIGN_DAY}: {len(CONDITION)} condition(s) matched")
+
+if CONDITION is None:
+    _all_conditions = sorted([
+        d.name for d in (DATA_ROOT / "data" / "raw").iterdir()
+        if d.is_dir() and d.name not in ("fake-data",)
+    ])
+elif isinstance(CONDITION, (list, tuple, set)):
+    _all_conditions = list(CONDITION)
+else:
+    _all_conditions = [CONDITION]
 
 print(f"Data root  : {DATA_ROOT}")
 print(f"Conditions : {CONDITION or f'ALL ({len(_all_conditions)})'}")

@@ -60,6 +60,17 @@ INITIAL_PARAMS = {
     "additive_wt": 0
 }
 
+# TEMPORARY -- additive-free campaign phase. Hard clamp, not just a prompt suggestion: when
+# LOCK_ADDITIVE_WT is True, the LLM's next_params always gets additive_wt forced to
+# LOCK_ADDITIVE_WT_VALUE after parsing, regardless of what it actually suggested. Prompt wording
+# alone isn't a guarantee the model won't drift (see
+# system_prompt._ACTIVE_LEARNING_PROMPT_ORIGINAL_BUGGY_BACKUP for what that cost us once
+# already). Flip LOCK_ADDITIVE_WT back to False once additive experiments are back in scope --
+# don't leave this on by accident, it silently overrides every LLM suggestion until someone
+# notices.
+LOCK_ADDITIVE_WT = True
+LOCK_ADDITIVE_WT_VALUE = 0
+
 # When either is True, next_params advances through ADDITIVE_ITERATION_LIST and/or
 # POLYMER_ITERATION_LIST instead of asking the LLM
 # Sweeping is forced on regardless of these flags whenever no branches are enabled at all 
@@ -337,6 +348,11 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
                 return
         else:
             new_params = llm_new_params
+
+            if LOCK_ADDITIVE_WT and new_params["additive_wt"] != LOCK_ADDITIVE_WT_VALUE:
+                print(f"[LOCK_ADDITIVE_WT] LLM suggested additive_wt={new_params['additive_wt']}, "
+                      f"forcing to {LOCK_ADDITIVE_WT_VALUE}")
+                new_params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
 
             # snap to feasible triangle
             p, a = activeLearning.bounds.test_target(new_params["polymer_wt"], new_params["additive_wt"])

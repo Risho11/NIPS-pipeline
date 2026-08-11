@@ -1673,12 +1673,20 @@ def _pair_chronological_zero_sample(specimen_rows, strict=True, cluster_gap_minu
     return pairs
 
 def load_zero_sample_pairs_by_condition(folder_name, data_root="Data", strict=True, load_dataframes=False, condition_filter=None):
+    """condition_filter: None (all conditions), a single condition name (str), or a list/tuple/set
+    of condition names to run several specific conditions in one pass."""
     base_dir = Path(data_root) / folder_name
     if not base_dir.exists():
         raise FileNotFoundError("Folder not found: {}".format(base_dir))
+    if isinstance(condition_filter, (list, tuple, set)):
+        allowed = set(condition_filter)
+    elif condition_filter:
+        allowed = {condition_filter}
+    else:
+        allowed = None
     result = {}
     for condition_dir in sorted([p for p in base_dir.iterdir() if p.is_dir()]):
-        if condition_filter and condition_dir.name != condition_filter:
+        if allowed is not None and condition_dir.name not in allowed:
             continue
         csv_files = sorted(condition_dir.glob("*.csv"))
         specimen_rows = []
