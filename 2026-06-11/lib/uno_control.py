@@ -116,6 +116,25 @@ class Uno:
         except (ValueError, AttributeError):
             print(f"Unexpected response from sensor: {response!r}")
             return None
+        
+    def read_2nd_temp_humidity(self):
+        """
+        Returns (temp_C, humidity_pct) as floats, or None if the read failed.
+        """
+        response = self._send_command('T')
+        if response.startswith("ERR"):
+            print(response)
+            return None
+        try:
+            temp_str, hum_str = response.split(",")
+            air_data = {
+                "temperature": temp_str,
+                "humidity": hum_str
+            }
+            return air_data
+        except (ValueError, AttributeError):
+            print(f"Unexpected response from sensor: {response!r}")
+            return None
 
     def close(self):
         self.board.close()

@@ -25,6 +25,8 @@
  *   'P' -> poll tester_input    reply: "1\n" or "0\n"
  *   'S' -> read SHT40           reply: "<temp_C>,<humidity_%>\n" or
  *                                      "ERR,<reason>\n"
+ *   'T' -> read SHT31           reply: "<temp_C>,<humidity_%>\n" or
+ *                                      "ERR,<reason>\n"
  */
 
 #include <Wire.h>
