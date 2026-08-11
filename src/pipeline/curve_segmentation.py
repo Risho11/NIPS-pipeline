@@ -2023,7 +2023,7 @@ def process_zero_sample_pairs_pipeline(
 # LLM-choosable (see run_loop.py's separate PARAMS_SCHEMA for what the LLM actually sets).
 # llm_context.py extends this list (e.g. with Air Temp Mean/Humidity Mean) -- edit there,
 # not here.
-FORMATTED_PARAMS_KEYS = ["mixing_temp", "bath_temp", "weight_percent", "volume", "pullcast_speed",
+FORMATTED_PARAMS_KEYS = ["mixing_temp", "bath_temp", "polymer_wt", "additive_wt", "pullcast_speed",
                           "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
 
 def formatted_parameters(row):
@@ -2045,7 +2045,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             try:
                 with open(params_path, "r", encoding="utf-8") as f:
                     params = json.load(f)
-                for key in ("mixing_temp", "bath_temp", "weight_percent", "volume",
+                for key in ("mixing_temp", "bath_temp", "polymer_wt", "additive_wt",
                             "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"):
                     row_out[key] = params.get(key)
                 for trial_key, (top_key, sub_key) in OT2_FIELDS.items():
@@ -2070,7 +2070,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                          "Yield Strength", "Changepoint", "Slope Plateau", "Slope Densification",
                          "Creep Strain", "Toe Region", "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
                          "Strain at 500 bar", "Good Fit", "Good Fit Score", "Good Fit Breakdown", "Average Standard Deviation", "CV",
-                         "mixing_temp", "bath_temp", "weight_percent", "volume",
+                         "mixing_temp", "bath_temp", "polymer_wt", "additive_wt",
                          "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
         new_df = new_df.reindex(columns=[c for c in rep_col_order if c in new_df.columns])
         if output_path.exists() and output_path.stat().st_size > 0:
@@ -2091,7 +2091,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
     # LLM CSV — one row per condition, two rows if some reps failed
     if rep_rows:
         mech_cols = list(MECH_PROP_SCHEMA)
-        param_cols = ["mixing_temp", "bath_temp", "weight_percent", "volume",
+        param_cols = ["mixing_temp", "bath_temp", "polymer_wt", "additive_wt",
                       "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
         no_sd_cols = {k for k, v in MECH_PROP_SCHEMA.items() if not v["sd"]}
 
@@ -2170,7 +2170,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                     print(f"  All fits failed for {cond_name} — wrote NaN postDiscard row")
 
         interleaved = [col for k in mech_cols for col in ([f"{k} Mean", f"{k} SD"] if k not in no_sd_cols else [f"{k} Mean"])]
-        condition_cols = ["mixing_temp", "bath_temp", "weight_percent", "volume",
+        condition_cols = ["mixing_temp", "bath_temp", "polymer_wt", "additive_wt",
                           "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
         col_order = (["date", "name"] + condition_cols + ["formatted_parameters", "initial_report"]
                      + interleaved

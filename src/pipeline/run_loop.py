@@ -61,15 +61,15 @@ INITIAL_PARAMS = {
 }
 
 # When either is True, next_params advances through ADDITIVE_ITERATION_LIST and/or
-# POLYMER_ITERATION_LIST instead of asking the LLM for a suggestion (branches still run
-# normally for data collection if enabled). Both on = the two lists are paired in lockstep
-# by index (step i = ADDITIVE_ITERATION_LIST[i] + POLYMER_ITERATION_LIST[i]), not a grid
-# sweep — they're the same length on purpose. Only one on = the other param stays fixed at
-# ITERATION_BASE_PARAMS' value (additive_wt fixed at 0 if only ITERATE_POLYMER is on).
-# Sweeping is forced on regardless of these flags whenever no branches are enabled at all —
-# a pure test has no data to run active learning on, so it has to sweep a fixed list instead.
+# POLYMER_ITERATION_LIST instead of asking the LLM
+# Sweeping is forced on regardless of these flags whenever no branches are enabled at all 
 ITERATE_ADDITIVES = False
 ITERATE_POLYMER = False
+#basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
+#in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
+#otherwise put the date of the campaign in YYYY-MM-DD format in a string
+CONTINUE_CAMPAIGN = None
+
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
 ITERATION_BASE_PARAMS = {
@@ -95,10 +95,15 @@ PARAMS_SCHEMA = {
 }
 # <<< PATH >>> project root = three levels up from src/pipeline/run_loop.py
 DATA_ROOT    = _REPO_ROOT
+
+d = datetime.datetime.now().strftime("%Y-%m-%d") if CONTINUE_CAMPAIGN is None else CONTINUE_CAMPAIGN
 # <<< PATH >>> output CSVs live under data/results/
-CSV_REPS        = DATA_ROOT / "data" / "results" / "results_reps.csv"
-CSV_AGG         = DATA_ROOT / "data" / "results" / "results_agg.csv"
-CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / "results_agg_llm.csv"
+CSV_REPS        = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"reps.csv"
+CSV_AGG         = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"agg.csv"
+CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"llm.csv"
+
+
+
 JSON_RESULTS_DIR = DATA_ROOT / "data" / "llm_results"
 # <<< PATH >>> hardcoded Windows lab machine paths — change if machine changes
 CSV_RAW_PATH = Path(r"C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed")
@@ -111,7 +116,10 @@ CAMERA_INDEX = 2  # change if wrong camera after restart or replug
 def take_snapshot():
     ret, img = cam.read()
     if ret:
-        cv2.imwrite(os.path.join("images", str(time.time())) + ".jpg", img)
+        # IMAGES_PATH, not a relative "images" -- must match get_last_set_img()'s read path
+        # exactly, or snapshots silently land wherever the script's CWD happens to be instead
+        # of where move_and_rename() looks for them.
+        cv2.imwrite(str(IMAGES_PATH / f"{time.time()}.jpg"), img)
     else:
         print("Error: unable to take picture")
 
@@ -414,9 +422,10 @@ if __name__ == "__main__":
     cam = cv2.VideoCapture(CAMERA_INDEX)
     cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
     cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-    # <<< PATH >>> "images" folder relative to cwd, not DATA_ROOT
-    if not os.path.isdir("images"):
-        os.mkdir("images")
+    # IMAGES_PATH, not a cwd-relative "images" -- must match take_snapshot()'s write path and
+    # get_last_set_img()'s read path, or snapshots land wherever the script happened to be
+    # launched from instead of where the rest of the pipeline looks for them.
+    IMAGES_PATH.mkdir(parents=True, exist_ok=True)
 
     master_processing.confirm_settings()
 

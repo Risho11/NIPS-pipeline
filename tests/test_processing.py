@@ -23,7 +23,7 @@ import curve_segmentation as processing             # <<< IMPORT >>> must be in 
 # ── edit these ──────────────────────────────────────────────────────────────
 # <<< PATH >>> Set to a folder name to run one condition, or None to run ALL real conditions.
 DATA_ROOT  = Path(__file__).parent.parent
-CONDITION  = '17-5deg-55s-NoN2-101s'
+CONDITION  = '21-0add-5deg-300s-N2-1800s'
 # <<< PATH >>> output files land beside this script
 OUTPUT_CSV  = Path(__file__).parent / "csv_tests" / "test_reps.csv"
 AGG_CSV     = Path(__file__).parent / "csv_tests" / "test_agg.csv"
