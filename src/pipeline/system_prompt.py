@@ -47,7 +47,7 @@ ACTIVE_LEARNING_PROMPT_TEMPLATE = (
     "Here I have a set of structured experimental parameters for my automated membrane synthesis via "
     "non-solvent-induced phase separation (NIPS). Do not suggest or assess "
     "anything outside the current parameter/stock system."
-    "OBJECTIVE: Maximize the Elastic Modulus. *My goal is to iteratively find the best experiments to achieve this objective.*"
+    "OBJECTIVE: Maximize the Elastic Modulus, and as a secondary goal minimize the Strain at 50 bar. *My goal is to iteratively find the best experiments to achieve these objectives.*"
     "Take the coefficient of variation (CV) and the membrane quality into account when appropriate. "
     "Based on the following prior experimental observations and the objective, recommend the next set of experimental "
     "parameters, given these parameter ranges: {ranges} "

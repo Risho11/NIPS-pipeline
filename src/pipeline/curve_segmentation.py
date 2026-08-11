@@ -48,7 +48,7 @@ MECH_PROP_SCHEMA = {
     "Slope Plateau":     {"sd": True,  "llm": False},
     "Slope Densification": {"sd": True, "llm": False},
     "Creep Strain":      {"sd": True,  "llm": False},
-    "Strain at 50 bar":  {"sd": True,  "llm": False},
+    "Strain at 50 bar":  {"sd": True,  "llm": True},
     "Strain at 80 bar":  {"sd": True,  "llm": False},
     "Strain at 150 bar": {"sd": True,  "llm": False},
     "Strain at 500 bar": {"sd": True,  "llm": False},
