@@ -322,10 +322,10 @@ class Arm():
         self.close_gripper()
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch, speed = speed)
     
-    def put_down(self, item, pitch = True, speed  = default_speed):
+    def put_down(self, item, pitch = True, speed  = default_speed, offset = [0,0,0,0,0,0]):
         item = items[item]
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch)
-        self.go_to_position(item["home zone"], item["home position"], speed = speed)
+        self.go_to_position_offset(item["home zone"], item["home position"], speed = speed, offset = offset)
         self.open_gripper()
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch)
         
@@ -449,8 +449,7 @@ class Arm():
             self.go_to_position("middle", "camera open")
             self.go_to_position("middle", "camera closed")
             self.go_to_position("middle", "camera closed waypoint")
-            #self.immigrate("middle")
-            #self.open_gripper()
+
             self.go_to_position_offset("middle", "camera closed waypoint", [50,0,0,0,0,0])
             self.camera_box_open = False
 
@@ -459,10 +458,9 @@ class Arm():
             self.close_gripper()
             self.go_to_position("middle", "camera closed waypoint")
             self.go_to_position("middle", "camera closed")
-            self.go_to_position("middle", "camera open")
-            #self.go_to_position_offset("middle", "camera open", [2,0,0,0,0,0]) offset no longer needed
+            self.go_to_position_offset("middle", "camera open", [4,0,0,0,0,0]) # ensure box is fully open
+            self.go_to_position_offset("middle", "camera open", [-2,0,0,0,0,0]) 
             self.go_to_position("middle", "camera open waypoint")
-            #self.immigrate("middle")
             self.open_gripper()
             self.camera_box_open = True
             
