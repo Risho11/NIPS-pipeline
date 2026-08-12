@@ -200,11 +200,13 @@ def calculate_mix(
     if min(rho_p, rho_a, rho_s) <= 0:
         raise ValueError("All densities must be positive.")
 
+    
     # No additive in play: target is 0% and the additive stock has none to give.
     # Skip the additive-stock bottle entirely and solve the plain 2-bottle
     # dilution (normal polymer stock + solvent) directly, since the 3x3 system
     # becomes singular (a zero row) in this case.
-    if ca_target < 1e-9 and ca_add_stock < 1e-9:
+    no_additive_case = ca_target < 1e-9 and ca_add_stock < 1e-9
+    if no_additive_case:
         va = 0.0
         if abs(cp_stock - cp_target) < 1e-12:
             vp = recipe.total_volume_uL
@@ -282,14 +284,26 @@ def calculate_mix(
     vs = max(vs, 0.0)
 
     if round_to_uL:
-        vp, va, vs = _round_volumes_to_target(recipe, stocks, vp, va, vs)
-        if vs < -min_volume_tolerance_uL:
-            raise ValueError(
-                "Rounded volumes made solvent negative. Try round_to_uL=False "
-                "or use a larger total volume."
-            )
-
-        vs = max(vs, 0.0)
+        if no_additive_case:
+            # Round the 2-bottle split directly; va stays exactly 0 rather
+            # than being handed to a grid search that has no reason to keep
+            # it there.
+            vp = float(round(vp))
+            vs = recipe.total_volume_uL - vp
+            if vs < -min_volume_tolerance_uL:
+                raise ValueError(
+                    "Rounded volumes made solvent negative. Try round_to_uL=False "
+                    "or use a larger total volume."
+                )
+            vs = max(vs, 0.0)
+        else:
+            vp, va, vs = _round_volumes_to_target(recipe, stocks, vp, va, vs)
+            if vs < -min_volume_tolerance_uL:
+                raise ValueError(
+                    "Rounded volumes made solvent negative. Try round_to_uL=False "
+                    "or use a larger total volume."
+                )
+            vs = max(vs, 0.0)
 
     final = check_final_composition(vp, va, vs, stocks)
 
