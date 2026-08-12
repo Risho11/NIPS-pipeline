@@ -71,6 +71,12 @@ INITIAL_PARAMS = {
 LOCK_ADDITIVE_WT = True
 LOCK_ADDITIVE_WT_VALUE = 0
 
+# The LLM's system prompt needs to know about the lock too -- otherwise it keeps proposing
+# nonzero additive_wt (within the full unlocked triangle) that just gets silently overridden
+# below every time, and never learns why. See activeLearning_29.build_ranges.
+if LOCK_ADDITIVE_WT:
+    activeLearning.ranges = activeLearning.build_ranges(locked_additive_wt=LOCK_ADDITIVE_WT_VALUE)
+
 # When either is True, next_params advances through ADDITIVE_ITERATION_LIST and/or
 # POLYMER_ITERATION_LIST instead of asking the LLM
 # Sweeping is forced on regardless of these flags whenever no branches are enabled at all 
@@ -107,11 +113,37 @@ PARAMS_SCHEMA = {
 # <<< PATH >>> project root = three levels up from src/pipeline/run_loop.py
 DATA_ROOT    = _REPO_ROOT
 
-d = datetime.datetime.now().strftime("%Y-%m-%d") if CONTINUE_CAMPAIGN is None else CONTINUE_CAMPAIGN
+
 # <<< PATH >>> output CSVs live under data/results/
+d = datetime.datetime.now().strftime("%Y-%m-%d") if CONTINUE_CAMPAIGN == None else CONTINUE_CAMPAIGN
 CSV_REPS        = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"reps.csv"
 CSV_AGG         = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"agg.csv"
 CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"llm.csv"
+
+def startup(lock_add, locked_value, iterate_add, iterate_poly, continue_campaign, campaign_date):
+    if continue_campaign is None:
+        print(f"Campaign: starting new -- {campaign_date}")
+    else:
+        print(f"Campaign: continuing -- {campaign_date}")
+
+    active = []
+    if lock_add:
+        active.append(f"LOCK_ADDITIVE_WT (forcing additive_wt={locked_value})")
+    if iterate_add:
+        active.append("ITERATE_ADDITIVES")
+    if iterate_poly:
+        active.append("ITERATE_POLYMER")
+
+    if not active:
+        return
+
+    print("WARNING: these configurations are active:")
+    for a in active:
+        print(f"  - {a}")
+    okay = input("Is this correct? (Y/N) ").strip().lower()
+    if okay != "y":
+        print("Shutting down -- please change the config")
+        sys.exit(1)
 
 
 
@@ -432,6 +464,7 @@ class LoopHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 if __name__ == "__main__":
+    startup(LOCK_ADDITIVE_WT, LOCK_ADDITIVE_WT_VALUE, ITERATE_ADDITIVES, ITERATE_POLYMER, CONTINUE_CAMPAIGN, d)
     _log_path = _REPO_ROOT / "logs" / f"run_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
     sys.stdout = _TeeLogger(_log_path, sys.__stdout__)
     sys.stderr = _TeeLogger(_log_path, sys.__stderr__)

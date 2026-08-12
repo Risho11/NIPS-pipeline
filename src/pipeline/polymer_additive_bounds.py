@@ -4,7 +4,7 @@ Target bounds tester / corrector for the polymer-additive mixing system.
 
 Input:
     target_polymer_wt_percent
-    target_additive_wt_percent
+    target_additive_wt_percent (== cosolvent wt%)
 
 Output:
     corrected_polymer_wt_percent, corrected_additive_wt_percent
@@ -13,46 +13,69 @@ Behavior:
     - If the requested target is already feasible, return it unchanged.
     - If it is outside the feasible region, return the closest feasible target.
 
+Stock structure (StockParameters, current):
+    Bottle 1 - polymer stock:   polymer + solvent            -> (polymer_stock_pwt, 0)
+    Bottle 2 - cosolvent stock: cosolvent + solvent           -> (0, solvents_cswt)
+    Bottle 3 - all-mix stock:   polymer + solvent + cosolvent -> (all_mix_pwt, all_mix_cswt)
+    Bottle 4 - pure solvent (just solvent -- always available) -> (0, 0)
+
 Feasible region:
-    Triangle with vertices:
-        (polymer_stock_wt_percent, 0)
-        (additive_stock_polymer_wt_percent, additive_stock_additive_wt_percent)
-        (0, 0)
+    Quadrilateral over all 4 bottles -- pure solvent is always available for dilution, same as
+    it always was for the legacy structure's (0, 0) vertex, so it's never gated behind a flag.
 
 For the current system this is:
-    (21, 0), (21, 4), (0, 0)
+    (17, 0), (17, 24.9), (0, 30), (0, 0)
 
-A fourth bottle (pure additive, no polymer) is planned but not physically in the lab yet --
-StockParameters already carries its composition (no_polymer_polymer_wt_percent /
-no_polymer_additive_wt_percent), but USE_FOURTH_BOTTLE below stays False until it exists. Once
-True, the feasible region becomes the quadrilateral (21, 0), (21, 4), (0, 8), (0, 0) instead of
-the triangle -- the point-in-region/closest-point math already generalizes to either shape.
+Legacy structure (OldStockStruct, pre-cosolvent-bottle):
+    Bottle 1 - polymer stock:   polymer + solvent            -> (polymer_stock_wt_percent, 0)
+    Bottle 2 - additive stock:  polymer + solvent + additive  -> (additive_stock_polymer_wt_percent,
+                                                                   additive_stock_additive_wt_percent)
+    Solvent dilution down to (0, 0) always assumed available (no separate cosolvent bottle).
+
+USE_NEW_STOCK_STRUCTURE picks which of the two struct shapes is active. This is temporary
+scaffolding for the changeover, not meant to stay a permanent toggle -- flip it back to False
+if the new cosolvent-bottle math needs to be backed out.
 """
 
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 
+#in any mix with cosolvent and solvent, there's this amt of cosolvent
+#for each unit of solvent. NOT incluidng polymer
+cosolvent_frac = 0.3
+
 
 @dataclass
-class StockParameters:
+class OldStockStruct:
     polymer_stock_wt_percent: float = 17.0
     additive_stock_polymer_wt_percent: float = 17.0
     additive_stock_additive_wt_percent: float = 4.0
-    # fourth bottle -- not physically available yet, see USE_FOURTH_BOTTLE below
-    no_polymer_polymer_wt_percent: float = 0.0
-    no_polymer_additive_wt_percent: float = 8.0
 
 
-DEFAULT_STOCKS = StockParameters()
+@dataclass
+class StockParameters:
+    #first bottle - polymer + solvent
+    polymer_stock_pwt: float = 17.0
+    #second bottle - cosolvent + solvent
+    solvents_cswt: float = cosolvent_frac*100
+    #third bottle - polymer + solvent + cosolvent
+    all_mix_pwt: float = 17.0
+    all_mix_cswt: float = (100-all_mix_pwt)*cosolvent_frac
+    #fourth bottle - solvent only (planned, see USE_FOURTH_BOTTLE)
 
-# Set True once the fourth bottle (pure additive, no polymer) physically exists in the lab --
-# switches the feasible region from a triangle to a quadrilateral. False = unchanged 3-bottle
-# behavior (StockParameters' no_polymer_* fields are ignored).
-USE_FOURTH_BOTTLE = False
+
+# Temporary switch for the cosolvent-bottle changeover -- True = new StockParameters (4 bottles,
+# cosolvent stock is real), False = fall back to the old 2-bottle-plus-dilution model
+# (OldStockStruct). Flip to False to revert if the new structure needs backing out.
+USE_NEW_STOCK_STRUCTURE = False
+
+DEFAULT_STOCKS: StockParameters | OldStockStruct = (
+    StockParameters() if USE_NEW_STOCK_STRUCTURE else OldStockStruct()
+)
 
 
-def send_metadata(stocks: StockParameters = DEFAULT_STOCKS) -> dict:
+def send_metadata(stocks: StockParameters | OldStockStruct = DEFAULT_STOCKS) -> dict:
     """
     Serialize the stock class into a JSON-safe dict, meant to be attached to the
     params payload sent to the opentrons server (e.g. under a "stock_metadata" key)
@@ -145,23 +168,35 @@ def _closest_point_in_polygon(
     return best
 
 
-def _stock_vertices(stocks: StockParameters) -> list[tuple[float, float]]:
-    """Feasible-region vertices in winding order. Triangle by default; USE_FOURTH_BOTTLE
-    inserts the no-polymer additive stock as a 4th vertex, turning it into a quadrilateral."""
-    vertices = [
+def _stock_vertices(stocks: StockParameters | OldStockStruct) -> list[tuple[float, float]]:
+    """Feasible-region vertices in winding order, built from whichever stock struct is passed.
+    Pure solvent is always available for dilution down to (0, 0) in both -- it's just solvent,
+    not something to gate behind a flag.
+
+    StockParameters (new, cosolvent bottle real): quadrilateral from the polymer stock, the
+    all-mix stock, the cosolvent stock, and (0, 0).
+
+    OldStockStruct (legacy): triangle from the polymer stock, the additive stock, and (0, 0).
+    """
+    if isinstance(stocks, StockParameters):
+        return [
+            (stocks.polymer_stock_pwt, 0.0),
+            (stocks.all_mix_pwt, stocks.all_mix_cswt),
+            (0.0, stocks.solvents_cswt),
+            (0.0, 0.0),
+        ]
+
+    return [
         (stocks.polymer_stock_wt_percent, 0.0),
         (stocks.additive_stock_polymer_wt_percent, stocks.additive_stock_additive_wt_percent),
+        (0.0, 0.0),
     ]
-    if USE_FOURTH_BOTTLE:
-        vertices.append((stocks.no_polymer_polymer_wt_percent, stocks.no_polymer_additive_wt_percent))
-    vertices.append((0.0, 0.0))
-    return vertices
 
 
 def closest_feasible_target(
     target_polymer_wt_percent: float,
     target_additive_wt_percent: float,
-    stocks: StockParameters = DEFAULT_STOCKS,
+    stocks: StockParameters | OldStockStruct = DEFAULT_STOCKS,
 ) -> tuple[float, float]:
     """
     Return the closest feasible target as (polymer_wt_percent, additive_wt_percent).
@@ -172,7 +207,7 @@ def closest_feasible_target(
     return corrected[0], corrected[1]
 
 
-def get_composition_bounds(stocks: StockParameters = DEFAULT_STOCKS) -> dict:
+def get_composition_bounds(stocks: StockParameters | OldStockStruct = DEFAULT_STOCKS) -> dict:
     """
     Return the feasible composition region from stock parameters alone.
 
