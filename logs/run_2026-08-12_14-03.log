@@ -1,0 +1,846 @@
+[2026-08-12 14:03:00] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-08-12 14:03:00] server listening on 169.254.230.148:8000
+
+[2026-08-12 14:03:00] kicking off first experiment: {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 10, 'nitrogen': True, 'coupon_to_bath_wait_time': 6, 'nips_bath_wait_time': 121, 'polymer_wt': 10, 'additive_wt': 0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-12 14:03:00] Python recieved!
+
+[2026-08-12 14:03:00] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 6, "nips_bath_wait_time": 121, "polymer_wt": 10, "additive_wt": 0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-12 14:03:21] Network connection issue to Opentrons: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+[2026-08-12 14:03:21] Traceback (most recent call last):
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1319[0m, in [35mdo_open[0m
+    [31mh.request[0m[1;31m(req.get_method(), req.selector, req.data, headers,[0m
+    [31m~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+              [1;31mencode_chunked=req.has_header('Transfer-encoding'))[0m
+              [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1367[0m, in [35mrequest[0m
+    [31mself._send_request[0m[1;31m(method, url, body, headers, encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1413[0m, in [35m_send_request[0m
+    [31mself.endheaders[0m[1;31m(body, encode_chunked=encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1362[0m, in [35mendheaders[0m
+    [31mself._send_output[0m[1;31m(message_body, encode_chunked=encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1122[0m, in [35m_send_output[0m
+    [31mself.send[0m[1;31m(msg)[0m
+    [31m~~~~~~~~~[0m[1;31m^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1066[0m, in [35msend[0m
+    [31mself.connect[0m[1;31m()[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1032[0m, in [35mconnect[0m
+    self.sock = [31mself._create_connection[0m[1;31m([0m
+                [31m~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^[0m
+        [1;31m(self.host,self.port), self.timeout, self.source_address)[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socket.py"[0m, line [35m868[0m, in [35mcreate_connection[0m
+    raise exceptions[0]
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socket.py"[0m, line [35m853[0m, in [35mcreate_connection[0m
+    [31msock.connect[0m[1;31m(sa)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^[0m
+[2026-08-12 14:03:21] [1;35mTimeoutError[0m: [35m[WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond[0m
+[2026-08-12 14:03:21] 
+During handling of the above exception, another exception occurred:
+
+[2026-08-12 14:03:21] Traceback (most recent call last):
+[2026-08-12 14:03:21]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m496[0m, in [35m<module>[0m
+    [31murl.run_test[0m[1;31m(first_params)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\url_29.py"[0m, line [35m33[0m, in [35mrun_test[0m
+    with [31murllib.request.urlopen[0m[1;31m(req, timeout=timeout)[0m as response:
+         [31m~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m189[0m, in [35murlopen[0m
+    return [31mopener.open[0m[1;31m(url, data, timeout)[0m
+           [31m~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m489[0m, in [35mopen[0m
+    response = self._open(req, data)
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m506[0m, in [35m_open[0m
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m466[0m, in [35m_call_chain[0m
+    result = func(*args)
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1348[0m, in [35mhttp_open[0m
+    return [31mself.do_open[0m[1;31m(http.client.HTTPConnection, req)[0m
+           [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 14:03:21]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1322[0m, in [35mdo_open[0m
+    raise URLError(err)
+[2026-08-12 14:03:21] [1;35murllib.error.URLError[0m: [35m<urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>[0m
+[2026-08-12 14:03:56] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-08-12 14:03:56] server listening on 169.254.230.148:8000
+
+[2026-08-12 14:03:56] kicking off first experiment: {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 10, 'nitrogen': True, 'coupon_to_bath_wait_time': 6, 'nips_bath_wait_time': 121, 'polymer_wt': 10, 'additive_wt': 0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-12 14:03:56] Python recieved!
+
+[2026-08-12 14:03:56] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 6, "nips_bath_wait_time": 121, "polymer_wt": 10, "additive_wt": 0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-12 14:03:56] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 6, "nips_bath_wait_time": 121, "polymer_wt": 10, "additive_wt": 0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-12 14:03:56] robot started — loop running. Ctrl+C to stop.
+
+[2026-08-12 15:35:08] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Recievied request for membrane with following parameters:
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 10, 'nitrogen': True, 'coupon_to_bath_wait_time': 6, 'nips_bath_wait_time': 121, 'polymer_wt': 10, 'additive_wt': 0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Bath chilling process started.
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Beginning zero tests on coupons.
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Opentrons process started.
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] 
+Target recipe
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] -------------
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Total volume:      1000.00 uL
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Target polymer:    10 wt%
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Target additive:   0 wt%
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] 
+Required volumes
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] ----------------
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Normal polymer stock:      572.00 uL
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Polymer-additive stock:    0.00 uL
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Pure solvent:              428.00 uL
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Total:                     1000.00 uL
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] 
+Final composition check
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] -----------------------
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Polymer:    10.0043 wt%
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Additive:   0.0000 wt%
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] Solvent:    89.9957 wt%
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:14] 5.18
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:15] 5.19
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:16] 5.18
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:18] 5.18
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:19] 5.18
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:20] 5.17
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:21] 5.16
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:22] 5.16
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:23] 5.15
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:24] 5.13
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:25] 5.12
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:26] 5.11
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:27] 5.1
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:37] Temperature set to 25.
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:40] Test has started!
+
+[2026-08-12 15:35:08] [2026-08-12 18:04:49] entered if statement!!!
+
+[2026-08-12 15:35:08] [2026-08-12 18:07:35] Test complete!
+
+[2026-08-12 15:35:08] [2026-08-12 18:07:40] Safe: True
+
+[2026-08-12 15:35:08] [2026-08-12 18:07:40] Recent: True
+
+[2026-08-12 15:35:08] [2026-08-12 18:07:40] Time: 1786558060.7620714
+
+[2026-08-12 15:35:08] [2026-08-12 18:07:40] mTime: 1786558032.0592496
+
+[2026-08-12 15:35:08] [2026-08-12 18:07:53] Test has started!
+
+[2026-08-12 15:35:08] [2026-08-12 18:09:15] entered if statement!!!
+
+[2026-08-12 15:35:08] [2026-08-12 18:10:48] Test complete!
+
+[2026-08-12 15:35:08] [2026-08-12 18:10:54] Safe: True
+
+[2026-08-12 15:35:08] [2026-08-12 18:10:54] Recent: True
+
+[2026-08-12 15:35:08] [2026-08-12 18:10:54] Time: 1786558254.041375
+
+[2026-08-12 15:35:08] [2026-08-12 18:10:54] mTime: 1786558225.4337509
+
+[2026-08-12 15:35:08] [2026-08-12 18:11:06] Test has started!
+
+[2026-08-12 15:35:08] [2026-08-12 18:13:58] Test complete!
+
+[2026-08-12 15:35:08] [2026-08-12 18:14:03] Safe: True
+
+[2026-08-12 15:35:08] [2026-08-12 18:14:03] Recent: True
+
+[2026-08-12 15:35:08] [2026-08-12 18:14:03] Time: 1786558443.3508344
+
+[2026-08-12 15:35:08] [2026-08-12 18:14:03] mTime: 1786558414.6511898
+
+[2026-08-12 15:35:08] [2026-08-12 18:14:16] Test has started!
+
+[2026-08-12 15:35:08] [2026-08-12 18:17:13] Test complete!
+
+[2026-08-12 15:35:08] [2026-08-12 18:17:18] Safe: True
+
+[2026-08-12 15:35:08] [2026-08-12 18:17:18] Recent: True
+
+[2026-08-12 15:35:08] [2026-08-12 18:17:18] Time: 1786558638.3288248
+
+[2026-08-12 15:35:08] [2026-08-12 18:17:18] mTime: 1786558609.235152
+
+[2026-08-12 15:35:08] [2026-08-12 18:18:43] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:18:43] 0
+
+[2026-08-12 15:35:08] [2026-08-12 18:18:43] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:21:02] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:21:02] 0
+
+[2026-08-12 15:35:08] [2026-08-12 18:21:02] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:22:31] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:22:31] 1
+
+[2026-08-12 15:35:08] [2026-08-12 18:22:31] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:24:49] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:24:49] 1
+
+[2026-08-12 15:35:08] [2026-08-12 18:24:49] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:26:18] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:26:18] 2
+
+[2026-08-12 15:35:08] [2026-08-12 18:26:18] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:28:37] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:28:37] 2
+
+[2026-08-12 15:35:08] [2026-08-12 18:28:37] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:30:06] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:30:06] 3
+
+[2026-08-12 15:35:08] [2026-08-12 18:30:06] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:32:25] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:32:25] 3
+
+[2026-08-12 15:35:08] [2026-08-12 18:32:25] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:33:53] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:33:53] 4
+
+[2026-08-12 15:35:08] [2026-08-12 18:33:53] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:36:12] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:36:12] 4
+
+[2026-08-12 15:35:08] [2026-08-12 18:36:12] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:37:41] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:37:41] 5
+
+[2026-08-12 15:35:08] [2026-08-12 18:37:41] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:40:00] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:40:00] 5
+
+[2026-08-12 15:35:08] [2026-08-12 18:40:00] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:41:28] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:41:28] 6
+
+[2026-08-12 15:35:08] [2026-08-12 18:41:28] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:43:47] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:43:47] 6
+
+[2026-08-12 15:35:08] [2026-08-12 18:43:47] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:45:16] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:45:16] 7
+
+[2026-08-12 15:35:08] [2026-08-12 18:45:16] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:47:35] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:47:35] 7
+
+[2026-08-12 15:35:08] [2026-08-12 18:47:35] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:49:03] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:49:03] 8
+
+[2026-08-12 15:35:08] [2026-08-12 18:49:03] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:51:22] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:51:22] 8
+
+[2026-08-12 15:35:08] [2026-08-12 18:51:22] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:52:51] aspirate
+
+[2026-08-12 15:35:08] [2026-08-12 18:52:51] 9
+
+[2026-08-12 15:35:08] [2026-08-12 18:52:51] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:55:26] dispense
+
+[2026-08-12 15:35:08] [2026-08-12 18:55:26] 9
+
+[2026-08-12 15:35:08] [2026-08-12 18:55:26] 10
+
+[2026-08-12 15:35:08] [2026-08-12 18:55:26] 2291.3471242822707
+
+[2026-08-12 15:35:08] [2026-08-12 19:02:17] entered if statement!!!
+
+[2026-08-12 15:35:08] [2026-08-12 19:03:48] Joined both subprocesses.
+
+[2026-08-12 15:35:08] [2026-08-12 19:04:37] Pullcast complete.
+
+[2026-08-12 15:35:08] [2026-08-12 19:04:37] Nitrogen on.
+
+[2026-08-12 15:35:08] [2026-08-12 19:04:55] Nitrogen off.
+
+[2026-08-12 15:35:08] [2026-08-12 19:05:07] Membrane sitting in bath for 121 seconds.
+
+[2026-08-12 15:35:08] [2026-08-12 19:05:16] Nitrogen cap has been put away.
+
+[2026-08-12 15:35:08] [2026-08-12 19:05:31] Ring has been placed on the coupon.
+
+[2026-08-12 15:35:08] [2026-08-12 19:09:37] Cleaning knife
+
+[2026-08-12 15:35:08] [2026-08-12 19:10:37] Knife cleaning finished.
+
+[2026-08-12 15:35:08] [2026-08-12 19:17:43] Initial membrane picture taken.
+
+[2026-08-12 15:35:08] [2026-08-12 19:18:13] Test has started!
+
+[2026-08-12 15:35:08] [2026-08-12 19:21:57] Test complete!
+
+[2026-08-12 15:35:08] [2026-08-12 19:22:02] Safe: True
+
+[2026-08-12 15:35:08] [2026-08-12 19:22:02] Recent: True
+
+[2026-08-12 15:35:08] [2026-08-12 19:22:02] Time: 1786562522.2065897
+
+[2026-08-12 15:35:08] [2026-08-12 19:22:02] mTime: 1786562493.439823
+
+[2026-08-12 15:35:08] [2026-08-12 19:22:14] Test has started!
+
+[2026-08-12 15:35:08] [2026-08-12 19:25:55] Test complete!
+
+[2026-08-12 15:35:08] [2026-08-12 19:26:00] Safe: True
+
+[2026-08-12 15:35:08] [2026-08-12 19:26:00] Recent: True
+
+[2026-08-12 15:35:08] [2026-08-12 19:26:00] Time: 1786562760.910855
+
+[2026-08-12 15:35:08] [2026-08-12 19:26:00] mTime: 1786562732.165723
+
+[2026-08-12 15:35:08] [2026-08-12 19:26:13] Test has started!
+
+[2026-08-12 15:35:08] [2026-08-12 19:29:53] Test complete!
+
+[2026-08-12 15:35:08] [2026-08-12 19:29:58] Safe: True
+
+[2026-08-12 15:35:08] [2026-08-12 19:29:58] Recent: True
+
+[2026-08-12 15:35:08] [2026-08-12 19:29:58] Time: 1786562998.1809492
+
+[2026-08-12 15:35:08] [2026-08-12 19:29:58] mTime: 1786562969.4491823
+
+[2026-08-12 15:35:08] [2026-08-12 19:30:11] Test has started!
+
+[2026-08-12 15:35:08] [2026-08-12 19:33:51] Test complete!
+
+[2026-08-12 15:35:08] [2026-08-12 19:33:57] Safe: True
+
+[2026-08-12 15:35:08] [2026-08-12 19:33:57] Recent: True
+
+[2026-08-12 15:35:08] [2026-08-12 19:33:57] Time: 1786563237.007672
+
+[2026-08-12 15:35:08] [2026-08-12 19:33:57] mTime: 1786563208.2382417
+
+[2026-08-12 15:35:08] [2026-08-12 19:34:22] Final membrane picture taken.
+
+[2026-08-12 15:35:08] [2026-08-12 19:34:40] Coupon successfully discarded.
+
+[2026-08-12 15:35:08] [2026-08-12 19:35:26] Done
+
+[2026-08-12 15:35:08] [2026-08-12 19:35:26] {'temperature': '25.03', 'humidity': '44.19'}
+
+[2026-08-12 15:35:08] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-08-12 15:35:08] 
+[1/5] organising files...
+
+[2026-08-12 15:35:08] [START] condition=10-0add-5deg-6s-N2-121s
+
+[2026-08-12 15:35:08] [2/5] processing pipeline for: 10-0add-5deg-6s-N2-121s
+
+[2026-08-12 15:35:08] ==============================================================================================================
+
+[2026-08-12 15:35:08] Condition: 10-0add-5deg-6s-N2-121s | pairs: 4
+
+[2026-08-12 15:35:09] 
+
+------------ NEW REP ---------------
+
+[2026-08-12 15:35:09] Average Standard Deviation: 67.79254486971718
+
+[2026-08-12 15:35:10] Toe end strain (zero point): 0.0000
+
+[2026-08-12 15:35:16] PW + Double: 0.15146512657274216
+
+[2026-08-12 15:35:16] Piecewise Chosen! 0.17118751689893758 | Drop Calculation: 0.08464599441678744
+
+[2026-08-12 15:35:58]   elastic_r2                          28/30  NRMSE-score=0.943 (RMSE=0.08, range=1.41)
+
+[2026-08-12 15:35:58]   plateau_r2_start                    10/15  R²(first 40%)=0.699
+
+[2026-08-12 15:35:58]   densification_r2                    13/15  R²=0.899
+
+[2026-08-12 15:35:58]   yield_accuracy                      25/25  elastic tail undershoots data by 0.2% of elastic range
+
+[2026-08-12 15:35:58]   junction_continuity                  0/15  gap=38.1%
+
+[2026-08-12 15:35:58]   plateau_r2_full_penalty             -10/0  R²(full)=0.314
+
+[2026-08-12 15:35:58]   elastic_modulus_penalty             -5/0  E=7.4 bar out of range
+
+[2026-08-12 15:35:58]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=-106%) — ok | plateau spans 8% of remaining stress — ok
+
+[2026-08-12 15:35:58]   changepoint_curvature_penalty        0/0  d2_norm=2.59, linear_stretch=20%
+
+[2026-08-12 15:35:58]   catastrophic_slope_vs_modulus        0/0  slope ratio=2.92 — plateau slope ≥95% of elastic
+
+[2026-08-12 15:35:58]   CATASTROPHIC HALVING: 61 → 30
+
+[2026-08-12 15:35:58]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-12 15:35:58]     elastic_half_consistency: first-half R²=0.713 vs second-half R²=0.881 (gap=0.168)
+
+[2026-08-12 15:35:58] Score: 30/100 → FAIL
+
+[2026-08-12 15:36:08] PW + Double: 0.33178582764561554
+
+[2026-08-12 15:36:08] Drop Chosen! 0.19602659605383277 | Piecewise Calculation: 0.3161647426699751
+
+[2026-08-12 15:36:58]   elastic_r2                          22/30  NRMSE-score=0.743 (RMSE=0.07, range=0.28)
+
+[2026-08-12 15:36:58]   plateau_r2_start                    11/15  R²(first 40%)=0.730
+
+[2026-08-12 15:36:58]   densification_r2                    14/15  R²=0.916
+
+[2026-08-12 15:36:58]   yield_accuracy                      20/25  elastic tail undershoots data by 25.1% of elastic range
+
+[2026-08-12 15:36:58]   junction_continuity                  0/15  gap=37.6%
+
+[2026-08-12 15:36:58]   plateau_r2_full_penalty             -10/0  R²(full)=0.319
+
+[2026-08-12 15:36:58]   elastic_modulus_penalty              0/0  E=75.5 bar ok
+
+[2026-08-12 15:36:58]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=-97%) — ok | plateau spans 7% of remaining stress — ok
+
+[2026-08-12 15:36:58]   changepoint_curvature_penalty        0/0  d2_norm=2.29, linear_stretch=20%
+
+[2026-08-12 15:36:58]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.28 — good separation
+
+[2026-08-12 15:36:58]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-12 15:36:58]     elastic_half_consistency: first-half R²=-5.914 vs second-half R²=-0.573 (gap=5.341)
+
+[2026-08-12 15:36:58] Score: 57/100 → FAIL
+
+[2026-08-12 15:36:58]   toe-mask retry: masked strain < 0.1712, good=False
+
+[2026-08-12 15:36:58] Good Fit: False
+
+[2026-08-12 15:36:59] 
+
+------------ NEW REP ---------------
+
+[2026-08-12 15:36:59] Average Standard Deviation: 67.65716627962537
+
+[2026-08-12 15:36:59] Toe end strain (zero point): 0.0672
+
+[2026-08-12 15:37:08] PW + Double: 0.16362747010039533
+
+[2026-08-12 15:37:08] Piecewise Chosen! 0.16356748789795947 | Drop Calculation: 0.08727925691047933
+
+[2026-08-12 15:37:39]   elastic_r2                          27/30  NRMSE-score=0.914 (RMSE=0.09, range=1.09)
+
+[2026-08-12 15:37:39]   plateau_r2_start                    11/15  R²(first 40%)=0.729
+
+[2026-08-12 15:37:39]   densification_r2                    13/15  R²=0.891
+
+[2026-08-12 15:37:39]   yield_accuracy                      25/25  elastic tail undershoots data by 5.1% of elastic range
+
+[2026-08-12 15:37:39]   junction_continuity                  0/15  gap=37.5%
+
+[2026-08-12 15:37:39]   plateau_r2_full_penalty             -10/0  R²(full)=0.251
+
+[2026-08-12 15:37:39]   elastic_modulus_penalty             -5/0  E=6.8 bar out of range
+
+[2026-08-12 15:37:39]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=-167%) — ok | plateau spans 7% of remaining stress — ok
+
+[2026-08-12 15:37:39]   changepoint_curvature_penalty        0/0  d2_norm=2.61, linear_stretch=17%
+
+[2026-08-12 15:37:39]   catastrophic_slope_vs_modulus        0/0  slope ratio=2.92 — plateau slope ≥95% of elastic
+
+[2026-08-12 15:37:39]   CATASTROPHIC HALVING: 61 → 30
+
+[2026-08-12 15:37:39]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-12 15:37:39]     elastic_half_consistency: first-half R²=0.326 vs second-half R²=0.707 (gap=0.381)
+
+[2026-08-12 15:37:39] Score: 30/100 → FAIL
+
+[2026-08-12 15:37:45] PW + Double: 0.3334207960267575
+
+[2026-08-12 15:37:45] Drop Chosen! 0.163606980869479 | Piecewise Calculation: 0.3078566855530109
+
+[2026-08-12 15:38:24]   elastic_r2                          27/30  NRMSE-score=0.916 (RMSE=0.07, range=0.82)
+
+[2026-08-12 15:38:24]   plateau_r2_start                    11/15  R²(first 40%)=0.752
+
+[2026-08-12 15:38:24]   densification_r2                    13/15  R²=0.895
+
+[2026-08-12 15:38:24]   yield_accuracy                      25/25  elastic tail undershoots data by 3.7% of elastic range
+
+[2026-08-12 15:38:24]   junction_continuity                  0/15  gap=33.4%
+
+[2026-08-12 15:38:24]   plateau_r2_full_penalty             -10/0  R²(full)=0.274
+
+[2026-08-12 15:38:24]   elastic_modulus_penalty             -5/0  E=9.9 bar out of range
+
+[2026-08-12 15:38:24]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=-168%) — ok | plateau spans 8% of remaining stress — ok
+
+[2026-08-12 15:38:24]   changepoint_curvature_penalty        0/0  d2_norm=1.23, linear_stretch=20%
+
+[2026-08-12 15:38:24]   catastrophic_slope_vs_modulus        0/0  slope ratio=2.51 — plateau slope ≥95% of elastic
+
+[2026-08-12 15:38:24]   CATASTROPHIC HALVING: 61 → 30
+
+[2026-08-12 15:38:24] Score: 30/100 → FAIL
+
+[2026-08-12 15:38:24]   toe-mask retry: masked strain < 0.1636, good=False
+
+[2026-08-12 15:38:25] Good Fit: False
+
+[2026-08-12 15:38:26] 
+
+------------ NEW REP ---------------
+
+[2026-08-12 15:38:26] Average Standard Deviation: 67.59090848409183
+
+[2026-08-12 15:38:27] Toe end strain (zero point): 0.0000
+
+[2026-08-12 15:38:35] PW + Double: 0.20781189652335127
+
+[2026-08-12 15:38:35] Drop Chosen! 0.1089429019918009 | Piecewise Calculation: 0.21045587192452564
+
+[2026-08-12 15:39:13]   elastic_r2                          24/30  NRMSE-score=0.785 (RMSE=0.12, range=0.57)
+
+[2026-08-12 15:39:13]   plateau_r2_start                    11/15  R²(first 40%)=0.741
+
+[2026-08-12 15:39:13]   densification_r2                    13/15  R²=0.878
+
+[2026-08-12 15:39:13]   yield_accuracy                      20/25  elastic tail undershoots data by 23.8% of elastic range
+
+[2026-08-12 15:39:13]   junction_continuity                  0/15  gap=50.2%
+
+[2026-08-12 15:39:13]   plateau_r2_full_penalty             -10/0  R²(full)=0.251
+
+[2026-08-12 15:39:13]   elastic_modulus_penalty             -5/0  E=3.7 bar out of range
+
+[2026-08-12 15:39:13]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=-89%) — ok | plateau spans 7% of remaining stress — ok
+
+[2026-08-12 15:39:13]   changepoint_curvature_penalty        0/0  d2_norm=3.06, linear_stretch=17%
+
+[2026-08-12 15:39:13]   catastrophic_slope_vs_modulus        0/0  slope ratio=4.34 — plateau slope ≥95% of elastic
+
+[2026-08-12 15:39:13]   CATASTROPHIC HALVING: 53 → 26
+
+[2026-08-12 15:39:13]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-12 15:39:13]     elastic_half_consistency: first-half R²=-5.187 vs second-half R²=-2.485 (gap=2.701)
+
+[2026-08-12 15:39:13] Score: 26/100 → FAIL
+
+[2026-08-12 15:39:19] PW + Double: 0.2276944465872297
+
+[2026-08-12 15:39:19] Piecewise Chosen! 0.22932023432720589 | Drop Calculation: 0.15292089334865577
+
+[2026-08-12 15:39:49]   elastic_r2                          29/30  NRMSE-score=0.960 (RMSE=0.06, range=1.51)
+
+[2026-08-12 15:39:49]   plateau_r2_start                    12/15  R²(first 40%)=0.775
+
+[2026-08-12 15:39:49]   densification_r2                    13/15  R²=0.883
+
+[2026-08-12 15:39:49]   yield_accuracy                      25/25  elastic tail undershoots data by 1.3% of elastic range
+
+[2026-08-12 15:39:49]   junction_continuity                  0/15  gap=28.4%
+
+[2026-08-12 15:39:49]   plateau_r2_full_penalty             -10/0  R²(full)=0.304
+
+[2026-08-12 15:39:49]   elastic_modulus_penalty             -5/0  E=8.9 bar out of range
+
+[2026-08-12 15:39:49]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=-133%) — ok | plateau spans 8% of remaining stress — ok
+
+[2026-08-12 15:39:49]   changepoint_curvature_penalty        0/0  d2_norm=2.19, linear_stretch=17%
+
+[2026-08-12 15:39:49]   catastrophic_slope_vs_modulus        0/0  slope ratio=2.87 — plateau slope ≥95% of elastic
+
+[2026-08-12 15:39:49]   CATASTROPHIC HALVING: 64 → 32
+
+[2026-08-12 15:39:49] Score: 32/100 → FAIL
+
+[2026-08-12 15:39:49]   toe-mask retry: masked strain < 0.0704, good=False
+
+[2026-08-12 15:39:50] Good Fit: False
+
+[2026-08-12 15:39:50] 
+
+------------ NEW REP ---------------
+
+[2026-08-12 15:39:50] Average Standard Deviation: 67.27980666729407
+
+[2026-08-12 15:40:02] Toe end strain (zero point): 0.0000
+
+[2026-08-12 15:40:11] PW + Double: 0.21967364475868237
+
+[2026-08-12 15:40:11] Piecewise Chosen! 0.19451812495610585 | Drop Calculation: 0.08103399725228799
+
+[2026-08-12 15:40:42]   elastic_r2                          29/30  NRMSE-score=0.952 (RMSE=0.10, range=2.00)
+
+[2026-08-12 15:40:42]   plateau_r2_start                    12/15  R²(first 40%)=0.824
+
+[2026-08-12 15:40:42]   densification_r2                    13/15  R²=0.887
+
+[2026-08-12 15:40:42]   yield_accuracy                      25/25  elastic tail undershoots data by 3.0% of elastic range
+
+[2026-08-12 15:40:42]   junction_continuity                  0/15  gap=28.4%
+
+[2026-08-12 15:40:42]   plateau_r2_full_penalty             -10/0  R²(full)=0.361
+
+[2026-08-12 15:40:42]   elastic_modulus_penalty              0/0  E=11.0 bar ok
+
+[2026-08-12 15:40:42]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=-150%) — ok | plateau spans 9% of remaining stress — ok
+
+[2026-08-12 15:40:42]   changepoint_curvature_penalty        0/0  d2_norm=1.88, linear_stretch=20%
+
+[2026-08-12 15:40:42]   catastrophic_slope_vs_modulus        0/0  slope ratio=2.67 — plateau slope ≥95% of elastic
+
+[2026-08-12 15:40:42]   CATASTROPHIC HALVING: 69 → 34
+
+[2026-08-12 15:40:42] Score: 34/100 → FAIL
+
+[2026-08-12 15:40:51] PW + Double: 0.35097589552538605
+
+[2026-08-12 15:40:51] Piecewise Chosen! 0.3385907013763208 | Drop Calculation: 0.2820057321047198
+
+[2026-08-12 15:41:10]   elastic_r2                          29/30  NRMSE-score=0.959 (RMSE=0.12, range=2.97)
+
+[2026-08-12 15:41:10]   plateau_r2_start                    14/15  R²(first 40%)=0.924
+
+[2026-08-12 15:41:10]   densification_r2                    14/15  R²=0.904
+
+[2026-08-12 15:41:10]   yield_accuracy                      25/25  elastic tail undershoots data by 2.2% of elastic range
+
+[2026-08-12 15:41:10]   junction_continuity                  2/15  gap=12.8%
+
+[2026-08-12 15:41:10]   plateau_r2_full_penalty             -10/0  R²(full)=0.378
+
+[2026-08-12 15:41:10]   elastic_modulus_penalty              0/0  E=19.4 bar ok
+
+[2026-08-12 15:41:10]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=-151%) — ok | plateau spans 11% of remaining stress — ok
+
+[2026-08-12 15:41:10]   changepoint_curvature_penalty        0/0  d2_norm=1.51, linear_stretch=17%
+
+[2026-08-12 15:41:10]   catastrophic_slope_vs_modulus        0/0  slope ratio=2.44 — plateau slope ≥95% of elastic
+
+[2026-08-12 15:41:10]   CATASTROPHIC HALVING: 74 → 37
+
+[2026-08-12 15:41:10] Score: 37/100 → FAIL
+
+[2026-08-12 15:41:10]   toe-mask retry: masked strain < 0.1945, good=False
+
+[2026-08-12 15:41:11] Good Fit: False
+
+[2026-08-12 15:41:11] CV (10-0add-5deg-6s-N2-121s) [preDiscard]: 0.030416482736115087
+
+[2026-08-12 15:41:12] CV (10-0add-5deg-6s-N2-121s) [postDiscard]: nan
+
+[2026-08-12 15:41:12] 
+
+------------ NEW REP ---------------
+
+[2026-08-12 15:41:12] Average Standard Deviation: 44.01453866447777
+
+[2026-08-12 15:41:14] Toe end strain (zero point): 0.0000
+
+[2026-08-12 15:41:16] PW + Double: 0.23329872418587635
+
+[2026-08-12 15:41:16] Drop Chosen! 0.03955818997518647 | Piecewise Calculation: 0.2058142005466014
+
+[2026-08-12 15:41:51]   elastic_r2                          25/30  NRMSE-score=0.847 (RMSE=0.07, range=0.46)
+
+[2026-08-12 15:41:51]   plateau_r2_start                    11/15  R²(first 40%)=0.755
+
+[2026-08-12 15:41:51]   densification_r2                    13/15  R²=0.846
+
+[2026-08-12 15:41:51]   yield_accuracy                      24/25  elastic tail undershoots data by 13.7% of elastic range
+
+[2026-08-12 15:41:51]   junction_continuity                  0/15  gap=319.1%
+
+[2026-08-12 15:41:51]   plateau_r2_full_penalty             -10/0  R²(full)=-0.353
+
+[2026-08-12 15:41:51]   elastic_modulus_penalty             -5/0  E=9.7 bar out of range
+
+[2026-08-12 15:41:51]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=-141%) — ok | plateau spans 14% of remaining stress — ok
+
+[2026-08-12 15:41:51]   changepoint_curvature_penalty        0/0  d2_norm=2.73, linear_stretch=23%
+
+[2026-08-12 15:41:51]   catastrophic_slope_vs_modulus        0/0  slope ratio=3.45 — plateau slope ≥95% of elastic
+
+[2026-08-12 15:41:51]   CATASTROPHIC HALVING: 58 → 29
+
+[2026-08-12 15:41:51]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-12 15:41:51]     elastic_half_consistency: first-half R²=-0.957 vs second-half R²=0.320 (gap=1.277)
+
+[2026-08-12 15:41:51] Score: 29/100 → FAIL
+
+[2026-08-12 15:41:52] Good Fit: False
+
+[2026-08-12 15:41:53]   All fits failed for 10-0add-5deg-6s-N2-121s — postDiscard row built from all-discarded reps
+
+[2026-08-12 15:42:10] [3/5] generating initial report...
+
+[2026-08-12 15:42:10] [4/5] running active learning...
+
+[2026-08-12 15:42:51]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_10-0add-5deg-6s-N2-121s.json
+
+[2026-08-12 15:42:51] [5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'pullcast_speed': 5, 'nitrogen': True, 'coupon_to_bath_wait_time': 30, 'nips_bath_wait_time': 1200, 'polymer_wt': 16.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-12 15:42:51] Python recieved!
+
+[2026-08-12 15:42:51] Exact payload being sent: {"mixing_temp": 60, "bath_temp": 5, "pullcast_speed": 5, "nitrogen": true, "coupon_to_bath_wait_time": 30, "nips_bath_wait_time": 1200, "polymer_wt": 16.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-12 15:43:12] Network connection issue to Opentrons: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+[2026-08-12 15:43:12] [ERROR] 10-0add-5deg-6s-N2-121s  URLError: <urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>
+
+[2026-08-12 15:43:12] Pipeline error — loop stopped: <urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>
+
+[2026-08-12 15:43:12] Exception in thread 
+[2026-08-12 15:43:12] Thread-2 (_run_pipeline_and_trigger_next)
+[2026-08-12 15:43:12] :
+[2026-08-12 15:43:12] Traceback (most recent call last):
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1319[0m, in [35mdo_open[0m
+    [31mh.request[0m[1;31m(req.get_method(), req.selector, req.data, headers,[0m
+    [31m~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+              [1;31mencode_chunked=req.has_header('Transfer-encoding'))[0m
+              [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1367[0m, in [35mrequest[0m
+    [31mself._send_request[0m[1;31m(method, url, body, headers, encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1413[0m, in [35m_send_request[0m
+    [31mself.endheaders[0m[1;31m(body, encode_chunked=encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1362[0m, in [35mendheaders[0m
+    [31mself._send_output[0m[1;31m(message_body, encode_chunked=encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1122[0m, in [35m_send_output[0m
+    [31mself.send[0m[1;31m(msg)[0m
+    [31m~~~~~~~~~[0m[1;31m^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1066[0m, in [35msend[0m
+    [31mself.connect[0m[1;31m()[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1032[0m, in [35mconnect[0m
+    self.sock = [31mself._create_connection[0m[1;31m([0m
+                [31m~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^[0m
+        [1;31m(self.host,self.port), self.timeout, self.source_address)[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socket.py"[0m, line [35m868[0m, in [35mcreate_connection[0m
+    raise exceptions[0]
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socket.py"[0m, line [35m853[0m, in [35mcreate_connection[0m
+    [31msock.connect[0m[1;31m(sa)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^[0m
+[2026-08-12 15:43:12] [1;35mTimeoutError[0m: [35m[WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond[0m
+[2026-08-12 15:43:12] 
+During handling of the above exception, another exception occurred:
+
+[2026-08-12 15:43:12] Traceback (most recent call last):
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\threading.py"[0m, line [35m1044[0m, in [35m_bootstrap_inner[0m
+    [31mself.run[0m[1;31m()[0m
+    [31m~~~~~~~~[0m[1;31m^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\threading.py"[0m, line [35m995[0m, in [35mrun[0m
+    [31mself._target[0m[1;31m(*self._args, **self._kwargs)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m410[0m, in [35m_run_pipeline_and_trigger_next[0m
+    [31murl.run_test[0m[1;31m(new_params)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\url_29.py"[0m, line [35m33[0m, in [35mrun_test[0m
+    with [31murllib.request.urlopen[0m[1;31m(req, timeout=timeout)[0m as response:
+         [31m~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m189[0m, in [35murlopen[0m
+    return [31mopener.open[0m[1;31m(url, data, timeout)[0m
+           [31m~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m489[0m, in [35mopen[0m
+    response = self._open(req, data)
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m506[0m, in [35m_open[0m
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m466[0m, in [35m_call_chain[0m
+    result = func(*args)
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1348[0m, in [35mhttp_open[0m
+    return [31mself.do_open[0m[1;31m(http.client.HTTPConnection, req)[0m
+           [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:43:12]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1322[0m, in [35mdo_open[0m
+    raise URLError(err)
+[2026-08-12 15:43:12] [1;35murllib.error.URLError[0m: [35m<urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>[0m
+[2026-08-12 15:46:18] 
+stopping server...
+

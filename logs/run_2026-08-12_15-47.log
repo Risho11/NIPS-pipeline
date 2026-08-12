@@ -1,0 +1,70 @@
+[2026-08-12 15:47:29] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-08-12 15:47:29] server listening on 169.254.230.148:8000
+
+[2026-08-12 15:47:29] kicking off first experiment: {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 10, 'nitrogen': True, 'coupon_to_bath_wait_time': 6, 'nips_bath_wait_time': 121, 'polymer_wt': 10, 'additive_wt': 0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-12 15:47:29] Python recieved!
+
+[2026-08-12 15:47:29] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 6, "nips_bath_wait_time": 121, "polymer_wt": 10, "additive_wt": 0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-12 15:47:50] Network connection issue to Opentrons: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+[2026-08-12 15:47:50] Traceback (most recent call last):
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1319[0m, in [35mdo_open[0m
+    [31mh.request[0m[1;31m(req.get_method(), req.selector, req.data, headers,[0m
+    [31m~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+              [1;31mencode_chunked=req.has_header('Transfer-encoding'))[0m
+              [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1367[0m, in [35mrequest[0m
+    [31mself._send_request[0m[1;31m(method, url, body, headers, encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1413[0m, in [35m_send_request[0m
+    [31mself.endheaders[0m[1;31m(body, encode_chunked=encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1362[0m, in [35mendheaders[0m
+    [31mself._send_output[0m[1;31m(message_body, encode_chunked=encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1122[0m, in [35m_send_output[0m
+    [31mself.send[0m[1;31m(msg)[0m
+    [31m~~~~~~~~~[0m[1;31m^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1066[0m, in [35msend[0m
+    [31mself.connect[0m[1;31m()[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1032[0m, in [35mconnect[0m
+    self.sock = [31mself._create_connection[0m[1;31m([0m
+                [31m~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^[0m
+        [1;31m(self.host,self.port), self.timeout, self.source_address)[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socket.py"[0m, line [35m868[0m, in [35mcreate_connection[0m
+    raise exceptions[0]
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socket.py"[0m, line [35m853[0m, in [35mcreate_connection[0m
+    [31msock.connect[0m[1;31m(sa)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^[0m
+[2026-08-12 15:47:50] [1;35mTimeoutError[0m: [35m[WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond[0m
+[2026-08-12 15:47:50] 
+During handling of the above exception, another exception occurred:
+
+[2026-08-12 15:47:50] Traceback (most recent call last):
+[2026-08-12 15:47:50]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m496[0m, in [35m<module>[0m
+    [31murl.run_test[0m[1;31m(first_params)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\url_29.py"[0m, line [35m33[0m, in [35mrun_test[0m
+    with [31murllib.request.urlopen[0m[1;31m(req, timeout=timeout)[0m as response:
+         [31m~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m189[0m, in [35murlopen[0m
+    return [31mopener.open[0m[1;31m(url, data, timeout)[0m
+           [31m~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m489[0m, in [35mopen[0m
+    response = self._open(req, data)
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m506[0m, in [35m_open[0m
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m466[0m, in [35m_call_chain[0m
+    result = func(*args)
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1348[0m, in [35mhttp_open[0m
+    return [31mself.do_open[0m[1;31m(http.client.HTTPConnection, req)[0m
+           [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-12 15:47:50]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1322[0m, in [35mdo_open[0m
+    raise URLError(err)
+[2026-08-12 15:47:50] [1;35murllib.error.URLError[0m: [35m<urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>[0m

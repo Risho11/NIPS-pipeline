@@ -54,7 +54,7 @@ INITIAL_PARAMS = {
     "bath_temp": 5,
     "pullcast_speed": 10,
     "nitrogen": True,
-    "coupon_to_bath_wait_time": 60,
+    "coupon_to_bath_wait_time": 6,
     "nips_bath_wait_time": 121,
     "polymer_wt": 10,
     "additive_wt": 0
@@ -79,7 +79,7 @@ ITERATE_POLYMER = False
 #basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
 #in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
-CONTINUE_CAMPAIGN = None
+CONTINUE_CAMPAIGN = "2026-08-12"
 
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
@@ -492,6 +492,8 @@ if __name__ == "__main__":
         first_params = dict(INITIAL_PARAMS)
 
     first_params["stock_metadata"] = activeLearning.bounds.send_metadata()
+    if LOCK_ADDITIVE_WT:
+        first_params["additive_wt"] = 0
     print(f"kicking off first experiment: {first_params}")
     url.run_test(first_params)
     print("robot started — loop running. Ctrl+C to stop.")
