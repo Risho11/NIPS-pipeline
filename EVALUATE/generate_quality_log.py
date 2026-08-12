@@ -13,6 +13,7 @@ Run standalone:
     python EVALUATE/generate_quality_log.py
 """
 import base64
+import hashlib
 import re
 from pathlib import Path
 
@@ -20,9 +21,37 @@ import pandas as pd
 
 FILE_DIR = Path(__file__).parent
 ROOT     = FILE_DIR.parent  # project root — this script lives in EVALUATE/
-AGG_LLM  = ROOT / "data" / "results" / "results_agg_llm.csv"
+
+
+def _default_agg_llm_sources():
+    """Every *llm*.csv this project has ever written quality_report data into, across every
+    location the convention has lived at over time: root-level leftovers (pre-reorg / stray
+    re-adds), old_csv/ (the historical archive), and data/results/**/ (both the old flat file
+    and per-campaign CONTINUE_CAMPAIGN folders). A single "most recent file" pick silently loses
+    everything older whenever the convention changes again -- load_quality_rows merges and
+    dedupes all of these by name (latest date wins), so nothing gets lost just because a newer,
+    smaller CSV happened to be written most recently."""
+    candidates = set()
+    candidates.update(ROOT.glob("*llm*.csv"))
+    candidates.update((ROOT / "old_csv").glob("*llm*.csv"))
+    candidates.update((ROOT / "data" / "results").glob("**/*llm*.csv"))
+    return sorted(candidates)
+
+
+AGG_LLM  = _default_agg_llm_sources()
 RAW_DIR  = ROOT / "data" / "raw"
 OUTPUT   = FILE_DIR / "quality_evaluation_log.html"
+
+# Extra raw-condition-folder roots to check *before* RAW_DIR (e.g. an isolated test recovery
+# run's corrected photos for a condition whose real data/raw/<condition>/ still has stale ones).
+# First root that actually contains the condition's folder wins.
+EXTRA_RAW_DIRS = []
+
+# compression-test-data/ is the pre-reorg name for data/raw/ (renamed in commit ea7a43d) --
+# older conditions (and some stray re-adds from checkouts that predated the rename) still only
+# exist there, never got copied into data/raw/. Checked after EXTRA_RAW_DIRS/RAW_DIR since it's
+# the legacy fallback, not the primary location.
+LEGACY_RAW_DIR = ROOT / "compression-test-data"
 
 
 def _pretest_image(condition_dir: Path):
@@ -80,10 +109,17 @@ def render_report(text: str) -> str:
     return "\n".join(out)
 
 
-def load_quality_rows():
-    if not AGG_LLM.exists() or AGG_LLM.stat().st_size == 0:
+def load_quality_rows(extra_csv_paths=None):
+    """extra_csv_paths: additional {name, date, quality_report, ...}-shaped CSVs to merge in
+    (e.g. a one-off recovery run's isolated test CSV), without touching AGG_LLM itself."""
+    frames = []
+    for p in list(AGG_LLM) + list(extra_csv_paths or []):
+        p = Path(p)
+        if p.exists() and p.stat().st_size > 0:
+            frames.append(pd.read_csv(p))
+    if not frames:
         return pd.DataFrame()
-    df = pd.read_csv(AGG_LLM)
+    df = pd.concat(frames, ignore_index=True)
     if "quality_report" not in df.columns:
         return pd.DataFrame()
     df = df[df["quality_report"].notna()].copy()
@@ -143,6 +179,18 @@ h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
 .report-col h4:first-child, .report-col h5:first-child { margin-top: 0; }
 .report-col p { margin: 4px 0 8px; line-height: 1.5; }
 .report-col strong { color: #263238; }
+
+.card-stale .card-header { background: #b71c1c; }
+.stale-tag { font-size: 10px; font-weight: 700; background: #ffab91; color: #3e0000;
+    padding: 2px 6px; border-radius: 3px; letter-spacing: .03em; }
+.stale-banner { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a;
+    border-radius: 4px; padding: 8px 12px; margin-bottom: 10px; font-size: 12px;
+    font-weight: 600; line-height: 1.4; }
+
+#filter-bar label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+#filter-bar input[type=checkbox] { accent-color: #90a4ae; cursor: pointer; }
+#filter-count { color: #90a4ae; font-style: italic; }
+.dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
 """
 
 JS = """
@@ -174,22 +222,77 @@ document.getElementById('toggle-all').addEventListener('click', () => {
   });
   syncToggleAllLabel();
 });
+const cards = [...document.querySelectorAll('.card')];
 const searchBar = document.getElementById('search-bar');
-searchBar.addEventListener('input', () => {
-  const q = searchBar.value.toLowerCase();
-  document.querySelectorAll('.card').forEach(c => {
-    c.style.display = c.dataset.name.toLowerCase().includes(q) ? '' : 'none';
+
+function applyFilters() {
+  const activeStatus = new Set(
+    [...document.querySelectorAll('#filter-bar input[data-status]:checked')].map(i => i.dataset.status)
+  );
+  const q = searchBar.value.trim().toLowerCase();
+  let visible = 0;
+  cards.forEach(c => {
+    const statusMatch = activeStatus.has(c.dataset.status);
+    const searchMatch = !q || c.dataset.name.toLowerCase().includes(q);
+    const show = statusMatch && searchMatch;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
   });
+  document.getElementById('filter-count').textContent = `${visible} / ${cards.length} shown`;
+}
+
+document.querySelectorAll('#filter-bar input[data-status]').forEach(cb => {
+  cb.addEventListener('change', applyFilters);
 });
+searchBar.addEventListener('input', applyFilters);
+applyFilters();
 """
 
 
-def quality_card(row):
+def _resolve_condition_dir(name):
+    for root in list(EXTRA_RAW_DIRS) + [RAW_DIR, LEGACY_RAW_DIR]:
+        cand = Path(root) / name
+        if cand.is_dir():
+            return cand
+    return None
+
+
+def _file_hash(path: Path) -> str:
+    return hashlib.md5(path.read_bytes()).hexdigest()
+
+
+def _resolve_photos(names):
+    """name -> (cond_dir, pretest, posttest, pretest_hash_or_None), resolved once and shared
+    between the duplicate-photo scan and the actual card rendering."""
+    resolved = {}
+    for name in names:
+        cond_dir = _resolve_condition_dir(name)
+        pretest, posttest = (None, None)
+        if cond_dir is not None:
+            pretest, posttest = _pretest_image(cond_dir)
+        h = _file_hash(pretest) if pretest is not None else None
+        resolved[name] = (cond_dir, pretest, posttest, h)
+    return resolved
+
+
+def _find_stale_hashes(resolved):
+    """Same photo (by content hash) reused across 2+ different conditions almost certainly
+    means a stale/duplicate photo got attached instead of that condition's real membrane shot
+    (see take_snapshot()'s write-path bug in run_loop.py -- this is the general form of that
+    same failure class, so it catches recurrences automatically instead of hardcoding the one
+    known bad file)."""
+    counts = {}
+    for _cond, _dir, _pre, _post, h in ((n, *v) for n, v in resolved.items()):
+        if h is not None:
+            counts[h] = counts.get(h, 0) + 1
+    return {h for h, c in counts.items() if c > 1}
+
+
+def quality_card(row, is_stale=False):
     name = str(row["name"])
-    cond_dir = RAW_DIR / name
-    pretest, posttest = (None, None)
-    if cond_dir.is_dir():
-        pretest, posttest = _pretest_image(cond_dir)
+    cond_dir = row["_cond_dir"]
+    pretest = row["_pretest"]
+    posttest = row["_posttest"]
 
     if pretest is not None:
         photo_html = f'<img src="{img_to_data_uri(pretest)}" alt="{name} membrane photo">'
@@ -202,15 +305,25 @@ def quality_card(row):
     else:
         photo_html = '<div class="no-photo">No photo found in data/raw/' + name + '/</div>'
 
-    report_html = render_report(row["quality_report"])
+    if is_stale:
+        report_html = (
+            '<div class="stale-banner">⚠ IMAGE FAILURE — this photo is identical to another '
+            "condition's, almost certainly a stale/duplicate image rather than this condition's "
+            "real membrane shot. The report below was generated from that photo and should not "
+            "be trusted.</div>"
+        ) + render_report(row["quality_report"])
+    else:
+        report_html = render_report(row["quality_report"])
     params = str(row.get("formatted_parameters", "") or "")
     date = str(row.get("date", "")).replace("\n", " ")
 
+    status = "stale" if is_stale else "ok"
     return f"""
-<div class="card" data-name="{name}">
+<div class="card{' card-stale' if is_stale else ''}" data-name="{name}" data-status="{status}">
   <div class="card-header">
     <span class="toggle-icon">▼</span>
     <span>{name}</span>
+    {'<span class="stale-tag">IMAGE FAILURE</span>' if is_stale else ''}
     <span class="params">{params}</span>
     <span class="date">{date}</span>
   </div>
@@ -223,18 +336,31 @@ def quality_card(row):
 </div>"""
 
 
-def generate(output_path=None):
+def generate(output_path=None, extra_csv_paths=None):
     out = Path(output_path) if output_path else OUTPUT
-    df = load_quality_rows()
+    df = load_quality_rows(extra_csv_paths)
     if df.empty:
         print("[quality log] No quality_report data found — skipping HTML generation.")
         return
 
-    cards_html = "".join(quality_card(row) for _, row in df.iterrows())
+    resolved = _resolve_photos(df["name"].astype(str).tolist())
+    stale_hashes = _find_stale_hashes(resolved)
+
+    df["_cond_dir"], df["_pretest"], df["_posttest"], df["_hash"] = zip(
+        *(resolved[str(n)] for n in df["name"])
+    )
+    df["_is_stale"] = df["_hash"].apply(lambda h: h in stale_hashes)
+
+    n_stale = int(df["_is_stale"].sum())
+    cards_html = "".join(quality_card(row, is_stale=row["_is_stale"]) for _, row in df.iterrows())
 
     from datetime import datetime
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
 
+    stale_note = (
+        f" &nbsp;·&nbsp; <span style=\"color:#ffab91\">{n_stale} flagged as image failure "
+        f"(duplicate/stale photo)</span>" if n_stale else ""
+    )
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -252,9 +378,13 @@ def generate(output_path=None):
 </h1>
 <div class="meta">Generated {generated_at} &nbsp;·&nbsp; {len(df)} condition(s) with a vision-LLM quality report
   &nbsp;·&nbsp; Click a photo to open full size &nbsp;·&nbsp; newest first
-  &nbsp;·&nbsp; to update: run <code style="background:#263238;padding:1px 4px;border-radius:2px">python EVALUATE/generate_quality_log.py</code></div>
+  &nbsp;·&nbsp; to update: run <code style="background:#263238;padding:1px 4px;border-radius:2px">python EVALUATE/generate_quality_log.py</code>{stale_note}</div>
 <div id="filter-bar">
+  <span style="opacity:.7;font-weight:600">Filter:</span>
+  <label><input type="checkbox" data-status="ok" checked> <span class="dot" style="background:#455a64"></span> OK</label>
+  <label><input type="checkbox" data-status="stale" checked> <span class="dot" style="background:#b71c1c"></span> image failure</label>
   <input id="search-bar" type="search" placeholder="Search conditions…">
+  <span id="filter-count"></span>
   <button id="toggle-all">Collapse All</button>
 </div>
 {cards_html}
@@ -263,7 +393,7 @@ def generate(output_path=None):
 </html>"""
 
     out.write_text(html, encoding="utf-8")
-    print(f"[quality log] Written → {out}  ({len(df)} conditions)")
+    print(f"[quality log] Written → {out}  ({len(df)} conditions, {n_stale} flagged as image failure)")
 
 
 if __name__ == "__main__":
