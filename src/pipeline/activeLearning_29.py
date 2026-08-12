@@ -65,19 +65,32 @@ def Generate_report(Formatted_Parameters, Model = "anthropic/claude-sonnet-4.6",
 _BASE_RANGES = 'The "mixing_temp" can be between 25 and 80 degrees Celsius. The "bath_temp" can be between 5 and 25 degrees Celsius. The "pullcast_speed" can be between 1 and 20 mm/s. The "coupon_to_bath_wait_time" can be between 0 and 600 seconds. The "nips_bath_wait_time" can be between 1200 and 1800seconds. The "nitrogen" can be either True or False.'
 
 
-def current_ranges() -> str:
+def current_ranges(locked_additive_wt=None) -> str:
     """Bounds text fed to the LLM's system prompt, read fresh from polymer_additive_bounds.py
     every call -- NOT cached at import time. A long-running run_loop.py process used to freeze
     this the moment activeLearning_29 was first imported, so editing polymer_additive_bounds.py
     and restarting nothing (or restarting the wrong process) meant the LLM kept seeing stale
     bounds indefinitely with zero indication anything was wrong -- exactly what happened when
-    polymer_stock_wt_percent was updated to 17.0 but the running process never picked it up."""
+    polymer_stock_wt_percent was updated to 17.0 but the running process never picked it up.
+
+    Pass locked_additive_wt (e.g. run_loop.LOCK_ADDITIVE_WT_VALUE) when a campaign phase is
+    forcing additive_wt to a fixed value downstream -- otherwise this describes the full
+    triangle (up to additive_wt_max), the LLM keeps proposing nonzero additive_wt within that
+    range, and run_loop.py silently overrides every suggestion back to the locked value. The
+    model never sees why its suggestions get discarded, which derails active learning."""
     triangle = bounds.get_composition_bounds()
-    tri_ranges = (
-        f' The "polymer_wt" maximum is {triangle["polymer_wt_max"]} and the "additive_wt" '
-        f'maximum is {triangle["additive_wt_max"]}. The "polymer_wt" and "additive_wt" should '
-        f'be within the triangular bounds {triangle["vertices"]}.'
-    )
+    if locked_additive_wt is None:
+        tri_ranges = (
+            f' The "polymer_wt" maximum is {triangle["polymer_wt_max"]} and the "additive_wt" '
+            f'maximum is {triangle["additive_wt_max"]}. The "polymer_wt" and "additive_wt" should '
+            f'be within the triangular bounds {triangle["vertices"]}.'
+        )
+    else:
+        tri_ranges = (
+            f' The "additive_wt" is locked at {locked_additive_wt} for this campaign phase -- '
+            f'always suggest exactly {locked_additive_wt} for "additive_wt", regardless of '
+            f'prior observations. The "polymer_wt" maximum is {triangle["polymer_wt_max"]}.'
+        )
     return _BASE_RANGES + tri_ranges
 #-----------#
 def _encode_image(path):
@@ -87,9 +100,10 @@ def _encode_image(path):
 
 
 def LLM_AL(performance_observations, ranges=None, quality_observations=None, image_paths=None,
+           locked_additive_wt=None,
            Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5):
     if ranges is None:
-        ranges = current_ranges()
+        ranges = current_ranges(locked_additive_wt=locked_additive_wt)
     text = f'\nPrior Performance Observations: {performance_observations}'
     if quality_observations:
         text += f'\n\nPrior Quality Observations: {quality_observations}'

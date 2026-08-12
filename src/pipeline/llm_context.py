@@ -245,14 +245,19 @@ def attach_all_branch_results(condition_name, branch_results, branch_config, agg
                                      report_text=report_text)
 
 
-def generate_reports_and_suggestion(condition_name, agg_llm_path, activeLearning):
+def generate_reports_and_suggestion(condition_name, agg_llm_path, activeLearning, locked_additive_wt=None):
     """Exact strategy run_loop.py uses to go from a CSV row to a next-params suggestion: build
     initial_report (performance, via activeLearning.Generate_report), fold the mech-property
     outcome text into final_report, join performance_observations across campaign history, pull
     quality_observations (already-built quality_report column), call activeLearning.LLM_AL with
     both. Returns the raw params_suggestion string. `activeLearning` is passed in (not imported
     here) so tests/test_master.py can monkeypatch activeLearning_29.Generate_report/LLM_AL to
-    stubs before calling this, rather than reimplementing the flow."""
+    stubs before calling this, rather than reimplementing the flow.
+
+    locked_additive_wt: pass run_loop.LOCK_ADDITIVE_WT_VALUE when that campaign-phase lock is
+    active, so LLM_AL's system prompt says additive_wt is locked instead of quoting the full
+    triangle -- otherwise the LLM keeps proposing nonzero additive_wt that gets silently
+    overridden downstream, and never learns why (see activeLearning_29.current_ranges)."""
     agg_llm_path = Path(agg_llm_path)
     if not agg_llm_path.exists() or agg_llm_path.stat().st_size == 0:
         raise ValueError(f"LLM CSV doesn't exist or is empty: {agg_llm_path}")
@@ -282,7 +287,8 @@ def generate_reports_and_suggestion(condition_name, agg_llm_path, activeLearning
     # every call now, not a value cached at activeLearning_29 import time (see LLM_AL/
     # current_ranges' docstrings for why that caching was actively harmful).
     params_suggestion = activeLearning.LLM_AL(
-        performance_observations, quality_observations=quality_observations
+        performance_observations, quality_observations=quality_observations,
+        locked_additive_wt=locked_additive_wt,
     )
 
     llm_df.at[idx, "LLM_suggestion"] = params_suggestion

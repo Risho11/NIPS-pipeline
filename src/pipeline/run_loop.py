@@ -107,13 +107,12 @@ PARAMS_SCHEMA = {
 # <<< PATH >>> project root = three levels up from src/pipeline/run_loop.py
 DATA_ROOT    = _REPO_ROOT
 
-d = datetime.datetime.now().strftime("%Y-%m-%d") if CONTINUE_CAMPAIGN is None else CONTINUE_CAMPAIGN
+
 # <<< PATH >>> output CSVs live under data/results/
+d = datetime.datetime.now().strftime("%Y-%m-%d") if CONTINUE_CAMPAIGN == None else CONTINUE_CAMPAIGN
 CSV_REPS        = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"reps.csv"
 CSV_AGG         = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"agg.csv"
 CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"llm.csv"
-
-
 
 def startup(lock_add, locked_value, iterate_add, iterate_poly, continue_campaign, campaign_date):
     if continue_campaign is None:
@@ -361,7 +360,10 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
             raise ValueError(f"LLM CSV missing or empty after promote_to_main: {CSV_AGG_LLM}")
 
         print("[4/5] running active learning...")
-        params_suggestion = llm_context.generate_reports_and_suggestion(condition_name, CSV_AGG_LLM, activeLearning)
+        params_suggestion = llm_context.generate_reports_and_suggestion(
+            condition_name, CSV_AGG_LLM, activeLearning,
+            locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
+        )
 
         llm_new_params = None
         try:
