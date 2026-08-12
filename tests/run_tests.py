@@ -151,7 +151,7 @@ def test_full_pipeline(condition, real_llm=False):
             import activeLearning_29 as al  # <<< IMPORT >>> must be in same folder as run_tests.py
             initial_report    = al.Generate_report(fmt_params)
             final_report      = initial_report + "\n" + fmt_params_with_prop
-            params_suggestion = al.LLM_AL(final_report, al.ranges)
+            params_suggestion = al.LLM_AL(final_report)  # ranges computed fresh inside LLM_AL now
         else:
             initial_report    = MOCK_INITIAL_REPORT
             final_report      = initial_report + "\n" + fmt_params_with_prop

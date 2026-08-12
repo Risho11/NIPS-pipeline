@@ -1,4 +1,4 @@
-date,name,mixing_temp,bath_temp,weight_percent,volume,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion
+date,name,mixing_temp,bath_temp,weight_percent,volume,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion,polymer_wt,additive_wt,Discarded Fit Quality Mean,Discarded Fit Reasons
 "2026-08-10
 09:52:25",17-13deg-10s-NoN2-30s__test-20260810-095150,25,13,17.0,1000.0,10,False,10,30,mixing_temp=25; bath_temp=13; weight_percent=17; volume=1000; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=10; nips_bath_wait_time=30; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated NIPS Membrane Synthesis
 
@@ -94,7 +94,7 @@ The cast membrane was subsequently immersed into a non-solvent (water) bath main
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",,,,
 "2026-08-10
 10:05:29",17-13deg-120s-NoN2-1800s__test-20260810-100447,25,13,17.0,1000.0,10,False,120,1800,mixing_temp=25; bath_temp=13; weight_percent=17; volume=1000; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: NIPS Membrane Synthesis
 
@@ -185,7 +185,7 @@ The cast film was subsequently immersed into a non-solvent-induced phase separat
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",,,,
 "2026-08-10
 16:35:42",21-0add-5deg-300s-N2-1800s__test-20260810-163540,60,5,,,1,True,300,1800,mixing_temp=60; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=300; nips_bath_wait_time=1800; Air Temp Mean=24.05; Humidity Mean=46.59,"# Experimental Report: Automated NIPS Membrane Synthesis
 
@@ -256,4 +256,200 @@ Push polymer concentration to maximum (21 wt%), maintain the successful conditio
   ""polymer_wt"": 21.0,
   ""additive_wt"": 0.0
 }
-```"
+```",,,,
+"2026-08-12
+12:51:58",21-2add-70degMix-5deg-30s-NoN2-1800s__test-20260812-124939,70,5,,,3,False,30,1800,mixing_temp=70; bath_temp=5; polymer_wt=21.0; additive_wt=2.0; pullcast_speed=3; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Solution Preparation
+A polymer dope solution was prepared consisting of **21.0 wt% polysulfone (PSf)** and **2.0 wt% polyvinylpyrrolidone (PVP)** in PolarClean solvent. The solution was mixed and heated at **70°C** to ensure complete dissolution and homogeneity.
+
+## Membrane Casting
+The polymer solution was blade-cast onto the substrate at a casting speed of **3 mm/s**. No dry nitrogen purge was applied following casting; the film was instead allowed to rest under **ambient conditions** for **30 seconds** prior to bath immersion. Ambient temperature and humidity data were not recorded during this experiment.
+
+## Phase Inversion
+Following the ambient exposure period, the cast film was immersed into a non-solvent (water) bath maintained at **5°C**. The membrane was held in the bath for **1800 seconds (30 minutes)** to allow complete phase separation and membrane solidification.
+
+## Summary Table
+| Parameter | Value |
+|---|---|
+| Mixing Temperature | 70°C |
+| Polymer Concentration (PSf) | 21.0 wt% |
+| Additive Concentration (PVP) | 2.0 wt% |
+| Casting Speed | 3 mm/s |
+| Nitrogen Purge | No |
+| Pre-immersion Wait Time | 30 s |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 1800 s |",,,,,,,,,,,,,,,,,0.1267305098504654,0.0349840846808674,,,,,,,,"mixing_temp=70; bath_temp=5; polymer_wt=21.0; additive_wt=2.0; pullcast_speed=3; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.12673050985046544, 'CV Mean': nan}, 'Discarded Fit Quality Mean': 6.3, 'Discarded Fit Reasons': '2 failed due to insufficient data to fit; 1 failed due to yield point (bp1) likely misplaced; 1 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Solution Preparation
+A polymer dope solution was prepared consisting of **21.0 wt% polysulfone (PSf)** and **2.0 wt% polyvinylpyrrolidone (PVP)** in PolarClean solvent. The solution was mixed and heated at **70°C** to ensure complete dissolution and homogeneity.
+
+## Membrane Casting
+The polymer solution was blade-cast onto the substrate at a casting speed of **3 mm/s**. No dry nitrogen purge was applied following casting; the film was instead allowed to rest under **ambient conditions** for **30 seconds** prior to bath immersion. Ambient temperature and humidity data were not recorded during this experiment.
+
+## Phase Inversion
+Following the ambient exposure period, the cast film was immersed into a non-solvent (water) bath maintained at **5°C**. The membrane was held in the bath for **1800 seconds (30 minutes)** to allow complete phase separation and membrane solidification.
+
+## Summary Table
+| Parameter | Value |
+|---|---|
+| Mixing Temperature | 70°C |
+| Polymer Concentration (PSf) | 21.0 wt% |
+| Additive Concentration (PVP) | 2.0 wt% |
+| Casting Speed | 3 mm/s |
+| Nitrogen Purge | No |
+| Pre-immersion Wait Time | 30 s |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 1800 s |
+
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.12673050985046544, 'CV Mean': nan}, 'Discarded Fit Quality Mean': 6.3, 'Discarded Fit Reasons': '2 failed due to insufficient data to fit; 1 failed due to yield point (bp1) likely misplaced; 1 failed due to plateau slope >= elastic modulus, no real transition'","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","I'll analyze the prior data systematically before recommending the next experiment.
+
+## Analysis of Prior Observations
+
+**Experiment 1:** 17 wt% PSf, 25°C mix, 10 mm/s, no N₂, 10s wait, 13°C bath, 30s bath → EM = 228.97, Strain = 0.377, CV = 0.255 (high variability), good quality membrane
+
+**Experiment 2:** 17 wt% PSf, 25°C mix, 10 mm/s, no N₂, 120s wait, 13°C bath, 1800s bath → EM = 283.82, CV = 0.026 (excellent), good quality membrane
+- Key insight: Longer bath time (1800s) + longer pre-bath wait (120s) dramatically improved EM and reduced CV
+
+**Experiment 3:** 60°C mix, 1 mm/s, N₂, 300s wait, 5°C bath, 1800s bath → EM = NaN (failed), poor quality (bubbles, non-uniform)
+- Very slow casting speed + N₂ + cold bath caused defects
+
+**Experiment 4:** 21 wt% PSf (out of bounds), 2 wt% PVP, 70°C, 3 mm/s, no N₂, 30s wait, 5°C bath, 1800s → EM = NaN (mostly discarded fits), low strain but unreliable
+
+## Key Insights
+- Experiment 2 is the best valid result (EM=283.82, CV=0.026)
+- Longer bath time (1800s) is clearly beneficial
+- Longer pre-bath wait (120s) helped vs 10s
+- Very slow casting (1 mm/s) + N₂ caused defects
+- Cold bath (5°C) with these conditions caused problems
+- Higher polymer concentration helps EM but must stay within bounds (max 17 wt%)
+- Moderate casting speed (10 mm/s) worked well
+
+## Next Experiment Strategy
+Build on Experiment 2's success. To push EM higher:
+- Keep polymer at max (17 wt%)
+- Add small amount of additive (PVP ~1 wt%) to potentially improve mechanical properties while staying in bounds
+- Increase pre-bath wait time further (e.g., 300s) to allow more solvent evaporation → denser skin → higher EM
+- Keep bath at 1800s
+- Slightly warmer bath (13°C worked, try 10°C as modest change)
+- Keep moderate casting speed (10 mm/s)
+- No N₂ (caused defects in Exp 3)
+- Slightly elevated mixing temp (40°C) for better dissolution with additive
+
+```json
+{
+  ""mixing_temp"": 40,
+  ""bath_temp"": 10,
+  ""pullcast_speed"": 10,
+  ""nitrogen"": false,
+  ""coupon_to_bath_wait_time"": 300,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 17.0,
+  ""additive_wt"": 1.0
+}
+```",21.0,2.0,6.333333333333333,"2 failed due to insufficient data to fit; 1 failed due to yield point (bp1) likely misplaced; 1 failed due to plateau slope >= elastic modulus, no real transition"
+"2026-08-12
+13:04:40",21-4add-75degMix-5deg-120s-N2-1800s__test-20260812-125818,75,5,,,1,True,120,1800,mixing_temp=75; bath_temp=5; polymer_wt=21.0; additive_wt=4.0; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Solution Preparation
+A polymer dope solution was prepared consisting of **21.0 wt% polysulfone (PSf)** as the base polymer and **4.0 wt% polyvinylpyrrolidone (PVP)** as the additive, dissolved in PolarClean as the solvent. The solution was mixed and heated at **75°C** to ensure complete dissolution and homogeneity.
+
+## Membrane Casting
+The polymer solution was blade-cast onto a substrate at a controlled casting speed of **1 mm/s**. Ambient temperature and humidity conditions were not recorded during the casting process (N/A).
+
+## Evaporation Step
+Following casting, the membrane coupon was exposed to a **dry nitrogen purge** for **120 seconds** prior to bath immersion. The laminar nitrogen flow was applied to minimize atmospheric humidity exposure and to control the evaporation of solvent from the nascent membrane surface during this pre-immersion period.
+
+## Phase Inversion (NIPS Bath)
+After the evaporation step, the cast film was immersed into a non-solvent bath maintained at **5°C**. The membrane was allowed to undergo phase separation in the bath for **1800 seconds (30 minutes)** to ensure complete precipitation and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Mixing Temperature | 75°C |
+| Polysulfone Concentration | 21.0 wt% |
+| PVP Concentration | 4.0 wt% |
+| Casting Speed | 1 mm/s |
+| Pre-Immersion Wait Time | 120 s (N₂ purge) |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 1800 s |",,,,,,,,,,,,,,,,,0.291809344935946,0.1728142950677482,,,,,,,,"mixing_temp=75; bath_temp=5; polymer_wt=21.0; additive_wt=4.0; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.29180934493594607, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '31.2/100', 'Discarded Fit Reasons': '4 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Solution Preparation
+A polymer dope solution was prepared consisting of **21.0 wt% polysulfone (PSf)** as the base polymer and **4.0 wt% polyvinylpyrrolidone (PVP)** as the additive, dissolved in PolarClean as the solvent. The solution was mixed and heated at **75°C** to ensure complete dissolution and homogeneity.
+
+## Membrane Casting
+The polymer solution was blade-cast onto a substrate at a controlled casting speed of **1 mm/s**. Ambient temperature and humidity conditions were not recorded during the casting process (N/A).
+
+## Evaporation Step
+Following casting, the membrane coupon was exposed to a **dry nitrogen purge** for **120 seconds** prior to bath immersion. The laminar nitrogen flow was applied to minimize atmospheric humidity exposure and to control the evaporation of solvent from the nascent membrane surface during this pre-immersion period.
+
+## Phase Inversion (NIPS Bath)
+After the evaporation step, the cast film was immersed into a non-solvent bath maintained at **5°C**. The membrane was allowed to undergo phase separation in the bath for **1800 seconds (30 minutes)** to ensure complete precipitation and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Mixing Temperature | 75°C |
+| Polysulfone Concentration | 21.0 wt% |
+| PVP Concentration | 4.0 wt% |
+| Casting Speed | 1 mm/s |
+| Pre-Immersion Wait Time | 120 s (N₂ purge) |
+| Bath Temperature | 5°C |
+| Bath Immersion Time | 1800 s |
+
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.29180934493594607, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '31.2/100', 'Discarded Fit Reasons': '4 failed due to plateau slope >= elastic modulus, no real transition'","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+- **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
+- **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
+- **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
+- **Summary:** Membrane is present with adequate vertical coverage, but significant air bubble entrapment and opacity non-uniformity represent notable fabrication defects.","I'll analyze the prior data systematically before recommending the next experiment.
+
+## Analysis of Prior Observations
+
+### Valid Elastic Modulus Results:
+| Exp | polymer_wt | additive_wt | mixing_temp | bath_temp | pullcast_speed | N₂ | wait_time | nips_time | E_mod | CV | Quality |
+|-----|-----------|-------------|-------------|-----------|----------------|-----|-----------|-----------|-------|-----|---------|
+| 1 | 17 | 0 | 25 | 13 | 10 | No | 10s | 30s | 228.97 | 0.255 | Good |
+| 2 | 17 | 0 | 25 | 13 | 10 | No | 120s | 1800s | 283.82 | **0.026** | Good |
+| 3 | ? | ? | 60 | 5 | 1 | Yes | 300s | 1800s | NaN | NaN | Defects |
+| 4 | 21 | 2 | 70 | 5 | 3 | No | 30s | 1800s | NaN | NaN | Defects |
+| 5 | 21 | 4 | 75 | 5 | 1 | Yes | 120s | 1800s | NaN | NaN | Defects |
+
+### Key Insights:
+1. **Exp 2 vs Exp 1**: Longer nips_bath_wait_time (1800s vs 30s) and longer pre-bath wait (120s vs 10s) → +24% elastic modulus, dramatically lower CV. This is the best result.
+2. **Exps 3–5**: polymer_wt > 17 (violates the triangular constraint boundary — these are outside the allowed parameter space) and produced defective membranes with NaN modulus. Avoid high polymer concentrations with additives.
+3. **Quality**: Defects (bubbles, non-uniformity) correlate with N₂ purge + slow casting + cold bath. Exps 1 & 2 (no N₂, moderate speed, 13°C bath) gave good quality.
+4. **Strategy**: Build on Exp 2's success. Try slightly higher bath temperature (warmer bath = slower phase inversion = potentially denser, stiffer structure), maximize nips time, keep polymer at 17 wt%, no additive, and explore longer pre-bath wait to promote surface densification.
+
+### Next Experiment Rationale:
+- **polymer_wt = 17.0, additive_wt = 0.0**: Stays within bounds, avoids defect-prone high-concentration region.
+- **mixing_temp = 60°C**: Higher mixing temp improves dissolution and may reduce chain entanglement heterogeneity.
+- **bath_temp = 25°C**: Warmer bath slows phase inversion → denser, potentially stiffer membrane structure.
+- **pullcast_speed = 10 mm/s**: Maintained from successful Exps 1 & 2.
+- **nitrogen = False**: N₂ correlated with defects in Exps 3–5; Exps 1 & 2 (no N₂) gave good quality.
+- **coupon_to_bath_wait_time = 300s**: Longer evaporation promotes surface skin densification → higher modulus.
+- **nips_bath_wait_time = 1800s**: Maximum bath time, consistent with best result (Exp 2).
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 25,
+  ""pullcast_speed"": 10,
+  ""nitrogen"": false,
+  ""coupon_to_bath_wait_time"": 300,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 17.0,
+  ""additive_wt"": 0.0
+}
+```",21.0,4.0,31.25,"4 failed due to plateau slope >= elastic modulus, no real transition"

@@ -172,18 +172,25 @@ def closest_feasible_target(
     return corrected[0], corrected[1]
 
 
-def get_composition_bounds(stocks: StockParameters = DEFAULT_STOCKS) -> dict:
+def get_composition_bounds(stocks: StockParameters = None) -> dict:
     """
     Return the feasible composition region from stock parameters alone.
 
     The feasible region is a triangle (or, with USE_FOURTH_BOTTLE, a quadrilateral) --
     see _stock_vertices().
 
+    stocks defaults to None, not DEFAULT_STOCKS directly -- a bound default argument is
+    evaluated once at function-definition time, so it would silently ignore any later
+    reassignment of the module-level DEFAULT_STOCKS. Looking it up inside the function body
+    instead means this always reflects whatever DEFAULT_STOCKS currently is.
+
     Returns a dict with:
         vertices   — list of (polymer_wt, additive_wt) region corners
         polymer_wt_max  — max achievable polymer wt%
         additive_wt_max — max achievable additive wt%
     """
+    if stocks is None:
+        stocks = DEFAULT_STOCKS
     vertices = _stock_vertices(stocks)
     return {
         "vertices": vertices,

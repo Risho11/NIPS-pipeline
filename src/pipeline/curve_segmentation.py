@@ -1,6 +1,7 @@
 import sys
 import warnings
 import json
+from collections import Counter
 from pathlib import Path
 import datetime
 
@@ -36,23 +37,27 @@ USE_FIT_COUNT       = True  # True=n_fit counts Good Fit flag; False=counts _rep
 # Single source of truth for per-condition mech/env columns in the aggregate & LLM CSVs.
 # "sd": whether an SD column is computed alongside the Mean column.
 # "llm": whether this key is included in the mech_res string sent to the LLM.
+# "always": whether the postDiscard row still averages this key over ALL valid reps (not just
+# passing_props) -- for values that should show up every run regardless of fit success. Good
+# Fit Score/quality is deliberately NOT in this schema at all (see "Discarded Fit Quality Mean"
+# below) since it's the one exception: it should only ever appear when something was discarded.
 # To add a new column here (e.g. a new sensor reading), add one entry — mech_cols,
 # no_sd_cols, and LLM_PROP_KEYS in save_to_csv() all derive from this automatically.
 MECH_PROP_SCHEMA = {
-    "Air Temp":          {"sd": False,  "llm": True},
-    "Humidity":          {"sd": False,  "llm": True},
-    "Thickness":         {"sd": True,  "llm": False},
-    "Elastic Modulus":   {"sd": True,  "llm": True},
-    "Yield Strength":    {"sd": True,  "llm": False},
-    "Pore Fraction":       {"sd": True,  "llm": False},
-    "Slope Plateau":     {"sd": True,  "llm": False},
-    "Slope Densification": {"sd": True, "llm": False},
-    "Creep Strain":      {"sd": True,  "llm": False},
-    "Strain at 50 bar":  {"sd": True,  "llm": True},
-    "Strain at 80 bar":  {"sd": True,  "llm": False},
-    "Strain at 150 bar": {"sd": True,  "llm": False},
-    "Strain at 500 bar": {"sd": True,  "llm": False},
-    "CV":                {"sd": False, "llm": True},
+    "Air Temp":          {"sd": False,  "llm": True,  "always": False},
+    "Humidity":          {"sd": False,  "llm": True,  "always": False},
+    "Thickness":         {"sd": True,  "llm": False, "always": False},
+    "Elastic Modulus":   {"sd": True,  "llm": True,  "always": False},
+    "Yield Strength":    {"sd": True,  "llm": False, "always": False},
+    "Pore Fraction":       {"sd": True,  "llm": False, "always": False},
+    "Slope Plateau":     {"sd": True,  "llm": False, "always": False},
+    "Slope Densification": {"sd": True, "llm": False, "always": False},
+    "Creep Strain":      {"sd": True,  "llm": False, "always": False},
+    "Strain at 50 bar":  {"sd": True,  "llm": True,  "always": True},
+    "Strain at 80 bar":  {"sd": True,  "llm": False, "always": False},
+    "Strain at 150 bar": {"sd": True,  "llm": False, "always": False},
+    "Strain at 500 bar": {"sd": True,  "llm": False, "always": False},
+    "CV":                {"sd": False, "llm": True,  "always": False},
 }
 LLM_PROP_KEYS = [k for k, v in MECH_PROP_SCHEMA.items() if v["llm"]]  # mech props sent to the LLM in mech_res
 
@@ -383,6 +388,57 @@ def _rep_is_usable(prop):
     Edit this when the 'enough data' criterion changes."""
     v = prop.get("Strain at 50 bar")
     return v is not None and not (isinstance(v, float) and np.isnan(v))
+
+
+# Short human labels for goodFit_eval's breakdown criteria (see goodFit_eval's `breakdown`
+# dict) -- used by _worst_fit_reason to tell the LLM *why* a discarded rep failed, not just
+# that it did. Keys must match the breakdown dict keys goodFit_eval actually sets.
+_FIT_FAILURE_LABELS = {
+    "elastic_r2":                    "poor elastic-region fit",
+    "plateau_r2_start":              "poor plateau fit (early)",
+    "densification_r2":              "poor densification fit",
+    "yield_accuracy":                "elastic fit overshoots/undershoots near yield",
+    "junction_continuity":           "elastic/plateau junction mismatch",
+    "plateau_r2_full_penalty":       "poor full-plateau fit",
+    "elastic_modulus_penalty":       "elastic modulus out of physical range",
+    "bp1_accuracy_penalty":          "yield point (bp1) likely misplaced",
+    "changepoint_curvature_penalty": "changepoint likely misplaced",
+    "slope_ratio_penalty":           "plateau/elastic slopes too similar",
+    "catastrophic_slope_vs_modulus": "plateau slope >= elastic modulus, no real transition",
+    "catastrophic_slope_ordering":   "densification slope <= plateau slope",
+}
+
+
+def _worst_fit_reason(breakdown_json):
+    """The single criterion from a rep's "Good Fit Breakdown" JSON that cost it the most
+    points -- i.e. the short human-readable reason a discarded rep failed. Falls back to
+    "insufficient data to fit" when there's no breakdown to look at (fit never ran).
+
+    catastrophic_slope_vs_modulus (plateau slope >= elastic modulus/slope) trumps everything
+    else -- if goodFit_eval flagged it, it's the reported reason regardless of what deficit
+    any other criterion has, since a fit with no real elastic/plateau transition is unusable
+    no matter how well the other criteria happened to score."""
+    if not breakdown_json:
+        return "insufficient data to fit"
+    try:
+        breakdown = json.loads(breakdown_json)
+    except (TypeError, ValueError):
+        return "insufficient data to fit"
+
+    if "catastrophic_slope_vs_modulus" in breakdown:
+        return _FIT_FAILURE_LABELS["catastrophic_slope_vs_modulus"]
+
+    worst_key, worst_deficit = None, -1
+    for key, entry in breakdown.items():
+        if key.startswith("_"):
+            continue
+        pts, max_pts = entry.get("pts", 0), entry.get("max", 0)
+        deficit = (max_pts - pts) if max_pts > 0 else max(0, -pts)
+        if deficit > worst_deficit:
+            worst_key, worst_deficit = key, deficit
+    if worst_key is None:
+        return "insufficient data to fit"
+    return _FIT_FAILURE_LABELS.get(worst_key, worst_key)
 
 
 def _outcome_interpretation(n_membrane, n_fit, total, mech_res=""):
@@ -2126,7 +2182,8 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                         agg_row["CV Mean"] = float(cv_val) if cv_val is not None and not (isinstance(cv_val, float) and np.isnan(cv_val)) else np.nan
                         continue
                     vals = []
-                    for prop in props_iter:
+                    source = all_props if (MECH_PROP_SCHEMA[k]["always"] and all_props is not None) else props_iter
+                    for prop in source:
                         v = prop.get(k)
                         if v is None and not prop.get("Good Fit", True) and validData_eval(prop.get("Thickness", 0) or 0):
                             v = _partial_props(prop).get(k)
@@ -2157,31 +2214,53 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
 
             if has_failures:
                 passing_props = payload.get("passing_properties", [])
-                if passing_props:
-                    computed_agg_rows.append(_build_agg_row(f"{cond_name}_postDiscard", passing_props, post_cv,
-                                                            all_props=all_valid_props))
-                else:
-                    # all reps had bad fits — write postDiscard with params intact, all mech props NaN
-                    nan_row = {"name": f"{cond_name}_postDiscard", "date": date_val}
-                    nan_row.update(params_row)
-                    for k in mech_cols:
-                        nan_row[f"{k} Mean"] = np.nan
-                        if k not in no_sd_cols:
-                            nan_row[f"{k} SD"] = np.nan
-                    nan_row["formatted_parameters"] = formatted_parameters(nan_row)
-                    nan_row["initial_report"] = ""
-                    nan_row["formatted_parameters_withProp"] = (
-                        formatted_parameters(nan_row) + "\n" + _membrane_outcome_string(all_valid_props, "")
+                # props_iter=passing_props means every non-"always" key still only averages
+                # passing reps; empty passing_props naturally yields NaN for those (nanmean of
+                # nothing) while "always" keys (Strain at 50 bar) fall back to all_props
+                # regardless -- so the all-reps-failed case no longer needs its own hand-rolled
+                # NaN row, it's just this same call with an empty props_iter.
+                post_row = _build_agg_row(f"{cond_name}_postDiscard", passing_props, post_cv,
+                                           all_props=all_valid_props)
+
+                # Fit-quality score is the one exception to the schema-driven "always" flag --
+                # it should only ever show up when something was actually discarded, so it's
+                # computed here directly rather than living in MECH_PROP_SCHEMA.
+                passing_ids = {id(r) for r in passing_props}
+                discarded_props = [r for r in all_valid_props if id(r) not in passing_ids]
+                quality_vals = [float(r["Good Fit Score"]) for r in discarded_props
+                                if r.get("Good Fit Score") is not None]
+                if quality_vals:
+                    dq_mean = float(np.mean(quality_vals))
+                    post_row["Discarded Fit Quality Mean"] = dq_mean
+                    post_row["formatted_parameters_withProp"] += (
+                        f", 'Discarded Fit Quality Mean': '{dq_mean:.1f}/100'"
                     )
-                    nan_row["final_report"] = ""
-                    computed_agg_rows.append(nan_row)
-                    print(f"  All fits failed for {cond_name} — wrote NaN postDiscard row")
+
+                # Same exception as quality -- only shown when something was discarded.
+                # _worst_fit_reason picks each discarded rep's single worst-scoring criterion
+                # so the LLM sees *why* they failed (e.g. "2 failed due to poor elastic-region
+                # fit, 1 failed due to yield point (bp1) likely misplaced"), not just a count.
+                reason_counts = Counter(
+                    _worst_fit_reason(r.get("Good Fit Breakdown")) for r in discarded_props
+                )
+                if reason_counts:
+                    reasons_text = "; ".join(
+                        f"{n} failed due to {reason}" for reason, n in reason_counts.most_common()
+                    )
+                    post_row["Discarded Fit Reasons"] = reasons_text
+                    post_row["formatted_parameters_withProp"] += (
+                        f", 'Discarded Fit Reasons': '{reasons_text}'"
+                    )
+
+                computed_agg_rows.append(post_row)
+                if not passing_props:
+                    print(f"  All fits failed for {cond_name} — postDiscard row built from all-discarded reps")
 
         interleaved = [col for k in mech_cols for col in ([f"{k} Mean", f"{k} SD"] if k not in no_sd_cols else [f"{k} Mean"])]
         condition_cols = ["mixing_temp", "bath_temp", "polymer_wt", "additive_wt",
                           "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
         col_order = (["date", "name"] + condition_cols + ["formatted_parameters", "initial_report"]
-                     + interleaved
+                     + interleaved + ["Discarded Fit Quality Mean", "Discarded Fit Reasons"]
                      + ["formatted_parameters_withProp", "final_report"])
 
         new_df = pd.DataFrame(computed_agg_rows).reindex(columns=col_order)

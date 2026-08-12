@@ -115,6 +115,36 @@ CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"llm.csv"
 
 
 
+def startup(lock_add, locked_value, iterate_add, iterate_poly, continue_campaign, campaign_date):
+    if continue_campaign is None:
+        print(f"Campaign: starting new -- {campaign_date}")
+    else:
+        print(f"Campaign: continuing -- {campaign_date}")
+
+    print("Stock solutions:")
+    for k, v in activeLearning.bounds.send_metadata().items():
+        print(f"  {k}: {v}")
+
+    active = []
+    if lock_add:
+        active.append(f"LOCK_ADDITIVE_WT (forcing additive_wt={locked_value})")
+    if iterate_add:
+        active.append("ITERATE_ADDITIVES")
+    if iterate_poly:
+        active.append("ITERATE_POLYMER")
+
+    if not active:
+        return
+
+    print("WARNING: these configurations are active:")
+    for a in active:
+        print(f"  - {a}")
+    okay = input("Is this correct? (Y/N) ").strip().lower()
+    if okay != "y":
+        print("Shutting down -- please change the config")
+        sys.exit(1)
+
+
 JSON_RESULTS_DIR = DATA_ROOT / "data" / "llm_results"
 # <<< PATH >>> hardcoded Windows lab machine paths — change if machine changes
 CSV_RAW_PATH = Path(r"C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed")
@@ -432,6 +462,7 @@ class LoopHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 if __name__ == "__main__":
+    startup(LOCK_ADDITIVE_WT, LOCK_ADDITIVE_WT_VALUE, ITERATE_ADDITIVES, ITERATE_POLYMER, CONTINUE_CAMPAIGN, d)
     _log_path = _REPO_ROOT / "logs" / f"run_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
     sys.stdout = _TeeLogger(_log_path, sys.__stdout__)
     sys.stderr = _TeeLogger(_log_path, sys.__stderr__)

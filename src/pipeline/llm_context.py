@@ -153,10 +153,30 @@ def attach_branch_result_to_csv(condition_name, branch_type, branch_result, agg_
             llm_df.to_csv(agg_llm_path, index=False)
 
 
-def build_observations(agg_llm_path, branch_type):
+def _summarize_report_text(text, max_chars=240):
+    """Cheap local lead-truncation for a historical {type}_report -- no LLM call (these reports
+    are long free-text vision-LLM output, and build_observations joining the FULL text of every
+    past round makes quality_observations grow unbounded over a campaign). Not a real summary,
+    just the report's lead sentence(s), which is where these reports tend to state their verdict
+    first. current_condition_name's row is exempted in build_observations and always gets the
+    full text -- only history gets truncated."""
+    text = str(text).strip()
+    if len(text) <= max_chars:
+        return text
+    return text[:max_chars].rsplit(" ", 1)[0] + "..."
+
+
+def build_observations(agg_llm_path, branch_type, current_condition_name=None):
     """Join a "{type}_report" column across all rows -- mirrors how "performance" observations
-    are already built by joining final_report across campaign history in run_loop.py. Empty
-    string if the file/column doesn't exist yet (branch never ran, or disabled all along)."""
+    are already built by joining final_report across campaign history in run_loop.py. Every
+    block is labeled with its condition name + formatted_parameters (performance_observations
+    gets this for free via fmt_params_with_prop; quality_report is bare LLM text with nothing
+    tying it to a specific condition otherwise, so it's prepended here) so the LLM can actually
+    map each observation back to the run that produced it. Every row except
+    current_condition_name's is truncated via _summarize_report_text so campaign history doesn't
+    balloon the prompt; current_condition_name's row (this round's result) always gets the full
+    report text. Empty string if the file/column doesn't exist yet (branch never ran, or
+    disabled all along)."""
     agg_llm_path = Path(agg_llm_path)
     if not agg_llm_path.exists():
         return ""
@@ -164,7 +184,20 @@ def build_observations(agg_llm_path, branch_type):
     col = f"{branch_type}_report"
     if col not in df.columns:
         return ""
-    return "\n\n---\n\n".join(df[col].dropna().astype(str).tolist())
+    texts = []
+    for _, row in df.iterrows():
+        val = row.get(col)
+        if pd.isna(val):
+            continue
+        text = str(val)
+        if current_condition_name is not None and row.get("name") == current_condition_name:
+            body = text
+        else:
+            body = _summarize_report_text(text)
+        name = row.get("name", "")
+        params = row.get("formatted_parameters", "")
+        texts.append(f"[{name}] ({params})\n{body}")
+    return "\n\n---\n\n".join(texts)
 
 
 def generate_quality_report_text(image_processing_result):
@@ -244,9 +277,12 @@ def generate_reports_and_suggestion(condition_name, agg_llm_path, activeLearning
     llm_df.to_csv(agg_llm_path, index=False)
 
     performance_observations = "\n\n---\n\n".join(llm_df["final_report"].dropna().tolist())
-    quality_observations = build_observations(agg_llm_path, "quality")
+    quality_observations = build_observations(agg_llm_path, "quality", current_condition_name=condition_name)
+    # ranges omitted on purpose -- LLM_AL computes it fresh from polymer_additive_bounds.py on
+    # every call now, not a value cached at activeLearning_29 import time (see LLM_AL/
+    # current_ranges' docstrings for why that caching was actively harmful).
     params_suggestion = activeLearning.LLM_AL(
-        performance_observations, activeLearning.ranges, quality_observations=quality_observations
+        performance_observations, quality_observations=quality_observations
     )
 
     llm_df.at[idx, "LLM_suggestion"] = params_suggestion
