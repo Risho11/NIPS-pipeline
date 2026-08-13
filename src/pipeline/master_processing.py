@@ -46,11 +46,7 @@ def confirm_settings():
 
 
 def _run_curve_segmentation(condition_name, data_root, csv_paths=None):
-    reps_path, agg_path, agg_llm_path = csv_paths or (
-        Path(data_root) / "data" / "results" / "results_reps.csv",
-        Path(data_root) / "data" / "results" / "results_agg.csv",
-        Path(data_root) / "data" / "results" / "results_agg_llm.csv",
-    )
+    reps_path, agg_path, agg_llm_path = csv_paths
     output = curve_segmentation.process_zero_sample_pairs_pipeline(
         folder_name=SAMPLE_DATA_FOLDER,
         data_root=str(data_root),
