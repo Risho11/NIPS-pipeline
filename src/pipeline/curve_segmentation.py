@@ -46,7 +46,7 @@ USE_FIT_COUNT       = True  # True=n_fit counts Good Fit flag; False=counts _rep
 MECH_PROP_SCHEMA = {
     "Air Temp":          {"sd": False,  "llm": True,  "always": False},
     "Humidity":          {"sd": False,  "llm": True,  "always": False},
-    "Thickness":         {"sd": True,  "llm": False, "always": True},
+    "Thickness":         {"sd": True,  "llm": True, "always": True},
     "Elastic Modulus":   {"sd": True,  "llm": True,  "always": False},
     "Yield Strength":    {"sd": True,  "llm": False, "always": False},
     "Pore Fraction":       {"sd": True,  "llm": False, "always": False},
