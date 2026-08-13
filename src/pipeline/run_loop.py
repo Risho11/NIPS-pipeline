@@ -347,7 +347,14 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
 
         print(f"[START] condition={condition_name}")
         print(f"[2/5] processing pipeline for: {condition_name}")
-        branch_results = master_processing.run_branches(condition_name, DATA_ROOT)
+        # csv_paths must be passed explicitly -- without it, _run_curve_segmentation falls back
+        # to its own hardcoded flat data/results/results_agg_llm.csv (no CONTINUE_CAMPAIGN
+        # begins_<d> folder), completely bypassing CSV_REPS/CSV_AGG/CSV_AGG_LLM below. That split
+        # curve_segmentation's formatted_parameters_withProp off into a different file than
+        # everything else in this function writes to.
+        branch_results = master_processing.run_branches(
+            condition_name, DATA_ROOT, csv_paths=(CSV_REPS, CSV_AGG, CSV_AGG_LLM)
+        )
 
         llm_context.scrub_raw_result_columns(CSV_AGG_LLM)
         condition_dir = master_processing.get_condition_dir(condition_name, DATA_ROOT)
