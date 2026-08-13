@@ -43,16 +43,16 @@ Two module-level toggles at the top of `protocol-multithreaded.py` control what 
 
 ---
 
-## Stage 2 — Orchestration, Mechanical Testing & Branch Dispatch (`run_loop.py` + `master_processing.py`)
+## Stage 2 — Orchestration, Mechanical Testing & Branch Dispatch (`src/pipeline/run_loop.py` + `src/pipeline/master_processing.py`)
 
 `run_loop.py` runs as an HTTP server on the mini PC and:
 
 1. Kicks off the first experiment (`INITIAL_PARAMS`, or the first step of the additive sweep — see below) via `url_29.run_test()` → robot's `POST /run`.
 2. Serves `GET /camera/snapshot` (captures a frame via OpenCV from `CAMERA_INDEX`, saves it into the `images/` folder) and `GET /compressiontester/status` (reads the latest Newton CSV, checks the LVDT column for a safe pin position).
 3. On `POST /server/process` (robot reporting a finished batch), runs `_run_pipeline_and_trigger_next()` in a background thread:
-   - `move_and_rename()` builds a condition folder name from the params, copies the last 2 camera images + last 6 Newton CSVs into `compression-test-data/<condition>/`, writes `params.json`.
+   - `move_and_rename()` builds a condition folder name from the params, copies the last 2 camera images + last 6 Newton CSVs into `data/raw/<condition>/`, writes `params.json`.
    - Hands off to `master_processing.run_branches()`.
-   - Feeds the results through `llm_context.py` into `results_agg_llm.csv`.
+   - Feeds the results through `llm_context.py` into that campaign's `llm.csv`.
    - Gets the next params (LLM suggestion, or the next additive-sweep step) and POSTs them back to the robot.
 
 `master_processing.py` dispatches each enabled entry in `BRANCH_CONFIG` — currently `curve_segmentation` (type `"performance"`) and `image_processing` (type `"quality"`, via `membrane_imaging.py`). Branches are independently toggleable; disabling one is the only thing that skips it — an *enabled* branch that raises is a real failure and stops the loop. If **every** branch is disabled, it's a pure test: no testing, no data collection, and `run_loop.py` just cycles a fixed additive sweep instead of calling anything here (see "Additive Iteration Mode" below).
@@ -61,9 +61,13 @@ Two module-level toggles at the top of `protocol-multithreaded.py` control what 
 
 Each **batch of 6 Newton CSVs** = 3 zero curves (no membrane, machine compliance only) + 3 sample curves (membrane in place), paired chronologically.
 
+### Campaign output location (`CONTINUE_CAMPAIGN`)
+
+`run_loop.py` writes every round's CSVs to `data/results/begins_<d>/{reps,agg,llm}.csv`, where `<d>` is today's date unless `CONTINUE_CAMPAIGN` (near the top of the file) is set to a specific date string — set it to resume appending to a prior campaign's folder instead of starting a fresh one each day. These per-campaign paths (`CSV_REPS`/`CSV_AGG`/`CSV_AGG_LLM`) are passed explicitly into `master_processing.run_branches()`; the flat `data/results/results_*.csv` names are only a fallback used when a caller (e.g. a standalone dev/test script) doesn't pass `csv_paths` at all — a real campaign run never touches them. Historical data that had accumulated at the flat paths before this convention was in the file map has since been moved to `data/archive/results-legacy/`.
+
 ---
 
-## Stage 3 — Curve Processing (`curve_segmentation.py`)
+## Stage 3 — Curve Processing (`src/pipeline/curve_segmentation.py`)
 
 This is the core mechanical-property analysis, run via `process_zero_sample_pairs_pipeline()`.
 
@@ -126,26 +130,28 @@ The current approach:
 
 ### Step E: Output — `save_to_csv()` / `promote_condition()`
 
-Mechanical properties are merged with the fabrication `params.json` for that condition:
+Mechanical properties are merged with the fabrication `params.json` for that condition, written to that campaign's `data/results/begins_<d>/` folder (see "Campaign output location" above):
 
-- `results_reps.csv` — one row per replicate/specimen
-- `results_agg.csv` — aggregated (mean ± SD) per condition, plus each branch's raw `{type}_result` column
-- `results_agg_llm.csv` — the LLM-facing subset (`promote_condition()` copies the matching row across); `llm_context.scrub_raw_result_columns()` strips any `{type}_result` blob from this one every round so raw branch output never reaches the LLM directly
+- `reps.csv` — one row per replicate/specimen
+- `agg.csv` — aggregated (mean ± SD) per condition, plus each branch's raw `{type}_result` column, plus `formatted_parameters` and `formatted_parameters_withProp` (see below)
+- `llm.csv` — the LLM-facing subset (`promote_condition()` copies the matching row across); `llm_context.scrub_raw_result_columns()` strips any `{type}_result` blob from this one every round so raw branch output never reaches the LLM directly
+
+`formatted_parameters_withProp` is `formatted_parameters` (the bare fabrication-params string) with the round's mechanical outcome appended — either a narrative (`_membrane_outcome_string()`, when `EXTENDED_CONTEXT` is on) or a raw mean-properties dict, plus `Discarded Fit Quality Mean`/`Discarded Fit Reasons` notes when some reps got discarded. `curve_segmentation.py` is the only thing that ever writes it — `llm_context.py` treats it as fragile: `_clear_stale_performance_outcome()` resets it back to bare `formatted_parameters` for any round where the performance branch didn't run (so last round's outcome text can't leak into a report where no fit check actually happened), and `generate_reports_and_suggestion()` rebuilds it idempotently (strips the params prefix before re-concatenating) so re-running the same round never double-appends the outcome text.
 
 ---
 
-## LLM Context Layer (`llm_context.py`)
+## LLM Context Layer (`src/pipeline/llm_context.py`)
 
 The single place that decides **what** reaches the LLM and **how it's labeled**, grouped by branch **type** (`"performance"` / `"quality"`) rather than by individual branch name — a new branch of an existing type needs no new plumbing.
 
-- `"performance"` reports are built natively by `curve_segmentation.py` (`formatted_parameters` / `final_report` columns) — untouched here.
-- Any other type (currently just `"quality"`) goes through `attach_branch_result_to_csv()`: the full JSON-safe result lands in `results_agg.csv` as `{type}_result`; a text summary lands in both CSVs as `{type}_report`. For `"quality"`, that summary is a real vision-LLM call (`generate_quality_report_text` → `membrane_quality_llm.Generate_quality_report`), not just a field dump.
-- `ensure_condition_row()` creates a minimal `results_agg_llm.csv` row when `curve_segmentation` didn't run at all (e.g. an image-only campaign), so there's still something for `image_processing`'s report to attach to.
+- `"performance"` reports are built natively by `curve_segmentation.py` (`formatted_parameters` / `formatted_parameters_withProp` / `final_report` columns, see Step E above) — untouched here except for the stale-outcome guard.
+- Any other type (currently just `"quality"`) goes through `attach_branch_result_to_csv()`: the full JSON-safe result lands in `agg.csv` as `{type}_result`; a text summary lands in both CSVs as `{type}_report`. For `"quality"`, that summary is a real vision-LLM call (`generate_quality_report_text` → `membrane_quality_llm.Generate_quality_report`), not just a field dump.
+- `ensure_condition_row()` creates a minimal `llm.csv` row when `curve_segmentation` didn't run at all (e.g. an image-only campaign), so there's still something for `image_processing`'s report to attach to.
 - `generate_reports_and_suggestion()` is the glue `run_loop.py` calls each round: builds `initial_report`/`final_report` via `activeLearning.Generate_report`, joins `performance_observations` across campaign history plus `quality_observations` (joined `quality_report` column), and calls `activeLearning.LLM_AL`.
 
 ---
 
-## Active Learning Loop (`activeLearning_29.py`)
+## Active Learning Loop (`src/pipeline/activeLearning_29.py`)
 
 After enough data is collected, `LLM_AL(performance_observations, ranges, quality_observations=...)` sends prior observations to an LLM (Claude via OpenRouter) and asks it to recommend the next set of fabrication parameters. `run_loop.py` extracts/validates the response against `PARAMS_SCHEMA`, snaps `polymer_wt`/`additive_wt` to the feasible stock triangle via `polymer_additive_bounds.test_target()`, and POSTs the result back to the robot. This closes the loop:
 
@@ -153,7 +159,7 @@ After enough data is collected, `LLM_AL(performance_observations, ranges, qualit
 Robot fabricates → (compression test) → curve/image processing → LLM suggests next params → Robot fabricates → ...
 ```
 
-`Generate_report()` translates a raw `formatted_parameters` string into a short human-readable experimental report via the LLM.
+`Generate_report()` translates a raw `formatted_parameters` string into a short human-readable experimental report via the LLM. The system-prompt text both `Generate_report` and `LLM_AL` send is not inline in this file — it's centralized in `src/pipeline/system_prompt.py` (see File Map).
 
 ### Additive Iteration Mode (`run_loop.py`)
 
@@ -167,18 +173,23 @@ An alternative to LLM-directed search: `ITERATE_ADDITIVES = True` makes `run_loo
 |---|---|
 | `2026-06-11/protocol-multithreaded.py` | Robot-side script (Opentrons + xArm); runs on the lab PC wired to the hardware |
 | `2026-06-11/lib/url.py` | Robot-side HTTP client → mini PC (snapshot, compression-tester status, batch handoff) |
-| `run_loop.py` | Mini-PC orchestrator/server — main entry point for a campaign |
-| `url_29.py` | Mini-PC HTTP client → robot (`POST /run`, coupon/ring/tip/heater-well bookkeeping) |
-| `master_processing.py` | Branch dispatcher (`BRANCH_CONFIG` toggles `curve_segmentation` / `image_processing`) |
-| `curve_segmentation.py` | Mechanical curve processing pipeline |
-| `membrane_imaging.py` | `image_processing` branch — vision-LLM passthrough by default, legacy pixel-math available |
-| `membrane_quality_llm.py` | Dedicated vision-LLM call for qualitative membrane judgment |
-| `llm_context.py` | Glue: what reaches the LLM, from which branch, into which CSV column |
-| `activeLearning_29.py` | `Generate_report` / `LLM_AL` — the active-learning LLM calls |
-| `polymer_additive_bounds.py` | Stock-triangle clamping for `polymer_wt`/`additive_wt` |
-| `results_reps.csv` / `results_agg.csv` / `results_agg_llm.csv` | Per-rep, aggregated, and LLM-facing results tables |
-| `compression-test-data/` | One subfolder per condition: Newton CSVs, camera jpgs, `params.json` |
-| `TESTS/` | `test_master.py`, `test_guardrails.py`, `test_processing.py`, `test_imaging.py`, `test_csv.py`, plus fixture folders |
+| `src/pipeline/run_loop.py` | Mini-PC orchestrator/server — main entry point for a campaign |
+| `src/pipeline/url_29.py` | Mini-PC HTTP client → robot (`POST /run`, coupon/ring/tip/heater-well bookkeeping) |
+| `src/pipeline/master_processing.py` | Branch dispatcher (`BRANCH_CONFIG` toggles `curve_segmentation` / `image_processing`) |
+| `src/pipeline/curve_segmentation.py` | Mechanical curve processing pipeline |
+| `src/pipeline/membrane_imaging.py` | `image_processing` branch — vision-LLM passthrough by default, legacy pixel-math available |
+| `src/pipeline/membrane_quality_llm.py` | Dedicated vision-LLM call for qualitative membrane judgment |
+| `src/pipeline/llm_context.py` | Glue: what reaches the LLM, from which branch, into which CSV column |
+| `src/pipeline/activeLearning_29.py` | `Generate_report` / `LLM_AL` — the active-learning LLM calls |
+| `src/pipeline/system_prompt.py` | Single source of truth for all three LLM system prompts (report, active-learning, quality-checker) |
+| `src/pipeline/polymer_additive_bounds.py` | Stock-triangle clamping for `polymer_wt`/`additive_wt` |
+| `src/pipeline/polymer_additive_mixing_calculator.py` | Computes stock volumes to physically prepare a target casting dope |
+| `src/pipeline/cameras.py` | Standalone multi-camera preview utility (not wired into `run_loop.py`) |
+| `src/server/server.py` | Compression-tester safety-check HTTP handler; manually copied to the lab PC, not auto-deployed (see root README) |
+| `data/raw/` | One subfolder per condition: Newton CSVs, camera jpgs, `params.json` |
+| `data/results/begins_<d>/{reps,agg,llm}.csv` | Per-campaign per-rep, aggregated, and LLM-facing results tables (see "Campaign output location" above) |
+| `data/archive/` | Retired data kept for history: `compression-test-data-legacy/` (pre-reorg name for `data/raw/`), `results-legacy/` (pre-campaign-folder flat CSVs), `old_csv/`, `Image Processing/` |
+| `tests/` | `test_master.py`, `test_guardrails.py`, `test_processing.py`, `test_imaging.py`, `test_csv.py`, `test_quality_recovery.py`, `run_tests.py`, `run_loopTest.py`, `plot_curves.py`, plus fixture folders (`csv_tests/`, `image_tests/`, `quality_test/`) |
 
 ---
 

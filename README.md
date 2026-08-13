@@ -7,9 +7,8 @@ polysulfone solution and immersing it in a bath to trigger phase separation.
 An Opentrons robot fabricates each batch, a compression tester measures its
 mechanical properties, and an LLM active-learning loop suggests the next set of
 fabrication parameters to try. See [`docs/PIPELINE_OVERVIEW.md`](docs/PIPELINE_OVERVIEW.md)
-for the stage-by-stage mechanics of the curve-processing pipeline — note that doc
-predates the current file layout/names below and hasn't been fully reconciled with
-this reorg; treat the file map here as authoritative for "what's actually called what."
+for the stage-by-stage mechanics of the curve-processing pipeline (reconciled with
+the current file layout as of 2026-08-13).
 
 ## Repo layout
 
@@ -24,9 +23,12 @@ src/server/        HTTP server that runs on the Opentrons PC (was minipc/) — m
 tests/             CI-run tests + local (no-hardware) dev scripts — see below
 data/
   raw/             one subfolder per condition: 6 specimen CSVs, 2 photos, params.json
-  results/         results_reps.csv, results_agg.csv, results_agg_llm.csv (master tables)
+  results/         begins_<date>/{reps,agg,llm}.csv per campaign (CONTINUE_CAMPAIGN in run_loop.py)
   llm_results/     per-condition next-params JSON written by run_loop.py
   plots/           segmentation plots (real runs + pseudo-runs/ for test/dev, gitignored)
+  archive/         retired data kept for history — compression-test-data-legacy/, results-legacy/,
+                   old_csv/, Image Processing/ (pre-reorg; only EVALUATE/generate_quality_log.py
+                   still reads these, as a fallback behind the live data/raw/ and data/results/)
 prompts/            quality_checker_prompt.txt (LLM-refined prompt cache, tracked in git)
 notebooks/          exploratory/dev notebooks
 docs/               PIPELINE_OVERVIEW.md

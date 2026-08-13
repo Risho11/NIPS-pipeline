@@ -26,14 +26,16 @@ ROOT     = FILE_DIR.parent  # project root — this script lives in EVALUATE/
 def _default_agg_llm_sources():
     """Every *llm*.csv this project has ever written quality_report data into, across every
     location the convention has lived at over time: root-level leftovers (pre-reorg / stray
-    re-adds), old_csv/ (the historical archive), and data/results/**/ (both the old flat file
-    and per-campaign CONTINUE_CAMPAIGN folders). A single "most recent file" pick silently loses
+    re-adds), data/archive/old_csv/ and data/archive/results-legacy/ (both archived off their
+    original root/ and data/results/ flat-file locations), and data/results/**/ (the current
+    per-campaign CONTINUE_CAMPAIGN folders). A single "most recent file" pick silently loses
     everything older whenever the convention changes again -- load_quality_rows merges and
     dedupes all of these by name (latest date wins), so nothing gets lost just because a newer,
     smaller CSV happened to be written most recently."""
     candidates = set()
     candidates.update(ROOT.glob("*llm*.csv"))
-    candidates.update((ROOT / "old_csv").glob("*llm*.csv"))
+    candidates.update((ROOT / "data" / "archive" / "old_csv").glob("*llm*.csv"))
+    candidates.update((ROOT / "data" / "archive" / "results-legacy").glob("*llm*.csv"))
     candidates.update((ROOT / "data" / "results").glob("**/*llm*.csv"))
     return sorted(candidates)
 
@@ -47,11 +49,12 @@ OUTPUT   = FILE_DIR / "quality_evaluation_log.html"
 # First root that actually contains the condition's folder wins.
 EXTRA_RAW_DIRS = []
 
-# compression-test-data/ is the pre-reorg name for data/raw/ (renamed in commit ea7a43d) --
-# older conditions (and some stray re-adds from checkouts that predated the rename) still only
-# exist there, never got copied into data/raw/. Checked after EXTRA_RAW_DIRS/RAW_DIR since it's
-# the legacy fallback, not the primary location.
-LEGACY_RAW_DIR = ROOT / "compression-test-data"
+# compression-test-data/ (pre-reorg name for data/raw/, renamed in commit ea7a43d) has been
+# archived to data/archive/compression-test-data-legacy/ -- every condition that was unique to
+# it got copied into data/raw/ first, so this fallback now only matters for fake-data/ and any
+# stray re-adds from checkouts that predated the rename. Checked after EXTRA_RAW_DIRS/RAW_DIR
+# since it's the legacy fallback, not the primary location.
+LEGACY_RAW_DIR = ROOT / "data" / "archive" / "compression-test-data-legacy"
 
 
 def _pretest_image(condition_dir: Path):
