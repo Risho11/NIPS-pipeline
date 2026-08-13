@@ -1978,7 +1978,14 @@ def process_zero_sample_pairs_pipeline(
             continue
 
         # ---- average curve across replicates ----
-        has_failures = len(condition_passing_curves) < len(condition_valid_curves)
+        # vs len(condition_properties) (every rep processed), not len(condition_valid_curves)
+        # (thickness-valid reps only) -- a rep discarded for invalid thickness never reaches
+        # condition_valid_curves at all, so comparing against just that subset made has_failures
+        # blind to thickness-based discards entirely (only fit-quality discards among
+        # already-valid-thickness reps could ever trip it), which meant save_to_csv's
+        # postDiscard block -- and therefore "Discarded Fit Quality Mean"/"Discarded Fit
+        # Reasons" -- silently never ran for a condition whose rejects were thickness failures.
+        has_failures = len(condition_passing_curves) < len(condition_properties)
 
         pre_cv, pre_avg_df = plot_average_curve(
             condition_processed_curves, condition_valid_curves,
