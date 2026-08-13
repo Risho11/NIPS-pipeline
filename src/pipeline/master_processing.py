@@ -55,7 +55,7 @@ def _run_curve_segmentation(condition_name, data_root, csv_paths=None):
         thickness_info=False,
         thickness_map=None,
         creep_info=True,
-        cutoff_load_thickness=1,
+        cutoff_load_thickness=5,
         cutoff_load_displacement=2,
         condition_filter=condition_name,
     )

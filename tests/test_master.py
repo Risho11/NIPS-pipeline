@@ -39,7 +39,7 @@ import activeLearning_29 as activeLearning      # <<< IMPORT >>> must be in same
 
 # ── edit these ──────────────────────────────────────────────────────────────
 DATA_ROOT = Path(__file__).parent.parent   # real repo root — real data/raw/
-CONDITION = '21-2add-60degMix-15deg-60s-N2-1800s'
+CONDITION = '10-0add-5deg-6s-N2-121s_run4'
 
 # CONDITION names the real folder (data/raw/CONDITION) -- reused across every
 # manual run of this script. RUN_NAME is what actually gets written as the "name" for every
