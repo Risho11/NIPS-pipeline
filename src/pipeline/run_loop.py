@@ -54,9 +54,9 @@ INITIAL_PARAMS = {
     "bath_temp": 5,
     "pullcast_speed": 10,
     "nitrogen": True,
-    "coupon_to_bath_wait_time": 6,
-    "nips_bath_wait_time": 121,
-    "polymer_wt": 10,
+    "coupon_to_bath_wait_time": 30,
+    "nips_bath_wait_time": 125,
+    "polymer_wt": 17,
     "additive_wt": 0
 }
 
