@@ -25,7 +25,7 @@ import curve_segmentation as processing             # <<< IMPORT >>> must be in 
 # <<< PATH >>> Set to a folder name to run one condition, a list of names to run several, or
 # None to run ALL real conditions.
 DATA_ROOT  = Path(__file__).parent.parent
-CONDITION  = '10-0add-5deg-6s-N2-121s_run4'
+CONDITION  = '17-0add-5deg-90s-N2-1800s'
 # <<< PATH >>> Set to "YYYY-MM-DD" to run every condition whose earliest specimen file was
 # recorded that day (reads the MMDDYYYY_HHMMSS timestamp baked into each
 # data/raw/<condition>/Specimen_*.csv filename -- same convention run_loop.py writes).
@@ -84,7 +84,7 @@ output = processing.process_zero_sample_pairs_pipeline(
     thickness_info=False,
     thickness_map=None,
     creep_info=True,
-    cutoff_load_thickness=5,
+    cutoff_load_thickness=3,
     cutoff_load_displacement=2,
     condition_filter=CONDITION,  # None = all
 )

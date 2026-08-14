@@ -167,6 +167,11 @@ def pure_pw(data):
     plateau_start_approx = data["strain"][in_plateau].iloc[0] if in_plateau.any() else 0.1
     plateau_end_approx   = data["strain"][in_plateau].iloc[-1] if in_plateau.any() else 0.5
     cutoff = (plateau_start_approx + plateau_end_approx) / 2
+    if cutoff < 0.05:
+        # curves with no real low-slope plateau (slope rises ~continuously instead of dipping
+        # in the middle) collapse this window onto pure toe-region noise near strain 0 -- widen
+        # it to a fixed 0.3 so piecewise_regression has an actual elastic region to fit.
+        cutoff = 0.3
     region = data[data["strain"] <= cutoff]
     try:
         pw_fit = piecewise_regression.Fit(list(region['strain']), list(region['stress (bar)']), n_breakpoints=1)
@@ -375,6 +380,30 @@ def create_fit_week3(data, bp1, changepoint, creep_level, bp2=None, bp3=None):
 def validData_eval(thickness):
     # thickness <= 50 (or negative) means membrane didn't dispense
     return thickness > 50
+
+
+def estimate_contact_thickness(df, cutoff_load_thickness=1, fit_load_lo=10, fit_load_hi=40,
+                                load_col=LOAD_COL, disp_col="Disp_corrected (um)"):
+    """Thickness = contact point where the elastic region's Load-vs-Disp trend hits Load=0,
+    found via linear fit over [fit_load_lo, fit_load_hi] N and extrapolated back to zero.
+
+    Picking a single row at the first Load > cutoff_load_thickness (old approach) lands in the
+    toe region, where the curve is nearly flat in load -- tiny noise there swings displacement by
+    100+ um and can even flip the sign (see run-2026-08-13/17-0add-5deg-30s-N2-1800s reps 2-4:
+    thickness 15.9/25.6/-8.7 despite a clear membrane curve). Fitting a line over a window well
+    past the toe and extrapolating is far less sensitive to any single noisy point.
+
+    Falls back to the old single-row method if the curve doesn't reach fit_load_hi (too few
+    points in the window to fit reliably).
+    """
+    window = df[(df[load_col] >= fit_load_lo) & (df[load_col] <= fit_load_hi)]
+    if len(window) < 5:
+        sub = df[df[load_col] > cutoff_load_thickness]
+        if sub.empty:
+            return np.nan
+        return -sub[disp_col].iloc[0]
+    slope, intercept = np.polyfit(window[load_col], window[disp_col], 1)
+    return -intercept
 
 
 def _partial_props(prop):
@@ -1106,7 +1135,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         thickness = thickness_list
     else:
         for i in range(len(data_list)):
-            thickness.append(-data_list[i]["Disp_corrected (um)"][data_list[i]['Ch:Load (N)'] > cutoff_load_thickness].iloc[0])
+            thickness.append(estimate_contact_thickness(data_list[i], cutoff_load_thickness=cutoff_load_thickness))
 
     #add concentration and heating to returned list
     mechanicalProperties = []
