@@ -635,3 +635,100 @@ After the 15-second nitrogen purge period, the cast film was immersed into the n
   ""additive_wt"": 0
 }
 ```",55.84825000000001,80.76866593158204,,,,,,,,,,,,,0.6654497417893669,0.0341866519649424,,,,,,,,29.0,"2 failed due to insufficient data to fit; 2 failed due to plateau slope >= elastic modulus, no real transition"
+10-0add-5deg-6s-N2-121s_run5,"2026-08-13
+21:07:01",25,5,10,True,6,121,10.0,0.0,,,mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=6; nips_bath_wait_time=121; Air Temp Mean=nan; Humidity Mean=nan,"mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=6; nips_bath_wait_time=121; Air Temp Mean=nan; Humidity Mean=nan
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Thickness Mean': 107.96765171469866, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.8955288324689203, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '47.5/100', 'Discarded Fit Reasons': '2 failed due to plateau slope >= elastic modulus, no real transition; 1 failed due to poor full-plateau fit; 1 failed due to elastic/plateau junction mismatch'","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Solution Preparation
+A polymer solution was prepared containing **10 wt% polysulfone (PSf)** in PolarClean solvent with **no PVP additive (0 wt%)**. The solution was mixed and heated at **25°C**.
+
+## Membrane Casting
+The polymer solution was blade-cast onto the substrate at a casting speed of **10 mm/s**. Ambient temperature and humidity were not recorded during this experiment (N/A).
+
+## Dry Phase (Pre-Immersion)
+Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for **6 seconds** prior to bath immersion. This nitrogen blow was applied to minimize atmospheric humidity exposure and control the evaporation environment at the film surface.
+
+## Phase Inversion (NIPS Bath)
+The cast film was subsequently immersed into the non-solvent bath, maintained at a controlled temperature of **5°C**. The membrane remained in the bath for **121 seconds** to allow complete phase inversion and membrane solidification.
+
+## Summary Table
+| Parameter | Value |
+|---|---|
+| Polymer (PSf) concentration | 10 wt% |
+| Additive (PVP) concentration | 0 wt% |
+| Mixing temperature | 25°C |
+| Casting speed | 10 mm/s |
+| Pre-immersion nitrogen purge | Yes (6 s) |
+| NIPS bath temperature | 5°C |
+| Bath immersion time | 121 s |","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Solution Preparation
+A polymer solution was prepared containing **10 wt% polysulfone (PSf)** in PolarClean solvent with **no PVP additive (0 wt%)**. The solution was mixed and heated at **25°C**.
+
+## Membrane Casting
+The polymer solution was blade-cast onto the substrate at a casting speed of **10 mm/s**. Ambient temperature and humidity were not recorded during this experiment (N/A).
+
+## Dry Phase (Pre-Immersion)
+Following casting, the membrane coupon was exposed to a **laminar dry nitrogen purge** for **6 seconds** prior to bath immersion. This nitrogen blow was applied to minimize atmospheric humidity exposure and control the evaporation environment at the film surface.
+
+## Phase Inversion (NIPS Bath)
+The cast film was subsequently immersed into the non-solvent bath, maintained at a controlled temperature of **5°C**. The membrane remained in the bath for **121 seconds** to allow complete phase inversion and membrane solidification.
+
+## Summary Table
+| Parameter | Value |
+|---|---|
+| Polymer (PSf) concentration | 10 wt% |
+| Additive (PVP) concentration | 0 wt% |
+| Mixing temperature | 25°C |
+| Casting speed | 10 mm/s |
+| Pre-immersion nitrogen purge | Yes (6 s) |
+| NIPS bath temperature | 5°C |
+| Bath immersion time | 121 s |
+
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Thickness Mean': 107.96765171469866, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.8955288324689203, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '47.5/100', 'Discarded Fit Reasons': '2 failed due to plateau slope >= elastic modulus, no real transition; 1 failed due to poor full-plateau fit; 1 failed due to elastic/plateau junction mismatch'","- **Presence:** Membrane is visible and seated within the test-cell aperture.
+- **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gap at either the top or bottom edge.
+- **Uniformity:** Surface appears largely uniform in color and opacity; a faint diagonal streak/highlight is visible near the upper-left but is likely a lighting artifact rather than a true thickness variation.
+- **Defects:** No significant wrinkles or trapped air bubbles detected; two very minor pinpoint specks are visible centrally but are minimal.
+- **Summary:** The membrane coupon presents good overall integrity with full vertical coverage, no notable wrinkles or bubbles, and only trivial surface specks.","I'll analyze the prior data systematically before recommending the next experiment.
+
+## Analysis of Prior Observations
+
+### Elastic Modulus Data (Primary Objective)
+| Condition | Polymer wt% | Mixing T | Bath T | Speed | N2 wait | Bath time | Elastic Modulus | Strain@50bar |
+|---|---|---|---|---|---|---|---|---|
+| 10wt%, 25°C mix, 5°C bath, 6s N2, 121s | 10 | 25 | 5 | 10 | 6 | 121 | NaN (multiple failed fits) | ~0.90 |
+| 17wt%, 60°C mix, 5°C bath, 30s N2, 1800s | 17 | 60 | 5 | 5 | 30 | 1800 | **264.2 MPa** | 0.302 |
+| 17wt%, 80°C mix, 5°C bath, 90s N2, 1800s | 17 | 80 | 5 | 5 | 90 | 1800 | NaN (discarded, no membrane) | 0.075 |
+| 17wt%, 70°C mix, 5°C bath, 15s N2, 1800s | 17 | 70 | 5 | 8 | 15 | 1800 | NaN (poor fits) | 0.665 |
+
+### Key Insights
+1. **Polymer concentration**: 17 wt% is clearly superior to 10 wt% for elastic modulus — use 17 wt%.
+2. **Only one valid Elastic Modulus measurement**: 17wt%, 60°C, 5mm/s, 30s N2, 1800s bath → 264 MPa, Strain=0.302. This is the best anchor point.
+3. **80°C mixing + 90s N2**: No membrane formed — too long a wait caused film to dry/detach. Avoid long N2 wait at high mixing temps.
+4. **70°C + 15s N2 + 8mm/s**: Poor fit quality, partial coverage — faster casting at 70°C underperforms.
+5. **Membrane quality**: The 60°C run had a slight top-gap issue; the 80°C run had no membrane at all. The 60°C/30s/5mm/s is the best performing condition so far.
+6. **Next step**: Explore around the best condition (60°C, 5mm/s, 30s, 1800s, 5°C bath) while pushing toward higher modulus. Higher mixing temp (65°C) with moderate N2 wait (~20s) and slower speed (3 mm/s) could increase chain entanglement/density. Also try slightly shorter N2 wait to ensure membrane integrity.
+
+### Strategy
+- Keep polymer_wt = 17.0 (maximum, best result)
+- Mixing temp: try 65°C (between successful 60°C and failed 80°C)
+- Bath temp: keep at 5°C (coldest = fastest quench = denser structure)
+- Pullcast speed: reduce to 3 mm/s (slower = thicker, more uniform film)
+- N2 wait: 20s (slightly less than 30s to ensure good coverage, avoid the gap seen at 30s)
+- Bath time: 1800s (maximum, ensures full solidification)
+- Nitrogen: True
+
+```json
+{
+  ""mixing_temp"": 65,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 3,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 20,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 17.0,
+  ""additive_wt"": 0
+}
+```",107.96765171469866,11.318555904499934,,,,,,,,,,,,,0.8955288324689203,0.0564613925504714,,,,,,,,47.5,"2 failed due to plateau slope >= elastic modulus, no real transition; 1 failed due to poor full-plateau fit; 1 failed due to elastic/plateau junction mismatch"
