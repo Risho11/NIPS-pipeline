@@ -287,7 +287,7 @@ def run_compression_tests():
                     xArm.put_down(test)
                     armLock.release() # nothing here needs a deadline anymore so we're free to release the arm
                     safe = not arduino.run_test()
-                if safe:
+                #if safe:
                     time.sleep(5) # make sure newton software has finished processing the test into a .csv file
                     # use the data from the laptop to make sure the test finished correctly
                     data = url.get_compressiontester_status()
@@ -297,7 +297,7 @@ def run_compression_tests():
                     print("Recent: " + str(recent))
                     print("Time: " + str(time.time()))
                     print("mTime: " + str(data["time"]))
-                if safe and recent:
+                #if safe and recent:
                     armLock.acquire()
                     xArm.pick_up(test)
 
@@ -335,7 +335,12 @@ def delayed_knife_cleaning(delay = 0):
     armLock.release()
     print("Knife cleaning finished.")
 
-
+# return air data from coupon pullcast location    
+def measure_pullcast_air(coupon_wait_time):
+    time.sleep(coupon_wait_time / 2)
+    air_data = arduino.read_2nd_temp_humidity()
+    print(f"Air data from pullcast location: {air_data}")
+    return air_data
 
 
 

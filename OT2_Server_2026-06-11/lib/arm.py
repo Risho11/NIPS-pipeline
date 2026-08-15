@@ -389,7 +389,7 @@ class Arm():
         
     def unprep_coupon_test(self):
         self.go_to_position("tester", "coupon test 1 waypoint")
-        self.go_to_position_offset("tester", "coupon flat", [0, 4, 0, 0, 0, 0])
+        self.go_to_position_offset("tester", "coupon flat", [0, 6, 0, 0, 0, 0])
         self.open_gripper()
         self.go_to_position("tester", "coupon flat waypoint")
         

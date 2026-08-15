@@ -1,0 +1,2455 @@
+[2026-08-14 19:51:17] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-08-14 19:51:17] server listening on 169.254.230.148:8000
+
+[2026-08-14 19:51:17] kicking off first experiment: {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 10, 'nitrogen': True, 'coupon_to_bath_wait_time': 30, 'nips_bath_wait_time': 125, 'polymer_wt': 17, 'additive_wt': 0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-14 19:51:17] Python recieved!
+
+[2026-08-14 19:51:17] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 30, "nips_bath_wait_time": 125, "polymer_wt": 17, "additive_wt": 0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-14 19:51:17] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 10, "nitrogen": true, "coupon_to_bath_wait_time": 30, "nips_bath_wait_time": 125, "polymer_wt": 17, "additive_wt": 0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-14 19:51:17] robot started — loop running. Ctrl+C to stop.
+
+[2026-08-14 20:36:02] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Recievied request for membrane with following parameters:
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 10, 'nitrogen': True, 'coupon_to_bath_wait_time': 30, 'nips_bath_wait_time': 125, 'polymer_wt': 17, 'additive_wt': 0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Bath chilling process started.
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Beginning zero tests on coupons.
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Opentrons process started.
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] 
+Target recipe
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] -------------
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Total volume:      1000.00 uL
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Target polymer:    17 wt%
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Target additive:   0 wt%
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] 
+Required volumes
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] ----------------
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Normal polymer stock:      1000.00 uL
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Polymer-additive stock:    0.00 uL
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Pure solvent:              0.00 uL
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Total:                     1000.00 uL
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] 
+Final composition check
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] -----------------------
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Polymer:    17.0000 wt%
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Additive:   0.0000 wt%
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Solvent:    83.0000 wt%
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] Solution will be pulled from stock polymer bottle.
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:36] 5.45
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:37] 5.45
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:38] 5.45
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:39] 5.45
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:41] 5.44
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:42] 5.43
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:43] 5.41
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:44] 5.4
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:45] 5.37
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:46] 5.35
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:47] 5.32
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:48] 5.29
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:49] 5.27
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:51] 5.23
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:52] 5.19
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:53] 5.15
+
+[2026-08-14 20:36:02] [2026-08-14 23:51:54] 5.11
+
+[2026-08-14 20:36:02] [2026-08-14 23:52:03] Test has started!
+
+[2026-08-14 20:36:02] [2026-08-14 23:54:56] Test complete!
+
+[2026-08-14 20:36:02] [2026-08-14 23:55:01] Safe: True
+
+[2026-08-14 20:36:02] [2026-08-14 23:55:01] Recent: True
+
+[2026-08-14 20:36:02] [2026-08-14 23:55:01] Time: 1786751701.9429958
+
+[2026-08-14 20:36:02] [2026-08-14 23:55:01] mTime: 1786751672.3392491
+
+[2026-08-14 20:36:02] [2026-08-14 23:55:14] Test has started!
+
+[2026-08-14 20:36:02] [2026-08-14 23:58:09] Test complete!
+
+[2026-08-14 20:36:02] [2026-08-14 23:58:14] Safe: True
+
+[2026-08-14 20:36:02] [2026-08-14 23:58:14] Recent: True
+
+[2026-08-14 20:36:02] [2026-08-14 23:58:14] Time: 1786751894.9599514
+
+[2026-08-14 20:36:02] [2026-08-14 23:58:14] mTime: 1786751865.2751806
+
+[2026-08-14 20:36:02] [2026-08-14 23:58:27] Test has started!
+
+[2026-08-14 20:36:02] [2026-08-14 23:58:35] entered if statement!!!
+
+[2026-08-14 20:36:02] [2026-08-15 00:01:20] Test complete!
+
+[2026-08-14 20:36:02] [2026-08-15 00:01:25] Safe: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:01:25] Recent: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:01:25] Time: 1786752085.7673755
+
+[2026-08-14 20:36:02] [2026-08-15 00:01:25] mTime: 1786752056.163616
+
+[2026-08-14 20:36:02] [2026-08-15 00:01:38] Test has started!
+
+[2026-08-14 20:36:02] [2026-08-15 00:04:32] Test complete!
+
+[2026-08-14 20:36:02] [2026-08-15 00:04:37] Safe: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:04:37] Recent: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:04:37] Time: 1786752277.5303082
+
+[2026-08-14 20:36:02] [2026-08-15 00:04:37] mTime: 1786752247.7331069
+
+[2026-08-14 20:36:02] [2026-08-15 00:05:03] Joined both subprocesses.
+
+[2026-08-14 20:36:02] [2026-08-15 00:05:51] Pullcast complete.
+
+[2026-08-14 20:36:02] [2026-08-15 00:05:51] Nitrogen on.
+
+[2026-08-14 20:36:02] [2026-08-15 00:06:34] Nitrogen off.
+
+[2026-08-14 20:36:02] [2026-08-15 00:06:45] Membrane sitting in bath for 125 seconds.
+
+[2026-08-14 20:36:02] [2026-08-15 00:06:55] Nitrogen cap has been put away.
+
+[2026-08-14 20:36:02] [2026-08-15 00:07:10] Ring has been placed on the coupon.
+
+[2026-08-14 20:36:02] [2026-08-15 00:10:52] Cleaning knife
+
+[2026-08-14 20:36:02] [2026-08-15 00:11:52] Knife cleaning finished.
+
+[2026-08-14 20:36:02] [2026-08-15 00:19:27] Initial membrane picture taken.
+
+[2026-08-14 20:36:02] [2026-08-15 00:19:56] Test has started!
+
+[2026-08-14 20:36:02] [2026-08-15 00:23:25] Test complete!
+
+[2026-08-14 20:36:02] [2026-08-15 00:23:30] Safe: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:23:30] Recent: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:23:30] Time: 1786753410.9144478
+
+[2026-08-14 20:36:02] [2026-08-15 00:23:30] mTime: 1786753381.3484764
+
+[2026-08-14 20:36:02] [2026-08-15 00:23:43] Test has started!
+
+[2026-08-14 20:36:02] [2026-08-15 00:27:16] Test complete!
+
+[2026-08-14 20:36:02] [2026-08-15 00:27:21] Safe: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:27:21] Recent: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:27:21] Time: 1786753641.7962925
+
+[2026-08-14 20:36:02] [2026-08-15 00:27:21] mTime: 1786753612.2036304
+
+[2026-08-14 20:36:02] [2026-08-15 00:27:34] Test has started!
+
+[2026-08-14 20:36:02] [2026-08-15 00:31:00] Test complete!
+
+[2026-08-14 20:36:02] [2026-08-15 00:31:06] Safe: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:31:06] Recent: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:31:06] Time: 1786753866.0011652
+
+[2026-08-14 20:36:02] [2026-08-15 00:31:06] mTime: 1786753836.408287
+
+[2026-08-14 20:36:02] [2026-08-15 00:31:18] Test has started!
+
+[2026-08-14 20:36:02] [2026-08-15 00:34:47] Test complete!
+
+[2026-08-14 20:36:02] [2026-08-15 00:34:52] Safe: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:34:52] Recent: True
+
+[2026-08-14 20:36:02] [2026-08-15 00:34:52] Time: 1786754092.395144
+
+[2026-08-14 20:36:02] [2026-08-15 00:34:52] mTime: 1786754062.809895
+
+[2026-08-14 20:36:02] [2026-08-15 00:35:18] Final membrane picture taken.
+
+[2026-08-14 20:36:02] [2026-08-15 00:35:35] Coupon successfully discarded.
+
+[2026-08-14 20:36:02] [2026-08-15 00:36:21] Done
+
+[2026-08-14 20:36:02] [2026-08-15 00:36:21] {'temperature': '23.74', 'humidity': '49.21'}
+
+[2026-08-14 20:36:02] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-08-14 20:36:02] 
+[1/5] organising files...
+
+[2026-08-14 20:36:02] [START] condition=17-0add-5deg-30s-N2-125s
+
+[2026-08-14 20:36:02] [2/5] processing pipeline for: 17-0add-5deg-30s-N2-125s
+
+[2026-08-14 20:36:02] ==============================================================================================================
+
+[2026-08-14 20:36:02] Condition: 17-0add-5deg-30s-N2-125s | pairs: 4
+
+[2026-08-14 20:36:03] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 20:36:03] Average Standard Deviation: 53.967456470383695
+
+[2026-08-14 20:36:06] Toe end strain (zero point): 0.0000
+
+[2026-08-14 20:36:15] PW + Double: 0.47211116012062393
+
+[2026-08-14 20:36:15] Drop Chosen! 0.13562268844863162 | Piecewise Calculation: 0.4500142535103938
+
+[2026-08-14 20:36:34]   elastic_r2                          29/30  NRMSE-score=0.958 (RMSE=1.02, range=24.58)
+
+[2026-08-14 20:36:34]   plateau_r2_start                    15/15  R²(first 40%)=0.979
+
+[2026-08-14 20:36:34]   densification_r2                    15/15  R²=0.983
+
+[2026-08-14 20:36:34]   yield_accuracy                      25/25  elastic tail undershoots data by 2.2% of elastic range
+
+[2026-08-14 20:36:34]   junction_continuity                 10/15  gap=4.6%
+
+[2026-08-14 20:36:34]   plateau_r2_full_penalty              0/0  R²(full)=0.973
+
+[2026-08-14 20:36:34]   elastic_modulus_penalty              0/0  E=207.1 bar ok
+
+[2026-08-14 20:36:34]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=28%) — ok | plateau spans 34% of remaining stress — ok
+
+[2026-08-14 20:36:34]   changepoint_curvature_penalty        0/0  d2_norm=1.48, linear_stretch=13%
+
+[2026-08-14 20:36:34]   slope_ratio_penalty                 -6/0  plateau/elastic slope ratio=0.63 — nearly parallel (-6 pts)
+
+[2026-08-14 20:36:34] Score: 88/100 → PASS
+
+[2026-08-14 20:36:35] Good Fit: True
+
+[2026-08-14 20:36:35] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 20:36:35] Average Standard Deviation: 53.06857979945032
+
+[2026-08-14 20:36:38] Toe end strain (zero point): 0.0000
+
+[2026-08-14 20:36:44] PW + Double: 0.10591427903082784
+
+[2026-08-14 20:36:44] Piecewise Chosen! 0.11090577908915311 | Drop Calculation: 0.12296347852808676
+
+[2026-08-14 20:36:57]   elastic_r2                          29/30  NRMSE-score=0.960 (RMSE=1.12, range=28.39)
+
+[2026-08-14 20:36:57]   plateau_r2_start                    14/15  R²(first 40%)=0.966
+
+[2026-08-14 20:36:57]   densification_r2                    15/15  R²=0.982
+
+[2026-08-14 20:36:57]   yield_accuracy                      25/25  elastic tail overshoots data by 0.1% of elastic range
+
+[2026-08-14 20:36:57]   junction_continuity                 15/15  gap=0.2%
+
+[2026-08-14 20:36:57]   plateau_r2_full_penalty              0/0  R²(full)=0.972
+
+[2026-08-14 20:36:57]   elastic_modulus_penalty              0/0  E=246.8 bar ok
+
+[2026-08-14 20:36:57]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=32%) — ok | plateau spans 33% of remaining stress — ok
+
+[2026-08-14 20:36:57]   changepoint_curvature_penalty        0/0  d2_norm=1.33, linear_stretch=33%
+
+[2026-08-14 20:36:57]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.48 — good separation
+
+[2026-08-14 20:36:57] Score: 98/100 → PASS
+
+[2026-08-14 20:36:58] Good Fit: True
+
+[2026-08-14 20:36:59] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 20:36:59] Average Standard Deviation: 53.000528098334286
+
+[2026-08-14 20:37:02] Toe end strain (zero point): 0.0000
+
+[2026-08-14 20:37:08] PW + Double: 0.13623154137363352
+
+[2026-08-14 20:37:08] Piecewise Chosen! 0.1492052121622845 | Drop Calculation: 0.11595249822317333
+
+[2026-08-14 20:37:24]   elastic_r2                          29/30  NRMSE-score=0.968 (RMSE=0.99, range=30.91)
+
+[2026-08-14 20:37:24]   plateau_r2_start                    15/15  R²(first 40%)=0.968
+
+[2026-08-14 20:37:24]   densification_r2                    14/15  R²=0.950
+
+[2026-08-14 20:37:24]   yield_accuracy                      25/25  elastic tail undershoots data by 0.5% of elastic range
+
+[2026-08-14 20:37:24]   junction_continuity                 14/15  gap=0.7%
+
+[2026-08-14 20:37:24]   plateau_r2_full_penalty              0/0  R²(full)=0.940
+
+[2026-08-14 20:37:24]   elastic_modulus_penalty              0/0  E=207.4 bar ok
+
+[2026-08-14 20:37:24]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=21%) — ok | plateau spans 32% of remaining stress — ok
+
+[2026-08-14 20:37:24]   changepoint_curvature_penalty        0/0  d2_norm=1.56, linear_stretch=20%
+
+[2026-08-14 20:37:24]   slope_ratio_penalty                 -7/0  plateau/elastic slope ratio=0.65 — nearly parallel (-7 pts)
+
+[2026-08-14 20:37:24] Score: 90/100 → PASS
+
+[2026-08-14 20:37:25] Good Fit: True
+
+[2026-08-14 20:37:26] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 20:37:26] Average Standard Deviation: 52.740470102743046
+
+[2026-08-14 20:37:27] Toe end strain (zero point): 0.0000
+
+[2026-08-14 20:37:33] PW + Double: 0.1149036631558464
+
+[2026-08-14 20:37:33] Piecewise Chosen! 0.12035897337710233 | Drop Calculation: 0.0801865350912869
+
+[2026-08-14 20:37:53]   elastic_r2                          29/30  NRMSE-score=0.958 (RMSE=1.19, range=28.50)
+
+[2026-08-14 20:37:53]   plateau_r2_start                    14/15  R²(first 40%)=0.967
+
+[2026-08-14 20:37:53]   densification_r2                    14/15  R²=0.943
+
+[2026-08-14 20:37:53]   yield_accuracy                      25/25  elastic tail overshoots data by 0.9% of elastic range
+
+[2026-08-14 20:37:53]   junction_continuity                 15/15  gap=0.4%
+
+[2026-08-14 20:37:53]   plateau_r2_full_penalty              0/0  R²(full)=0.943
+
+[2026-08-14 20:37:53]   elastic_modulus_penalty              0/0  E=247.2 bar ok
+
+[2026-08-14 20:37:53]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=37%) — ok | plateau spans 34% of remaining stress — ok
+
+[2026-08-14 20:37:53]   changepoint_curvature_penalty        0/0  d2_norm=1.79, linear_stretch=27%
+
+[2026-08-14 20:37:53]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.51 — good separation
+
+[2026-08-14 20:37:53] Score: 97/100 → PASS
+
+[2026-08-14 20:37:54] Good Fit: True
+
+[2026-08-14 20:37:54] CV (17-0add-5deg-30s-N2-125s): 0.05718076052044361
+
+[2026-08-14 20:37:54] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 20:37:54] Average Standard Deviation: 43.85898977889931
+
+[2026-08-14 20:37:56] Toe end strain (zero point): 0.0000
+
+[2026-08-14 20:38:00] PW + Double: 0.11339793089150868
+
+[2026-08-14 20:38:00] Piecewise Chosen! 0.12158392095910882 | Drop Calculation: 0.11765594203715599
+
+[2026-08-14 20:38:13]   elastic_r2                          29/30  NRMSE-score=0.980 (RMSE=0.54, range=27.06)
+
+[2026-08-14 20:38:13]   plateau_r2_start                    15/15  R²(first 40%)=0.996
+
+[2026-08-14 20:38:13]   densification_r2                    15/15  R²=0.971
+
+[2026-08-14 20:38:13]   yield_accuracy                      25/25  elastic tail overshoots data by 0.1% of elastic range
+
+[2026-08-14 20:38:13]   junction_continuity                 15/15  gap=0.1%
+
+[2026-08-14 20:38:13]   plateau_r2_full_penalty              0/0  R²(full)=0.930
+
+[2026-08-14 20:38:13]   elastic_modulus_penalty              0/0  E=230.3 bar ok
+
+[2026-08-14 20:38:13]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=25%) — ok | plateau spans 34% of remaining stress — ok
+
+[2026-08-14 20:38:13]   changepoint_curvature_penalty        0/0  d2_norm=1.20, linear_stretch=27%
+
+[2026-08-14 20:38:13]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.56 — good separation
+
+[2026-08-14 20:38:13] Score: 99/100 → PASS
+
+[2026-08-14 20:38:14] Good Fit: True
+
+[2026-08-14 20:38:25] [3/5] generating initial report...
+
+[2026-08-14 20:38:25] [4/5] running active learning...
+
+[2026-08-14 20:38:46]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_17-0add-5deg-30s-N2-125s.json
+
+[2026-08-14 20:38:46] [5/5] next params: {'mixing_temp': 60, 'bath_temp': 5, 'pullcast_speed': 15, 'nitrogen': True, 'coupon_to_bath_wait_time': 60, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-14 20:38:46] Python recieved!
+
+[2026-08-14 20:38:46] Exact payload being sent: {"mixing_temp": 60, "bath_temp": 5, "pullcast_speed": 15, "nitrogen": true, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-14 20:38:46] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 60, "bath_temp": 5, "pullcast_speed": 15, "nitrogen": true, "coupon_to_bath_wait_time": 60, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-14 20:38:46] [DONE] 17-0add-5deg-30s-N2-125s  elapsed=164.2s
+
+[2026-08-14 21:52:10] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Recievied request for membrane with following parameters:
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] {'mixing_temp': 60, 'bath_temp': 5, 'pullcast_speed': 15, 'nitrogen': True, 'coupon_to_bath_wait_time': 60, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Bath chilling process started.
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Beginning zero tests on coupons.
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Opentrons process started.
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] 
+Target recipe
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] -------------
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Total volume:      1000.00 uL
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Target polymer:    17 wt%
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Target additive:   0 wt%
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] 
+Required volumes
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] ----------------
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Normal polymer stock:      1000.00 uL
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Polymer-additive stock:    0.00 uL
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Pure solvent:              0.00 uL
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Total:                     1000.00 uL
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] 
+Final composition check
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] -----------------------
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Polymer:    17.0000 wt%
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Additive:   0.0000 wt%
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Solvent:    83.0000 wt%
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] Solution will be pulled from stock polymer bottle.
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:05] 3.7
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:07] 3.7
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:08] 3.7
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:09] 3.71
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:10] 3.76
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:11] 3.82
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:12] 3.99
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:13] 4.19
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:14] 4.37
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:15] 4.56
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:17] 4.67
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:18] 4.76
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:19] 4.86
+
+[2026-08-14 21:52:10] [2026-08-15 00:39:32] Test has started!
+
+[2026-08-14 21:52:10] [2026-08-15 00:42:30] Test complete!
+
+[2026-08-14 21:52:10] [2026-08-15 00:42:35] Safe: True
+
+[2026-08-14 21:52:10] [2026-08-15 00:42:35] Recent: True
+
+[2026-08-14 21:52:10] [2026-08-15 00:42:35] Time: 1786754555.5135992
+
+[2026-08-14 21:52:10] [2026-08-15 00:42:35] mTime: 1786754525.9534044
+
+[2026-08-14 21:52:10] [2026-08-15 00:42:48] Test has started!
+
+[2026-08-14 21:52:10] [2026-08-15 00:45:44] Test complete!
+
+[2026-08-14 21:52:10] [2026-08-15 00:45:49] Safe: True
+
+[2026-08-14 21:52:10] [2026-08-15 00:45:49] Recent: True
+
+[2026-08-14 21:52:10] [2026-08-15 00:45:49] Time: 1786754749.7655632
+
+[2026-08-14 21:52:10] [2026-08-15 00:45:49] mTime: 1786754720.2676628
+
+[2026-08-14 21:52:10] [2026-08-15 00:46:02] Test has started!
+
+[2026-08-14 21:52:10] [2026-08-15 00:46:04] entered if statement!!!
+
+[2026-08-14 21:52:10] [2026-08-15 00:48:58] Test complete!
+
+[2026-08-14 21:52:10] [2026-08-15 00:49:03] Safe: True
+
+[2026-08-14 21:52:10] [2026-08-15 00:49:03] Recent: True
+
+[2026-08-14 21:52:10] [2026-08-15 00:49:03] Time: 1786754943.8869944
+
+[2026-08-14 21:52:10] [2026-08-15 00:49:03] mTime: 1786754914.4117942
+
+[2026-08-14 21:52:10] [2026-08-15 00:49:16] Test has started!
+
+[2026-08-14 21:52:10] [2026-08-15 00:52:12] Test complete!
+
+[2026-08-14 21:52:10] [2026-08-15 00:52:17] Safe: True
+
+[2026-08-14 21:52:10] [2026-08-15 00:52:17] Recent: True
+
+[2026-08-14 21:52:10] [2026-08-15 00:52:17] Time: 1786755137.8657713
+
+[2026-08-14 21:52:10] [2026-08-15 00:52:17] mTime: 1786755108.1444871
+
+[2026-08-14 21:52:10] [2026-08-15 00:52:43] Joined both subprocesses.
+
+[2026-08-14 21:52:10] [2026-08-15 00:53:28] Pullcast complete.
+
+[2026-08-14 21:52:10] [2026-08-15 00:53:28] Nitrogen on.
+
+[2026-08-14 21:52:10] [2026-08-15 00:54:41] Nitrogen off.
+
+[2026-08-14 21:52:10] [2026-08-15 00:54:52] Membrane sitting in bath for 1800 seconds.
+
+[2026-08-14 21:52:10] [2026-08-15 00:55:02] Nitrogen cap has been put away.
+
+[2026-08-14 21:52:10] [2026-08-15 00:55:17] Ring has been placed on the coupon.
+
+[2026-08-14 21:52:10] [2026-08-15 00:58:28] Cleaning knife
+
+[2026-08-14 21:52:10] [2026-08-15 00:59:28] Knife cleaning finished.
+
+[2026-08-14 21:52:10] [2026-08-15 01:35:26] Initial membrane picture taken.
+
+[2026-08-14 21:52:10] [2026-08-15 01:35:55] Test has started!
+
+[2026-08-14 21:52:10] [2026-08-15 01:39:30] Test complete!
+
+[2026-08-14 21:52:10] [2026-08-15 01:39:35] Safe: True
+
+[2026-08-14 21:52:10] [2026-08-15 01:39:35] Recent: True
+
+[2026-08-14 21:52:10] [2026-08-15 01:39:35] Time: 1786757975.2809753
+
+[2026-08-14 21:52:10] [2026-08-15 01:39:35] mTime: 1786757945.8021538
+
+[2026-08-14 21:52:10] [2026-08-15 01:39:47] Test has started!
+
+[2026-08-14 21:52:10] [2026-08-15 01:43:20] Test complete!
+
+[2026-08-14 21:52:10] [2026-08-15 01:43:25] Safe: True
+
+[2026-08-14 21:52:10] [2026-08-15 01:43:25] Recent: True
+
+[2026-08-14 21:52:10] [2026-08-15 01:43:25] Time: 1786758205.9316995
+
+[2026-08-14 21:52:10] [2026-08-15 01:43:25] mTime: 1786758176.3459466
+
+[2026-08-14 21:52:10] [2026-08-15 01:43:38] Test has started!
+
+[2026-08-14 21:52:10] [2026-08-15 01:47:08] Test complete!
+
+[2026-08-14 21:52:10] [2026-08-15 01:47:13] Safe: True
+
+[2026-08-14 21:52:10] [2026-08-15 01:47:13] Recent: True
+
+[2026-08-14 21:52:10] [2026-08-15 01:47:13] Time: 1786758433.3551795
+
+[2026-08-14 21:52:10] [2026-08-15 01:47:13] mTime: 1786758403.9295523
+
+[2026-08-14 21:52:10] [2026-08-15 01:47:26] Test has started!
+
+[2026-08-14 21:52:10] [2026-08-15 01:50:54] Test complete!
+
+[2026-08-14 21:52:10] [2026-08-15 01:50:59] Safe: True
+
+[2026-08-14 21:52:10] [2026-08-15 01:50:59] Recent: True
+
+[2026-08-14 21:52:10] [2026-08-15 01:50:59] Time: 1786758659.9217865
+
+[2026-08-14 21:52:10] [2026-08-15 01:50:59] mTime: 1786758630.4209397
+
+[2026-08-14 21:52:10] [2026-08-15 01:51:25] Final membrane picture taken.
+
+[2026-08-14 21:52:10] [2026-08-15 01:51:43] Coupon successfully discarded.
+
+[2026-08-14 21:52:10] [2026-08-15 01:52:29] Done
+
+[2026-08-14 21:52:10] [2026-08-15 01:52:29] {'temperature': '23.77', 'humidity': '49.79'}
+
+[2026-08-14 21:52:10] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-08-14 21:52:10] 
+[1/5] organising files...
+
+[2026-08-14 21:52:10] [START] condition=17-0add-5deg-60s-N2-1800s
+
+[2026-08-14 21:52:10] [2/5] processing pipeline for: 17-0add-5deg-60s-N2-1800s
+
+[2026-08-14 21:52:10] ==============================================================================================================
+
+[2026-08-14 21:52:10] Condition: 17-0add-5deg-60s-N2-1800s | pairs: 4
+
+[2026-08-14 21:52:11] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 21:52:11] Average Standard Deviation: 53.313633763461006
+
+[2026-08-14 21:52:13] Toe end strain (zero point): 0.0000
+
+[2026-08-14 21:52:19] PW + Double: 0.10037577241863513
+
+[2026-08-14 21:52:19] Piecewise Chosen! 0.10726005691459935 | Drop Calculation: 0.10061101361526588
+
+[2026-08-14 21:52:41]   elastic_r2                          28/30  NRMSE-score=0.947 (RMSE=1.54, range=29.36)
+
+[2026-08-14 21:52:41]   plateau_r2_start                    14/15  R²(first 40%)=0.956
+
+[2026-08-14 21:52:41]   densification_r2                    15/15  R²=0.985
+
+[2026-08-14 21:52:41]   yield_accuracy                      25/25  elastic tail undershoots data by 1.1% of elastic range
+
+[2026-08-14 21:52:41]   junction_continuity                 15/15  gap=0.2%
+
+[2026-08-14 21:52:41]   plateau_r2_full_penalty              0/0  R²(full)=0.979
+
+[2026-08-14 21:52:41]   elastic_modulus_penalty              0/0  E=285.6 bar ok
+
+[2026-08-14 21:52:41]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=30%) — ok | plateau spans 34% of remaining stress — ok
+
+[2026-08-14 21:52:41]   changepoint_curvature_penalty        0/0  d2_norm=3.26, linear_stretch=17%
+
+[2026-08-14 21:52:41]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.45 — good separation
+
+[2026-08-14 21:52:41]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-14 21:52:41]     elastic_half_consistency: first-half R²=0.738 vs second-half R²=0.924 (gap=0.186)
+
+[2026-08-14 21:52:41] Score: 97/100 → PASS
+
+[2026-08-14 21:52:41] Good Fit: True
+
+[2026-08-14 21:52:42] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 21:52:42] Average Standard Deviation: 53.506401542849005
+
+[2026-08-14 21:52:45] Toe end strain (zero point): 0.0000
+
+[2026-08-14 21:52:53] PW + Double: 0.11699336242872845
+
+[2026-08-14 21:52:53] Piecewise Chosen! 0.1332946111225289 | Drop Calculation: 0.11639670615081596
+
+[2026-08-14 21:53:10]   elastic_r2                          28/30  NRMSE-score=0.945 (RMSE=1.61, range=29.36)
+
+[2026-08-14 21:53:10]   plateau_r2_start                    14/15  R²(first 40%)=0.956
+
+[2026-08-14 21:53:10]   densification_r2                    15/15  R²=0.980
+
+[2026-08-14 21:53:10]   yield_accuracy                      25/25  elastic tail undershoots data by 0.7% of elastic range
+
+[2026-08-14 21:53:10]   junction_continuity                 14/15  gap=0.8%
+
+[2026-08-14 21:53:10]   plateau_r2_full_penalty              0/0  R²(full)=0.976
+
+[2026-08-14 21:53:10]   elastic_modulus_penalty              0/0  E=252.1 bar ok
+
+[2026-08-14 21:53:10]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=27%) — ok | plateau spans 35% of remaining stress — ok
+
+[2026-08-14 21:53:10]   changepoint_curvature_penalty        0/0  d2_norm=2.28, linear_stretch=27%
+
+[2026-08-14 21:53:10]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.51 — good separation
+
+[2026-08-14 21:53:10]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-14 21:53:10]     elastic_half_consistency: first-half R²=0.604 vs second-half R²=0.939 (gap=0.335)
+
+[2026-08-14 21:53:10] Score: 96/100 → PASS
+
+[2026-08-14 21:53:10] Good Fit: True
+
+[2026-08-14 21:53:11] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 21:53:11] Average Standard Deviation: 53.265146908047804
+
+[2026-08-14 21:53:11] Toe end strain (zero point): 0.0369
+
+[2026-08-14 21:53:18] PW + Double: 0.113980631384116
+
+[2026-08-14 21:53:18] Piecewise Chosen! 0.14667565329943286 | Drop Calculation: 0.12841649473018893
+
+[2026-08-14 21:53:36]   elastic_r2                          28/30  NRMSE-score=0.938 (RMSE=2.06, range=33.52)
+
+[2026-08-14 21:53:36]   plateau_r2_start                    14/15  R²(first 40%)=0.950
+
+[2026-08-14 21:53:36]   densification_r2                    14/15  R²=0.960
+
+[2026-08-14 21:53:36]   yield_accuracy                      25/25  elastic tail undershoots data by 2.2% of elastic range
+
+[2026-08-14 21:53:36]   junction_continuity                 15/15  gap=0.2%
+
+[2026-08-14 21:53:36]   plateau_r2_full_penalty              0/0  R²(full)=0.944
+
+[2026-08-14 21:53:36]   elastic_modulus_penalty              0/0  E=255.5 bar ok
+
+[2026-08-14 21:53:36]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=24%) — ok | plateau spans 33% of remaining stress — ok
+
+[2026-08-14 21:53:36]   changepoint_curvature_penalty        0/0  d2_norm=1.20, linear_stretch=13%
+
+[2026-08-14 21:53:36]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.53 — good separation
+
+[2026-08-14 21:53:36]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-14 21:53:36]     elastic_half_consistency: first-half R²=0.501 vs second-half R²=0.939 (gap=0.438)
+
+[2026-08-14 21:53:36] Score: 96/100 → PASS
+
+[2026-08-14 21:53:36] Good Fit: True
+
+[2026-08-14 21:53:37] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 21:53:37] Average Standard Deviation: 53.52780822505396
+
+[2026-08-14 21:53:37] Toe end strain (zero point): 0.0299
+
+[2026-08-14 21:53:43] PW + Double: 0.12947471430715857
+
+[2026-08-14 21:53:43] Piecewise Chosen! 0.1600751447011328 | Drop Calculation: 0.13895132340874888
+
+[2026-08-14 21:53:57]   elastic_r2                          28/30  NRMSE-score=0.942 (RMSE=2.06, range=35.58)
+
+[2026-08-14 21:53:57]   plateau_r2_start                    14/15  R²(first 40%)=0.932
+
+[2026-08-14 21:53:57]   densification_r2                    15/15  R²=0.969
+
+[2026-08-14 21:53:57]   yield_accuracy                      25/25  elastic tail undershoots data by 2.4% of elastic range
+
+[2026-08-14 21:53:57]   junction_continuity                 15/15  gap=0.1%
+
+[2026-08-14 21:53:57]   plateau_r2_full_penalty              0/0  R²(full)=0.957
+
+[2026-08-14 21:53:57]   elastic_modulus_penalty              0/0  E=234.9 bar ok
+
+[2026-08-14 21:53:57]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=21%) — ok | plateau spans 32% of remaining stress — ok
+
+[2026-08-14 21:53:57]   changepoint_curvature_penalty        0/0  d2_norm=1.78, linear_stretch=13%
+
+[2026-08-14 21:53:57]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.59 — good separation
+
+[2026-08-14 21:53:57]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-14 21:53:57]     elastic_half_consistency: first-half R²=0.577 vs second-half R²=0.952 (gap=0.374)
+
+[2026-08-14 21:53:57] Score: 97/100 → PASS
+
+[2026-08-14 21:53:58] Good Fit: True
+
+[2026-08-14 21:53:58] CV (17-0add-5deg-60s-N2-1800s): 0.06593582282549365
+
+[2026-08-14 21:53:59] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 21:53:59] Average Standard Deviation: 43.8945091227602
+
+[2026-08-14 21:53:59] Toe end strain (zero point): 0.0322
+
+[2026-08-14 21:54:03] PW + Double: 0.11398506122171886
+
+[2026-08-14 21:54:03] Piecewise Chosen! 0.12867318919785134 | Drop Calculation: 0.10128056762223564
+
+[2026-08-14 21:54:24]   elastic_r2                          29/30  NRMSE-score=0.960 (RMSE=1.17, range=29.06)
+
+[2026-08-14 21:54:24]   plateau_r2_start                    15/15  R²(first 40%)=0.992
+
+[2026-08-14 21:54:24]   densification_r2                    15/15  R²=0.979
+
+[2026-08-14 21:54:24]   yield_accuracy                      25/25  elastic tail undershoots data by 0.7% of elastic range
+
+[2026-08-14 21:54:24]   junction_continuity                 15/15  gap=0.0%
+
+[2026-08-14 21:54:24]   plateau_r2_full_penalty              0/0  R²(full)=0.958
+
+[2026-08-14 21:54:24]   elastic_modulus_penalty              0/0  E=269.5 bar ok
+
+[2026-08-14 21:54:24]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=32%) — ok | plateau spans 35% of remaining stress — ok
+
+[2026-08-14 21:54:24]   changepoint_curvature_penalty        0/0  d2_norm=1.72, linear_stretch=20%
+
+[2026-08-14 21:54:24]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.50 — good separation
+
+[2026-08-14 21:54:24] Score: 99/100 → PASS
+
+[2026-08-14 21:54:24] Good Fit: True
+
+[2026-08-14 21:54:32] [3/5] generating initial report...
+
+[2026-08-14 21:54:32] [4/5] running active learning...
+
+[2026-08-14 21:54:55]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_17-0add-5deg-60s-N2-1800s.json
+
+[2026-08-14 21:54:55] [5/5] next params: {'mixing_temp': 80, 'bath_temp': 5, 'pullcast_speed': 18, 'nitrogen': True, 'coupon_to_bath_wait_time': 90, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-14 21:54:55] Python recieved!
+
+[2026-08-14 21:54:55] Exact payload being sent: {"mixing_temp": 80, "bath_temp": 5, "pullcast_speed": 18, "nitrogen": true, "coupon_to_bath_wait_time": 90, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-14 21:54:55] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 80, "bath_temp": 5, "pullcast_speed": 18, "nitrogen": true, "coupon_to_bath_wait_time": 90, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-14 21:54:55] [DONE] 17-0add-5deg-60s-N2-1800s  elapsed=164.6s
+
+[2026-08-14 23:10:02] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Recievied request for membrane with following parameters:
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] {'mixing_temp': 80, 'bath_temp': 5, 'pullcast_speed': 18, 'nitrogen': True, 'coupon_to_bath_wait_time': 90, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Bath chilling process started.
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Beginning zero tests on coupons.
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Opentrons process started.
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] 
+Target recipe
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] -------------
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Total volume:      1000.00 uL
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Target polymer:    17 wt%
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Target additive:   0 wt%
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] 
+Required volumes
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] ----------------
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Normal polymer stock:      1000.00 uL
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Polymer-additive stock:    0.00 uL
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Pure solvent:              0.00 uL
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Total:                     1000.00 uL
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] 
+Final composition check
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] -----------------------
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Polymer:    17.0000 wt%
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Additive:   0.0000 wt%
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Solvent:    83.0000 wt%
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:13] Solution will be pulled from stock polymer bottle.
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:14] 5.27
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:15] 5.27
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:16] 5.27
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:17] 5.27
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:18] 5.3
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:19] 5.32
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:20] 5.38
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:22] 5.45
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:23] 5.52
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:24] 5.61
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:25] 5.69
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:26] 5.79
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:27] 5.88
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:28] 5.95
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:29] 6.04
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:30] 6.11
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:31] 6.19
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:33] 6.26
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:34] 6.31
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:35] 6.37
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:36] 6.42
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:37] 6.47
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:38] 6.5
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:39] 6.54
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:40] Test has started!
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:40] 6.58
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:41] 6.61
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:42] 6.64
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:44] 6.67
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:45] 6.7
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:46] 6.72
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:47] 6.74
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:48] 6.76
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:49] 6.78
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:50] 6.8
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:51] 6.82
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:52] 6.84
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:54] 6.85
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:55] 6.87
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:56] 6.88
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:57] 6.89
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:58] 6.9
+
+[2026-08-14 23:10:02] [2026-08-15 01:55:59] 6.9
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:00] 6.89
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:01] 6.88
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:02] 6.86
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:03] 6.84
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:05] 6.81
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:06] 6.77
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:07] 6.73
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:08] 6.67
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:09] 6.62
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:10] 6.56
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:11] 6.49
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:12] 6.43
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:13] 6.35
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:14] 6.29
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:16] 6.21
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:17] 6.13
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:18] 6.06
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:19] 5.98
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:20] 5.92
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:21] 5.84
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:22] 5.77
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:23] 5.69
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:24] 5.61
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:26] 5.55
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:27] 5.47
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:28] 5.41
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:29] 5.34
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:30] 5.27
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:31] 5.2
+
+[2026-08-14 23:10:02] [2026-08-15 01:56:32] 5.13
+
+[2026-08-14 23:10:02] [2026-08-15 01:58:42] Test complete!
+
+[2026-08-14 23:10:02] [2026-08-15 01:58:47] Safe: True
+
+[2026-08-14 23:10:02] [2026-08-15 01:58:47] Recent: True
+
+[2026-08-14 23:10:02] [2026-08-15 01:58:47] Time: 1786759127.881219
+
+[2026-08-14 23:10:02] [2026-08-15 01:58:47] mTime: 1786759098.4038777
+
+[2026-08-14 23:10:02] [2026-08-15 01:59:00] Test has started!
+
+[2026-08-14 23:10:02] [2026-08-15 02:02:04] Test complete!
+
+[2026-08-14 23:10:02] [2026-08-15 02:02:09] Safe: True
+
+[2026-08-14 23:10:02] [2026-08-15 02:02:09] Recent: True
+
+[2026-08-14 23:10:02] [2026-08-15 02:02:09] Time: 1786759329.476208
+
+[2026-08-14 23:10:02] [2026-08-15 02:02:09] mTime: 1786759300.0729227
+
+[2026-08-14 23:10:02] [2026-08-15 02:02:13] entered if statement!!!
+
+[2026-08-14 23:10:02] [2026-08-15 02:02:22] Test has started!
+
+[2026-08-14 23:10:02] [2026-08-15 02:05:22] Test complete!
+
+[2026-08-14 23:10:02] [2026-08-15 02:05:28] Safe: True
+
+[2026-08-14 23:10:02] [2026-08-15 02:05:28] Recent: True
+
+[2026-08-14 23:10:02] [2026-08-15 02:05:28] Time: 1786759528.0975869
+
+[2026-08-14 23:10:02] [2026-08-15 02:05:28] mTime: 1786759498.7038403
+
+[2026-08-14 23:10:02] [2026-08-15 02:05:40] Test has started!
+
+[2026-08-14 23:10:02] [2026-08-15 02:08:40] Test complete!
+
+[2026-08-14 23:10:02] [2026-08-15 02:08:45] Safe: True
+
+[2026-08-14 23:10:02] [2026-08-15 02:08:45] Recent: True
+
+[2026-08-14 23:10:02] [2026-08-15 02:08:45] Time: 1786759725.657687
+
+[2026-08-14 23:10:02] [2026-08-15 02:08:45] mTime: 1786759696.181007
+
+[2026-08-14 23:10:02] [2026-08-15 02:09:11] Joined both subprocesses.
+
+[2026-08-14 23:10:02] [2026-08-15 02:09:55] Pullcast complete.
+
+[2026-08-14 23:10:02] [2026-08-15 02:09:55] Nitrogen on.
+
+[2026-08-14 23:10:02] [2026-08-15 02:11:38] Nitrogen off.
+
+[2026-08-14 23:10:02] [2026-08-15 02:11:49] Membrane sitting in bath for 1800 seconds.
+
+[2026-08-14 23:10:02] [2026-08-15 02:11:58] Nitrogen cap has been put away.
+
+[2026-08-14 23:10:02] [2026-08-15 02:12:13] Ring has been placed on the coupon.
+
+[2026-08-14 23:10:02] [2026-08-15 02:14:55] Cleaning knife
+
+[2026-08-14 23:10:02] [2026-08-15 02:15:55] Knife cleaning finished.
+
+[2026-08-14 23:10:02] [2026-08-15 02:52:22] Initial membrane picture taken.
+
+[2026-08-14 23:10:02] [2026-08-15 02:52:52] Test has started!
+
+[2026-08-14 23:10:02] [2026-08-15 02:56:38] Test complete!
+
+[2026-08-14 23:10:02] [2026-08-15 02:56:43] Safe: True
+
+[2026-08-14 23:10:02] [2026-08-15 02:56:43] Recent: True
+
+[2026-08-14 23:10:02] [2026-08-15 02:56:43] Time: 1786762603.8426704
+
+[2026-08-14 23:10:02] [2026-08-15 02:56:43] mTime: 1786762573.858251
+
+[2026-08-14 23:10:02] [2026-08-15 02:56:56] Test has started!
+
+[2026-08-14 23:10:02] [2026-08-15 03:00:40] Test complete!
+
+[2026-08-14 23:10:02] [2026-08-15 03:00:45] Safe: True
+
+[2026-08-14 23:10:02] [2026-08-15 03:00:45] Recent: True
+
+[2026-08-14 23:10:02] [2026-08-15 03:00:45] Time: 1786762845.933096
+
+[2026-08-14 23:10:02] [2026-08-15 03:00:45] mTime: 1786762816.2030575
+
+[2026-08-14 23:10:02] [2026-08-15 03:00:58] Test has started!
+
+[2026-08-14 23:10:02] [2026-08-15 03:04:45] Test complete!
+
+[2026-08-14 23:10:02] [2026-08-15 03:04:50] Safe: True
+
+[2026-08-14 23:10:02] [2026-08-15 03:04:50] Recent: True
+
+[2026-08-14 23:10:02] [2026-08-15 03:04:50] Time: 1786763090.9135847
+
+[2026-08-14 23:10:02] [2026-08-15 03:04:50] mTime: 1786763061.1772673
+
+[2026-08-14 23:10:02] [2026-08-15 03:05:03] Test has started!
+
+[2026-08-14 23:10:02] [2026-08-15 03:08:47] Test complete!
+
+[2026-08-14 23:10:02] [2026-08-15 03:08:52] Safe: True
+
+[2026-08-14 23:10:02] [2026-08-15 03:08:52] Recent: True
+
+[2026-08-14 23:10:02] [2026-08-15 03:08:52] Time: 1786763332.5233138
+
+[2026-08-14 23:10:02] [2026-08-15 03:08:52] mTime: 1786763302.7581346
+
+[2026-08-14 23:10:02] [2026-08-15 03:09:18] Final membrane picture taken.
+
+[2026-08-14 23:10:02] [2026-08-15 03:09:35] Coupon successfully discarded.
+
+[2026-08-14 23:10:02] [2026-08-15 03:10:21] Done
+
+[2026-08-14 23:10:02] [2026-08-15 03:10:21] {'temperature': '23.45', 'humidity': '43.37'}
+
+[2026-08-14 23:10:02] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-08-14 23:10:02] 
+[1/5] organising files...
+
+[2026-08-14 23:10:02] Condition already tested. New folder: 17-0add-5deg-90s-N2-1800s_run2
+
+[2026-08-14 23:10:02] [START] condition=17-0add-5deg-90s-N2-1800s_run2
+
+[2026-08-14 23:10:02] [2/5] processing pipeline for: 17-0add-5deg-90s-N2-1800s_run2
+
+[2026-08-14 23:10:02] ==============================================================================================================
+
+[2026-08-14 23:10:02] Condition: 17-0add-5deg-90s-N2-1800s_run2 | pairs: 4
+
+[2026-08-14 23:10:03] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 23:10:03] Average Standard Deviation: 51.36813251116724
+
+[2026-08-14 23:10:05] Toe end strain (zero point): 0.0000
+
+[2026-08-14 23:10:12] PW + Double: 0.08180214963542402
+
+[2026-08-14 23:10:12] Piecewise Chosen! 0.08821336861781864 | Drop Calculation: 0.08414956134240581
+
+[2026-08-14 23:10:33]   elastic_r2                          28/30  NRMSE-score=0.935 (RMSE=1.93, range=29.64)
+
+[2026-08-14 23:10:33]   plateau_r2_start                    15/15  R²(first 40%)=0.976
+
+[2026-08-14 23:10:33]   densification_r2                    12/15  R²=0.804
+
+[2026-08-14 23:10:33]   yield_accuracy                      25/25  elastic tail undershoots data by 0.2% of elastic range
+
+[2026-08-14 23:10:33]   junction_continuity                 15/15  gap=0.4%
+
+[2026-08-14 23:10:33]   plateau_r2_full_penalty              0/0  R²(full)=0.923
+
+[2026-08-14 23:10:33]   elastic_modulus_penalty              0/0  E=319.6 bar ok
+
+[2026-08-14 23:10:33]   bp1_accuracy_penalty                -30/0  GAM slope stable in early plateau (drop=14%) — ok | plateau spans 51% of remaining stress — elastic peak likely wrong
+
+[2026-08-14 23:10:33]   changepoint_curvature_penalty       -4/0  d2_norm=0.00, linear_stretch=37%
+
+[2026-08-14 23:10:33]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.42 — good separation
+
+[2026-08-14 23:10:33]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-14 23:10:33]     elastic_half_consistency: first-half R²=0.563 vs second-half R²=0.862 (gap=0.299)
+
+[2026-08-14 23:10:33] Score: 61/100 → FAIL
+
+[2026-08-14 23:10:34] Good Fit: False
+
+[2026-08-14 23:10:34] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 23:10:34] Average Standard Deviation: 51.83681173392992
+
+[2026-08-14 23:10:37] Toe end strain (zero point): 0.0000
+
+[2026-08-14 23:10:44] PW + Double: 0.03767530042140118
+
+[2026-08-14 23:10:44] Piecewise Chosen! 0.046425942093829546 | Drop Calculation: 0.05857461949115694
+
+[2026-08-14 23:11:06]   elastic_r2                          25/30  NRMSE-score=0.835 (RMSE=4.67, range=28.28)
+
+[2026-08-14 23:11:06]   plateau_r2_start                    14/15  R²(first 40%)=0.942
+
+[2026-08-14 23:11:06]   densification_r2                    14/15  R²=0.930
+
+[2026-08-14 23:11:06]   yield_accuracy                      25/25  elastic tail undershoots data by 2.9% of elastic range
+
+[2026-08-14 23:11:06]   junction_continuity                 11/15  gap=3.8%
+
+[2026-08-14 23:11:06]   plateau_r2_full_penalty              0/0  R²(full)=0.979
+
+[2026-08-14 23:11:06]   elastic_modulus_penalty              0/0  E=420.0 bar ok
+
+[2026-08-14 23:11:06]   bp1_accuracy_penalty                -5/0  GAM slope drops 58% in early plateau — bp1 suspect | plateau spans 38% of remaining stress — ok
+
+[2026-08-14 23:11:06]   changepoint_curvature_penalty        0/0  d2_norm=3.97, linear_stretch=23%
+
+[2026-08-14 23:11:06]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.20 — good separation
+
+[2026-08-14 23:11:06]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-14 23:11:06]     elastic_half_consistency: first-half R²=-1.231 vs second-half R²=0.392 (gap=1.623)
+
+[2026-08-14 23:11:06] Score: 84/100 → PASS
+
+[2026-08-14 23:11:07] Good Fit: True
+
+[2026-08-14 23:11:07] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 23:11:07] Average Standard Deviation: 52.59138671720058
+
+[2026-08-14 23:11:07] Toe end strain (zero point): 0.0337
+
+[2026-08-14 23:11:11] PW + Double: 0.03587495518426004
+
+[2026-08-14 23:11:11] Piecewise Chosen! 0.03490850256126391 | Drop Calculation: 0.12943395905801225
+
+[2026-08-14 23:11:34]   elastic_r2                          27/30  NRMSE-score=0.906 (RMSE=0.32, range=3.39)
+
+[2026-08-14 23:11:34]   plateau_r2_start                    14/15  R²(first 40%)=0.931
+
+[2026-08-14 23:11:34]   densification_r2                    13/15  R²=0.869
+
+[2026-08-14 23:11:34]   yield_accuracy                      25/25  elastic tail undershoots data by 8.5% of elastic range
+
+[2026-08-14 23:11:34]   junction_continuity                  0/15  gap=230.0%
+
+[2026-08-14 23:11:34]   plateau_r2_full_penalty              0/0  R²(full)=0.968
+
+[2026-08-14 23:11:34]   elastic_modulus_penalty              0/0  E=42.4 bar ok
+
+[2026-08-14 23:11:34]   bp1_accuracy_penalty                -35/0  GAM slope drops 51% in early plateau — bp1 suspect | plateau spans 72% of remaining stress — elastic peak likely wrong
+
+[2026-08-14 23:11:34]   changepoint_curvature_penalty        0/0  d2_norm=10.45, linear_stretch=27%
+
+[2026-08-14 23:11:34]   catastrophic_slope_vs_modulus        0/0  slope ratio=4.44 — plateau slope ≥95% of elastic
+
+[2026-08-14 23:11:34]   CATASTROPHIC HALVING: 44 → 22
+
+[2026-08-14 23:11:34]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-14 23:11:34]     elastic_half_consistency: first-half R²=-0.735 vs second-half R²=0.156 (gap=0.891)
+
+[2026-08-14 23:11:34] Score: 22/100 → FAIL
+
+[2026-08-14 23:11:39] PW + Double: 0.12552459808541597
+
+[2026-08-14 23:11:39] Piecewise Chosen! 0.12665457252255669 | Drop Calculation: 0.13343785786368295
+
+[2026-08-14 23:11:58]   elastic_r2                          28/30  NRMSE-score=0.939 (RMSE=1.86, range=30.44)
+
+[2026-08-14 23:11:58]   plateau_r2_start                    15/15  R²(first 40%)=0.971
+
+[2026-08-14 23:11:58]   densification_r2                    14/15  R²=0.903
+
+[2026-08-14 23:11:58]   yield_accuracy                      25/25  elastic tail undershoots data by 0.9% of elastic range
+
+[2026-08-14 23:11:58]   junction_continuity                 13/15  gap=1.8%
+
+[2026-08-14 23:11:58]   plateau_r2_full_penalty              0/0  R²(full)=0.960
+
+[2026-08-14 23:11:58]   elastic_modulus_penalty              0/0  E=312.9 bar ok
+
+[2026-08-14 23:11:58]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=34%) — ok | plateau spans 49% of remaining stress — ok
+
+[2026-08-14 23:11:58]   changepoint_curvature_penalty        0/0  d2_norm=3.00, linear_stretch=17%
+
+[2026-08-14 23:11:58]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.43 — good separation
+
+[2026-08-14 23:11:58]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-14 23:11:58]     elastic_half_consistency: first-half R²=0.559 vs second-half R²=0.877 (gap=0.318)
+
+[2026-08-14 23:11:58] Score: 95/100 → PASS
+
+[2026-08-14 23:11:58]   toe-mask retry: masked strain < 0.0349, good=True
+
+[2026-08-14 23:11:59] Good Fit: True
+
+[2026-08-14 23:12:00] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 23:12:00] Average Standard Deviation: 51.56631371629974
+
+[2026-08-14 23:12:02] Toe end strain (zero point): 0.0000
+
+[2026-08-14 23:12:08] PW + Double: 0.08070734710034595
+
+[2026-08-14 23:12:08] Piecewise Chosen! 0.09361293073309698 | Drop Calculation: 0.09395134485304572
+
+[2026-08-14 23:12:31]   elastic_r2                          28/30  NRMSE-score=0.943 (RMSE=1.80, range=31.45)
+
+[2026-08-14 23:12:31]   plateau_r2_start                    14/15  R²(first 40%)=0.950
+
+[2026-08-14 23:12:31]   densification_r2                    14/15  R²=0.930
+
+[2026-08-14 23:12:31]   yield_accuracy                      25/25  elastic tail overshoots data by 0.4% of elastic range
+
+[2026-08-14 23:12:31]   junction_continuity                 13/15  gap=2.1%
+
+[2026-08-14 23:12:31]   plateau_r2_full_penalty              0/0  R²(full)=0.980
+
+[2026-08-14 23:12:31]   elastic_modulus_penalty              0/0  E=337.0 bar ok
+
+[2026-08-14 23:12:31]   bp1_accuracy_penalty                -5/0  GAM slope drops 46% in early plateau — bp1 suspect | plateau spans 39% of remaining stress — ok
+
+[2026-08-14 23:12:31]   changepoint_curvature_penalty        0/0  d2_norm=3.83, linear_stretch=13%
+
+[2026-08-14 23:12:31]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.28 — good separation
+
+[2026-08-14 23:12:31] Score: 89/100 → PASS
+
+[2026-08-14 23:12:32] Good Fit: True
+
+[2026-08-14 23:12:32] CV (17-0add-5deg-90s-N2-1800s_run2) [preDiscard]: 0.085892729449031
+
+[2026-08-14 23:12:32] CV (17-0add-5deg-90s-N2-1800s_run2) [postDiscard]: 0.07816693567851543
+
+[2026-08-14 23:12:33] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 23:12:33] Average Standard Deviation: 43.9384971553901
+
+[2026-08-14 23:12:36] Toe end strain (zero point): 0.0000
+
+[2026-08-14 23:12:43] PW + Double: 0.07248172385672959
+
+[2026-08-14 23:12:43] Piecewise Chosen! 0.08175992790128021 | Drop Calculation: 0.066532705620723
+
+[2026-08-14 23:12:58]   elastic_r2                          29/30  NRMSE-score=0.951 (RMSE=1.30, range=26.75)
+
+[2026-08-14 23:12:58]   plateau_r2_start                    15/15  R²(first 40%)=0.984
+
+[2026-08-14 23:12:58]   densification_r2                    14/15  R²=0.938
+
+[2026-08-14 23:12:58]   yield_accuracy                      25/25  elastic tail overshoots data by 2.0% of elastic range
+
+[2026-08-14 23:12:58]   junction_continuity                 13/15  gap=1.9%
+
+[2026-08-14 23:12:58]   plateau_r2_full_penalty              0/0  R²(full)=0.957
+
+[2026-08-14 23:12:58]   elastic_modulus_penalty              0/0  E=359.5 bar ok
+
+[2026-08-14 23:12:58]   bp1_accuracy_penalty                -5/0  GAM slope drops 50% in early plateau — bp1 suspect | plateau spans 42% of remaining stress — ok
+
+[2026-08-14 23:12:58]   changepoint_curvature_penalty        0/0  d2_norm=1.64, linear_stretch=37%
+
+[2026-08-14 23:12:58]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.31 — good separation
+
+[2026-08-14 23:12:58] Score: 91/100 → PASS
+
+[2026-08-14 23:12:59] Good Fit: True
+
+[2026-08-14 23:12:59] 
+
+------------ NEW REP ---------------
+
+[2026-08-14 23:12:59] Average Standard Deviation: 43.9384971553901
+
+[2026-08-14 23:13:02] Toe end strain (zero point): 0.0000
+
+[2026-08-14 23:13:08] PW + Double: 0.06960407301799001
+
+[2026-08-14 23:13:08] Piecewise Chosen! 0.07850479806480555 | Drop Calculation: 0.06272508499769913
+
+[2026-08-14 23:13:25]   elastic_r2                          28/30  NRMSE-score=0.949 (RMSE=1.43, range=28.09)
+
+[2026-08-14 23:13:25]   plateau_r2_start                    15/15  R²(first 40%)=0.977
+
+[2026-08-14 23:13:25]   densification_r2                    14/15  R²=0.945
+
+[2026-08-14 23:13:25]   yield_accuracy                      25/25  elastic tail overshoots data by 2.0% of elastic range
+
+[2026-08-14 23:13:25]   junction_continuity                 12/15  gap=2.5%
+
+[2026-08-14 23:13:25]   plateau_r2_full_penalty              0/0  R²(full)=0.958
+
+[2026-08-14 23:13:25]   elastic_modulus_penalty              0/0  E=368.4 bar ok
+
+[2026-08-14 23:13:25]   bp1_accuracy_penalty                -5/0  GAM slope drops 52% in early plateau — bp1 suspect | plateau spans 41% of remaining stress — ok
+
+[2026-08-14 23:13:25]   changepoint_curvature_penalty        0/0  d2_norm=2.42, linear_stretch=27%
+
+[2026-08-14 23:13:25]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.28 — good separation
+
+[2026-08-14 23:13:25] Score: 89/100 → PASS
+
+[2026-08-14 23:13:25] Good Fit: True
+
+[2026-08-14 23:13:32] [3/5] generating initial report...
+
+[2026-08-14 23:13:32] [4/5] running active learning...
+
+[2026-08-14 23:13:54]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_17-0add-5deg-90s-N2-1800s_run2.json
+
+[2026-08-14 23:13:54] [5/5] next params: {'mixing_temp': 80, 'bath_temp': 5, 'pullcast_speed': 15, 'nitrogen': True, 'coupon_to_bath_wait_time': 120, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-14 23:13:54] Python recieved!
+
+[2026-08-14 23:13:54] Exact payload being sent: {"mixing_temp": 80, "bath_temp": 5, "pullcast_speed": 15, "nitrogen": true, "coupon_to_bath_wait_time": 120, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-14 23:13:54] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 80, "bath_temp": 5, "pullcast_speed": 15, "nitrogen": true, "coupon_to_bath_wait_time": 120, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-14 23:13:54] [DONE] 17-0add-5deg-90s-N2-1800s_run2  elapsed=232.3s
+
+[2026-08-15 00:27:57] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Recievied request for membrane with following parameters:
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] {'mixing_temp': 80, 'bath_temp': 5, 'pullcast_speed': 15, 'nitrogen': True, 'coupon_to_bath_wait_time': 120, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Bath chilling process started.
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Beginning zero tests on coupons.
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Opentrons process started.
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] 
+Target recipe
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] -------------
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Total volume:      1000.00 uL
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Target polymer:    17 wt%
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Target additive:   0 wt%
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] 
+Required volumes
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] ----------------
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Normal polymer stock:      1000.00 uL
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Polymer-additive stock:    0.00 uL
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Pure solvent:              0.00 uL
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Total:                     1000.00 uL
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] 
+Final composition check
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] -----------------------
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Polymer:    17.0000 wt%
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Additive:   0.0000 wt%
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Solvent:    83.0000 wt%
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:13] Solution will be pulled from stock polymer bottle.
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:14] 5.52
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:15] 5.53
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:16] 5.55
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:17] 5.57
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:18] 5.59
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:19] 5.62
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:21] 5.64
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:22] 5.68
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:23] 5.73
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:24] 5.78
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:25] 5.85
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:26] 5.91
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:27] 5.98
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:28] 6.05
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:29] 6.11
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:31] 6.17
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:32] 6.23
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:33] 6.29
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:34] 6.34
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:35] 6.39
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:36] 6.44
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:37] 6.48
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:38] 6.52
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:39] 6.56
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:40] Test has started!
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:41] 6.6
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:42] 6.63
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:43] 6.67
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:44] 6.7
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:45] 6.73
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:46] 6.77
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:47] 6.79
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:48] 6.83
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:49] 6.85
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:50] 6.88
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:52] 6.91
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:53] 6.94
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:54] 6.97
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:55] 6.99
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:56] 7.01
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:57] 7.04
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:58] 7.05
+
+[2026-08-15 00:27:57] [2026-08-15 03:14:59] 7.07
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:00] 7.08
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:01] 7.09
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:03] 7.09
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:04] 7.09
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:05] 7.08
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:06] 7.06
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:07] 7.03
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:08] 7.0
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:09] 6.96
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:10] 6.91
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:11] 6.86
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:13] 6.79
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:14] 6.72
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:15] 6.65
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:16] 6.57
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:17] 6.48
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:18] 6.41
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:19] 6.31
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:20] 6.22
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:21] 6.14
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:22] 6.05
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:24] 5.97
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:25] 5.87
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:26] 5.79
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:27] 5.69
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:28] 5.59
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:29] 5.52
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:30] 5.42
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:31] 5.34
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:32] 5.25
+
+[2026-08-15 00:27:57] [2026-08-15 03:15:33] 5.17
+
+[2026-08-15 00:27:57] [2026-08-15 03:17:36] Test complete!
+
+[2026-08-15 00:27:57] [2026-08-15 03:17:42] Safe: True
+
+[2026-08-15 00:27:57] [2026-08-15 03:17:42] Recent: True
+
+[2026-08-15 00:27:57] [2026-08-15 03:17:42] Time: 1786763862.3045552
+
+[2026-08-15 00:27:57] [2026-08-15 03:17:42] mTime: 1786763832.3130977
+
+[2026-08-15 00:27:57] [2026-08-15 03:17:54] Test has started!
+
+[2026-08-15 00:27:57] [2026-08-15 03:20:51] Test complete!
+
+[2026-08-15 00:27:57] [2026-08-15 03:20:56] Safe: True
+
+[2026-08-15 00:27:57] [2026-08-15 03:20:56] Recent: True
+
+[2026-08-15 00:27:57] [2026-08-15 03:20:56] Time: 1786764056.7082007
+
+[2026-08-15 00:27:57] [2026-08-15 03:20:56] mTime: 1786764026.9928038
+
+[2026-08-15 00:27:57] [2026-08-15 03:21:09] Test has started!
+
+[2026-08-15 00:27:57] [2026-08-15 03:21:13] entered if statement!!!
+
+[2026-08-15 00:27:57] [2026-08-15 03:24:04] Test complete!
+
+[2026-08-15 00:27:57] [2026-08-15 03:24:09] Safe: True
+
+[2026-08-15 00:27:57] [2026-08-15 03:24:09] Recent: True
+
+[2026-08-15 00:27:57] [2026-08-15 03:24:09] Time: 1786764249.7231498
+
+[2026-08-15 00:27:57] [2026-08-15 03:24:09] mTime: 1786764219.9833305
+
+[2026-08-15 00:27:57] [2026-08-15 03:24:22] Test has started!
+
+[2026-08-15 00:27:57] [2026-08-15 03:27:18] Test complete!
+
+[2026-08-15 00:27:57] [2026-08-15 03:27:23] Safe: True
+
+[2026-08-15 00:27:57] [2026-08-15 03:27:23] Recent: True
+
+[2026-08-15 00:27:57] [2026-08-15 03:27:23] Time: 1786764443.3445506
+
+[2026-08-15 00:27:57] [2026-08-15 03:27:23] mTime: 1786764413.581875
+
+[2026-08-15 00:27:57] [2026-08-15 03:27:48] Joined both subprocesses.
+
+[2026-08-15 00:27:57] [2026-08-15 03:28:34] Pullcast complete.
+
+[2026-08-15 00:27:57] [2026-08-15 03:28:34] Nitrogen on.
+
+[2026-08-15 00:27:57] [2026-08-15 03:30:47] Nitrogen off.
+
+[2026-08-15 00:27:57] [2026-08-15 03:30:58] Membrane sitting in bath for 1800 seconds.
+
+[2026-08-15 00:27:57] [2026-08-15 03:31:07] Nitrogen cap has been put away.
+
+[2026-08-15 00:27:57] [2026-08-15 03:31:22] Ring has been placed on the coupon.
+
+[2026-08-15 00:27:57] [2026-08-15 03:33:34] Cleaning knife
+
+[2026-08-15 00:27:57] [2026-08-15 03:34:34] Knife cleaning finished.
+
+[2026-08-15 00:27:57] [2026-08-15 04:11:32] Initial membrane picture taken.
+
+[2026-08-15 00:27:57] [2026-08-15 04:12:01] Test has started!
+
+[2026-08-15 00:27:57] [2026-08-15 04:15:29] Test complete!
+
+[2026-08-15 00:27:57] [2026-08-15 04:15:34] Safe: True
+
+[2026-08-15 00:27:57] [2026-08-15 04:15:34] Recent: True
+
+[2026-08-15 00:27:57] [2026-08-15 04:15:34] Time: 1786767334.5671353
+
+[2026-08-15 00:27:57] [2026-08-15 04:15:34] mTime: 1786767304.7140112
+
+[2026-08-15 00:27:57] [2026-08-15 04:15:47] Test has started!
+
+[2026-08-15 00:27:57] [2026-08-15 04:19:13] Test complete!
+
+[2026-08-15 00:27:57] [2026-08-15 04:19:19] Safe: True
+
+[2026-08-15 00:27:57] [2026-08-15 04:19:19] Recent: True
+
+[2026-08-15 00:27:57] [2026-08-15 04:19:19] Time: 1786767559.0732646
+
+[2026-08-15 00:27:57] [2026-08-15 04:19:19] mTime: 1786767529.2825263
+
+[2026-08-15 00:27:57] [2026-08-15 04:19:31] Test has started!
+
+[2026-08-15 00:27:57] [2026-08-15 04:22:58] Test complete!
+
+[2026-08-15 00:27:57] [2026-08-15 04:23:04] Safe: True
+
+[2026-08-15 00:27:57] [2026-08-15 04:23:04] Recent: True
+
+[2026-08-15 00:27:57] [2026-08-15 04:23:04] Time: 1786767784.0075202
+
+[2026-08-15 00:27:57] [2026-08-15 04:23:04] mTime: 1786767754.2415318
+
+[2026-08-15 00:27:57] [2026-08-15 04:23:16] Test has started!
+
+[2026-08-15 00:27:57] [2026-08-15 04:26:42] Test complete!
+
+[2026-08-15 00:27:57] [2026-08-15 04:26:47] Safe: True
+
+[2026-08-15 00:27:57] [2026-08-15 04:26:47] Recent: True
+
+[2026-08-15 00:27:57] [2026-08-15 04:26:47] Time: 1786768007.4969976
+
+[2026-08-15 00:27:57] [2026-08-15 04:26:47] mTime: 1786767977.692589
+
+[2026-08-15 00:27:57] [2026-08-15 04:27:13] Final membrane picture taken.
+
+[2026-08-15 00:27:57] [2026-08-15 04:27:30] Coupon successfully discarded.
+
+[2026-08-15 00:27:57] [2026-08-15 04:28:16] Done
+
+[2026-08-15 00:27:57] [2026-08-15 04:28:16] {'temperature': '23.29', 'humidity': '43.34'}
+
+[2026-08-15 00:27:57] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-08-15 00:27:57] 
+[1/5] organising files...
+
+[2026-08-15 00:27:57] [START] condition=17-0add-5deg-120s-N2-1800s
+
+[2026-08-15 00:27:57] [2/5] processing pipeline for: 17-0add-5deg-120s-N2-1800s
+
+[2026-08-15 00:27:57] ==============================================================================================================
+
+[2026-08-15 00:27:57] Condition: 17-0add-5deg-120s-N2-1800s | pairs: 4
+
+[2026-08-15 00:27:58] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 00:27:58] Average Standard Deviation: 51.99676136618173
+
+[2026-08-15 00:28:01] Toe end strain (zero point): 0.0000
+
+[2026-08-15 00:28:10] PW + Double: 0.39493897577314724
+
+[2026-08-15 00:28:10] Drop Chosen! 0.0776332121648757 | Piecewise Calculation: 0.3837706476081743
+
+[2026-08-15 00:28:37]   elastic_r2                          28/30  NRMSE-score=0.917 (RMSE=2.14, range=25.77)
+
+[2026-08-15 00:28:37]   plateau_r2_start                    14/15  R²(first 40%)=0.945
+
+[2026-08-15 00:28:37]   densification_r2                    14/15  R²=0.963
+
+[2026-08-15 00:28:37]   yield_accuracy                      25/25  elastic tail undershoots data by 2.6% of elastic range
+
+[2026-08-15 00:28:37]   junction_continuity                 10/15  gap=5.3%
+
+[2026-08-15 00:28:37]   plateau_r2_full_penalty              0/0  R²(full)=0.975
+
+[2026-08-15 00:28:37]   elastic_modulus_penalty              0/0  E=337.3 bar ok
+
+[2026-08-15 00:28:37]   bp1_accuracy_penalty                -5/0  GAM slope drops 42% in early plateau — bp1 suspect | plateau spans 38% of remaining stress — ok
+
+[2026-08-15 00:28:37]   changepoint_curvature_penalty        0/0  d2_norm=1.22, linear_stretch=17%
+
+[2026-08-15 00:28:37]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.45 — good separation
+
+[2026-08-15 00:28:37]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-15 00:28:37]     elastic_half_consistency: first-half R²=0.295 vs second-half R²=0.729 (gap=0.434)
+
+[2026-08-15 00:28:37] Score: 86/100 → PASS
+
+[2026-08-15 00:28:38] Good Fit: True
+
+[2026-08-15 00:28:39] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 00:28:39] Average Standard Deviation: 51.501589013896876
+
+[2026-08-15 00:28:41] Toe end strain (zero point): 0.0000
+
+[2026-08-15 00:28:51] PW + Double: 0.40952017138727226
+
+[2026-08-15 00:28:51] Drop Chosen! 0.08349018123708647 | Piecewise Calculation: 0.3921680135422882
+
+[2026-08-15 00:29:27]   elastic_r2                          27/30  NRMSE-score=0.894 (RMSE=2.87, range=27.03)
+
+[2026-08-15 00:29:27]   plateau_r2_start                    14/15  R²(first 40%)=0.924
+
+[2026-08-15 00:29:27]   densification_r2                    15/15  R²=0.968
+
+[2026-08-15 00:29:27]   yield_accuracy                      25/25  elastic tail undershoots data by 3.5% of elastic range
+
+[2026-08-15 00:29:27]   junction_continuity                 10/15  gap=5.1%
+
+[2026-08-15 00:29:27]   plateau_r2_full_penalty              0/0  R²(full)=0.979
+
+[2026-08-15 00:29:27]   elastic_modulus_penalty              0/0  E=410.2 bar ok
+
+[2026-08-15 00:29:27]   bp1_accuracy_penalty                -5/0  GAM slope drops 54% in early plateau — bp1 suspect | plateau spans 39% of remaining stress — ok
+
+[2026-08-15 00:29:27]   changepoint_curvature_penalty        0/0  d2_norm=1.01, linear_stretch=13%
+
+[2026-08-15 00:29:27]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.37 — good separation
+
+[2026-08-15 00:29:27]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-15 00:29:27]     elastic_half_consistency: first-half R²=0.067 vs second-half R²=0.530 (gap=0.463)
+
+[2026-08-15 00:29:27] Score: 86/100 → PASS
+
+[2026-08-15 00:29:27] Good Fit: True
+
+[2026-08-15 00:29:28] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 00:29:28] Average Standard Deviation: 51.565605081202236
+
+[2026-08-15 00:29:28] Toe end strain (zero point): 0.0360
+
+[2026-08-15 00:29:34] PW + Double: 0.10306658207726503
+
+[2026-08-15 00:29:34] Piecewise Chosen! 0.1101197482685837 | Drop Calculation: 0.09997349894798853
+
+[2026-08-15 00:29:56]   elastic_r2                          28/30  NRMSE-score=0.918 (RMSE=2.63, range=31.93)
+
+[2026-08-15 00:29:56]   plateau_r2_start                    14/15  R²(first 40%)=0.940
+
+[2026-08-15 00:29:56]   densification_r2                    14/15  R²=0.922
+
+[2026-08-15 00:29:56]   yield_accuracy                      25/25  elastic tail undershoots data by 2.3% of elastic range
+
+[2026-08-15 00:29:56]   junction_continuity                 14/15  gap=1.0%
+
+[2026-08-15 00:29:56]   plateau_r2_full_penalty              0/0  R²(full)=0.953
+
+[2026-08-15 00:29:56]   elastic_modulus_penalty              0/0  E=325.6 bar ok
+
+[2026-08-15 00:29:56]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=31%) — ok | plateau spans 39% of remaining stress — ok
+
+[2026-08-15 00:29:56]   changepoint_curvature_penalty        0/0  d2_norm=1.97, linear_stretch=33%
+
+[2026-08-15 00:29:56]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.47 — good separation
+
+[2026-08-15 00:29:56]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-15 00:29:56]     elastic_half_consistency: first-half R²=0.458 vs second-half R²=0.765 (gap=0.308)
+
+[2026-08-15 00:29:56] Score: 95/100 → PASS
+
+[2026-08-15 00:29:57] Good Fit: True
+
+[2026-08-15 00:29:58] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 00:29:58] Average Standard Deviation: 51.68254936571427
+
+[2026-08-15 00:30:00] Toe end strain (zero point): 0.0000
+
+[2026-08-15 00:30:05] PW + Double: 0.0878457144077338
+
+[2026-08-15 00:30:05] Piecewise Chosen! 0.09295970881296313 | Drop Calculation: 0.08657601318804162
+
+[2026-08-15 00:30:25]   elastic_r2                          28/30  NRMSE-score=0.923 (RMSE=2.35, range=30.73)
+
+[2026-08-15 00:30:25]   plateau_r2_start                    14/15  R²(first 40%)=0.939
+
+[2026-08-15 00:30:25]   densification_r2                    14/15  R²=0.929
+
+[2026-08-15 00:30:25]   yield_accuracy                      25/25  elastic tail undershoots data by 2.4% of elastic range
+
+[2026-08-15 00:30:25]   junction_continuity                 15/15  gap=0.2%
+
+[2026-08-15 00:30:25]   plateau_r2_full_penalty              0/0  R²(full)=0.953
+
+[2026-08-15 00:30:25]   elastic_modulus_penalty              0/0  E=318.6 bar ok
+
+[2026-08-15 00:30:25]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=29%) — ok | plateau spans 37% of remaining stress — ok
+
+[2026-08-15 00:30:25]   changepoint_curvature_penalty        0/0  d2_norm=1.38, linear_stretch=27%
+
+[2026-08-15 00:30:25]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.47 — good separation
+
+[2026-08-15 00:30:25]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-15 00:30:25]     elastic_half_consistency: first-half R²=0.520 vs second-half R²=0.806 (gap=0.286)
+
+[2026-08-15 00:30:25] Score: 96/100 → PASS
+
+[2026-08-15 00:30:25] Good Fit: True
+
+[2026-08-15 00:30:26] CV (17-0add-5deg-120s-N2-1800s): 0.03583158877946328
+
+[2026-08-15 00:30:26] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 00:30:26] Average Standard Deviation: 43.84728516543038
+
+[2026-08-15 00:30:28] Toe end strain (zero point): 0.0000
+
+[2026-08-15 00:30:33] PW + Double: 0.07168081444001663
+
+[2026-08-15 00:30:33] Piecewise Chosen! 0.07705550127886676 | Drop Calculation: 0.07343750940080092
+
+[2026-08-15 00:30:51]   elastic_r2                          29/30  NRMSE-score=0.957 (RMSE=1.13, range=26.35)
+
+[2026-08-15 00:30:51]   plateau_r2_start                    15/15  R²(first 40%)=0.990
+
+[2026-08-15 00:30:51]   densification_r2                    15/15  R²=0.975
+
+[2026-08-15 00:30:51]   yield_accuracy                      25/25  elastic tail overshoots data by 0.1% of elastic range
+
+[2026-08-15 00:30:51]   junction_continuity                 15/15  gap=0.1%
+
+[2026-08-15 00:30:51]   plateau_r2_full_penalty              0/0  R²(full)=0.960
+
+[2026-08-15 00:30:51]   elastic_modulus_penalty              0/0  E=363.9 bar ok
+
+[2026-08-15 00:30:51]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=34%) — ok | plateau spans 38% of remaining stress — ok
+
+[2026-08-15 00:30:51]   changepoint_curvature_penalty        0/0  d2_norm=1.25, linear_stretch=27%
+
+[2026-08-15 00:30:51]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.41 — good separation
+
+[2026-08-15 00:30:51] Score: 99/100 → PASS
+
+[2026-08-15 00:30:52] Good Fit: True
+
+[2026-08-15 00:31:25] [3/5] generating initial report...
+
+[2026-08-15 00:31:25] [4/5] running active learning...
+
+[2026-08-15 00:31:49]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_17-0add-5deg-120s-N2-1800s.json
+
+[2026-08-15 00:31:49] [5/5] next params: {'mixing_temp': 80, 'bath_temp': 5, 'pullcast_speed': 20, 'nitrogen': True, 'coupon_to_bath_wait_time': 90, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-15 00:31:49] Python recieved!
+
+[2026-08-15 00:31:49] Exact payload being sent: {"mixing_temp": 80, "bath_temp": 5, "pullcast_speed": 20, "nitrogen": true, "coupon_to_bath_wait_time": 90, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-15 00:31:49] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 80, "bath_temp": 5, "pullcast_speed": 20, "nitrogen": true, "coupon_to_bath_wait_time": 90, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-15 00:31:49] [DONE] 17-0add-5deg-120s-N2-1800s  elapsed=232.4s
+
+[2026-08-15 01:46:02] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Recievied request for membrane with following parameters:
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] {'mixing_temp': 80, 'bath_temp': 5, 'pullcast_speed': 20, 'nitrogen': True, 'coupon_to_bath_wait_time': 90, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Bath chilling process started.
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Beginning zero tests on coupons.
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Opentrons process started.
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] 
+Target recipe
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] -------------
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Total volume:      1000.00 uL
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Target polymer:    17 wt%
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Target additive:   0 wt%
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] 
+Required volumes
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] ----------------
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Normal polymer stock:      1000.00 uL
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Polymer-additive stock:    0.00 uL
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Pure solvent:              0.00 uL
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Total:                     1000.00 uL
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] 
+Final composition check
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] -----------------------
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Polymer:    17.0000 wt%
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Additive:   0.0000 wt%
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Solvent:    83.0000 wt%
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:08] Solution will be pulled from stock polymer bottle.
+
+[2026-08-15 01:46:02] [2026-08-15 04:32:35] Test has started!
+
+[2026-08-15 01:46:02] [2026-08-15 04:35:30] Test complete!
+
+[2026-08-15 01:46:02] [2026-08-15 04:35:35] Safe: True
+
+[2026-08-15 01:46:02] [2026-08-15 04:35:35] Recent: True
+
+[2026-08-15 01:46:02] [2026-08-15 04:35:35] Time: 1786768535.89028
+
+[2026-08-15 01:46:02] [2026-08-15 04:35:35] mTime: 1786768506.0453568
+
+[2026-08-15 01:46:02] [2026-08-15 04:35:48] Test has started!
+
+[2026-08-15 01:46:02] [2026-08-15 04:38:43] Test complete!
+
+[2026-08-15 01:46:02] [2026-08-15 04:38:48] Safe: True
+
+[2026-08-15 01:46:02] [2026-08-15 04:38:48] Recent: True
+
+[2026-08-15 01:46:02] [2026-08-15 04:38:48] Time: 1786768728.8085787
+
+[2026-08-15 01:46:02] [2026-08-15 04:38:48] mTime: 1786768699.1037698
+
+[2026-08-15 01:46:02] [2026-08-15 04:39:01] Test has started!
+
+[2026-08-15 01:46:02] [2026-08-15 04:39:08] entered if statement!!!
+
+[2026-08-15 01:46:02] [2026-08-15 04:41:54] Test complete!
+
+[2026-08-15 01:46:02] [2026-08-15 04:41:59] Safe: True
+
+[2026-08-15 01:46:02] [2026-08-15 04:41:59] Recent: True
+
+[2026-08-15 01:46:02] [2026-08-15 04:41:59] Time: 1786768919.3432093
+
+[2026-08-15 01:46:02] [2026-08-15 04:41:59] mTime: 1786768889.4444158
+
+[2026-08-15 01:46:02] [2026-08-15 04:42:12] Test has started!
+
+[2026-08-15 01:46:02] [2026-08-15 04:45:04] Test complete!
+
+[2026-08-15 01:46:02] [2026-08-15 04:45:09] Safe: True
+
+[2026-08-15 01:46:02] [2026-08-15 04:45:09] Recent: True
+
+[2026-08-15 01:46:02] [2026-08-15 04:45:09] Time: 1786769109.4724348
+
+[2026-08-15 01:46:02] [2026-08-15 04:45:09] mTime: 1786769079.712179
+
+[2026-08-15 01:46:02] [2026-08-15 04:45:35] Joined both subprocesses.
+
+[2026-08-15 01:46:02] [2026-08-15 04:46:18] Pullcast complete.
+
+[2026-08-15 01:46:02] [2026-08-15 04:46:18] Nitrogen on.
+
+[2026-08-15 01:46:02] [2026-08-15 04:48:01] Nitrogen off.
+
+[2026-08-15 01:46:02] [2026-08-15 04:48:12] Membrane sitting in bath for 1800 seconds.
+
+[2026-08-15 01:46:02] [2026-08-15 04:48:22] Nitrogen cap has been put away.
+
+[2026-08-15 01:46:02] [2026-08-15 04:48:37] Ring has been placed on the coupon.
+
+[2026-08-15 01:46:02] [2026-08-15 04:51:18] Cleaning knife
+
+[2026-08-15 01:46:02] [2026-08-15 04:52:18] Knife cleaning finished.
+
+[2026-08-15 01:46:02] [2026-08-15 05:28:46] Initial membrane picture taken.
+
+[2026-08-15 01:46:02] [2026-08-15 05:29:15] Test has started!
+
+[2026-08-15 01:46:02] [2026-08-15 05:32:54] Test complete!
+
+[2026-08-15 01:46:02] [2026-08-15 05:32:59] Safe: True
+
+[2026-08-15 01:46:02] [2026-08-15 05:32:59] Recent: True
+
+[2026-08-15 01:46:02] [2026-08-15 05:32:59] Time: 1786771979.7731545
+
+[2026-08-15 01:46:02] [2026-08-15 05:32:59] mTime: 1786771950.0336566
+
+[2026-08-15 01:46:02] [2026-08-15 05:33:12] Test has started!
+
+[2026-08-15 01:46:02] [2026-08-15 05:36:51] Test complete!
+
+[2026-08-15 01:46:02] [2026-08-15 05:36:56] Safe: True
+
+[2026-08-15 01:46:02] [2026-08-15 05:36:56] Recent: True
+
+[2026-08-15 01:46:02] [2026-08-15 05:36:56] Time: 1786772216.9124148
+
+[2026-08-15 01:46:02] [2026-08-15 05:36:56] mTime: 1786772187.2268128
+
+[2026-08-15 01:46:02] [2026-08-15 05:37:09] Test has started!
+
+[2026-08-15 01:46:02] [2026-08-15 05:40:48] Test complete!
+
+[2026-08-15 01:46:02] [2026-08-15 05:40:53] Safe: True
+
+[2026-08-15 01:46:02] [2026-08-15 05:40:53] Recent: True
+
+[2026-08-15 01:46:02] [2026-08-15 05:40:53] Time: 1786772453.346798
+
+[2026-08-15 01:46:02] [2026-08-15 05:40:53] mTime: 1786772423.5795662
+
+[2026-08-15 01:46:02] [2026-08-15 05:41:06] Test has started!
+
+[2026-08-15 01:46:02] [2026-08-15 05:44:47] Test complete!
+
+[2026-08-15 01:46:02] [2026-08-15 05:44:52] Safe: True
+
+[2026-08-15 01:46:02] [2026-08-15 05:44:52] Recent: True
+
+[2026-08-15 01:46:02] [2026-08-15 05:44:52] Time: 1786772692.7200172
+
+[2026-08-15 01:46:02] [2026-08-15 05:44:52] mTime: 1786772662.8702593
+
+[2026-08-15 01:46:02] [2026-08-15 05:45:18] Final membrane picture taken.
+
+[2026-08-15 01:46:02] [2026-08-15 05:45:35] Coupon successfully discarded.
+
+[2026-08-15 01:46:02] [2026-08-15 05:46:21] Done
+
+[2026-08-15 01:46:02] [2026-08-15 05:46:21] {'temperature': '23.16', 'humidity': '43.05'}
+
+[2026-08-15 01:46:02] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-08-15 01:46:02] 
+[1/5] organising files...
+
+[2026-08-15 01:46:02] Condition already tested. New folder: 17-0add-5deg-90s-N2-1800s_run3
+
+[2026-08-15 01:46:02] [START] condition=17-0add-5deg-90s-N2-1800s_run3
+
+[2026-08-15 01:46:02] [2/5] processing pipeline for: 17-0add-5deg-90s-N2-1800s_run3
+
+[2026-08-15 01:46:02] ==============================================================================================================
+
+[2026-08-15 01:46:02] Condition: 17-0add-5deg-90s-N2-1800s_run3 | pairs: 4
+
+[2026-08-15 01:46:03] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 01:46:03] Average Standard Deviation: 51.86892776438221
+
+[2026-08-15 01:46:07] Toe end strain (zero point): 0.0000
+
+[2026-08-15 01:46:13] PW + Double: 0.102717317940696
+
+[2026-08-15 01:46:13] Piecewise Chosen! 0.11678174345164771 | Drop Calculation: 0.11643527166484832
+
+[2026-08-15 01:46:39]   elastic_r2                          27/30  NRMSE-score=0.915 (RMSE=2.59, range=30.32)
+
+[2026-08-15 01:46:39]   plateau_r2_start                    14/15  R²(first 40%)=0.962
+
+[2026-08-15 01:46:39]   densification_r2                    13/15  R²=0.859
+
+[2026-08-15 01:46:39]   yield_accuracy                      25/25  elastic tail undershoots data by 2.2% of elastic range
+
+[2026-08-15 01:46:39]   junction_continuity                 14/15  gap=0.8%
+
+[2026-08-15 01:46:39]   plateau_r2_full_penalty              0/0  R²(full)=0.955
+
+[2026-08-15 01:46:39]   elastic_modulus_penalty              0/0  E=246.5 bar ok
+
+[2026-08-15 01:46:39]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=24%) — ok | plateau spans 49% of remaining stress — ok
+
+[2026-08-15 01:46:39]   changepoint_curvature_penalty        0/0  d2_norm=4.37, linear_stretch=13%
+
+[2026-08-15 01:46:39]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.40 — good separation
+
+[2026-08-15 01:46:39]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-15 01:46:39]     elastic_half_consistency: first-half R²=0.360 vs second-half R²=0.719 (gap=0.359)
+
+[2026-08-15 01:46:39] Score: 93/100 → PASS
+
+[2026-08-15 01:46:40] Good Fit: True
+
+[2026-08-15 01:46:41] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 01:46:41] Average Standard Deviation: 53.155690182327135
+
+[2026-08-15 01:46:46] Toe end strain (zero point): 0.0000
+
+[2026-08-15 01:46:52] PW + Double: 0.10076123210180125
+
+[2026-08-15 01:46:52] Piecewise Chosen! 0.11768230693841297 | Drop Calculation: 0.11103187406583297
+
+[2026-08-15 01:47:17]   elastic_r2                          28/30  NRMSE-score=0.926 (RMSE=2.38, range=32.13)
+
+[2026-08-15 01:47:17]   plateau_r2_start                    14/15  R²(first 40%)=0.951
+
+[2026-08-15 01:47:17]   densification_r2                    14/15  R²=0.905
+
+[2026-08-15 01:47:17]   yield_accuracy                      25/25  elastic tail undershoots data by 2.2% of elastic range
+
+[2026-08-15 01:47:17]   junction_continuity                 15/15  gap=0.5%
+
+[2026-08-15 01:47:17]   plateau_r2_full_penalty              0/0  R²(full)=0.978
+
+[2026-08-15 01:47:17]   elastic_modulus_penalty              0/0  E=249.1 bar ok
+
+[2026-08-15 01:47:17]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=39%) — ok | plateau spans 37% of remaining stress — ok
+
+[2026-08-15 01:47:17]   changepoint_curvature_penalty        0/0  d2_norm=4.68, linear_stretch=13%
+
+[2026-08-15 01:47:17]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.31 — good separation
+
+[2026-08-15 01:47:17] Score: 96/100 → PASS
+
+[2026-08-15 01:47:18] Good Fit: True
+
+[2026-08-15 01:47:19] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 01:47:19] Average Standard Deviation: 52.25256206741682
+
+[2026-08-15 01:47:19] Toe end strain (zero point): 0.0644
+
+[2026-08-15 01:47:25] PW + Double: 0.17363081460419175
+
+[2026-08-15 01:47:25] Piecewise Chosen! 0.20364057658805101 | Drop Calculation: 0.17427768313505404
+
+[2026-08-15 01:47:43]   elastic_r2                          28/30  NRMSE-score=0.928 (RMSE=2.65, range=36.94)
+
+[2026-08-15 01:47:43]   plateau_r2_start                    12/15  R²(first 40%)=0.824
+
+[2026-08-15 01:47:43]   densification_r2                    15/15  R²=0.986
+
+[2026-08-15 01:47:43]   yield_accuracy                      25/25  elastic tail undershoots data by 3.0% of elastic range
+
+[2026-08-15 01:47:43]   junction_continuity                 15/15  gap=0.1%
+
+[2026-08-15 01:47:43]   plateau_r2_full_penalty              0/0  R²(full)=0.963
+
+[2026-08-15 01:47:43]   elastic_modulus_penalty              0/0  E=195.6 bar ok
+
+[2026-08-15 01:47:43]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=14%) — ok | plateau spans 28% of remaining stress — ok
+
+[2026-08-15 01:47:43]   changepoint_curvature_penalty        0/0  d2_norm=0.74, linear_stretch=17%
+
+[2026-08-15 01:47:43]   slope_ratio_penalty                 -6/0  plateau/elastic slope ratio=0.62 — nearly parallel (-6 pts)
+
+[2026-08-15 01:47:43]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-15 01:47:43]     elastic_half_consistency: first-half R²=0.355 vs second-half R²=0.871 (gap=0.516)
+
+[2026-08-15 01:47:43] Score: 89/100 → PASS
+
+[2026-08-15 01:47:43] Good Fit: True
+
+[2026-08-15 01:47:44] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 01:47:44] Average Standard Deviation: 52.925477250856055
+
+[2026-08-15 01:47:44] Toe end strain (zero point): 0.0667
+
+[2026-08-15 01:47:48] PW + Double: 0.06776915474952497
+
+[2026-08-15 01:47:48] Piecewise Chosen! 0.05763596570441442 | Drop Calculation: 0.17171638789062266
+
+[2026-08-15 01:48:10]   elastic_r2                          26/30  NRMSE-score=0.869 (RMSE=0.60, range=4.60)
+
+[2026-08-15 01:48:10]   plateau_r2_start                     0/15  insufficient data
+
+[2026-08-15 01:48:10]   densification_r2                     0/15  insufficient data
+
+[2026-08-15 01:48:10]   yield_accuracy                      24/25  elastic tail undershoots data by 12.6% of elastic range
+
+[2026-08-15 01:48:10]   junction_continuity                  0/15  gap=18.3%
+
+[2026-08-15 01:48:10]   elastic_modulus_penalty              0/0  E=41.7 bar ok
+
+[2026-08-15 01:48:10]   bp1_accuracy_penalty                -35/0  GAM slope drops 46% in early plateau — bp1 suspect | plateau spans 127% of remaining stress — elastic peak likely wrong
+
+[2026-08-15 01:48:10]   catastrophic_slope_vs_modulus        0/0  slope ratio=5.62 — plateau slope ≥95% of elastic
+
+[2026-08-15 01:48:10]   CATASTROPHIC HALVING: 15 → 8
+
+[2026-08-15 01:48:10]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-08-15 01:48:10]     elastic_half_consistency: first-half R²=-2.006 vs second-half R²=0.308 (gap=2.315)
+
+[2026-08-15 01:48:10] Score: 8/100 → FAIL
+
+[2026-08-15 01:48:17] PW + Double: 0.16896974529246467
+
+[2026-08-15 01:48:17] Piecewise Chosen! 0.1850148016826758 | Drop Calculation: 0.14447709714991117
+
+[2026-08-15 01:48:38]   elastic_r2                          28/30  NRMSE-score=0.928 (RMSE=2.24, range=31.11)
+
+[2026-08-15 01:48:38]   plateau_r2_start                    14/15  R²(first 40%)=0.947
+
+[2026-08-15 01:48:38]   densification_r2                    13/15  R²=0.864
+
+[2026-08-15 01:48:38]   yield_accuracy                      25/25  elastic tail undershoots data by 1.3% of elastic range
+
+[2026-08-15 01:48:38]   junction_continuity                 14/15  gap=0.8%
+
+[2026-08-15 01:48:38]   plateau_r2_full_penalty              0/0  R²(full)=0.954
+
+[2026-08-15 01:48:38]   elastic_modulus_penalty              0/0  E=239.7 bar ok
+
+[2026-08-15 01:48:38]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=39%) — ok | plateau spans 44% of remaining stress — ok
+
+[2026-08-15 01:48:38]   changepoint_curvature_penalty        0/0  d2_norm=4.74, linear_stretch=10%
+
+[2026-08-15 01:48:38]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.40 — good separation
+
+[2026-08-15 01:48:38] Score: 94/100 → PASS
+
+[2026-08-15 01:48:38]   toe-mask retry: masked strain < 0.0576, good=True
+
+[2026-08-15 01:48:38] Good Fit: True
+
+[2026-08-15 01:48:39] CV (17-0add-5deg-90s-N2-1800s_run3): 0.08442234539550235
+
+[2026-08-15 01:48:39] 
+
+------------ NEW REP ---------------
+
+[2026-08-15 01:48:39] Average Standard Deviation: 43.89633239501222
+
+[2026-08-15 01:48:41] Toe end strain (zero point): 0.0000
+
+[2026-08-15 01:48:46] PW + Double: 0.12992161391937068
+
+[2026-08-15 01:48:46] Piecewise Chosen! 0.14491482603782518 | Drop Calculation: 0.133951792095276
+
+[2026-08-15 01:49:17]   elastic_r2                          29/30  NRMSE-score=0.951 (RMSE=1.41, range=28.97)
+
+[2026-08-15 01:49:17]   plateau_r2_start                    15/15  R²(first 40%)=0.993
+
+[2026-08-15 01:49:17]   densification_r2                    14/15  R²=0.938
+
+[2026-08-15 01:49:17]   yield_accuracy                      25/25  elastic tail undershoots data by 1.6% of elastic range
+
+[2026-08-15 01:49:17]   junction_continuity                 14/15  gap=0.9%
+
+[2026-08-15 01:49:17]   plateau_r2_full_penalty              0/0  R²(full)=0.946
+
+[2026-08-15 01:49:17]   elastic_modulus_penalty              0/0  E=235.4 bar ok
+
+[2026-08-15 01:49:17]   bp1_accuracy_penalty                 0/0  GAM slope stable in early plateau (drop=30%) — ok | plateau spans 42% of remaining stress — ok
+
+[2026-08-15 01:49:17]   changepoint_curvature_penalty        0/0  d2_norm=2.84, linear_stretch=20%
+
+[2026-08-15 01:49:17]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.41 — good separation
+
+[2026-08-15 01:49:17] Score: 97/100 → PASS
+
+[2026-08-15 01:49:17] Good Fit: True
+
+[2026-08-15 01:49:53] [3/5] generating initial report...
+
+[2026-08-15 01:49:53] [4/5] running active learning...
+
+[2026-08-15 01:50:17]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_17-0add-5deg-90s-N2-1800s_run3.json
+
+[2026-08-15 01:50:17] [5/5] next params: {'mixing_temp': 80, 'bath_temp': 5, 'pullcast_speed': 18, 'nitrogen': True, 'coupon_to_bath_wait_time': 105, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0}}
+
+[2026-08-15 01:50:17] Python recieved!
+
+[2026-08-15 01:50:17] Exact payload being sent: {"mixing_temp": 80, "bath_temp": 5, "pullcast_speed": 18, "nitrogen": true, "coupon_to_bath_wait_time": 105, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-15 01:50:17] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 80, "bath_temp": 5, "pullcast_speed": 18, "nitrogen": true, "coupon_to_bath_wait_time": 105, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0}}
+
+[2026-08-15 01:50:17] [DONE] 17-0add-5deg-90s-N2-1800s_run3  elapsed=254.9s
+
+[2026-08-15 13:24:13] 
+stopping server...
+
