@@ -335,14 +335,6 @@ def delayed_knife_cleaning(delay = 0):
     armLock.release()
     print("Knife cleaning finished.")
 
-# return air data from coupon pullcast location    
-def measure_pullcast_air(coupon_wait_time):
-    time.sleep(coupon_wait_time / 2)
-    air_data = arduino.read_2nd_temp_humidity()
-    print(f"Air data from pullcast location: {air_data}")
-    return air_data
-
-
 
 # ==============================================================================================================================
 # SECTION: Main Function
@@ -467,12 +459,27 @@ def run_test(param = None):
     if nitrogen:
         arduino.start_blow()
         print("Nitrogen on.")
-        xArm.put_cap(hover_time = coupon_to_bath_wait_time)
+        
+        # place cap over coupon
+        hover_process = threading.Thread(target=xArm.put_cap, args=(coupon_to_bath_wait_time, ))
+        hover_process.start()
+        
+        # take air measurement
+        time.sleep(coupon_to_bath_wait_time / 2)
+        membrane_air_data = arduino.read_2nd_temp_humidity()
+        
+        # stop nitrgoen
+        hover_process.join()
         arduino.stop_blow()
         print("Nitrogen off.")
     else:
         time.sleep(coupon_to_bath_wait_time)
-
+        membrane_air_data = arduino.read_2nd_temp_humidity()
+    
+    # get ambient air data
+    parameters["air_data"] = arduino.read_temp_humidity()
+    print(parameters["air_data"])
+    
     # place coupon in water bath
     xArm.put_coupon_bath()
     globals()["opentrons_stand_status"] = "empty"
@@ -613,8 +620,6 @@ def run_test(param = None):
     
     # finish
     print("Done")
-    parameters["air_data"] = arduino.read_temp_humidity()
-    print(parameters["air_data"])
     url.start_processing(parameters, protocol_log=_capture.lines.copy()) # tell the pc that the test is done so it can go process the files
     _capture.lines.clear()  # reset log buffer for next run
 
