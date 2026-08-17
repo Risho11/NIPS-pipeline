@@ -345,12 +345,6 @@ class OT2:
                 # allow the excess liquid in tip to settle towards tip orifice
                 self.protocol.delay(self.var[viscosity]["mix_delay"])
 
-                # replace tip half way through
-                #if i == 4 and self.var[viscosity]["mix_times"] >= 10:
-                   # self._blowout(viscous = viscous)
-                   # self._drop()
-                   # self.attach_next_tip()
-
             else:
                 self._dispense(slot_no, well_no, self.var[viscosity]["mix_vol"]/2, for_mixing = True, blow_out = False\
                                , viscous = viscous, position = "bottom")
@@ -395,34 +389,7 @@ class OT2:
         self.prep_pullcast_asperate(heater_slot_no, self.heater_well_index, vol, viscous)
         self.heater_well_index += 1
 
-    """"
-    # assume no pippette tip to begin, but does not drop tip at the end (we'll use the same tip for pullcast)
-    def _prepare_solution(self, desired_weight_percent, total_vol, viscous: bool = True, position: str = "bottom"):
-        rho_solution = 1.114867
-        rho_solvent = 1.0148
-        C_i = polymer_stock_wt_percent/100
-        C_f = desired_weight_percent/100
-        V_f = total_vol
-        V_c = round(((C_i-C_f)*V_f*rho_solution)/(C_i*rho_solution - C_f*rho_solution + C_f*rho_solvent),0)
-        V_i = round(V_f - V_c,0)
-        print(f"Solvent: {V_c} uL", f"Solution: {V_i} uL")
-        if total_vol > 1000:
-            # raise error
-            raise ValueError("Final volume cannot exceed 1000 µL.")
-        
-        # actually mix the solution
-        if V_c != 0:
-            self.attach_next_tip()
-            self._transfer(solvent_slot_no, solvent_well_no, heater_slot_no, self.heater_well_index, V_c, False)
-            self._drop()
-            self.attach_next_tip()
-            self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_i)
-            self._mix(heater_slot_no, self.heater_well_index)
-        else: # no mixing required if desired weight percent is same as the stock
-            self.attach_next_tip()
-            self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_i)
-        
-    """        
+    
 
     def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent, mixing_temp):
         # declare variables to pass to function
@@ -458,30 +425,38 @@ class OT2:
         
         # else, solution must be mixed
         else:
+            # variable for keeping track of tips
+            tip = False
+
             # set mixing temperature
             if(self.has_temp()):
                 self._set_temp(mixing_temp)
 
             # add solvent to well
             if V_solvent > 0:
+                if tip:
+                    self._drop()
                 self.attach_next_tip()
+                tip = True
                 self._transfer(solvent_slot_no, solvent_well_no, heater_slot_no, self.heater_well_index, V_solvent, False)
-                self._drop()
 
             # add additive solution to well
             if V_additive_polymer > 0:
+                if tip:
+                    self._drop()
                 self.attach_next_tip()
+                tip = True
                 self._transfer(additive_1_slot_no, additive_1_well_no, heater_slot_no, self.heater_well_index, V_additive_polymer)
-                self._drop()
 
             # add stock solution to well
             if V_normal_polymer > 0:
+                if tip:
+                    self._drop()
                 self.attach_next_tip()
+                tip = True
                 self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_normal_polymer)
-                self._drop()
 
             # mix solution and prep for pullcast
-            self.attach_next_tip()
             self._mix(heater_slot_no, self.heater_well_index)
             self.prep_pullcast_from_mix_asperate(total_vol, True)
         
