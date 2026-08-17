@@ -431,6 +431,7 @@ class LoopHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = urlparse(self.path).path
+
         if path == "/compressiontester/status":
             self.send_response(200)
             self.end_headers()
@@ -439,12 +440,21 @@ class LoopHandler(BaseHTTPRequestHandler):
             with open(latest) as f:
                 data = list(csv.reader(f))
             safe = float(data[-1][5]) < -6
-            self.wfile.write(json.dumps({"safe": safe, "time": os.path.getmtime(latest)}).encode())
+            mtime = os.path.getmtime(latest)
+            now = time.time()  # PC's own clock, captured at the moment of the request
+            self.wfile.write(json.dumps({
+                "safe": safe,
+                "time": mtime,          # kept for backward compatibility / debugging
+                "current time": now,              # PC's clock at request time -- lets caller detect skew
+                "age": now - mtime,      # computed entirely on the PC's clock -- no cross-machine math needed
+            }).encode())
+
         elif path == "/camera/snapshot":
             self.send_response(200)
             self.end_headers()
             take_snapshot()
             self.wfile.write(json.dumps(True).encode())
+
         else:
             self.send_response(404)
             self.end_headers()

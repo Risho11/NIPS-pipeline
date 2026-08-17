@@ -292,11 +292,12 @@ def run_compression_tests():
                     # use the data from the laptop to make sure the test finished correctly
                     data = url.get_compressiontester_status()
                     safe = data["safe"]
-                    recent = (time.time() - data["time"]) < 30
+                    recent = (data["age"]) < 30
                     print("Safe: " + str(safe))
                     print("Recent: " + str(recent))
-                    print("Time: " + str(time.time()))
-                    print("mTime: " + str(data["time"]))
+                    print("Current Time: " + str(data["current time"]))
+                    print("Data Time: " + str(data["time"]))
+                    print("Age: " + str(data["age"]))
                 if safe and recent:
                     armLock.acquire()
                     xArm.pick_up(test)
