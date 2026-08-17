@@ -79,7 +79,7 @@ class Uno:
 
         if time.time() > endTime:
             print(f"Tester has not responded after {timeout_time} seconds, aborting.")
-            return 1
+            return False # not safe
         else:
             print("Test has started!")
 
@@ -93,7 +93,7 @@ class Uno:
             time.sleep(0.1)
 
         print("Test complete!")
-        return 0
+        return True # safe
 
     # ---------------- SHT40 Temp/Humidity ----------------
 

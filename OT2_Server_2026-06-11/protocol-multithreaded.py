@@ -286,8 +286,8 @@ def run_compression_tests():
                 if safe and recent:
                     xArm.put_down(test)
                     armLock.release() # nothing here needs a deadline anymore so we're free to release the arm
-                    safe = not arduino.run_test()
-                if safe:
+                    safe = arduino.run_test()
+                if safe and recent:
                     time.sleep(5) # make sure newton software has finished processing the test into a .csv file
                     # use the data from the laptop to make sure the test finished correctly
                     data = url.get_compressiontester_status()
