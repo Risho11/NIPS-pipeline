@@ -11,7 +11,7 @@ import time
 
 arduino_port = '/dev/serial/by-id/usb-Arduino__www.arduino.cc__0043_75130303036351E02061-if00'
 BAUD_RATE = 115200
-timeout_time = 10
+timeout_time = 5
 
 
 class Uno:
