@@ -4,6 +4,21 @@ import sys
 sys.path.append("/var/lib/jupyter/notebooks/xArm-Python-SDK-master1")
 from xarm.wrapper import XArmAPI
 
+ip_address = "192.168.1.198"
+
+default_speed = 250 # mm/s
+waypoint_speed = 250 # mm/s
+pullcast_speed = 50 # mm/s
+grab_speed = 100 # mm/s
+
+coupon_spacing = 20 # mm
+ring_spacing = 15 # mm
+final_thickness = 8 # mm, thickness of the final assembly we put in the discard stack
+
+coupon_offset = [coupon_spacing, 0.3, 0, 0, 0, 0]
+ring_offset = [-ring_spacing, 0, 0, 0, 0, 0]
+discard_offset = [0, 0, final_thickness, 0, 0, 0]
+
 # coordinates are in the form [x, y, z, roll, pitch, yaw]
 # waypoints are absolute
 waypoints = {
@@ -214,21 +229,6 @@ positions = {
     }
 }
 
-ip_address = "192.168.1.198"
-
-default_speed = 250 # mm/s
-waypoint_speed = 250 # mm/s
-pullcast_speed = 50 # mm/s
-grab_speed = 100 # mm/s
-
-coupon_spacing = 20 # mm
-ring_spacing = 15 # mm
-final_thickness = 8 # mm, thickness of the final assembly we put in the discard stack
-
-coupon_offset = [coupon_spacing, 0.3, 0, 0, 0, 0]
-ring_offset = [-ring_spacing, 0, 0, 0, 0, 0]
-discard_offset = [0, 0, final_thickness, 0, 0, 0]
-
 # actual arm class, the whole point of this file
 class Arm():
     xArm = None
@@ -237,6 +237,10 @@ class Arm():
     coupons = 0
     discards = 0
     camera_box_open = None
+
+    # ==================================================
+    # SECTION: Tier 1 Functions
+    # ==================================================
     
     def clean(self):
         self.xArm.clean_error()
@@ -261,7 +265,8 @@ class Arm():
             self.xArm.set_position(x=coordinates[0]+offset[0], y=coordinates[1]+offset[1], z=coordinates[2]+offset[2], roll=coordinates[3]+offset[3], pitch=coordinates[4]+offset[4], yaw=coordinates[5]+offset[5], speed=speed, wait = True)
         else:
             self.xArm.set_position(x=coordinates[0]+offset[0], y=coordinates[1]+offset[1], z=coordinates[2]+offset[2], roll=coordinates[3]+offset[3], yaw=coordinates[5]+offset[5], speed=speed, wait = True)
-    
+
+    # inialization of arm
     def __init__(self, coupons=1, rings=1, discards = 0, home=True, camera_box_open = True):
         self.xArm = XArmAPI(ip_address)
         self.clean()
@@ -286,8 +291,18 @@ class Arm():
         self.xArm.open_bio_gripper()
         self.xArm.set_bio_gripper_force(100)
 
+    # simple gripper functions
+    def close_gripper(self):
+        self.xArm.close_bio_gripper()
+            
+    def open_gripper(self):
+        self.xArm.open_bio_gripper()
+
+    # ==================================================
+    # SECTION: Tier 2 Functions
+    # ==================================================
+
     # go from current zone to destination zone, using waypoints
-    # when moving to tester or opentrons, make sure to go through middle waypoint, to avoid arm crashing into back of fume hood
     def immigrate(self, destination, pitch = True):
         self.go_to(waypoints[self.currentZone], pitch=pitch)
         
@@ -296,13 +311,6 @@ class Arm():
         
         self.go_to(waypoints[destination], speed=waypoint_speed, pitch=pitch)
         self.currentZone = destination
-    
-    # simple gripper functions
-    def close_gripper(self):
-        self.xArm.close_bio_gripper()
-        
-    def open_gripper(self):
-        self.xArm.open_bio_gripper()
     
     # go to named position, automatically immigrate to new zone if required
     def go_to_position(self, zone, position, speed = default_speed, pitch = True):
@@ -329,7 +337,9 @@ class Arm():
         self.open_gripper()
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch)
         
-    # pick up 
+    # ==================================================
+    # SECTION: Tier 3 Functions
+    # ==================================================
     
     # from stand, perform pullcast on coupon, return knife to stand
     def pullcast(self, speed = pullcast_speed, force = 10):
@@ -463,7 +473,8 @@ class Arm():
             self.go_to_position("middle", "camera open waypoint")
             self.open_gripper()
             self.camera_box_open = True
-            
+
+    # cleans knife        
     def clean_knife(self, brush_cycles = 5, dry_cycles = 5):
         # grab knife
         self.pick_up("knife bath")
@@ -492,12 +503,14 @@ class Arm():
         # put knife back on stand
         self.put_down("knife stand")
 
+    # helper function for dry_tester()
     def squeegee(self, position, speed):
         self.go_to_position("tester", "squeegee " + position + " waypoint 1")
         self.go_to_position("tester", "squeegee " + position + " waypoint 2")
         self.go_to_position("tester", "squeegee " + position + " start")
         self.go_to_position("tester", "squeegee " + position + " end", speed = speed)
-        
+
+    # dries the compression tester    
     def dry_tester(self, squeegee_cycles = 1, pin_cycles = 2, speed = 250, middle = True):
         # pickup squeegee
         self.go_to_position("tester", "squeegee stand waypoint 1")
@@ -533,11 +546,6 @@ class Arm():
         self.put_down("squeegee")
         self.go_to_position("tester", "squeegee stand waypoint 2")
         self.go_to_position("tester", "squeegee stand waypoint 1")
-        
-    def hover_bath(self, wait_time = 600):
-        self.go_to_position("tester", "hover bath waypoint", pitch = False)
-        self.go_to_position("tester", "hover bath", pitch = False)
-        time.sleep(wait_time)
-        self.go_to_position("tester", "hover bath waypoint", pitch = False)
+
         
        

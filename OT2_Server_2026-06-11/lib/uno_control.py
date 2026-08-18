@@ -95,8 +95,9 @@ class Uno:
         print("Test complete!")
         return True # safe
 
-    # ---------------- SHT40 Temp/Humidity ----------------
+    # -------------- SHT40/31 Temp/Humidity ---------------
 
+    # SHT40
     def read_temp_humidity(self):
         """
         Returns (temp_C, humidity_pct) as floats, or None if the read failed.
@@ -116,7 +117,8 @@ class Uno:
         except (ValueError, AttributeError):
             print(f"Unexpected response from sensor: {response!r}")
             return None
-        
+
+    # SHT31    
     def read_2nd_temp_humidity(self):
         """
         Returns (temp_C, humidity_pct) as floats, or None if the read failed.

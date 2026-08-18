@@ -40,14 +40,6 @@ parametersLock = threading.Lock() # make sure two processes aren't trying to sav
 with open('robot.json') as robot_file:
     robot = json.load(robot_file)
 
-coupons = robot["coupons"] # number of clean coupons in the stack
-rings = robot["rings"] # number of rings on the stand
-discard = robot["discard"] # number of dirty coupons/rings in the discard stack
-tip_index = robot["tip_index"] # current index of the tip rack in the opentrons, starting from 0
-heater_well_index = robot["heater_well_index"] # current index of the heater block in the opentrons, starting from 0
-opentrons_stand_status = robot["opentrons_stand_status"] # "empty", "clean" or "dirty"
-camera_box_open = robot["camera_box_open"] # True if the box is open and false if it's closed
-
 runProcess = None # no current process
 
 # ==================================================
@@ -89,8 +81,8 @@ error_check()
 # initialize Arm, Arduino (CompressionTester & NitrogenBlower), Chiller, & Opentrons
 chiller = BathChiller()
 arduino = Uno() # compression tester should not be connected to arduino while initializing, may accidentally start test
-xArm = Arm(coupons = coupons, rings = rings, discards = discard, camera_box_open = camera_box_open)
-opentrons = OT2(tip_index = tip_index, heater = True, heater_well_index = heater_well_index)
+xArm = Arm(coupons = robot["coupons"], rings = robot["rings"], discards = robot["discard"], camera_box_open = robot["camera_box_open"])
+opentrons = OT2(tip_index = robot["tip_index"], heater = True, heater_well_index = robot["heater_well_index"])
 
 opentrons._drop() # drop tip if we have one
 xArm.open_gripper()
@@ -101,11 +93,11 @@ xArm.open_gripper()
 
 # prompt user to make sure machine is the state specified by the file
 print("Please confirm that the machine is in the following state:\n")
-print("Coupons in Pile: " + str(coupons))
-print("Rings on Stand: " + str(rings))
-print("Assemblies in Discard Pile: " + str(discard))
-print("The first tip in the tip rack is in well no. " + str(tip_index + 1))
-print("The first clean well in the heater is well no. " + str(heater_well_index + 1))
+print("Coupons in Pile: " + str(robot["coupons"]))
+print("Rings on Stand: " + str(robot["rings"]))
+print("Assemblies in Discard Pile: " + str(robot["discard"]))
+print("The first tip in the tip rack is in well no. " + str(robot["tip_index"] + 1))
+print("The first clean well in the heater is well no. " + str(robot["heater_well_index"] + 1))
 print("All coupon stands (opentrons, bath, compression tester) are empty")
 print("The knife is dry and on the knife stand")
 print("The N2 cap is on the stand")
@@ -633,4 +625,7 @@ def run_test(param = None):
 # set up server, class definition at top of the document
 if __name__ == '__main__':
     server = HTTPServer(("169.254.46.48", 8000), RequestHandler)
+    print("Ready to begin experiments.")
     server.serve_forever()
+
+print("Error: Server not running.") # program should never reach this

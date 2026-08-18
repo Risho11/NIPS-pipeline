@@ -13,6 +13,12 @@ class BathChiller():
         self.chiller = Chiller(port = chiller_port)
         self.chiller.set_watchdog_safety_temperature(10)
         self.chiller.start_heating()
+
+    def turn_off(self):
+            self.chiller.stop_heating()
+        
+    def turn_on(self):
+        self.chiller.start_heating()
     
     def get_temperature(self):
         return self.chiller.temperature()
@@ -39,11 +45,8 @@ class BathChiller():
             time.sleep(timestep)
             current_temperature = self.get_temperature()
 
+        print(f"Reached target temperature of {temperature}.")
+
         return 0
     
-    def turn_off(self):
-        self.chiller.stop_heating()
-    
-    def turn_on(self):
-        self.chiller.start_heating()
     
