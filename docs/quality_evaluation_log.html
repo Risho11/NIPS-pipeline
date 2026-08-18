@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quality Evaluation Log</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 13px;
+       background: #ececec; color: #222; }
+h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
+       display: flex; align-items: baseline; gap: 16px; }
+.page-nav { display: flex; gap: 8px; font-size: 12px; font-weight: normal; }
+.page-nav a { color: #90a4ae; text-decoration: none; padding: 3px 9px; border-radius: 3px; }
+.page-nav a:hover { background: #37474f; color: #fff; }
+.page-nav a.active { background: #455a64; color: #fff; }
+.meta { font-size: 11px; color: #90a4ae; padding: 3px 22px 10px; background: #263238; }
+#filter-bar { display: flex; gap: 12px; align-items: center; padding: 8px 22px;
+              background: #37474f; font-size: 12px; }
+#filter-bar input[type=search] { padding: 4px 8px; border-radius: 3px; border: 1px solid #78909c;
+              font-size: 12px; min-width: 220px; }
+#toggle-all { margin-left: auto; padding: 4px 10px; font-size: 11px; cursor: pointer;
+    background: #546e7a; color: #eceff1; border: 1px solid #78909c; border-radius: 3px; }
+#toggle-all:hover { background: #607d8b; }
+
+.card { margin: 14px 22px; border-radius: 6px; overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,.14); background: #fff; }
+.card-header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    padding: 9px 14px; background: #455a64; color: #fff; font-weight: 600;
+    font-size: 0.97rem; cursor: pointer; user-select: none; }
+.card-header .toggle-icon { font-size: 12px; opacity: .8; transition: transform .18s; flex-shrink: 0; }
+.card-header.collapsed .toggle-icon { transform: rotate(-90deg); }
+.card-header .date { font-size: 11px; opacity: .7; margin-left: auto; font-weight: normal; }
+.card-body.collapsed { display: none; }
+
+.params-line { font-size: 11px; color: #78909c; padding: 8px 14px 0; word-break: break-word; }
+
+.quality-row { display: grid; grid-template-columns: minmax(240px, 38%) 1fr; }
+@media (max-width: 800px) { .quality-row { grid-template-columns: 1fr; } }
+
+.photo-col { padding: 14px; display: flex; flex-direction: column; gap: 8px;
+             border-right: 1px solid #e8e8e8; background: #fafafa; }
+.photo-col img { width: 100%; max-height: 420px; object-fit: contain; background: #111;
+    border: 1px solid #ddd; border-radius: 4px; cursor: zoom-in; }
+.photo-col .cap { font-size: 10.5px; color: #78909c; text-align: center; }
+.photo-col .post-photo { display: flex; align-items: center; gap: 8px; }
+.photo-col .post-photo img { max-height: 90px; width: auto; max-width: 120px; flex-shrink: 0; }
+.photo-col .no-photo { color: #b71c1c; font-size: 12px; padding: 30px 10px; text-align: center; }
+
+.report-col { padding: 14px 18px; overflow-x: auto; }
+.report-col h4, .report-col h5 { margin: 10px 0 4px; color: #37474f; }
+.report-col h4:first-child, .report-col h5:first-child { margin-top: 0; }
+.report-col p { margin: 4px 0 8px; line-height: 1.5; }
+.report-col strong { color: #263238; }
+
+.quality-heuristics { display: flex; flex-direction: column; gap: 2px; }
+.quality-heuristic-row { display: grid; grid-template-columns: 130px 1fr; gap: 10px;
+    padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
+.quality-heuristic-row .q-label { font-weight: 700; font-size: 10.5px; text-transform: uppercase;
+    letter-spacing: .04em; color: #607d8b; }
+.quality-heuristic-row .q-value { font-size: 12.5px; line-height: 1.5; }
+.quality-summary-row { margin-top: 10px; padding: 9px 11px; background: #eceff1;
+    border-left: 3px solid #607d8b; border-radius: 3px; display: flex; flex-direction: column; gap: 2px; }
+.quality-summary-row .q-label { font-size: 10px; text-transform: uppercase; letter-spacing: .04em;
+    color: #78909c; }
+.quality-summary-row .q-value { font-size: 12.5px; font-weight: 600; color: #263238; line-height: 1.5; }
+
+#filter-count { color: #90a4ae; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>Quality Evaluation Log
+  <span class="page-nav">
+    <a href="fit_evaluation_log.html">Fit Evaluation</a>
+    <a href="quality_evaluation_log.html" class="active">Quality Evaluation</a>
+  </span>
+</h1>
+<div class="meta">Generated 2026-08-18 14:08 &nbsp;·&nbsp; 20 condition(s) with a vision-LLM quality report
+  &nbsp;·&nbsp; Click a photo to open full size &nbsp;·&nbsp; newest first
+  &nbsp;·&nbsp; to update: run <code style="background:#263238;padding:1px 4px;border-radius:2px">python EVALUATE/generate_quality_log.py</code> &nbsp;·&nbsp; <span style="color:#ffab91">48 dropped (18 duplicate/stale photo, 30 outdated prompt format)</span></div>
+<div id="filter-bar">
+  <span style="opacity:.7;font-weight:600">Filter:</span>
+  <input id="search-bar" type="search" placeholder="Search conditions…">
+  <span id="filter-count"></span>
+  <button id="toggle-all">Collapse All</button>
+</div>
+
+<div class="card" data-name="17-0add-5deg-60s-N2-1200s">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-60s-N2-1200s</span>
+    <span class="date">2026-08-17 18:48:28</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=60; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=5; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1200; Air Temp Mean=23.49; Humidity Mean=37.42</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_60s_N2_1200s/2026-08-17_18-28-59.jpg" alt="17-0add-5deg-60s-N2-1200s membrane photo"><div class="cap">2026-08-17_18-28-59.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_60s_N2_1200s/2026-08-17_18-44-32.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-17_18-44-32.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible and seated within the aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">A clear gap is present at the top edge — the membrane does not reach the top of the aperture, exposing the backing/frame. Bottom edge appears fully covered.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">The membrane body is largely uniform in color and opacity, with only minor tonal variation; one small faint dark spot is visible near the center-left.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">No prominent wrinkles or trapped air bubbles detected.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">The membrane shows acceptable surface uniformity but has a notable vertical coverage defect at the top edge that warrants attention.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-30s-N2-125s_run3">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-30s-N2-125s_run3</span>
+    <span class="date">2026-08-17 17:41:28</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; polymer_wt=17; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=125; Air Temp Mean=23.54; Humidity Mean=39.19</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_30s_N2_125s_run3/2026-08-17_17-20-03.jpg" alt="17-0add-5deg-30s-N2-125s_run3 membrane photo"><div class="cap">2026-08-17_17-20-03.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_30s_N2_125s_run3/2026-08-17_17-36-25.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-17_17-36-25.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible within the circular test-cell aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">A gap is present at the top edge where the membrane does not fully reach the aperture boundary; bottom edge coverage appears adequate.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">The membrane is predominantly uniform in color and opacity with a consistent pale white/grey appearance across most of its area.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">One visible wrinkle/crease is present near the upper portion of the membrane; no obvious trapped air bubbles detected.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">The membrane shows generally uniform appearance but has a notable top-edge vertical coverage gap and a wrinkle near the upper region that warrant attention.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-60s-N2-1800s_run2">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-60s-N2-1800s_run2</span>
+    <span class="date">2026-08-15 16:04:32</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=60; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=5; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=23.37; Humidity Mean=40.98</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_60s_N2_1800s_run2/2026-08-15_15-41-44.jpg" alt="17-0add-5deg-60s-N2-1800s_run2 membrane photo"><div class="cap">2026-08-15_15-41-44.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_60s_N2_1800s_run2/2026-08-15_16-01-13.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-15_16-01-13.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible and seated in the aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Membrane spans the full top-to-bottom extent of the aperture with no gaps at the top or bottom edges.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">The membrane surface appears largely uniform in color and opacity, with a consistent white/off-white tone across most of the area; no significant patchiness or dark spots detected.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">A notable cluster of wrinkles and what appears to be a torn or folded membrane fragment is present on the right-center portion of the coupon, representing a significant localized defect.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">Membrane shows adequate vertical coverage and general uniformity, but is compromised by a prominent wrinkling/tearing defect on the right side.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-30s-N2-125s_run2">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-30s-N2-125s_run2</span>
+    <span class="date">2026-08-15 14:35:04</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; polymer_wt=17; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=125; Air Temp Mean=23.58; Humidity Mean=45.71</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_30s_N2_125s_run2/2026-08-15_14-13-06.jpg" alt="17-0add-5deg-30s-N2-125s_run2 membrane photo"><div class="cap">2026-08-15_14-13-06.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_30s_N2_125s_run2/2026-08-15_14-31-26.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-15_14-31-26.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">A gap is present at the top edge where the membrane does not reach the aperture boundary; bottom edge appears adequately covered.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">The central membrane area appears largely uniform in color and opacity with no obvious patchiness or dark spots.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">A prominent irregular tear/fold is visible along the upper-left interior edge of the aperture, suggesting the membrane edge is damaged or has partially peeled back in that region.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">The membrane shows an incomplete top-edge vertical coverage defect accompanied by visible tearing/folding at the upper portion, representing a significant coupon integrity concern.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-90s-N2-1800s_run3">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-90s-N2-1800s_run3</span>
+    <span class="date">2026-08-15 01:49:17</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=80; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=20; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; Air Temp Mean=23.16; Humidity Mean=43.05</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_90s_N2_1800s_run3/2026-08-15_01-28-27.jpg" alt="17-0add-5deg-90s-N2-1800s_run3 membrane photo"><div class="cap">2026-08-15_01-28-27.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_90s_N2_1800s_run3/2026-08-15_01-44-59.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-15_01-44-59.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible and present within the aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">A gap is present at the bottom edge where the membrane does not fully reach the lower aperture boundary, exposing backing material — this is a vertical coverage defect.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">The membrane is predominantly uniform white/opaque with only minor tonal variation; no significant patchiness or dark spots.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">One visible elongated wrinkle/fold runs diagonally across the central area; one small trapped air bubble is present near the lower-center region.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">The membrane shows acceptable uniformity but has a notable bottom-edge vertical coverage gap, a diagonal wrinkle, and a small air bubble that collectively represent quality concerns.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-120s-N2-1800s">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-120s-N2-1800s</span>
+    <span class="date">2026-08-15 00:30:52</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=80; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=23.29; Humidity Mean=43.34</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_120s_N2_1800s/2026-08-15_00-11-13.jpg" alt="17-0add-5deg-120s-N2-1800s membrane photo"><div class="cap">2026-08-15_00-11-13.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_120s_N2_1800s/2026-08-15_00-26-54.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-15_00-26-54.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible and seated within the aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">A gap is present at the top edge where the backing is exposed above the membrane; the bottom edge appears to reach the aperture boundary. Top vertical coverage is incomplete — this is a defect.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">The membrane surface appears largely uniform in color and opacity with no significant patchiness or dark spots.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">No wrinkles or trapped air bubbles observed; the top vertical gap is the primary concern.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">The membrane shows good surface uniformity but has a notable top-edge vertical coverage gap that should be flagged for review.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-90s-N2-1800s_run2">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-90s-N2-1800s_run2</span>
+    <span class="date">2026-08-14 23:13:25</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=80; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=18; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; Air Temp Mean=23.45; Humidity Mean=43.37</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_90s_N2_1800s_run2/2026-08-14_22-52-03.jpg" alt="17-0add-5deg-90s-N2-1800s_run2 membrane photo"><div class="cap">2026-08-14_22-52-03.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_90s_N2_1800s_run2/2026-08-14_23-08-59.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-14_23-08-59.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is clearly visible within the aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Full top-to-bottom coverage achieved; membrane reaches both the top and bottom aperture edges with no vertical gaps.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">Surface appears largely uniform in color and opacity with a consistent white/light-grey tone; slight brightness gradient toward the top is likely lighting artifact.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">A notable vertical wrinkle/fold is present along the left side of the membrane, with associated slight buckling; no trapped air bubbles detected.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">Membrane shows good vertical coverage and overall uniformity, but a prominent left-side wrinkle represents a meaningful surface defect requiring attention.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-60s-N2-1800s">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-60s-N2-1800s</span>
+    <span class="date">2026-08-14 21:54:24</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=60; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=23.77; Humidity Mean=49.79</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_60s_N2_1800s/2026-08-14_21-35-07.jpg" alt="17-0add-5deg-60s-N2-1800s membrane photo"><div class="cap">2026-08-14_21-35-07.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_60s_N2_1800s/2026-08-14_21-51-07.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-14_21-51-07.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible within the aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Membrane spans the full top-to-bottom extent of the aperture with no gaps at the top or bottom edges. ✓</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">Largely uniform white/light-grey appearance with a subtle tonal gradient (slightly darker toward center-bottom), but no significant patchiness or opacity variation.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">A small chain of bright white/yellow beads or droplets is visible along the upper-left membrane edge — likely a trapped air bubble streak or debris artifact. No prominent wrinkles detected.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">Membrane is fully seated vertically with good overall uniformity, but a localized bead/bubble artifact along the upper-left edge warrants attention.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-30s-N2-125s">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-30s-N2-125s</span>
+    <span class="date">2026-08-14 20:38:14</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; polymer_wt=17; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=125; Air Temp Mean=23.74; Humidity Mean=49.21</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_30s_N2_125s/2026-08-14_20-19-08.jpg" alt="17-0add-5deg-30s-N2-125s membrane photo"><div class="cap">2026-08-14_20-19-08.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_30s_N2_125s/2026-08-14_20-34-59.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-14_20-34-59.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible within the test-cell aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">The membrane does not reach the top edge of the aperture; a clear gap is present at the top — this is a defect. The bottom edge appears adequately seated.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">The membrane surface appears largely uniform in color and opacity, with a slight tonal gradient (brighter top, slightly cooler center) but no obvious patchy regions or dark spots.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">No prominent wrinkles or trapped air bubbles are visible.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">The membrane is present and visually uniform, but exhibits a notable vertical coverage gap at the top edge of the aperture, representing a seating defect requiring attention.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="10-0add-5deg-6s-N2-121s_run5">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>10-0add-5deg-6s-N2-121s_run5</span>
+    <span class="date">2026-08-13 21:07:01</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=6; nips_bath_wait_time=121; Air Temp Mean=nan; Humidity Mean=nan</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/10_0add_5deg_6s_N2_121s_run5/2026-08-13_20-44-11.jpg" alt="10-0add-5deg-6s-N2-121s_run5 membrane photo"><div class="cap">2026-08-13_20-44-11.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/10_0add_5deg_6s_N2_121s_run5/2026-08-13_21-01-21.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-13_21-01-21.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible and seated within the test-cell aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Membrane spans the full top-to-bottom extent of the aperture with no gap at either the top or bottom edge.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">Surface appears largely uniform in color and opacity; a faint diagonal streak/highlight is visible near the upper-left but is likely a lighting artifact rather than a true thickness variation.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">No significant wrinkles or trapped air bubbles detected; two very minor pinpoint specks are visible centrally but are minimal.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">The membrane coupon presents good overall integrity with full vertical coverage, no notable wrinkles or bubbles, and only trivial surface specks.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-15s-N2-1800s">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-15s-N2-1800s</span>
+    <span class="date">2026-08-13 18:46:04</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=70; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=8; nitrogen=True; coupon_to_bath_wait_time=15; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_15s_N2_1800s/2026-08-13_18-25-24.jpg" alt="17-0add-5deg-15s-N2-1800s membrane photo"><div class="cap">2026-08-13_18-25-24.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_15s_N2_1800s/2026-08-13_18-42-43.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-13_18-42-43.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Membrane does not fully reach the bottom edge of the aperture — a gap is present at the lower portion, exposing the backing. Top edge coverage appears adequate.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">The main membrane body appears largely uniform and white/opaque, though slight shadowing is present near the lower region.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">A prominent horizontal wrinkle/crease is visible across the upper third of the membrane. A dark particulate contaminant or debris is present near the lower-left area of the coupon.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">The membrane shows incomplete vertical coverage at the bottom, a significant transverse wrinkle, and visible surface contamination, indicating a substandard coupon installation.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-90s-N2-1800s">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-90s-N2-1800s</span>
+    <span class="date">2026-08-13 17:29:23</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=80; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=5; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_90s_N2_1800s/2026-08-13_17-13-15.jpg" alt="17-0add-5deg-90s-N2-1800s membrane photo"><div class="cap">2026-08-13_17-13-15.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_90s_N2_1800s/2026-08-13_17-27-39.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-13_17-27-39.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">No membrane is visible within the test-cell aperture; the aperture appears empty, exposing only the metallic cell interior.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="17-0add-5deg-30s-N2-1800s">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>17-0add-5deg-30s-N2-1800s</span>
+    <span class="date">2026-08-13 16:15:20</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=60; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=5; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=24.36; Humidity Mean=46.34</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/17_0add_5deg_30s_N2_1800s/2026-08-13_15-56-40.jpg" alt="17-0add-5deg-30s-N2-1800s membrane photo"><div class="cap">2026-08-13_15-56-40.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/17_0add_5deg_30s_N2_1800s/2026-08-13_16-13-09.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-13_16-13-09.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible and seated within the test-cell aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">A gap is present at the top edge where the membrane does not reach the upper aperture boundary; bottom edge appears adequately covered.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">Mostly uniform white/light-grey appearance across the central area; a notable darker shadow/discoloration patch is visible on the lower-left region.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">No prominent wrinkles detected; the lower-left dark patch may indicate a trapped air bubble or localized delamination.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">Membrane is present but shows an incomplete top-edge vertical coverage gap and a suspicious lower-left discoloration patch warranting further inspection.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="10-0add-5deg-6s-N2-121s_run4">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>10-0add-5deg-6s-N2-121s_run4</span>
+    <span class="date">2026-08-13 15:00:12</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=6; nips_bath_wait_time=121; Air Temp Mean=24.88; Humidity Mean=45.98</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/10_0add_5deg_6s_N2_121s_run4/2026-08-13_14-42-14.jpg" alt="10-0add-5deg-6s-N2-121s_run4 membrane photo"><div class="cap">2026-08-13_14-42-14.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/10_0add_5deg_6s_N2_121s_run4/2026-08-13_14-59-05.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-13_14-59-05.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible within the aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Membrane appears to reach the bottom edge adequately; the top edge shows a slight gap/recession where the membrane does not fully contact the upper aperture boundary — minor but present.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">Surface is predominantly uniform white/light gray with consistent opacity; two very small dark pinpoint spots are visible near center but are minor.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">A notable curved wrinkle/fold is present along the upper-left region of the membrane surface.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">Membrane is present and largely uniform, but a visible wrinkle in the upper-left area and a minor top-edge vertical coverage gap are notable defects requiring attention.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="10-0add-5deg-6s-N2-121s_run3">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>10-0add-5deg-6s-N2-121s_run3</span>
+    <span class="date">2026-08-13 13:13:34</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=6; nips_bath_wait_time=121; Air Temp Mean=24.52; Humidity Mean=47.27</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/10_0add_5deg_6s_N2_121s_run3/2026-08-13_12-46-30.jpg" alt="10-0add-5deg-6s-N2-121s_run3 membrane photo"><div class="cap">2026-08-13_12-46-30.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/10_0add_5deg_6s_N2_121s_run3/2026-08-13_13-05-39.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-13_13-05-39.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible and seated within the aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Membrane does not reach the top edge of the aperture; a clear gap is visible between the membrane&#x27;s upper boundary and the top of the aperture — this is a vertical coverage defect.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">Overall color is consistent pale grey/white; the right half appears slightly more uniform than the left, but no major dark spots or opacity variation.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">Multiple surface wrinkles are present, concentrated on the left-center region; no obvious trapped air bubbles detected.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">The membrane shows a notable top-edge vertical gap and visible wrinkling on the left side, both of which represent quality concerns requiring attention.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="10-0add-5deg-6s-N2-121s_run2">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>10-0add-5deg-6s-N2-121s_run2</span>
+    <span class="date">2026-08-12 17:26:12</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=6; nips_bath_wait_time=121; Air Temp Mean=24.70; Humidity Mean=42.51</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/10_0add_5deg_6s_N2_121s_run2/2026-08-12_17-03-32.jpg" alt="10-0add-5deg-6s-N2-121s_run2 membrane photo"><div class="cap">2026-08-12_17-03-32.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/10_0add_5deg_6s_N2_121s_run2/2026-08-12_17-20-27.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-12_17-20-27.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is clearly visible within the circular aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Membrane spans the full top-to-bottom extent of the aperture with no gaps at the top or bottom edges.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">Appearance is largely uniform — consistent pale grey/white tone throughout, with very slight tonal gradient toward the upper region but no significant patchiness or thickness variation.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">A few very small pinpoint dark specks visible near the center; no wrinkles or trapped air bubbles detected.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">Membrane is well-seated with full vertical coverage, good overall uniformity, and only minor isolated pinpoint specks that warrant monitoring.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="10-0add-5deg-6s-N2-121s">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>10-0add-5deg-6s-N2-121s</span>
+    <span class="date">2026-08-12 15:41:53</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=6; nips_bath_wait_time=121; Air Temp Mean=25.03; Humidity Mean=44.19</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/10_0add_5deg_6s_N2_121s/2026-08-12_15-17-25.jpg" alt="10-0add-5deg-6s-N2-121s membrane photo"><div class="cap">2026-08-12_15-17-25.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/10_0add_5deg_6s_N2_121s/2026-08-12_15-34-04.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-12_15-34-04.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible and seated within the circular aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Full top-to-bottom coverage appears intact; membrane reaches both the top and bottom aperture edges with no gap.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">Predominantly uniform pale grey/white tone; a subtle shadow gradient toward the lower-left is likely lighting artifact rather than true thickness variation.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">A distinct raised wrinkle/fold is visible along the upper-left quadrant, running diagonally; no trapped air bubbles detected.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">Membrane is present with adequate vertical coverage and generally uniform appearance, but a notable wrinkle in the upper-left region constitutes a surface defect requiring attention.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="10-0add-5deg-60s-N2-121s">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>10-0add-5deg-60s-N2-121s</span>
+    <span class="date">2026-08-11 17:38:41</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=121; Air Temp Mean=25.14; Humidity Mean=44.87</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/10_0add_5deg_60s_N2_121s/2026-08-11_17-15-25.jpg" alt="10-0add-5deg-60s-N2-121s membrane photo"><div class="cap">2026-08-11_17-15-25.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/10_0add_5deg_60s_N2_121s/2026-08-11_17-32-14.jpg" alt="post-test photo"><div class="cap">post-test (2026-08-11_17-32-14.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">Membrane is visible and present within the aperture.</span></div><div class="quality-heuristic-row"><span class="q-label">Vertical Coverage</span><span class="q-value">Membrane spans the full top-to-bottom extent of the aperture with no gaps at the top or bottom edges.</span></div><div class="quality-heuristic-row"><span class="q-label">Uniformity</span><span class="q-value">Overall color and opacity are consistent and predominantly uniform; a very slight tonal gradient toward the lower portion is minor and within acceptable range.</span></div><div class="quality-heuristic-row"><span class="q-label">Defects</span><span class="q-value">Three small pinpoint dark spots (possible micro-bubbles or particulates) are visible near the center; a faint small wrinkle/fold is apparent at the lower-left edge of the membrane.</span></div><div class="quality-summary-row"><span class="q-label">Summary</span><span class="q-value">Membrane is present with good vertical coverage and general uniformity, but shows minor defects including a few pinpoint spots and a small edge wrinkle at the lower left.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="21.0-1.0add-25degMix-5deg-60s-N2-101s_run2">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>21.0-1.0add-25degMix-5deg-60s-N2-101s_run2</span>
+    <span class="date">nan</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=101; Air Temp Mean=21.37; Humidity Mean=50.32</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/21_0_1_0add_25degMix_5deg_60s_N2_101s_run2/1785367301.0929837.jpg" alt="21.0-1.0add-25degMix-5deg-60s-N2-101s_run2 membrane photo"><div class="cap">1785367301.0929837.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/21_0_1_0add_25degMix_5deg_60s_N2_101s_run2/1785367375.4244914.jpg" alt="post-test photo"><div class="cap">post-test (1785367375.4244914.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">No membrane is visible within the test-cell aperture; the interior shows bare metallic substrate only. No further assessment can be made.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<div class="card" data-name="21.0-2.0add-25degMix-5deg-60s-N2-101s_run2">
+  <div class="card-header">
+    <span class="toggle-icon">▼</span>
+    <span>21.0-2.0add-25degMix-5deg-60s-N2-101s_run2</span>
+    <span class="date">nan</span>
+  </div>
+  <div class="card-body">
+    <div class="params-line">mixing_temp=25; bath_temp=5; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=101; Air Temp Mean=21.05; Humidity Mean=50.52</div>
+    <div class="quality-row">
+      <div class="photo-col"><img src="assets/quality/21_0_2_0add_25degMix_5deg_60s_N2_101s_run2/1785376648.809859.jpg" alt="21.0-2.0add-25degMix-5deg-60s-N2-101s_run2 membrane photo"><div class="cap">1785376648.809859.jpg — sent to vision LLM</div><div class="post-photo"><img src="assets/quality/21_0_2_0add_25degMix_5deg_60s_N2_101s_run2/1785376723.078401.jpg" alt="post-test photo"><div class="cap">post-test (1785376723.078401.jpg)</div></div></div>
+      <div class="report-col"><div class="quality-heuristics"><div class="quality-heuristic-row"><span class="q-label">Presence</span><span class="q-value">No membrane is visible — the image shows only a bare metallic test-cell aperture with no membrane coupon present.</span></div></div></div>
+    </div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.photo-col img').forEach(img => {
+  img.addEventListener('click', () => {
+    const w = window.open('', '_blank');
+    w.document.write('<body style="margin:0;background:#111"><img src="'
+      + img.src + '" style="max-width:100%;height:auto;display:block;margin:auto"></body>');
+  });
+});
+document.querySelectorAll('.card-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const isOpen = !header.classList.contains('collapsed');
+    header.nextElementSibling.classList.toggle('collapsed', isOpen);
+    header.classList.toggle('collapsed', isOpen);
+    syncToggleAllLabel();
+  });
+});
+function syncToggleAllLabel() {
+  const btn = document.getElementById('toggle-all');
+  const allCollapsed = [...document.querySelectorAll('.card-header')].every(h => h.classList.contains('collapsed'));
+  btn.textContent = allCollapsed ? 'Expand All' : 'Collapse All';
+}
+document.getElementById('toggle-all').addEventListener('click', () => {
+  const allCollapsed = [...document.querySelectorAll('.card-header')].every(h => h.classList.contains('collapsed'));
+  document.querySelectorAll('.card-header').forEach(h => {
+    h.classList.toggle('collapsed', !allCollapsed);
+    h.nextElementSibling.classList.toggle('collapsed', !allCollapsed);
+  });
+  syncToggleAllLabel();
+});
+const cards = [...document.querySelectorAll('.card')];
+const searchBar = document.getElementById('search-bar');
+
+function applyFilters() {
+  const q = searchBar.value.trim().toLowerCase();
+  let visible = 0;
+  cards.forEach(c => {
+    const show = !q || c.dataset.name.toLowerCase().includes(q);
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('filter-count').textContent = `${visible} / ${cards.length} shown`;
+}
+
+searchBar.addEventListener('input', applyFilters);
+applyFilters();
+</script>
+</body>
+</html>

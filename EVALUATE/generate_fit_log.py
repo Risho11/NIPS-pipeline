@@ -23,9 +23,9 @@ When the same condition appears in multiple CSVs, the most recently
 dated entry wins — re-running always replaces, never appends.
 """
 
-import base64
 import json
 import re
+import shutil
 from pathlib import Path
 
 import pandas as pd
@@ -34,7 +34,8 @@ FILE_DIR    = Path(__file__).parent
 ROOT        = FILE_DIR.parent  # project root — this script lives in EVALUATE/
 PLOTS_DIR   = ROOT / "data" / "plots"
 RESULTS_DIR = ROOT / "data" / "results"
-OUTPUT      = FILE_DIR / "fit_evaluation_log.html"
+# Lives under docs/ so GitHub Pages can serve it straight off main (Settings > Pages > docs/).
+OUTPUT      = ROOT / "docs" / "fit_evaluation_log.html"
 PASS_THRESHOLD = 70
 
 COMPONENTS = [
@@ -123,9 +124,20 @@ def load_agg_cvs(agg_csv_paths=None):
     return {k: tuple(v) for k, v in result.items()}
 
 
-def img_to_data_uri(path: Path) -> str:
-    b64 = base64.b64encode(path.read_bytes()).decode("ascii")
-    return f"data:image/png;base64,{b64}"
+def copy_asset(path: Path, assets_dir: Path, cond_safe: str) -> str:
+    """Copy path into assets_dir/cond_safe/ (scoped per-condition since rep filenames like
+    Segmentation_rep-1.png repeat across conditions) and return the relative <img src> for it.
+    Linked files instead of base64 data URIs -- embedding kept fit_evaluation_log.html at ~80MB
+    (every plot re-encoded inline on every regen), which blew past GitHub's recommended file
+    size and made every commit carry a full new multi-MB blob. Plain files sit outside git
+    history (or diff cleanly) and load faster in the browser besides.
+    """
+    dest_dir = assets_dir / cond_safe
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    dest = dest_dir / path.name
+    if not dest.exists() or dest.stat().st_mtime < path.stat().st_mtime:
+        shutil.copy2(path, dest)
+    return f"assets/fit/{cond_safe}/{path.name}"
 
 
 _RUN_SUFFIX_RE = re.compile(r"^_run(\d+)$")
@@ -740,7 +752,7 @@ def build_rep_breakdown(rep_data, rep_index):
 
 
 def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
-                   deriv_images, run_folder, pre_cv=None, post_cv=None):
+                   deriv_images, run_folder, assets_dir, pre_cv=None, post_cv=None):
     group_df = group_df.sort_values("Trial").reset_index(drop=True)
     cond_safe = _safe_key(cond_name)
 
@@ -804,7 +816,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         img_html = '<span class="no-img">No plot found</span>'
         if i < len(seg_images):
             try:
-                uri = img_to_data_uri(seg_images[i])
+                uri = copy_asset(seg_images[i], assets_dir, cond_safe)
                 img_html = f'<img src="{uri}" alt="rep-{i+1}">'
             except Exception:
                 pass
@@ -813,7 +825,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         deriv_path = deriv_images[i] if i < len(deriv_images) else None
         if deriv_path is not None:
             try:
-                uri = img_to_data_uri(deriv_path)
+                uri = copy_asset(deriv_path, assets_dir, cond_safe)
                 deriv_col = f'<div class="rep-deriv"><img src="{uri}" alt="deriv-{i+1}"></div>'
             except Exception:
                 pass
@@ -829,7 +841,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
     comp_html = ""
     for img_path in comp_images:
         try:
-            uri = img_to_data_uri(img_path)
+            uri = copy_asset(img_path, assets_dir, cond_safe)
             label = img_path.stem
             comp_html += f"""
     <div class="comp-group">
@@ -855,7 +867,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         inner = ""
         for img_path, eval_data, deriv_path in avg_fit_images:
             try:
-                uri = img_to_data_uri(img_path)
+                uri = copy_asset(img_path, assets_dir, cond_safe)
                 stem = img_path.stem
                 suffix = stem.replace("average_fit_", "")
                 if eval_data is not None:
@@ -873,7 +885,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
                 deriv_col = ""
                 if deriv_path is not None:
                     try:
-                        d_uri = img_to_data_uri(deriv_path)
+                        d_uri = copy_asset(deriv_path, assets_dir, cond_safe)
                         deriv_col = f'<div class="rep-deriv"><img src="{d_uri}" alt="deriv-{stem}"></div>'
                     except Exception:
                         pass
@@ -928,6 +940,16 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
     output_path:     override output location.
     """
     out = Path(output_path) if output_path else OUTPUT
+    out.parent.mkdir(parents=True, exist_ok=True)
+
+    # Rebuilt "from scratch" every call (see docstring) -- clear stale per-condition asset
+    # folders first so a condition that disappears from the data doesn't leave orphan images.
+    # Namespaced under assets/fit/ -- generate_quality_log.py shares docs/assets/ and rmtree's
+    # its own subfolder on every regen too; a bare shared "assets/" dir meant either script's
+    # rerun wiped the other's images out from under it.
+    assets_dir = out.parent / "assets" / "fit"
+    if assets_dir.exists():
+        shutil.rmtree(assets_dir)
 
     df = load_csvs(extra_csv_paths)
     if df.empty:
@@ -952,7 +974,7 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
         seg_imgs, comp_imgs, avg_fit_imgs, deriv_imgs, run_folder = find_plots(cond)
         pre_cv, post_cv = cv_map.get(cond, (None, None))
         cards_html += condition_card(
-            cond, group, seg_imgs, comp_imgs, avg_fit_imgs, deriv_imgs, run_folder,
+            cond, group, seg_imgs, comp_imgs, avg_fit_imgs, deriv_imgs, run_folder, assets_dir,
             pre_cv=pre_cv, post_cv=post_cv,
         )
 

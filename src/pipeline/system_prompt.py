@@ -99,7 +99,10 @@ class QualityChecker:
         "assessment in any way. Only vertical (top/bottom) coverage gaps are relevant and should be "
         "reported clearly if present. "
         "If no membrane is present, say so in one sentence; do not describe the exposed backing/"
-        "surface texture in detail. Do not give a numeric score. Keep the entire response concise."
+        "surface texture in detail. Do not give a numeric score. Keep the entire response concise. "
+        "Judge Defects only from texture within the membrane material itself (the pale/white sheet) -- "
+        "specular highlights, glare, or reflections on the surrounding metal aperture rim or at the "
+        "membrane's boundary edge are lighting artifacts, not membrane wrinkles or folds."
     )
     format: str = (
         "Respond with short labeled bullets: Presence / Vertical Coverage / Uniformity / Defects / Summary. "

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Auto-Membranes Logs</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; background: #ececec; color: #222;
+       display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+.wrap { text-align: center; }
+h1 { font-size: 1.3rem; color: #263238; margin-bottom: 18px; }
+.links { display: flex; flex-direction: column; gap: 12px; }
+a.card { display: block; padding: 16px 28px; background: #fff; border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.14); color: #263238; text-decoration: none;
+    font-weight: 600; font-size: 0.95rem; transition: box-shadow .15s; }
+a.card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.28); }
+a.card span { display: block; font-weight: normal; font-size: 0.8rem; color: #78909c; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Auto-Membranes Evaluation Logs</h1>
+  <div class="links">
+    <a class="card" href="fit_evaluation_log.html">Fit Evaluation Log
+      <span>Mechanical curve-fit quality, per condition and replicate</span></a>
+    <a class="card" href="quality_evaluation_log.html">Quality Evaluation Log
+      <span>Vision-LLM membrane photo assessments</span></a>
+  </div>
+</div>
+</body>
+</html>

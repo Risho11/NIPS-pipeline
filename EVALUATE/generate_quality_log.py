@@ -12,9 +12,9 @@ uses), and lays photo + LLM report out side by side per condition.
 Run standalone:
     python EVALUATE/generate_quality_log.py
 """
-import base64
 import hashlib
 import re
+import shutil
 from pathlib import Path
 
 import pandas as pd
@@ -42,7 +42,8 @@ def _default_agg_llm_sources():
 
 AGG_LLM  = _default_agg_llm_sources()
 RAW_DIR  = ROOT / "data" / "raw"
-OUTPUT   = FILE_DIR / "quality_evaluation_log.html"
+# Lives under docs/ so GitHub Pages can serve it straight off main (Settings > Pages > docs/).
+OUTPUT   = ROOT / "docs" / "quality_evaluation_log.html"
 
 # Extra raw-condition-folder roots to check *before* RAW_DIR (e.g. an isolated test recovery
 # run's corrected photos for a condition whose real data/raw/<condition>/ still has stale ones).
@@ -75,18 +76,69 @@ def _pretest_image(condition_dir: Path):
     return pretest, posttest
 
 
-def img_to_data_uri(path: Path) -> str:
-    b64 = base64.b64encode(path.read_bytes()).decode("ascii")
-    ext = path.suffix.lower().lstrip(".")
-    mime = "jpeg" if ext in ("jpg", "jpeg") else ext
-    return f"data:image/{mime};base64,{b64}"
+def copy_asset(path: Path, assets_dir: Path, cond_safe: str) -> str:
+    """Copy path into assets_dir/cond_safe/ and return the relative <img src> for it. Linked
+    files instead of base64 data URIs -- same fix as generate_fit_log.py's copy_asset, same
+    reason: embedding kept this file at 40MB+ and growing every regen."""
+    dest_dir = assets_dir / cond_safe
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    dest = dest_dir / path.name
+    if not dest.exists() or dest.stat().st_mtime < path.stat().st_mtime:
+        shutil.copy2(path, dest)
+    return f"assets/quality/{cond_safe}/{path.name}"
+
+
+# Current QualityChecker.format is "Presence / Vertical Coverage / Uniformity / Defects /
+# Summary" bullets (system_prompt.py) -- each rendered as "- **Label:** text" or
+# "**Label**: text", dash and colon placement both vary by model run. Matches one bullet's
+# label + everything up to the next bullet (or end of string).
+_HEURISTIC_RE = re.compile(
+    r"-?\s*\*\*(?P<label>[^*]+?)\*\*\s*:?\s*(?P<value>.*?)(?=(?:\n\s*-?\s*\*\*)|\Z)",
+    re.DOTALL,
+)
+
+# Labels this build's heuristics use. A report using the retired plain "Coverage" bullet
+# (pre "Vertical Coverage" wording) came from an older prompt version and is filtered out
+# in generate() rather than shown next to current-format reports as if comparable.
+CURRENT_HEURISTIC_LABELS = {"presence", "vertical coverage", "uniformity", "defects", "summary"}
+
+
+def report_labels(text: str) -> list:
+    return [m.group("label").strip().rstrip(":").strip() for m in _HEURISTIC_RE.finditer(str(text))]
+
+
+def report_is_current_format(text: str) -> bool:
+    """False if the report uses a retired heuristic label (e.g. bare 'Coverage' instead of
+    'Vertical Coverage') -- a stale-prompt report, not comparable to current-format ones."""
+    labels = report_labels(text)
+    if not labels:
+        return False
+    return all(label.lower() in CURRENT_HEURISTIC_LABELS for label in labels)
 
 
 def render_report(text: str) -> str:
-    """Light markdown→HTML for the LLM's report text (### headers, **bold**, paragraphs).
-    Not a general markdown parser — just enough for this model's consistent output shape."""
+    """Render the LLM's labeled-bullet report as a clean label/value layout. Falls back to a
+    light markdown→paragraph rendering for anything that doesn't match the bullet shape."""
     import html as _html
     text = _html.escape(str(text))
+
+    rows = [
+        (m.group("label").strip().rstrip(":").strip(), re.sub(r"\s+", " ", m.group("value")).strip())
+        for m in _HEURISTIC_RE.finditer(text)
+    ]
+    rows = [(label, value) for label, value in rows if label]
+    if rows:
+        parts = []
+        for label, value in rows:
+            value = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", value)
+            row_class = "quality-summary-row" if label.lower() == "summary" else "quality-heuristic-row"
+            parts.append(
+                f'<div class="{row_class}"><span class="q-label">{label}</span>'
+                f'<span class="q-value">{value}</span></div>'
+            )
+        return '<div class="quality-heuristics">' + "".join(parts) + "</div>"
+
+    # fallback: light markdown for anything that isn't the bullet-report shape
     lines = text.split("\n")
     out, para = [], []
 
@@ -161,9 +213,10 @@ h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
     font-size: 0.97rem; cursor: pointer; user-select: none; }
 .card-header .toggle-icon { font-size: 12px; opacity: .8; transition: transform .18s; flex-shrink: 0; }
 .card-header.collapsed .toggle-icon { transform: rotate(-90deg); }
-.card-header .params { font-size: 11px; opacity: .85; font-weight: normal; }
 .card-header .date { font-size: 11px; opacity: .7; margin-left: auto; font-weight: normal; }
 .card-body.collapsed { display: none; }
+
+.params-line { font-size: 11px; color: #78909c; padding: 8px 14px 0; word-break: break-word; }
 
 .quality-row { display: grid; grid-template-columns: minmax(240px, 38%) 1fr; }
 @media (max-width: 800px) { .quality-row { grid-template-columns: 1fr; } }
@@ -183,17 +236,19 @@ h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
 .report-col p { margin: 4px 0 8px; line-height: 1.5; }
 .report-col strong { color: #263238; }
 
-.card-stale .card-header { background: #b71c1c; }
-.stale-tag { font-size: 10px; font-weight: 700; background: #ffab91; color: #3e0000;
-    padding: 2px 6px; border-radius: 3px; letter-spacing: .03em; }
-.stale-banner { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a;
-    border-radius: 4px; padding: 8px 12px; margin-bottom: 10px; font-size: 12px;
-    font-weight: 600; line-height: 1.4; }
+.quality-heuristics { display: flex; flex-direction: column; gap: 2px; }
+.quality-heuristic-row { display: grid; grid-template-columns: 130px 1fr; gap: 10px;
+    padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
+.quality-heuristic-row .q-label { font-weight: 700; font-size: 10.5px; text-transform: uppercase;
+    letter-spacing: .04em; color: #607d8b; }
+.quality-heuristic-row .q-value { font-size: 12.5px; line-height: 1.5; }
+.quality-summary-row { margin-top: 10px; padding: 9px 11px; background: #eceff1;
+    border-left: 3px solid #607d8b; border-radius: 3px; display: flex; flex-direction: column; gap: 2px; }
+.quality-summary-row .q-label { font-size: 10px; text-transform: uppercase; letter-spacing: .04em;
+    color: #78909c; }
+.quality-summary-row .q-value { font-size: 12.5px; font-weight: 600; color: #263238; line-height: 1.5; }
 
-#filter-bar label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
-#filter-bar input[type=checkbox] { accent-color: #90a4ae; cursor: pointer; }
 #filter-count { color: #90a4ae; font-style: italic; }
-.dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
 """
 
 JS = """
@@ -229,27 +284,23 @@ const cards = [...document.querySelectorAll('.card')];
 const searchBar = document.getElementById('search-bar');
 
 function applyFilters() {
-  const activeStatus = new Set(
-    [...document.querySelectorAll('#filter-bar input[data-status]:checked')].map(i => i.dataset.status)
-  );
   const q = searchBar.value.trim().toLowerCase();
   let visible = 0;
   cards.forEach(c => {
-    const statusMatch = activeStatus.has(c.dataset.status);
-    const searchMatch = !q || c.dataset.name.toLowerCase().includes(q);
-    const show = statusMatch && searchMatch;
+    const show = !q || c.dataset.name.toLowerCase().includes(q);
     c.style.display = show ? '' : 'none';
     if (show) visible++;
   });
   document.getElementById('filter-count').textContent = `${visible} / ${cards.length} shown`;
 }
 
-document.querySelectorAll('#filter-bar input[data-status]').forEach(cb => {
-  cb.addEventListener('change', applyFilters);
-});
 searchBar.addEventListener('input', applyFilters);
 applyFilters();
 """
+
+
+def _safe_key(s: str) -> str:
+    return re.sub(r"[^A-Za-z0-9]", "_", s)
 
 
 def _resolve_condition_dir(name):
@@ -291,46 +342,36 @@ def _find_stale_hashes(resolved):
     return {h for h, c in counts.items() if c > 1}
 
 
-def quality_card(row, is_stale=False):
+def quality_card(row, assets_dir):
     name = str(row["name"])
-    cond_dir = row["_cond_dir"]
+    cond_safe = _safe_key(name)
     pretest = row["_pretest"]
     posttest = row["_posttest"]
 
     if pretest is not None:
-        photo_html = f'<img src="{img_to_data_uri(pretest)}" alt="{name} membrane photo">'
+        photo_html = f'<img src="{copy_asset(pretest, assets_dir, cond_safe)}" alt="{name} membrane photo">'
         photo_html += f'<div class="cap">{pretest.name} — sent to vision LLM</div>'
         if posttest is not None:
             photo_html += (
-                f'<div class="post-photo"><img src="{img_to_data_uri(posttest)}" alt="post-test photo">'
+                f'<div class="post-photo"><img src="{copy_asset(posttest, assets_dir, cond_safe)}" alt="post-test photo">'
                 f'<div class="cap">post-test ({posttest.name})</div></div>'
             )
     else:
         photo_html = '<div class="no-photo">No photo found in data/raw/' + name + '/</div>'
 
-    if is_stale:
-        report_html = (
-            '<div class="stale-banner">⚠ IMAGE FAILURE — this photo is identical to another '
-            "condition's, almost certainly a stale/duplicate image rather than this condition's "
-            "real membrane shot. The report below was generated from that photo and should not "
-            "be trusted.</div>"
-        ) + render_report(row["quality_report"])
-    else:
-        report_html = render_report(row["quality_report"])
+    report_html = render_report(row["quality_report"])
     params = str(row.get("formatted_parameters", "") or "")
     date = str(row.get("date", "")).replace("\n", " ")
 
-    status = "stale" if is_stale else "ok"
     return f"""
-<div class="card{' card-stale' if is_stale else ''}" data-name="{name}" data-status="{status}">
+<div class="card" data-name="{name}">
   <div class="card-header">
     <span class="toggle-icon">▼</span>
     <span>{name}</span>
-    {'<span class="stale-tag">IMAGE FAILURE</span>' if is_stale else ''}
-    <span class="params">{params}</span>
     <span class="date">{date}</span>
   </div>
   <div class="card-body">
+    <div class="params-line">{params}</div>
     <div class="quality-row">
       <div class="photo-col">{photo_html}</div>
       <div class="report-col">{report_html}</div>
@@ -341,6 +382,18 @@ def quality_card(row, is_stale=False):
 
 def generate(output_path=None, extra_csv_paths=None):
     out = Path(output_path) if output_path else OUTPUT
+    out.parent.mkdir(parents=True, exist_ok=True)
+
+    # Rebuilt from scratch every call -- clear stale per-condition asset folders first so a
+    # condition that disappears (or gets dropped as an image failure below) doesn't leave
+    # orphan images behind.
+    # Namespaced under assets/quality/ -- generate_fit_log.py shares docs/assets/ and rmtree's
+    # its own subfolder on every regen too; a bare shared "assets/" dir meant either script's
+    # rerun wiped the other's images out from under it.
+    assets_dir = out.parent / "assets" / "quality"
+    if assets_dir.exists():
+        shutil.rmtree(assets_dir)
+
     df = load_quality_rows(extra_csv_paths)
     if df.empty:
         print("[quality log] No quality_report data found — skipping HTML generation.")
@@ -352,17 +405,36 @@ def generate(output_path=None, extra_csv_paths=None):
     df["_cond_dir"], df["_pretest"], df["_posttest"], df["_hash"] = zip(
         *(resolved[str(n)] for n in df["name"])
     )
-    df["_is_stale"] = df["_hash"].apply(lambda h: h in stale_hashes)
 
-    n_stale = int(df["_is_stale"].sum())
-    cards_html = "".join(quality_card(row, is_stale=row["_is_stale"]) for _, row in df.iterrows())
+    # Same photo (by content hash) reused across 2+ conditions means a stale/duplicate image
+    # got attached instead of that condition's real membrane shot -- the report generated from
+    # it describes the wrong photo, so it's not salvageable data, just drop it rather than
+    # displaying a report next to a banner saying not to trust it.
+    is_stale = df["_hash"].isin(stale_hashes)
+    n_stale = int(is_stale.sum())
+
+    # Reports from a retired prompt version (e.g. bare "Coverage" instead of "Vertical
+    # Coverage") aren't comparable to current-format ones -- drop them rather than showing
+    # old and new heuristic wording side by side as if equivalent.
+    is_old_format = ~df["quality_report"].apply(report_is_current_format)
+    n_old_format = int((is_old_format & ~is_stale).sum())
+
+    n_dropped = n_stale + n_old_format
+    df = df[~is_stale & ~is_old_format].copy()
+
+    cards_html = "".join(quality_card(row, assets_dir) for _, row in df.iterrows())
 
     from datetime import datetime
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    stale_note = (
-        f" &nbsp;·&nbsp; <span style=\"color:#ffab91\">{n_stale} flagged as image failure "
-        f"(duplicate/stale photo)</span>" if n_stale else ""
+    dropped_bits = []
+    if n_stale:
+        dropped_bits.append(f"{n_stale} duplicate/stale photo")
+    if n_old_format:
+        dropped_bits.append(f"{n_old_format} outdated prompt format")
+    dropped_note = (
+        f" &nbsp;·&nbsp; <span style=\"color:#ffab91\">{n_dropped} dropped "
+        f"({', '.join(dropped_bits)})</span>" if dropped_bits else ""
     )
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -381,11 +453,9 @@ def generate(output_path=None, extra_csv_paths=None):
 </h1>
 <div class="meta">Generated {generated_at} &nbsp;·&nbsp; {len(df)} condition(s) with a vision-LLM quality report
   &nbsp;·&nbsp; Click a photo to open full size &nbsp;·&nbsp; newest first
-  &nbsp;·&nbsp; to update: run <code style="background:#263238;padding:1px 4px;border-radius:2px">python EVALUATE/generate_quality_log.py</code>{stale_note}</div>
+  &nbsp;·&nbsp; to update: run <code style="background:#263238;padding:1px 4px;border-radius:2px">python EVALUATE/generate_quality_log.py</code>{dropped_note}</div>
 <div id="filter-bar">
   <span style="opacity:.7;font-weight:600">Filter:</span>
-  <label><input type="checkbox" data-status="ok" checked> <span class="dot" style="background:#455a64"></span> OK</label>
-  <label><input type="checkbox" data-status="stale" checked> <span class="dot" style="background:#b71c1c"></span> image failure</label>
   <input id="search-bar" type="search" placeholder="Search conditions…">
   <span id="filter-count"></span>
   <button id="toggle-all">Collapse All</button>
@@ -396,7 +466,8 @@ def generate(output_path=None, extra_csv_paths=None):
 </html>"""
 
     out.write_text(html, encoding="utf-8")
-    print(f"[quality log] Written → {out}  ({len(df)} conditions, {n_stale} flagged as image failure)")
+    print(f"[quality log] Written → {out}  ({len(df)} conditions, {n_stale} stale-photo + "
+          f"{n_old_format} outdated-format dropped)")
 
 
 if __name__ == "__main__":
