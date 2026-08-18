@@ -1862,7 +1862,14 @@ def process_zero_sample_pairs_pipeline(
 
     for condition_name, payload in pairs_by_condition.items():
         _cond_base = SAVE_ROOT / condition_name
-        if _cond_base.exists():
+        # Real campaign runs (run_loop.py) never overwrite -- each run's plots are meaningful,
+        # distinct data, so a same-day rerun bumps to _run2/_run3/... instead. Test/pseudo runs
+        # (test_processing.py, notebooks, etc.) are disposable reruns during debugging -- piling
+        # up _run2/_run3/... there just leaves stale folders for find_plots() to pick the wrong
+        # one from, so those overwrite the same folder in place every time instead.
+        if _prefix != "run":
+            condition_save_dir = _cond_base
+        elif _cond_base.exists():
             _n = 2
             while (SAVE_ROOT / f"{condition_name}_run{_n}").exists():
                 _n += 1

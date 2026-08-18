@@ -30,12 +30,11 @@ from pathlib import Path
 
 import pandas as pd
 
-FILE_DIR  = Path(__file__).parent
-ROOT      = FILE_DIR.parent  # project root — this script lives in EVALUATE/
-PLOTS_DIR = ROOT / "data" / "plots"
-MAIN_CSV  = ROOT / "data" / "results" / "results_reps.csv"
-MAIN_AGG  = ROOT / "data" / "results" / "results_agg.csv"
-OUTPUT    = FILE_DIR / "fit_evaluation_log.html"
+FILE_DIR    = Path(__file__).parent
+ROOT        = FILE_DIR.parent  # project root — this script lives in EVALUATE/
+PLOTS_DIR   = ROOT / "data" / "plots"
+RESULTS_DIR = ROOT / "data" / "results"
+OUTPUT      = FILE_DIR / "fit_evaluation_log.html"
 PASS_THRESHOLD = 70
 
 COMPONENTS = [
@@ -63,7 +62,8 @@ def strip_rep(name: str) -> str:
 
 def load_csvs(extra_csv_paths=None):
     frames = []
-    for p in [MAIN_CSV] + list(extra_csv_paths or []):
+    main_csvs = sorted(RESULTS_DIR.glob("begins_*/reps.csv"))
+    for p in main_csvs + list(extra_csv_paths or []):
         p = Path(p)
         if p.exists() and p.stat().st_size > 0:
             try:
@@ -85,7 +85,8 @@ def load_csvs(extra_csv_paths=None):
 def load_agg_cvs(agg_csv_paths=None):
     """Return dict: condition_name -> (pre_cv, post_cv) from agg CSVs."""
     frames = []
-    for p in [MAIN_AGG] + list(agg_csv_paths or []):
+    main_aggs = sorted(RESULTS_DIR.glob("begins_*/agg.csv"))
+    for p in main_aggs + list(agg_csv_paths or []):
         p = Path(p)
         if p.exists() and p.stat().st_size > 0:
             try:
@@ -127,31 +128,62 @@ def img_to_data_uri(path: Path) -> str:
     return f"data:image/png;base64,{b64}"
 
 
+_RUN_SUFFIX_RE = re.compile(r"^_run(\d+)$")
+
+
+def _best_condition_dir(parent_dir: Path, condition_name: str):
+    """Find condition_name (or condition_name_run2, _run3, ...) under parent_dir and return
+    the highest-numbered one -- curve_segmentation.process_zero_sample_pairs_pipeline never
+    overwrites a same-day plot folder, it bumps to _run2/_run3/... on every rerun instead, so
+    the plain condition_name folder can be a stale run from earlier the same day while the
+    freshest plots sit in a _runN sibling. condition_name itself counts as run 1.
+    """
+    best, best_n = None, -1
+    if not parent_dir.is_dir():
+        return None
+    for child in parent_dir.iterdir():
+        if not child.is_dir():
+            continue
+        if child.name == condition_name:
+            n = 1
+        elif child.name.startswith(condition_name + "_run"):
+            m = _RUN_SUFFIX_RE.match(child.name[len(condition_name):])
+            if not m:
+                continue
+            n = int(m.group(1))
+        else:
+            continue
+        if n > best_n:
+            best, best_n = child, n
+    return best
+
+
 def find_plots(condition_name: str):
     """
     Return (seg_paths, comp_paths, avg_fit_paths, run_folder_name).
     comp_paths includes raw_average_curves.png if present.
     avg_fit_paths contains average_fit_*.png from averageFits/.
     Priority: real run-* dirs first, then pseudo-runs/test-* dirs.
+    Within each day-folder, the most recently-rerun _runN variant wins over the plain folder.
     Prefers Segmentation images; falls back to Pre-Processing.
     """
     candidates = []
 
     if PLOTS_DIR.exists():
         for d in sorted(PLOTS_DIR.glob("run-*/"), reverse=True):
-            cond = d / condition_name
-            if cond.is_dir():
+            cond = _best_condition_dir(d, condition_name)
+            if cond is not None:
                 candidates.append(cond)
         pseudo = PLOTS_DIR / "pseudo-runs"
         if pseudo.exists():
             for d in sorted(pseudo.glob("test-*/"), reverse=True):
-                cond = d / condition_name
-                if cond.is_dir():
+                cond = _best_condition_dir(d, condition_name)
+                if cond is not None:
                     candidates.append(cond)
 
     for old in sorted(ROOT.glob("pipeline_plots_*/"), reverse=True):
-        cond = old / condition_name
-        if cond.is_dir():
+        cond = _best_condition_dir(old, condition_name)
+        if cond is not None:
             candidates.append(cond)
 
     def get_seg(cond_dir, pattern):
