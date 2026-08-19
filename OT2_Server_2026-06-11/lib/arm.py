@@ -132,7 +132,7 @@ positions = {
         "coupon bath cap": [265, -230, 119, 180, 45, -90],
         
         "coupon bath waypoint": [262, -228, 240, 180, 45, -91.5],
-        "coupon bath": [262, -228, 117-4, 180, 45, -91.5],
+        "coupon bath": [262, -228-1, 113, 180, 45, -91.5], # slight offset to correct positioning issue
         
         "cap stand waypoint": [70, -304, 300, 180, 65, 0],
         "cap stand": [0, -304, 200, 180, 45, 0],

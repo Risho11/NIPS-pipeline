@@ -458,7 +458,7 @@ def run_test(param = None):
         hover_process.start()
         
         # take air measurement
-        time.sleep(coupon_to_bath_wait_time / 2)
+        time.sleep(5)
         membrane_air_data = arduino.read_2nd_temp_humidity()
         
         # stop nitrgoen
@@ -471,7 +471,8 @@ def run_test(param = None):
     
     # get ambient air data
     parameters["air_data"] = arduino.read_temp_humidity()
-    print(parameters["air_data"])
+    print(f"Membrane air data: {membrane_air_data}")
+    print(f"Ambient air data: {parameters["air_data"]}")
     
     # place coupon in water bath
     xArm.put_coupon_bath()
