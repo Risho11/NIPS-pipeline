@@ -290,6 +290,7 @@ def generate_reports_and_suggestion(condition_name, agg_llm_path, activeLearning
         performance_observations, quality_observations=quality_observations,
         locked_additive_wt=locked_additive_wt,
     )
+    print(f"LLM suggestion: {params_suggestion}")
 
     llm_df.at[idx, "LLM_suggestion"] = params_suggestion
     llm_df.to_csv(agg_llm_path, index=False)

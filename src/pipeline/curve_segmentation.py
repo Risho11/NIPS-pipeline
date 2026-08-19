@@ -1491,6 +1491,9 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                     except Exception as _e_retry:
                         print(f"  toe-mask retry failed: {_e_retry} — keeping first-pass result")
 
+            print(f"Elastic Modulus: {elasticModulus:.2f} bar")
+            print(f"Pore Fraction: {changepoint:.4f}")
+
             '''
             wait why the heck is the dictionary only appended when its like not 0... anyway
             '''
