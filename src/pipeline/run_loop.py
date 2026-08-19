@@ -81,6 +81,20 @@ ITERATE_POLYMER = False
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
 CONTINUE_CAMPAIGN = "2026-8-19"
 
+
+def _campaign_date_folder_tag(continue_campaign):
+    """Return YYYY-MM-DD folder tag for campaign outputs."""
+    if continue_campaign is None:
+        return datetime.datetime.now().strftime("%Y-%m-%d")
+    try:
+        parsed = datetime.datetime.strptime(str(continue_campaign), "%Y-%m-%d")
+    except ValueError as e:
+        raise ValueError(
+            "CONTINUE_CAMPAIGN must be None or a date string in YYYY-MM-DD format "
+            f"(got {continue_campaign!r})"
+        ) from e
+    return parsed.strftime("%Y-%m-%d")
+
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
 ITERATION_BASE_PARAMS = {
@@ -109,7 +123,7 @@ DATA_ROOT    = _REPO_ROOT
 
 
 # <<< PATH >>> output CSVs live under data/results/
-d = datetime.datetime.now().strftime("%Y-%m-%d") if CONTINUE_CAMPAIGN == None else CONTINUE_CAMPAIGN
+d = _campaign_date_folder_tag(CONTINUE_CAMPAIGN)
 CSV_REPS        = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"reps.csv"
 CSV_AGG         = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"agg.csv"
 CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"llm.csv"
@@ -322,6 +336,49 @@ def _validate_params(params):
             )
 
 
+def _load_resume_params_for_campaign(campaign_date):
+    """Load the most recent saved next params for a given campaign date."""
+    llm_csv = DATA_ROOT / "data" / "results" / f"begins_{campaign_date}" / "llm.csv"
+    if not llm_csv.exists() or llm_csv.stat().st_size == 0:
+        raise FileNotFoundError(
+            f"Cannot continue campaign {campaign_date}: missing/empty {llm_csv}"
+        )
+
+    with llm_csv.open(newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        raise ValueError(
+            f"Cannot continue campaign {campaign_date}: {llm_csv} has no data rows"
+        )
+
+    last_condition = None
+    for row in reversed(rows):
+        name = (row.get("name") or "").strip()
+        if name:
+            last_condition = name
+            break
+    if not last_condition:
+        raise ValueError(
+            f"Cannot continue campaign {campaign_date}: no condition name found in {llm_csv}"
+        )
+
+    llm_result = JSON_RESULTS_DIR / f"llm_result_{last_condition}.json"
+    if not llm_result.exists() or llm_result.stat().st_size == 0:
+        raise FileNotFoundError(
+            f"Cannot continue campaign {campaign_date}: missing/empty {llm_result}"
+        )
+
+    with llm_result.open(encoding="utf-8") as f:
+        params = json.load(f)
+    if not isinstance(params, dict):
+        raise ValueError(f"Resume params in {llm_result} must be a JSON object")
+
+    params = {k: v for k, v in params.items() if k != "stock_metadata"}
+    _validate_params(params)
+    print(f"Resuming campaign {campaign_date} from {llm_result.name}")
+    return params
+
+
 def _run_pipeline_and_trigger_next(params, protocol_log=None):
     # robot echoes back whatever we posted, including stock_metadata — strip it here so
     # it never reaches params.json / move_and_rename / the CSV pipeline
@@ -505,6 +562,8 @@ if __name__ == "__main__":
         if first_params is None:
             print("[ITERATE] iteration list(s) empty — nothing to run")
             sys.exit(1)
+    elif CONTINUE_CAMPAIGN is not None:
+        first_params = _load_resume_params_for_campaign(d)
     else:
         first_params = dict(INITIAL_PARAMS)
 
