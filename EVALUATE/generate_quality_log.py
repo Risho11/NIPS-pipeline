@@ -447,6 +447,7 @@ def generate(output_path=None, extra_csv_paths=None):
 <body>
 <h1>Quality Evaluation Log
   <span class="page-nav">
+    <a href="index.html">Home</a>
     <a href="fit_evaluation_log.html">Fit Evaluation</a>
     <a href="quality_evaluation_log.html" class="active">Quality Evaluation</a>
   </span>

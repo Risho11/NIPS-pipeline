@@ -992,6 +992,7 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
 <body>
 <h1>Fit Evaluation Log
   <span class="page-nav">
+    <a href="index.html">Home</a>
     <a href="fit_evaluation_log.html" class="active">Fit Evaluation</a>
     <a href="quality_evaluation_log.html">Quality Evaluation</a>
   </span>

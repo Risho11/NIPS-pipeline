@@ -6,27 +6,130 @@
 <title>Auto-Membranes Logs</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, 'Segoe UI', sans-serif; background: #ececec; color: #222;
-       display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-.wrap { text-align: center; }
-h1 { font-size: 1.3rem; color: #263238; margin-bottom: 18px; }
-.links { display: flex; flex-direction: column; gap: 12px; }
-a.card { display: block; padding: 16px 28px; background: #fff; border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.14); color: #263238; text-decoration: none;
-    font-weight: 600; font-size: 0.95rem; transition: box-shadow .15s; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 13px;
+       background: #ececec; color: #222; }
+h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
+       display: flex; align-items: baseline; gap: 16px; }
+.page-nav { display: flex; gap: 8px; font-size: 12px; font-weight: normal; }
+.page-nav a { color: #90a4ae; text-decoration: none; padding: 3px 9px; border-radius: 3px; }
+.page-nav a:hover { background: #37474f; color: #fff; }
+.page-nav a.active { background: #455a64; color: #fff; }
+.meta { font-size: 11px; color: #90a4ae; padding: 3px 22px 10px; background: #263238; }
+
+.content { max-width: 900px; margin: 0 auto; padding: 22px; }
+
+.links { display: flex; gap: 14px; margin-bottom: 22px; }
+@media (max-width: 640px) { .links { flex-direction: column; } }
+a.card { flex: 1; display: block; padding: 18px 20px; background: #fff; border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.14); color: #263238; text-decoration: none; }
 a.card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.28); }
-a.card span { display: block; font-weight: normal; font-size: 0.8rem; color: #78909c; margin-top: 4px; }
+a.card .card-title { font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+a.card .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+a.card .card-sub { font-size: 0.8rem; color: #78909c; margin-top: 6px; line-height: 1.5; }
+
+.tutorial { background: #fff; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.14);
+    padding: 18px 22px; }
+.tutorial h2 { font-size: 0.95rem; color: #263238; margin-bottom: 4px; }
+.tutorial .sub { font-size: 11px; color: #90a4ae; margin-bottom: 16px; }
+.tutorial h3 { font-size: 0.85rem; color: #455a64; margin: 18px 0 8px; }
+.tutorial h3:first-of-type { margin-top: 0; }
+.tutorial p { font-size: 12.5px; line-height: 1.6; color: #37474f; margin-bottom: 8px; }
+.legend { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 4px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #37474f; }
+.legend .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+code { background: #eceff1; padding: 1px 5px; border-radius: 3px; font-size: 11.5px; color: #37474f; }
+
+.heuristics { display: flex; flex-direction: column; gap: 3px; margin: 10px 0 4px; }
+.heuristics .h-row { display: grid; grid-template-columns: 190px 1fr; gap: 10px;
+    padding: 5px 0; border-bottom: 1px solid #f2f2f2; font-size: 12px; }
+.heuristics .h-name { font-weight: 700; color: #546e7a; }
+.heuristics .h-desc { color: #37474f; line-height: 1.5; }
+.heuristics .h-pts { font-weight: normal; color: #90a4ae; font-size: 10.5px; }
+
+.hover-demo { display: flex; align-items: flex-start; gap: 16px; margin: 10px 0 18px; flex-wrap: wrap; }
+.hover-demo img { max-width: 280px; border: 1px solid #ddd; border-radius: 4px; cursor: zoom-in; }
+.hover-demo .hint { font-size: 12.5px; color: #37474f; line-height: 1.6; max-width: 360px; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Auto-Membranes Evaluation Logs</h1>
+<h1>Auto-Membranes Logs
+  <span class="page-nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="fit_evaluation_log.html">Fit Evaluation</a>
+    <a href="quality_evaluation_log.html">Quality Evaluation</a>
+  </span>
+</h1>
+<div class="meta">Evaluation logs for the NIPS membrane fabrication pipeline &nbsp;·&nbsp; regenerated after every campaign / test run</div>
+
+<div class="content">
   <div class="links">
-    <a class="card" href="fit_evaluation_log.html">Fit Evaluation Log
-      <span>Mechanical curve-fit quality, per condition and replicate</span></a>
-    <a class="card" href="quality_evaluation_log.html">Quality Evaluation Log
-      <span>Vision-LLM membrane photo assessments</span></a>
+    <a class="card" href="fit_evaluation_log.html">
+      <div class="card-title"><span class="dot" style="background:#2e7d32"></span>Fit Evaluation Log</div>
+      <div class="card-sub">Mechanical curve-fit quality — elastic/plateau/densification segmentation, breakpoint accuracy, and pass/fail scoring per condition and replicate.</div>
+    </a>
+    <a class="card" href="quality_evaluation_log.html">
+      <div class="card-title"><span class="dot" style="background:#607d8b"></span>Quality Evaluation Log</div>
+      <div class="card-sub">Vision-LLM membrane photo assessments — presence, vertical coverage, uniformity, and defects for each condition's pre-test photo.</div>
+    </a>
+  </div>
+
+  <div class="tutorial">
+    <h2>How to read these logs</h2>
+    <div class="sub">Each collapsible card represents a condition, followed by the date of fabrication. Plots update newest-first.</div>
+
+    <h3>Fit Evaluation Log</h3>
+    <p>The compression tester is tested on multiple locations of the same membrane, which are called <b>replicates.</b></p>
+    <p>Each row within a card is one replicate's processing with raw data, the spline model, and the elastic/plateau/densification segmentation overlaid on it, next to a breakdown table showing exactly how its 0-100 fit score was built up (R² per region, yield accuracy, junction continuity, penalties for suspect breakpoints). Pass threshold is 70/100.</p>
+    <div class="legend">
+      <div class="legend-item"><span class="dot" style="background:#2e7d32"></span>all replicates passed</div>
+      <div class="legend-item"><span class="dot" style="background:#e65100"></span>mixed — some replicates failed</div>
+      <div class="legend-item"><span class="dot" style="background:#b71c1c"></span>all replicates failed</div>
+      <div class="legend-item"><span class="dot" style="background:#78909c"></span>pre-processing failure — no membrane detected, no fit data</div>
+    </div>
+    <p>Use the filter bar to toggle these statuses, search by condition name, or filter to only conditions with a toe-region cutoff. Click any plot to open it full size. The collapsed <code>Average Fits</code> section at the bottom of each card shows the fit computed on the averaged replicate curve, separately for all-replicates vs. passing-only.</p>
+
+    <p style="margin-top:14px"><strong>What each score component means:</strong></p>
+    <div class="heuristics">
+      <div class="h-row"><span class="h-name">Elastic R² <span class="h-pts">(30 pts)</span></span><span class="h-desc">How well a straight line fits the initial steep elastic-rise region of the curve.</span></div>
+      <div class="h-row"><span class="h-name">Plateau R² first 40% <span class="h-pts">(15 pts)</span></span><span class="h-desc">Fit quality over the early portion of the plateau region, right after the elastic breakpoint.</span></div>
+      <div class="h-row"><span class="h-name">Densif R² <span class="h-pts">(15 pts)</span></span><span class="h-desc">Fit quality of the final steep densification region.</span></div>
+      <div class="h-row"><span class="h-name">Yield accuracy <span class="h-pts">(25 pts)</span></span><span class="h-desc">Whether the elastic line's projected yield point over/undershoots the original data near the breakpoint.</span></div>
+      <div class="h-row"><span class="h-name">Junction continuity <span class="h-pts">(15 pts)</span></span><span class="h-desc">How smoothly the elastic and plateau segments meet at their shared breakpoint.</span></div>
+      <div class="h-row"><span class="h-name">Plateau full R² pen <span class="h-pts">(penalty)</span></span><span class="h-desc">Extra penalty if the whole plateau fits poorly.</span></div>
+      <div class="h-row"><span class="h-name">E-mod penalty <span class="h-pts">(penalty)</span></span><span class="h-desc">Penalty if the computed elastic modulus falls outside a physically plausible range.</span></div>
+      <div class="h-row"><span class="h-name">bp1 penalty <span class="h-pts">(penalty)</span></span><span class="h-desc">Penalty if the elastic→plateau breakpoint looks misplaced.</span></div>
+      <div class="h-row"><span class="h-name">Slope ratio pen <span class="h-pts">(penalty)</span></span><span class="h-desc">Penalty if the plateau and elastic slopes are too close together, indicating no real transition between regions.</span></div>
+      <div class="h-row"><span class="h-name">CP curvature pen <span class="h-pts">(penalty)</span></span><span class="h-desc">Penalty if the plateau→densification changepoint looks misplaced.</span></div>
+    </div>
+
+    <p style="margin-top:14px"><strong>Hover for detail:</strong> penalty rows (the shaded ones) show a <code>?</code> cursor — hover any of them to see the exact number behind the score, like the R² value that produced it:</p>
+    <div class="hover-demo">
+      <img src="assets/home/hover.png" alt="hovering a breakdown-table row shows the exact metric behind its score">
+      <div class="hint">Hovering <code>plateau R² (first 40%)</code> here reveals <code>R²(first 40%)=0.967</code> — the same works for every row in the real log, including the zeroed-out penalty rows, so you can see exactly why a penalty did or didn't fire.</div>
+    </div>
+
+    <h3>Quality Evaluation Log</h3>
+    <p>Each card is one condition: the pre-test membrane photo (the one actually sent to the vision LLM) next to its assessment, broken into five labeled heuristics — <strong>Presence</strong>, <strong>Vertical Coverage</strong>, <strong>Uniformity</strong>, <strong>Defects</strong>, and a one-line <strong>Summary</strong> — with the summary visually separated as the overall verdict. Only lateral (left/right) coverage is ignored by design — the test-cell aperture is intentionally oversized there, so only top/bottom gaps count as real defects.</p>
+    <p>Conditions get dropped from this log rather than shown with a caveat: a duplicate/stale photo reused across conditions, or a report generated under a retired prompt version (recognizable by outdated heuristic wording), isn't comparable to the rest and is excluded entirely.</p>
+
+    <p style="margin-top:14px"><strong>What each heuristic means:</strong></p>
+    <div class="heuristics">
+      <div class="h-row"><span class="h-name">Presence</span><span class="h-desc">Is a membrane visible in the photo at all, or is the aperture empty?</span></div>
+      <div class="h-row"><span class="h-name">Vertical Coverage</span><span class="h-desc">Does the membrane reach both the top and bottom of the test-cell aperture? Lateral (left/right) gaps are ignored — the rig is intentionally oversized there.</span></div>
+      <div class="h-row"><span class="h-name">Uniformity</span><span class="h-desc">Is color and opacity consistent across the membrane surface, without obvious patchiness or thickness variation?</span></div>
+      <div class="h-row"><span class="h-name">Defects</span><span class="h-desc">Visible wrinkles or trapped air bubbles within the membrane material itself — reflections and glare on the surrounding metal rim don't count.</span></div>
+      <div class="h-row"><span class="h-name">Summary</span><span class="h-desc">A one-line overall verdict pulling the above four together.</span></div>
+    </div>
   </div>
 </div>
+<script>
+document.querySelectorAll('.hover-demo img').forEach(img => {
+  img.addEventListener('click', () => {
+    const w = window.open('', '_blank');
+    w.document.write('<body style="margin:0;background:#111"><img src="'
+      + img.src + '" style="max-width:100%;height:auto;display:block;margin:auto"></body>');
+  });
+});
+</script>
 </body>
 </html>
