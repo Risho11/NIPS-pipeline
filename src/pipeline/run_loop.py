@@ -79,7 +79,7 @@ ITERATE_POLYMER = False
 #basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
 #in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
-CONTINUE_CAMPAIGN = 2026-8-19
+CONTINUE_CAMPAIGN = "2026-8-19"
 
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
