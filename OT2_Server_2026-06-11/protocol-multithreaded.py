@@ -472,7 +472,7 @@ def run_test(param = None):
     # get ambient air data
     parameters["air_data"] = arduino.read_temp_humidity()
     print(f"Membrane air data: {membrane_air_data}")
-    print(f"Ambient air data: {parameters["air_data"]}")
+    print(f"Ambient air data: {parameters['air_data']}")
     
     # place coupon in water bath
     xArm.put_coupon_bath()
