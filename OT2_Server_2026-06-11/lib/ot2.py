@@ -1,9 +1,7 @@
-# for opentrons code, present very simple interface only for sample crafting
 import time
 from opentrons import protocol_api
 import opentrons.execute
 import numpy as np
-#import opentrons.simulate
 import calculations as calc
 
 polymer_stock_wt_percent = 21
@@ -25,17 +23,13 @@ dict_labware = {
                 9: 'pyrex_2_reservoir_50000ul', # solution bottle and additive bottle
                 11: 'amlab_24_aluminumblock_2000ul_cap',
 
-#                5: 'pyrex_1_reservoir_50000ul', # extra solution for mixing
-#                6: 'amlab_24_aluminumblock_2000ul_cap',
-#                8: 'opentrons_96_tiprack_1000ul_cut', # Opentrons 1000ul tips with the tips cut off
-#                7: 'pyrex_1_reservoir_50000ul',
-#                6: 'pyrex_1_reservoir_50000ul', # solution bottle        
-#                9: 'pyrex_2_reservoir_50000ul', # polar clean     
-#                9: 'pyrex_1_reservoir_50000ul',
+                # add more labware with following template
+                # slot_num: 'labware_file_name',
+                # ensure labware is in labware folder
                 }
 
 # pipetting parameters
-# idk who named this but _with means move speed, like how fast the pipette moves in and out of the solution
+# _with means move speed, how fast the pipette moves in and out of the solution
 conf = {
         "viscous":{
                     "asp_rate": 3, "asp_delay": 30, "asp_with": 1, 
@@ -105,8 +99,11 @@ class OT2:
         self.polymer_stock_wt_percent = polymer_stock_wt_percent
         self.additive_stock_additive_wt_percent = additive_stock_additive_wt_percent
         self.additive_stock_polymer_wt_percent = additive_stock_polymer_wt_percent
-        
-    # tier 1 functions
+
+    # ==================================================
+    # SECTION: Tier 1 Functions
+    # ==================================================        
+    
     def has_temp(self):
         return self.temp_mod is not None
    
@@ -123,7 +120,6 @@ class OT2:
         """
         Attaches a pipette tip to the pipette.
         """
-        # figure out this functionality!!!
         inc = 0
         while((inc<len(self.pipette.tip_racks)-1) and (self.pipette.tip_racks[inc].next_tip() is not None)):
             inc+=1
@@ -133,10 +129,6 @@ class OT2:
 
         else:
             self.pipette.pick_up_tip()
-    
-    def attach_next_tip(self, slot_no = 8):
-        self._attach(slot_no, self.tip_index)
-        self.tip_index += 1
 
     def _drop(self, slot_no = None, well_no = None):
         """
@@ -146,8 +138,7 @@ class OT2:
         """
         if (slot_no and (well_no >= 0)):
             self.pipette.drop_tip(self.labware[slot_no].wells()[well_no])
-        else:
-#            self.pipette.drop_tip(self.pipette.trash_container.top(z=70)) # pipette tips are very long, discard them very high to help avoid punching a hole in the trash bin
+        else:           
             self.pipette.drop_tip(self.pipette.trash_container.top(z=50)) # the cut opentrons tips are longer, so we'd hit the max z height with 70 mm
             
         
@@ -281,7 +272,10 @@ class OT2:
         if (not for_mixing):
             self.pipette.move_to(well.top(z=0), speed=self.var[viscosity]["disp_with"])
 
-    # tier 2 functions
+    # ==================================================
+    # SECTION: Tier 2 Functions
+    # ==================================================
+
     def _transfer(self, src_slot_no, src_well_no, dest_slot_no, dest_well_no, vol, viscous: bool = True, position: str = "bottom"):
         """
         Transfers liquid from two wells.
@@ -362,7 +356,11 @@ class OT2:
         
         end = time.perf_counter()
         print(end-start)
-        
+
+    def attach_next_tip(self, slot_no = 8):
+        self._attach(slot_no, self.tip_index)
+        self.tip_index += 1
+
     def prep_pullcast(self, slot_no, well_no, vol, viscous: bool = True):
         if (vol > 450):
             self.prep_pullcast_asperate(slot_no, well_no, vol, viscous)
@@ -389,7 +387,27 @@ class OT2:
         self.prep_pullcast_asperate(heater_slot_no, self.heater_well_index, vol, viscous)
         self.heater_well_index += 1
 
-    
+    def runhome(self):
+        self.protocol.home()
+        if self.pipette.has_tip:
+            self.pipette.drop_tip()
+
+    def update_metadata(self, params):
+        self.polymer_stock_wt_percent = params["polymer_stock_wt_percent"]
+        self.additive_stock_additive_wt_percent = params["additive_stock_additive_wt_percent"]
+        self.additive_stock_polymer_wt_percent = params["additive_stock_polymer_wt_percent"]
+
+    # return values
+    def get_stock_weight_percent(self):
+        return self.polymer_stock_wt_percent                          
+    def get_additive_percent(self):
+        return self.additive_stock_additive_wt_percent    
+    def get_additive_polymer_percent(self):
+        return self.additive_stock_polymer_wt_percent
+
+    # ==================================================
+    # SECTION: Tier 3 Functions
+    # ==================================================    
 
     def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent, mixing_temp):
         # declare variables to pass to function
@@ -463,23 +481,4 @@ class OT2:
         # deactivate opentrons heater when done mixing
         if(self.has_temp()):
             self._deactivate_temp()
-     
 
-    def runhome(self):
-        self.protocol.home()
-        if self.pipette.has_tip:
-            self.pipette.drop_tip()
-
-    def update_metadata(self, params):
-        self.polymer_stock_wt_percent = params["polymer_stock_wt_percent"]
-        self.additive_stock_additive_wt_percent = params["additive_stock_additive_wt_percent"]
-        self.additive_stock_polymer_wt_percent = params["additive_stock_polymer_wt_percent"]
-
-    def get_stock_weight_percent(self):
-        return self.polymer_stock_wt_percent
-                           
-    def get_additive_percent(self):
-        return self.additive_stock_additive_wt_percent
-    
-    def get_additive_polymer_percent(self):
-        return self.additive_stock_polymer_wt_percent
