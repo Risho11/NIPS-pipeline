@@ -76,6 +76,13 @@ LOCK_ADDITIVE_WT_VALUE = 0
 # Sweeping is forced on regardless of these flags whenever no branches are enabled at all 
 ITERATE_ADDITIVES = False
 ITERATE_POLYMER = False
+# LLM search policy:
+#   "optimize" (default): objective-first active learning
+#   "explore": maximize diversity/coverage to populate the dataset
+LLM_AL_SEARCH_MODE = "optimize"
+# Number of recent unique points provided as diversity context when
+# LLM_AL_SEARCH_MODE="explore". None means keep all historical unique points.
+LLM_AL_EXPLORATION_HISTORY_POINTS = None
 #basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
 #in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
@@ -94,6 +101,15 @@ def _campaign_date_folder_tag(continue_campaign):
             f"(got {continue_campaign!r})"
         ) from e
     return parsed.strftime("%Y-%m-%d")
+
+
+def _campaign_folder_tag(continue_campaign, search_mode):
+    """Campaign folder tag with optional search-mode suffix."""
+    base = _campaign_date_folder_tag(continue_campaign)
+    mode = str(search_mode).strip().lower()
+    if mode in {"explore", "exploration", "exploratory", "diversity"}:
+        return f"{base}-exploration-mode"
+    return base
 
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
 POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
@@ -123,7 +139,7 @@ DATA_ROOT    = _REPO_ROOT
 
 
 # <<< PATH >>> output CSVs live under data/results/
-d = _campaign_date_folder_tag(CONTINUE_CAMPAIGN)
+d = _campaign_folder_tag(CONTINUE_CAMPAIGN, LLM_AL_SEARCH_MODE)
 CSV_REPS        = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"reps.csv"
 CSV_AGG         = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"agg.csv"
 CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"llm.csv"
@@ -145,6 +161,8 @@ def startup(lock_add, locked_value, iterate_add, iterate_poly, continue_campaign
         active.append("ITERATE_ADDITIVES")
     if iterate_poly:
         active.append("ITERATE_POLYMER")
+    if str(LLM_AL_SEARCH_MODE).strip().lower() != "optimize":
+        active.append(f"LLM_AL_SEARCH_MODE={LLM_AL_SEARCH_MODE}")
 
     if not active:
         return
@@ -427,6 +445,8 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         params_suggestion = llm_context.generate_reports_and_suggestion(
             condition_name, CSV_AGG_LLM, activeLearning,
             locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
+            al_search_mode=LLM_AL_SEARCH_MODE,
+            exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
         )
 
         llm_new_params = None

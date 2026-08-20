@@ -469,7 +469,8 @@ def run_test(param = None):
         time.sleep(coupon_to_bath_wait_time)
         membrane_air_data = arduino.read_2nd_temp_humidity()
     
-    # get ambient air data
+    # Store both the coupon-stage and ambient readings for downstream processing.
+    parameters["coupon_air_data"] = membrane_air_data
     parameters["air_data"] = arduino.read_temp_humidity()
     print(f"Membrane air data: {membrane_air_data}")
     print(f"Ambient air data: {parameters['air_data']}")

@@ -64,6 +64,47 @@ def Generate_report(Formatted_Parameters, Model = "anthropic/claude-sonnet-4.6",
 
 _BASE_RANGES = 'The "mixing_temp" can be between 25 and 80 degrees Celsius; Note that if proposing a "polymer_wt" at max value, the "mixing_temp" must be 25 degrees Celsius and not be tuned as no mixing is happening at the stock concentration. The "bath_temp" can be between 5 and 25 degrees Celsius. The "pullcast_speed" can be between 1 and 20 mm/s. The "coupon_to_bath_wait_time" can be between 0 and 600 seconds. The "nips_bath_wait_time" can be between 1200 and 1800seconds. The "nitrogen" can be either True or False.'
 
+_DEFAULT_SEARCH_MODE = "optimize"
+
+
+def _normalized_search_mode(search_mode: str) -> str:
+    mode = str(search_mode or _DEFAULT_SEARCH_MODE).strip().lower()
+    aliases = {
+        "optimize": "optimize",
+        "exploitation": "optimize",
+        "exploit": "optimize",
+        "default": "optimize",
+        "explore": "explore",
+        "exploration": "explore",
+        "exploratory": "explore",
+        "diversity": "explore",
+    }
+    return aliases.get(mode, _DEFAULT_SEARCH_MODE)
+
+
+def build_search_strategy_instructions(search_mode: str, diversity_context: str | None = None) -> str:
+    """Modular strategy block appended to the AL system prompt.
+
+    optimize: objective-first recommendation (default).
+    explore: maximize design-space coverage and novelty to grow the dataset.
+    """
+    mode = _normalized_search_mode(search_mode)
+    if mode != "explore":
+        return (
+            "Search mode: optimize. Prioritize objective improvement while still respecting "
+            "uncertainty, CV, and quality evidence."
+        )
+
+    text = (
+        "Search mode: explore. Prioritize design-space coverage and novelty over local objective "
+        "improvement. Propose one feasible experiment that is deliberately far from previously "
+        "sampled conditions, avoids near-duplicates, and targets sparse/underrepresented regions "
+        "to populate the dataset for later modeling."
+    )
+    if diversity_context:
+        text += " Use the provided diversity context to avoid dense regions and revisit only when needed for calibration."
+    return text
+
 
 def current_ranges(locked_additive_wt=None) -> str:
     """Bounds text fed to the LLM's system prompt, read fresh from polymer_additive_bounds.py
@@ -100,13 +141,15 @@ def _encode_image(path):
 
 
 def LLM_AL(performance_observations, ranges=None, quality_observations=None, image_paths=None,
-           locked_additive_wt=None,
+           locked_additive_wt=None, search_mode="optimize", diversity_context=None,
            Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5):
     if ranges is None:
         ranges = current_ranges(locked_additive_wt=locked_additive_wt)
     text = f'\nPrior Performance Observations: {performance_observations}'
     if quality_observations:
         text += f'\n\nPrior Quality Observations: {quality_observations}'
+    if diversity_context:
+        text += f'\n\nDiversity Coverage Context: {diversity_context}'
     user_content = [{"type": "text", "text": text}]
     if image_paths:
         for p in image_paths:
@@ -117,11 +160,12 @@ def LLM_AL(performance_observations, ranges=None, quality_observations=None, ima
                     "image_url": {"url": f"data:image/png;base64,{_encode_image(p)}"},
                 })
 
+    strategy = build_search_strategy_instructions(search_mode, diversity_context=diversity_context)
     response = client.chat.completions.create(
         model=Model,
         messages=[
             {"role": "system", "content":
-                system_prompt.ACTIVE_LEARNING_PROMPT_TEMPLATE.format(ranges=ranges)},
+                system_prompt.ACTIVE_LEARNING_PROMPT_TEMPLATE.format(ranges=ranges) + "\n\n" + strategy},
             {"role": "user", "content": user_content}
         ],
         temperature=Temperature

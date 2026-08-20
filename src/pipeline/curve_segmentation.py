@@ -46,6 +46,8 @@ USE_FIT_COUNT       = True  # True=n_fit counts Good Fit flag; False=counts _rep
 MECH_PROP_SCHEMA = {
     "Air Temp":          {"sd": False,  "llm": True,  "always": False},
     "Humidity":          {"sd": False,  "llm": True,  "always": False},
+    "Coupon Temp":       {"sd": False,  "llm": True,  "always": False},
+    "Coupon Humidity":   {"sd": False,  "llm": True,  "always": False},
     "Thickness":         {"sd": True,  "llm": True, "always": True},
     "Elastic Modulus":   {"sd": True,  "llm": True,  "always": False},
     "Yield Strength":    {"sd": True,  "llm": False, "always": False},
@@ -67,6 +69,8 @@ LLM_PROP_KEYS = [k for k, v in MECH_PROP_SCHEMA.items() if v["llm"]]  # mech pro
 OT2_FIELDS = {
     "Air Temp": ("air_data", "temperature"),
     "Humidity": ("air_data", "humidity"),
+    "Coupon Temp": ("coupon_air_data", "temperature"),
+    "Coupon Humidity": ("coupon_air_data", "humidity"),
 }
 
 SETPOINT_COL = "Set Point ()"
@@ -2160,7 +2164,26 @@ FORMATTED_PARAMS_KEYS = ["mixing_temp", "bath_temp", "polymer_wt", "additive_wt"
                           "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time"]
 
 def formatted_parameters(row):
-    return "; ".join(f"{k}={row.get(k)}" for k in FORMATTED_PARAMS_KEYS if row.get(k) is not None)
+    parts = []
+    for k in FORMATTED_PARAMS_KEYS:
+        v = row.get(k)
+        if v is None:
+            continue
+        label = None
+        if k in {"Air Temp Mean", "Humidity Mean", "Coupon Temp Mean", "Coupon Humidity Mean"}:
+            try:
+                import llm_context
+                label = llm_context._CURVE_SEGMENTATION_PARAM_LABELS.get(k)
+            except Exception:
+                label = None
+        if label:
+            # Keep the numeric value short and explicit, while the label describes the exact timing
+            # and environment for the reading so the LLM knows whether it was taken under N2 or
+            # during the ambient no-N2 wait interval.
+            parts.append(f"{k}={v} [{label}]")
+        else:
+            parts.append(f"{k}={v}")
+    return "; ".join(parts)
 
 def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
     data_root = Path(data_root) if data_root is not None else Path(__file__).resolve().parent.parent.parent
