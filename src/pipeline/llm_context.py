@@ -47,6 +47,17 @@ REPORT_KEYS_BY_TYPE = {
     "quality": ["test_point", "safe_radius"],
 }
 
+_AL_PARAMETER_COLUMNS = [
+    "mixing_temp",
+    "bath_temp",
+    "pullcast_speed",
+    "nitrogen",
+    "coupon_to_bath_wait_time",
+    "nips_bath_wait_time",
+    "polymer_wt",
+    "additive_wt",
+]
+
 
 def _json_safe_subset(result: dict) -> dict:
     """Keep only keys whose value actually JSON-serializes. No hardcoded field names, so this
@@ -224,6 +235,65 @@ def generate_quality_report_text(image_processing_result):
     return membrane_quality_llm.Generate_quality_report(image_path)
 
 
+def build_diversity_context(agg_llm_path, max_points=40):
+    """Compact numeric/bool coverage summary for exploratory AL mode.
+
+    The LLM gets both a recent unique sample set and simple per-parameter coverage stats,
+    which helps it pick novel points in sparse regions instead of crowding the same area.
+    """
+    agg_llm_path = Path(agg_llm_path)
+    if not agg_llm_path.exists() or agg_llm_path.stat().st_size == 0:
+        return ""
+
+    df = pd.read_csv(agg_llm_path)
+    cols = [c for c in _AL_PARAMETER_COLUMNS if c in df.columns]
+    if not cols:
+        return ""
+
+    points_df = df[cols].dropna(how="any")
+    if points_df.empty:
+        return ""
+    points_df = points_df.drop_duplicates().tail(max_points)
+
+    sampled_points = []
+    for row in points_df.to_dict("records"):
+        casted = {}
+        for k, v in row.items():
+            if k == "nitrogen":
+                casted[k] = bool(v)
+            elif isinstance(v, (int, float)):
+                casted[k] = float(v)
+            else:
+                casted[k] = v
+        sampled_points.append(casted)
+
+    coverage = {}
+    for c in cols:
+        if c == "nitrogen":
+            vals = points_df[c].dropna().astype(bool)
+            coverage[c] = {
+                "n_true": int(vals.sum()),
+                "n_false": int((~vals).sum()),
+                "n_unique": int(vals.nunique()),
+            }
+            continue
+        numeric = pd.to_numeric(points_df[c], errors="coerce").dropna()
+        if numeric.empty:
+            continue
+        coverage[c] = {
+            "min": float(numeric.min()),
+            "max": float(numeric.max()),
+            "n_unique": int(numeric.nunique()),
+        }
+
+    payload = {
+        "sample_count": int(len(points_df)),
+        "coverage": coverage,
+        "recent_unique_points": sampled_points,
+    }
+    return json.dumps(payload)
+
+
 def _clear_stale_performance_outcome(condition_name, agg_llm_path):
     """formatted_parameters_withProp is only ever appended to by curve_segmentation's own row
     creation -- nothing else writes it, and ensure_condition_row no-ops on an existing row. So
@@ -258,7 +328,14 @@ def attach_all_branch_results(condition_name, branch_results, branch_config, agg
                                      report_text=report_text)
 
 
-def generate_reports_and_suggestion(condition_name, agg_llm_path, activeLearning, locked_additive_wt=None):
+def generate_reports_and_suggestion(
+    condition_name,
+    agg_llm_path,
+    activeLearning,
+    locked_additive_wt=None,
+    al_search_mode="optimize",
+    exploration_history_points=40,
+):
     """Exact strategy run_loop.py uses to go from a CSV row to a next-params suggestion: build
     initial_report (performance, via activeLearning.Generate_report), fold the mech-property
     outcome text into final_report, join performance_observations across campaign history, pull
@@ -296,12 +373,17 @@ def generate_reports_and_suggestion(condition_name, agg_llm_path, activeLearning
 
     performance_observations = "\n\n---\n\n".join(llm_df["final_report"].dropna().tolist())
     quality_observations = build_observations(agg_llm_path, "quality", current_condition_name=condition_name)
+    diversity_context = ""
+    if str(al_search_mode).strip().lower() in {"explore", "exploration", "exploratory", "diversity"}:
+        diversity_context = build_diversity_context(agg_llm_path, max_points=exploration_history_points)
     # ranges omitted on purpose -- LLM_AL computes it fresh from polymer_additive_bounds.py on
     # every call now, not a value cached at activeLearning_29 import time (see LLM_AL/
     # current_ranges' docstrings for why that caching was actively harmful).
     params_suggestion = activeLearning.LLM_AL(
         performance_observations, quality_observations=quality_observations,
         locked_additive_wt=locked_additive_wt,
+        search_mode=al_search_mode,
+        diversity_context=diversity_context,
     )
     print(f"LLM suggestion: {params_suggestion}")
 
