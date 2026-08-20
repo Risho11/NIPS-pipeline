@@ -235,7 +235,7 @@ def generate_quality_report_text(image_processing_result):
     return membrane_quality_llm.Generate_quality_report(image_path)
 
 
-def build_diversity_context(agg_llm_path, max_points=40):
+def build_diversity_context(agg_llm_path, max_points=None):
     """Compact numeric/bool coverage summary for exploratory AL mode.
 
     The LLM gets both a recent unique sample set and simple per-parameter coverage stats,
@@ -253,7 +253,9 @@ def build_diversity_context(agg_llm_path, max_points=40):
     points_df = df[cols].dropna(how="any")
     if points_df.empty:
         return ""
-    points_df = points_df.drop_duplicates().tail(max_points)
+    points_df = points_df.drop_duplicates()
+    if max_points is not None:
+        points_df = points_df.tail(max_points)
 
     sampled_points = []
     for row in points_df.to_dict("records"):
@@ -334,7 +336,7 @@ def generate_reports_and_suggestion(
     activeLearning,
     locked_additive_wt=None,
     al_search_mode="optimize",
-    exploration_history_points=40,
+    exploration_history_points=None,
 ):
     """Exact strategy run_loop.py uses to go from a CSV row to a next-params suggestion: build
     initial_report (performance, via activeLearning.Generate_report), fold the mech-property
