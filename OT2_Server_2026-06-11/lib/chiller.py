@@ -4,7 +4,7 @@ import time
 chiller_port = "/dev/serial/by-id/usb-STMicroelectronics_STM32_Virtual_ComPort-if00"
 
 epsilon = 0.1 # accetable error in temperature
-timestep = 10
+timestep = 10 # wait this long to print current temperature
 
 class BathChiller():
     chiller = None
@@ -41,11 +41,12 @@ class BathChiller():
         current_temperature = self.get_temperature()
         
         while (current_temperature <= (temperature - epsilon)) or (current_temperature >= (temperature + epsilon)):
-            print(f"Current bath temperature: {current_temperature} C")
+            print(f"Current bath temperature: {current_temperature} C.")
             time.sleep(timestep)
             current_temperature = self.get_temperature()
-
-        print(f"Reached target temperature of {temperature}.")
+        
+        print(f"Current bath temperature: {current_temperature} C.")
+        print(f"Reached target temperature of {temperature} C.")
 
         return 0
     
