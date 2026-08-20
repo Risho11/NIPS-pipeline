@@ -861,12 +861,33 @@ def goodFit_eval(
     else:
         breakdown['elastic_modulus_penalty'] = (0, 0, f'E={elasticModulus:.1f} bar ok')
 
-    # bp1_accuracy: two sub-checks
-    # (A) early-plateau derivative drop — is the GAM still actively bending just after bp1?
-    #     a real yield point has the spline settling to a flat slope quickly;
-    #     a too-early bp1 keeps losing slope across the first half of the plateau
+    # bp1_accuracy: two sub-checks, combined so the harsh tier only fires when BOTH
+    # agree bp1 is misplaced. A slow GAM settle right after bp1 (check A) is often
+    # just spline wobble on a perfectly sane, flat plateau -- only worth a real
+    # penalty once the plateau geometry itself (check B) also looks wrong.
     bp1_penalty = 0
     bp1_notes = []
+
+    # (B) remaining-stress safeguard (geometrically extreme cases) -- run first so
+    # check (A) below can gate its top penalty tier on this result.
+    plateau_bad = False
+    if xPlateau is not None and len(xPlateau) > 1:
+        plateau_strain_range = xPlateau['strain'].max() - xPlateau['strain'].min()
+        plateau_stress_rise = slopePlateau * plateau_strain_range
+        remaining_stress = data['stress (bar)'].max() - float(yieldStrength)
+        rise_fraction = plateau_stress_rise / (remaining_stress + 1e-9)
+        plateau_bad = rise_fraction > 0.5
+        if plateau_bad:
+            bp1_penalty += -30
+            bp1_notes.append(f'plateau spans {rise_fraction*100:.0f}% of remaining stress — elastic peak likely wrong')
+        else:
+            bp1_notes.append(f'plateau spans {rise_fraction*100:.0f}% of remaining stress — ok')
+
+    # (A) early-plateau derivative drop — is the GAM still actively bending just after bp1?
+    #     a real yield point has the spline settling to a flat slope quickly;
+    #     a too-early bp1 keeps losing slope across the first half of the plateau.
+    #     The -20 tier only applies when the plateau is ALSO geometrically off (plateau_bad);
+    #     on an otherwise flat/sane plateau this is treated as normal GAM wobble, not a real error.
     if (changepoint is not None and changepoint > breakpoint1 + 0.05
             and xPlateau is not None and len(xPlateau) > 1):
         window_end = breakpoint1 + (changepoint - breakpoint1) * 0.45
@@ -880,8 +901,11 @@ def goodFit_eval(
         if d1_start > 0:
             drop_frac = (d1_start - d1_end) / (d1_start + 1e-9)
             if drop_frac > 0.70:
-                bp1_penalty += -20
-                bp1_notes.append(f'GAM slope drops {drop_frac*100:.0f}% in early plateau — bp1 too early')
+                if plateau_bad:
+                    bp1_penalty += -20
+                    bp1_notes.append(f'GAM slope drops {drop_frac*100:.0f}% in early plateau — bp1 too early')
+                else:
+                    bp1_notes.append(f'GAM slope drops {drop_frac*100:.0f}% in early plateau, but plateau geometry ok — no penalty')
             elif drop_frac > 0.40:
                 bp1_penalty += -5
                 bp1_notes.append(f'GAM slope drops {drop_frac*100:.0f}% in early plateau — bp1 suspect')
@@ -889,18 +913,6 @@ def goodFit_eval(
                 bp1_notes.append(f'GAM slope stable in early plateau (drop={drop_frac*100:.0f}%) — ok')
         else:
             bp1_notes.append('GAM already flat at bp1 — ok')
-
-    # (B) remaining-stress safeguard (geometrically extreme cases)
-    if xPlateau is not None and len(xPlateau) > 1:
-        plateau_strain_range = xPlateau['strain'].max() - xPlateau['strain'].min()
-        plateau_stress_rise = slopePlateau * plateau_strain_range
-        remaining_stress = data['stress (bar)'].max() - float(yieldStrength)
-        rise_fraction = plateau_stress_rise / (remaining_stress + 1e-9)
-        if rise_fraction > 0.5:
-            bp1_penalty += -30
-            bp1_notes.append(f'plateau spans {rise_fraction*100:.0f}% of remaining stress — elastic peak likely wrong')
-        else:
-            bp1_notes.append(f'plateau spans {rise_fraction*100:.0f}% of remaining stress — ok')
 
     breakdown['bp1_accuracy_penalty'] = (bp1_penalty, 0, ' | '.join(bp1_notes))
     score += bp1_penalty
@@ -1736,9 +1748,20 @@ def _pair_chronological_zero_sample(specimen_rows, strict=True, cluster_gap_minu
             )
         )
 
+    if not strict and len(clusters) % 2 != 0:
+        # strict mode already raised above; here (bulk/tolerant runs) just drop the
+        # dangling trailing cluster instead of crashing the whole batch on it -- e.g.
+        # a run interrupted between its zero and membrane phases leaves one behind.
+        print(
+            "Warning: odd cluster count ({}) — dropping trailing unpaired cluster "
+            "({} specimens, starts {})".format(
+                len(clusters), len(clusters[-1]), clusters[-1][0]["timestamp"]
+            )
+        )
+
     pairs = []
     replicate = 1
-    for i in range(0, len(clusters), 2): 
+    for i in range(0, len(clusters) - 1, 2):
         zero_cluster    = clusters[i]
         membrane_cluster = clusters[i + 1]
         if strict and len(zero_cluster) != len(membrane_cluster):
