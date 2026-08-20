@@ -26,8 +26,18 @@ import membrane_quality_llm
 # Add/remove keys here freely -- e.g. if a campaign never wires up the humidity sensor, remove
 # "Humidity Mean" and it stops showing up in formatted_parameters.
 curve_segmentation.FORMATTED_PARAMS_KEYS = curve_segmentation.FORMATTED_PARAMS_KEYS + [
-    "Air Temp Mean", "Humidity Mean",
+    "Air Temp Mean", "Humidity Mean", "Coupon Temp Mean", "Coupon Humidity Mean",
 ]
+
+# Explicitly label the coupon-stage readings so the LLM can distinguish them from ambient room
+# conditions. The underlying row values are still stored as plain numeric fields; this only
+# changes the textual context that gets fed into the report/LLM prompt.
+_CURVE_SEGMENTATION_PARAM_LABELS = {
+    "Air Temp Mean": "room air temperature during casting",
+    "Humidity Mean": "room air humidity during casting",
+    "Coupon Temp Mean": "coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition",
+    "Coupon Humidity Mean": "coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition",
+}
 
 # Which fields from a branch's result get summarized into its {type}_report text. Only
 # non-"performance" types need an entry here -- curve_segmentation already builds its own report
@@ -88,10 +98,13 @@ def ensure_condition_row(condition_name, condition_dir, agg_llm_path):
         params = json.load(f)
 
     row = {"name": condition_name, "date": datetime.datetime.now().strftime("%Y-%m-%d\n%H:%M:%S")}
-    row.update({k: v for k, v in params.items() if k not in ("air_data", "stock_metadata")})
+    row.update({k: v for k, v in params.items() if k not in ("air_data", "coupon_air_data", "stock_metadata")})
     air = params.get("air_data") or {}
     row["Air Temp Mean"] = air.get("temperature")
     row["Humidity Mean"] = air.get("humidity")
+    coupon_air = params.get("coupon_air_data") or {}
+    row["Coupon Temp Mean"] = coupon_air.get("temperature")
+    row["Coupon Humidity Mean"] = coupon_air.get("humidity")
     row["formatted_parameters"] = curve_segmentation.formatted_parameters(row)
     row["formatted_parameters_withProp"] = row["formatted_parameters"]
     row["initial_report"] = ""
