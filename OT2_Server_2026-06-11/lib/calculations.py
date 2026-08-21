@@ -1,4 +1,4 @@
-"""Mass-balance calculations for the four membrane-solution stock bottles."""
+"""Mass-balance calculations for both supported membrane stock layouts."""
 from dataclasses import dataclass
 
 
@@ -15,6 +15,16 @@ class StockParameters:
 
 
 @dataclass
+class LegacyStockParameters:
+    polymer_stock_wt_percent: float = 17.0
+    additive_stock_polymer_wt_percent: float = 17.0
+    additive_stock_additive_wt_percent: float = 4.0
+    polymer_stock_density: float = 1.10
+    additive_stock_density: float = 1.12
+    solvent_density: float = 1.028
+
+
+@dataclass
 class TargetRecipe:
     total_volume_uL: float
     target_polymer_wt_percent: float
@@ -26,6 +36,17 @@ class MixingResult:
     polymer_stock_uL: float
     cosolvent_stock_uL: float
     all_mix_stock_uL: float
+    solvent_uL: float
+    total_volume_uL: float
+    final_polymer_wt_percent: float
+    final_additive_wt_percent: float
+    final_solvent_wt_percent: float
+
+
+@dataclass
+class LegacyMixingResult:
+    normal_polymer_stock_uL: float
+    polymer_additive_stock_uL: float
     solvent_uL: float
     total_volume_uL: float
     final_polymer_wt_percent: float
@@ -70,6 +91,58 @@ def check_final_composition(vp, vc, va, vs, stocks):
 
 
 def calculate_mix(recipe, stocks, round_to_uL=True, min_volume_tolerance_uL=1e-6):
+    if isinstance(stocks, LegacyStockParameters):
+        return _calculate_mix_legacy(recipe, stocks, round_to_uL, min_volume_tolerance_uL)
+    return _calculate_mix_four_bottle(recipe, stocks, round_to_uL, min_volume_tolerance_uL)
+
+
+def _calculate_mix_legacy(recipe, stocks, round_to_uL=True, min_volume_tolerance_uL=1e-6):
+    if recipe.total_volume_uL <= 0:
+        raise ValueError("Target total volume must be positive.")
+    target_p = recipe.target_polymer_wt_percent / 100.0
+    target_a = recipe.target_additive_wt_percent / 100.0
+    stock_p = stocks.polymer_stock_wt_percent / 100.0
+    additive_p = stocks.additive_stock_polymer_wt_percent / 100.0
+    additive_a = stocks.additive_stock_additive_wt_percent / 100.0
+    rho_p = stocks.polymer_stock_density
+    rho_a = stocks.additive_stock_density
+    rho_s = stocks.solvent_density
+    if target_p < 0 or target_a < 0 or target_p + target_a >= 1:
+        raise ValueError("Target wt% values must be non-negative and sum to less than 100.")
+    if min(stock_p, additive_p, additive_a) < 0 or min(rho_p, rho_a, rho_s) <= 0:
+        raise ValueError("Stock concentrations must be non-negative and densities must be positive.")
+    if target_a > 0 and additive_a <= 0:
+        raise ValueError("Target additive is nonzero, but additive stock contains no additive.")
+
+    matrix = [
+        [(stock_p - target_p) * rho_p, (additive_p - target_p) * rho_a, -target_p * rho_s],
+        [-target_a * rho_p, (additive_a - target_a) * rho_a, -target_a * rho_s],
+        [1.0, 1.0, 1.0],
+    ]
+    vp, va, vs = _solve_3x3(matrix, [0.0, 0.0, recipe.total_volume_uL])
+    if min(vp, va, vs) < -min_volume_tolerance_uL:
+        raise ValueError("Impossible formulation; target is outside the legacy stock feasible region.")
+    vp, va, vs = max(vp, 0.0), max(va, 0.0), max(vs, 0.0)
+    if round_to_uL:
+        vp, va = round(vp), round(va)
+        vs = round(recipe.total_volume_uL - vp - va)
+        if vs < -min_volume_tolerance_uL:
+            raise ValueError("Rounded volumes made solvent negative; use a larger total volume.")
+        vs = max(vs, 0.0)
+
+    masses = (vp * rho_p, va * rho_a, vs * rho_s)
+    total_mass = sum(masses)
+    polymer_mass = stock_p * masses[0] + additive_p * masses[1]
+    additive_mass = additive_a * masses[1]
+    return LegacyMixingResult(
+        vp, va, vs, vp + va + vs,
+        100.0 * polymer_mass / total_mass,
+        100.0 * additive_mass / total_mass,
+        100.0 * (total_mass - polymer_mass - additive_mass) / total_mass,
+    )
+
+
+def _calculate_mix_four_bottle(recipe, stocks, round_to_uL=True, min_volume_tolerance_uL=1e-6):
     if recipe.total_volume_uL <= 0:
         raise ValueError("Target total volume must be positive.")
     target_p = recipe.target_polymer_wt_percent / 100.0
@@ -123,5 +196,9 @@ def calculate_batch(recipe, stocks, round_to_uL=True):
 def print_result(recipe, result):
     print("Target: {:.4g} wt% polymer, {:.4g} wt% additive, {:.2f} uL".format(
         recipe.target_polymer_wt_percent, recipe.target_additive_wt_percent, recipe.total_volume_uL))
-    print("Volumes (uL): polymer={:.2f}, solvent-additive={:.2f}, all-mix={:.2f}, solvent={:.2f}".format(
-        result.polymer_stock_uL, result.cosolvent_stock_uL, result.all_mix_stock_uL, result.solvent_uL))
+    if isinstance(result, LegacyMixingResult):
+        print("Volumes (uL): polymer={:.2f}, polymer-additive={:.2f}, solvent={:.2f}".format(
+            result.normal_polymer_stock_uL, result.polymer_additive_stock_uL, result.solvent_uL))
+    else:
+        print("Volumes (uL): polymer={:.2f}, solvent-additive={:.2f}, all-mix={:.2f}, solvent={:.2f}".format(
+            result.polymer_stock_uL, result.cosolvent_stock_uL, result.all_mix_stock_uL, result.solvent_uL))

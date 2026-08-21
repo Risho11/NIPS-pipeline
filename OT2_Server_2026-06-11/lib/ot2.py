@@ -10,6 +10,9 @@ polymer_stock_pwt = 17.0
 solvents_cswt = 30.0
 all_mix_pwt = 17.0
 all_mix_cswt = 24.9
+legacy_polymer_stock_wt_percent = 17.0
+legacy_additive_stock_polymer_wt_percent = 17.0
+legacy_additive_stock_additive_wt_percent = 4.0
 
 # Edit these when bottle capacity or the required aspiration reserve changes. On first use,
 # these values create bottle_inventory.json one directory above this file. Subsequent restarts
@@ -118,6 +121,10 @@ class OT2:
         self.solvents_cswt = solvents_cswt
         self.all_mix_pwt = all_mix_pwt
         self.all_mix_cswt = all_mix_cswt
+        self.polymer_stock_wt_percent = legacy_polymer_stock_wt_percent
+        self.additive_stock_polymer_wt_percent = legacy_additive_stock_polymer_wt_percent
+        self.additive_stock_additive_wt_percent = legacy_additive_stock_additive_wt_percent
+        self.stock_mode = "four_bottle"
         self.bottle_inventory = BottleInventory(
             INVENTORY_PATH, INITIAL_BOTTLE_VOLUMES_UL, DEAD_VOLUMES_UL)
 
@@ -414,17 +421,34 @@ class OT2:
             self.pipette.drop_tip()
 
     def update_metadata(self, params):
-        self.polymer_stock_pwt = params["polymer_stock_pwt"]
-        self.solvents_cswt = params["solvents_cswt"]
-        self.all_mix_pwt = params["all_mix_pwt"]
-        self.all_mix_cswt = params["all_mix_cswt"]
+        mode = params.get("stock_mode")
+        if mode is None:
+            mode = "two_bottle" if "polymer_stock_wt_percent" in params else "four_bottle"
+        if mode == "four_bottle":
+            self.polymer_stock_pwt = params["polymer_stock_pwt"]
+            self.solvents_cswt = params["solvents_cswt"]
+            self.all_mix_pwt = params["all_mix_pwt"]
+            self.all_mix_cswt = params["all_mix_cswt"]
+        elif mode == "two_bottle":
+            self.polymer_stock_wt_percent = params["polymer_stock_wt_percent"]
+            self.additive_stock_polymer_wt_percent = params["additive_stock_polymer_wt_percent"]
+            self.additive_stock_additive_wt_percent = params["additive_stock_additive_wt_percent"]
+        else:
+            raise ValueError("Unknown stock mode: {}".format(mode))
+        self.stock_mode = mode
 
     # return values
     def get_stock_weight_percent(self):
+        if self.stock_mode == "two_bottle":
+            return self.polymer_stock_wt_percent
         return self.polymer_stock_pwt
     def get_additive_percent(self):
+        if self.stock_mode == "two_bottle":
+            return self.additive_stock_additive_wt_percent
         return self.solvents_cswt
     def get_additive_polymer_percent(self):
+        if self.stock_mode == "two_bottle":
+            return self.additive_stock_polymer_wt_percent
         return self.all_mix_pwt
 
     def get_bottle_inventory(self):
@@ -442,25 +466,43 @@ class OT2:
 
     def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent, mixing_temp):
         target_recipe = calc.TargetRecipe(total_vol, target_polymer_wt_percent, target_additive_wt_percent)
-        stock = calc.StockParameters(
-            polymer_stock_pwt=self.polymer_stock_pwt,
-            solvents_cswt=self.solvents_cswt,
-            all_mix_pwt=self.all_mix_pwt,
-            all_mix_cswt=self.all_mix_cswt,
-        )
+        if self.stock_mode == "two_bottle":
+            stock = calc.LegacyStockParameters(
+                polymer_stock_wt_percent=self.polymer_stock_wt_percent,
+                additive_stock_polymer_wt_percent=self.additive_stock_polymer_wt_percent,
+                additive_stock_additive_wt_percent=self.additive_stock_additive_wt_percent,
+            )
+        else:
+            stock = calc.StockParameters(
+                polymer_stock_pwt=self.polymer_stock_pwt,
+                solvents_cswt=self.solvents_cswt,
+                all_mix_pwt=self.all_mix_pwt,
+                all_mix_cswt=self.all_mix_cswt,
+            )
         result = calc.calculate_batch(target_recipe, stock)
         calc.print_result(target_recipe, result)
 
-        sources = [
-            ("polymer_stock", "polymer stock", solution_slot_no, solution_well_no,
-             result.polymer_stock_uL, True),
-            ("solvent_additive_stock", "solvent-additive stock", solvent_additive_slot_no, solvent_additive_well_no,
-             result.cosolvent_stock_uL, False),
-            ("all_mix_stock", "all-mix stock", all_mix_slot_no, all_mix_well_no,
-             result.all_mix_stock_uL, True),
-            ("solvent", "pure solvent", solvent_slot_no, solvent_well_no,
-             result.solvent_uL, False),
-        ]
+        if self.stock_mode == "two_bottle":
+            sources = [
+                ("polymer_stock", "polymer stock", solution_slot_no, solution_well_no,
+                 result.normal_polymer_stock_uL, True),
+                # Legacy bottle 2 shares the all-mix bottle's physical position and inventory key.
+                ("all_mix_stock", "polymer-additive stock", all_mix_slot_no, all_mix_well_no,
+                 result.polymer_additive_stock_uL, True),
+                ("solvent", "pure solvent", solvent_slot_no, solvent_well_no,
+                 result.solvent_uL, False),
+            ]
+        else:
+            sources = [
+                ("polymer_stock", "polymer stock", solution_slot_no, solution_well_no,
+                 result.polymer_stock_uL, True),
+                ("solvent_additive_stock", "solvent-additive stock", solvent_additive_slot_no, solvent_additive_well_no,
+                 result.cosolvent_stock_uL, False),
+                ("all_mix_stock", "all-mix stock", all_mix_slot_no, all_mix_well_no,
+                 result.all_mix_stock_uL, True),
+                ("solvent", "pure solvent", solvent_slot_no, solvent_well_no,
+                 result.solvent_uL, False),
+            ]
         active_sources = [source for source in sources if source[4] > 0]
         self.bottle_inventory.require({source[0]: source[4] for source in active_sources})
         print("Bottle inventory before preparation: {}".format(self.bottle_inventory.snapshot()))
