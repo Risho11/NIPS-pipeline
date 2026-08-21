@@ -84,7 +84,7 @@ LOCK_ADDITIVE_WT_VALUE = 0
 # POLYMER_ITERATION_LIST instead of asking the LLM
 # Sweeping is forced on regardless of these flags whenever no branches are enabled at all 
 ITERATE_ADDITIVES = False
-ITERATE_POLYMER = True
+ITERATE_POLYMER = False
 # LLM search policy:
 #   "optimize" (default): objective-first active learning
 #   "explore": maximize diversity/coverage to populate the dataset
