@@ -22,6 +22,7 @@ dict_labware = {
                 6: 'pyrexoffset_2_reservoir_50000ul', # solvent, offset to account for knife stand
                 9: 'pyrex_2_reservoir_50000ul', # solution bottle and additive bottle
                 11: 'amlab_24_aluminumblock_2000ul_cap',
+                #9: 'vial_8_reservoir_20000ul', # vial holder
 
                 # add more labware with following template
                 # slot_num: 'labware_file_name',

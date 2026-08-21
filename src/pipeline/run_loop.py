@@ -55,8 +55,8 @@ INITIAL_PARAMS = {
     "pullcast_speed": 10,
     "nitrogen": True,
     "coupon_to_bath_wait_time": 30,
-    "nips_bath_wait_time": 125,
-    "polymer_wt": 17,
+    "nips_bath_wait_time": 1200,
+    "polymer_wt": 15,
     "additive_wt": 0
 }
 
@@ -75,7 +75,7 @@ LOCK_ADDITIVE_WT_VALUE = 0
 # POLYMER_ITERATION_LIST instead of asking the LLM
 # Sweeping is forced on regardless of these flags whenever no branches are enabled at all 
 ITERATE_ADDITIVES = False
-ITERATE_POLYMER = False
+ITERATE_POLYMER = True
 # LLM search policy:
 #   "optimize" (default): objective-first active learning
 #   "explore": maximize diversity/coverage to populate the dataset
@@ -112,15 +112,15 @@ def _campaign_folder_tag(continue_campaign, search_mode):
     return base
 
 ADDITIVE_ITERATION_LIST = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4]
-POLYMER_ITERATION_LIST = [10, 11, 12, 13, 14, 15, 16, 16.5, 17]
+POLYMER_ITERATION_LIST = [15, 15, 15, 15, 15, 15, 15, 15, 15]
 ITERATION_BASE_PARAMS = {
     "mixing_temp": 25,
     "bath_temp": 5,
     "pullcast_speed": 10,
     "nitrogen": True,
-    "coupon_to_bath_wait_time": 60,
-    "nips_bath_wait_time": 121,
-    "polymer_wt": 10,
+    "coupon_to_bath_wait_time": 30,
+    "nips_bath_wait_time": 1200,
+    "polymer_wt": 15,
 }
 _iteration_count = 0
 
