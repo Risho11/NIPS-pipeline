@@ -48,6 +48,12 @@ import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same 
 import master_processing                       # <<< IMPORT >>> dispatches curve_segmentation + image_processing branches
 import llm_context                             # <<< IMPORT >>> what branch results become CSV/report text for the LLM
 
+# Semi-batch material choices. Recorded with every condition and provided to LLM_AL as context,
+# but never selected or changed by the model.
+COSOLVENT_TYPE = "none"
+NIPS_BATH_SOLVENT = "none"
+NIPS_BATH_SOLVENT_WT_PERCENT = 0.0
+
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {
     "mixing_temp": 25,
@@ -57,7 +63,10 @@ INITIAL_PARAMS = {
     "coupon_to_bath_wait_time": 30,
     "nips_bath_wait_time": 1200,
     "polymer_wt": 15,
-    "additive_wt": 0
+    "additive_wt": 0,
+    "cosolvent_type": COSOLVENT_TYPE,
+    "nips_bath_solvent": NIPS_BATH_SOLVENT,
+    "nips_bath_solvent_wt_percent": NIPS_BATH_SOLVENT_WT_PERCENT,
 }
 
 # TEMPORARY -- additive-free campaign phase. Hard clamp, not just a prompt suggestion: when
@@ -121,6 +130,9 @@ ITERATION_BASE_PARAMS = {
     "coupon_to_bath_wait_time": 30,
     "nips_bath_wait_time": 1200,
     "polymer_wt": 15,
+    "cosolvent_type": COSOLVENT_TYPE,
+    "nips_bath_solvent": NIPS_BATH_SOLVENT,
+    "nips_bath_solvent_wt_percent": NIPS_BATH_SOLVENT_WT_PERCENT,
 }
 _iteration_count = 0
 
@@ -133,7 +145,14 @@ PARAMS_SCHEMA = {
     "nips_bath_wait_time":      (int, float),
     "polymer_wt":               (int, float),
     "additive_wt":              (int, float),
+    "cosolvent_type":           (str,),
+    "nips_bath_solvent":        (str,),
+    "nips_bath_solvent_wt_percent": (int, float),
 }
+LLM_PARAMS_KEYS = tuple(
+    key for key in PARAMS_SCHEMA
+    if key not in {"cosolvent_type", "nips_bath_solvent", "nips_bath_solvent_wt_percent"}
+)
 # <<< PATH >>> project root = three levels up from src/pipeline/run_loop.py
 DATA_ROOT    = _REPO_ROOT
 
@@ -153,6 +172,10 @@ def startup(lock_add, locked_value, iterate_add, iterate_poly, continue_campaign
     print("Stock solutions:")
     for k, v in activeLearning.bounds.send_metadata().items():
         print(f"  {k}: {v}")
+    print("Semi-batch material context (manual, locked from LLM_AL):")
+    print(f"  cosolvent_type: {COSOLVENT_TYPE}")
+    print(f"  nips_bath_solvent: {NIPS_BATH_SOLVENT}")
+    print(f"  nips_bath_solvent_wt_percent: {NIPS_BATH_SOLVENT_WT_PERCENT}")
 
     active = []
     if lock_add:
@@ -253,6 +276,16 @@ def move_and_rename(params):
     if params["additive_wt"] != 0:
         s += f"{_fmt_num(params['mixing_temp'])}degMix-"
     s += f"{_fmt_num(params['bath_temp'])}deg-"
+    cosolvent_type = "".join(
+        c if c.isalnum() or c in "-_" else "_"
+        for c in params["cosolvent_type"].strip()
+    ) or "none"
+    bath_solvent = "".join(
+        c if c.isalnum() or c in "-_" else "_"
+        for c in params["nips_bath_solvent"].strip()
+    ) or "none"
+    s += f"cosolv-{cosolvent_type}-bathSolv-{bath_solvent}-"
+    s += f"{_fmt_num(params['nips_bath_solvent_wt_percent'])}wt-"
     s += f"{_fmt_num(params['coupon_to_bath_wait_time'])}s-"
     if not params["nitrogen"]:
         s += "No"
@@ -284,8 +317,8 @@ def _extract_next_params(raw_text):
         if isinstance(parsed, dict):
             if "next_params" in parsed:
                 return parsed["next_params"]
-            if set(PARAMS_SCHEMA).issubset(parsed.keys()):
-                return {k: parsed[k] for k in PARAMS_SCHEMA}
+            if set(LLM_PARAMS_KEYS).issubset(parsed.keys()):
+                return {k: parsed[k] for k in LLM_PARAMS_KEYS}
         return None
 
     # 1. parse full text directly
@@ -352,6 +385,13 @@ def _validate_params(params):
                 f"next_params['{key}'] wrong type: got {type(val).__name__}, expected "
                 f"{tuple(t.__name__ for t in allowed_types)}"
             )
+    if not params["cosolvent_type"].strip():
+        raise ValueError("next_params['cosolvent_type'] cannot be blank; use 'none' when absent")
+    if not params["nips_bath_solvent"].strip():
+        raise ValueError("next_params['nips_bath_solvent'] cannot be blank; use 'none' when absent")
+    bath_solvent = float(params["nips_bath_solvent_wt_percent"])
+    if not 0 <= bath_solvent <= 100:
+        raise ValueError("next_params['nips_bath_solvent_wt_percent'] must be between 0 and 100")
 
 
 def _load_resume_params_for_campaign(campaign_date):
@@ -392,6 +432,12 @@ def _load_resume_params_for_campaign(campaign_date):
         raise ValueError(f"Resume params in {llm_result} must be a JSON object")
 
     params = {k: v for k, v in params.items() if k != "stock_metadata"}
+    # The configured values describe the bath physically installed for this process, including
+    # when resuming a campaign whose previous run used a different bath.
+    params.pop("nips_bath_cosolvent", None)  # migrate the short-lived pre-rename field
+    params["cosolvent_type"] = COSOLVENT_TYPE
+    params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
+    params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
     _validate_params(params)
     print(f"Resuming campaign {campaign_date} from {llm_result.name}")
     return params
@@ -479,6 +525,11 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
             new_params["polymer_wt"] = p
             new_params["additive_wt"] = a
 
+        # These describe a manually prepared bath, so never allow an LLM response to change
+        # them without the operator physically changing the bath first.
+        new_params["cosolvent_type"] = COSOLVENT_TYPE
+        new_params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
+        new_params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
         _validate_params(new_params)
 
         # attach stock class metadata so the opentrons server has it alongside the params

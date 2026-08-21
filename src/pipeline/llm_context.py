@@ -56,6 +56,9 @@ _AL_PARAMETER_COLUMNS = [
     "nips_bath_wait_time",
     "polymer_wt",
     "additive_wt",
+    "cosolvent_type",
+    "nips_bath_solvent",
+    "nips_bath_solvent_wt_percent",
 ]
 
 

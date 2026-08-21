@@ -16,14 +16,10 @@ New structure (USE_NEW_STOCK_STRUCTURE=True):
     All-mix stock:    PrimoSpire + PVP + NMP
     Pure solvent:     NMP -- always available (just solvent), same as the legacy structure's.
 
-    polymer_additive_bounds' feasible region is the full quadrilateral over all 4 (pure solvent
-    reaches (0, 0) unconditionally). calculate_mix here is still 3-bottle only (polymer/
-    cosolvent/all-mix, no explicit Vs term) -- 2 composition targets + 1 volume target is
-    exactly determined for 3 unknowns; adding solvent as a 4th makes it 4 unknowns/3 equations,
-    which needs an extra rule (e.g. minimize solvent use) to pick a unique solution. That rule
-    hasn't been decided, so points close enough to (0, 0) that they need real solvent dilution
-    -- not just diluting for free within the polymer/cosolvent/all-mix triangle -- will fail
-    here with "Impossible formulation" even though bounds.py reports them as feasible.
+    The four-stock problem is underdetermined, so the quadrilateral is split along the diagonal
+    from pure solvent to the all-mix stock. Each recipe therefore uses pure solvent, all-mix,
+    and either polymer stock or cosolvent stock. This gives a unique, continuous solution over
+    the complete feasible region and uses at most three bottles for any one recipe.
 
 Legacy structure (3 bottles, USE_NEW_STOCK_STRUCTURE=False):
     Normal polymer stock:   PrimoSpire + NMP
@@ -70,9 +66,7 @@ class LegacyStockParameters(_LegacyCompositionStockParameters):
 
 @dataclass
 class StockParameters(_NewCompositionStockParameters):
-    """New stock (polymer / cosolvent / all-mix) + density. Pure solvent (NMP) is a real 4th
-    bottle too, always available, but calculate_mix doesn't solve for it yet -- see the module
-    docstring."""
+    """Four stocks (polymer / solvent-additive / all-mix / solvent) plus densities."""
     polymer_stock_density: float = 1.10
     cosolvent_stock_density: float = 1.03
     all_mix_stock_density: float = 1.12
@@ -119,6 +113,7 @@ class MixingResult:
     polymer_stock_uL: float
     cosolvent_stock_uL: float
     all_mix_stock_uL: float
+    solvent_uL: float
     total_volume_uL: float
     final_polymer_wt_percent: float
     final_additive_wt_percent: float
@@ -161,7 +156,7 @@ def calculate_mix(
     round_to_uL: bool = True,
     min_volume_tolerance_uL: float = 1e-6,
 ) -> MixingResult | LegacyMixingResult:
-    """Calculate required volumes for a 3-bottle system. Dispatches on stocks' type -- see
+    """Calculate required volumes. Dispatches on stocks' type -- see
     _calculate_mix_new / _calculate_mix_legacy."""
     if isinstance(stocks, StockParameters):
         return _calculate_mix_new(recipe, stocks, round_to_uL, min_volume_tolerance_uL)
@@ -326,8 +321,9 @@ def _calculate_mix_new(
     """
     Bottles:
         Vp = polymer stock (polymer + solvent, no cosolvent)
-        Vc = cosolvent stock (cosolvent + solvent, no polymer)
+        Vc = solvent-additive stock (cosolvent + solvent, no polymer)
         Va = all-mix stock (polymer + solvent + cosolvent)
+        Vs = pure solvent
 
     Mass balances:
 
@@ -339,12 +335,8 @@ def _calculate_mix_new(
 
         Vp + Vc + Va = target final volume
 
-    Pure solvent is a real, always-available 4th bottle (see the module docstring), but isn't
-    a variable here -- 2 composition targets + 1 volume target exactly determine 3 unknowns;
-    adding solvent as a 4th makes it underdetermined (4 unknowns, 3 equations) without an
-    extra rule to pick a unique solution, which hasn't been decided yet. Targets that need
-    real solvent dilution to reach (not just diluting within the polymer/cosolvent/all-mix
-    triangle) will fail below with "Impossible formulation".
+    The quadrilateral is split into two triangles along solvent--all-mix. Both candidate
+    three-bottle systems are solved; the non-negative candidate identifies the triangle.
     """
     if recipe.total_volume_uL <= 0:
         raise ValueError("Target total volume must be positive.")
@@ -361,6 +353,7 @@ def _calculate_mix_new(
     rho_p = stocks.polymer_stock_density
     rho_c = stocks.cosolvent_stock_density
     rho_a = stocks.all_mix_stock_density
+    rho_s = stocks.solvent_density
 
     # Basic checks.
     if cp_target < 0 or ca_target < 0:
@@ -387,80 +380,55 @@ def _calculate_mix_new(
             "This cannot be made by dilution."
         )
 
-    if min(rho_p, rho_c, rho_a) <= 0:
+    if min(rho_p, rho_c, rho_a, rho_s) <= 0:
         raise ValueError("All densities must be positive.")
 
-    # Unknown vector x = [Vp, Vc, Va]
-    #
-    # Polymer balance:
-    # cp_poly*rho_p*Vp + cp_allmix*rho_a*Va
-    #     = cp_target * (rho_p*Vp + rho_c*Vc + rho_a*Va)
-    #
-    # Cosolvent (additive) balance:
-    # cc_cosolv*rho_c*Vc + cc_allmix*rho_a*Va
-    #     = ca_target * (rho_p*Vp + rho_c*Vc + rho_a*Va)
-    #
-    # Volume balance:
-    # Vp + Vc + Va = total_volume_uL
-    a = [
-        [
-            (cp_poly - cp_target) * rho_p,
-            -cp_target * rho_c,
-            (cp_allmix - cp_target) * rho_a,
-        ],
-        [
-            -ca_target * rho_p,
-            (cc_cosolv - ca_target) * rho_c,
-            (cc_allmix - ca_target) * rho_a,
-        ],
-        [
-            1.0,
-            1.0,
-            1.0,
-        ],
-    ]
-    b = [0.0, 0.0, recipe.total_volume_uL]
+    def solve_triangle(edge_p, edge_c, edge_rho):
+        # Unknowns are edge stock, all-mix stock, and pure solvent.
+        matrix = [
+            [(edge_p - cp_target) * edge_rho, (cp_allmix - cp_target) * rho_a, -cp_target * rho_s],
+            [(edge_c - ca_target) * edge_rho, (cc_allmix - ca_target) * rho_a, -ca_target * rho_s],
+            [1.0, 1.0, 1.0],
+        ]
+        return _solve_3x3(matrix, [0.0, 0.0, recipe.total_volume_uL])
 
-    vp, vc, va = _solve_3x3(a, b)
+    candidates = []
+    for edge_name, edge_p, edge_c, edge_rho in (
+        ("polymer", cp_poly, 0.0, rho_p),
+        ("cosolvent", 0.0, cc_cosolv, rho_c),
+    ):
+        edge, allmix, solvent = solve_triangle(edge_p, edge_c, edge_rho)
+        if min(edge, allmix, solvent) >= -min_volume_tolerance_uL:
+            candidates.append((edge_name, max(edge, 0.0), max(allmix, 0.0), max(solvent, 0.0)))
 
-    # Catch impossible formulations.
-    raw_volumes = {
-        "polymer stock": vp,
-        "cosolvent stock": vc,
-        "all-mix stock": va,
-    }
-    negative = {name: vol for name, vol in raw_volumes.items() if vol < -min_volume_tolerance_uL}
-    if negative:
-        details = ", ".join(f"{name} = {vol:.3f} uL" for name, vol in raw_volumes.items())
-        raise ValueError(f"Impossible formulation; calculated a negative volume. {details}")
+    if not candidates:
+        raise ValueError("Impossible formulation; target is outside the four-stock feasible region.")
 
-    # Remove tiny floating-point negatives.
-    vp = max(vp, 0.0)
-    vc = max(vc, 0.0)
-    va = max(va, 0.0)
+    edge_name, edge, va, vs = candidates[0]
+    vp, vc = (edge, 0.0) if edge_name == "polymer" else (0.0, edge)
 
     if round_to_uL:
-        # Round the first two active liquid volumes, then assign the residual to the
-        # all-mix stock so that the displayed total volume remains exact.
+        # Round active stocks and assign the residual to solvent to preserve total volume.
         vp = round(vp)
         vc = round(vc)
-        va = round(recipe.total_volume_uL - vp - vc)
+        va = round(va)
+        vs = round(recipe.total_volume_uL - vp - vc - va)
 
-        if va < -min_volume_tolerance_uL:
+        if vs < -min_volume_tolerance_uL:
             raise ValueError(
-                "Rounded volumes made all-mix stock negative. Try round_to_uL=False "
+                "Rounded volumes made solvent negative. Try round_to_uL=False "
                 "or use a larger total volume."
             )
+        vs = max(vs, 0.0)
 
-        va = max(va, 0.0)
-
-    final = _check_final_composition_new(vp, vc, va, stocks)
+    final = _check_final_composition_new(vp, vc, va, vs, stocks)
 
     return MixingResult(
         polymer_stock_uL=vp,
         cosolvent_stock_uL=vc,
         all_mix_stock_uL=va,
-        total_volume_uL=vp + vc + va,
+        solvent_uL=vs,
+        total_volume_uL=vp + vc + va + vs,
         final_polymer_wt_percent=final["polymer_wt_percent"],
         final_additive_wt_percent=final["additive_wt_percent"],
         final_solvent_wt_percent=final["solvent_wt_percent"],
@@ -472,6 +440,7 @@ def check_final_composition(
     vol_b_uL: float,
     vol_c_uL: float,
     stocks: StockParameters | LegacyStockParameters,
+    solvent_uL: float = 0.0,
 ) -> dict[str, float]:
     """
     Calculate the final wt% from actual dispensed volumes. Useful after rounding to whole uL.
@@ -480,7 +449,7 @@ def check_final_composition(
     normal-polymer/polymer-additive/solvent).
     """
     if isinstance(stocks, StockParameters):
-        return _check_final_composition_new(vol_a_uL, vol_b_uL, vol_c_uL, stocks)
+        return _check_final_composition_new(vol_a_uL, vol_b_uL, vol_c_uL, solvent_uL, stocks)
     return _check_final_composition_legacy(vol_a_uL, vol_b_uL, vol_c_uL, stocks)
 
 
@@ -521,6 +490,7 @@ def _check_final_composition_new(
     polymer_stock_uL: float,
     cosolvent_stock_uL: float,
     all_mix_stock_uL: float,
+    solvent_uL: float,
     stocks: StockParameters,
 ) -> dict[str, float]:
     cp_poly = stocks.polymer_stock_pwt / 100.0
@@ -531,8 +501,9 @@ def _check_final_composition_new(
     mp = polymer_stock_uL * stocks.polymer_stock_density
     mc = cosolvent_stock_uL * stocks.cosolvent_stock_density
     ma = all_mix_stock_uL * stocks.all_mix_stock_density
+    ms = solvent_uL * stocks.solvent_density
 
-    total_mass = mp + mc + ma
+    total_mass = mp + mc + ma + ms
     if total_mass <= 0:
         raise ValueError("Total mass is zero or negative.")
 
@@ -574,6 +545,7 @@ def print_result(recipe: TargetRecipe, result: MixingResult | LegacyMixingResult
         print(f"Polymer stock:      {result.polymer_stock_uL:.2f} uL")
         print(f"Cosolvent stock:    {result.cosolvent_stock_uL:.2f} uL")
         print(f"All-mix stock:      {result.all_mix_stock_uL:.2f} uL")
+        print(f"Pure solvent:       {result.solvent_uL:.2f} uL")
     else:
         print(f"Normal polymer stock:      {result.normal_polymer_stock_uL:.2f} uL")
         print(f"Polymer-additive stock:    {result.polymer_additive_stock_uL:.2f} uL")
@@ -627,7 +599,7 @@ def write_results_csv(
     is_new = bool(results) and isinstance(results[0], MixingResult)
 
     if is_new:
-        bottle_fieldnames = ["polymer_stock_uL", "cosolvent_stock_uL", "all_mix_stock_uL"]
+        bottle_fieldnames = ["polymer_stock_uL", "cosolvent_stock_uL", "all_mix_stock_uL", "solvent_uL"]
     else:
         bottle_fieldnames = ["normal_polymer_stock_uL", "polymer_additive_stock_uL", "solvent_uL"]
 

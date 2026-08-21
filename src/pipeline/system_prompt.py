@@ -54,7 +54,10 @@ ACTIVE_LEARNING_PROMPT_TEMPLATE = (
     "Keep your reasoning concise, structured and transparent."
     "Return your answer as a single JSON object (a ```json code fence is fine) with exactly these "
     "keys: mixing_temp, bath_temp, pullcast_speed, nitrogen, coupon_to_bath_wait_time, "
-    "nips_bath_wait_time, polymer_wt, additive_wt. Do not add a wrapping key or omit any key."
+    "nips_bath_wait_time, polymer_wt, additive_wt. The cosolvent type and NIPS-bath solvent "
+    "identity/concentration shown in observations are manually controlled semi-batch context "
+    "and are not yours to change. Do not add a wrapping key "
+    "or omit any key."
 )
 
 # Historical reference only -- NOT used anywhere, never import/call this. The original inline

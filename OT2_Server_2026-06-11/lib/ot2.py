@@ -1,26 +1,43 @@
 import time
+import os
 from opentrons import protocol_api
 import opentrons.execute
 import numpy as np
 import calculations as calc
+from bottle_inventory import BottleInventory
 
-polymer_stock_wt_percent = 21
-additive_stock_additive_wt_percent = 4
-additive_stock_polymer_wt_percent = 21
+polymer_stock_pwt = 17.0
+solvents_cswt = 30.0
+all_mix_pwt = 17.0
+all_mix_cswt = 24.9
+
+# Edit these when bottle capacity or the required aspiration reserve changes. On first use,
+# these values create bottle_inventory.json one directory above this file. Subsequent restarts
+# load the saved remaining volumes instead of resetting them.
+INITIAL_BOTTLE_VOLUMES_UL = {
+    "polymer_stock": 50000.0,
+    "solvent_additive_stock": 50000.0,
+    "all_mix_stock": 50000.0,
+    "solvent": 50000.0,
+}
+DEAD_VOLUMES_UL = {name: 2000.0 for name in INITIAL_BOTTLE_VOLUMES_UL}
+INVENTORY_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "bottle_inventory.json"))
 
 solution_slot_no = 9
 solution_well_no = 0
 solvent_slot_no = 6
 solvent_well_no = 0
 heater_slot_no = 11
-additive_1_slot_no = 9
-additive_1_well_no = 1
+solvent_additive_slot_no = 6
+solvent_additive_well_no = 1
+all_mix_slot_no = 9
+all_mix_well_no = 1
 
 dict_labware = {
                 1: 'amlab_cast_stage_v7', # coupon holder
                 8: 'amlab_96_tiprack_1000ul_v3', # Axygen T-1005-WB-C pipette tips in 3D printed tiprack
-                6: 'pyrexoffset_2_reservoir_50000ul', # solvent, offset to account for knife stand
-                9: 'pyrex_2_reservoir_50000ul', # solution bottle and additive bottle
+                6: 'pyrexoffset_2_reservoir_50000ul', # solvent and solvent-additive
+                9: 'pyrex_2_reservoir_50000ul', # polymer stock and all-mix stock
                 11: 'amlab_24_aluminumblock_2000ul_cap',
                 #9: 'vial_8_reservoir_20000ul', # vial holder
 
@@ -97,9 +114,12 @@ class OT2:
         self.heater_well_index = heater_well_index
         
         # solution variables
-        self.polymer_stock_wt_percent = polymer_stock_wt_percent
-        self.additive_stock_additive_wt_percent = additive_stock_additive_wt_percent
-        self.additive_stock_polymer_wt_percent = additive_stock_polymer_wt_percent
+        self.polymer_stock_pwt = polymer_stock_pwt
+        self.solvents_cswt = solvents_cswt
+        self.all_mix_pwt = all_mix_pwt
+        self.all_mix_cswt = all_mix_cswt
+        self.bottle_inventory = BottleInventory(
+            INVENTORY_PATH, INITIAL_BOTTLE_VOLUMES_UL, DEAD_VOLUMES_UL)
 
     # ==================================================
     # SECTION: Tier 1 Functions
@@ -394,90 +414,81 @@ class OT2:
             self.pipette.drop_tip()
 
     def update_metadata(self, params):
-        self.polymer_stock_wt_percent = params["polymer_stock_wt_percent"]
-        self.additive_stock_additive_wt_percent = params["additive_stock_additive_wt_percent"]
-        self.additive_stock_polymer_wt_percent = params["additive_stock_polymer_wt_percent"]
+        self.polymer_stock_pwt = params["polymer_stock_pwt"]
+        self.solvents_cswt = params["solvents_cswt"]
+        self.all_mix_pwt = params["all_mix_pwt"]
+        self.all_mix_cswt = params["all_mix_cswt"]
 
     # return values
     def get_stock_weight_percent(self):
-        return self.polymer_stock_wt_percent                          
+        return self.polymer_stock_pwt
     def get_additive_percent(self):
-        return self.additive_stock_additive_wt_percent    
+        return self.solvents_cswt
     def get_additive_polymer_percent(self):
-        return self.additive_stock_polymer_wt_percent
+        return self.all_mix_pwt
+
+    def get_bottle_inventory(self):
+        """Return remaining, reserved, and usable volume for each stock bottle."""
+        return self.bottle_inventory.snapshot()
+
+    def set_bottle_remaining_volume(self, bottle, volume_uL):
+        """Reconcile inventory after physically measuring, refilling, or replacing a bottle."""
+        self.bottle_inventory.set_remaining(bottle, volume_uL)
+        print("Updated bottle inventory: {}".format(self.bottle_inventory.snapshot()))
 
     # ==================================================
     # SECTION: Tier 3 Functions
     # ==================================================    
 
     def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent, mixing_temp):
-        # declare variables to pass to function
         target_recipe = calc.TargetRecipe(total_vol, target_polymer_wt_percent, target_additive_wt_percent)
-        stock = calc.StockParameters(self.polymer_stock_wt_percent, self.additive_stock_polymer_wt_percent, self.additive_stock_additive_wt_percent)
-
-        # get and display result
+        stock = calc.StockParameters(
+            polymer_stock_pwt=self.polymer_stock_pwt,
+            solvents_cswt=self.solvents_cswt,
+            all_mix_pwt=self.all_mix_pwt,
+            all_mix_cswt=self.all_mix_cswt,
+        )
         result = calc.calculate_batch(target_recipe, stock)
         calc.print_result(target_recipe, result)
 
-        # convert to result normal variables
-        V_normal_polymer = result.normal_polymer_stock_uL
-        V_additive_polymer = result.polymer_additive_stock_uL
-        V_solvent = result.solvent_uL
+        sources = [
+            ("polymer_stock", "polymer stock", solution_slot_no, solution_well_no,
+             result.polymer_stock_uL, True),
+            ("solvent_additive_stock", "solvent-additive stock", solvent_additive_slot_no, solvent_additive_well_no,
+             result.cosolvent_stock_uL, False),
+            ("all_mix_stock", "all-mix stock", all_mix_slot_no, all_mix_well_no,
+             result.all_mix_stock_uL, True),
+            ("solvent", "pure solvent", solvent_slot_no, solvent_well_no,
+             result.solvent_uL, False),
+        ]
+        active_sources = [source for source in sources if source[4] > 0]
+        self.bottle_inventory.require({source[0]: source[4] for source in active_sources})
+        print("Bottle inventory before preparation: {}".format(self.bottle_inventory.snapshot()))
 
-        # only additive solution
-        if V_additive_polymer == total_vol:
-            print("Solution will be pulled from additive bottle.")
+        if len(active_sources) == 1 and abs(active_sources[0][4] - total_vol) < 1e-6:
+            bottle, name, slot, well, volume, viscous = active_sources[0]
+            print("Solution will be pulled directly from the {} bottle.".format(name))
             self.attach_next_tip()
-            self.prep_pullcast_asperate(additive_1_slot_no, additive_1_well_no, total_vol)
-
-        # only polymer solution
-        elif V_normal_polymer == total_vol:
-            print("Solution will be pulled from stock polymer bottle.")
-            self.attach_next_tip()
-            self.prep_pullcast_asperate(solution_slot_no, solution_well_no, total_vol)
-
-        # only solvent, not sure if this would ever happen but just incase
-        elif V_solvent == total_vol:
-            print("Only solvent will be used. If this is an error, correct it ASAP.")
-            self.attach_next_tip()
-            self.prep_pullcast_asperate(solvent_slot_no, solvent_well_no, total_vol)
-        
-        # else, solution must be mixed
+            self.prep_pullcast_asperate(slot, well, volume, viscous)
+            self.bottle_inventory.consume(bottle, volume)
         else:
-            # variable for keeping track of tips
             tip = False
-
-            # set mixing temperature
             if(self.has_temp()):
                 self._set_temp(mixing_temp)
 
-            # add solvent to well
-            if V_solvent > 0:
+            for bottle, name, slot, well, volume, viscous in active_sources:
                 if tip:
                     self._drop()
                 self.attach_next_tip()
                 tip = True
-                self._transfer(solvent_slot_no, solvent_well_no, heater_slot_no, self.heater_well_index, V_solvent, False)
+                print("Adding {:.2f} uL from {}.".format(volume, name))
+                self._transfer(slot, well, heater_slot_no, self.heater_well_index, volume, viscous)
+                self.bottle_inventory.consume(bottle, volume)
 
-            # add additive solution to well
-            if V_additive_polymer > 0:
-                if tip:
-                    self._drop()
-                self.attach_next_tip()
-                tip = True
-                self._transfer(additive_1_slot_no, additive_1_well_no, heater_slot_no, self.heater_well_index, V_additive_polymer)
-
-            # add stock solution to well
-            if V_normal_polymer > 0:
-                if tip:
-                    self._drop()
-                self.attach_next_tip()
-                tip = True
-                self._transfer(solution_slot_no, solution_well_no, heater_slot_no, self.heater_well_index, V_normal_polymer)
-
-            # mix solution and prep for pullcast
             self._mix(heater_slot_no, self.heater_well_index)
             self.prep_pullcast_from_mix_asperate(total_vol, True)
+
+        print("Bottle inventory after preparation: {}".format(self.bottle_inventory.snapshot()))
         
         # deactivate opentrons heater when done mixing
         if(self.has_temp()):

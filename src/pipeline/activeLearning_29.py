@@ -47,6 +47,9 @@ params = {
     "bath_temp": "the temperature in Celsius of the NIPS bath",
     "polymer_wt": "the polymer (polysulfone) concentration in the final solution (solvent is PolarClean)",
     "additive_wt": "the additive (PVP) concentration in the final solution",
+    "cosolvent_type": "the manually selected cosolvent identity used in the stock/formulation; 'none' means no cosolvent",
+    "nips_bath_solvent": "the manually selected solvent identity added to the non-solvent NIPS bath; 'none' means no solvent",
+    "nips_bath_solvent_wt_percent": "the solvent concentration in the non-solvent NIPS bath in wt%, manually prepared by the operator",
 }
 
 def Generate_report(Formatted_Parameters, Model = "anthropic/claude-sonnet-4.6", Temperature = 0.0, sleep = 0.5):

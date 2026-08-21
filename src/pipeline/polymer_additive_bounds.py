@@ -62,13 +62,13 @@ class StockParameters:
     #third bottle - polymer + solvent + cosolvent
     all_mix_pwt: float = 17.0
     all_mix_cswt: float = (100-all_mix_pwt)*cosolvent_frac
-    #fourth bottle - solvent only (planned, see USE_FOURTH_BOTTLE)
+    # fourth bottle is pure solvent, whose composition is always (0, 0)
 
 
 # Temporary switch for the cosolvent-bottle changeover -- True = new StockParameters (4 bottles,
 # cosolvent stock is real), False = fall back to the old 2-bottle-plus-dilution model
 # (OldStockStruct). Flip to False to revert if the new structure needs backing out.
-USE_NEW_STOCK_STRUCTURE = False
+USE_NEW_STOCK_STRUCTURE = True
 
 DEFAULT_STOCKS: StockParameters | OldStockStruct = (
     StockParameters() if USE_NEW_STOCK_STRUCTURE else OldStockStruct()
