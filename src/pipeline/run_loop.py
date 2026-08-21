@@ -79,14 +79,14 @@ ITERATE_POLYMER = False
 # LLM search policy:
 #   "optimize" (default): objective-first active learning
 #   "explore": maximize diversity/coverage to populate the dataset
-LLM_AL_SEARCH_MODE = "optimize"
+LLM_AL_SEARCH_MODE = "explore"
 # Number of recent unique points provided as diversity context when
 # LLM_AL_SEARCH_MODE="explore". None means keep all historical unique points.
 LLM_AL_EXPLORATION_HISTORY_POINTS = None
 #basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
 #in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
-CONTINUE_CAMPAIGN = "2026-8-19"
+CONTINUE_CAMPAIGN = None
 
 
 def _campaign_date_folder_tag(continue_campaign):
