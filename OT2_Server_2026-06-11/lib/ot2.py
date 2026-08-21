@@ -15,10 +15,10 @@ all_mix_cswt = 24.9
 # these values create bottle_inventory.json one directory above this file. Subsequent restarts
 # load the saved remaining volumes instead of resetting them.
 INITIAL_BOTTLE_VOLUMES_UL = {
-    "polymer_stock": 50000.0,
-    "solvent_additive_stock": 50000.0,
-    "all_mix_stock": 50000.0,
-    "solvent": 50000.0,
+    "polymer_stock": 20000.0,
+    "solvent_additive_stock": 20000.0,
+    "all_mix_stock": 20000.0,
+    "solvent": 20000.0,
 }
 DEAD_VOLUMES_UL = {name: 2000.0 for name in INITIAL_BOTTLE_VOLUMES_UL}
 INVENTORY_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "bottle_inventory.json"))

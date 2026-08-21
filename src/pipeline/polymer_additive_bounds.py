@@ -43,7 +43,7 @@ from dataclasses import asdict, dataclass
 
 #in any mix with cosolvent and solvent, there's this amt of cosolvent
 #for each unit of solvent. NOT incluidng polymer
-cosolvent_frac = 0.3
+cosolvent_frac = 0.70
 
 
 @dataclass

@@ -45,10 +45,10 @@ params = {
     "nitrogen": "whether the polymer solution undergoes a laminar dry nitrogen blow to remove humidity after it is blade-cast until it is immersed into the NIPS bath",
     "nips_bath_wait_time": "how long the sample is waited in seconds in the NIPS bath after immersion",
     "bath_temp": "the temperature in Celsius of the NIPS bath",
-    "polymer_wt": "the polymer (polysulfone) concentration in the final solution (solvent is PolarClean)",
-    "additive_wt": "the additive (PVP) concentration in the final solution",
+    "polymer_wt": "the polymer concentration in the final solution",
+    "additive_wt": "the additive/cosolvent concentration in the final solution",
     "cosolvent_type": "the manually selected cosolvent identity used in the stock/formulation; 'none' means no cosolvent",
-    "nips_bath_solvent": "the manually selected solvent identity added to the non-solvent NIPS bath; 'none' means no solvent",
+    "nips_bath_solvent": "the manually selected solvent identity in the non-solvent NIPS bath; 'none' means no solvent",
     "nips_bath_solvent_wt_percent": "the solvent concentration in the non-solvent NIPS bath in wt%, manually prepared by the operator",
 }
 
@@ -63,7 +63,8 @@ def Generate_report(Formatted_Parameters, Model = "anthropic/claude-sonnet-4.6",
       temperature=Temperature
     )
     time.sleep(sleep)
-    return response.choices[0].message.content
+    result = response.choices[0].message.content
+    return result
 
 _BASE_RANGES = 'The "mixing_temp" can be between 25 and 80 degrees Celsius; Note that if proposing a "polymer_wt" at max value, the "mixing_temp" must be 25 degrees Celsius and not be tuned as no mixing is happening at the stock concentration. The "bath_temp" can be between 5 and 25 degrees Celsius. The "pullcast_speed" can be between 1 and 20 mm/s. The "coupon_to_bath_wait_time" can be between 0 and 600 seconds. The "nips_bath_wait_time" can be between 1200 and 1800seconds. The "nitrogen" can be either True or False.'
 
@@ -119,21 +120,21 @@ def current_ranges(locked_additive_wt=None) -> str:
 
     Pass locked_additive_wt (e.g. run_loop.LOCK_ADDITIVE_WT_VALUE) when a campaign phase is
     forcing additive_wt to a fixed value downstream -- otherwise this describes the full
-    triangle (up to additive_wt_max), the LLM keeps proposing nonzero additive_wt within that
+    feasible stock-composition polygon (up to additive_wt_max), the LLM keeps proposing nonzero additive_wt within that
     range, and run_loop.py silently overrides every suggestion back to the locked value. The
     model never sees why its suggestions get discarded, which derails active learning."""
-    triangle = bounds.get_composition_bounds()
+    composition_bounds = bounds.get_composition_bounds()
     if locked_additive_wt is None:
         tri_ranges = (
-            f' The "polymer_wt" maximum is {triangle["polymer_wt_max"]} and the "additive_wt" '
-            f'maximum is {triangle["additive_wt_max"]}. The "polymer_wt" and "additive_wt" should '
-            f'be within the triangular bounds {triangle["vertices"]}.'
+            f' The "polymer_wt" maximum is {composition_bounds["polymer_wt_max"]} and the "additive_wt" '
+            f'maximum is {composition_bounds["additive_wt_max"]}. The "polymer_wt" and "additive_wt" should '
+            f'be within the feasible polygon {composition_bounds["vertices"]}.'
         )
     else:
         tri_ranges = (
             f' The "additive_wt" is locked at {locked_additive_wt} for this campaign phase -- '
             f'always suggest exactly {locked_additive_wt} for "additive_wt", regardless of '
-            f'prior observations. The "polymer_wt" maximum is {triangle["polymer_wt_max"]}.'
+            f'prior observations. The "polymer_wt" maximum is {composition_bounds["polymer_wt_max"]}.'
         )
     return _BASE_RANGES + tri_ranges
 #-----------#
@@ -174,4 +175,5 @@ def LLM_AL(performance_observations, ranges=None, quality_observations=None, ima
         temperature=Temperature
     )
     time.sleep(sleep)
-    return response.choices[0].message.content
+    final_content = response.choices[0].message.content
+    return final_content
