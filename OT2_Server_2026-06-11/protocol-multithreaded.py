@@ -462,7 +462,7 @@ def run_test(param = None):
         
         # take air measurement
         time.sleep(5)
-        membrane_air_data = arduino.read_2nd_temp_humidity()
+        parameters["coupon_air_data"] = arduino.read_2nd_temp_humidity()
         
         # stop nitrgoen
         hover_process.join()

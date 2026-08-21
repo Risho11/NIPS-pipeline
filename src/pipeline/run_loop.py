@@ -62,7 +62,7 @@ INITIAL_PARAMS = {
     "nitrogen": True,
     "coupon_to_bath_wait_time": 30,
     "nips_bath_wait_time": 1200,
-    "polymer_wt": 15,
+    "polymer_wt": 17,
     "additive_wt": 0,
     "cosolvent_type": COSOLVENT_TYPE,
     "nips_bath_solvent": NIPS_BATH_SOLVENT,
