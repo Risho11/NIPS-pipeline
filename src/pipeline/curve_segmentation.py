@@ -1926,6 +1926,19 @@ def process_zero_sample_pairs_pipeline(
             zero_raw_processed = process_curve_raw(zero_file, load_cutoff=load_cutoff)
             sample_raw_processed = process_curve_raw(sample_file, load_cutoff=load_cutoff)
 
+            # A specimen whose load never crosses load_cutoff (failed/aborted pull -- load cell
+            # never engaged, e.g. negative load throughout) leaves an empty frame here. That's a
+            # real bad-data condition, not something to paper over numerically -- skip just this
+            # pair with a clear warning instead of an opaque IndexError killing the whole batch.
+            if zero_raw_processed.empty or sample_raw_processed.empty:
+                empty_side = "zero" if zero_raw_processed.empty else "sample"
+                empty_file = zero_file if zero_raw_processed.empty else sample_file
+                print(
+                    f"Warning: {condition_name} rep {replicate} skipped — {empty_side} file "
+                    f"never reaches load_cutoff={load_cutoff} ({Path(empty_file).name})"
+                )
+                continue
+
             zero_shifted, sample_shifted = shift_sample_and_zero_curve(
                 zero_raw_processed.copy(),
                 sample_raw_processed.copy(),
