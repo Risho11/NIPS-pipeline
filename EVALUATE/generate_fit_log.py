@@ -556,14 +556,16 @@ body.show-derivs .rep-row-has-deriv .rep-deriv { display: flex; }
 #sort-toggle {
     background: #546e7a; color: #eceff1; border: 1px solid #78909c;
     border-radius: 3px; padding: 4px 10px; font-size: 11px; cursor: pointer;
-    box-shadow: 0 1px 0 rgba(255,255,255,.08);
+    box-shadow: 0 2px 3px rgba(0,0,0,.3);
+    transform: translateY(0); transition: transform .08s ease, box-shadow .08s ease;
 }
 #sort-toggle:hover { background: #607d8b; }
 #sort-toggle.pressed {
-    background: #2a78d6; border-color: #1c5cab; color: #fff;
-    box-shadow: inset 0 2px 3px rgba(0,0,0,.35);
+    background: #78909c; border-color: #90a4ae; color: #fff;
+    box-shadow: none;
+    transform: translateY(0.5px);
 }
-#sort-toggle.pressed:hover { background: #256abf; }
+#sort-toggle.pressed:hover { background: #839aa5; }
 #filter-count { color: #90a4ae; font-style: italic; }
 
 /* hover tooltip for breakdown notes */
