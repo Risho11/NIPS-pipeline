@@ -83,7 +83,33 @@ SAVE_PLOTS = True   # set False to disable saving
 _caller = Path(sys.argv[0]).stem if sys.argv else ""
 _ts     = datetime.datetime.today().strftime('%Y-%m-%d')
 _prefix = "run" if _caller == "run_loop" else "pseudo-runs/test"
+_SAVE_PREFIX_LEAF = _prefix.rsplit("/", 1)[-1]  # "test" (path portion before it stays fixed)
 SAVE_ROOT  = Path(__file__).resolve().parent.parent.parent / "data" / "plots" / f"{_prefix}-{_ts}"
+
+
+def _campaign_date_str(condition_name, raw_root):
+    """Earliest Specimen_*.csv timestamp for condition_name under raw_root, as YYYY-MM-DD, or
+    None if no raw specimen files are found there.
+
+    Used to route test/pseudo reprocesses (test_processing.py etc) to a pseudo-runs/test-<date>
+    folder dated by the condition's real campaign date instead of _ts (today, fixed once at
+    module import). Without this, reprocessing many conditions from different campaigns in one
+    batch dumped everything into a single today-dated bucket regardless of when each condition
+    actually ran -- correct for a live run_loop.py session (today IS the campaign date), wrong
+    for a backfill/regression-test rerun days or months later.
+    """
+    d = Path(raw_root) / condition_name
+    if not d.is_dir():
+        return None
+    stamps = []
+    for f in d.glob("Specimen_*.csv"):
+        m = re.search(r"(\d{8})_(\d{6})", f.name)
+        if m:
+            try:
+                stamps.append(datetime.datetime.strptime(m.group(1) + m.group(2), "%m%d%Y%H%M%S"))
+            except ValueError:
+                pass
+    return min(stamps).strftime("%Y-%m-%d") if stamps else None
 # ─────────────────────────────────────────────────────────────────────────
 
 
@@ -1891,21 +1917,27 @@ def process_zero_sample_pairs_pipeline(
     pipeline_result = {}
 
     for condition_name, payload in pairs_by_condition.items():
-        _cond_base = SAVE_ROOT / condition_name
         # Real campaign runs (run_loop.py) never overwrite -- each run's plots are meaningful,
         # distinct data, so a same-day rerun bumps to _run2/_run3/... instead. Test/pseudo runs
         # (test_processing.py, notebooks, etc.) are disposable reruns during debugging -- piling
         # up _run2/_run3/... there just leaves stale folders for find_plots() to pick the wrong
         # one from, so those overwrite the same folder in place every time instead.
         if _prefix != "run":
-            condition_save_dir = _cond_base
-        elif _cond_base.exists():
-            _n = 2
-            while (SAVE_ROOT / f"{condition_name}_run{_n}").exists():
-                _n += 1
-            condition_save_dir = SAVE_ROOT / f"{condition_name}_run{_n}"
+            # Route to the condition's own campaign date, not _ts (today, fixed at import) --
+            # see _campaign_date_str() docstring. Falls back to today only if no raw specimen
+            # files exist for this condition.
+            _campaign_ts = _campaign_date_str(condition_name, Path(data_root) / folder_name) or _ts
+            _campaign_root = SAVE_ROOT.parent / f"{_SAVE_PREFIX_LEAF}-{_campaign_ts}"
+            condition_save_dir = _campaign_root / condition_name
         else:
-            condition_save_dir = _cond_base
+            _cond_base = SAVE_ROOT / condition_name
+            if _cond_base.exists():
+                _n = 2
+                while (SAVE_ROOT / f"{condition_name}_run{_n}").exists():
+                    _n += 1
+                condition_save_dir = SAVE_ROOT / f"{condition_name}_run{_n}"
+            else:
+                condition_save_dir = _cond_base
 
         print("=" * 110)
         print("Condition: {} | pairs: {}".format(condition_name, payload["num_pairs"]))

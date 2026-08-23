@@ -25,12 +25,16 @@ import curve_segmentation as processing             # <<< IMPORT >>> must be in 
 # <<< PATH >>> Set to a folder name to run one condition, a list of names to run several, or
 # None to run ALL real conditions.
 DATA_ROOT  = Path(__file__).parent.parent
-CONDITION  = '17-0add-5deg-15s-N2-1800s'
+CONDITION  = None
 # <<< PATH >>> Set to "YYYY-MM-DD" to run every condition whose earliest specimen file was
 # recorded that day (reads the MMDDYYYY_HHMMSS timestamp baked into each
 # data/raw/<condition>/Specimen_*.csv filename -- same convention run_loop.py writes).
 # Overrides CONDITION above when set; leave as None to use CONDITION as-is.
 CAMPAIGN_DAY = None  # e.g. "2026-06-18"
+# <<< PATH >>> Resume a batch run (CONDITION=None or a list) skipping every condition that sorts
+# before this one -- e.g. after a crash partway through, pick back up right where it died
+# instead of reprocessing everything already done. Leave as None to run the full set.
+RESUME_FROM = "10.0-0.0add-5deg-60s-N2-101s"  # e.g. "10.0-0.0add-5deg-60s-N2-101s"
 # <<< PATH >>> output files land beside this script
 OUTPUT_CSV  = Path(__file__).parent / "csv_tests" / "test_reps.csv"
 AGG_CSV     = Path(__file__).parent / "csv_tests" / "test_agg.csv"
@@ -72,6 +76,17 @@ elif isinstance(CONDITION, (list, tuple, set)):
 else:
     _all_conditions = [CONDITION]
 
+if RESUME_FROM is not None:
+    if RESUME_FROM not in _all_conditions:
+        raise ValueError(
+            f"RESUME_FROM={RESUME_FROM!r} not found among the {len(_all_conditions)} matched condition(s)"
+        )
+    _start = _all_conditions.index(RESUME_FROM)
+    _skipped = _all_conditions[:_start]
+    _all_conditions = _all_conditions[_start:]
+    print(f"[RESUME_FROM] {RESUME_FROM}: skipping {len(_skipped)} already-done condition(s), "
+          f"{len(_all_conditions)} remaining")
+
 print(f"Data root  : {DATA_ROOT}")
 print(f"Conditions : {CONDITION or f'ALL ({len(_all_conditions)})'}")
 print()
@@ -86,7 +101,7 @@ output = processing.process_zero_sample_pairs_pipeline(
     creep_info=True,
     cutoff_load_thickness=3,
     cutoff_load_displacement=2,
-    condition_filter=CONDITION,  # None = all
+    condition_filter=_all_conditions,  # concrete list -- lets RESUME_FROM slice it above
 )
 
 processing.save_to_csv(output, data_root=DATA_ROOT, output_path=OUTPUT_CSV, aggregate_path=AGG_CSV)

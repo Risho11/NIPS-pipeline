@@ -1,0 +1,49 @@
+name: Regenerate evaluation logs
+
+# GitHub Pages serves docs/ with no build step -- it only shows whatever HTML is literally
+# committed. Nothing regenerates fit_evaluation_log.html / quality_evaluation_log.html on its
+# own, so pushing new campaign data alone left the hosted page stale until someone remembered to
+# run the generator scripts locally and push the result. This closes that gap.
+#
+# Trigger is scoped to data/results/** so the bot's own docs/-only commit below never matches
+# the path filter and re-triggers itself -- no actor/loop guard needed.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/results/**"
+
+permissions:
+  contents: write
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas
+
+      - name: Regenerate fit + quality evaluation logs
+        run: |
+          python EVALUATE/generate_fit_log.py
+          python EVALUATE/generate_quality_log.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if git diff --cached --quiet; then
+            echo "No changes to the logs -- nothing to commit."
+          else
+            git commit -m "Auto-regenerate evaluation logs [skip ci]"
+            git push
+          fi

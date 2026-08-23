@@ -23,6 +23,7 @@ When the same condition appears in multiple CSVs, the most recently
 dated entry wins — re-running always replaces, never appends.
 """
 
+import datetime
 import json
 import re
 import shutil
@@ -34,9 +35,37 @@ FILE_DIR    = Path(__file__).parent
 ROOT        = FILE_DIR.parent  # project root — this script lives in EVALUATE/
 PLOTS_DIR   = ROOT / "data" / "plots"
 RESULTS_DIR = ROOT / "data" / "results"
+RAW_ROOT    = ROOT / "data" / "raw"
 # Lives under docs/ so GitHub Pages can serve it straight off main (Settings > Pages > docs/).
 OUTPUT      = ROOT / "docs" / "fit_evaluation_log.html"
 PASS_THRESHOLD = 70
+
+_SPECIMEN_TS_RE = re.compile(r"(\d{8})_(\d{6})")
+
+
+def true_condition_date(cond_name):
+    """Earliest Specimen_*.csv timestamp for this condition under data/raw/.
+
+    The CSV `date` column is NOT the campaign date -- save_to_csv() stamps it with
+    datetime.now() at processing time (curve_segmentation.py). That's fine for a live
+    run_loop.py run (now ~= when it happened), but a reprocess/backfill through
+    test_processing.py stamps every row with today's date regardless of when the
+    specimens were actually pulled, which silently wrecked "newest first" card order
+    after a full-batch rerun (everything ties on the rerun date). Reading the real
+    timestamp baked into each raw specimen filename instead.
+    """
+    d = RAW_ROOT / cond_name
+    if not d.is_dir():
+        return None
+    stamps = []
+    for f in d.glob("Specimen_*.csv"):
+        m = _SPECIMEN_TS_RE.search(f.name)
+        if m:
+            try:
+                stamps.append(datetime.datetime.strptime(m.group(1) + m.group(2), "%m%d%Y%H%M%S"))
+            except ValueError:
+                pass
+    return min(stamps) if stamps else None
 
 COMPONENTS = [
     ("elastic_r2",               30, "elastic R²"),
@@ -124,19 +153,26 @@ def load_agg_cvs(agg_csv_paths=None):
     return {k: tuple(v) for k, v in result.items()}
 
 
-def copy_asset(path: Path, assets_dir: Path, cond_safe: str) -> str:
+def copy_asset(path: Path, assets_dir: Path, cond_safe: str, used_assets: set = None) -> str:
     """Copy path into assets_dir/cond_safe/ (scoped per-condition since rep filenames like
     Segmentation_rep-1.png repeat across conditions) and return the relative <img src> for it.
     Linked files instead of base64 data URIs -- embedding kept fit_evaluation_log.html at ~80MB
     (every plot re-encoded inline on every regen), which blew past GitHub's recommended file
     size and made every commit carry a full new multi-MB blob. Plain files sit outside git
     history (or diff cleanly) and load faster in the browser besides.
+
+    Only copies when the dest is missing/stale (mtime-gated) -- generate() no longer wipes
+    assets_dir up front, so an unchanged source file keeps its dest's original mtime. That's
+    what lets `git add` skip rehashing it via git's stat cache instead of touching all ~2000
+    asset files (and their full content) on every regen.
     """
     dest_dir = assets_dir / cond_safe
     dest_dir.mkdir(parents=True, exist_ok=True)
     dest = dest_dir / path.name
     if not dest.exists() or dest.stat().st_mtime < path.stat().st_mtime:
         shutil.copy2(path, dest)
+    if used_assets is not None:
+        used_assets.add(dest.resolve())
     return f"assets/fit/{cond_safe}/{path.name}"
 
 
@@ -323,11 +359,16 @@ def _safe_key(s: str) -> str:
 # ── HTML pieces ───────────────────────────────────────────────────────────────
 
 CSS = """
+:root { --navbar-h: 68px; }
+body.scrolled { --navbar-h: 42px; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 13px;
        background: #ececec; color: #222; }
-h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
-       display: flex; align-items: baseline; gap: 16px; }
+h1   { height: var(--navbar-h); font-size: 1.35rem; padding: 0 22px; background: #263238; color: #fff;
+       display: flex; align-items: center; gap: 16px;
+       position: sticky; top: 0; z-index: 600; box-shadow: 0 2px 6px rgba(0,0,0,.2);
+       transition: height .15s ease, font-size .15s ease; overflow: hidden; }
+body.scrolled h1 { font-size: 1.05rem; }
 .page-nav { display: flex; gap: 8px; font-size: 12px; font-weight: normal; }
 .page-nav a { color: #90a4ae; text-decoration: none; padding: 3px 9px; border-radius: 3px; }
 .page-nav a:hover { background: #37474f; color: #fff; }
@@ -338,12 +379,14 @@ h1   { font-size: 1.35rem; padding: 14px 22px; background: #263238; color: #fff;
           padding: 8px 22px; background: #37474f; font-size: 11px; }
 .legend-item { display: flex; align-items: center; gap: 5px; color: #eceff1; }
 .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-#toggle-all {
+#toggle-all, #export-flags {
     margin-left: auto; padding: 4px 10px; font-size: 11px; cursor: pointer;
     background: #546e7a; color: #eceff1; border: 1px solid #78909c;
     border-radius: 3px; white-space: nowrap;
 }
-#toggle-all:hover { background: #607d8b; }
+#export-flags { margin-left: 0; }
+#toggle-all:hover, #export-flags:hover { background: #607d8b; }
+#export-flags.dirty { background: #e65100; border-color: #ff9800; }
 
 /* ── condition card ── */
 .card {
@@ -493,8 +536,9 @@ body.show-derivs .rep-row-has-deriv .rep-deriv { display: flex; }
     display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
     padding: 8px 22px; background: #455a64; font-size: 11px; color: #eceff1;
     border-bottom: 1px solid #37474f;
-    position: sticky; top: 0; z-index: 500;
+    position: sticky; top: var(--navbar-h); z-index: 500;
     box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    transition: top .15s ease;
 }
 #filter-bar label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
 #filter-bar input[type=checkbox] { accent-color: #90a4ae; cursor: pointer; }
@@ -508,6 +552,18 @@ body.show-derivs .rep-row-has-deriv .rep-deriv { display: flex; }
 #run-select { background: #546e7a; color: #eceff1;
     border: 1px solid #78909c; border-radius: 3px; padding: 3px 7px;
     font-size: 11px; cursor: pointer; }
+/* pen-clicker toggle: stays visually "pressed in" while active */
+#sort-toggle {
+    background: #546e7a; color: #eceff1; border: 1px solid #78909c;
+    border-radius: 3px; padding: 4px 10px; font-size: 11px; cursor: pointer;
+    box-shadow: 0 1px 0 rgba(255,255,255,.08);
+}
+#sort-toggle:hover { background: #607d8b; }
+#sort-toggle.pressed {
+    background: #2a78d6; border-color: #1c5cab; color: #fff;
+    box-shadow: inset 0 2px 3px rgba(0,0,0,.35);
+}
+#sort-toggle.pressed:hover { background: #256abf; }
 #filter-count { color: #90a4ae; font-style: italic; }
 
 /* hover tooltip for breakdown notes */
@@ -523,6 +579,14 @@ body.show-derivs .rep-row-has-deriv .rep-deriv { display: flex; }
 """
 
 JS = """
+// navbar starts full-size; once the page scrolls (so it's actually pinned via
+// position:sticky) it shrinks -- .scrolled flips --navbar-h, which both the
+// navbar's height and #filter-bar's stacking offset read from, so they stay
+// flush with no extra JS needed to keep them in sync.
+window.addEventListener('scroll', () => {
+  document.body.classList.toggle('scrolled', window.scrollY > 4);
+}, { passive: true });
+
 document.querySelectorAll('img[data-fullsrc], .rep-right img, .comp-group img').forEach(img => {
   img.addEventListener('click', () => {
     const w = window.open('', '_blank');
@@ -573,6 +637,27 @@ function applyFilters() {
   });
   document.getElementById('filter-count').textContent = `${visible} / ${cards.length} shown`;
 }
+
+// cards start in DOM order by real campaign date (server-rendered, newest first -- see
+// true_condition_date() in generate_fit_log.py); `cards` itself is never reordered, only the
+// DOM nodes are, so it always holds that original by-campaign order to toggle back to.
+// #sort-toggle is a pen-clicker: off (default) = that campaign order; pressed = by processing
+// date instead (data-procdate, when the row was last actually (re)run -- useful right after a
+// batch reprocess to see what just changed, separate from true campaign chronology).
+const sortToggle = document.getElementById('sort-toggle');
+const cardsContainer = cards[0] ? cards[0].parentElement : null;
+function applySortOrder() {
+  if (!cardsContainer) return;
+  const byProcessing = sortToggle.classList.contains('pressed');
+  const ordered = byProcessing
+    ? [...cards].sort((a, b) => Number(b.dataset.procdate) - Number(a.dataset.procdate))
+    : cards;
+  ordered.forEach(card => cardsContainer.appendChild(card));
+}
+sortToggle.addEventListener('click', () => {
+  sortToggle.classList.toggle('pressed');
+  applySortOrder();
+});
 
 document.querySelectorAll('#filter-bar input[type=checkbox]').forEach(cb => {
   cb.addEventListener('change', applyFilters);
@@ -625,8 +710,21 @@ document.querySelectorAll('.avg-fits-header').forEach(h => {
   });
 });
 
-// ── supervisor checkboxes — localStorage persistence ─────────────────────────
-function _updateSvRow(row) {
+// ── supervisor checkboxes — git-committed JSON persistence ────────────────────
+// Flags live in supervisor_flags.json (checked into the repo, sits next to this
+// HTML) instead of localStorage, so they follow the page across browsers/devices
+// via git rather than being stuck to one browser's local storage. Editing a box
+// only changes the in-page copy; hit "Export Flags" and overwrite
+// supervisor_flags.json with the download, then commit, to make it stick.
+let svFlags = {};
+const exportBtn = document.getElementById('export-flags');
+
+function _markDirty() {
+  exportBtn.classList.add('dirty');
+  exportBtn.textContent = 'Export Flags*';
+}
+
+function _updateSvRow(row, fromLoad) {
   const badfit  = row.querySelector('[data-flag="badfit"]').checked;
   const badeval = row.querySelector('[data-flag="badeval"]').checked;
   const good    = row.querySelector('[data-flag="good"]').checked;
@@ -635,17 +733,42 @@ function _updateSvRow(row) {
   goodLabel.classList.toggle('sv-disabled',  badfit || badeval);
   badLabels.forEach(l => l.classList.toggle('sv-disabled', good));
   const k = row.dataset.key;
-  localStorage.setItem('sv_badfit_'  + k, badfit);
-  localStorage.setItem('sv_badeval_' + k, badeval);
-  localStorage.setItem('sv_good_'    + k, good);
+  svFlags[k] = { badfit, badeval, good };
+  if (!fromLoad) _markDirty();
 }
-document.querySelectorAll('.supervisor-row').forEach(row => {
-  const k = row.dataset.key;
-  row.querySelector('[data-flag="badfit"]').checked  = localStorage.getItem('sv_badfit_'  + k) === 'true';
-  row.querySelector('[data-flag="badeval"]').checked = localStorage.getItem('sv_badeval_' + k) === 'true';
-  row.querySelector('[data-flag="good"]').checked    = localStorage.getItem('sv_good_'    + k) === 'true';
-  _updateSvRow(row);
-  row.querySelectorAll('[data-flag]').forEach(cb => cb.addEventListener('change', () => _updateSvRow(row)));
+
+async function loadSvFlags() {
+  try {
+    const res = await fetch('supervisor_flags.json', { cache: 'no-store' });
+    if (res.ok) svFlags = await res.json();
+  } catch (e) {
+    // file:// or offline — fetch of a local JSON is blocked by CORS in most
+    // browsers; just start from an empty set rather than failing the page.
+  }
+  document.querySelectorAll('.supervisor-row').forEach(row => {
+    const k = row.dataset.key;
+    const f = svFlags[k] || {};
+    row.querySelector('[data-flag="badfit"]').checked  = !!f.badfit;
+    row.querySelector('[data-flag="badeval"]').checked = !!f.badeval;
+    row.querySelector('[data-flag="good"]').checked    = !!f.good;
+    _updateSvRow(row, /*fromLoad=*/true);
+    row.querySelectorAll('[data-flag]').forEach(cb => cb.addEventListener('change', () => _updateSvRow(row)));
+  });
+}
+loadSvFlags();
+
+exportBtn.addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(svFlags, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'supervisor_flags.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  exportBtn.classList.remove('dirty');
+  exportBtn.textContent = 'Export Flags';
 });
 """
 
@@ -751,8 +874,16 @@ def build_rep_breakdown(rep_data, rep_index):
     return toe_html + sv_html + badge + table
 
 
+def _epoch_ms(dt_val):
+    """datetime.datetime or pd.Timestamp (or None/NaT) -> epoch milliseconds, 0 if unknown."""
+    if dt_val is None or pd.isna(dt_val):
+        return 0
+    return int(dt_val.timestamp() * 1000)
+
+
 def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
-                   deriv_images, run_folder, assets_dir, pre_cv=None, post_cv=None):
+                   deriv_images, run_folder, assets_dir, used_assets, pre_cv=None, post_cv=None,
+                   sort_date=None, proc_date=None):
     group_df = group_df.sort_values("Trial").reset_index(drop=True)
     cond_safe = _safe_key(cond_name)
 
@@ -816,7 +947,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         img_html = '<span class="no-img">No plot found</span>'
         if i < len(seg_images):
             try:
-                uri = copy_asset(seg_images[i], assets_dir, cond_safe)
+                uri = copy_asset(seg_images[i], assets_dir, cond_safe, used_assets)
                 img_html = f'<img src="{uri}" alt="rep-{i+1}">'
             except Exception:
                 pass
@@ -825,7 +956,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         deriv_path = deriv_images[i] if i < len(deriv_images) else None
         if deriv_path is not None:
             try:
-                uri = copy_asset(deriv_path, assets_dir, cond_safe)
+                uri = copy_asset(deriv_path, assets_dir, cond_safe, used_assets)
                 deriv_col = f'<div class="rep-deriv"><img src="{uri}" alt="deriv-{i+1}"></div>'
             except Exception:
                 pass
@@ -841,7 +972,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
     comp_html = ""
     for img_path in comp_images:
         try:
-            uri = copy_asset(img_path, assets_dir, cond_safe)
+            uri = copy_asset(img_path, assets_dir, cond_safe, used_assets)
             label = img_path.stem
             comp_html += f"""
     <div class="comp-group">
@@ -867,7 +998,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         inner = ""
         for img_path, eval_data, deriv_path in avg_fit_images:
             try:
-                uri = copy_asset(img_path, assets_dir, cond_safe)
+                uri = copy_asset(img_path, assets_dir, cond_safe, used_assets)
                 stem = img_path.stem
                 suffix = stem.replace("average_fit_", "")
                 if eval_data is not None:
@@ -885,7 +1016,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
                 deriv_col = ""
                 if deriv_path is not None:
                     try:
-                        d_uri = copy_asset(deriv_path, assets_dir, cond_safe)
+                        d_uri = copy_asset(deriv_path, assets_dir, cond_safe, used_assets)
                         deriv_col = f'<div class="rep-deriv"><img src="{d_uri}" alt="deriv-{stem}"></div>'
                     except Exception:
                         pass
@@ -913,8 +1044,11 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         for r in reps_data
     )
 
+    sort_epoch_ms = _epoch_ms(sort_date)
+    proc_epoch_ms = _epoch_ms(proc_date)
+
     return f"""
-<div class="card" data-status="{status}" data-run="{run_tag}" data-has-toe="{'1' if has_toe else '0'}" data-name="{cond_name.lower()}">
+<div class="card" data-status="{status}" data-run="{run_tag}" data-has-toe="{'1' if has_toe else '0'}" data-name="{cond_name.lower()}" data-sortdate="{sort_epoch_ms}" data-procdate="{proc_epoch_ms}">
   <div class="card-header" style="background:{hdr_color}">
     <span class="toggle-icon">▾</span>
     <span>{cond_name}</span>
@@ -942,14 +1076,25 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
     out = Path(output_path) if output_path else OUTPUT
     out.parent.mkdir(parents=True, exist_ok=True)
 
-    # Rebuilt "from scratch" every call (see docstring) -- clear stale per-condition asset
-    # folders first so a condition that disappears from the data doesn't leave orphan images.
-    # Namespaced under assets/fit/ -- generate_quality_log.py shares docs/assets/ and rmtree's
-    # its own subfolder on every regen too; a bare shared "assets/" dir meant either script's
-    # rerun wiped the other's images out from under it.
+    # Supervisor flags are git-committed state the page loads via fetch (see JS below) --
+    # only create the file if it's missing so a regen never clobbers existing flags.
+    flags_path = out.parent / "supervisor_flags.json"
+    if not flags_path.exists():
+        flags_path.write_text("{}", encoding="utf-8")
+
+    # Namespaced under assets/fit/ -- generate_quality_log.py shares docs/assets/ and manages
+    # its own subfolder too; a bare shared "assets/" dir meant either script's rerun wiped the
+    # other's images out from under it.
+    #
+    # NOT wiped wholesale up front: copy_asset() only rewrites a dest whose mtime is stale, so an
+    # unchanged source keeps its dest's original mtime -- which lets `git add` skip rehashing it
+    # via git's stat cache. Rebuilding this dir from scratch every regen (the old approach) gave
+    # every one of the ~2000 asset files a fresh mtime even when content was identical, forcing
+    # `git add` to rehash all of them. Stale files (from a condition that disappeared from the
+    # data) are pruned below instead, after we know exactly which dest paths this run touched.
     assets_dir = out.parent / "assets" / "fit"
-    if assets_dir.exists():
-        shutil.rmtree(assets_dir)
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    used_assets = set()
 
     df = load_csvs(extra_csv_paths)
     if df.empty:
@@ -961,12 +1106,19 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
     df["_date_sort"] = pd.to_datetime(
         df["date"].str.replace(r"\n", " ", regex=True), errors="coerce"
     )
-    cond_order = (
-        df.groupby("condition")["_date_sort"]
-        .max()
-        .sort_values(ascending=False)
-        .index.tolist()
-    )
+    # Card order = real campaign date (raw specimen filenames), not the CSV `date` column --
+    # see true_condition_date() docstring. Falls back to the CSV date only for a condition
+    # whose raw/ folder is missing (e.g. archived away), so it doesn't just vanish from order.
+    _csv_max_by_cond = df.groupby("condition")["_date_sort"].max()
+
+    def _cond_sort_key(cond):
+        raw_date = true_condition_date(cond)
+        if raw_date is not None:
+            return raw_date
+        csv_date = _csv_max_by_cond.get(cond)
+        return csv_date.to_pydatetime() if pd.notna(csv_date) else datetime.datetime.min
+
+    cond_order = sorted(df["condition"].unique(), key=_cond_sort_key, reverse=True)
 
     cards_html = ""
     for cond in cond_order:
@@ -975,11 +1127,19 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
         pre_cv, post_cv = cv_map.get(cond, (None, None))
         cards_html += condition_card(
             cond, group, seg_imgs, comp_imgs, avg_fit_imgs, deriv_imgs, run_folder, assets_dir,
-            pre_cv=pre_cv, post_cv=post_cv,
+            used_assets, pre_cv=pre_cv, post_cv=post_cv, sort_date=_cond_sort_key(cond),
+            proc_date=_csv_max_by_cond.get(cond),
         )
 
-    from datetime import datetime
-    generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+    # prune assets nothing in this run referenced (stale conditions, renamed/removed images)
+    for stale in assets_dir.rglob("*"):
+        if stale.is_file() and stale.resolve() not in used_assets:
+            stale.unlink()
+    for stale_dir in sorted(assets_dir.rglob("*"), reverse=True):
+        if stale_dir.is_dir() and not any(stale_dir.iterdir()):
+            stale_dir.rmdir()
+
+    generated_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -1016,7 +1176,9 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
   <label><input type="checkbox" id="toggle-derivs"> show derivatives</label>
   <input id="search-bar" type="search" placeholder="Search conditions…">
   <select id="run-select"><option value="">All dates</option></select>
+  <button id="sort-toggle" title="Off: ordered by real campaign date. On: ordered by when each row was last (re)processed.">Newest Processed First</button>
   <span id="filter-count"></span>
+  <button id="export-flags" title="Download supervisor flags as supervisor_flags.json — overwrite the repo copy and commit to sync across devices">Export Flags</button>
   <button id="toggle-all">Collapse All</button>
 </div>
 {cards_html}
