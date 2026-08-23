@@ -1,0 +1,15 @@
+[2026-08-21 12:29:01] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-08-21 12:29:01] Traceback (most recent call last):
+[2026-08-21 12:29:01]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m576[0m, in [35m<module>[0m
+    server = HTTPServer((SERVER_IP, SERVER_PORT), LoopHandler)
+[2026-08-21 12:29:01]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socketserver.py"[0m, line [35m457[0m, in [35m__init__[0m
+    [31mself.server_bind[0m[1;31m()[0m
+    [31m~~~~~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-08-21 12:29:01]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\server.py"[0m, line [35m140[0m, in [35mserver_bind[0m
+    [31msocketserver.TCPServer.server_bind[0m[1;31m(self)[0m
+    [31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^[0m
+[2026-08-21 12:29:01]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socketserver.py"[0m, line [35m478[0m, in [35mserver_bind[0m
+    [31mself.socket.bind[0m[1;31m(self.server_address)[0m
+    [31m~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-21 12:29:01] [1;35mOSError[0m: [35m[WinError 10049] The requested address is not valid in its context[0m

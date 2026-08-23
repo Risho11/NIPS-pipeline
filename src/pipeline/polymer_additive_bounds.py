@@ -32,9 +32,8 @@ Legacy structure (OldStockStruct, pre-cosolvent-bottle):
                                                                    additive_stock_additive_wt_percent)
     Solvent dilution down to (0, 0) always assumed available (no separate cosolvent bottle).
 
-USE_NEW_STOCK_STRUCTURE picks which of the two struct shapes is active. This is temporary
-scaffolding for the changeover, not meant to stay a permanent toggle -- flip it back to False
-if the new cosolvent-bottle math needs to be backed out.
+STOCK_MODE picks which stock layout is active. Use ``"two_bottle"`` for the legacy two-stock
+layout or ``"four_bottle"`` for the polymer/cosolvent/all-mix layout.
 """
 
 from __future__ import annotations
@@ -43,7 +42,7 @@ from dataclasses import asdict, dataclass
 
 #in any mix with cosolvent and solvent, there's this amt of cosolvent
 #for each unit of solvent. NOT incluidng polymer
-cosolvent_frac = 0.3
+cosolvent_frac = 0.70
 
 
 @dataclass
@@ -62,13 +61,16 @@ class StockParameters:
     #third bottle - polymer + solvent + cosolvent
     all_mix_pwt: float = 17.0
     all_mix_cswt: float = (100-all_mix_pwt)*cosolvent_frac
-    #fourth bottle - solvent only (planned, see USE_FOURTH_BOTTLE)
+    # fourth bottle is pure solvent, whose composition is always (0, 0)
 
 
-# Temporary switch for the cosolvent-bottle changeover -- True = new StockParameters (4 bottles,
-# cosolvent stock is real), False = fall back to the old 2-bottle-plus-dilution model
-# (OldStockStruct). Flip to False to revert if the new structure needs backing out.
-USE_NEW_STOCK_STRUCTURE = False
+# Select the installed stock layout here. Pure solvent is included in both layouts.
+STOCK_MODE = "two_bottle"
+if STOCK_MODE not in ("two_bottle", "four_bottle"):
+    raise ValueError("STOCK_MODE must be 'two_bottle' or 'four_bottle'")
+
+# Compatibility alias used by the mixing calculator and existing callers.
+USE_NEW_STOCK_STRUCTURE = STOCK_MODE == "four_bottle"
 
 DEFAULT_STOCKS: StockParameters | OldStockStruct = (
     StockParameters() if USE_NEW_STOCK_STRUCTURE else OldStockStruct()
@@ -81,7 +83,9 @@ def send_metadata(stocks: StockParameters | OldStockStruct = DEFAULT_STOCKS) -> 
     params payload sent to the opentrons server (e.g. under a "stock_metadata" key)
     so volume calculations there can eventually read it.
     """
-    return asdict(stocks)
+    metadata = asdict(stocks)
+    metadata["stock_mode"] = "four_bottle" if isinstance(stocks, StockParameters) else "two_bottle"
+    return metadata
 
 
 def _dot(u: tuple[float, float], v: tuple[float, float]) -> float:

@@ -41,8 +41,8 @@ EXPERIMENTAL_REPORT_PROMPT = (
 # Human-authored, static, hardcoded. Fixes the old prompt's self-contradiction ("maximize modulus"
 # stated twice, then "minimize strain at 50 bar") -- the correct objective is minimize Strain at 50
 # bar (see tests/llm_prompt_context.md). Adds materials-discovery framing so the model doesn't
-# infer/suggest an out-of-scope application. Output contract (flat JSON, exact PARAMS_SCHEMA keys)
-# is unchanged -- run_loop.py's _extract_next_params/_validate_params depend on this shape.
+# infer/suggest an out-of-scope application. The output contract contains only run_loop.py's
+# LLM_PARAMS_KEYS; semi-batch context is deliberately excluded and reapplied by the pipeline.
 ACTIVE_LEARNING_PROMPT_TEMPLATE = (
     "Here I have a set of structured experimental parameters for my automated membrane synthesis via "
     "non-solvent-induced phase separation (NIPS). Do not suggest or assess "
@@ -54,7 +54,10 @@ ACTIVE_LEARNING_PROMPT_TEMPLATE = (
     "Keep your reasoning concise, structured and transparent."
     "Return your answer as a single JSON object (a ```json code fence is fine) with exactly these "
     "keys: mixing_temp, bath_temp, pullcast_speed, nitrogen, coupon_to_bath_wait_time, "
-    "nips_bath_wait_time, polymer_wt, additive_wt. Do not add a wrapping key or omit any key."
+    "nips_bath_wait_time, polymer_wt, additive_wt. The cosolvent type and NIPS-bath solvent "
+    "identity/concentration shown in observations are manually controlled semi-batch context "
+    "and are not yours to change. Do not add a wrapping key "
+    "or omit any key."
 )
 
 # Historical reference only -- NOT used anywhere, never import/call this. The original inline

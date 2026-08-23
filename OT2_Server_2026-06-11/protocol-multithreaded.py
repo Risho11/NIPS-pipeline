@@ -87,6 +87,9 @@ opentrons = OT2(tip_index = robot["tip_index"], heater = True, heater_well_index
 opentrons._drop() # drop tip if we have one
 xArm.open_gripper()
 
+arduino.stop_blow() # ensure solenoids are closed
+arduino.stop_blow_pipette()
+
 # ==================================================
 # SECTION: User Comfirmation
 # ==================================================
@@ -459,7 +462,7 @@ def run_test(param = None):
         
         # take air measurement
         time.sleep(5)
-        membrane_air_data = arduino.read_2nd_temp_humidity()
+        parameters["coupon_air_data"] = arduino.read_2nd_temp_humidity()
         
         # stop nitrgoen
         hover_process.join()
@@ -467,12 +470,11 @@ def run_test(param = None):
         print("Nitrogen off.")
     else:
         time.sleep(coupon_to_bath_wait_time)
-        membrane_air_data = arduino.read_2nd_temp_humidity()
+        parameters["coupon_air_data"] = arduino.read_2nd_temp_humidity()
     
     # Store both the coupon-stage and ambient readings for downstream processing.
-    parameters["coupon_air_data"] = membrane_air_data
     parameters["air_data"] = arduino.read_temp_humidity()
-    print(f"Membrane air data: {membrane_air_data}")
+    print(f"Membrane air data: {parameters['coupon_air_data']}")
     print(f"Ambient air data: {parameters['air_data']}")
     
     # place coupon in water bath

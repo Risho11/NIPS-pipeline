@@ -56,7 +56,13 @@ _AL_PARAMETER_COLUMNS = [
     "nips_bath_wait_time",
     "polymer_wt",
     "additive_wt",
+    "cosolvent_type",
+    "nips_bath_solvent",
+    "nips_bath_solvent_wt_percent",
 ]
+_SEMI_BATCH_CONTEXT_COLUMNS = {
+    "cosolvent_type", "nips_bath_solvent", "nips_bath_solvent_wt_percent",
+}
 
 
 def _json_safe_subset(result: dict) -> dict:
@@ -250,7 +256,13 @@ def build_diversity_context(agg_llm_path, max_points=None):
     if not cols:
         return ""
 
-    points_df = df[cols].dropna(how="any")
+    points_df = df[cols].copy()
+    # Rows from campaigns created before these contextual columns existed should still inform
+    # AL. Mark their historical semi-batch context unknown instead of dropping the entire row.
+    for column in _SEMI_BATCH_CONTEXT_COLUMNS.intersection(points_df.columns):
+        points_df[column] = points_df[column].fillna("unknown")
+    tunable_columns = [column for column in cols if column not in _SEMI_BATCH_CONTEXT_COLUMNS]
+    points_df = points_df.dropna(subset=tunable_columns)
     if points_df.empty:
         return ""
     points_df = points_df.drop_duplicates()
