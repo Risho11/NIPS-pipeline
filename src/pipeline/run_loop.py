@@ -95,7 +95,7 @@ LLM_AL_EXPLORATION_HISTORY_POINTS = None
 #basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
 #in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
-CONTINUE_CAMPAIGN = None
+CONTINUE_CAMPAIGN = "2026-08-22"
 
 
 def _campaign_date_folder_tag(continue_campaign):
@@ -422,9 +422,37 @@ def _load_resume_params_for_campaign(campaign_date):
 
     llm_result = JSON_RESULTS_DIR / f"llm_result_{last_condition}.json"
     if not llm_result.exists() or llm_result.stat().st_size == 0:
-        raise FileNotFoundError(
-            f"Cannot continue campaign {campaign_date}: missing/empty {llm_result}"
+        print(
+            f"Resume recommendation missing for {last_condition}; "
+            "regenerating it from the saved campaign data..."
         )
+        params_suggestion = llm_context.generate_reports_and_suggestion(
+            last_condition, llm_csv, activeLearning,
+            locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
+            al_search_mode=LLM_AL_SEARCH_MODE,
+            exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
+        )
+        recovered_params = _extract_next_params(params_suggestion)
+
+        if LOCK_ADDITIVE_WT:
+            recovered_params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
+
+        polymer_wt, additive_wt = activeLearning.bounds.test_target(
+            recovered_params["polymer_wt"], recovered_params["additive_wt"]
+        )
+        recovered_params["polymer_wt"] = polymer_wt
+        recovered_params["additive_wt"] = additive_wt
+        recovered_params["cosolvent_type"] = COSOLVENT_TYPE
+        recovered_params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
+        recovered_params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
+        _validate_params(recovered_params)
+
+        saved_params = dict(recovered_params)
+        saved_params["stock_metadata"] = activeLearning.bounds.send_metadata()
+        JSON_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+        with llm_result.open("w", encoding="utf-8") as f:
+            json.dump(saved_params, f, indent=2)
+        print(f"Recovered resume recommendation: {llm_result}")
 
     with llm_result.open(encoding="utf-8") as f:
         params = json.load(f)

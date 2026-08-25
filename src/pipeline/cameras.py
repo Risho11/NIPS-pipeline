@@ -24,6 +24,8 @@ def showCameras():
             ret[i], frame[i] = cam[i].read()
             if ret[i] == False:
                 frame[i] = numpy.zeros((height, width, 3), numpy.uint8)
+            elif i in (0, 1):
+                frame[i] = cv2.rotate(frame[i], cv2.ROTATE_180)
 #        print(ret)
 
         topFrame = cv2.hconcat(frame[0:2])

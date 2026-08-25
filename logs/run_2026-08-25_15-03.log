@@ -1,0 +1,12 @@
+[2026-08-25 15:03:44] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-08-25 15:03:44] server listening on 169.254.230.148:8000
+
+[2026-08-25 15:03:44] Traceback (most recent call last):
+[2026-08-25 15:03:44]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m637[0m, in [35m<module>[0m
+    first_params = _load_resume_params_for_campaign(d)
+[2026-08-25 15:03:44]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m425[0m, in [35m_load_resume_params_for_campaign[0m
+    raise FileNotFoundError(
+        f"Cannot continue campaign {campaign_date}: missing/empty {llm_result}"
+    )
+[2026-08-25 15:03:44] [1;35mFileNotFoundError[0m: [35mCannot continue campaign 2026-08-22-exploration-mode: missing/empty C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_15p5-0add-20deg-cosolv-none-bathSolv-none-0wt-450s-N2-1800s.json[0m
