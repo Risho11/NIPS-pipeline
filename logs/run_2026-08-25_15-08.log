@@ -4,3 +4,1492 @@
 
 [2026-08-25 15:08:34] Resume recommendation missing for 15p5-0add-20deg-cosolv-none-bathSolv-none-0wt-450s-N2-1800s; regenerating it from the saved campaign data...
 
+[2026-08-25 15:10:10] LLM suggestion: ## Reasoning
+
+**Design space analysis:**
+- `mixing_temp`: covered 25, 35, 45, 60, 75, 80 — sparse around 50–55°C
+- `bath_temp`: covered 5, 10, 15, 20, 25 — all 5 unique values hit, but 25°C only once (poor quality), 5°C twice
+- `pullcast_speed`: covered 2, 6, 10, 14, 18, 20 — sparse around 4–5 mm/s or ~8 mm/s; low speeds underrepresented with good quality
+- `coupon_to_bath_wait_time`: covered 0, 30, 150, 300, 450, 550 — sparse near 600s (max) and very short times
+- `nips_bath_wait_time`: covered 1200, 1350, 1500, 1650, 1800 — good spread
+- `nitrogen`: 3 True, 3 False — balanced
+- `polymer_wt`: covered 13, 14, 15, 15.5, 16, 17 — sparse around 13.5–14.5 range with low mixing temp
+
+**Quality observations:**
+- Best Elastic Modulus: 15 wt%, mixing_temp=75, bath_temp=15, fast cast (18 mm/s), no N2, long wait (550s) → 181 MPa
+- 17 wt% at 25°C gave 105 MPa but poor fit quality
+- 15.5 wt% with N2 + 450s wait + bath_temp=20 → membrane delamination (failure)
+- Long wait times without N2 at warm bath temps seem risky
+
+**Explore target:**
+- Aim for a sparse region: `mixing_temp` ~50°C, `bath_temp` ~25°C (only one prior, poor quality — worth revisiting with different conditions), `pullcast_speed` ~4 mm/s (underrepresented low speed), `coupon_to_bath_wait_time` ~600s (max, unexplored), `nips_bath_wait_time` ~1200s (min), `polymer_wt` ~13.5 (sparse), `nitrogen` = False (to balance and avoid the delamination seen with N2+long wait)
+- However, 600s wait with no N2 at 25°C bath risks delamination. Let me use N2=True to protect the film surface during the long wait, and use bath_temp=25°C to explore that corner.
+- Actually the delamination failure was N2=True + 450s wait + bath_temp=20°C + 15.5 wt% — possibly the thin film (35µm) was the issue. Using higher polymer_wt (13.5) with N2 and long wait at 25°C bath is a genuinely novel corner.
+
+**Proposed point:**
+- `mixing_temp`: 50 (sparse gap)
+- `bath_temp`: 25 (underexplored with good conditions)
+- `pullcast_speed`: 4 (sparse low-speed region)
+- `nitrogen`: True (protect film during long wait)
+- `coupon_to_bath_wait_time`: 600 (max, unexplored)
+- `nips_bath_wait_time`: 1200 (min boundary, underexplored)
+- `polymer_wt`: 13.5 (sparse gap between 13 and 14)
+- `additive_wt`: 0 (locked)
+
+```json
+{
+  "mixing_temp": 50,
+  "bath_temp": 25,
+  "pullcast_speed": 4,
+  "nitrogen": true,
+  "coupon_to_bath_wait_time": 600,
+  "nips_bath_wait_time": 1200,
+  "polymer_wt": 13.5,
+  "additive_wt": 0
+}
+```
+
+[2026-08-25 15:10:10] Recovered resume recommendation: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_15p5-0add-20deg-cosolv-none-bathSolv-none-0wt-450s-N2-1800s.json
+
+[2026-08-25 15:10:10] Resuming campaign 2026-08-22-exploration-mode from llm_result_15p5-0add-20deg-cosolv-none-bathSolv-none-0wt-450s-N2-1800s.json
+
+[2026-08-25 15:10:10] kicking off first experiment: {'mixing_temp': 50, 'bath_temp': 25, 'pullcast_speed': 4, 'nitrogen': True, 'coupon_to_bath_wait_time': 600, 'nips_bath_wait_time': 1200, 'polymer_wt': 13.5, 'additive_wt': 0, 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-08-25 15:10:10] Python recieved!
+
+[2026-08-25 15:10:10] Exact payload being sent: {"mixing_temp": 50, "bath_temp": 25, "pullcast_speed": 4, "nitrogen": true, "coupon_to_bath_wait_time": 600, "nips_bath_wait_time": 1200, "polymer_wt": 13.5, "additive_wt": 0, "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-08-25 15:10:10] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 50, "bath_temp": 25, "pullcast_speed": 4, "nitrogen": true, "coupon_to_bath_wait_time": 600, "nips_bath_wait_time": 1200, "polymer_wt": 13.5, "additive_wt": 0, "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-08-25 15:10:10] robot started — loop running. Ctrl+C to stop.
+
+[2026-08-25 17:18:15] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-08-25 17:18:15] [2026-08-25 19:03:06] Ready to begin experiments.
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:36] Recievied request for membrane with following parameters:
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:36] {'mixing_temp': 50, 'bath_temp': 25, 'pullcast_speed': 4, 'nitrogen': True, 'coupon_to_bath_wait_time': 600, 'nips_bath_wait_time': 1200, 'polymer_wt': 13.5, 'additive_wt': 0, 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:36] Bath chilling process started.
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:36] Beginning zero tests on coupons.
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:36] Opentrons process started.
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:36] Target: 13.5 wt% polymer, 0 wt% additive, 1000.00 uL
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:36] Volumes (uL): polymer=783.00, polymer-additive=0.00, solvent=217.00
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:36] Bottle inventory before preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 12842.0, 'dead_volume_uL': 2000.0, 'available_uL': 10842.0}, 'solvent': {'remaining_uL': 19158.0, 'dead_volume_uL': 2000.0, 'available_uL': 17158.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:36] Current bath temperature: 19.95 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:46] Current bath temperature: 19.97 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:10:56] Current bath temperature: 19.83 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:11:03] Test has started!
+
+[2026-08-25 17:18:15] [2026-08-25 19:11:06] Current bath temperature: 19.69 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:11:17] Current bath temperature: 19.63 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:11:27] Current bath temperature: 19.62 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:11:37] Current bath temperature: 19.62 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:11:47] Current bath temperature: 19.65 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:11:53] Temperature set to 50.
+
+[2026-08-25 17:18:15] [2026-08-25 19:11:57] Current bath temperature: 19.68 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:12:02] Adding 783.00 uL from polymer stock.
+
+[2026-08-25 17:18:15] [2026-08-25 19:12:07] Current bath temperature: 19.71 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:12:17] Current bath temperature: 19.74 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:12:27] Current bath temperature: 19.78 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:12:37] Current bath temperature: 19.82 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:12:48] Current bath temperature: 19.84 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:12:58] Current bath temperature: 19.87 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:13:08] Current bath temperature: 19.91 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:13:18] Current bath temperature: 19.94 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:13:28] Current bath temperature: 19.97 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:13:38] Current bath temperature: 19.99 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:13:48] Current bath temperature: 20.03 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:13:58] Current bath temperature: 20.06 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:08] Current bath temperature: 20.09 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:19] Current bath temperature: 20.12 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:20] Test complete!
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:25] Safe: True
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:25] Recent: True
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:25] Current Time: 1787685240.0090797
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:25] Data Time: 1787685229.1642363
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:25] Age: 10.84484338760376
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:29] Current bath temperature: 20.15 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:37] Test has started!
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:39] Current bath temperature: 20.18 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:49] Current bath temperature: 20.2 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:14:59] Current bath temperature: 20.22 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:15:09] Current bath temperature: 20.25 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:15:19] Current bath temperature: 20.29 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:15:29] Current bath temperature: 20.32 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:15:39] Current bath temperature: 20.34 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:15:50] Current bath temperature: 20.36 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:16:00] Current bath temperature: 20.38 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:16:10] Current bath temperature: 20.4 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:16:20] Current bath temperature: 20.43 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:16:30] Current bath temperature: 20.45 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:16:40] Current bath temperature: 20.47 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:16:50] Current bath temperature: 20.49 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:16:57] entered if statement!!!
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:00] Current bath temperature: 20.53 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:10] Current bath temperature: 20.56 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:21] Current bath temperature: 20.59 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:31] Current bath temperature: 20.62 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:41] Current bath temperature: 20.64 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:51] Current bath temperature: 20.66 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:51] Test complete!
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:57] Safe: True
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:57] Recent: True
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:57] Current Time: 1787685452.0551221
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:57] Data Time: 1787685441.281164
+
+[2026-08-25 17:18:15] [2026-08-25 19:17:57] Age: 10.773958206176758
+
+[2026-08-25 17:18:15] [2026-08-25 19:18:01] Current bath temperature: 20.69 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:18:09] Test has started!
+
+[2026-08-25 17:18:15] [2026-08-25 19:18:11] Current bath temperature: 20.71 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:18:21] Current bath temperature: 20.73 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:18:31] Current bath temperature: 20.75 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:18:41] Current bath temperature: 20.78 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:18:52] Current bath temperature: 20.81 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:19:02] Current bath temperature: 20.84 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:19:12] Current bath temperature: 20.85 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:19:22] Current bath temperature: 20.87 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:19:32] Current bath temperature: 20.89 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:19:42] Current bath temperature: 20.91 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:19:52] Current bath temperature: 20.94 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:20:02] Current bath temperature: 20.96 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:20:12] Current bath temperature: 20.98 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:20:23] Current bath temperature: 20.99 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:20:33] Current bath temperature: 21.01 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:20:43] Current bath temperature: 21.05 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:20:53] Current bath temperature: 21.07 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:03] Current bath temperature: 21.1 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:13] Current bath temperature: 21.12 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:23] Current bath temperature: 21.13 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:26] Test complete!
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:31] Safe: True
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:31] Recent: True
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:31] Current Time: 1787685666.5041795
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:31] Data Time: 1787685655.7966065
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:31] Age: 10.707572937011719
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:33] Current bath temperature: 21.15 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:43] Current bath temperature: 21.17 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:44] Test has started!
+
+[2026-08-25 17:18:15] [2026-08-25 19:21:54] Current bath temperature: 21.19 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:22:04] Current bath temperature: 21.21 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:22:14] Current bath temperature: 21.23 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:22:24] Current bath temperature: 21.25 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:22:34] Current bath temperature: 21.27 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:22:44] Current bath temperature: 21.28 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:22:54] Current bath temperature: 21.31 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:23:04] Current bath temperature: 21.34 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:23:14] Current bath temperature: 21.36 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:23:25] Current bath temperature: 21.38 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:23:35] Current bath temperature: 21.39 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:23:45] Current bath temperature: 21.41 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:23:55] Current bath temperature: 21.42 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:24:05] Current bath temperature: 21.45 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:24:15] Current bath temperature: 21.46 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:24:25] Current bath temperature: 21.48 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:24:35] Current bath temperature: 21.5 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:24:45] Current bath temperature: 21.51 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:24:56] Current bath temperature: 21.53 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:01] Test complete!
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:06] Current bath temperature: 21.55 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:06] Safe: True
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:06] Recent: True
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:06] Current Time: 1787685881.5333052
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:06] Data Time: 1787685870.9099362
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:06] Age: 10.623368978500366
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:16] Current bath temperature: 21.57 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:26] Current bath temperature: 21.6 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:36] Current bath temperature: 21.62 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:46] Current bath temperature: 21.63 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:25:56] Current bath temperature: 21.65 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:26:06] Current bath temperature: 21.67 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:26:14] Adding 217.00 uL from pure solvent.
+
+[2026-08-25 17:18:15] [2026-08-25 19:26:16] Current bath temperature: 21.68 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:26:17] entered if statement!!!
+
+[2026-08-25 17:18:15] [2026-08-25 19:26:27] Current bath temperature: 21.7 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:26:37] Current bath temperature: 21.72 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:26:47] Current bath temperature: 21.74 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:26:57] Current bath temperature: 21.75 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:27:07] Current bath temperature: 21.77 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:27:17] Current bath temperature: 21.78 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:27:27] Current bath temperature: 21.8 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:27:37] Current bath temperature: 21.82 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:27:47] Current bath temperature: 21.84 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:27:58] Current bath temperature: 21.86 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:28:08] Current bath temperature: 21.87 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:28:13] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 19:28:13] 0
+
+[2026-08-25 17:18:15] [2026-08-25 19:28:13] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:28:18] Current bath temperature: 21.89 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:28:28] Current bath temperature: 21.9 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:28:38] Current bath temperature: 21.92 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:28:48] Current bath temperature: 21.93 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:28:58] Current bath temperature: 21.95 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:29:08] Current bath temperature: 21.97 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:29:18] Current bath temperature: 21.99 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:29:29] Current bath temperature: 22.0 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:29:39] Current bath temperature: 22.01 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:29:49] Current bath temperature: 22.02 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:29:59] Current bath temperature: 22.04 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:30:09] Current bath temperature: 22.06 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:30:19] Current bath temperature: 22.08 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:30:29] Current bath temperature: 22.1 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:30:31] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 19:30:31] 0
+
+[2026-08-25 17:18:15] [2026-08-25 19:30:31] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:30:39] Current bath temperature: 22.12 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:30:49] Current bath temperature: 22.13 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:31:00] Current bath temperature: 22.15 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:31:10] Current bath temperature: 22.16 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:31:20] Current bath temperature: 22.17 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:31:30] Current bath temperature: 22.19 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:31:40] Current bath temperature: 22.2 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:31:50] Current bath temperature: 22.22 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:32:00] Current bath temperature: 22.24 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:32:00] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 19:32:00] 1
+
+[2026-08-25 17:18:15] [2026-08-25 19:32:00] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:32:10] Current bath temperature: 22.25 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:32:20] Current bath temperature: 22.26 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:32:31] Current bath temperature: 22.27 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:32:41] Current bath temperature: 22.28 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:32:51] Current bath temperature: 22.3 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:33:01] Current bath temperature: 22.32 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:33:11] Current bath temperature: 22.34 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:33:21] Current bath temperature: 22.36 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:33:31] Current bath temperature: 22.38 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:33:41] Current bath temperature: 22.39 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:33:51] Current bath temperature: 22.4 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:34:02] Current bath temperature: 22.41 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:34:12] Current bath temperature: 22.42 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:34:19] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 19:34:19] 1
+
+[2026-08-25 17:18:15] [2026-08-25 19:34:19] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:34:22] Current bath temperature: 22.44 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:34:32] Current bath temperature: 22.46 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:34:42] Current bath temperature: 22.48 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:34:52] Current bath temperature: 22.49 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:35:02] Current bath temperature: 22.5 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:35:12] Current bath temperature: 22.52 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:35:22] Current bath temperature: 22.53 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:35:33] Current bath temperature: 22.54 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:35:43] Current bath temperature: 22.55 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:35:48] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 19:35:48] 2
+
+[2026-08-25 17:18:15] [2026-08-25 19:35:48] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:35:53] Current bath temperature: 22.57 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:36:03] Current bath temperature: 22.59 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:36:13] Current bath temperature: 22.61 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:36:23] Current bath temperature: 22.63 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:36:33] Current bath temperature: 22.64 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:36:43] Current bath temperature: 22.65 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:36:53] Current bath temperature: 22.66 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:37:04] Current bath temperature: 22.67 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:37:14] Current bath temperature: 22.69 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:37:24] Current bath temperature: 22.7 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:37:34] Current bath temperature: 22.72 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:37:44] Current bath temperature: 22.73 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:37:54] Current bath temperature: 22.74 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:38:04] Current bath temperature: 22.76 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:38:06] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 19:38:06] 2
+
+[2026-08-25 17:18:15] [2026-08-25 19:38:06] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:38:14] Current bath temperature: 22.76 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:38:24] Current bath temperature: 22.78 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:38:35] Current bath temperature: 22.79 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:38:45] Current bath temperature: 22.8 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:38:55] Current bath temperature: 22.82 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:39:05] Current bath temperature: 22.84 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:39:15] Current bath temperature: 22.86 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:39:25] Current bath temperature: 22.88 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:39:35] Current bath temperature: 22.89 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:39:35] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 19:39:35] 3
+
+[2026-08-25 17:18:15] [2026-08-25 19:39:35] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:39:45] Current bath temperature: 22.9 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:39:55] Current bath temperature: 22.9 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:40:05] Current bath temperature: 22.92 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:40:16] Current bath temperature: 22.93 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:40:26] Current bath temperature: 22.94 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:40:36] Current bath temperature: 22.95 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:40:46] Current bath temperature: 22.96 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:40:56] Current bath temperature: 22.98 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:41:06] Current bath temperature: 22.99 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:41:16] Current bath temperature: 23.01 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:41:26] Current bath temperature: 23.02 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:41:36] Current bath temperature: 23.03 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:41:47] Current bath temperature: 23.04 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:41:54] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 19:41:54] 3
+
+[2026-08-25 17:18:15] [2026-08-25 19:41:54] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:41:57] Current bath temperature: 23.04 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:42:07] Current bath temperature: 23.05 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:42:17] Current bath temperature: 23.07 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:42:27] Current bath temperature: 23.08 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:42:37] Current bath temperature: 23.1 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:42:47] Current bath temperature: 23.12 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:42:57] Current bath temperature: 23.14 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:43:07] Current bath temperature: 23.15 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:43:18] Current bath temperature: 23.16 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:43:23] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 19:43:23] 4
+
+[2026-08-25 17:18:15] [2026-08-25 19:43:23] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:43:28] Current bath temperature: 23.17 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:43:38] Current bath temperature: 23.18 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:43:48] Current bath temperature: 23.19 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:43:58] Current bath temperature: 23.2 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:44:08] Current bath temperature: 23.21 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:44:18] Current bath temperature: 23.22 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:44:28] Current bath temperature: 23.23 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:44:38] Current bath temperature: 23.25 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:44:49] Current bath temperature: 23.26 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:44:59] Current bath temperature: 23.26 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:45:09] Current bath temperature: 23.27 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:45:19] Current bath temperature: 23.29 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:45:29] Current bath temperature: 23.3 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:45:39] Current bath temperature: 23.31 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:45:42] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 19:45:42] 4
+
+[2026-08-25 17:18:15] [2026-08-25 19:45:42] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:45:49] Current bath temperature: 23.32 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:45:59] Current bath temperature: 23.33 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:46:09] Current bath temperature: 23.35 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:46:20] Current bath temperature: 23.36 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:46:30] Current bath temperature: 23.38 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:46:40] Current bath temperature: 23.4 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:46:50] Current bath temperature: 23.4 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:47:00] Current bath temperature: 23.41 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:47:10] Current bath temperature: 23.43 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:47:11] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 19:47:11] 5
+
+[2026-08-25 17:18:15] [2026-08-25 19:47:11] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:47:20] Current bath temperature: 23.43 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:47:30] Current bath temperature: 23.44 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:47:40] Current bath temperature: 23.45 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:47:51] Current bath temperature: 23.46 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:48:01] Current bath temperature: 23.47 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:48:11] Current bath temperature: 23.47 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:48:21] Current bath temperature: 23.49 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:48:31] Current bath temperature: 23.5 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:48:41] Current bath temperature: 23.51 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:48:51] Current bath temperature: 23.53 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:49:01] Current bath temperature: 23.54 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:49:11] Current bath temperature: 23.55 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:49:22] Current bath temperature: 23.55 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:49:29] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 19:49:29] 5
+
+[2026-08-25 17:18:15] [2026-08-25 19:49:29] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:49:32] Current bath temperature: 23.55 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:49:42] Current bath temperature: 23.57 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:49:52] Current bath temperature: 23.59 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:50:02] Current bath temperature: 23.6 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:50:12] Current bath temperature: 23.62 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:50:22] Current bath temperature: 23.63 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:50:32] Current bath temperature: 23.64 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:50:42] Current bath temperature: 23.65 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:50:53] Current bath temperature: 23.65 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:50:58] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 19:50:58] 6
+
+[2026-08-25 17:18:15] [2026-08-25 19:50:58] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:51:03] Current bath temperature: 23.67 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:51:13] Current bath temperature: 23.68 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:51:23] Current bath temperature: 23.69 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:51:33] Current bath temperature: 23.69 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:51:43] Current bath temperature: 23.69 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:51:53] Current bath temperature: 23.71 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:52:03] Current bath temperature: 23.72 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:52:13] Current bath temperature: 23.72 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:52:24] Current bath temperature: 23.74 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:52:34] Current bath temperature: 23.76 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:52:44] Current bath temperature: 23.76 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:52:54] Current bath temperature: 23.77 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:53:04] Current bath temperature: 23.79 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:53:14] Current bath temperature: 23.8 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:53:17] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 19:53:17] 6
+
+[2026-08-25 17:18:15] [2026-08-25 19:53:17] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:53:24] Current bath temperature: 23.8 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:53:34] Current bath temperature: 23.81 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:53:44] Current bath temperature: 23.82 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:53:55] Current bath temperature: 23.83 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:54:05] Current bath temperature: 23.84 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:54:15] Current bath temperature: 23.85 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:54:25] Current bath temperature: 23.87 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:54:35] Current bath temperature: 23.87 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:54:45] Current bath temperature: 23.88 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:54:46] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 19:54:46] 7
+
+[2026-08-25 17:18:15] [2026-08-25 19:54:46] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:54:55] Current bath temperature: 23.89 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:55:05] Current bath temperature: 23.91 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:55:15] Current bath temperature: 23.92 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:55:26] Current bath temperature: 23.93 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:55:36] Current bath temperature: 23.93 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:55:46] Current bath temperature: 23.94 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:55:56] Current bath temperature: 23.95 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:56:06] Current bath temperature: 23.96 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:56:16] Current bath temperature: 23.97 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:56:26] Current bath temperature: 23.97 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:56:36] Current bath temperature: 23.98 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:56:46] Current bath temperature: 23.99 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:56:57] Current bath temperature: 24.0 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:57:04] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 19:57:04] 7
+
+[2026-08-25 17:18:15] [2026-08-25 19:57:04] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:57:07] Current bath temperature: 24.02 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:57:17] Current bath temperature: 24.03 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:57:27] Current bath temperature: 24.03 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:57:37] Current bath temperature: 24.04 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:57:47] Current bath temperature: 24.05 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:57:57] Current bath temperature: 24.06 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:58:07] Current bath temperature: 24.07 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:58:17] Current bath temperature: 24.07 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:58:28] Current bath temperature: 24.07 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:58:33] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 19:58:33] 8
+
+[2026-08-25 17:18:15] [2026-08-25 19:58:33] 10
+
+[2026-08-25 17:18:15] [2026-08-25 19:58:38] Current bath temperature: 24.08 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:58:48] Current bath temperature: 24.09 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:58:58] Current bath temperature: 24.1 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:59:08] Current bath temperature: 24.11 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:59:18] Current bath temperature: 24.12 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:59:28] Current bath temperature: 24.14 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:59:38] Current bath temperature: 24.15 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:59:48] Current bath temperature: 24.16 C.
+
+[2026-08-25 17:18:15] [2026-08-25 19:59:59] Current bath temperature: 24.17 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:00:09] Current bath temperature: 24.18 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:00:19] Current bath temperature: 24.18 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:00:29] Current bath temperature: 24.19 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:00:39] Current bath temperature: 24.2 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:00:49] Current bath temperature: 24.2 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:00:52] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 20:00:52] 8
+
+[2026-08-25 17:18:15] [2026-08-25 20:00:52] 10
+
+[2026-08-25 17:18:15] [2026-08-25 20:00:59] Current bath temperature: 24.21 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:01:09] Current bath temperature: 24.21 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:01:19] Current bath temperature: 24.22 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:01:30] Current bath temperature: 24.23 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:01:40] Current bath temperature: 24.24 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:01:50] Current bath temperature: 24.25 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:02:00] Current bath temperature: 24.26 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:02:10] Current bath temperature: 24.27 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:02:20] Current bath temperature: 24.29 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:02:21] aspirate
+
+[2026-08-25 17:18:15] [2026-08-25 20:02:21] 9
+
+[2026-08-25 17:18:15] [2026-08-25 20:02:21] 10
+
+[2026-08-25 17:18:15] [2026-08-25 20:02:30] Current bath temperature: 24.3 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:02:40] Current bath temperature: 24.3 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:02:50] Current bath temperature: 24.31 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:03:01] Current bath temperature: 24.31 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:03:11] Current bath temperature: 24.32 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:03:21] Current bath temperature: 24.32 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:03:31] Current bath temperature: 24.33 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:03:41] Current bath temperature: 24.34 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:03:51] Current bath temperature: 24.35 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:01] Current bath temperature: 24.35 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:11] Current bath temperature: 24.36 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:21] Current bath temperature: 24.37 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:32] Current bath temperature: 24.39 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:42] Current bath temperature: 24.4 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:52] Current bath temperature: 24.42 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:56] dispense
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:56] 9
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:56] 10
+
+[2026-08-25 17:18:15] [2026-08-25 20:04:56] 2292.4338491782546
+
+[2026-08-25 17:18:15] [2026-08-25 20:05:02] Current bath temperature: 24.42 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:05:12] Current bath temperature: 24.43 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:05:22] Current bath temperature: 24.44 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:05:32] Current bath temperature: 24.44 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:05:42] Current bath temperature: 24.45 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:05:52] Current bath temperature: 24.45 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:06:02] Current bath temperature: 24.46 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:06:13] Current bath temperature: 24.46 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:06:23] Current bath temperature: 24.47 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:06:33] Current bath temperature: 24.47 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:06:43] Current bath temperature: 24.47 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:06:53] Current bath temperature: 24.48 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:07:03] Current bath temperature: 24.49 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:07:13] Current bath temperature: 24.5 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:07:23] Current bath temperature: 24.5 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:07:33] Current bath temperature: 24.51 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:07:44] Current bath temperature: 24.52 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:07:54] Current bath temperature: 24.53 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:08:04] Current bath temperature: 24.53 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:08:14] Current bath temperature: 24.54 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:08:24] Current bath temperature: 24.55 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:08:34] Current bath temperature: 24.56 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:08:44] Current bath temperature: 24.56 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:08:54] Current bath temperature: 24.56 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:09:04] Current bath temperature: 24.57 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:09:15] Current bath temperature: 24.57 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:09:25] Current bath temperature: 24.58 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:09:35] Current bath temperature: 24.58 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:09:45] Current bath temperature: 24.59 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:09:55] Current bath temperature: 24.6 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:10:05] Current bath temperature: 24.62 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:10:15] Current bath temperature: 24.63 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:10:25] Current bath temperature: 24.63 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:10:35] Current bath temperature: 24.65 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:10:46] Current bath temperature: 24.66 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:10:56] Current bath temperature: 24.68 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:11:06] Current bath temperature: 24.68 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:11:16] Current bath temperature: 24.69 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:11:26] Current bath temperature: 24.7 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:11:36] Current bath temperature: 24.7 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:11:46] Current bath temperature: 24.71 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:11:47] entered if statement!!!
+
+[2026-08-25 17:18:15] [2026-08-25 20:11:56] Current bath temperature: 24.71 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:12:06] Current bath temperature: 24.72 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:12:17] Current bath temperature: 24.73 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:12:27] Current bath temperature: 24.74 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:12:37] Current bath temperature: 24.74 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:12:47] Current bath temperature: 24.75 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:12:57] Current bath temperature: 24.75 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:13:07] Current bath temperature: 24.75 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:13:17] Current bath temperature: 24.77 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:13:18] Bottle inventory after preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 12059.0, 'dead_volume_uL': 2000.0, 'available_uL': 10059.0}, 'solvent': {'remaining_uL': 18941.0, 'dead_volume_uL': 2000.0, 'available_uL': 16941.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-08-25 17:18:15] [2026-08-25 20:13:27] Current bath temperature: 24.77 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:13:37] Current bath temperature: 24.78 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:13:48] Current bath temperature: 24.79 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:13:58] Current bath temperature: 24.79 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:14:08] Current bath temperature: 24.8 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:14:18] Current bath temperature: 24.81 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:14:28] Current bath temperature: 24.82 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:14:38] Current bath temperature: 24.83 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:14:48] Current bath temperature: 24.83 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:14:58] Current bath temperature: 24.83 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:15:08] Current bath temperature: 24.83 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:15:19] Current bath temperature: 24.83 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:15:29] Current bath temperature: 24.84 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:15:39] Current bath temperature: 24.85 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:15:49] Current bath temperature: 24.86 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:15:59] Current bath temperature: 24.87 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:16:09] Current bath temperature: 24.88 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:16:19] Current bath temperature: 24.88 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:16:29] Current bath temperature: 24.89 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:16:39] Current bath temperature: 24.89 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:16:50] Current bath temperature: 24.9 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:17:00] Current bath temperature: 24.91 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:17:00] Reached target temperature of 25 C.
+
+[2026-08-25 17:18:15] [2026-08-25 20:17:00] Joined both subprocesses.
+
+[2026-08-25 17:18:15] [2026-08-25 20:18:04] Pullcast complete.
+
+[2026-08-25 17:18:15] [2026-08-25 20:18:04] Nitrogen on.
+
+[2026-08-25 17:18:15] [2026-08-25 20:28:17] Nitrogen off.
+
+[2026-08-25 17:18:15] [2026-08-25 20:28:17] Membrane air data: {'temperature': '23.48', 'humidity': '44.38'}
+
+[2026-08-25 17:18:15] [2026-08-25 20:28:17] Ambient air data: {'temperature': '23.45', 'humidity': '42.70'}
+
+[2026-08-25 17:18:15] [2026-08-25 20:28:28] Membrane sitting in bath for 1200 seconds.
+
+[2026-08-25 17:18:15] [2026-08-25 20:28:38] Nitrogen cap has been put away.
+
+[2026-08-25 17:18:15] [2026-08-25 20:28:53] Ring has been placed on the coupon.
+
+[2026-08-25 17:18:15] [2026-08-25 20:28:53] Cleaning knife
+
+[2026-08-25 17:18:15] [2026-08-25 20:29:53] Knife cleaning finished.
+
+[2026-08-25 17:18:15] [2026-08-25 20:59:02] Initial membrane picture taken.
+
+[2026-08-25 17:18:15] [2026-08-25 20:59:31] Test has started!
+
+[2026-08-25 17:18:15] [2026-08-25 21:03:41] Test complete!
+
+[2026-08-25 17:18:15] [2026-08-25 21:03:46] Safe: True
+
+[2026-08-25 17:18:15] [2026-08-25 21:03:46] Recent: True
+
+[2026-08-25 17:18:15] [2026-08-25 21:03:46] Current Time: 1787691801.685045
+
+[2026-08-25 17:18:15] [2026-08-25 21:03:46] Data Time: 1787691790.9373586
+
+[2026-08-25 17:18:15] [2026-08-25 21:03:46] Age: 10.747686386108398
+
+[2026-08-25 17:18:15] [2026-08-25 21:03:59] Test has started!
+
+[2026-08-25 17:18:15] [2026-08-25 21:08:10] Test complete!
+
+[2026-08-25 17:18:15] [2026-08-25 21:08:15] Safe: True
+
+[2026-08-25 17:18:15] [2026-08-25 21:08:15] Recent: True
+
+[2026-08-25 17:18:15] [2026-08-25 21:08:15] Current Time: 1787692070.912246
+
+[2026-08-25 17:18:15] [2026-08-25 21:08:15] Data Time: 1787692060.1583369
+
+[2026-08-25 17:18:15] [2026-08-25 21:08:15] Age: 10.75390911102295
+
+[2026-08-25 17:18:15] [2026-08-25 21:08:28] Test has started!
+
+[2026-08-25 17:18:15] [2026-08-25 21:12:38] Test complete!
+
+[2026-08-25 17:18:15] [2026-08-25 21:12:44] Safe: True
+
+[2026-08-25 17:18:15] [2026-08-25 21:12:44] Recent: True
+
+[2026-08-25 17:18:15] [2026-08-25 21:12:44] Current Time: 1787692339.1045542
+
+[2026-08-25 17:18:15] [2026-08-25 21:12:44] Data Time: 1787692328.4354694
+
+[2026-08-25 17:18:15] [2026-08-25 21:12:44] Age: 10.669084787368774
+
+[2026-08-25 17:18:15] [2026-08-25 21:12:56] Test has started!
+
+[2026-08-25 17:18:15] [2026-08-25 21:17:06] Test complete!
+
+[2026-08-25 17:18:15] [2026-08-25 21:17:11] Safe: True
+
+[2026-08-25 17:18:15] [2026-08-25 21:17:11] Recent: True
+
+[2026-08-25 17:18:15] [2026-08-25 21:17:11] Current Time: 1787692606.2557418
+
+[2026-08-25 17:18:15] [2026-08-25 21:17:11] Data Time: 1787692595.4635153
+
+[2026-08-25 17:18:15] [2026-08-25 21:17:11] Age: 10.792226552963257
+
+[2026-08-25 17:18:15] [2026-08-25 21:17:37] Final membrane picture taken.
+
+[2026-08-25 17:18:15] [2026-08-25 21:17:55] Coupon successfully discarded.
+
+[2026-08-25 17:18:15] [2026-08-25 21:18:40] Done
+
+[2026-08-25 17:18:15] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-08-25 17:18:15] 
+[1/5] organising files...
+
+[2026-08-25 17:18:15] [START] condition=13p5-0add-25deg-cosolv-none-bathSolv-none-0wt-600s-N2-1200s
+
+[2026-08-25 17:18:15] [2/5] processing pipeline for: 13p5-0add-25deg-cosolv-none-bathSolv-none-0wt-600s-N2-1200s
+
+[2026-08-25 17:18:15] ==============================================================================================================
+
+[2026-08-25 17:18:15] Condition: 13p5-0add-25deg-cosolv-none-bathSolv-none-0wt-600s-N2-1200s | pairs: 4
+
+[2026-08-25 17:18:16] 
+
+------------ NEW REP ---------------
+
+[2026-08-25 17:18:16] Average Standard Deviation: 56.873917697727336
+
+[2026-08-25 17:18:19] Toe end strain (zero point): 0.0000
+
+[2026-08-25 17:18:29] PW + Double: 0.0943363894419921
+
+[2026-08-25 17:18:29] Piecewise Chosen! 0.12946636747948764 | Drop Calculation: 0.09101588940998559
+
+[2026-08-25 17:18:51]   elastic_r2                          29/30  NRMSE-score=0.960 (RMSE=0.83, range=20.59)
+
+[2026-08-25 17:18:51]   plateau_r2_start                    14/15  R²(first 40%)=0.924
+
+[2026-08-25 17:18:51]   densification_r2                    14/15  R²=0.941
+
+[2026-08-25 17:18:51]   yield_accuracy                      25/25  elastic tail undershoots data by 0.1% of elastic range
+
+[2026-08-25 17:18:51]   junction_continuity                  5/15  gap=10.1%
+
+[2026-08-25 17:18:51]   plateau_r2_full_penalty              0/0  R²(full)=0.957
+
+[2026-08-25 17:18:51]   elastic_modulus_penalty              0/0  E=171.1 bar ok
+
+[2026-08-25 17:18:51]   bp1_accuracy_penalty                -5/0  plateau spans 27% of remaining stress — ok | GAM slope drops 54% in early plateau — bp1 suspect
+
+[2026-08-25 17:18:51]   changepoint_curvature_penalty        0/0  d2_norm=4.51, linear_stretch=20%
+
+[2026-08-25 17:18:51]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.41 — good separation
+
+[2026-08-25 17:18:51] Score: 82/100 → PASS
+
+[2026-08-25 17:18:51] Elastic Modulus: 171.05 bar
+
+[2026-08-25 17:18:51] Pore Fraction: 0.6039
+
+[2026-08-25 17:18:52] Good Fit: True
+
+[2026-08-25 17:18:52] 
+
+------------ NEW REP ---------------
+
+[2026-08-25 17:18:52] Average Standard Deviation: 56.97441137247144
+
+[2026-08-25 17:18:55] Toe end strain (zero point): 0.0000
+
+[2026-08-25 17:19:01] PW + Double: 0.17085260367228874
+
+[2026-08-25 17:19:01] Piecewise Chosen! 0.19320311666514794 | Drop Calculation: 0.1825852992977858
+
+[2026-08-25 17:19:21]   elastic_r2                          29/30  NRMSE-score=0.963 (RMSE=1.03, range=28.21)
+
+[2026-08-25 17:19:21]   plateau_r2_start                    14/15  R²(first 40%)=0.924
+
+[2026-08-25 17:19:21]   densification_r2                    14/15  R²=0.946
+
+[2026-08-25 17:19:21]   yield_accuracy                      25/25  elastic tail undershoots data by 1.8% of elastic range
+
+[2026-08-25 17:19:21]   junction_continuity                  9/15  gap=6.2%
+
+[2026-08-25 17:19:21]   plateau_r2_full_penalty              0/0  R²(full)=0.939
+
+[2026-08-25 17:19:21]   elastic_modulus_penalty              0/0  E=152.5 bar ok
+
+[2026-08-25 17:19:21]   bp1_accuracy_penalty                -5/0  plateau spans 23% of remaining stress — ok | GAM slope drops 43% in early plateau — bp1 suspect
+
+[2026-08-25 17:19:21]   changepoint_curvature_penalty        0/0  d2_norm=4.50, linear_stretch=20%
+
+[2026-08-25 17:19:21]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.39 — good separation
+
+[2026-08-25 17:19:21] Score: 86/100 → PASS
+
+[2026-08-25 17:19:21] Elastic Modulus: 152.50 bar
+
+[2026-08-25 17:19:21] Pore Fraction: 0.6478
+
+[2026-08-25 17:19:22] Good Fit: True
+
+[2026-08-25 17:19:22] 
+
+------------ NEW REP ---------------
+
+[2026-08-25 17:19:22] Average Standard Deviation: 57.08479737294191
+
+[2026-08-25 17:19:25] Toe end strain (zero point): 0.0000
+
+[2026-08-25 17:19:31] PW + Double: 0.166164869633641
+
+[2026-08-25 17:19:31] Piecewise Chosen! 0.17873258052839247 | Drop Calculation: 0.19656302244181428
+
+[2026-08-25 17:19:49]   elastic_r2                          29/30  NRMSE-score=0.962 (RMSE=1.01, range=26.69)
+
+[2026-08-25 17:19:49]   plateau_r2_start                    14/15  R²(first 40%)=0.951
+
+[2026-08-25 17:19:49]   densification_r2                    13/15  R²=0.854
+
+[2026-08-25 17:19:49]   yield_accuracy                      25/25  elastic tail undershoots data by 1.3% of elastic range
+
+[2026-08-25 17:19:49]   junction_continuity                  9/15  gap=5.7%
+
+[2026-08-25 17:19:49]   plateau_r2_full_penalty              0/0  R²(full)=0.841
+
+[2026-08-25 17:19:49]   elastic_modulus_penalty              0/0  E=162.2 bar ok
+
+[2026-08-25 17:19:49]   bp1_accuracy_penalty                -5/0  plateau spans 23% of remaining stress — ok | GAM slope drops 46% in early plateau — bp1 suspect
+
+[2026-08-25 17:19:49]   changepoint_curvature_penalty        0/0  d2_norm=4.17, linear_stretch=17%
+
+[2026-08-25 17:19:49]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.41 — good separation
+
+[2026-08-25 17:19:49] Score: 85/100 → PASS
+
+[2026-08-25 17:19:49] Elastic Modulus: 162.16 bar
+
+[2026-08-25 17:19:49] Pore Fraction: 0.5876
+
+[2026-08-25 17:19:49] Good Fit: True
+
+[2026-08-25 17:19:50] 
+
+------------ NEW REP ---------------
+
+[2026-08-25 17:19:50] Average Standard Deviation: 57.1422079219074
+
+[2026-08-25 17:19:53] Toe end strain (zero point): 0.0000
+
+[2026-08-25 17:19:57] PW + Double: 0.10674456160824514
+
+[2026-08-25 17:19:57] Piecewise Chosen! 0.11006004877904481 | Drop Calculation: 0.11666624258728461
+
+[2026-08-25 17:20:20]   elastic_r2                          29/30  NRMSE-score=0.961 (RMSE=0.86, range=22.18)
+
+[2026-08-25 17:20:20]   plateau_r2_start                    14/15  R²(first 40%)=0.932
+
+[2026-08-25 17:20:20]   densification_r2                    14/15  R²=0.917
+
+[2026-08-25 17:20:20]   yield_accuracy                      25/25  elastic tail overshoots data by 0.3% of elastic range
+
+[2026-08-25 17:20:20]   junction_continuity                 14/15  gap=0.8%
+
+[2026-08-25 17:20:20]   plateau_r2_full_penalty              0/0  R²(full)=0.862
+
+[2026-08-25 17:20:20]   elastic_modulus_penalty              0/0  E=192.4 bar ok
+
+[2026-08-25 17:20:20]   bp1_accuracy_penalty                -5/0  plateau spans 26% of remaining stress — ok | GAM slope drops 46% in early plateau — bp1 suspect
+
+[2026-08-25 17:20:20]   changepoint_curvature_penalty        0/0  d2_norm=1.99, linear_stretch=30%
+
+[2026-08-25 17:20:20]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.36 — good separation
+
+[2026-08-25 17:20:20] Score: 91/100 → PASS
+
+[2026-08-25 17:20:20] Elastic Modulus: 192.44 bar
+
+[2026-08-25 17:20:20] Pore Fraction: 0.5808
+
+[2026-08-25 17:20:20] Good Fit: True
+
+[2026-08-25 17:20:21] CV (13p5-0add-25deg-cosolv-none-bathSolv-none-0wt-600s-N2-1200s): 0.057839825076704536
+
+[2026-08-25 17:20:21] 
+
+------------ NEW REP ---------------
+
+[2026-08-25 17:20:21] Average Standard Deviation: 43.880102814086484
+
+[2026-08-25 17:20:23] Toe end strain (zero point): 0.0000
+
+[2026-08-25 17:20:27] PW + Double: 0.13641152809793017
+
+[2026-08-25 17:20:27] Piecewise Chosen! 0.14678101776233446 | Drop Calculation: 0.09690259390897886
+
+[2026-08-25 17:20:49]   elastic_r2                          29/30  NRMSE-score=0.976 (RMSE=0.55, range=23.18)
+
+[2026-08-25 17:20:49]   plateau_r2_start                    15/15  R²(first 40%)=0.983
+
+[2026-08-25 17:20:49]   densification_r2                    14/15  R²=0.912
+
+[2026-08-25 17:20:49]   yield_accuracy                      25/25  elastic tail undershoots data by 0.2% of elastic range
+
+[2026-08-25 17:20:49]   junction_continuity                 11/15  gap=4.5%
+
+[2026-08-25 17:20:49]   plateau_r2_full_penalty              0/0  R²(full)=0.741
+
+[2026-08-25 17:20:49]   elastic_modulus_penalty              0/0  E=170.6 bar ok
+
+[2026-08-25 17:20:49]   bp1_accuracy_penalty                -5/0  plateau spans 25% of remaining stress — ok | GAM slope drops 59% in early plateau — bp1 suspect
+
+[2026-08-25 17:20:49]   changepoint_curvature_penalty        0/0  d2_norm=3.37, linear_stretch=20%
+
+[2026-08-25 17:20:49]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.39 — good separation
+
+[2026-08-25 17:20:49] Score: 89/100 → PASS
+
+[2026-08-25 17:20:49] Elastic Modulus: 170.63 bar
+
+[2026-08-25 17:20:49] Pore Fraction: 0.6166
+
+[2026-08-25 17:20:49] Good Fit: True
+
+[2026-08-25 17:21:16] [3/5] generating initial report...
+
+[2026-08-25 17:21:16] [4/5] running active learning...
+
+[2026-08-25 17:21:39] [ERROR] 13p5-0add-25deg-cosolv-none-bathSolv-none-0wt-600s-N2-1200s  APIConnectionError: Connection error.
+
+[2026-08-25 17:21:39] Pipeline error — loop stopped: Connection error.
+
+[2026-08-25 17:21:39] Exception in thread 
+[2026-08-25 17:21:39] Thread-2 (_run_pipeline_and_trigger_next)
+[2026-08-25 17:21:39] :
+[2026-08-25 17:21:39] Traceback (most recent call last):
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_transports\default.py"[0m, line [35m101[0m, in [35mmap_httpcore_exceptions[0m
+    yield
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_transports\default.py"[0m, line [35m250[0m, in [35mhandle_request[0m
+    resp = self._pool.handle_request(req)
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection_pool.py"[0m, line [35m256[0m, in [35mhandle_request[0m
+    raise exc from None
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection_pool.py"[0m, line [35m236[0m, in [35mhandle_request[0m
+    response = connection.handle_request(
+        pool_request.request
+    )
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection.py"[0m, line [35m101[0m, in [35mhandle_request[0m
+    raise exc
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection.py"[0m, line [35m78[0m, in [35mhandle_request[0m
+    stream = self._connect(request)
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection.py"[0m, line [35m124[0m, in [35m_connect[0m
+    stream = self._network_backend.connect_tcp(**kwargs)
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_backends\sync.py"[0m, line [35m207[0m, in [35mconnect_tcp[0m
+    with [31mmap_exceptions[0m[1;31m(exc_map)[0m:
+         [31m~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\contextlib.py"[0m, line [35m162[0m, in [35m__exit__[0m
+    [31mself.gen.throw[0m[1;31m(value)[0m
+    [31m~~~~~~~~~~~~~~[0m[1;31m^^^^^^^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_exceptions.py"[0m, line [35m14[0m, in [35mmap_exceptions[0m
+    raise to_exc(exc) from exc
+[2026-08-25 17:21:39] [1;35mhttpcore.ConnectError[0m: [35m[Errno 11001] getaddrinfo failed[0m
+[2026-08-25 17:21:39] 
+The above exception was the direct cause of the following exception:
+
+[2026-08-25 17:21:39] Traceback (most recent call last):
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_base_client.py"[0m, line [35m1019[0m, in [35mrequest[0m
+    response = self._send_request(
+        request,
+        stream=stream or self._should_stream_response_body(request=request),
+        **kwargs,
+    )
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_client.py"[0m, line [35m400[0m, in [35m_send_request[0m
+    return [31mself._send_with_auth_retry[0m[1;31m(request, stream=stream, **kwargs)[0m
+           [31m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_client.py"[0m, line [35m378[0m, in [35m_send_with_auth_retry[0m
+    response = super()._send_request(request, stream=stream, **kwargs)
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_base_client.py"[0m, line [35m947[0m, in [35m_send_request[0m
+    return [31mself._client.send[0m[1;31m(request, stream=stream, **kwargs)[0m
+           [31m~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_client.py"[0m, line [35m914[0m, in [35msend[0m
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_client.py"[0m, line [35m942[0m, in [35m_send_handling_auth[0m
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_client.py"[0m, line [35m979[0m, in [35m_send_handling_redirects[0m
+    response = self._send_single_request(request)
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_client.py"[0m, line [35m1014[0m, in [35m_send_single_request[0m
+    response = transport.handle_request(request)
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_transports\default.py"[0m, line [35m249[0m, in [35mhandle_request[0m
+    with [31mmap_httpcore_exceptions[0m[1;31m()[0m:
+         [31m~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\contextlib.py"[0m, line [35m162[0m, in [35m__exit__[0m
+    [31mself.gen.throw[0m[1;31m(value)[0m
+    [31m~~~~~~~~~~~~~~[0m[1;31m^^^^^^^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_transports\default.py"[0m, line [35m118[0m, in [35mmap_httpcore_exceptions[0m
+    raise mapped_exc(message) from exc
+[2026-08-25 17:21:39] [1;35mhttpx.ConnectError[0m: [35m[Errno 11001] getaddrinfo failed[0m
+[2026-08-25 17:21:39] 
+The above exception was the direct cause of the following exception:
+
+[2026-08-25 17:21:39] Traceback (most recent call last):
+[2026-08-25 17:21:39]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\threading.py"[0m, line [35m1044[0m, in [35m_bootstrap_inner[0m
+    [31mself.run[0m[1;31m()[0m
+    [31m~~~~~~~~[0m[1;31m^^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\threading.py"[0m, line [35m995[0m, in [35mrun[0m
+    [31mself._target[0m[1;31m(*self._args, **self._kwargs)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m519[0m, in [35m_run_pipeline_and_trigger_next[0m
+    params_suggestion = llm_context.generate_reports_and_suggestion(
+        condition_name, CSV_AGG_LLM, activeLearning,
+    ...<2 lines>...
+        exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
+    )
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\llm_context.py"[0m, line [35m377[0m, in [35mgenerate_reports_and_suggestion[0m
+    initial_report = activeLearning.Generate_report(fmt_params)
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\activeLearning_29.py"[0m, line [35m57[0m, in [35mGenerate_report[0m
+    response = client.chat.completions.create(
+      model= Model,
+    ...<4 lines>...
+      temperature=Temperature
+    )
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_utils\_utils.py"[0m, line [35m287[0m, in [35mwrapper[0m
+    return func(*args, **kwargs)
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\resources\chat\completions\completions.py"[0m, line [35m1211[0m, in [35mcreate[0m
+    return [31mself._post[0m[1;31m([0m
+           [31m~~~~~~~~~~[0m[1;31m^[0m
+        [1;31m"/chat/completions",[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^[0m
+    ...<47 lines>...
+        [1;31mstream_cls=Stream[ChatCompletionChunk],[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    [1;31m)[0m
+    [1;31m^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_base_client.py"[0m, line [35m1314[0m, in [35mpost[0m
+    return cast(ResponseT, [31mself.request[0m[1;31m(cast_to, opts, stream=stream, stream_cls=stream_cls)[0m)
+                           [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-25 17:21:39]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_base_client.py"[0m, line [35m1054[0m, in [35mrequest[0m
+    raise APIConnectionError(request=request) from err
+[2026-08-25 17:21:39] [1;35mopenai.APIConnectionError[0m: [35mConnection error.[0m
+[2026-08-25 17:41:37] 
+stopping server...
+
