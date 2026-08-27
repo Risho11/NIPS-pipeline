@@ -94,3 +94,15 @@ def run_branches(condition_name, data_root=DATA_ROOT, csv_paths=None) -> dict:
             continue
         results[name] = fn(condition_name, data_root, csv_paths)
     return results
+
+
+def run_branch(name, condition_name, data_root=DATA_ROOT, csv_paths=None):
+    """Run one configured branch, primarily for checkpoint recovery.
+
+    Recovery uses this for non-performance branches whose small result payload is needed to
+    finish CSV attachment.  It deliberately does not consult ``enabled``: the checkpoint was
+    created under a known configuration and the caller decides which result is missing.
+    """
+    if name not in _BRANCH_FNS:
+        raise KeyError(f"Unknown processing branch: {name}")
+    return _BRANCH_FNS[name](condition_name, data_root, csv_paths)

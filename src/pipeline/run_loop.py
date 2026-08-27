@@ -162,6 +162,87 @@ d = _campaign_folder_tag(CONTINUE_CAMPAIGN, LLM_AL_SEARCH_MODE)
 CSV_REPS        = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"reps.csv"
 CSV_AGG         = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"agg.csv"
 CSV_AGG_LLM     = DATA_ROOT / "data" / "results" / f"begins_{d}" / f"llm.csv"
+CHECKPOINT_NAME = ".pipeline_state.json"
+
+
+def _checkpoint_path(condition_name):
+    return master_processing.get_condition_dir(condition_name, DATA_ROOT) / CHECKPOINT_NAME
+
+
+def _load_checkpoint(condition_name):
+    path = _checkpoint_path(condition_name)
+    if not path.exists():
+        return None
+    with path.open(encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _save_checkpoint(condition_name, state):
+    """Atomically persist recovery state beside the condition's immutable raw inputs."""
+    path = _checkpoint_path(condition_name)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    state["condition_name"] = condition_name
+    state["updated_at"] = datetime.datetime.now().isoformat(timespec="seconds")
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(state, indent=2), encoding="utf-8")
+    os.replace(temporary, path)
+
+
+def _complete_stage(condition_name, state, stage, **updates):
+    state.update(updates)
+    completed = state.setdefault("completed_stages", [])
+    if stage not in completed:
+        completed.append(stage)
+    state.pop("last_error", None)
+    _save_checkpoint(condition_name, state)
+
+
+def _json_safe_branch_results(branch_results):
+    safe = {}
+    for name, result in branch_results.items():
+        if master_processing.BRANCH_CONFIG.get(name, {}).get("type") == "performance":
+            continue
+        if not isinstance(result, dict):
+            continue
+        subset = {}
+        for key, value in result.items():
+            try:
+                json.dumps(value)
+            except TypeError:
+                continue
+            subset[key] = value
+        safe[name] = subset
+    return safe
+
+
+def _csv_has_condition(path, condition_name):
+    if not path.exists() or path.stat().st_size == 0:
+        return False
+    with path.open(newline="", encoding="utf-8") as f:
+        return any((row.get("name") or "").strip() == condition_name for row in csv.DictReader(f))
+
+
+def _find_incomplete_condition():
+    """Return the newest condition that has saved inputs/results but no next-params JSON."""
+    if not CSV_AGG_LLM.exists() or CSV_AGG_LLM.stat().st_size == 0:
+        return None
+    with CSV_AGG_LLM.open(newline="", encoding="utf-8") as f:
+        names = [(row.get("name") or "").strip() for row in csv.DictReader(f)]
+    names = [name for name in names if name]
+    if not names:
+        return None
+    # Only the campaign tip may be resumed. Searching further back could unexpectedly restart
+    # an intentionally abandoned historical condition.
+    name = names[-1]
+    state = _load_checkpoint(name)
+    if state:
+        if "next_run_submitted" not in state.get("completed_stages", []):
+            return name
+        return None
+    result_path = JSON_RESULTS_DIR / f"llm_result_{name}.json"
+    if not result_path.exists() and _checkpoint_path(name).parent.exists():
+        return name
+    return None
 
 def startup(lock_add, locked_value, iterate_add, iterate_poly, continue_campaign, campaign_date):
     if continue_campaign is None:
@@ -471,7 +552,7 @@ def _load_resume_params_for_campaign(campaign_date):
     return params
 
 
-def _run_pipeline_and_trigger_next(params, protocol_log=None):
+def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=None):
     # robot echoes back whatever we posted, including stock_metadata — strip it here so
     # it never reaches params.json / move_and_rename / the CSV pipeline
     params = {k: v for k, v in params.items() if k != "stock_metadata"}
@@ -492,91 +573,150 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None):
         condition_name = None
         line = "\n-----------------------------------\n"
         print("\n[1/5] organising files...")
-        condition_name = move_and_rename(params)
+        condition_name = resume_condition or move_and_rename(params)
+        state = _load_checkpoint(condition_name) or {
+            "params": params,
+            "completed_stages": [],
+            "branch_results": {},
+        }
+        completed = state.setdefault("completed_stages", [])
+        if "files_saved" not in completed:
+            _complete_stage(condition_name, state, "files_saved")
+        if resume_condition:
+            print(f"[RESUME] continuing existing condition: {condition_name}")
 
         print(f"[START] condition={condition_name}")
+        branch_results = dict(state.get("branch_results") or {})
         print(f"[2/5] processing pipeline for: {condition_name}")
         # csv_paths must be passed explicitly -- without it, _run_curve_segmentation falls back
         # to its own hardcoded flat data/results/results_agg_llm.csv (no CONTINUE_CAMPAIGN
         # begins_<d> folder), completely bypassing CSV_REPS/CSV_AGG/CSV_AGG_LLM below. That split
         # curve_segmentation's formatted_parameters_withProp off into a different file than
         # everything else in this function writes to.
-        branch_results = master_processing.run_branches(
-            condition_name, DATA_ROOT, csv_paths=(CSV_REPS, CSV_AGG, CSV_AGG_LLM)
-        )
+        csv_paths = (CSV_REPS, CSV_AGG, CSV_AGG_LLM)
+        if "branches_processed" not in completed:
+            # A legacy failed run has no checkpoint, but an existing LLM row proves the
+            # performance branch completed. Do not repeat expensive curve fitting in that case.
+            if resume_condition and _csv_has_condition(CSV_AGG_LLM, condition_name):
+                for name, config in master_processing.BRANCH_CONFIG.items():
+                    if config["enabled"] and config["type"] != "performance":
+                        branch_results[name] = master_processing.run_branch(
+                            name, condition_name, DATA_ROOT, csv_paths
+                        )
+            else:
+                branch_results = master_processing.run_branches(
+                    condition_name, DATA_ROOT, csv_paths=csv_paths
+                )
+            _complete_stage(
+                condition_name, state, "branches_processed",
+                branch_results=_json_safe_branch_results(branch_results),
+            )
+        else:
+            # Non-performance results are small and deterministic. Recreate any payload omitted
+            # from an older/partial checkpoint without repeating mechanical processing.
+            for name, config in master_processing.BRANCH_CONFIG.items():
+                if (config["enabled"] and config["type"] != "performance"
+                        and name not in branch_results):
+                    branch_results[name] = master_processing.run_branch(
+                        name, condition_name, DATA_ROOT, csv_paths
+                    )
 
-        llm_context.scrub_raw_result_columns(CSV_AGG_LLM)
-        condition_dir = master_processing.get_condition_dir(condition_name, DATA_ROOT)
-        llm_context.ensure_condition_row(condition_name, condition_dir, CSV_AGG_LLM)
-        llm_context.attach_all_branch_results(condition_name, branch_results, master_processing.BRANCH_CONFIG,
-                                               CSV_AGG, CSV_AGG_LLM)
+        # The key records that mechanical processing ran; its large payload already lives in
+        # the CSV and is intentionally not persisted in the checkpoint.
+        for name, config in master_processing.BRANCH_CONFIG.items():
+            if config["enabled"] and config["type"] == "performance":
+                branch_results.setdefault(name, {})
+
+        if "results_attached" not in completed:
+            llm_context.scrub_raw_result_columns(CSV_AGG_LLM)
+            condition_dir = master_processing.get_condition_dir(condition_name, DATA_ROOT)
+            llm_context.ensure_condition_row(condition_name, condition_dir, CSV_AGG_LLM)
+            llm_context.attach_all_branch_results(
+                condition_name, branch_results, master_processing.BRANCH_CONFIG,
+                CSV_AGG, CSV_AGG_LLM,
+            )
+            _complete_stage(condition_name, state, "results_attached")
 
         print("[3/5] generating initial report...")
         if not CSV_AGG_LLM.exists() or CSV_AGG_LLM.stat().st_size == 0:
             raise ValueError(f"LLM CSV missing or empty after promote_to_main: {CSV_AGG_LLM}")
 
-        print("[4/5] running active learning...")
-        params_suggestion = llm_context.generate_reports_and_suggestion(
-            condition_name, CSV_AGG_LLM, activeLearning,
-            locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
-            al_search_mode=LLM_AL_SEARCH_MODE,
-            exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
-        )
-
-        llm_new_params = None
-        try:
-            llm_new_params = _extract_next_params(params_suggestion)
-        except ValueError as e:
-            if not iterating:
-                raise
-            print(f"[WARN] {condition_name}  LLM suggestion unusable, ignoring "
-                  f"(iteration mode drives next params): {e}")
-
-        if iterating:
-            new_params = _next_iteration_params()
-            if new_params is None:
-                return
+        json_out = JSON_RESULTS_DIR / f"llm_result_{condition_name}.json"
+        if "recommendation_saved" in completed and json_out.exists():
+            with json_out.open(encoding="utf-8") as f:
+                new_params = json.load(f)
         else:
-            new_params = llm_new_params
+            print("[4/5] running active learning...")
+            params_suggestion = llm_context.generate_reports_and_suggestion(
+                condition_name, CSV_AGG_LLM, activeLearning,
+                locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
+                al_search_mode=LLM_AL_SEARCH_MODE,
+                exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
+            )
 
-            if LOCK_ADDITIVE_WT and new_params["additive_wt"] != LOCK_ADDITIVE_WT_VALUE:
-                print(f"[LOCK_ADDITIVE_WT] LLM suggested additive_wt={new_params['additive_wt']}, "
-                      f"forcing to {LOCK_ADDITIVE_WT_VALUE}")
-                new_params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
+            llm_new_params = None
+            try:
+                llm_new_params = _extract_next_params(params_suggestion)
+            except ValueError as e:
+                if not iterating:
+                    raise
+                print(f"[WARN] {condition_name}  LLM suggestion unusable, ignoring "
+                      f"(iteration mode drives next params): {e}")
 
-            # snap to feasible triangle
-            p, a = activeLearning.bounds.test_target(new_params["polymer_wt"], new_params["additive_wt"])
-            if p != new_params["polymer_wt"] or a != new_params["additive_wt"]:
-                print(f"\nLLM params out of range -- ({new_params['polymer_wt']}, {new_params['additive_wt']})")
-                print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |{line}")
+            if iterating:
+                new_params = _next_iteration_params()
+                if new_params is None:
+                    return
+            else:
+                new_params = llm_new_params
 
-            new_params["polymer_wt"] = p
-            new_params["additive_wt"] = a
+                if LOCK_ADDITIVE_WT and new_params["additive_wt"] != LOCK_ADDITIVE_WT_VALUE:
+                    print(f"[LOCK_ADDITIVE_WT] LLM suggested additive_wt={new_params['additive_wt']}, "
+                          f"forcing to {LOCK_ADDITIVE_WT_VALUE}")
+                    new_params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
 
-        # These describe a manually prepared bath, so never allow an LLM response to change
-        # them without the operator physically changing the bath first.
-        new_params["cosolvent_type"] = COSOLVENT_TYPE
-        new_params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
-        new_params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
-        _validate_params(new_params)
+                # snap to feasible triangle
+                p, a = activeLearning.bounds.test_target(new_params["polymer_wt"], new_params["additive_wt"])
+                if p != new_params["polymer_wt"] or a != new_params["additive_wt"]:
+                    print(f"\nLLM params out of range -- ({new_params['polymer_wt']}, {new_params['additive_wt']})")
+                    print(f"CLOSEST POINT: | {p:.2f} pwt% | {a:.2f} awt% |{line}")
 
-        # attach stock class metadata so the opentrons server has it alongside the params
-        new_params["stock_metadata"] = activeLearning.bounds.send_metadata()
+                new_params["polymer_wt"] = p
+                new_params["additive_wt"] = a
 
-        JSON_RESULTS_DIR.mkdir(exist_ok=True)
-        json_out = JSON_RESULTS_DIR / f"llm_result_{condition_name}.json"  # <<< PATH >>>
-        with open(json_out, "w") as f:
-            json.dump(new_params, f, indent=2)
-        print(f"  JSON result: {json_out}")
+            # These describe a manually prepared bath, so never allow an LLM response to change
+            # them without the operator physically changing the bath first.
+            new_params["cosolvent_type"] = COSOLVENT_TYPE
+            new_params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
+            new_params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
+            _validate_params(new_params)
+
+            # attach stock class metadata so the opentrons server has it alongside the params
+            new_params["stock_metadata"] = activeLearning.bounds.send_metadata()
+
+            JSON_RESULTS_DIR.mkdir(exist_ok=True)
+            with open(json_out, "w") as f:
+                json.dump(new_params, f, indent=2)
+            _complete_stage(condition_name, state, "recommendation_saved")
+            print(f"  JSON result: {json_out}")
 
         print(f"[5/5] next params: {new_params}")
+        if "submission_started" in completed:
+            raise RuntimeError(
+                "Previous robot submission has an unknown outcome; refusing to send a duplicate. "
+                "Verify robot state, then remove submission_started from the condition checkpoint "
+                "only if the request was not accepted."
+            )
+        _complete_stage(condition_name, state, "submission_started")
         url.run_test(new_params)
+        _complete_stage(condition_name, state, "next_run_submitted")
         print(f"[DONE] {condition_name}  elapsed={time.time()-_t0:.1f}s")
 
-    except json.JSONDecodeError:
-        print(f"[ERROR] {condition_name}  JSONDecodeError: active learning returned invalid JSON")
-        print("Active learning returned invalid JSON — loop stopped:", params_suggestion)
     except Exception as e:
+        if condition_name:
+            state = _load_checkpoint(condition_name) or {"params": params, "completed_stages": []}
+            state["last_error"] = {"type": type(e).__name__, "message": str(e)}
+            _save_checkpoint(condition_name, state)
         print(f"[ERROR] {condition_name}  {type(e).__name__}: {e}")
         print(f"Pipeline error — loop stopped: {e}")
         raise
@@ -656,7 +796,15 @@ if __name__ == "__main__":
     threading.Thread(target=server.serve_forever, daemon=True).start()
     print(f"server listening on {SERVER_IP}:{SERVER_PORT}")
 
-    if ITERATE_ADDITIVES or ITERATE_POLYMER or not master_processing.any_branch_enabled():
+    incomplete_condition = _find_incomplete_condition()
+    if incomplete_condition:
+        condition_dir = master_processing.get_condition_dir(incomplete_condition, DATA_ROOT)
+        with (condition_dir / "params.json").open(encoding="utf-8") as f:
+            resume_params = json.load(f)
+        print(f"Recovering incomplete pipeline condition: {incomplete_condition}")
+        _run_pipeline_and_trigger_next(resume_params, resume_condition=incomplete_condition)
+        first_params = None
+    elif ITERATE_ADDITIVES or ITERATE_POLYMER or not master_processing.any_branch_enabled():
         first_params = _next_iteration_params()
         if first_params is None:
             print("[ITERATE] iteration list(s) empty — nothing to run")
@@ -666,11 +814,12 @@ if __name__ == "__main__":
     else:
         first_params = dict(INITIAL_PARAMS)
 
-    first_params["stock_metadata"] = activeLearning.bounds.send_metadata()
-    if LOCK_ADDITIVE_WT:
-        first_params["additive_wt"] = 0
-    print(f"kicking off first experiment: {first_params}")
-    url.run_test(first_params)
+    if first_params is not None:
+        first_params["stock_metadata"] = activeLearning.bounds.send_metadata()
+        if LOCK_ADDITIVE_WT:
+            first_params["additive_wt"] = 0
+        print(f"kicking off first experiment: {first_params}")
+        url.run_test(first_params)
     print("robot started — loop running. Ctrl+C to stop.")
 
     try:

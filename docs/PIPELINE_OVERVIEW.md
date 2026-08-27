@@ -65,6 +65,13 @@ Each **batch of 6 Newton CSVs** = 3 zero curves (no membrane, machine compliance
 
 `run_loop.py` writes every round's CSVs to `data/results/begins_<d>/{reps,agg,llm}.csv`, where `<d>` is today's date unless `CONTINUE_CAMPAIGN` (near the top of the file) is set to a specific date string — set it to resume appending to a prior campaign's folder instead of starting a fresh one each day. These per-campaign paths (`CSV_REPS`/`CSV_AGG`/`CSV_AGG_LLM`) are passed explicitly into `master_processing.run_branches()`; the flat `data/results/results_*.csv` names are only a fallback used when a caller (e.g. a standalone dev/test script) doesn't pass `csv_paths` at all — a real campaign run never touches them. Historical data that had accumulated at the flat paths before this convention was in the file map has since been moved to `data/archive/results-legacy/`.
 
+Each raw condition also has an atomic `.pipeline_state.json` checkpoint. On startup, the server
+checks only the latest campaign row and resumes it when its next-parameter JSON or downstream
+stages are incomplete. Completed mechanical processing is reused; missing quality/report stages
+are retried against the existing images. Robot submission is checkpointed before the network
+call. If a restart finds `submission_started` without `next_run_submitted`, it stops for operator
+verification instead of risking a duplicate physical experiment.
+
 ---
 
 ## Stage 3 — Curve Processing (`src/pipeline/curve_segmentation.py`)

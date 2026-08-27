@@ -18,13 +18,18 @@ except ImportError:
 
 import system_prompt
 
-_api_key = os.environ.get("OPENROUTER_API_KEY")
-if not _api_key:
-    raise EnvironmentError("OPENROUTER_API_KEY not set. Add it to .env or set it as an environment variable.")
-client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=_api_key,
-)
+def _client():
+    """Build a client from the current environment so a replaced key is not cached forever."""
+    try:
+        load_dotenv(override=True)
+    except NameError:
+        pass
+    api_key = os.environ.get("OPENROUTER_API_KEY")
+    if not api_key:
+        raise EnvironmentError(
+            "OPENROUTER_API_KEY not set. Add it to .env or set it as an environment variable."
+        )
+    return OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
 
 
 def _encode_image(path):
@@ -33,7 +38,7 @@ def _encode_image(path):
 
 
 def Generate_quality_report(image_path, Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5):
-    response = client.chat.completions.create(
+    response = _client().chat.completions.create(
         model=Model,
         messages=[
             {"role": "system", "content": system_prompt.QUALITY_CHECKER_PROMPT},
