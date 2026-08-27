@@ -1,0 +1,40 @@
+[2026-08-25 22:14:25] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-08-25 22:14:25] server listening on 169.254.230.148:8000
+
+[2026-08-25 22:14:25] Resuming campaign 2026-08-22-exploration-mode from llm_result_13p5-0add-25deg-cosolv-none-bathSolv-none-0wt-600s-N2-1200s.json
+
+[2026-08-25 22:14:25] kicking off first experiment: {'mixing_temp': 65, 'bath_temp': 5, 'pullcast_speed': 8, 'nitrogen': False, 'coupon_to_bath_wait_time': 90, 'nips_bath_wait_time': 1450, 'polymer_wt': 14.5, 'additive_wt': 0, 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-08-25 22:14:25] Python recieved!
+
+[2026-08-25 22:14:25] Exact payload being sent: {"mixing_temp": 65, "bath_temp": 5, "pullcast_speed": 8, "nitrogen": false, "coupon_to_bath_wait_time": 90, "nips_bath_wait_time": 1450, "polymer_wt": 14.5, "additive_wt": 0, "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-08-25 22:14:25] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 65, "bath_temp": 5, "pullcast_speed": 8, "nitrogen": false, "coupon_to_bath_wait_time": 90, "nips_bath_wait_time": 1450, "polymer_wt": 14.5, "additive_wt": 0, "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-08-25 22:14:25] robot started — loop running. Ctrl+C to stop.
+
+[2026-08-25 22:15:33] 
+stopping server...
+
+[2026-08-25 22:15:33] Traceback (most recent call last):
+[2026-08-25 22:15:33]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m678[0m, in [35m<module>[0m
+    [31mtime.sleep[0m[1;31m(1)[0m
+    [31m~~~~~~~~~~[0m[1;31m^^^[0m
+[2026-08-25 22:15:33] [1;35mKeyboardInterrupt[0m
+[2026-08-25 22:15:33] 
+During handling of the above exception, another exception occurred:
+
+[2026-08-25 22:15:33] Traceback (most recent call last):
+[2026-08-25 22:15:33]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m681[0m, in [35m<module>[0m
+    [31mserver.shutdown[0m[1;31m()[0m
+    [31m~~~~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-08-25 22:15:33]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socketserver.py"[0m, line [35m255[0m, in [35mshutdown[0m
+    [31mself.__is_shut_down.wait[0m[1;31m()[0m
+    [31m~~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-08-25 22:15:33]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\threading.py"[0m, line [35m660[0m, in [35mwait[0m
+    signaled = self._cond.wait(timeout)
+[2026-08-25 22:15:33]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\threading.py"[0m, line [35m359[0m, in [35mwait[0m
+    [31mwaiter.acquire[0m[1;31m()[0m
+    [31m~~~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-08-25 22:15:33] [1;35mKeyboardInterrupt[0m
