@@ -1,0 +1,32 @@
+[2026-08-28 15:09:19] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-08-28 15:09:19] server listening on 169.254.230.148:8000
+
+[2026-08-28 15:09:19] Recovering incomplete pipeline condition: 16p5-0add-5deg-cosolv-none-bathSolv-none-0wt-60s-NoN2-1200s
+
+[2026-08-28 15:09:19] 
+[1/5] organising files...
+
+[2026-08-28 15:09:19] [RESUME] continuing existing condition: 16p5-0add-5deg-cosolv-none-bathSolv-none-0wt-60s-NoN2-1200s
+
+[2026-08-28 15:09:19] [START] condition=16p5-0add-5deg-cosolv-none-bathSolv-none-0wt-60s-NoN2-1200s
+
+[2026-08-28 15:09:19] [2/5] processing pipeline for: 16p5-0add-5deg-cosolv-none-bathSolv-none-0wt-60s-NoN2-1200s
+
+[2026-08-28 15:09:19] [3/5] generating initial report...
+
+[2026-08-28 15:09:19] [5/5] next params: {'mixing_temp': 30, 'bath_temp': 8, 'pullcast_speed': 5, 'nitrogen': True, 'coupon_to_bath_wait_time': 120, 'nips_bath_wait_time': 1250, 'polymer_wt': 14.0, 'additive_wt': 0.0, 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-08-28 15:09:19] [ERROR] 16p5-0add-5deg-cosolv-none-bathSolv-none-0wt-60s-NoN2-1200s  RuntimeError: Previous robot submission has an unknown outcome; refusing to send a duplicate. Verify robot state, then remove submission_started from the condition checkpoint only if the request was not accepted.
+
+[2026-08-28 15:09:19] Pipeline error — loop stopped: Previous robot submission has an unknown outcome; refusing to send a duplicate. Verify robot state, then remove submission_started from the condition checkpoint only if the request was not accepted.
+
+[2026-08-28 15:09:19] Traceback (most recent call last):
+[2026-08-28 15:09:19]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m805[0m, in [35m<module>[0m
+    [31m_run_pipeline_and_trigger_next[0m[1;31m(resume_params, resume_condition=incomplete_condition)[0m
+    [31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-08-28 15:09:19]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m705[0m, in [35m_run_pipeline_and_trigger_next[0m
+    raise RuntimeError(
+    ...<3 lines>...
+    )
+[2026-08-28 15:09:19] [1;35mRuntimeError[0m: [35mPrevious robot submission has an unknown outcome; refusing to send a duplicate. Verify robot state, then remove submission_started from the condition checkpoint only if the request was not accepted.[0m
