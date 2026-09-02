@@ -530,7 +530,7 @@ def run_test(param = None):
     xArm.close_camera_box()
 
     if(take_picture):
-        time.sleep(4) # make sure the camera has time to adjust to the lighting and everything
+        time.sleep(5) # make sure the camera has time to adjust to the lighting and everything
         url.take_snapshot()
         print("Initial membrane picture taken.")
     
@@ -579,7 +579,7 @@ def run_test(param = None):
     xArm.close_camera_box()
 
     if(take_picture):
-        time.sleep(4) # give time for camera to adjust to lighting
+        time.sleep(5) # give time for camera to adjust to lighting
         url.take_snapshot()
         print("Final membrane picture taken.")
     
