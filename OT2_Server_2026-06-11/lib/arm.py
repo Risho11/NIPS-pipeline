@@ -114,25 +114,25 @@ positions = {
         "knife bath": [32, -460, 218, 180, 20, -90],
         "knife brush waypoint": [32, -420, 240, 180, 0, -90],
         "knife brush": [32, -438, 227, 180, 20, -90],
-        "knife dry waypoint": [34, -380, 240, 180, 0, -90],
-        "knife dry": [34, -395, 223, 180, 20, -90],
+        "knife dry waypoint": [35, -380, 240, 180, 0, -90],
+        "knife dry": [35, -395, 223, 180, 20, -90],
 
-        "pullcast start waypoint": [215, -540+2, 240, 180, 20, 0],
-        "pullcast start": [215, -540+2, 224, 180, 20, 0],
-        "pullcast start pulldown": [215, -540+2, 223.9, 180, 20, 0],
-        "pullcast end pulldown": [110, -540+2, 223.9, 180, 20, 0],
-        "pullcast end waypoint": [110, -540+2, 240, 180, 20, 0],
+        "pullcast start waypoint": [215, -540+3, 240, 180, 20, 0],
+        "pullcast start": [215, -540+3, 224, 180, 20, 0],
+        "pullcast start pulldown": [215, -540+3, 223.9, 180, 20, 0],
+        "pullcast end pulldown": [110, -540+3, 223.9, 180, 20, 0],
+        "pullcast end waypoint": [110, -540+3, 240, 180, 20, 0],
         
-        "coupon angled waypoint": [300, -469, 300, 180, 45, -91.5],
-        "coupon angled": [300, -469, 248, 180, 45, -91.5],
+        "coupon angled waypoint": [300, -468, 300, 180, 45, -90],
+        "coupon angled": [300, -468, 248, 180, 45, -90],
         
         "cap waypoint": [300, -394, 240, 180, 0, -90],
-        "cap hover": [300, -449, 248+2, 180, 30, -90],
-        "cap": [300, -489-3, 261, 180, 45, -90],
+        "cap hover": [300, -449, 251, 180, 30, -90],
+        "cap": [300, -489-2, 261, 180, 45, -90],
         "coupon bath cap": [265, -230, 119, 180, 45, -90],
         
-        "coupon bath waypoint": [262, -228, 240, 180, 45, -91.5],
-        "coupon bath": [262, -228-2, 113, 180, 45, -91.5], # slight offset to correct positioning issue
+        "coupon bath waypoint": [262, -227, 240, 180, 45, -90],
+        "coupon bath": [262, -227, 113, 180, 45, -90], # slight offset to correct positioning issue
         
         "cap stand waypoint": [70, -304, 300, 180, 65, 0],
         "cap stand": [0, -304, 200, 180, 45, 0],
@@ -140,9 +140,9 @@ positions = {
         "cap bath": [260, -242, 135, 180, 40, -90]
     },
     "middle": {
-        "coupon bath waypoint": [262, -228, 240, 180, 45, -91.5],
+        "coupon bath waypoint": [262, -227, 240, 180, 45, -90],
         #"coupon bath cap": [270, -230, 119, 180, 45, -90],
-        "coupon bath": [262, -228, 115, 180, 45, -91.5],
+        "coupon bath": [262, -227, 115, 180, 45, -90],
         
         #"cap stand waypoint": [70, -308, 300, 180, 65, 0],
         #"cap stand": [0, -308, 200, 180, 45, 0],
@@ -152,7 +152,7 @@ positions = {
         "ring rack waypoint": [370, 0, 240, 180, 30, 0],
         "ring rack": [370, 0, 170, 180, 30, 0],
         "ring bath waypoint": [262, -353, 240, 180, 90, -90],
-        "ring bath": [262, -353, 138, 180, 90, -90],
+        "ring bath": [262, -353, 137, 180, 90, -90],
         #"coupon rack waypoint": [222, -3, 230, 180, 45, 0],
         #"coupon rack": [222, -3, 137, 180, 45, 0],
         "coupon rack waypoint": [222, -2, 230, 180, 45, 0],
@@ -164,31 +164,31 @@ positions = {
         "camera closed": [395 - 178, 70, 147, 180, 45, 90],
         "camera closed waypoint": [395 - 178, 70, 180, 180, 45, 90],
         
-        "coupon camera": [400 - 142, 88, 147, 180, 45, 88],
-        "coupon camera waypoint": [400 - 142, 88, 150 + 150, 180, 45, 88]
+        "coupon camera": [400 - 142, 88, 147, 180, 45, 90],
+        "coupon camera waypoint": [400 - 142, 88, 150 + 150, 180, 45, 90]
     },
     "tester": {
-        "coupon camera": [400 - 142, 88, 147, 180, 45, 88],
-        "coupon camera waypoint": [400 - 142, 88, 150 + 150, 180, 45, 88],
+        "coupon camera": [400 - 142, 88, 147, 180, 45, 90],
+        "coupon camera waypoint": [400 - 142, 88, 150 + 150, 180, 45, 90],
         
-        "coupon angled waypoint": [380, 330, 350, 180, 45, 90],
-        "coupon angled": [380, 330, 314, 182, 45, 90],
-        "coupon flat waypoint": [380, 260, 270, 180, 0, 90],
-        "coupon flat": [380, 260, 224, 180, 0, 90],
+        "coupon angled waypoint": [380, 329, 350, 180, 45, 91],
+        "coupon angled": [380, 329, 314, 182, 45, 91],
+        "coupon flat waypoint": [380, 259, 270, 180, 0, 91],
+        "coupon flat": [380, 259, 224, 180, 0, 91],
 
         # coupon tests positions
-        "coupon test 1 waypoint": [175, 260, 224, 180, 0, 90],
-        "coupon test 2 waypoint": [175, 260, 224, 180, 0, 90],
-        "coupon test 3 waypoint": [175, 260, 224, 180, 0, 90], # all tests use the same waypoint
-        "coupon test 4 waypoint": [175, 260, 224, 180, 0, 90],
+        "coupon test 1 waypoint": [175, 260, 224, 180, 0, 91],
+        "coupon test 2 waypoint": [175, 260, 224, 180, 0, 91],
+        "coupon test 3 waypoint": [175, 260, 224, 180, 0, 91], # all tests use the same waypoint
+        "coupon test 4 waypoint": [175, 260, 224, 180, 0, 91],
         #"coupon test 1": [160, 360, 223.5, 180, 1, 90],
         #"coupon test 2": [170, 360, 223.5, 180, 1, 90],
         #"coupon test 3": [180, 360, 223.5, 180, 1, 90],
         #"coupon test 4": [150, 360, 223.5, 180, 1, 90], # only used for testing the flatness of the coupon, membrane tests only use 3 points
-        "coupon test 1": [160, 355, 223.5, 180, 1, 90],
-        "coupon test 2": [170, 355, 223.5, 180, 1, 90],
-        "coupon test 3": [160, 365, 223.5, 180, 1, 90],
-        "coupon test 4": [170, 365, 223.5, 180, 1, 90],
+        "coupon test 1": [160, 355, 223.5, 180, 1, 91],
+        "coupon test 2": [170, 355, 223.5, 180, 1, 91],
+        "coupon test 3": [160, 365, 223.5, 180, 1, 91],
+        "coupon test 4": [170, 365, 223.5, 180, 1, 91],
         
         #"discard waypoint": [40, 250, 350, 180, 45, 90],
         #"discard": [40, 250, 136, 180, 45, 90],
@@ -196,7 +196,7 @@ positions = {
         "discard": [-2, 280, 117, 180, 45, 90],
         
         "2nd bath waypoint": [280, 240, 300, 180, 45, 89], # leave in bath
-        "2nd bath": [286, 250, 113, 180, 45, 89],
+        "2nd bath": [286, 247, 113, 180, 45, 89],
         "hover bath waypoint": [270, 225, 310, 180, 45, 90], # arm holds coupon in bath
         "hover bath": [270, 225, 170, 180, 45, 90],
         
@@ -399,7 +399,7 @@ class Arm():
         
     def unprep_coupon_test(self):
         self.go_to_position("tester", "coupon test 1 waypoint")
-        self.go_to_position_offset("tester", "coupon flat", [0, 6, 0, 0, 0, 0])
+        self.go_to_position_offset("tester", "coupon flat", [0, 0, 0, 0, 0, 0])
         self.open_gripper()
         self.go_to_position("tester", "coupon flat waypoint")
         

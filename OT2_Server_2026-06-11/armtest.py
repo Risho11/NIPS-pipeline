@@ -106,7 +106,6 @@ def load_parameters():
 nitrogen = True
 test_clean = False
 nitrogen_cap_tests = 0
-#tests = ["coupon test 1"]
 tests = ["coupon test 1", "coupon test 2", "coupon test 3", "coupon test 4"]
 pullcast_enable = True
 
@@ -126,13 +125,8 @@ for i in range(nitrogen_cap_tests):
 
 #xArm.dry_tester(squeegee_cycles = 1, middle = False)
     
-xArm.pick_up_coupon()
-xArm.put_down("2nd bath", pitch = False)
-xArm.pick_up("2nd bath")
-xArm.put_down_coupon()
-#xArm.discard()
     
-while robot["coupons"] > 9:
+while robot["coupons"] > 7:
     # place new coupon
     xArm.pick_up_coupon()
     save_parameters()
@@ -149,11 +143,11 @@ while robot["coupons"] > 9:
     xArm.pick_up("coupon angled tester")
     xArm.put_down("coupon angled opentrons", pitch = False)
 
-    # move arm out of the way
-    xArm.immigrate("middle")
-
+    # Cast immediately after placing the coupon on the Opentrons stage.
+    # pullcast() leaves the knife in the knife bath for later cleaning.
     if pullcast_enable:
         xArm.pullcast(speed = parameters["pullcast_speed"])
+
     if nitrogen:
         xArm.put_cap(hover_time = 5)
     
@@ -166,12 +160,22 @@ while robot["coupons"] > 9:
     save_parameters()
     xArm.put_down("ring bath")
 
+    # Match the production protocol: clean after the coupon is in the bath,
+    # the cap is back on its stand, and the ring has been placed. The cleaning
+    # routine finishes by returning the knife to the knife stand.
+    if pullcast_enable:
+        xArm.clean_knife(brush_cycles = 5, dry_cycles = 15)
+
     # take coupon from bath to camera
     xArm.open_camera_box()
     #xArm.pick_up("coupon bath", pitch = False, speed = 50)
     xArm.pick_up("coupon bath", pitch = False)
-    xArm.immigrate("middle", pitch = False)
-    xArm.hover_bath(wait_time = 5)
+
+    # place in 2nd bath
+    xArm.put_down("2nd bath", pitch = False)
+    xArm.pick_up("2nd bath")
+
+    # place in camera
     xArm.put_down("coupon camera tester", pitch = False)
     xArm.currentZone = "middle"
     xArm.close_camera_box()
@@ -206,10 +210,6 @@ while robot["coupons"] > 9:
     xArm.discard()
     save_parameters() # number of assemblies in discard pile has changed, update file
 
-    # simulate cleaning knife
-    if pullcast_enable:
-        xArm.clean_knife()
-    
     # dry testing platform
     xArm.dry_tester()
 
