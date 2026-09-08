@@ -92,11 +92,17 @@ cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 if not os.path.isdir("images"):
     os.mkdir("images")
 def take_snapshot():
-    ret, img = cam.read()
-    if ret:
-        cv2.imwrite(os.path.join("images", str(time.time())) + ".jpg", img)
-    else:
-        print("Error: unable to take picture")
+    # Actively read warm-up frames so the camera's auto-exposure can adapt to
+    # the illuminated enclosure before the frame that is saved.
+    img = None
+    for _ in range(15):
+        ret, img = cam.read()
+        if not ret:
+            print("Error: unable to take picture")
+            return
+        time.sleep(0.05)
+
+    cv2.imwrite(os.path.join("images", str(time.time())) + ".jpg", img)
 
 class RequestHandler(BaseHTTPRequestHandler):
     imgNum = 0
