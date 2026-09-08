@@ -482,26 +482,27 @@ class OT2:
         result = calc.calculate_batch(target_recipe, stock)
         calc.print_result(target_recipe, result)
 
+        # Add solvents to the mixing well before polymer-containing solutions.
         if self.stock_mode == "two_bottle":
             sources = [
+                ("solvent", "pure solvent", solvent_slot_no, solvent_well_no,
+                 result.solvent_uL, False),
                 ("polymer_stock", "polymer stock", solution_slot_no, solution_well_no,
                  result.normal_polymer_stock_uL, True),
                 # Legacy bottle 2 shares the all-mix bottle's physical position and inventory key.
                 ("all_mix_stock", "polymer-additive stock", all_mix_slot_no, all_mix_well_no,
                  result.polymer_additive_stock_uL, True),
-                ("solvent", "pure solvent", solvent_slot_no, solvent_well_no,
-                 result.solvent_uL, False),
             ]
         else:
             sources = [
-                ("polymer_stock", "polymer stock", solution_slot_no, solution_well_no,
-                 result.polymer_stock_uL, True),
-                ("solvent_additive_stock", "solvent-additive stock", solvent_additive_slot_no, solvent_additive_well_no,
-                 result.cosolvent_stock_uL, False),
-                ("all_mix_stock", "all-mix stock", all_mix_slot_no, all_mix_well_no,
-                 result.all_mix_stock_uL, True),
                 ("solvent", "pure solvent", solvent_slot_no, solvent_well_no,
                  result.solvent_uL, False),
+                ("solvent_additive_stock", "solvent-additive stock", solvent_additive_slot_no, solvent_additive_well_no,
+                 result.cosolvent_stock_uL, False),
+                ("polymer_stock", "polymer stock", solution_slot_no, solution_well_no,
+                 result.polymer_stock_uL, True),
+                ("all_mix_stock", "all-mix stock", all_mix_slot_no, all_mix_well_no,
+                 result.all_mix_stock_uL, True),
             ]
         active_sources = [source for source in sources if source[4] > 0]
         self.bottle_inventory.require({source[0]: source[4] for source in active_sources})
@@ -528,6 +529,12 @@ class OT2:
                 self.bottle_inventory.consume(bottle, volume)
 
             self._mix(heater_slot_no, self.heater_well_index)
+            if self.has_temp() and mixing_temp > 25:
+                print("Cooling mixing module to 25 C before casting.")
+                # set_temperature blocks until the module reaches the target.
+                self._set_temp(25)
+                print("Waiting 2 minutes at 25 C before casting.")
+                time.sleep(120)
             self.prep_pullcast_from_mix_asperate(total_vol, True)
 
         print("Bottle inventory after preparation: {}".format(self.bottle_inventory.snapshot()))
