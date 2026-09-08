@@ -1,6 +1,6 @@
 """system_prompt.py — single source of truth for this project's LLM system prompts.
 
-Three prompts live here, handled two different ways:
+The prompts live here, handled two different ways:
 
 - EXPERIMENTAL_REPORT_PROMPT (activeLearning_29.Generate_report) and
   ACTIVE_LEARNING_PROMPT_TEMPLATE (activeLearning_29.LLM_AL) are static, human-authored text.
@@ -38,20 +38,41 @@ EXPERIMENTAL_REPORT_PROMPT = (
 
 
 # ── LLM_AL ──────────────────────────────────────────────────────────────────────
-# Human-authored, static, hardcoded. Fixes the old prompt's self-contradiction ("maximize modulus"
-# stated twice, then "minimize strain at 50 bar") -- the correct objective is minimize Strain at 50
-# bar (see tests/llm_prompt_context.md). Adds materials-discovery framing so the model doesn't
-# infer/suggest an out-of-scope application. The output contract contains only run_loop.py's
-# LLM_PARAMS_KEYS; semi-batch context is deliberately excluded and reapplied by the pipeline.
+# Shared validation policy for every active optimization prompt.
+OPTIMIZATION_VALIDATION_INSTRUCTIONS = (
+    "Validate well-performing candidates with independent repeat synthesis and measurement "
+    "at the same experimental parameters before treating them as confirmed improvements. "
+    "Prioritize a validation repeat when an apparent best candidate or Pareto-front candidate "
+    "has not been independently reproduced, especially for a large apparent gain, high CV, "
+    "or uncertain fit/quality. Multiple measurements of one specimen do not establish "
+    "synthesis reproducibility. Check the history for existing independent repeats; once "
+    "performance is reproducible, resume searching instead of repeating indefinitely. "
+    "Compare repeat means, variability, fit reliability, and membrane quality under comparable "
+    "semi-batch and environmental conditions; do not select a winner from a single extreme value. "
+    "For multiple objectives, validate all objectives on the repeated candidate. If repeat counts "
+    "or measurements are absent, treat validation status as unknown. A validation recommendation "
+    "must return the candidate's same parameters within current bounds and locks; if its original "
+    "conditions are no longer feasible, do not describe a modified experiment as an exact repeat. "
+)
+
+# Human-authored single-objective prompt. The output contract contains only run_loop.py's
+# LLM_PARAMS_KEYS; semi-batch context is reapplied by the pipeline.
 ACTIVE_LEARNING_PROMPT_TEMPLATE = (
     "Here I have a set of structured experimental parameters for my automated membrane synthesis via "
     "non-solvent-induced phase separation (NIPS). Do not suggest or assess "
-    "anything outside the current parameter/stock system."
-    "OBJECTIVE: Maximize the Elastic Modulus, and as a secondary goal minimize the Strain at 50 bar. *My goal is to iteratively find the best experiments to achieve these objectives.*"
-    "Take the coefficient of variation (CV) and the membrane quality into account when appropriate. "
+    "anything outside the current parameter/stock system. "
+    "OBJECTIVE: Maximize reproducible Elastic Modulus as the sole optimization objective. "
+    "Use measured modulus with consistent units, reliable fits, and comparable test conditions. "
+    "Use CV, replicate count, fit reliability, and membrane quality to assess confidence in "
+    "performance. Strain at 50 bar and pore fraction are contextual observations, not additional "
+    "optimization objectives. Missing or failed measurements are unknown, not zero; do not "
+    "invent values or treat unreliable fits as evidence of superior modulus. "
+    "Balance improving the best validated modulus with informative experiments where evidence "
+    "is sparse or uncertain. "
+    + OPTIMIZATION_VALIDATION_INSTRUCTIONS +
     "Based on the following prior experimental observations and the objective, recommend the next set of experimental "
     "parameters, given these parameter ranges: {ranges} "
-    "Keep your reasoning concise, structured and transparent."
+    "Evaluate the evidence internally and return only the requested parameter JSON. "
     "Return your answer as a single JSON object (a ```json code fence is fine) with exactly these "
     "keys: mixing_temp, bath_temp, pullcast_speed, nitrogen, coupon_to_bath_wait_time, "
     "nips_bath_wait_time, polymer_wt, additive_wt. The cosolvent type and NIPS-bath solvent "
@@ -59,6 +80,28 @@ ACTIVE_LEARNING_PROMPT_TEMPLATE = (
     "and are not yours to change. Do not add a wrapping key "
     "or omit any key."
 )
+
+ACTIVE_LEARNING_MODULUS_PORE_FRACTION_PROMPT_TEMPLATE = (
+    "Recommend the next experiment for automated membrane synthesis via "
+    "non-solvent-induced phase separation (NIPS). Stay within the current parameter/stock system. "
+    "OBJECTIVES: Maximize both Elastic Modulus and Pore Fraction as equally important objectives. "
+    "Seek Pareto improvements: improve one objective without worsening the other when possible; "
+    "otherwise select a balanced trade-off informed by the observed non-dominated experiments. "
+    "Do not combine raw modulus and pore-fraction values into an unscaled sum or invent weights. "
+    "Use measured pore-fraction observations with their reported units/scale; do not equate "
+    "pore fraction with visible defects, safe radius, strain, or qualitative photo assessments. "
+    "Missing measurements are unknown, not zero. Do not invent values or claim a demonstrated "
+    "two-objective improvement when either measurement is missing. With incomplete evidence, "
+    "favor a feasible informative experiment. Account for uncertainty, CV, and membrane quality. "
+    + OPTIMIZATION_VALIDATION_INSTRUCTIONS +
+    "Use these parameter ranges: {ranges} "
+    "Return a single JSON object (a ```json code fence is fine) with exactly these keys: "
+    "mixing_temp, bath_temp, pullcast_speed, nitrogen, coupon_to_bath_wait_time, "
+    "nips_bath_wait_time, polymer_wt, additive_wt. Do not add a wrapping key or omit any key. "
+    "Cosolvent identity and NIPS-bath solvent identity/concentration are manually controlled "
+    "semi-batch context and are not yours to change."
+)
+
 
 # Historical reference only -- NOT used anywhere, never import/call this. The original inline
 # LLM_AL prompt before ACTIVE_LEARNING_PROMPT_TEMPLATE existed (see activeLearning_29.py at git

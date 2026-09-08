@@ -103,10 +103,11 @@ def build_search_strategy_instructions(search_mode: str, diversity_context: str 
         "Search mode: explore. Prioritize design-space coverage and novelty over local objective "
         "improvement. Propose one feasible experiment that is deliberately far from previously "
         "sampled conditions, avoids near-duplicates, and targets sparse/underrepresented regions "
-        "to populate the dataset for later modeling."
+        "to populate the dataset for later modeling. Allow an exact repeat when a promising "
+        "candidate needs independent validation under the validation policy."
     )
     if diversity_context:
-        text += " Use the provided diversity context to avoid dense regions and revisit only when needed for calibration."
+        text += " Use the provided diversity context to avoid dense regions and revisit only when needed for calibration or candidate validation."
     return text
 
 
@@ -147,9 +148,41 @@ def _encode_image(path):
 def LLM_AL(performance_observations, ranges=None, quality_observations=None, image_paths=None,
            locked_additive_wt=None, search_mode="optimize", diversity_context=None,
            Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5):
+    return _llm_al(
+        system_prompt.ACTIVE_LEARNING_PROMPT_TEMPLATE,
+        performance_observations, ranges, quality_observations, image_paths,
+        locked_additive_wt, search_mode, diversity_context, Model, Temperature, sleep,
+    )
+
+
+def LLM_AL_modulus_pore_fraction(
+    performance_observations, pore_fraction_observations=None, ranges=None,
+    quality_observations=None, image_paths=None, locked_additive_wt=None,
+    search_mode="optimize", diversity_context=None,
+    Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5,
+):
+    """Suggest parameters maximizing modulus and pore fraction with equal priority.
+
+    Supply measured pore fractions, their units/scale, and condition names matching
+    performance_observations. Measurements may also be included directly in the
+    performance observations; missing values remain unknown.
+    """
+    return _llm_al(
+        system_prompt.ACTIVE_LEARNING_MODULUS_PORE_FRACTION_PROMPT_TEMPLATE,
+        performance_observations, ranges, quality_observations, image_paths,
+        locked_additive_wt, search_mode, diversity_context, Model, Temperature, sleep,
+        pore_fraction_observations=pore_fraction_observations,
+    )
+
+
+def _llm_al(prompt_template, performance_observations, ranges, quality_observations,
+            image_paths, locked_additive_wt, search_mode, diversity_context,
+            Model, Temperature, sleep, pore_fraction_observations=None):
     if ranges is None:
         ranges = current_ranges(locked_additive_wt=locked_additive_wt)
     text = f'\nPrior Performance Observations: {performance_observations}'
+    if pore_fraction_observations:
+        text += f'\n\nPrior Pore Fraction Observations: {pore_fraction_observations}'
     if quality_observations:
         text += f'\n\nPrior Quality Observations: {quality_observations}'
     if diversity_context:
@@ -169,7 +202,7 @@ def LLM_AL(performance_observations, ranges=None, quality_observations=None, ima
         model=Model,
         messages=[
             {"role": "system", "content":
-                system_prompt.ACTIVE_LEARNING_PROMPT_TEMPLATE.format(ranges=ranges) + "\n\n" + strategy},
+                prompt_template.format(ranges=ranges) + "\n\n" + strategy},
             {"role": "user", "content": user_content}
         ],
         temperature=Temperature

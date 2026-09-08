@@ -247,11 +247,13 @@ def build_diversity_context(agg_llm_path, max_points=None):
     The LLM gets both a recent unique sample set and simple per-parameter coverage stats,
     which helps it pick novel points in sparse regions instead of crowding the same area.
     """
-    agg_llm_path = Path(agg_llm_path)
-    if not agg_llm_path.exists() or agg_llm_path.stat().st_size == 0:
-        return ""
-
-    df = pd.read_csv(agg_llm_path)
+    if isinstance(agg_llm_path, pd.DataFrame):
+        df = agg_llm_path
+    else:
+        agg_llm_path = Path(agg_llm_path)
+        if not agg_llm_path.exists() or agg_llm_path.stat().st_size == 0:
+            return ""
+        df = pd.read_csv(agg_llm_path)
     cols = [c for c in _AL_PARAMETER_COLUMNS if c in df.columns]
     if not cols:
         return ""
@@ -342,6 +344,18 @@ def attach_all_branch_results(condition_name, branch_results, branch_config, agg
                                      report_text=report_text)
 
 
+def resolve_al_mode(mode):
+    """Return objective mode and search strategy; accept legacy search-mode names."""
+    normalized = str(mode).strip().lower()
+    if normalized in {"single", "optimize", "exploit", "exploitation", "default"}:
+        return "single", "optimize"
+    if normalized == "double":
+        return "double", "optimize"
+    if normalized in {"explore", "exploration", "exploratory", "diversity"}:
+        return "single", "explore"
+    raise ValueError(f"Invalid AL mode {mode!r}; choose 'single', 'double', or 'explore'.")
+
+
 def generate_reports_and_suggestion(
     condition_name,
     agg_llm_path,
@@ -349,6 +363,7 @@ def generate_reports_and_suggestion(
     locked_additive_wt=None,
     al_search_mode="optimize",
     exploration_history_points=None,
+    warm_start_csv=None,
 ):
     """Exact strategy run_loop.py uses to go from a CSV row to a next-params suggestion: build
     initial_report (performance, via activeLearning.Generate_report), fold the mech-property
@@ -358,10 +373,18 @@ def generate_reports_and_suggestion(
     here) so tests/test_master.py can monkeypatch activeLearning_29.Generate_report/LLM_AL to
     stubs before calling this, rather than reimplementing the flow.
 
+    al_search_mode: 'single' maximizes modulus; 'double' maximizes modulus and pore
+    fraction; 'explore' prioritizes coverage. Legacy 'optimize' means 'single'.
+    Double mode uses pore fractions in performance reports or a pore_fraction_report
+    column (condition-labeled, with units/scale); absent measurements remain unknown.
+    warm_start_csv: optional exported history merged only into LLM context. Current
+    condition rows supersede matching historical names; campaign CSVs stay separate.
+
     locked_additive_wt: pass run_loop.LOCK_ADDITIVE_WT_VALUE when that campaign-phase lock is
     active, so LLM_AL's system prompt says additive_wt is locked instead of quoting the full
     triangle -- otherwise the LLM keeps proposing nonzero additive_wt that gets silently
     overridden downstream, and never learns why (see activeLearning_29.current_ranges)."""
+    objective_mode, search_strategy = resolve_al_mode(al_search_mode)
     agg_llm_path = Path(agg_llm_path)
     if not agg_llm_path.exists() or agg_llm_path.stat().st_size == 0:
         raise ValueError(f"LLM CSV doesn't exist or is empty: {agg_llm_path}")
@@ -385,19 +408,46 @@ def generate_reports_and_suggestion(
     llm_df.at[idx, "final_report"] = final_report
     llm_df.to_csv(agg_llm_path, index=False)
 
-    performance_observations = "\n\n---\n\n".join(llm_df["final_report"].dropna().tolist())
+    history_df = llm_df
+    if warm_start_csv is not None:
+        historical = pd.read_csv(warm_start_csv)
+        required = {"name", "final_report", "formatted_parameters"}
+        if not required.issubset(historical.columns):
+            raise ValueError(f"Warm-start CSV missing columns: {sorted(required - set(historical.columns))}")
+        # Current campaign records supersede the same historical condition.
+        history_df = pd.concat([historical, llm_df], ignore_index=True, sort=False)
+        history_df = history_df.drop_duplicates("name", keep="last")
+    performance_observations = "\n\n---\n\n".join(history_df["final_report"].dropna().tolist())
     quality_observations = build_observations(agg_llm_path, "quality", current_condition_name=condition_name)
+    if warm_start_csv is not None and "quality_report" in historical:
+        prior_quality = historical[~historical["name"].isin(llm_df["name"])]
+        quality_observations += "\n\n" + "\n\n".join(
+            f"[{row['name']}] ({row['formatted_parameters']}) {row['quality_report']}"
+            for _, row in prior_quality.iterrows() if pd.notna(row['quality_report'])
+        )
     diversity_context = ""
-    if str(al_search_mode).strip().lower() in {"explore", "exploration", "exploratory", "diversity"}:
-        diversity_context = build_diversity_context(agg_llm_path, max_points=exploration_history_points)
+    if search_strategy == "explore":
+        diversity_context = build_diversity_context(history_df, max_points=exploration_history_points)
     # ranges omitted on purpose -- LLM_AL computes it fresh from polymer_additive_bounds.py on
     # every call now, not a value cached at activeLearning_29 import time (see LLM_AL/
     # current_ranges' docstrings for why that caching was actively harmful).
-    params_suggestion = activeLearning.LLM_AL(
+    suggest = activeLearning.LLM_AL
+    objective_kwargs = {}
+    if objective_mode == "double":
+        suggest = activeLearning.LLM_AL_modulus_pore_fraction
+        # Keep all measured history rather than truncating historical pore-fraction reports.
+        if "pore_fraction_report" in history_df.columns:
+            objective_kwargs["pore_fraction_observations"] = "\n\n".join(
+                f"[{row['name']}] {row['pore_fraction_report']}"
+                for _, row in history_df.iterrows()
+                if pd.notna(row["pore_fraction_report"])
+            )
+    params_suggestion = suggest(
         performance_observations, quality_observations=quality_observations,
         locked_additive_wt=locked_additive_wt,
-        search_mode=al_search_mode,
+        search_mode=search_strategy,
         diversity_context=diversity_context,
+        **objective_kwargs,
     )
     print(f"LLM suggestion: {params_suggestion}")
 

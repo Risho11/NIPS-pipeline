@@ -85,10 +85,17 @@ LOCK_ADDITIVE_WT_VALUE = 0
 # Sweeping is forced on regardless of these flags whenever no branches are enabled at all 
 ITERATE_ADDITIVES = False
 ITERATE_POLYMER = False
-# LLM search policy:
-#   "optimize" (default): objective-first active learning
+# Choose the LLM mode here (used for both new and resumed recommendations):
+#   "single": maximize elastic modulus, including candidate validation
+#   "double": maximize elastic modulus and pore fraction, including validation
 #   "explore": maximize diversity/coverage to populate the dataset
+# Double mode needs measured pore fractions in performance reports or the LLM CSV's
+# pore_fraction_report column, with units/scale. Missing measurements remain unknown.
 LLM_AL_SEARCH_MODE = "explore"
+# Historical context only; does not seed checkpoints or resume old suggestions.
+# Set to None to start without historical context.
+LLM_AL_WARM_START_CSV = None  # _REPO_ROOT / "data/warm_start/polysulfone_polarclean.csv"
+llm_context.resolve_al_mode(LLM_AL_SEARCH_MODE)  # Fail early on a misspelled mode.
 # Number of recent unique points provided as diversity context when
 # LLM_AL_SEARCH_MODE="explore". None means keep all historical unique points.
 LLM_AL_EXPLORATION_HISTORY_POINTS = None
@@ -511,6 +518,7 @@ def _load_resume_params_for_campaign(campaign_date):
             last_condition, llm_csv, activeLearning,
             locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
             al_search_mode=LLM_AL_SEARCH_MODE,
+            warm_start_csv=LLM_AL_WARM_START_CSV,
             exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
         )
         recovered_params = _extract_next_params(params_suggestion)
@@ -651,6 +659,7 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
                 condition_name, CSV_AGG_LLM, activeLearning,
                 locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
                 al_search_mode=LLM_AL_SEARCH_MODE,
+                warm_start_csv=LLM_AL_WARM_START_CSV,
                 exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
             )
 
