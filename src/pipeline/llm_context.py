@@ -56,12 +56,14 @@ _AL_PARAMETER_COLUMNS = [
     "nips_bath_wait_time",
     "polymer_wt",
     "additive_wt",
+    "polymer_type",
+    "solvent_type",
     "cosolvent_type",
     "nips_bath_solvent",
     "nips_bath_solvent_wt_percent",
 ]
 _SEMI_BATCH_CONTEXT_COLUMNS = {
-    "cosolvent_type", "nips_bath_solvent", "nips_bath_solvent_wt_percent",
+    "polymer_type", "solvent_type", "cosolvent_type", "nips_bath_solvent", "nips_bath_solvent_wt_percent",
 }
 
 
@@ -364,6 +366,7 @@ def generate_reports_and_suggestion(
     al_search_mode="optimize",
     exploration_history_points=None,
     warm_start_csv=None,
+    material_context=None,
 ):
     """Exact strategy run_loop.py uses to go from a CSV row to a next-params suggestion: build
     initial_report (performance, via activeLearning.Generate_report), fold the mech-property
@@ -418,6 +421,13 @@ def generate_reports_and_suggestion(
         history_df = pd.concat([historical, llm_df], ignore_index=True, sort=False)
         history_df = history_df.drop_duplicates("name", keep="last")
     performance_observations = "\n\n---\n\n".join(history_df["final_report"].dropna().tolist())
+    if material_context is not None:
+        performance_observations = (
+            "Current campaign material identities (manually set; do not change): "
+            + json.dumps(material_context, sort_keys=True)
+            + "\nHistorical rows without material identities are unknown; do not assume they used the current materials.\n\n"
+            + performance_observations
+        )
     quality_observations = build_observations(agg_llm_path, "quality", current_condition_name=condition_name)
     if warm_start_csv is not None and "quality_report" in historical:
         prior_quality = historical[~historical["name"].isin(llm_df["name"])]

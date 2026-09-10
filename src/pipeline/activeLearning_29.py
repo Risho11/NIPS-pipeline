@@ -47,6 +47,8 @@ params = {
     "bath_temp": "the temperature in Celsius of the NIPS bath",
     "polymer_wt": "the polymer concentration in the final solution",
     "additive_wt": "the additive/cosolvent concentration in the final solution",
+    "polymer_type": "the manually selected polymer identity, fixed for the campaign",
+    "solvent_type": "the manually selected base casting solvent identity, fixed for the campaign",
     "cosolvent_type": "the manually selected cosolvent identity used in the stock/formulation; 'none' means no cosolvent",
     "nips_bath_solvent": "the manually selected solvent identity in the non-solvent NIPS bath; 'none' means no solvent",
     "nips_bath_solvent_wt_percent": "the solvent concentration in the non-solvent NIPS bath in wt%, manually prepared by the operator",

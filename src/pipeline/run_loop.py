@@ -50,6 +50,8 @@ import llm_context                             # <<< IMPORT >>> what branch resu
 
 # Semi-batch material choices. Recorded with every condition and provided to LLM_AL as context,
 # but never selected or changed by the model.
+POLYMER_TYPE = "unknown"  # Set before starting the campaign.
+SOLVENT_TYPE = "unknown"  # Base casting solvent identity.
 COSOLVENT_TYPE = "none"
 NIPS_BATH_SOLVENT = "none"
 NIPS_BATH_SOLVENT_WT_PERCENT = 0.0
@@ -64,6 +66,8 @@ INITIAL_PARAMS = {
     "nips_bath_wait_time": 1200,
     "polymer_wt": 17,
     "additive_wt": 0,
+    "polymer_type": POLYMER_TYPE,
+    "solvent_type": SOLVENT_TYPE,
     "cosolvent_type": COSOLVENT_TYPE,
     "nips_bath_solvent": NIPS_BATH_SOLVENT,
     "nips_bath_solvent_wt_percent": NIPS_BATH_SOLVENT_WT_PERCENT,
@@ -137,6 +141,8 @@ ITERATION_BASE_PARAMS = {
     "coupon_to_bath_wait_time": 30,
     "nips_bath_wait_time": 1200,
     "polymer_wt": 15,
+    "polymer_type": POLYMER_TYPE,
+    "solvent_type": SOLVENT_TYPE,
     "cosolvent_type": COSOLVENT_TYPE,
     "nips_bath_solvent": NIPS_BATH_SOLVENT,
     "nips_bath_solvent_wt_percent": NIPS_BATH_SOLVENT_WT_PERCENT,
@@ -152,14 +158,26 @@ PARAMS_SCHEMA = {
     "nips_bath_wait_time":      (int, float),
     "polymer_wt":               (int, float),
     "additive_wt":              (int, float),
+    "polymer_type":             (str,),
+    "solvent_type":             (str,),
     "cosolvent_type":           (str,),
     "nips_bath_solvent":        (str,),
     "nips_bath_solvent_wt_percent": (int, float),
 }
 LLM_PARAMS_KEYS = tuple(
     key for key in PARAMS_SCHEMA
-    if key not in {"cosolvent_type", "nips_bath_solvent", "nips_bath_solvent_wt_percent"}
+    if key not in {"polymer_type", "solvent_type", "cosolvent_type", "nips_bath_solvent", "nips_bath_solvent_wt_percent"}
 )
+def set_material_types(polymer_type, solvent_type):
+    """Set manual material identities before starting or resuming a campaign."""
+    for key, value in {"polymer_type": polymer_type, "solvent_type": solvent_type}.items():
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"{key} must be a nonblank string")
+    global POLYMER_TYPE, SOLVENT_TYPE
+    POLYMER_TYPE, SOLVENT_TYPE = polymer_type.strip(), solvent_type.strip()
+    for params in (INITIAL_PARAMS, ITERATION_BASE_PARAMS):
+        params.update(polymer_type=POLYMER_TYPE, solvent_type=SOLVENT_TYPE)
+
 # <<< PATH >>> project root = three levels up from src/pipeline/run_loop.py
 DATA_ROOT    = _REPO_ROOT
 
@@ -261,6 +279,8 @@ def startup(lock_add, locked_value, iterate_add, iterate_poly, continue_campaign
     for k, v in activeLearning.bounds.send_metadata().items():
         print(f"  {k}: {v}")
     print("Semi-batch material context (manual, locked from LLM_AL):")
+    print(f"  polymer_type: {POLYMER_TYPE}")
+    print(f"  solvent_type: {SOLVENT_TYPE}")
     print(f"  cosolvent_type: {COSOLVENT_TYPE}")
     print(f"  nips_bath_solvent: {NIPS_BATH_SOLVENT}")
     print(f"  nips_bath_solvent_wt_percent: {NIPS_BATH_SOLVENT_WT_PERCENT}")
@@ -473,6 +493,9 @@ def _validate_params(params):
                 f"next_params['{key}'] wrong type: got {type(val).__name__}, expected "
                 f"{tuple(t.__name__ for t in allowed_types)}"
             )
+    for key in ("polymer_type", "solvent_type"):
+        if not params[key].strip():
+            raise ValueError(f"next_params[{key!r}] cannot be blank")
     if not params["cosolvent_type"].strip():
         raise ValueError("next_params['cosolvent_type'] cannot be blank; use 'none' when absent")
     if not params["nips_bath_solvent"].strip():
@@ -519,6 +542,7 @@ def _load_resume_params_for_campaign(campaign_date):
             locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
             al_search_mode=LLM_AL_SEARCH_MODE,
             warm_start_csv=LLM_AL_WARM_START_CSV,
+            material_context={"polymer_type": POLYMER_TYPE, "solvent_type": SOLVENT_TYPE},
             exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
         )
         recovered_params = _extract_next_params(params_suggestion)
@@ -531,6 +555,8 @@ def _load_resume_params_for_campaign(campaign_date):
         )
         recovered_params["polymer_wt"] = polymer_wt
         recovered_params["additive_wt"] = additive_wt
+        recovered_params["polymer_type"] = POLYMER_TYPE
+        recovered_params["solvent_type"] = SOLVENT_TYPE
         recovered_params["cosolvent_type"] = COSOLVENT_TYPE
         recovered_params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
         recovered_params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
@@ -552,6 +578,8 @@ def _load_resume_params_for_campaign(campaign_date):
     # The configured values describe the bath physically installed for this process, including
     # when resuming a campaign whose previous run used a different bath.
     params.pop("nips_bath_cosolvent", None)  # migrate the short-lived pre-rename field
+    params["polymer_type"] = POLYMER_TYPE
+    params["solvent_type"] = SOLVENT_TYPE
     params["cosolvent_type"] = COSOLVENT_TYPE
     params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
     params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
@@ -660,6 +688,7 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
                 locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
                 al_search_mode=LLM_AL_SEARCH_MODE,
                 warm_start_csv=LLM_AL_WARM_START_CSV,
+                material_context={"polymer_type": POLYMER_TYPE, "solvent_type": SOLVENT_TYPE},
                 exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
             )
 
@@ -695,6 +724,8 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
 
             # These describe a manually prepared bath, so never allow an LLM response to change
             # them without the operator physically changing the bath first.
+            new_params["polymer_type"] = POLYMER_TYPE
+            new_params["solvent_type"] = SOLVENT_TYPE
             new_params["cosolvent_type"] = COSOLVENT_TYPE
             new_params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
             new_params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT

@@ -69,3 +69,12 @@ Known pre-existing gap: `validate_params.py`'s required-keys schema still expect
 `weight_percent`, but current `params.json` files use `polymer_wt`/`additive_wt` —
 this predates the reorg and needs a real decision about which schema is current,
 not a path fix.
+
+Set `POLYMER_TYPE` and `SOLVENT_TYPE` in `src/pipeline/run_loop.py` before a
+campaign, or call `run_loop.set_material_types(polymer_type="polysulfone",
+solvent_type="PolarClean")` before starting the loop. Use the actual materials;
+the defaults are `"unknown"`. These manual identities are saved with each condition
+and supplied to LLM-AL for both new and resumed recommendations. `SOLVENT_TYPE`
+is the base casting solvent, separate from the cosolvent and NIPS bath solvent.
+The model cannot change these settings. Older records without identities remain
+unknown rather than inheriting the current campaign's materials.
