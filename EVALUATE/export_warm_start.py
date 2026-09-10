@@ -20,6 +20,10 @@ def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='
     """Export selected aggregate rows; retain failures as unknown-outcome history."""
     data = frame.copy()
     data = data.drop_duplicates('condition', keep='last').sort_values('sample_time')
+    # Negative strain at 50 bar indicates an artifact; retain unknown outcomes.
+    strain_50 = pd.to_numeric(data['Strain at 50 bar Mean'], errors='coerce')
+    excluded_negative_strain_rows = int((strain_50 < 0).sum())
+    data = data[~(strain_50 < 0)].copy()
     data['source_name'] = data['name']
     data['name'] = data['condition']
     data['chemistry'] = data.get('chemistry', 'Polysulfone / PolarClean (inferred)')
@@ -68,6 +72,7 @@ def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='
     data.to_csv(output_path, index=False)
     summary = {
         'rows': len(data),
+        'excluded_negative_strain_rows': excluded_negative_strain_rows,
         'complete_parameter_rows': int(data[PARAMETERS].notna().all(axis=1).sum()),
         'modulus_rows': int(data['Elastic Modulus Mean'].notna().sum()),
         'paired_objective_rows': int(data[['Elastic Modulus Mean', 'Pore Fraction Mean']].notna().all(axis=1).sum()),
@@ -92,4 +97,4 @@ if __name__ == '__main__':
         & data[[p + ' Mean' for p in DEFAULT_PROPERTIES]].notna().any(axis=1)
     ].copy()
     print(json.dumps(export_warm_start(selected, selection_description=
-        'Notebook defaults: inferred Polysulfone/PolarClean; thickness >= 70 um; polymer >= 13 wt%; at least one property present.'), indent=2))
+        'Notebook defaults: inferred Polysulfone/PolarClean; thickness >= 70 um; polymer >= 13 wt%; at least one property present; negative strain at 50 bar excluded.'), indent=2))
