@@ -136,8 +136,8 @@ positions = {
         
         "cap stand waypoint": [70, -304, 300, 180, 65, 0],
         "cap stand": [0, -304, 200, 180, 45, 0],
-        "cap bath waypoint": [260, -230, 240, 180, 45, -90],
-        "cap bath": [260, -242, 135, 180, 40, -90]
+        "cap bath waypoint": [264, -230, 240, 180, 45, -90],
+        "cap bath": [264, -242, 135, 180, 40, -90]
     },
     "middle": {
         "coupon bath waypoint": [262, -227, 240, 180, 45, -90],

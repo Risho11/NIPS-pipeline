@@ -50,8 +50,8 @@ import llm_context                             # <<< IMPORT >>> what branch resu
 
 # Semi-batch material choices. Recorded with every condition and provided to LLM_AL as context,
 # but never selected or changed by the model.
-POLYMER_TYPE = "unknown"  # Set before starting the campaign.
-SOLVENT_TYPE = "unknown"  # Base casting solvent identity.
+POLYMER_TYPE = "Primospire"  # Set before starting the campaign.
+SOLVENT_TYPE = "NMP"  # Base casting solvent identity.
 COSOLVENT_TYPE = "none"
 NIPS_BATH_SOLVENT = "none"
 NIPS_BATH_SOLVENT_WT_PERCENT = 0.0
@@ -106,7 +106,7 @@ LLM_AL_EXPLORATION_HISTORY_POINTS = None
 #basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
 #in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
-CONTINUE_CAMPAIGN = "2026-08-22"
+CONTINUE_CAMPAIGN = None
 
 
 def _campaign_date_folder_tag(continue_campaign):

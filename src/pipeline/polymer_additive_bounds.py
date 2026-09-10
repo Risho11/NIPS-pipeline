@@ -47,7 +47,7 @@ cosolvent_frac = 0.70
 
 @dataclass
 class OldStockStruct:
-    polymer_stock_wt_percent: float = 17.0
+    polymer_stock_wt_percent: float = 21.0
     additive_stock_polymer_wt_percent: float = 17.0
     additive_stock_additive_wt_percent: float = 4.0
 

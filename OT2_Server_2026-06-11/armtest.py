@@ -1,7 +1,17 @@
 # import libraries
+import argparse
 import json
 import time
 import sys
+
+parser = argparse.ArgumentParser(description="Test robot arm movements.")
+parser.add_argument(
+    "--cap-bath-to-stand",
+    action="store_true",
+    help="Only pick up the N2 cap from the bath after immersion and return it to its stand.",
+)
+args = parser.parse_args()
+
 sys.path.append("/var/lib/jupyter/notebooks/2026-06-11/lib/")
 from arm import Arm
 
@@ -15,6 +25,24 @@ parametersLock = threading.Lock() # make sure two processes aren't trying to sav
 # load robot parameters from .json
 with open('robot.json') as robot_file:
     robot = json.load(robot_file)
+
+if args.cap_bath_to_stand:
+    print("Cap-only test: the N2 cap must already be in the bath pickup position after immersion.")
+    print("The cap stand must be empty and the gripper must be empty.")
+    answer = input("Is this correct? (Y/N) ")
+    if answer.strip().lower() != "y":
+        print("Cap-only test cancelled.")
+        sys.exit(0)
+
+    xArm = Arm(
+        coupons=robot["coupons"], rings=robot["rings"],
+        discards=robot["discard"], camera_box_open=robot["camera_box_open"],
+    )
+    xArm.open_gripper()
+    xArm.pick_up("cap bath")
+    xArm.put_down("cap stand")
+    print("Cap returned to the stand.")
+    sys.exit(0)
 
 coupons = robot["coupons"] # number of clean coupons in the stack
 rings = robot["rings"] # number of rings on the stand
