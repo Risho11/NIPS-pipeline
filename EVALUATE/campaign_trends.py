@@ -30,6 +30,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULTS_ROOT = REPO_ROOT / "data" / "results"
 DEFAULT_RAW_ROOT = REPO_ROOT / "data" / "raw"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "EVALUATE" / "campaign_trends_output"
+POLARCLEAN_LAST_CAMPAIGN = "2026-08-22-exploration-mode"
 
 DEFAULT_PROPERTIES = (
     "Thickness",
@@ -87,6 +88,7 @@ def load_campaign_data(
     raw_root: Path | str = DEFAULT_RAW_ROOT,
     *,
     prefer: str = "postDiscard",
+    last_campaign: str | None = None,
 ) -> pd.DataFrame:
     """Load and de-duplicate all campaign aggregate CSVs.
 
@@ -98,6 +100,9 @@ def load_campaign_data(
     results_root, raw_root = Path(results_root), Path(raw_root)
     frames: list[pd.DataFrame] = []
     for path in sorted(results_root.glob("begins_*/agg.csv")):
+        # Restrict source campaigns before later records can replace historical rows.
+        if last_campaign is not None and path.parent.name[len("begins_"):] > last_campaign:
+            continue
         try:
             frame = pd.read_csv(path)
         except (OSError, pd.errors.ParserError, pd.errors.EmptyDataError):

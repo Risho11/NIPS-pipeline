@@ -6,7 +6,7 @@ In the notebook: export_warm_start(campaign_detailed, output_path)
 from pathlib import Path
 import json
 import pandas as pd
-from campaign_trends import load_campaign_data, DEFAULT_PROPERTIES
+from campaign_trends import load_campaign_data, DEFAULT_PROPERTIES, POLARCLEAN_LAST_CAMPAIGN
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / 'data' / 'warm_start' / 'polysulfone_polarclean.csv'
@@ -19,6 +19,7 @@ CONTEXT = ['cosolvent_type', 'nips_bath_solvent', 'nips_bath_solvent_wt_percent'
 def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='Caller-selected dataframe'):
     """Export selected aggregate rows; retain failures as unknown-outcome history."""
     data = frame.copy()
+    data = data[data['campaign'] <= POLARCLEAN_LAST_CAMPAIGN].copy()
     data = data.drop_duplicates('condition', keep='last').sort_values('sample_time')
     # Negative strain at 50 bar indicates an artifact; retain unknown outcomes.
     strain_50 = pd.to_numeric(data['Strain at 50 bar Mean'], errors='coerce')
@@ -72,6 +73,7 @@ def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='
     data.to_csv(output_path, index=False)
     summary = {
         'rows': len(data),
+        'last_campaign': POLARCLEAN_LAST_CAMPAIGN,
         'excluded_negative_strain_rows': excluded_negative_strain_rows,
         'complete_parameter_rows': int(data[PARAMETERS].notna().all(axis=1).sum()),
         'modulus_rows': int(data['Elastic Modulus Mean'].notna().sum()),
@@ -87,7 +89,7 @@ def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='
 
 
 if __name__ == '__main__':
-    data = load_campaign_data()
+    data = load_campaign_data(last_campaign=POLARCLEAN_LAST_CAMPAIGN)
     polymer = pd.to_numeric(data['polymer_wt'], errors='coerce')
     # Match the current notebook's Polysulfone/PolarClean selection and quality filters.
     selected = data[
@@ -97,4 +99,4 @@ if __name__ == '__main__':
         & data[[p + ' Mean' for p in DEFAULT_PROPERTIES]].notna().any(axis=1)
     ].copy()
     print(json.dumps(export_warm_start(selected, selection_description=
-        'Notebook defaults: inferred Polysulfone/PolarClean; thickness >= 70 um; polymer >= 13 wt%; at least one property present; negative strain at 50 bar excluded.'), indent=2))
+        'Notebook defaults: through 2026-08-22-exploration-mode inclusive; inferred Polysulfone/PolarClean; thickness >= 70 um; polymer >= 13 wt%; at least one property present; negative strain at 50 bar excluded.'), indent=2))
