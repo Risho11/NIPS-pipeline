@@ -3410,3 +3410,426 @@ After the pre-immersion hold, the cast film was immersed into the non-solvent ba
   ""additive_wt"": 0
 }
 ```"
+"2026-09-16
+18:42:57",20p5-0add-20deg-cosolv-none-bathSolv-none-0wt-0s-NoN2-1200s,30,20,20.5,0.0,20,False,0,1200,Primospire,NMP,none,none,0.0,"mixing_temp=30; bath_temp=20; polymer_wt=20.5; additive_wt=0; pullcast_speed=20; nitrogen=False; coupon_to_bath_wait_time=0; nips_bath_wait_time=1200; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Polymer Solution Preparation
+
+A casting solution was prepared using **Primospire** as the polymer at a concentration of **20.5 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the base solvent. No cosolvent or additive was incorporated (additive concentration: 0 wt%). The solution was mixed and heated at **30 °C** prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a pull-cast speed of **20 mm/s**. Following casting, the coupon was transferred to the NIPS bath **immediately** (coupon-to-bath wait time: 0 s) without any intermediate dry nitrogen purge, leaving the freshly cast film briefly exposed to **ambient conditions**. Ambient air temperature and relative humidity during casting were not recorded (N/A).
+
+## Phase Inversion
+
+The cast film was immersed in a **pure water** NIPS bath (no co-solvent added; 0.0 wt% solvent) maintained at **20 °C**. The membrane was allowed to undergo phase inversion for **1200 s (20 minutes)** before removal.
+
+## Notes
+
+- No dry nitrogen blow was applied during the pre-immersion period.
+- Coupon-stage temperature and humidity at the end of the wait period were not recorded (N/A).
+- Environmental monitoring data (air temperature, humidity) were unavailable for this run.",,,,,103.44585405673976,59.95869370155756,,,,,,,,,,,,,0.0749685666831067,0.0077180852463136,,,,,,,,21.666666666666668,2 failed due to insufficient data to fit; 1 failed due to poor plateau fit (early); 1 failed due to yield point (bp1) likely misplaced,"mixing_temp=30; bath_temp=20; polymer_wt=20.5; additive_wt=0; pullcast_speed=20; nitrogen=False; coupon_to_bath_wait_time=0; nips_bath_wait_time=1200; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Coupon Temp Mean': nan, 'Coupon Humidity Mean': nan, 'Thickness Mean': 103.44585405673976, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.07496856668310677, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '21.7/100', 'Discarded Fit Reasons': '2 failed due to insufficient data to fit; 1 failed due to poor plateau fit (early); 1 failed due to yield point (bp1) likely misplaced'","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Polymer Solution Preparation
+
+A casting solution was prepared using **Primospire** as the polymer at a concentration of **20.5 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the base solvent. No cosolvent or additive was incorporated (additive concentration: 0 wt%). The solution was mixed and heated at **30 °C** prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a pull-cast speed of **20 mm/s**. Following casting, the coupon was transferred to the NIPS bath **immediately** (coupon-to-bath wait time: 0 s) without any intermediate dry nitrogen purge, leaving the freshly cast film briefly exposed to **ambient conditions**. Ambient air temperature and relative humidity during casting were not recorded (N/A).
+
+## Phase Inversion
+
+The cast film was immersed in a **pure water** NIPS bath (no co-solvent added; 0.0 wt% solvent) maintained at **20 °C**. The membrane was allowed to undergo phase inversion for **1200 s (20 minutes)** before removal.
+
+## Notes
+
+- No dry nitrogen blow was applied during the pre-immersion period.
+- Coupon-stage temperature and humidity at the end of the wait period were not recorded (N/A).
+- Environmental monitoring data (air temperature, humidity) were unavailable for this run.
+
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Coupon Temp Mean': nan, 'Coupon Humidity Mean': nan, 'Thickness Mean': 103.44585405673976, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.07496856668310677, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '21.7/100', 'Discarded Fit Reasons': '2 failed due to insufficient data to fit; 1 failed due to poor plateau fit (early); 1 failed due to yield point (bp1) likely misplaced'","- **Presence:** Membrane is visible as a pale white sheet within the aperture.
+- **Vertical Coverage:** The membrane does not reach the bottom edge of the aperture — a clear gap is present at the bottom, exposing the backing/rig. This is a defect.
+- **Uniformity:** The membrane body appears largely uniform in color and opacity with no obvious patchiness or dark spots.
+- **Defects:** No wrinkles or trapped air bubbles are discernible within the membrane material itself; boundary-edge shadows are lighting artifacts.
+- **Summary:** The membrane is present and visually uniform, but fails vertical coverage due to a notable gap at the bottom edge of the aperture.","I'll analyze the experimental space systematically to identify sparse regions for exploration.
+
+**Valid modulus measurements summary:**
+- 708.9 MPa: polymer_wt=17.5, mixing_temp=65, bath_temp=10, speed=6, wait=15s, N2, nips=1800s
+- 683.3 MPa: polymer_wt=17.5, mixing_temp=50, bath_temp=20, speed=7, wait=90s, N2, nips=1250s
+- 667.1 MPa: polymer_wt=18.5, mixing_temp=25, bath_temp=5, speed=19, wait=330s, no-N2, nips=1800s
+- 596.3 MPa: polymer_wt=18.0, mixing_temp=45, bath_temp=5, speed=4, wait=180s, N2, nips=1800s
+- 591.7 MPa: polymer_wt=17.5, mixing_temp=55, bath_temp=25, speed=11, wait=375s, N2, nips=1300s
+- 569.3 MPa: polymer_wt=17.0, mixing_temp=35, bath_temp=5, speed=8, wait=0s, N2, nips=1200s
+
+**Coverage gaps identified:**
+- `mixing_temp` ~25–35°C with bath_temp=25°C and N2=True is sparse (only one point at 25°C/25°C/N2)
+- `polymer_wt` ~18.0–19.0 with bath_temp=25°C is underrepresented
+- `nips_bath_wait_time` near 1800s with bath_temp=25°C and moderate polymer_wt is sparse
+- `pullcast_speed` ~3–5 mm/s with bath_temp=25°C is unexplored
+- `coupon_to_bath_wait_time` ~200–350s with bath_temp=25°C and N2=True is sparse
+
+**Proposed experiment:** bath_temp=25°C (warm bath, underexplored with N2), polymer_wt=18.5 (mid-range, sparse at this bath temp), mixing_temp=40°C, pullcast_speed=4 mm/s (slow, sparse at bath_temp=25), N2=True, wait=200s, nips=1800s — this combination is genuinely novel and far from existing points.
+
+```json
+{
+  ""mixing_temp"": 40,
+  ""bath_temp"": 25,
+  ""pullcast_speed"": 4,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 200,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 18.5,
+  ""additive_wt"": 0
+}
+```"
+"2026-09-16
+20:54:08",18p5-0add-25deg-cosolv-none-bathSolv-none-0wt-200s-N2-1800s,40,25,18.5,0.0,4,True,200,1800,Primospire,NMP,none,none,0.0,"mixing_temp=40; bath_temp=25; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=4; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Materials
+
+The membrane was fabricated using **Primospire** as the polymer and **N-methyl-2-pyrrolidone (NMP)** as the casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0.0 wt%). The NIPS bath consisted of pure deionized water with no solvent additive (0.0 wt% bath solvent).
+
+## Solution Preparation
+
+The polymer dope solution was prepared at a concentration of **18.5 wt% Primospire** in NMP. The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled pull-cast speed of **4 mm/s**. Immediately following casting, the coupon was subjected to a **laminar dry nitrogen purge** for a duration of **200 seconds** prior to immersion in the NIPS bath. This nitrogen blow was applied to minimize ambient humidity exposure at the film surface during the evaporation interval. Ambient room temperature and humidity during casting were not recorded (N/A), and coupon-stage temperature and humidity measurements at the end of the wait period were likewise unavailable.
+
+## Phase Inversion
+
+Following the nitrogen purge and evaporation interval, the cast film was immersed into a **pure water NIPS bath** maintained at **25 °C**. The membrane coupon was allowed to undergo phase inversion for **1800 seconds (30 minutes)** before removal.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 18.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 40 °C |
+| Pull-cast speed | 4 mm/s |
+| Nitrogen purge | Yes |
+| Coupon-to-bath wait time | 200 s |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 25 °C |
+| NIPS bath immersion time | 1800 s |",,,,,125.406362838409,2.794428718396008,,,,,,,,,,,,,0.0503508730280794,0.0221915744096401,,,,,,,,34.0,3 failed due to yield point (bp1) likely misplaced; 1 failed due to insufficient data to fit,"mixing_temp=40; bath_temp=25; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=4; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Coupon Temp Mean': nan, 'Coupon Humidity Mean': nan, 'Thickness Mean': 125.406362838409, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.050350873028079446, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '34.0/100', 'Discarded Fit Reasons': '3 failed due to yield point (bp1) likely misplaced; 1 failed due to insufficient data to fit'","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Materials
+
+The membrane was fabricated using **Primospire** as the polymer and **N-methyl-2-pyrrolidone (NMP)** as the casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0.0 wt%). The NIPS bath consisted of pure deionized water with no solvent additive (0.0 wt% bath solvent).
+
+## Solution Preparation
+
+The polymer dope solution was prepared at a concentration of **18.5 wt% Primospire** in NMP. The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled pull-cast speed of **4 mm/s**. Immediately following casting, the coupon was subjected to a **laminar dry nitrogen purge** for a duration of **200 seconds** prior to immersion in the NIPS bath. This nitrogen blow was applied to minimize ambient humidity exposure at the film surface during the evaporation interval. Ambient room temperature and humidity during casting were not recorded (N/A), and coupon-stage temperature and humidity measurements at the end of the wait period were likewise unavailable.
+
+## Phase Inversion
+
+Following the nitrogen purge and evaporation interval, the cast film was immersed into a **pure water NIPS bath** maintained at **25 °C**. The membrane coupon was allowed to undergo phase inversion for **1800 seconds (30 minutes)** before removal.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 18.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 40 °C |
+| Pull-cast speed | 4 mm/s |
+| Nitrogen purge | Yes |
+| Coupon-to-bath wait time | 200 s |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 25 °C |
+| NIPS bath immersion time | 1800 s |
+
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Coupon Temp Mean': nan, 'Coupon Humidity Mean': nan, 'Thickness Mean': 125.406362838409, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.050350873028079446, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '34.0/100', 'Discarded Fit Reasons': '3 failed due to yield point (bp1) likely misplaced; 1 failed due to insufficient data to fit'","- **Presence**: Membrane is visible — a pale white/light-grey sheet occupies the aperture.
+
+- **Vertical Coverage**: Membrane spans the full top-to-bottom extent of the aperture with no gap at the top or bottom edge. ✓
+
+- **Uniformity**: Overall color and opacity are consistent across the membrane body; slight tonal gradient toward edges is consistent with lighting rather than thickness variation.
+
+- **Defects**: Several low-amplitude wavy creases/wrinkles are visible within the membrane material itself, running roughly horizontally across the upper and lower portions of the sheet. No trapped air bubbles detected.
+
+- **Summary**: Membrane is present with full vertical coverage and acceptable uniformity, but exhibits mild wrinkling within the membrane material that warrants attention.","I'll analyze the experimental history systematically before proposing a new experiment.
+
+## Analysis
+
+**Valid modulus measurements (with fit quality context):**
+| Condition | E (MPa) | CV | Notes |
+|---|---|---|---|
+| 17.5wt%, 65°C, 6mm/s, N2, 15s, 10°C bath, 1800s | **708.9** | 0.129 | Best measured |
+| 17.5wt%, 50°C, 7mm/s, N2, 90s, 20°C bath, 1250s | **683.3** | nan | High, no CV |
+| 18.5wt%, 25°C, 19mm/s, NoN2, 330s, 5°C bath, 1800s | **667.1** | nan | High, no CV |
+| 17.5wt%, 55°C, 11mm/s, N2, 375s, 25°C bath, 1300s | **591.6** | 0.109 | Good |
+| 18wt%, 45°C, 4mm/s, N2, 180s, 5°C bath, 1800s | **596.3** | nan | Good |
+| 17wt%, 35°C, 8mm/s, N2, 0s, 5°C bath, 1200s | **569.3** | 0.046 | Low CV |
+
+**Sparse/underrepresented regions:**
+- `mixing_temp` ~25–35°C with `bath_temp` ~5°C and `polymer_wt` ~17.5–18.5 is somewhat explored, but the combination of **high mixing_temp (65–80°C)** with **bath_temp ~5°C** and **moderate-high polymer_wt (~18.5–19.5)** is sparse.
+- `nips_bath_wait_time` near **1800s** with **bath_temp=5°C** and **N2=True** and **moderate wait time (~90–150s)** hasn't been tried with `polymer_wt ~18.5` and `mixing_temp ~65°C`.
+- `pullcast_speed` in the **9–12 mm/s** range with `bath_temp=5°C`, `N2=True`, `polymer_wt~18.5`, `mixing_temp~65°C` is unexplored.
+- The combination of **bath_temp=5°C** (coldest, associated with higher moduli), **N2=True**, **mixing_temp=65°C**, **polymer_wt=18.5**, **moderate pullcast_speed (~11mm/s)**, and **moderate wait time (~100s)** is novel.
+
+**Explore target:** High mixing_temp (~65°C) + cold bath (5°C) + N2 + polymer_wt ~18.5 + moderate speed (~11mm/s) + moderate wait (~100s) + long bath time (1800s). This is far from dense clusters and targets a region combining features seen in high-modulus candidates.
+
+```json
+{
+  ""mixing_temp"": 65,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 11,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 105,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 18.5,
+  ""additive_wt"": 0
+}
+```"
+"2026-09-16
+23:10:05",18p5-0add-5deg-cosolv-none-bathSolv-none-0wt-105s-N2-1800s,65,5,18.5,0.0,11,True,105,1800,Primospire,NMP,none,none,0.0,"mixing_temp=65; bath_temp=5; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=11; nitrogen=True; coupon_to_bath_wait_time=105; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.48 [room air temperature during casting]; Humidity Mean=42.57 [room air humidity during casting]; Coupon Temp Mean=25.14 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=47.56 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Materials
+
+A polymer dope solution was prepared using **Primospire** as the membrane-forming polymer at a concentration of **18.5 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary casting solvent. No cosolvent or additive was incorporated into the formulation (additive loading: 0.0 wt%). The NIPS precipitation bath consisted of **pure deionized water** (no co-solvent; 0.0 wt% solvent content).
+
+## Dope Preparation
+
+The polymer solution was mixed and heated at **65 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+Membrane coupons were fabricated on the automated robotic casting platform. The polymer dope was blade-cast onto the substrate at a controlled speed of **11 mm/s**. The ambient laboratory conditions during casting were recorded at a mean air temperature of **25.48 °C** and a mean relative humidity of **42.57%**.
+
+## Pre-Immersion Drying Step
+
+Following blade casting, each coupon was subjected to a **laminar dry nitrogen purge** for a duration of **105 seconds** prior to immersion in the precipitation bath. This step was employed to control surface humidity exposure and promote selective evaporation of solvent from the nascent film surface. During this nitrogen blow window, the coupon-stage temperature was measured at **25.14 °C** and the local relative humidity at the coupon stage was **47.56%**, reflecting the moderating effect of the nitrogen flow on ambient humidity at the film surface.
+
+## Phase Inversion (NIPS)
+
+After the pre-immersion wait period, the cast film was immersed into the precipitation bath, which was maintained at a reduced temperature of **5 °C** to control the kinetics of phase separation. The membrane coupon was held in the bath for **1800 seconds (30 minutes)** to ensure complete phase inversion and solidification of the membrane structure.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 18.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 65 °C |
+| Cast speed | 11 mm/s |
+| Pre-immersion treatment | Dry N₂ purge |
+| Pre-immersion wait time | 105 s |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 5 °C |
+| NIPS immersion time | 1800 s |
+| Ambient air temperature | 25.48 °C |
+| Ambient relative humidity | 42.57% |
+| Coupon-stage temperature (N₂ window) | 25.14 °C |
+| Coupon-stage humidity (N₂ window) | 47.56% |",25.48,42.57,25.14,47.56,126.24814025362376,4.214400619243018,592.7746765763949,45.46973391996164,48.01438685774978,1.8488544991121207,0.3277002148602644,0.0325349497328531,195.9759398708874,27.670226712867763,447.4780790185435,30.19087712633598,0.1326240988715094,0.0035050813677159,0.1065619912924171,0.0183235437816917,0.2521999270419588,0.0379993436696059,0.4346946508098179,0.0,,,0.1501323324267127,0.0,1 failed due to insufficient data to fit,"mixing_temp=65; bath_temp=5; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=11; nitrogen=True; coupon_to_bath_wait_time=105; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.48 [room air temperature during casting]; Humidity Mean=42.57 [room air humidity during casting]; Coupon Temp Mean=25.14 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=47.56 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+{'Air Temp Mean': 25.48, 'Humidity Mean': 42.57, 'Coupon Temp Mean': 25.14, 'Coupon Humidity Mean': 47.56, 'Thickness Mean': 126.24814025362375, 'Elastic Modulus Mean': 592.7746765763949, 'Strain at 50 bar Mean': 0.10656199129241714, 'CV Mean': 0.1501323324267127}, 'Discarded Fit Quality Mean': '0.0/100', 'Discarded Fit Reasons': '1 failed due to insufficient data to fit'","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Materials
+
+A polymer dope solution was prepared using **Primospire** as the membrane-forming polymer at a concentration of **18.5 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary casting solvent. No cosolvent or additive was incorporated into the formulation (additive loading: 0.0 wt%). The NIPS precipitation bath consisted of **pure deionized water** (no co-solvent; 0.0 wt% solvent content).
+
+## Dope Preparation
+
+The polymer solution was mixed and heated at **65 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+Membrane coupons were fabricated on the automated robotic casting platform. The polymer dope was blade-cast onto the substrate at a controlled speed of **11 mm/s**. The ambient laboratory conditions during casting were recorded at a mean air temperature of **25.48 °C** and a mean relative humidity of **42.57%**.
+
+## Pre-Immersion Drying Step
+
+Following blade casting, each coupon was subjected to a **laminar dry nitrogen purge** for a duration of **105 seconds** prior to immersion in the precipitation bath. This step was employed to control surface humidity exposure and promote selective evaporation of solvent from the nascent film surface. During this nitrogen blow window, the coupon-stage temperature was measured at **25.14 °C** and the local relative humidity at the coupon stage was **47.56%**, reflecting the moderating effect of the nitrogen flow on ambient humidity at the film surface.
+
+## Phase Inversion (NIPS)
+
+After the pre-immersion wait period, the cast film was immersed into the precipitation bath, which was maintained at a reduced temperature of **5 °C** to control the kinetics of phase separation. The membrane coupon was held in the bath for **1800 seconds (30 minutes)** to ensure complete phase inversion and solidification of the membrane structure.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 18.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 65 °C |
+| Cast speed | 11 mm/s |
+| Pre-immersion treatment | Dry N₂ purge |
+| Pre-immersion wait time | 105 s |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 5 °C |
+| NIPS immersion time | 1800 s |
+| Ambient air temperature | 25.48 °C |
+| Ambient relative humidity | 42.57% |
+| Coupon-stage temperature (N₂ window) | 25.14 °C |
+| Coupon-stage humidity (N₂ window) | 47.56% |
+
+
+{'Air Temp Mean': 25.48, 'Humidity Mean': 42.57, 'Coupon Temp Mean': 25.14, 'Coupon Humidity Mean': 47.56, 'Thickness Mean': 126.24814025362375, 'Elastic Modulus Mean': 592.7746765763949, 'Strain at 50 bar Mean': 0.10656199129241714, 'CV Mean': 0.1501323324267127}, 'Discarded Fit Quality Mean': '0.0/100', 'Discarded Fit Reasons': '1 failed due to insufficient data to fit'","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
+
+- **Vertical Coverage:** The membrane reaches the bottom edge adequately, but there is a gap at the top edge where the aperture rim is exposed without membrane coverage — a vertical coverage defect.
+
+- **Uniformity:** Non-uniform; the left-center region shows a distinctly darker, slightly translucent zone contrasting with the surrounding pale area, indicating thickness or opacity variation.
+
+- **Defects:** A prominent raised ridge/fold loop is visible within the membrane material itself in the left-center area, consistent with a wrinkle or fold in the membrane sheet. One small bubble is also present near the fold.
+
+- **Summary:** Membrane shows a top-edge vertical gap, significant wrinkling/folding with an associated bubble, and notable opacity non-uniformity.","I'll analyze the experimental history systematically before proposing a new experiment.
+
+**Summary of valid modulus measurements:**
+| Experiment | Modulus (MPa) | CV | Notes |
+|---|---|---|---|
+| 17.5wt%, 65°C, 6mm/s, N2, 15s, 10°C bath, 1800s | 708.9 | 0.129 | Best validated |
+| 17.5wt%, 50°C, 7mm/s, N2, 90s, 20°C bath, 1250s | 683.3 | nan | No CV |
+| 18.5wt%, 25°C, 19mm/s, no N2, 330s, 5°C bath, 1800s | 667.1 | nan | No CV |
+| 17.5wt%, 55°C, 11mm/s, N2, 375s, 25°C bath, 1300s | 591.7 | 0.109 | |
+| 18.5wt%, 65°C, 11mm/s, N2, 105s, 5°C bath, 1800s | 592.8 | 0.150 | |
+| 18wt%, 45°C, 4mm/s, N2, 180s, 5°C bath, 1800s | 596.3 | nan | |
+
+**Explore mode analysis:**
+The dataset has 29 points with good coverage of most dimensions. Looking for sparse regions:
+- **bath_temp=5°C** is heavily sampled; **bath_temp=25°C** has only a few points
+- **polymer_wt ~20-21** with **bath_temp=25°C** and **N2=True** is sparse
+- **mixing_temp ~25-35°C** with **bath_temp=25°C** and **N2=True** and **moderate wait times** is underrepresented
+- **nips_bath_wait_time** near minimum (1200s) with **bath_temp=25°C** and **N2=True** is sparse
+- **pullcast_speed ~3-5 mm/s** with **bath_temp=25°C** is underrepresented
+
+A genuinely novel combination: **high polymer_wt (20wt%)**, **bath_temp=25°C**, **N2=True**, **short wait (30s)**, **low pullcast_speed (3mm/s)**, **mixing_temp=25°C**, **nips_bath_wait_time=1200s** — this combination is far from existing points and explores a region where high concentration + warm bath + N2 + slow casting hasn't been tested.
+
+```json
+{
+  ""mixing_temp"": 25,
+  ""bath_temp"": 25,
+  ""pullcast_speed"": 3,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 30,
+  ""nips_bath_wait_time"": 1200,
+  ""polymer_wt"": 20.0,
+  ""additive_wt"": 0
+}
+```"
+"2026-09-17
+01:57:26",20-0add-25deg-cosolv-none-bathSolv-none-0wt-30s-N2-1200s,25,25,20.0,0.0,3,True,30,1200,Primospire,NMP,none,none,0.0,"mixing_temp=25; bath_temp=25; polymer_wt=20.0; additive_wt=0.0; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Materials
+
+A polymer dope solution was prepared using **Primospire** as the membrane-forming polymer at a concentration of **20.0 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0.0 wt%). The non-solvent precipitation bath consisted of **pure water** (no solvent additive; 0.0 wt% solvent).
+
+## Membrane Fabrication Procedure
+
+The polymer dope was mixed and thermally equilibrated at **25 °C** prior to casting. The solution was blade-cast onto the substrate using the automated robotic system at a casting speed of **3 mm/s**.
+
+Following casting, the film was exposed to a **laminar dry nitrogen purge** for a duration of **30 seconds** before immersion into the coagulation bath. This nitrogen blow step was employed to minimize ambient humidity exposure at the coupon surface during the pre-immersion period. Ambient room temperature, relative humidity, and coupon-stage temperature and humidity were not recorded during this experiment (values: N/A).
+
+The cast film was subsequently immersed into the **non-solvent-induced phase separation (NIPS) bath**, maintained at **25 °C**, where it remained for **1200 seconds (20 minutes)** to allow complete phase inversion and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 20.0 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 25 °C |
+| Casting speed | 3 mm/s |
+| Pre-immersion wait time | 30 s |
+| Nitrogen purge | Yes |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 25 °C |
+| NIPS immersion time | 1200 s |",,,,,133.0131041391998,2.5602690221950075,,,,,,,,,,,,,0.0979239465634636,0.0140145694479642,,,,,,,,37.0,3 failed due to yield point (bp1) likely misplaced; 1 failed due to insufficient data to fit,"mixing_temp=25; bath_temp=25; polymer_wt=20.0; additive_wt=0.0; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Coupon Temp Mean': nan, 'Coupon Humidity Mean': nan, 'Thickness Mean': 133.0131041391998, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.09792394656346362, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '37.0/100', 'Discarded Fit Reasons': '3 failed due to yield point (bp1) likely misplaced; 1 failed due to insufficient data to fit'","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Materials
+
+A polymer dope solution was prepared using **Primospire** as the membrane-forming polymer at a concentration of **20.0 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0.0 wt%). The non-solvent precipitation bath consisted of **pure water** (no solvent additive; 0.0 wt% solvent).
+
+## Membrane Fabrication Procedure
+
+The polymer dope was mixed and thermally equilibrated at **25 °C** prior to casting. The solution was blade-cast onto the substrate using the automated robotic system at a casting speed of **3 mm/s**.
+
+Following casting, the film was exposed to a **laminar dry nitrogen purge** for a duration of **30 seconds** before immersion into the coagulation bath. This nitrogen blow step was employed to minimize ambient humidity exposure at the coupon surface during the pre-immersion period. Ambient room temperature, relative humidity, and coupon-stage temperature and humidity were not recorded during this experiment (values: N/A).
+
+The cast film was subsequently immersed into the **non-solvent-induced phase separation (NIPS) bath**, maintained at **25 °C**, where it remained for **1200 seconds (20 minutes)** to allow complete phase inversion and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 20.0 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 25 °C |
+| Casting speed | 3 mm/s |
+| Pre-immersion wait time | 30 s |
+| Nitrogen purge | Yes |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 25 °C |
+| NIPS immersion time | 1200 s |
+
+
+{'Air Temp Mean': nan, 'Humidity Mean': nan, 'Coupon Temp Mean': nan, 'Coupon Humidity Mean': nan, 'Thickness Mean': 133.0131041391998, 'Elastic Modulus Mean': nan, 'Strain at 50 bar Mean': 0.09792394656346362, 'CV Mean': nan}, 'Discarded Fit Quality Mean': '37.0/100', 'Discarded Fit Reasons': '3 failed due to yield point (bp1) likely misplaced; 1 failed due to insufficient data to fit'","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
+- **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gap at either the top or bottom edge. ✓
+- **Uniformity:** Color and opacity are consistent throughout; no dark spots, patchiness, or obvious thickness variation detected.
+- **Defects:** No wrinkles or trapped air bubbles visible within the membrane material itself; surface texture appears smooth and featureless.
+- **Summary:** The membrane coupon presents with complete vertical coverage, uniform appearance, and no observable defects within the membrane material.","I'll analyze the experimental history systematically before proposing a new experiment.
+
+## Analysis
+
+**Valid modulus measurements (with fit quality context):**
+| Experiment | Modulus (MPa) | CV | Bath T | Polymer wt% | Mix T | Speed | N₂ | Wait |
+|---|---|---|---|---|---|---|---|---|
+| 17.5wt%, 65°C, 6mm/s, N₂, 15s, 10°C bath, 1800s | **708.9** | 0.129 | 10 | 17.5 | 65 | 6 | Y | 15 |
+| 17.5wt%, 50°C, 7mm/s, N₂, 90s, 20°C bath, 1250s | **683.3** | nan | 20 | 17.5 | 50 | 7 | Y | 90 |
+| 18.5wt%, 25°C, 19mm/s, NoN₂, 330s, 5°C bath, 1800s | **667.1** | nan | 5 | 18.5 | 25 | 19 | N | 330 |
+| 17.5wt%, 55°C, 11mm/s, N₂, 375s, 25°C bath, 1300s | **591.6** | 0.109 | 25 | 17.5 | 55 | 11 | Y | 375 |
+| 18.5wt%, 65°C, 11mm/s, N₂, 105s, 5°C bath, 1800s | **592.8** | 0.150 | 5 | 18.5 | 65 | 11 | Y | 105 |
+
+**Key observations:**
+- Best validated modulus: 708.9 MPa at (17.5wt%, 65°C mix, 6mm/s, N₂, 15s wait, 10°C bath, 1800s)
+- Second best: 683.3 MPa at (17.5wt%, 50°C mix, 7mm/s, N₂, 90s wait, 20°C bath, 1250s)
+- Pattern: lower polymer wt% (~17.5), moderate-high mixing temp, low-moderate speed, N₂, short-moderate wait, cold-moderate bath
+- **Sparse region:** mixing_temp ~25-35°C with bath_temp=5°C and polymer_wt ~17.5, combined with moderate wait times and N₂ — this combination is underrepresented
+- Also sparse: nips_bath_wait_time near 1200s with bath_temp=5°C and polymer_wt=17.5 with N₂
+
+**Explore mode target:** I want to probe a region that is genuinely novel — specifically: **polymer_wt=17.5, mixing_temp=25°C, bath_temp=5°C, pullcast_speed=12mm/s, N₂=True, wait=550s, nips_bath_wait_time=1450s**. This combines the promising 17.5wt% with a cold bath (5°C, undersampled for 17.5wt%), a longer wait under N₂ (550s is sparse), moderate-high speed (12mm/s not yet tried at these conditions), and intermediate bath time — a genuinely novel corner of the space.
+
+```json
+{
+  ""mixing_temp"": 25,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 12,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 550,
+  ""nips_bath_wait_time"": 1450,
+  ""polymer_wt"": 17.5,
+  ""additive_wt"": 0
+}
+```"
