@@ -97,14 +97,25 @@ class Uno:
 
     # -------------- SHT40/31 Temp/Humidity ---------------
 
+    def _read_sensor_response(self, command, sensor_name):
+        """Retry explicit firmware errors, at most three attempts total."""
+        for attempt in range(1, 4):
+            response = self._send_command(command)
+            if not response.startswith("ERR"):
+                # Do not retry timeouts/garbage: serial replies may be out of sync.
+                return response
+            print(f"{sensor_name} attempt {attempt}/3: {response}")
+            if attempt < 3:
+                time.sleep(0.1)
+        return response
+
     # SHT40
     def read_temp_humidity(self):
         """
-        Returns (temp_C, humidity_pct) as floats, or None if the read failed.
+        Returns temperature/humidity strings in a dict, or None on failure.
         """
-        response = self._send_command('S')
+        response = self._read_sensor_response('S', 'SHT40')
         if response.startswith("ERR"):
-            print(response)
             return None
         try:
             temp_str, hum_str = response.split(",")
@@ -121,11 +132,10 @@ class Uno:
     # SHT31    
     def read_2nd_temp_humidity(self):
         """
-        Returns (temp_C, humidity_pct) as floats, or None if the read failed.
+        Returns temperature/humidity strings in a dict, or None on failure.
         """
-        response = self._send_command('T')
+        response = self._read_sensor_response('T', 'SHT31')
         if response.startswith("ERR"):
-            print(response)
             return None
         try:
             temp_str, hum_str = response.split(",")

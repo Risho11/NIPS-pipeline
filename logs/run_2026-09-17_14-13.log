@@ -1,0 +1,4271 @@
+[2026-09-17 14:13:06] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-09-17 14:13:07] server listening on 169.254.230.148:8000
+
+[2026-09-17 14:13:07] Resuming campaign 2026-09-10-exploration-mode from llm_result_20-0add-25deg-cosolv-none-bathSolv-none-0wt-30s-N2-1200s.json
+
+[2026-09-17 14:13:07] kicking off first experiment: {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 12, 'nitrogen': True, 'coupon_to_bath_wait_time': 550, 'nips_bath_wait_time': 1450, 'polymer_wt': 17.5, 'additive_wt': 0, 'polymer_type': 'Primospire', 'solvent_type': 'NMP', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-17 14:13:07] Python recieved!
+
+[2026-09-17 14:13:07] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 12, "nitrogen": true, "coupon_to_bath_wait_time": 550, "nips_bath_wait_time": 1450, "polymer_wt": 17.5, "additive_wt": 0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 14:13:07] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 12, "nitrogen": true, "coupon_to_bath_wait_time": 550, "nips_bath_wait_time": 1450, "polymer_wt": 17.5, "additive_wt": 0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 14:13:07] robot started — loop running. Ctrl+C to stop.
+
+[2026-09-17 16:16:34] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-09-17 16:16:34] [2026-09-17 18:11:28] Ready to begin experiments.
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:42] Recievied request for membrane with following parameters:
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:42] {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 12, 'nitrogen': True, 'coupon_to_bath_wait_time': 550, 'nips_bath_wait_time': 1450, 'polymer_wt': 17.5, 'additive_wt': 0, 'polymer_type': 'Primospire', 'solvent_type': 'NMP', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:42] Bath chilling process started.
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:42] Beginning zero tests on coupons.
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:42] Opentrons process started.
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:42] Target: 17.5 wt% polymer, 0 wt% additive, 1000.00 uL
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:42] Volumes (uL): polymer=824.00, polymer-additive=0.00, solvent=176.00
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:42] Bottle inventory before preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 25504.0, 'dead_volume_uL': 2000.0, 'available_uL': 23504.0}, 'solvent': {'remaining_uL': 43133.0, 'dead_volume_uL': 2000.0, 'available_uL': 41133.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:43] Temperature set to 25.
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:43] Current bath temperature: 4.98 C.
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:43] Reached target temperature of 5 C.
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:51] Adding 176.00 uL from pure solvent.
+
+[2026-09-17 16:16:34] [2026-09-17 18:13:54] entered if statement!!!
+
+[2026-09-17 16:16:34] [2026-09-17 18:14:09] Test has started!
+
+[2026-09-17 16:16:34] [2026-09-17 18:14:40] Adding 824.00 uL from polymer stock.
+
+[2026-09-17 16:16:34] [2026-09-17 18:17:04] Test complete!
+
+[2026-09-17 16:16:34] [2026-09-17 18:17:09] Safe: True
+
+[2026-09-17 16:16:34] [2026-09-17 18:17:09] Recent: True
+
+[2026-09-17 16:16:34] [2026-09-17 18:17:09] Current Time: 1789668993.9265475
+
+[2026-09-17 16:16:34] [2026-09-17 18:17:09] Data Time: 1789668983.211237
+
+[2026-09-17 16:16:34] [2026-09-17 18:17:09] Age: 10.71531057357788
+
+[2026-09-17 16:16:34] [2026-09-17 18:17:22] Test has started!
+
+[2026-09-17 16:16:34] [2026-09-17 18:19:49] entered if statement!!!
+
+[2026-09-17 16:16:34] [2026-09-17 18:20:17] Test complete!
+
+[2026-09-17 16:16:34] [2026-09-17 18:20:22] Safe: True
+
+[2026-09-17 16:16:34] [2026-09-17 18:20:22] Recent: True
+
+[2026-09-17 16:16:34] [2026-09-17 18:20:22] Current Time: 1789669186.3488932
+
+[2026-09-17 16:16:34] [2026-09-17 18:20:22] Data Time: 1789669175.562702
+
+[2026-09-17 16:16:34] [2026-09-17 18:20:22] Age: 10.78619122505188
+
+[2026-09-17 16:16:34] [2026-09-17 18:20:35] Test has started!
+
+[2026-09-17 16:16:34] [2026-09-17 18:23:29] Test complete!
+
+[2026-09-17 16:16:34] [2026-09-17 18:23:34] Safe: True
+
+[2026-09-17 16:16:34] [2026-09-17 18:23:34] Recent: True
+
+[2026-09-17 16:16:34] [2026-09-17 18:23:34] Current Time: 1789669378.2602642
+
+[2026-09-17 16:16:34] [2026-09-17 18:23:34] Data Time: 1789669367.418018
+
+[2026-09-17 16:16:34] [2026-09-17 18:23:34] Age: 10.842246055603027
+
+[2026-09-17 16:16:34] [2026-09-17 18:23:47] Test has started!
+
+[2026-09-17 16:16:34] [2026-09-17 18:26:44] Test complete!
+
+[2026-09-17 16:16:34] [2026-09-17 18:26:49] Safe: True
+
+[2026-09-17 16:16:34] [2026-09-17 18:26:49] Recent: True
+
+[2026-09-17 16:16:34] [2026-09-17 18:26:49] Current Time: 1789669574.0629158
+
+[2026-09-17 16:16:34] [2026-09-17 18:26:49] Data Time: 1789669563.3332148
+
+[2026-09-17 16:16:34] [2026-09-17 18:26:49] Age: 10.729701042175293
+
+[2026-09-17 16:16:34] [2026-09-17 18:30:30] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 18:30:30] 0
+
+[2026-09-17 16:16:34] [2026-09-17 18:30:30] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:32:49] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 18:32:49] 0
+
+[2026-09-17 16:16:34] [2026-09-17 18:32:49] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:34:17] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 18:34:17] 1
+
+[2026-09-17 16:16:34] [2026-09-17 18:34:17] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:36:36] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 18:36:36] 1
+
+[2026-09-17 16:16:34] [2026-09-17 18:36:36] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:38:05] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 18:38:05] 2
+
+[2026-09-17 16:16:34] [2026-09-17 18:38:05] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:40:24] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 18:40:24] 2
+
+[2026-09-17 16:16:34] [2026-09-17 18:40:24] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:41:53] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 18:41:53] 3
+
+[2026-09-17 16:16:34] [2026-09-17 18:41:53] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:44:11] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 18:44:11] 3
+
+[2026-09-17 16:16:34] [2026-09-17 18:44:11] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:45:40] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 18:45:40] 4
+
+[2026-09-17 16:16:34] [2026-09-17 18:45:40] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:47:59] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 18:47:59] 4
+
+[2026-09-17 16:16:34] [2026-09-17 18:47:59] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:49:28] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 18:49:28] 5
+
+[2026-09-17 16:16:34] [2026-09-17 18:49:28] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:51:46] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 18:51:46] 5
+
+[2026-09-17 16:16:34] [2026-09-17 18:51:46] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:53:15] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 18:53:15] 6
+
+[2026-09-17 16:16:34] [2026-09-17 18:53:15] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:55:34] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 18:55:34] 6
+
+[2026-09-17 16:16:34] [2026-09-17 18:55:34] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:57:03] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 18:57:03] 7
+
+[2026-09-17 16:16:34] [2026-09-17 18:57:03] 10
+
+[2026-09-17 16:16:34] [2026-09-17 18:59:21] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 18:59:21] 7
+
+[2026-09-17 16:16:34] [2026-09-17 18:59:21] 10
+
+[2026-09-17 16:16:34] [2026-09-17 19:00:50] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 19:00:50] 8
+
+[2026-09-17 16:16:34] [2026-09-17 19:00:50] 10
+
+[2026-09-17 16:16:34] [2026-09-17 19:03:09] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 19:03:09] 8
+
+[2026-09-17 16:16:34] [2026-09-17 19:03:09] 10
+
+[2026-09-17 16:16:34] [2026-09-17 19:04:38] aspirate
+
+[2026-09-17 16:16:34] [2026-09-17 19:04:38] 9
+
+[2026-09-17 16:16:34] [2026-09-17 19:04:38] 10
+
+[2026-09-17 16:16:34] [2026-09-17 19:07:13] dispense
+
+[2026-09-17 16:16:34] [2026-09-17 19:07:13] 9
+
+[2026-09-17 16:16:34] [2026-09-17 19:07:13] 10
+
+[2026-09-17 16:16:34] [2026-09-17 19:07:13] 2291.9256429281086
+
+[2026-09-17 16:16:34] [2026-09-17 19:14:04] entered if statement!!!
+
+[2026-09-17 16:16:34] [2026-09-17 19:15:35] Bottle inventory after preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 24680.0, 'dead_volume_uL': 2000.0, 'available_uL': 22680.0}, 'solvent': {'remaining_uL': 42957.0, 'dead_volume_uL': 2000.0, 'available_uL': 40957.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-09-17 16:16:34] [2026-09-17 19:15:35] Joined both subprocesses.
+
+[2026-09-17 16:16:34] [2026-09-17 19:16:22] Pullcast complete.
+
+[2026-09-17 16:16:34] [2026-09-17 19:16:22] Nitrogen on.
+
+[2026-09-17 16:16:34] [2026-09-17 19:25:45] Nitrogen off.
+
+[2026-09-17 16:16:34] [2026-09-17 19:25:45] Membrane air data: {'temperature': '26.02', 'humidity': '43.76'}
+
+[2026-09-17 16:16:34] [2026-09-17 19:25:45] Ambient air data: {'temperature': '26.01', 'humidity': '47.28'}
+
+[2026-09-17 16:16:34] [2026-09-17 19:25:56] Membrane sitting in bath for 1450 seconds.
+
+[2026-09-17 16:16:34] [2026-09-17 19:26:05] Nitrogen cap has been put away.
+
+[2026-09-17 16:16:34] [2026-09-17 19:26:20] Ring has been placed on the coupon.
+
+[2026-09-17 16:16:34] [2026-09-17 19:26:20] Cleaning knife
+
+[2026-09-17 16:16:34] [2026-09-17 19:27:20] Knife cleaning finished.
+
+[2026-09-17 16:16:34] [2026-09-17 20:00:48] Initial membrane picture taken.
+
+[2026-09-17 16:16:34] [2026-09-17 20:01:17] Test has started!
+
+[2026-09-17 16:16:34] [2026-09-17 20:04:34] Test complete!
+
+[2026-09-17 16:16:34] [2026-09-17 20:04:39] Safe: True
+
+[2026-09-17 16:16:34] [2026-09-17 20:04:39] Recent: True
+
+[2026-09-17 16:16:34] [2026-09-17 20:04:39] Current Time: 1789675443.852989
+
+[2026-09-17 16:16:34] [2026-09-17 20:04:39] Data Time: 1789675432.9382708
+
+[2026-09-17 16:16:34] [2026-09-17 20:04:39] Age: 10.91471815109253
+
+[2026-09-17 16:16:34] [2026-09-17 20:04:52] Test has started!
+
+[2026-09-17 16:16:34] [2026-09-17 20:08:11] Test complete!
+
+[2026-09-17 16:16:34] [2026-09-17 20:08:16] Safe: True
+
+[2026-09-17 16:16:34] [2026-09-17 20:08:16] Recent: True
+
+[2026-09-17 16:16:34] [2026-09-17 20:08:16] Current Time: 1789675660.5510123
+
+[2026-09-17 16:16:34] [2026-09-17 20:08:16] Data Time: 1789675649.8033597
+
+[2026-09-17 16:16:34] [2026-09-17 20:08:16] Age: 10.747652530670166
+
+[2026-09-17 16:16:34] [2026-09-17 20:08:29] Test has started!
+
+[2026-09-17 16:16:34] [2026-09-17 20:11:50] Test complete!
+
+[2026-09-17 16:16:34] [2026-09-17 20:11:55] Safe: True
+
+[2026-09-17 16:16:34] [2026-09-17 20:11:55] Recent: True
+
+[2026-09-17 16:16:34] [2026-09-17 20:11:55] Current Time: 1789675879.8630755
+
+[2026-09-17 16:16:34] [2026-09-17 20:11:55] Data Time: 1789675869.1896098
+
+[2026-09-17 16:16:34] [2026-09-17 20:11:55] Age: 10.673465728759766
+
+[2026-09-17 16:16:34] [2026-09-17 20:12:08] Test has started!
+
+[2026-09-17 16:16:34] [2026-09-17 20:15:28] Test complete!
+
+[2026-09-17 16:16:34] [2026-09-17 20:15:33] Safe: True
+
+[2026-09-17 16:16:34] [2026-09-17 20:15:33] Recent: True
+
+[2026-09-17 16:16:34] [2026-09-17 20:15:33] Current Time: 1789676097.6091533
+
+[2026-09-17 16:16:34] [2026-09-17 20:15:33] Data Time: 1789676086.8403244
+
+[2026-09-17 16:16:34] [2026-09-17 20:15:33] Age: 10.768828868865967
+
+[2026-09-17 16:16:34] [2026-09-17 20:16:07] Final membrane picture taken.
+
+[2026-09-17 16:16:34] [2026-09-17 20:16:25] Coupon successfully discarded.
+
+[2026-09-17 16:16:34] [2026-09-17 20:17:10] Done
+
+[2026-09-17 16:16:34] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-09-17 16:16:34] 
+[1/5] organising files...
+
+[2026-09-17 16:16:34] [START] condition=17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s
+
+[2026-09-17 16:16:34] [2/5] processing pipeline for: 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s
+
+[2026-09-17 16:16:34] ==============================================================================================================
+
+[2026-09-17 16:16:34] Condition: 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s | pairs: 4
+
+[2026-09-17 16:16:35] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 16:16:35] Average Standard Deviation: 44.86867413148617
+
+[2026-09-17 16:16:35] Toe end strain (zero point): 0.0245
+
+[2026-09-17 16:16:38] PW + Double: 0.06751971750190931
+
+[2026-09-17 16:16:38] Piecewise Chosen! 0.06438916399054893 | Drop Calculation: 0.06198632620310198
+
+[2026-09-17 16:16:51]   elastic_r2                          28/30  NRMSE-score=0.926 (RMSE=3.58, range=48.09)
+
+[2026-09-17 16:16:51]   plateau_r2_start                    14/15  R²(first 40%)=0.947
+
+[2026-09-17 16:16:51]   densification_r2                    15/15  R²=0.973
+
+[2026-09-17 16:16:51]   yield_accuracy                      25/25  elastic tail undershoots data by 2.7% of elastic range
+
+[2026-09-17 16:16:51]   junction_continuity                 13/15  gap=2.5%
+
+[2026-09-17 16:16:51]   plateau_r2_full_penalty              0/0  R²(full)=0.981
+
+[2026-09-17 16:16:51]   elastic_modulus_penalty              0/0  E=958.9 bar ok
+
+[2026-09-17 16:16:51]   bp1_accuracy_penalty                -35/0  plateau spans 58% of remaining stress — elastic peak likely wrong | GAM slope drops 49% in early plateau — bp1 suspect
+
+[2026-09-17 16:16:51]   changepoint_curvature_penalty        0/0  d2_norm=5.07, linear_stretch=53%
+
+[2026-09-17 16:16:51]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.29 — good separation
+
+[2026-09-17 16:16:51]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-09-17 16:16:51]     elastic_half_consistency: first-half R²=0.421 vs second-half R²=0.860 (gap=0.439)
+
+[2026-09-17 16:16:51] Score: 60/100 → FAIL
+
+[2026-09-17 16:16:51] Elastic Modulus: 958.91 bar
+
+[2026-09-17 16:16:51] Pore Fraction: 0.2722
+
+[2026-09-17 16:16:51] Good Fit: False
+
+[2026-09-17 16:16:52] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 16:16:52] Average Standard Deviation: 47.34400598409417
+
+[2026-09-17 16:16:53] Toe end strain (zero point): 0.0000
+
+[2026-09-17 16:16:58] PW + Double: 0.09861150012997227
+
+[2026-09-17 16:16:58] Piecewise Chosen! 0.09365174451555866 | Drop Calculation: 0.10690129792046069
+
+[2026-09-17 16:17:06]   elastic_r2                          29/30  NRMSE-score=0.954 (RMSE=2.44, range=53.16)
+
+[2026-09-17 16:17:06]   plateau_r2_start                    14/15  R²(first 40%)=0.947
+
+[2026-09-17 16:17:06]   densification_r2                    15/15  R²=0.971
+
+[2026-09-17 16:17:06]   yield_accuracy                      25/25  elastic tail undershoots data by 2.1% of elastic range
+
+[2026-09-17 16:17:06]   junction_continuity                 12/15  gap=3.1%
+
+[2026-09-17 16:17:06]   plateau_r2_full_penalty              0/0  R²(full)=0.987
+
+[2026-09-17 16:17:06]   elastic_modulus_penalty              0/0  E=620.2 bar ok
+
+[2026-09-17 16:17:06]   bp1_accuracy_penalty                -5/0  plateau spans 50% of remaining stress — ok | GAM slope drops 52% in early plateau — bp1 suspect
+
+[2026-09-17 16:17:06]   changepoint_curvature_penalty        0/0  d2_norm=2.83, linear_stretch=27%
+
+[2026-09-17 16:17:06]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.44 — good separation
+
+[2026-09-17 16:17:06] Score: 90/100 → PASS
+
+[2026-09-17 16:17:06] Elastic Modulus: 620.20 bar
+
+[2026-09-17 16:17:06] Pore Fraction: 0.2668
+
+[2026-09-17 16:17:07] Good Fit: True
+
+[2026-09-17 16:17:07] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 16:17:07] Average Standard Deviation: 44.885489340813024
+
+[2026-09-17 16:17:07] Toe end strain (zero point): 0.0132
+
+[2026-09-17 16:17:10] PW + Double: 0.06831095807455607
+
+[2026-09-17 16:17:10] Piecewise Chosen! 0.013621132319450082 | Drop Calculation: 0.06314316267641451
+
+[2026-09-17 16:17:22]   elastic_r2                          27/30  NRMSE-score=0.893 (RMSE=0.57, range=5.35)
+
+[2026-09-17 16:17:22]   plateau_r2_start                     0/15  insufficient data
+
+[2026-09-17 16:17:22]   densification_r2                     0/15  insufficient data
+
+[2026-09-17 16:17:22]   yield_accuracy                      25/25  elastic tail undershoots data by 7.5% of elastic range
+
+[2026-09-17 16:17:22]   junction_continuity                  7/15  gap=7.6%
+
+[2026-09-17 16:17:22]   elastic_modulus_penalty              0/0  E=167.0 bar ok
+
+[2026-09-17 16:17:22]   bp1_accuracy_penalty                 0/0  
+
+[2026-09-17 16:17:22]   catastrophic_slope_vs_modulus        0/0  slope ratio=3.90 — plateau slope ≥95% of elastic
+
+[2026-09-17 16:17:22]   catastrophic_slope_ordering          0/0  densif=510.1 <= plateau=651.0
+
+[2026-09-17 16:17:22]   CATASTROPHIC HALVING: 59 → 30
+
+[2026-09-17 16:17:22]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-09-17 16:17:22]     elastic_half_consistency: first-half R²=-1.307 vs second-half R²=0.128 (gap=1.435)
+
+[2026-09-17 16:17:22] Score: 30/100 → FAIL
+
+[2026-09-17 16:17:27] PW + Double: 0.06368967735353674
+
+[2026-09-17 16:17:27] Piecewise Chosen! 0.06371838886758845 | Drop Calculation: 0.06798381036951695
+
+[2026-09-17 16:17:38]   elastic_r2                          28/30  NRMSE-score=0.934 (RMSE=3.02, range=45.54)
+
+[2026-09-17 16:17:38]   plateau_r2_start                    14/15  R²(first 40%)=0.943
+
+[2026-09-17 16:17:38]   densification_r2                    15/15  R²=0.968
+
+[2026-09-17 16:17:38]   yield_accuracy                      25/25  elastic tail overshoots data by 1.9% of elastic range
+
+[2026-09-17 16:17:38]   junction_continuity                 15/15  gap=0.1%
+
+[2026-09-17 16:17:38]   plateau_r2_full_penalty              0/0  R²(full)=0.986
+
+[2026-09-17 16:17:38]   elastic_modulus_penalty              0/0  E=935.6 bar ok
+
+[2026-09-17 16:17:38]   bp1_accuracy_penalty                -5/0  plateau spans 48% of remaining stress — ok | GAM slope drops 59% in early plateau — bp1 suspect
+
+[2026-09-17 16:17:38]   changepoint_curvature_penalty        0/0  d2_norm=3.38, linear_stretch=13%
+
+[2026-09-17 16:17:38]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.23 — good separation
+
+[2026-09-17 16:17:38] Score: 92/100 → PASS
+
+[2026-09-17 16:17:38]   toe-mask retry: masked strain < 0.0136, good=True
+
+[2026-09-17 16:17:38] Elastic Modulus: 935.59 bar
+
+[2026-09-17 16:17:38] Pore Fraction: 0.2791
+
+[2026-09-17 16:17:39] Good Fit: True
+
+[2026-09-17 16:17:40] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 16:17:40] Average Standard Deviation: 44.490347153335236
+
+[2026-09-17 16:17:43] Toe end strain (zero point): 0.0000
+
+[2026-09-17 16:17:48] PW + Double: 0.023859493957765977
+
+[2026-09-17 16:17:48] Piecewise Chosen! 0.018572038230469948 | Drop Calculation: 0.035706526640586045
+
+[2026-09-17 16:18:01]   elastic_r2                          25/30  NRMSE-score=0.839 (RMSE=7.02, range=43.61)
+
+[2026-09-17 16:18:01]   plateau_r2_start                    14/15  R²(first 40%)=0.941
+
+[2026-09-17 16:18:01]   densification_r2                    15/15  R²=0.971
+
+[2026-09-17 16:18:01]   yield_accuracy                      25/25  elastic tail undershoots data by 4.7% of elastic range
+
+[2026-09-17 16:18:01]   junction_continuity                  8/15  gap=7.0%
+
+[2026-09-17 16:18:01]   plateau_r2_full_penalty              0/0  R²(full)=0.973
+
+[2026-09-17 16:18:01]   elastic_modulus_penalty              0/0  E=1137.6 bar ok
+
+[2026-09-17 16:18:01]   bp1_accuracy_penalty                -50/0  plateau spans 59% of remaining stress — elastic peak likely wrong | GAM slope drops 73% in early plateau — bp1 too early
+
+[2026-09-17 16:18:01]   changepoint_curvature_penalty        0/0  d2_norm=3.27, linear_stretch=20%
+
+[2026-09-17 16:18:01]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.24 — good separation
+
+[2026-09-17 16:18:01]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-09-17 16:18:01]     elastic_half_consistency: first-half R²=-1.808 vs second-half R²=0.616 (gap=2.424)
+
+[2026-09-17 16:18:01] Score: 37/100 → FAIL
+
+[2026-09-17 16:18:01] Elastic Modulus: 1137.56 bar
+
+[2026-09-17 16:18:01] Pore Fraction: 0.2451
+
+[2026-09-17 16:18:01] Good Fit: False
+
+[2026-09-17 16:18:02] CV (17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s) [preDiscard]: 0.12611502444787762
+
+[2026-09-17 16:18:02] CV (17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s) [postDiscard]: 0.06458918742589176
+
+[2026-09-17 16:18:02] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 16:18:02] Average Standard Deviation: 43.894897409198215
+
+[2026-09-17 16:18:04] Toe end strain (zero point): 0.0000
+
+[2026-09-17 16:18:08] PW + Double: 0.05401019390847034
+
+[2026-09-17 16:18:08] Piecewise Chosen! 0.050894479100274434 | Drop Calculation: 0.0502488111528285
+
+[2026-09-17 16:18:16]   elastic_r2                          29/30  NRMSE-score=0.967 (RMSE=1.43, range=43.32)
+
+[2026-09-17 16:18:16]   plateau_r2_start                    15/15  R²(first 40%)=0.971
+
+[2026-09-17 16:18:16]   densification_r2                    15/15  R²=0.986
+
+[2026-09-17 16:18:16]   yield_accuracy                      25/25  elastic tail overshoots data by 0.6% of elastic range
+
+[2026-09-17 16:18:16]   junction_continuity                 12/15  gap=3.1%
+
+[2026-09-17 16:18:16]   plateau_r2_full_penalty              0/0  R²(full)=0.989
+
+[2026-09-17 16:18:16]   elastic_modulus_penalty              0/0  E=945.2 bar ok
+
+[2026-09-17 16:18:16]   bp1_accuracy_penalty                -35/0  plateau spans 58% of remaining stress — elastic peak likely wrong | GAM slope drops 55% in early plateau — bp1 suspect
+
+[2026-09-17 16:18:16]   changepoint_curvature_penalty        0/0  d2_norm=1.97, linear_stretch=63%
+
+[2026-09-17 16:18:16]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.29 — good separation
+
+[2026-09-17 16:18:16] Score: 61/100 → FAIL
+
+[2026-09-17 16:18:16] Elastic Modulus: 945.21 bar
+
+[2026-09-17 16:18:16] Pore Fraction: 0.2778
+
+[2026-09-17 16:18:16] Good Fit: False
+
+[2026-09-17 16:18:16] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 16:18:16] Average Standard Deviation: 43.894897409198215
+
+[2026-09-17 16:18:16] Toe end strain (zero point): 0.0164
+
+[2026-09-17 16:18:20] PW + Double: 0.07862359317880062
+
+[2026-09-17 16:18:20] Piecewise Chosen! 0.07446481260866288 | Drop Calculation: 0.08059200802746187
+
+[2026-09-17 16:18:28]   elastic_r2                          29/30  NRMSE-score=0.954 (RMSE=2.18, range=47.70)
+
+[2026-09-17 16:18:28]   plateau_r2_start                    15/15  R²(first 40%)=0.978
+
+[2026-09-17 16:18:28]   densification_r2                    15/15  R²=0.980
+
+[2026-09-17 16:18:28]   yield_accuracy                      25/25  elastic tail undershoots data by 1.0% of elastic range
+
+[2026-09-17 16:18:28]   junction_continuity                 13/15  gap=1.7%
+
+[2026-09-17 16:18:28]   plateau_r2_full_penalty              0/0  R²(full)=0.991
+
+[2026-09-17 16:18:28]   elastic_modulus_penalty              0/0  E=754.9 bar ok
+
+[2026-09-17 16:18:28]   bp1_accuracy_penalty                -35/0  plateau spans 55% of remaining stress — elastic peak likely wrong | GAM slope drops 51% in early plateau — bp1 suspect
+
+[2026-09-17 16:18:28]   changepoint_curvature_penalty        0/0  d2_norm=1.49, linear_stretch=57%
+
+[2026-09-17 16:18:28]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.36 — good separation
+
+[2026-09-17 16:18:28] Score: 62/100 → FAIL
+
+[2026-09-17 16:18:28] Elastic Modulus: 754.86 bar
+
+[2026-09-17 16:18:28] Pore Fraction: 0.2884
+
+[2026-09-17 16:18:28] Good Fit: False
+
+[2026-09-17 16:18:38] [3/5] generating initial report...
+
+[2026-09-17 16:18:38] [4/5] running active learning...
+
+[2026-09-17 16:19:05] LLM suggestion: I'll analyze the experimental history systematically before proposing a new experiment.
+
+## Analysis
+
+**Valid modulus measurements (with fit quality context):**
+- 17.5 wt%, 65°C, 6 mm/s, N₂, 15s, 10°C bath, 1800s → **708.9 MPa** (CV=0.129, no discarded fits noted)
+- 17.5 wt%, 25°C, 12 mm/s, N₂, 550s, 5°C bath, 1450s → **777.9 MPa** (CV=0.065, 2 discarded)
+- 17.5 wt%, 50°C, 7 mm/s, N₂, 90s, 20°C bath, 1250s → **683.3 MPa** (CV=nan, 3 discarded)
+- 18.5 wt%, 25°C, 19 mm/s, no N₂, 330s, 5°C bath, 1800s → **667.1 MPa** (CV=nan, 3 discarded)
+- 17.5 wt%, 55°C, 11 mm/s, N₂, 375s, 25°C bath, 1300s → **591.7 MPa**
+
+**Explore mode — sparse regions to target:**
+- `mixing_temp` around 25–35°C is somewhat covered; mid-range 45–55°C with bath_temp=5°C and moderate wait times is less explored for polymer_wt ~17.5
+- `bath_temp=5°C` with `polymer_wt=17.5`, `nitrogen=True`, moderate wait (~300–400s), and `nips_bath_wait_time` near 1600–1800s is underexplored
+- `pullcast_speed` around 9–11 mm/s with these conditions hasn't been tried at mixing_temp ~50°C + bath_temp=5°C + polymer_wt=17.5
+- `nips_bath_wait_time=1800s` + `bath_temp=5°C` + `polymer_wt=17.5` + moderate wait is a sparse combination
+
+**Proposed point:** mixing_temp=50°C, polymer_wt=17.5, bath_temp=5°C, pullcast_speed=9 mm/s, nitrogen=True, coupon_to_bath_wait_time=350s, nips_bath_wait_time=1800s — this is genuinely novel (no near-duplicate in the 31-point history) and explores a region combining moderate mixing temp, cold bath, extended N₂ wait, and slow-moderate cast speed that hasn't been sampled.
+
+```json
+{
+  "mixing_temp": 50,
+  "bath_temp": 5,
+  "pullcast_speed": 9,
+  "nitrogen": true,
+  "coupon_to_bath_wait_time": 350,
+  "nips_bath_wait_time": 1800,
+  "polymer_wt": 17.5,
+  "additive_wt": 0
+}
+```
+
+[2026-09-17 16:19:05]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s.json
+
+[2026-09-17 16:19:05] [5/5] next params: {'mixing_temp': 50, 'bath_temp': 5, 'pullcast_speed': 9, 'nitrogen': True, 'coupon_to_bath_wait_time': 350, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.5, 'additive_wt': 0.0, 'polymer_type': 'Primospire', 'solvent_type': 'NMP', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-17 16:19:05] Python recieved!
+
+[2026-09-17 16:19:05] Exact payload being sent: {"mixing_temp": 50, "bath_temp": 5, "pullcast_speed": 9, "nitrogen": true, "coupon_to_bath_wait_time": 350, "nips_bath_wait_time": 1800, "polymer_wt": 17.5, "additive_wt": 0.0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 16:19:05] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 50, "bath_temp": 5, "pullcast_speed": 9, "nitrogen": true, "coupon_to_bath_wait_time": 350, "nips_bath_wait_time": 1800, "polymer_wt": 17.5, "additive_wt": 0.0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 16:19:05] [DONE] 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s  elapsed=150.7s
+
+[2026-09-17 18:33:35] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:41] Recievied request for membrane with following parameters:
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:41] {'mixing_temp': 50, 'bath_temp': 5, 'pullcast_speed': 9, 'nitrogen': True, 'coupon_to_bath_wait_time': 350, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.5, 'additive_wt': 0.0, 'polymer_type': 'Primospire', 'solvent_type': 'NMP', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:41] Bath chilling process started.
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:41] Beginning zero tests on coupons.
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:41] Opentrons process started.
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:41] Target: 17.5 wt% polymer, 0 wt% additive, 1000.00 uL
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:41] Volumes (uL): polymer=824.00, polymer-additive=0.00, solvent=176.00
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:41] Bottle inventory before preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 24680.0, 'dead_volume_uL': 2000.0, 'available_uL': 22680.0}, 'solvent': {'remaining_uL': 42957.0, 'dead_volume_uL': 2000.0, 'available_uL': 40957.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:41] Current bath temperature: 4.41 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:19:52] Current bath temperature: 4.83 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:02] Current bath temperature: 5.35 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:08] Test has started!
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:12] Current bath temperature: 5.72 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:22] Current bath temperature: 5.99 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:32] Current bath temperature: 6.1 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:34] Temperature set to 50.
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:42] Current bath temperature: 5.98 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:42] Adding 176.00 uL from pure solvent.
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:45] entered if statement!!!
+
+[2026-09-17 18:33:35] [2026-09-17 20:20:52] Current bath temperature: 5.74 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:21:02] Current bath temperature: 5.49 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:21:12] Current bath temperature: 5.28 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:21:23] Current bath temperature: 5.05 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:21:23] Reached target temperature of 5 C.
+
+[2026-09-17 18:33:35] [2026-09-17 20:21:31] Adding 824.00 uL from polymer stock.
+
+[2026-09-17 18:33:35] [2026-09-17 20:23:11] Test complete!
+
+[2026-09-17 18:33:35] [2026-09-17 20:23:16] Safe: True
+
+[2026-09-17 18:33:35] [2026-09-17 20:23:16] Recent: True
+
+[2026-09-17 18:33:35] [2026-09-17 20:23:16] Current Time: 1789676560.43856
+
+[2026-09-17 18:33:35] [2026-09-17 20:23:16] Data Time: 1789676549.704424
+
+[2026-09-17 18:33:35] [2026-09-17 20:23:16] Age: 10.73413610458374
+
+[2026-09-17 18:33:35] [2026-09-17 20:23:29] Test has started!
+
+[2026-09-17 18:33:35] [2026-09-17 20:26:36] Test complete!
+
+[2026-09-17 18:33:35] [2026-09-17 20:26:41] entered if statement!!!
+
+[2026-09-17 18:33:35] [2026-09-17 20:26:41] Safe: True
+
+[2026-09-17 18:33:35] [2026-09-17 20:26:41] Recent: True
+
+[2026-09-17 18:33:35] [2026-09-17 20:26:41] Current Time: 1789676765.7643886
+
+[2026-09-17 18:33:35] [2026-09-17 20:26:41] Data Time: 1789676755.0574527
+
+[2026-09-17 18:33:35] [2026-09-17 20:26:41] Age: 10.70693588256836
+
+[2026-09-17 18:33:35] [2026-09-17 20:26:54] Test has started!
+
+[2026-09-17 18:33:35] [2026-09-17 20:29:57] Test complete!
+
+[2026-09-17 18:33:35] [2026-09-17 20:30:02] Safe: True
+
+[2026-09-17 18:33:35] [2026-09-17 20:30:02] Recent: True
+
+[2026-09-17 18:33:35] [2026-09-17 20:30:02] Current Time: 1789676966.5391686
+
+[2026-09-17 18:33:35] [2026-09-17 20:30:02] Data Time: 1789676955.7954998
+
+[2026-09-17 18:33:35] [2026-09-17 20:30:02] Age: 10.743668794631958
+
+[2026-09-17 18:33:35] [2026-09-17 20:30:15] Test has started!
+
+[2026-09-17 18:33:35] [2026-09-17 20:33:17] Test complete!
+
+[2026-09-17 18:33:35] [2026-09-17 20:33:22] Safe: True
+
+[2026-09-17 18:33:35] [2026-09-17 20:33:22] Recent: True
+
+[2026-09-17 18:33:35] [2026-09-17 20:33:22] Current Time: 1789677166.607999
+
+[2026-09-17 18:33:35] [2026-09-17 20:33:22] Data Time: 1789677155.8854153
+
+[2026-09-17 18:33:35] [2026-09-17 20:33:22] Age: 10.722583770751953
+
+[2026-09-17 18:33:35] [2026-09-17 20:37:21] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 20:37:21] 0
+
+[2026-09-17 18:33:35] [2026-09-17 20:37:21] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:39:40] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 20:39:40] 0
+
+[2026-09-17 18:33:35] [2026-09-17 20:39:40] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:41:09] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 20:41:09] 1
+
+[2026-09-17 18:33:35] [2026-09-17 20:41:09] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:43:28] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 20:43:28] 1
+
+[2026-09-17 18:33:35] [2026-09-17 20:43:28] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:44:56] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 20:44:56] 2
+
+[2026-09-17 18:33:35] [2026-09-17 20:44:56] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:47:15] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 20:47:15] 2
+
+[2026-09-17 18:33:35] [2026-09-17 20:47:15] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:48:44] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 20:48:44] 3
+
+[2026-09-17 18:33:35] [2026-09-17 20:48:44] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:51:03] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 20:51:03] 3
+
+[2026-09-17 18:33:35] [2026-09-17 20:51:03] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:52:32] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 20:52:32] 4
+
+[2026-09-17 18:33:35] [2026-09-17 20:52:32] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:54:50] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 20:54:50] 4
+
+[2026-09-17 18:33:35] [2026-09-17 20:54:50] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:56:19] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 20:56:19] 5
+
+[2026-09-17 18:33:35] [2026-09-17 20:56:19] 10
+
+[2026-09-17 18:33:35] [2026-09-17 20:58:38] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 20:58:38] 5
+
+[2026-09-17 18:33:35] [2026-09-17 20:58:38] 10
+
+[2026-09-17 18:33:35] [2026-09-17 21:00:07] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 21:00:07] 6
+
+[2026-09-17 18:33:35] [2026-09-17 21:00:07] 10
+
+[2026-09-17 18:33:35] [2026-09-17 21:02:25] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 21:02:25] 6
+
+[2026-09-17 18:33:35] [2026-09-17 21:02:25] 10
+
+[2026-09-17 18:33:35] [2026-09-17 21:03:54] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 21:03:54] 7
+
+[2026-09-17 18:33:35] [2026-09-17 21:03:54] 10
+
+[2026-09-17 18:33:35] [2026-09-17 21:06:13] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 21:06:13] 7
+
+[2026-09-17 18:33:35] [2026-09-17 21:06:13] 10
+
+[2026-09-17 18:33:35] [2026-09-17 21:07:42] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 21:07:42] 8
+
+[2026-09-17 18:33:35] [2026-09-17 21:07:42] 10
+
+[2026-09-17 18:33:35] [2026-09-17 21:10:00] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 21:10:00] 8
+
+[2026-09-17 18:33:35] [2026-09-17 21:10:00] 10
+
+[2026-09-17 18:33:35] [2026-09-17 21:11:29] aspirate
+
+[2026-09-17 18:33:35] [2026-09-17 21:11:29] 9
+
+[2026-09-17 18:33:35] [2026-09-17 21:11:29] 10
+
+[2026-09-17 18:33:35] [2026-09-17 21:14:04] dispense
+
+[2026-09-17 18:33:35] [2026-09-17 21:14:04] 9
+
+[2026-09-17 18:33:35] [2026-09-17 21:14:04] 10
+
+[2026-09-17 18:33:35] [2026-09-17 21:14:04] 2291.7559978235513
+
+[2026-09-17 18:33:35] [2026-09-17 21:14:04] Cooling mixing module to 25 C before casting.
+
+[2026-09-17 18:33:35] [2026-09-17 21:19:12] Temperature set to 25.
+
+[2026-09-17 18:33:35] [2026-09-17 21:19:12] Waiting 2 minutes at 25 C before casting.
+
+[2026-09-17 18:33:35] [2026-09-17 21:28:03] entered if statement!!!
+
+[2026-09-17 18:33:35] [2026-09-17 21:29:35] Bottle inventory after preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 23856.0, 'dead_volume_uL': 2000.0, 'available_uL': 21856.0}, 'solvent': {'remaining_uL': 42781.0, 'dead_volume_uL': 2000.0, 'available_uL': 40781.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-09-17 18:33:35] [2026-09-17 21:29:35] Joined both subprocesses.
+
+[2026-09-17 18:33:35] [2026-09-17 21:30:24] Pullcast complete.
+
+[2026-09-17 18:33:35] [2026-09-17 21:30:24] Nitrogen on.
+
+[2026-09-17 18:33:35] [2026-09-17 21:36:27] Nitrogen off.
+
+[2026-09-17 18:33:35] [2026-09-17 21:36:27] Membrane air data: {'temperature': '25.45', 'humidity': '42.75'}
+
+[2026-09-17 18:33:35] [2026-09-17 21:36:27] Ambient air data: {'temperature': '25.58', 'humidity': '47.44'}
+
+[2026-09-17 18:33:35] [2026-09-17 21:36:38] Membrane sitting in bath for 1800 seconds.
+
+[2026-09-17 18:33:35] [2026-09-17 21:36:48] Nitrogen cap has been put away.
+
+[2026-09-17 18:33:35] [2026-09-17 21:37:03] Ring has been placed on the coupon.
+
+[2026-09-17 18:33:35] [2026-09-17 21:37:03] Cleaning knife
+
+[2026-09-17 18:33:35] [2026-09-17 21:38:03] Knife cleaning finished.
+
+[2026-09-17 18:33:35] [2026-09-17 22:17:19] Initial membrane picture taken.
+
+[2026-09-17 18:33:35] [2026-09-17 22:17:49] Test has started!
+
+[2026-09-17 18:33:35] [2026-09-17 22:21:13] Test complete!
+
+[2026-09-17 18:33:35] [2026-09-17 22:21:18] Safe: True
+
+[2026-09-17 18:33:35] [2026-09-17 22:21:18] Recent: True
+
+[2026-09-17 18:33:35] [2026-09-17 22:21:18] Current Time: 1789683642.81855
+
+[2026-09-17 18:33:35] [2026-09-17 22:21:18] Data Time: 1789683632.0229237
+
+[2026-09-17 18:33:35] [2026-09-17 22:21:18] Age: 10.795626401901245
+
+[2026-09-17 18:33:35] [2026-09-17 22:21:31] Test has started!
+
+[2026-09-17 18:33:35] [2026-09-17 22:24:58] Test complete!
+
+[2026-09-17 18:33:35] [2026-09-17 22:25:03] Safe: True
+
+[2026-09-17 18:33:35] [2026-09-17 22:25:03] Recent: True
+
+[2026-09-17 18:33:35] [2026-09-17 22:25:03] Current Time: 1789683867.6533349
+
+[2026-09-17 18:33:35] [2026-09-17 22:25:03] Data Time: 1789683856.8748648
+
+[2026-09-17 18:33:35] [2026-09-17 22:25:03] Age: 10.778470039367676
+
+[2026-09-17 18:33:35] [2026-09-17 22:25:16] Test has started!
+
+[2026-09-17 18:33:35] [2026-09-17 22:28:40] Test complete!
+
+[2026-09-17 18:33:35] [2026-09-17 22:28:45] Safe: True
+
+[2026-09-17 18:33:35] [2026-09-17 22:28:45] Recent: True
+
+[2026-09-17 18:33:35] [2026-09-17 22:28:45] Current Time: 1789684089.8225017
+
+[2026-09-17 18:33:35] [2026-09-17 22:28:45] Data Time: 1789684079.0673316
+
+[2026-09-17 18:33:35] [2026-09-17 22:28:45] Age: 10.755170106887817
+
+[2026-09-17 18:33:35] [2026-09-17 22:28:58] Test has started!
+
+[2026-09-17 18:33:35] [2026-09-17 22:32:29] Test complete!
+
+[2026-09-17 18:33:35] [2026-09-17 22:32:34] Safe: True
+
+[2026-09-17 18:33:35] [2026-09-17 22:32:34] Recent: True
+
+[2026-09-17 18:33:35] [2026-09-17 22:32:34] Current Time: 1789684318.236064
+
+[2026-09-17 18:33:35] [2026-09-17 22:32:34] Data Time: 1789684307.5331142
+
+[2026-09-17 18:33:35] [2026-09-17 22:32:34] Age: 10.70294976234436
+
+[2026-09-17 18:33:35] [2026-09-17 22:33:08] Final membrane picture taken.
+
+[2026-09-17 18:33:35] [2026-09-17 22:33:25] Coupon successfully discarded.
+
+[2026-09-17 18:33:35] [2026-09-17 22:34:11] Done
+
+[2026-09-17 18:33:35] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-09-17 18:33:35] 
+[1/5] organising files...
+
+[2026-09-17 18:33:35] [START] condition=17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-350s-N2-1800s
+
+[2026-09-17 18:33:35] [2/5] processing pipeline for: 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-350s-N2-1800s
+
+[2026-09-17 18:33:35] ==============================================================================================================
+
+[2026-09-17 18:33:35] Condition: 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-350s-N2-1800s | pairs: 4
+
+[2026-09-17 18:33:35] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 18:33:35] Average Standard Deviation: 48.32325727414444
+
+[2026-09-17 18:33:37] Toe end strain (zero point): 0.0000
+
+[2026-09-17 18:33:43] PW + Double: 0.11802609264300654
+
+[2026-09-17 18:33:43] Piecewise Chosen! 0.11515336588906112 | Drop Calculation: 0.09520203372054063
+
+[2026-09-17 18:33:51]   elastic_r2                          29/30  NRMSE-score=0.973 (RMSE=1.37, range=50.97)
+
+[2026-09-17 18:33:51]   plateau_r2_start                    13/15  R²(first 40%)=0.866
+
+[2026-09-17 18:33:51]   densification_r2                    14/15  R²=0.911
+
+[2026-09-17 18:33:51]   yield_accuracy                      25/25  elastic tail undershoots data by 0.3% of elastic range
+
+[2026-09-17 18:33:51]   junction_continuity                 14/15  gap=0.8%
+
+[2026-09-17 18:33:51]   plateau_r2_full_penalty              0/0  R²(full)=0.938
+
+[2026-09-17 18:33:51]   elastic_modulus_penalty              0/0  E=446.1 bar ok
+
+[2026-09-17 18:33:51]   bp1_accuracy_penalty                -30/0  plateau spans 71% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=22%) — ok
+
+[2026-09-17 18:33:51]   changepoint_curvature_penalty        0/0  d2_norm=8.36, linear_stretch=23%
+
+[2026-09-17 18:33:51]   slope_ratio_penalty                 -8/0  plateau/elastic slope ratio=0.68 — nearly parallel (-8 pts)
+
+[2026-09-17 18:33:51] Score: 57/100 → FAIL
+
+[2026-09-17 18:33:51] Elastic Modulus: 446.07 bar
+
+[2026-09-17 18:33:51] Pore Fraction: 0.3422
+
+[2026-09-17 18:33:52] Good Fit: False
+
+[2026-09-17 18:33:52] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 18:33:52] Average Standard Deviation: 48.89438091579084
+
+[2026-09-17 18:33:52] Toe end strain (zero point): 0.0232
+
+[2026-09-17 18:33:57] PW + Double: 0.13035663048249005
+
+[2026-09-17 18:33:57] Piecewise Chosen! 0.140129168898058 | Drop Calculation: 0.21367840707648028
+
+[2026-09-17 18:34:07]   elastic_r2                          29/30  NRMSE-score=0.965 (RMSE=1.96, range=55.65)
+
+[2026-09-17 18:34:07]   plateau_r2_start                    14/15  R²(first 40%)=0.962
+
+[2026-09-17 18:34:07]   densification_r2                    14/15  R²=0.959
+
+[2026-09-17 18:34:07]   yield_accuracy                      25/25  elastic tail undershoots data by 0.9% of elastic range
+
+[2026-09-17 18:34:07]   junction_continuity                 15/15  gap=0.4%
+
+[2026-09-17 18:34:07]   plateau_r2_full_penalty              0/0  R²(full)=0.980
+
+[2026-09-17 18:34:07]   elastic_modulus_penalty              0/0  E=431.3 bar ok
+
+[2026-09-17 18:34:07]   bp1_accuracy_penalty                -5/0  plateau spans 48% of remaining stress — ok | GAM slope drops 48% in early plateau — bp1 suspect
+
+[2026-09-17 18:34:07]   changepoint_curvature_penalty        0/0  d2_norm=1.14, linear_stretch=23%
+
+[2026-09-17 18:34:07]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.56 — good separation
+
+[2026-09-17 18:34:07] Score: 92/100 → PASS
+
+[2026-09-17 18:34:07] Elastic Modulus: 431.31 bar
+
+[2026-09-17 18:34:07] Pore Fraction: 0.3247
+
+[2026-09-17 18:34:07] Good Fit: True
+
+[2026-09-17 18:34:08] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 18:34:08] Average Standard Deviation: 48.31712196184289
+
+[2026-09-17 18:34:08] Toe end strain (zero point): 0.0331
+
+[2026-09-17 18:34:12] PW + Double: 0.1106145032421161
+
+[2026-09-17 18:34:12] Piecewise Chosen! 0.12208776815072195 | Drop Calculation: 0.09624838069772597
+
+[2026-09-17 18:34:19]   elastic_r2                          28/30  NRMSE-score=0.941 (RMSE=3.26, range=55.59)
+
+[2026-09-17 18:34:19]   plateau_r2_start                    14/15  R²(first 40%)=0.948
+
+[2026-09-17 18:34:19]   densification_r2                    15/15  R²=0.975
+
+[2026-09-17 18:34:19]   yield_accuracy                      25/25  elastic tail undershoots data by 2.1% of elastic range
+
+[2026-09-17 18:34:19]   junction_continuity                 14/15  gap=0.8%
+
+[2026-09-17 18:34:19]   plateau_r2_full_penalty              0/0  R²(full)=0.984
+
+[2026-09-17 18:34:19]   elastic_modulus_penalty              0/0  E=539.2 bar ok
+
+[2026-09-17 18:34:19]   bp1_accuracy_penalty                -5/0  plateau spans 48% of remaining stress — ok | GAM slope drops 57% in early plateau — bp1 suspect
+
+[2026-09-17 18:34:19]   changepoint_curvature_penalty        0/0  d2_norm=1.62, linear_stretch=20%
+
+[2026-09-17 18:34:19]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.42 — good separation
+
+[2026-09-17 18:34:19]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-09-17 18:34:19]     elastic_half_consistency: first-half R²=0.576 vs second-half R²=0.959 (gap=0.383)
+
+[2026-09-17 18:34:19] Score: 91/100 → PASS
+
+[2026-09-17 18:34:19] Elastic Modulus: 539.22 bar
+
+[2026-09-17 18:34:19] Pore Fraction: 0.3124
+
+[2026-09-17 18:34:20] Good Fit: True
+
+[2026-09-17 18:34:20] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 18:34:20] Average Standard Deviation: 50.61139564835612
+
+[2026-09-17 18:34:20] Toe end strain (zero point): 0.0533
+
+[2026-09-17 18:34:25] PW + Double: 0.12505996804690706
+
+[2026-09-17 18:34:25] Piecewise Chosen! 0.1574446426495272 | Drop Calculation: 0.10797037020351645
+
+[2026-09-17 18:34:34]   elastic_r2                          28/30  NRMSE-score=0.930 (RMSE=4.24, range=60.21)
+
+[2026-09-17 18:34:34]   plateau_r2_start                    14/15  R²(first 40%)=0.950
+
+[2026-09-17 18:34:34]   densification_r2                    15/15  R²=0.976
+
+[2026-09-17 18:34:34]   yield_accuracy                      25/25  elastic tail undershoots data by 3.2% of elastic range
+
+[2026-09-17 18:34:34]   junction_continuity                 15/15  gap=0.3%
+
+[2026-09-17 18:34:34]   plateau_r2_full_penalty              0/0  R²(full)=0.979
+
+[2026-09-17 18:34:34]   elastic_modulus_penalty              0/0  E=446.4 bar ok
+
+[2026-09-17 18:34:34]   bp1_accuracy_penalty                 0/0  plateau spans 43% of remaining stress — ok | GAM slope stable in early plateau (drop=24%) — ok
+
+[2026-09-17 18:34:34]   changepoint_curvature_penalty        0/0  d2_norm=1.99, linear_stretch=30%
+
+[2026-09-17 18:34:34]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.51 — good separation
+
+[2026-09-17 18:34:34]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-09-17 18:34:34]     elastic_half_consistency: first-half R²=0.155 vs second-half R²=0.957 (gap=0.802)
+
+[2026-09-17 18:34:34] Score: 97/100 → PASS
+
+[2026-09-17 18:34:34] Elastic Modulus: 446.37 bar
+
+[2026-09-17 18:34:34] Pore Fraction: 0.3226
+
+[2026-09-17 18:34:35] Good Fit: True
+
+[2026-09-17 18:34:35] CV (17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-350s-N2-1800s) [preDiscard]: 0.04918385722538269
+
+[2026-09-17 18:34:35] CV (17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-350s-N2-1800s) [postDiscard]: 0.04206700187168531
+
+[2026-09-17 18:34:36] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 18:34:36] Average Standard Deviation: 44.113119140425525
+
+[2026-09-17 18:34:36] Toe end strain (zero point): 0.0281
+
+[2026-09-17 18:34:40] PW + Double: 0.11464945814918862
+
+[2026-09-17 18:34:40] Piecewise Chosen! 0.12460388638338674 | Drop Calculation: 0.09200138188975972
+
+[2026-09-17 18:34:48]   elastic_r2                          29/30  NRMSE-score=0.967 (RMSE=1.69, range=51.48)
+
+[2026-09-17 18:34:48]   plateau_r2_start                    15/15  R²(first 40%)=0.993
+
+[2026-09-17 18:34:48]   densification_r2                    15/15  R²=0.986
+
+[2026-09-17 18:34:48]   yield_accuracy                      25/25  elastic tail undershoots data by 0.1% of elastic range
+
+[2026-09-17 18:34:48]   junction_continuity                 15/15  gap=0.2%
+
+[2026-09-17 18:34:48]   plateau_r2_full_penalty              0/0  R²(full)=0.992
+
+[2026-09-17 18:34:48]   elastic_modulus_penalty              0/0  E=490.9 bar ok
+
+[2026-09-17 18:34:48]   bp1_accuracy_penalty                -35/0  plateau spans 51% of remaining stress — elastic peak likely wrong | GAM slope drops 42% in early plateau — bp1 suspect
+
+[2026-09-17 18:34:48]   changepoint_curvature_penalty        0/0  d2_norm=2.96, linear_stretch=33%
+
+[2026-09-17 18:34:48]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.51 — good separation
+
+[2026-09-17 18:34:48] Score: 64/100 → FAIL
+
+[2026-09-17 18:34:48] Elastic Modulus: 490.86 bar
+
+[2026-09-17 18:34:48] Pore Fraction: 0.3306
+
+[2026-09-17 18:34:49] Good Fit: False
+
+[2026-09-17 18:34:49] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 18:34:49] Average Standard Deviation: 44.14697286042681
+
+[2026-09-17 18:34:49] Toe end strain (zero point): 0.0408
+
+[2026-09-17 18:34:54] PW + Double: 0.11735011251839865
+
+[2026-09-17 18:34:54] Piecewise Chosen! 0.12963710919301427 | Drop Calculation: 0.0933540586850481
+
+[2026-09-17 18:35:01]   elastic_r2                          29/30  NRMSE-score=0.960 (RMSE=2.13, range=52.98)
+
+[2026-09-17 18:35:01]   plateau_r2_start                    15/15  R²(first 40%)=0.990
+
+[2026-09-17 18:35:01]   densification_r2                    15/15  R²=0.986
+
+[2026-09-17 18:35:01]   yield_accuracy                      25/25  elastic tail undershoots data by 0.3% of elastic range
+
+[2026-09-17 18:35:01]   junction_continuity                 15/15  gap=0.4%
+
+[2026-09-17 18:35:01]   plateau_r2_full_penalty              0/0  R²(full)=0.991
+
+[2026-09-17 18:35:01]   elastic_modulus_penalty              0/0  E=505.5 bar ok
+
+[2026-09-17 18:35:01]   bp1_accuracy_penalty                -35/0  plateau spans 50% of remaining stress — elastic peak likely wrong | GAM slope drops 45% in early plateau — bp1 suspect
+
+[2026-09-17 18:35:01]   changepoint_curvature_penalty        0/0  d2_norm=3.00, linear_stretch=30%
+
+[2026-09-17 18:35:01]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.48 — good separation
+
+[2026-09-17 18:35:01] Score: 64/100 → FAIL
+
+[2026-09-17 18:35:01] Elastic Modulus: 505.49 bar
+
+[2026-09-17 18:35:01] Pore Fraction: 0.3340
+
+[2026-09-17 18:35:01] Good Fit: False
+
+[2026-09-17 18:35:10] [3/5] generating initial report...
+
+[2026-09-17 18:35:10] [4/5] running active learning...
+
+[2026-09-17 18:35:36] LLM suggestion: Looking at the diversity coverage context, I need to identify sparse regions:
+
+**Coverage analysis:**
+- `mixing_temp`: 12 unique values across 25–80°C range. Values like 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80 are covered. Mid-range around 25–35 with specific combos still sparse.
+- `bath_temp`: Only 5 unique values (5, 10, 15, 20, 25°C) — all covered but combinations with other parameters are sparse.
+- `pullcast_speed`: 20 unique values, well covered.
+- `nitrogen`: 22 True, 10 False — False is underrepresented.
+- `coupon_to_bath_wait_time`: 25 unique values, well spread.
+- `nips_bath_wait_time`: 13 unique values across 1200–1800s. Mid-range values like ~1550–1650 with specific combos sparse.
+- `polymer_wt`: 9 unique values (17–21). Values 17, 17.5, 18, 18.5, 19, 19.5, 20, 20.5, 21 covered. 
+
+**Sparse region targeting:**
+- High `mixing_temp` (e.g., 80°C) with `bath_temp` = 25°C is unexplored (only 80°C + 15°C exists).
+- `nitrogen=False` with high `bath_temp` = 25°C and high `polymer_wt` (e.g., 19.5) is sparse.
+- `nips_bath_wait_time` = 1550 with `mixing_temp` ~80°C, `bath_temp` = 25°C, `polymer_wt` = 19.5, `nitrogen=False`, moderate wait time ~130s — this combination is novel.
+
+Checking for near-duplicates: No existing experiment has mixing_temp=80, bath_temp=25, polymer_wt=19.5, nitrogen=False. This is genuinely novel.
+
+```json
+{
+  "mixing_temp": 80,
+  "bath_temp": 25,
+  "pullcast_speed": 6,
+  "nitrogen": false,
+  "coupon_to_bath_wait_time": 130,
+  "nips_bath_wait_time": 1550,
+  "polymer_wt": 19.5,
+  "additive_wt": 0
+}
+```
+
+[2026-09-17 18:35:36]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-350s-N2-1800s.json
+
+[2026-09-17 18:35:36] [5/5] next params: {'mixing_temp': 80, 'bath_temp': 25, 'pullcast_speed': 6, 'nitrogen': False, 'coupon_to_bath_wait_time': 130, 'nips_bath_wait_time': 1550, 'polymer_wt': 19.5, 'additive_wt': 0.0, 'polymer_type': 'Primospire', 'solvent_type': 'NMP', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-17 18:35:36] Python recieved!
+
+[2026-09-17 18:35:36] Exact payload being sent: {"mixing_temp": 80, "bath_temp": 25, "pullcast_speed": 6, "nitrogen": false, "coupon_to_bath_wait_time": 130, "nips_bath_wait_time": 1550, "polymer_wt": 19.5, "additive_wt": 0.0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 18:35:36] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 80, "bath_temp": 25, "pullcast_speed": 6, "nitrogen": false, "coupon_to_bath_wait_time": 130, "nips_bath_wait_time": 1550, "polymer_wt": 19.5, "additive_wt": 0.0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 18:35:36] [DONE] 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-350s-N2-1800s  elapsed=121.0s
+
+[2026-09-17 21:35:56] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:12] Recievied request for membrane with following parameters:
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:12] {'mixing_temp': 80, 'bath_temp': 25, 'pullcast_speed': 6, 'nitrogen': False, 'coupon_to_bath_wait_time': 130, 'nips_bath_wait_time': 1550, 'polymer_wt': 19.5, 'additive_wt': 0.0, 'polymer_type': 'Primospire', 'solvent_type': 'NMP', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:12] Bath chilling process started.
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:12] Beginning zero tests on coupons.
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:12] Opentrons process started.
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:12] Target: 19.5 wt% polymer, 0 wt% additive, 1000.00 uL
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:12] Volumes (uL): polymer=924.00, polymer-additive=0.00, solvent=76.00
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:12] Bottle inventory before preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 23856.0, 'dead_volume_uL': 2000.0, 'available_uL': 21856.0}, 'solvent': {'remaining_uL': 42781.0, 'dead_volume_uL': 2000.0, 'available_uL': 40781.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:12] Current bath temperature: 4.19 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:22] Current bath temperature: 4.62 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:32] Current bath temperature: 5.33 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:39] Test has started!
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:43] Current bath temperature: 5.82 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:36:53] Current bath temperature: 6.17 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:37:03] Current bath temperature: 6.43 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:37:13] Current bath temperature: 6.63 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:37:23] Current bath temperature: 6.8 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:37:33] Current bath temperature: 6.97 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:37:43] Current bath temperature: 7.12 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:37:53] Current bath temperature: 7.27 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:38:03] Current bath temperature: 7.39 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:38:14] Current bath temperature: 7.49 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:38:24] Current bath temperature: 7.59 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:38:34] Current bath temperature: 7.68 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:38:44] Current bath temperature: 7.78 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:38:54] Current bath temperature: 7.87 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:39:04] Current bath temperature: 7.96 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:39:14] Current bath temperature: 8.05 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:39:24] Current bath temperature: 8.13 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:39:34] Current bath temperature: 8.22 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:39:45] Current bath temperature: 8.31 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:39:55] Current bath temperature: 8.4 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:05] Current bath temperature: 8.49 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:12] Test complete!
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:15] Current bath temperature: 8.58 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:17] Safe: True
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:17] Recent: True
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:17] Current Time: 1789684781.8655922
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:17] Data Time: 1789684770.8907347
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:17] Age: 10.974857568740845
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:25] Current bath temperature: 8.66 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:30] Test has started!
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:34] Temperature set to 80.
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:35] Current bath temperature: 8.74 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:42] Adding 76.00 uL from pure solvent.
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:45] entered if statement!!!
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:45] Current bath temperature: 8.82 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:40:55] Current bath temperature: 8.9 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:41:05] Current bath temperature: 8.98 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:41:16] Current bath temperature: 9.07 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:41:26] Current bath temperature: 9.14 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:41:30] Adding 924.00 uL from polymer stock.
+
+[2026-09-17 21:35:56] [2026-09-17 22:41:36] Current bath temperature: 9.22 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:41:46] Current bath temperature: 9.3 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:41:56] Current bath temperature: 9.37 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:42:06] Current bath temperature: 9.45 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:42:16] Current bath temperature: 9.53 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:42:26] Current bath temperature: 9.6 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:42:36] Current bath temperature: 9.68 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:42:47] Current bath temperature: 9.76 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:42:57] Current bath temperature: 9.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:43:07] Current bath temperature: 9.9 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:43:17] Current bath temperature: 9.97 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:43:27] Current bath temperature: 10.05 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:43:37] Current bath temperature: 10.13 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:43:47] Current bath temperature: 10.2 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:43:57] Current bath temperature: 10.27 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:00] Test complete!
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:05] Safe: True
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:05] Recent: True
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:05] Current Time: 1789685009.4994466
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:05] Data Time: 1789684998.8088455
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:05] Age: 10.690601110458374
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:07] Current bath temperature: 10.34 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:18] Current bath temperature: 10.4 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:18] Test has started!
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:28] Current bath temperature: 10.46 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:38] Current bath temperature: 10.54 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:48] Current bath temperature: 10.61 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:44:58] Current bath temperature: 10.67 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:45:08] Current bath temperature: 10.73 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:45:18] Current bath temperature: 10.81 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:45:28] Current bath temperature: 10.87 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:45:38] Current bath temperature: 10.93 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:45:49] Current bath temperature: 10.99 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:45:59] Current bath temperature: 11.06 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:46:09] Current bath temperature: 11.12 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:46:19] Current bath temperature: 11.19 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:46:29] Current bath temperature: 11.24 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:46:39] Current bath temperature: 11.31 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:46:49] Current bath temperature: 11.37 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:46:59] Current bath temperature: 11.43 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:47:09] Current bath temperature: 11.48 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:47:17] entered if statement!!!
+
+[2026-09-17 21:35:56] [2026-09-17 22:47:20] Current bath temperature: 11.55 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:47:30] Current bath temperature: 11.62 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:47:40] Current bath temperature: 11.67 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:47:50] Current bath temperature: 11.73 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:47:56] Test complete!
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:00] Current bath temperature: 11.78 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:01] Safe: True
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:01] Recent: True
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:01] Current Time: 1789685245.44258
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:01] Data Time: 1789685234.624593
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:01] Age: 10.817986965179443
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:10] Current bath temperature: 11.84 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:14] Test has started!
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:20] Current bath temperature: 11.9 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:30] Current bath temperature: 11.96 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:40] Current bath temperature: 12.01 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:48:51] Current bath temperature: 12.08 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:49:01] Current bath temperature: 12.13 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:49:11] Current bath temperature: 12.18 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:49:21] Current bath temperature: 12.23 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:49:31] Current bath temperature: 12.28 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:49:41] Current bath temperature: 12.35 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:49:51] Current bath temperature: 12.41 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:50:01] Current bath temperature: 12.46 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:50:11] Current bath temperature: 12.51 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:50:22] Current bath temperature: 12.57 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:50:32] Current bath temperature: 12.63 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:50:42] Current bath temperature: 12.67 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:50:52] Current bath temperature: 12.73 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:02] Current bath temperature: 12.78 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:12] Current bath temperature: 12.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:22] Current bath temperature: 12.89 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:32] Current bath temperature: 12.93 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:42] Current bath temperature: 12.98 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:49] Test complete!
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:53] Current bath temperature: 13.04 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:54] Safe: True
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:54] Recent: True
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:54] Current Time: 1789685478.540027
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:54] Data Time: 1789685467.7241704
+
+[2026-09-17 21:35:56] [2026-09-17 22:51:54] Age: 10.815856456756592
+
+[2026-09-17 21:35:56] [2026-09-17 22:52:03] Current bath temperature: 13.09 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:52:13] Current bath temperature: 13.15 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:52:23] Current bath temperature: 13.19 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:52:33] Current bath temperature: 13.24 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:52:43] Current bath temperature: 13.29 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:52:53] Current bath temperature: 13.33 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:53:03] Current bath temperature: 13.39 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:53:13] Current bath temperature: 13.43 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:53:24] Current bath temperature: 13.49 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:53:34] Current bath temperature: 13.53 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:53:44] Current bath temperature: 13.57 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:53:54] Current bath temperature: 13.63 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:54:04] Current bath temperature: 13.68 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:54:14] Current bath temperature: 13.72 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:54:24] Current bath temperature: 13.77 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:54:34] Current bath temperature: 13.81 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:54:44] Current bath temperature: 13.86 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:54:55] Current bath temperature: 13.92 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:55:05] Current bath temperature: 13.96 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:55:15] Current bath temperature: 14.01 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:55:25] Current bath temperature: 14.04 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:55:35] Current bath temperature: 14.08 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:55:45] Current bath temperature: 14.14 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:55:55] Current bath temperature: 14.18 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:56:05] Current bath temperature: 14.22 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:56:15] Current bath temperature: 14.27 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:56:25] Current bath temperature: 14.31 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:56:36] Current bath temperature: 14.36 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:56:46] Current bath temperature: 14.41 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:56:56] Current bath temperature: 14.45 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:57:06] Current bath temperature: 14.49 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:57:16] Current bath temperature: 14.54 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:57:26] Current bath temperature: 14.57 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:57:36] Current bath temperature: 14.62 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:57:46] Current bath temperature: 14.67 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:57:57] Current bath temperature: 14.71 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:58:07] Current bath temperature: 14.74 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:58:17] Current bath temperature: 14.78 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:58:27] Current bath temperature: 14.82 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:58:34] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 22:58:34] 0
+
+[2026-09-17 21:35:56] [2026-09-17 22:58:34] 10
+
+[2026-09-17 21:35:56] [2026-09-17 22:58:37] Current bath temperature: 14.86 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:58:47] Current bath temperature: 14.91 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:58:57] Current bath temperature: 14.95 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:59:07] Current bath temperature: 14.98 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:59:17] Current bath temperature: 15.02 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:59:27] Current bath temperature: 15.06 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:59:38] Current bath temperature: 15.1 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:59:48] Current bath temperature: 15.14 C.
+
+[2026-09-17 21:35:56] [2026-09-17 22:59:58] Current bath temperature: 15.19 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:00:08] Current bath temperature: 15.22 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:00:18] Current bath temperature: 15.26 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:00:28] Current bath temperature: 15.31 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:00:38] Current bath temperature: 15.34 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:00:48] Current bath temperature: 15.38 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:00:53] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:00:53] 0
+
+[2026-09-17 21:35:56] [2026-09-17 23:00:53] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:00:58] Current bath temperature: 15.42 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:01:09] Current bath temperature: 15.46 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:01:19] Current bath temperature: 15.49 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:01:29] Current bath temperature: 15.53 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:01:39] Current bath temperature: 15.57 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:01:49] Current bath temperature: 15.6 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:01:59] Current bath temperature: 15.64 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:02:09] Current bath temperature: 15.68 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:02:19] Current bath temperature: 15.71 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:02:22] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 23:02:22] 1
+
+[2026-09-17 21:35:56] [2026-09-17 23:02:22] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:02:29] Current bath temperature: 15.75 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:02:40] Current bath temperature: 15.78 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:02:50] Current bath temperature: 15.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:03:00] Current bath temperature: 15.86 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:03:10] Current bath temperature: 15.9 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:03:20] Current bath temperature: 15.94 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:03:30] Current bath temperature: 15.97 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:03:40] Current bath temperature: 16.01 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:03:50] Current bath temperature: 16.04 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:04:00] Current bath temperature: 16.07 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:04:11] Current bath temperature: 16.1 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:04:21] Current bath temperature: 16.13 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:04:31] Current bath temperature: 16.18 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:04:40] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:04:40] 1
+
+[2026-09-17 21:35:56] [2026-09-17 23:04:40] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:04:41] Current bath temperature: 16.22 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:04:51] Current bath temperature: 16.25 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:05:01] Current bath temperature: 16.28 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:05:11] Current bath temperature: 16.31 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:05:21] Current bath temperature: 16.33 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:05:31] Current bath temperature: 16.36 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:05:42] Current bath temperature: 16.39 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:05:52] Current bath temperature: 16.44 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:06:02] Current bath temperature: 16.48 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:06:09] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 23:06:09] 2
+
+[2026-09-17 21:35:56] [2026-09-17 23:06:09] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:06:12] Current bath temperature: 16.51 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:06:22] Current bath temperature: 16.54 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:06:32] Current bath temperature: 16.58 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:06:42] Current bath temperature: 16.61 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:06:52] Current bath temperature: 16.63 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:07:02] Current bath temperature: 16.67 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:07:13] Current bath temperature: 16.71 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:07:23] Current bath temperature: 16.74 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:07:33] Current bath temperature: 16.77 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:07:43] Current bath temperature: 16.79 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:07:53] Current bath temperature: 16.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:08:03] Current bath temperature: 16.86 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:08:13] Current bath temperature: 16.89 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:08:23] Current bath temperature: 16.93 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:08:28] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:08:28] 2
+
+[2026-09-17 21:35:56] [2026-09-17 23:08:28] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:08:33] Current bath temperature: 16.97 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:08:44] Current bath temperature: 17.0 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:08:54] Current bath temperature: 17.02 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:09:04] Current bath temperature: 17.05 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:09:14] Current bath temperature: 17.08 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:09:24] Current bath temperature: 17.11 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:09:34] Current bath temperature: 17.14 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:09:44] Current bath temperature: 17.17 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:09:54] Current bath temperature: 17.2 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:09:57] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 23:09:57] 3
+
+[2026-09-17 21:35:56] [2026-09-17 23:09:57] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:10:04] Current bath temperature: 17.23 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:10:15] Current bath temperature: 17.26 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:10:25] Current bath temperature: 17.29 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:10:35] Current bath temperature: 17.32 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:10:45] Current bath temperature: 17.35 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:10:55] Current bath temperature: 17.38 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:11:05] Current bath temperature: 17.4 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:11:15] Current bath temperature: 17.42 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:11:25] Current bath temperature: 17.46 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:11:35] Current bath temperature: 17.5 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:11:46] Current bath temperature: 17.53 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:11:56] Current bath temperature: 17.55 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:12:06] Current bath temperature: 17.58 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:12:15] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:12:15] 3
+
+[2026-09-17 21:35:56] [2026-09-17 23:12:15] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:12:16] Current bath temperature: 17.61 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:12:26] Current bath temperature: 17.64 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:12:36] Current bath temperature: 17.66 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:12:46] Current bath temperature: 17.69 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:12:56] Current bath temperature: 17.73 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:13:06] Current bath temperature: 17.75 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:13:17] Current bath temperature: 17.78 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:13:27] Current bath temperature: 17.8 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:13:37] Current bath temperature: 17.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:13:44] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 23:13:44] 4
+
+[2026-09-17 21:35:56] [2026-09-17 23:13:44] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:13:47] Current bath temperature: 17.86 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:13:57] Current bath temperature: 17.88 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:14:07] Current bath temperature: 17.91 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:14:17] Current bath temperature: 17.93 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:14:27] Current bath temperature: 17.96 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:14:37] Current bath temperature: 18.0 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:14:48] Current bath temperature: 18.02 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:14:58] Current bath temperature: 18.04 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:15:08] Current bath temperature: 18.07 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:15:18] Current bath temperature: 18.1 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:15:28] Current bath temperature: 18.13 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:15:38] Current bath temperature: 18.15 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:15:48] Current bath temperature: 18.17 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:15:58] Current bath temperature: 18.2 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:16:03] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:16:03] 4
+
+[2026-09-17 21:35:56] [2026-09-17 23:16:03] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:16:08] Current bath temperature: 18.23 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:16:19] Current bath temperature: 18.26 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:16:29] Current bath temperature: 18.29 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:16:39] Current bath temperature: 18.31 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:16:49] Current bath temperature: 18.33 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:16:59] Current bath temperature: 18.36 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:17:09] Current bath temperature: 18.39 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:17:19] Current bath temperature: 18.41 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:17:29] Current bath temperature: 18.44 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:17:32] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 23:17:32] 5
+
+[2026-09-17 21:35:56] [2026-09-17 23:17:32] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:17:39] Current bath temperature: 18.46 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:17:50] Current bath temperature: 18.5 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:18:00] Current bath temperature: 18.52 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:18:10] Current bath temperature: 18.55 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:18:20] Current bath temperature: 18.57 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:18:30] Current bath temperature: 18.59 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:18:40] Current bath temperature: 18.61 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:18:50] Current bath temperature: 18.64 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:19:00] Current bath temperature: 18.66 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:19:10] Current bath temperature: 18.68 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:19:21] Current bath temperature: 18.7 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:19:31] Current bath temperature: 18.74 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:19:41] Current bath temperature: 18.77 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:19:50] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:19:50] 5
+
+[2026-09-17 21:35:56] [2026-09-17 23:19:50] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:19:51] Current bath temperature: 18.79 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:20:01] Current bath temperature: 18.81 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:20:11] Current bath temperature: 18.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:20:21] Current bath temperature: 18.84 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:20:31] Current bath temperature: 18.87 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:20:41] Current bath temperature: 18.9 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:20:52] Current bath temperature: 18.92 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:21:02] Current bath temperature: 18.94 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:21:12] Current bath temperature: 18.96 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:21:19] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 23:21:19] 6
+
+[2026-09-17 21:35:56] [2026-09-17 23:21:19] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:21:22] Current bath temperature: 18.99 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:21:32] Current bath temperature: 19.02 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:21:42] Current bath temperature: 19.04 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:21:52] Current bath temperature: 19.06 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:22:02] Current bath temperature: 19.08 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:22:12] Current bath temperature: 19.1 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:22:22] Current bath temperature: 19.12 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:22:33] Current bath temperature: 19.15 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:22:43] Current bath temperature: 19.17 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:22:53] Current bath temperature: 19.19 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:23:03] Current bath temperature: 19.21 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:23:13] Current bath temperature: 19.23 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:23:23] Current bath temperature: 19.26 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:23:33] Current bath temperature: 19.29 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:23:38] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:23:38] 6
+
+[2026-09-17 21:35:56] [2026-09-17 23:23:38] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:23:43] Current bath temperature: 19.31 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:23:53] Current bath temperature: 19.33 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:24:04] Current bath temperature: 19.35 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:24:14] Current bath temperature: 19.37 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:24:24] Current bath temperature: 19.39 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:24:34] Current bath temperature: 19.42 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:24:44] Current bath temperature: 19.43 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:24:54] Current bath temperature: 19.45 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:25:04] Current bath temperature: 19.47 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:25:07] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 23:25:07] 7
+
+[2026-09-17 21:35:56] [2026-09-17 23:25:07] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:25:14] Current bath temperature: 19.5 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:25:24] Current bath temperature: 19.53 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:25:35] Current bath temperature: 19.55 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:25:45] Current bath temperature: 19.57 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:25:55] Current bath temperature: 19.58 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:26:05] Current bath temperature: 19.6 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:26:15] Current bath temperature: 19.62 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:26:25] Current bath temperature: 19.64 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:26:35] Current bath temperature: 19.67 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:26:45] Current bath temperature: 19.69 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:26:55] Current bath temperature: 19.7 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:27:06] Current bath temperature: 19.72 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:27:16] Current bath temperature: 19.74 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:27:25] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:27:25] 7
+
+[2026-09-17 21:35:56] [2026-09-17 23:27:25] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:27:26] Current bath temperature: 19.77 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:27:36] Current bath temperature: 19.8 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:27:46] Current bath temperature: 19.82 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:27:56] Current bath temperature: 19.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:28:06] Current bath temperature: 19.85 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:28:16] Current bath temperature: 19.86 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:28:26] Current bath temperature: 19.88 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:28:37] Current bath temperature: 19.91 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:28:47] Current bath temperature: 19.93 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:28:54] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 23:28:54] 8
+
+[2026-09-17 21:35:56] [2026-09-17 23:28:54] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:28:57] Current bath temperature: 19.94 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:29:07] Current bath temperature: 19.96 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:29:17] Current bath temperature: 19.98 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:29:27] Current bath temperature: 20.01 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:29:37] Current bath temperature: 20.03 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:29:47] Current bath temperature: 20.06 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:29:57] Current bath temperature: 20.08 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:30:08] Current bath temperature: 20.09 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:30:18] Current bath temperature: 20.11 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:30:28] Current bath temperature: 20.13 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:30:38] Current bath temperature: 20.15 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:30:48] Current bath temperature: 20.17 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:30:58] Current bath temperature: 20.19 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:31:08] Current bath temperature: 20.2 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:31:13] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:31:13] 8
+
+[2026-09-17 21:35:56] [2026-09-17 23:31:13] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:31:18] Current bath temperature: 20.22 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:31:28] Current bath temperature: 20.23 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:31:39] Current bath temperature: 20.26 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:31:49] Current bath temperature: 20.28 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:31:59] Current bath temperature: 20.31 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:32:09] Current bath temperature: 20.33 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:32:19] Current bath temperature: 20.34 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:32:29] Current bath temperature: 20.35 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:32:39] Current bath temperature: 20.37 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:32:42] aspirate
+
+[2026-09-17 21:35:56] [2026-09-17 23:32:42] 9
+
+[2026-09-17 21:35:56] [2026-09-17 23:32:42] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:32:49] Current bath temperature: 20.38 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:32:59] Current bath temperature: 20.4 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:33:10] Current bath temperature: 20.42 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:33:20] Current bath temperature: 20.43 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:33:30] Current bath temperature: 20.45 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:33:40] Current bath temperature: 20.46 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:33:50] Current bath temperature: 20.48 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:34:00] Current bath temperature: 20.5 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:34:10] Current bath temperature: 20.52 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:34:20] Current bath temperature: 20.55 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:34:30] Current bath temperature: 20.58 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:34:41] Current bath temperature: 20.59 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:34:51] Current bath temperature: 20.61 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:01] Current bath temperature: 20.63 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:11] Current bath temperature: 20.64 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:17] dispense
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:17] 9
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:17] 10
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:17] 2291.6372501151636
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:17] Cooling mixing module to 25 C before casting.
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:21] Current bath temperature: 20.66 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:31] Current bath temperature: 20.68 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:41] Current bath temperature: 20.7 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:35:51] Current bath temperature: 20.72 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:36:01] Current bath temperature: 20.73 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:36:12] Current bath temperature: 20.75 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:36:22] Current bath temperature: 20.77 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:36:32] Current bath temperature: 20.78 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:36:42] Current bath temperature: 20.8 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:36:52] Current bath temperature: 20.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:37:02] Current bath temperature: 20.85 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:37:12] Current bath temperature: 20.86 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:37:22] Current bath temperature: 20.87 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:37:32] Current bath temperature: 20.89 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:37:43] Current bath temperature: 20.9 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:37:53] Current bath temperature: 20.91 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:38:03] Current bath temperature: 20.94 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:38:13] Current bath temperature: 20.96 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:38:23] Current bath temperature: 20.97 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:38:33] Current bath temperature: 20.99 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:38:43] Current bath temperature: 21.0 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:38:53] Current bath temperature: 21.02 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:39:03] Current bath temperature: 21.03 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:39:13] Current bath temperature: 21.06 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:39:24] Current bath temperature: 21.08 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:39:34] Current bath temperature: 21.1 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:39:44] Current bath temperature: 21.11 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:39:54] Current bath temperature: 21.12 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:40:04] Current bath temperature: 21.13 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:40:14] Current bath temperature: 21.15 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:40:24] Current bath temperature: 21.17 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:40:34] Current bath temperature: 21.19 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:40:44] Current bath temperature: 21.21 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:40:55] Current bath temperature: 21.22 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:41:05] Current bath temperature: 21.24 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:41:15] Current bath temperature: 21.25 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:41:25] Current bath temperature: 21.26 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:41:35] Current bath temperature: 21.27 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:41:45] Current bath temperature: 21.3 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:41:55] Current bath temperature: 21.32 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:42:05] Current bath temperature: 21.34 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:42:15] Current bath temperature: 21.36 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:42:26] Current bath temperature: 21.37 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:42:36] Current bath temperature: 21.38 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:42:46] Current bath temperature: 21.4 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:42:56] Current bath temperature: 21.41 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:43:06] Current bath temperature: 21.42 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:43:16] Current bath temperature: 21.44 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:43:26] Current bath temperature: 21.46 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:43:36] Current bath temperature: 21.47 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:43:46] Current bath temperature: 21.49 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:43:57] Current bath temperature: 21.49 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:44:07] Current bath temperature: 21.51 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:44:17] Current bath temperature: 21.53 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:44:27] Current bath temperature: 21.54 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:44:37] Current bath temperature: 21.57 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:44:47] Current bath temperature: 21.59 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:44:57] Current bath temperature: 21.61 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:45:07] Current bath temperature: 21.62 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:45:13] Temperature set to 25.
+
+[2026-09-17 21:35:56] [2026-09-17 23:45:13] Waiting 2 minutes at 25 C before casting.
+
+[2026-09-17 21:35:56] [2026-09-17 23:45:17] Current bath temperature: 21.63 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:45:28] Current bath temperature: 21.64 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:45:38] Current bath temperature: 21.65 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:45:48] Current bath temperature: 21.67 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:45:58] Current bath temperature: 21.69 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:46:08] Current bath temperature: 21.7 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:46:18] Current bath temperature: 21.72 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:46:28] Current bath temperature: 21.74 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:46:38] Current bath temperature: 21.75 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:46:48] Current bath temperature: 21.76 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:46:59] Current bath temperature: 21.77 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:47:09] Current bath temperature: 21.78 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:47:19] Current bath temperature: 21.8 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:47:29] Current bath temperature: 21.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:47:39] Current bath temperature: 21.84 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:47:49] Current bath temperature: 21.86 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:47:59] Current bath temperature: 21.87 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:48:09] Current bath temperature: 21.88 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:48:19] Current bath temperature: 21.89 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:48:29] Current bath temperature: 21.9 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:48:40] Current bath temperature: 21.92 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:48:50] Current bath temperature: 21.94 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:49:00] Current bath temperature: 21.96 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:49:10] Current bath temperature: 21.97 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:49:20] Current bath temperature: 21.99 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:49:30] Current bath temperature: 22.0 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:49:40] Current bath temperature: 22.01 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:49:50] Current bath temperature: 22.02 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:50:00] Current bath temperature: 22.04 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:50:11] Current bath temperature: 22.05 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:50:21] Current bath temperature: 22.08 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:50:31] Current bath temperature: 22.1 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:50:41] Current bath temperature: 22.12 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:50:51] Current bath temperature: 22.13 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:51:01] Current bath temperature: 22.14 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:51:11] Current bath temperature: 22.15 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:51:21] Current bath temperature: 22.16 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:51:31] Current bath temperature: 22.18 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:51:42] Current bath temperature: 22.19 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:51:52] Current bath temperature: 22.2 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:52:02] Current bath temperature: 22.22 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:52:12] Current bath temperature: 22.23 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:52:22] Current bath temperature: 22.25 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:52:32] Current bath temperature: 22.25 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:52:42] Current bath temperature: 22.26 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:52:52] Current bath temperature: 22.27 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:53:02] Current bath temperature: 22.29 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:53:13] Current bath temperature: 22.31 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:53:23] Current bath temperature: 22.32 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:53:33] Current bath temperature: 22.35 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:53:43] Current bath temperature: 22.36 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:53:53] Current bath temperature: 22.37 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:54:03] Current bath temperature: 22.39 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:54:05] entered if statement!!!
+
+[2026-09-17 21:35:56] [2026-09-17 23:54:13] Current bath temperature: 22.4 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:54:23] Current bath temperature: 22.41 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:54:33] Current bath temperature: 22.42 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:54:44] Current bath temperature: 22.43 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:54:54] Current bath temperature: 22.45 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:55:04] Current bath temperature: 22.46 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:55:14] Current bath temperature: 22.48 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:55:24] Current bath temperature: 22.49 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:55:34] Current bath temperature: 22.5 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:55:36] Bottle inventory after preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 22932.0, 'dead_volume_uL': 2000.0, 'available_uL': 20932.0}, 'solvent': {'remaining_uL': 42705.0, 'dead_volume_uL': 2000.0, 'available_uL': 40705.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-09-17 21:35:56] [2026-09-17 23:55:44] Current bath temperature: 22.51 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:55:54] Current bath temperature: 22.52 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:56:04] Current bath temperature: 22.53 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:56:15] Current bath temperature: 22.55 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:56:25] Current bath temperature: 22.57 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:56:35] Current bath temperature: 22.59 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:56:45] Current bath temperature: 22.6 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:56:55] Current bath temperature: 22.62 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:57:05] Current bath temperature: 22.64 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:57:15] Current bath temperature: 22.65 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:57:25] Current bath temperature: 22.66 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:57:35] Current bath temperature: 22.67 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:57:46] Current bath temperature: 22.68 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:57:56] Current bath temperature: 22.69 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:58:06] Current bath temperature: 22.7 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:58:16] Current bath temperature: 22.72 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:58:26] Current bath temperature: 22.74 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:58:36] Current bath temperature: 22.76 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:58:46] Current bath temperature: 22.76 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:58:56] Current bath temperature: 22.77 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:59:06] Current bath temperature: 22.78 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:59:17] Current bath temperature: 22.79 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:59:27] Current bath temperature: 22.8 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:59:37] Current bath temperature: 22.82 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:59:47] Current bath temperature: 22.83 C.
+
+[2026-09-17 21:35:56] [2026-09-17 23:59:57] Current bath temperature: 22.85 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:00:07] Current bath temperature: 22.87 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:00:17] Current bath temperature: 22.88 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:00:27] Current bath temperature: 22.89 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:00:37] Current bath temperature: 22.91 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:00:48] Current bath temperature: 22.91 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:00:58] Current bath temperature: 22.91 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:01:08] Current bath temperature: 22.92 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:01:18] Current bath temperature: 22.94 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:01:28] Current bath temperature: 22.94 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:01:38] Current bath temperature: 22.97 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:01:48] Current bath temperature: 22.97 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:01:58] Current bath temperature: 22.99 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:02:08] Current bath temperature: 23.01 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:02:19] Current bath temperature: 23.02 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:02:29] Current bath temperature: 23.03 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:02:39] Current bath temperature: 23.04 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:02:49] Current bath temperature: 23.04 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:02:59] Current bath temperature: 23.05 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:03:09] Current bath temperature: 23.06 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:03:19] Current bath temperature: 23.08 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:03:29] Current bath temperature: 23.1 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:03:39] Current bath temperature: 23.12 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:03:50] Current bath temperature: 23.13 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:04:00] Current bath temperature: 23.14 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:04:10] Current bath temperature: 23.15 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:04:20] Current bath temperature: 23.16 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:04:30] Current bath temperature: 23.17 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:04:40] Current bath temperature: 23.18 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:04:50] Current bath temperature: 23.19 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:05:00] Current bath temperature: 23.2 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:05:10] Current bath temperature: 23.21 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:05:21] Current bath temperature: 23.22 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:05:31] Current bath temperature: 23.23 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:05:41] Current bath temperature: 23.25 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:05:51] Current bath temperature: 23.26 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:06:01] Current bath temperature: 23.27 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:06:11] Current bath temperature: 23.28 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:06:21] Current bath temperature: 23.29 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:06:31] Current bath temperature: 23.29 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:06:41] Current bath temperature: 23.3 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:06:52] Current bath temperature: 23.31 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:07:02] Current bath temperature: 23.33 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:07:12] Current bath temperature: 23.35 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:07:22] Current bath temperature: 23.36 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:07:32] Current bath temperature: 23.38 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:07:42] Current bath temperature: 23.4 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:07:52] Current bath temperature: 23.4 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:08:02] Current bath temperature: 23.41 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:08:12] Current bath temperature: 23.42 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:08:23] Current bath temperature: 23.43 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:08:33] Current bath temperature: 23.43 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:08:43] Current bath temperature: 23.44 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:08:53] Current bath temperature: 23.45 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:09:03] Current bath temperature: 23.46 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:09:13] Current bath temperature: 23.48 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:09:23] Current bath temperature: 23.48 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:09:33] Current bath temperature: 23.5 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:09:43] Current bath temperature: 23.51 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:09:54] Current bath temperature: 23.51 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:10:04] Current bath temperature: 23.53 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:10:14] Current bath temperature: 23.54 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:10:24] Current bath temperature: 23.55 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:10:34] Current bath temperature: 23.56 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:10:44] Current bath temperature: 23.57 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:10:54] Current bath temperature: 23.57 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:11:04] Current bath temperature: 23.58 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:11:14] Current bath temperature: 23.6 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:11:25] Current bath temperature: 23.61 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:11:35] Current bath temperature: 23.62 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:11:45] Current bath temperature: 23.64 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:11:55] Current bath temperature: 23.65 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:12:05] Current bath temperature: 23.66 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:12:15] Current bath temperature: 23.67 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:12:25] Current bath temperature: 23.68 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:12:35] Current bath temperature: 23.68 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:12:45] Current bath temperature: 23.69 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:12:56] Current bath temperature: 23.69 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:13:06] Current bath temperature: 23.7 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:13:16] Current bath temperature: 23.71 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:13:26] Current bath temperature: 23.73 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:13:36] Current bath temperature: 23.73 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:13:46] Current bath temperature: 23.74 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:13:56] Current bath temperature: 23.76 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:14:06] Current bath temperature: 23.76 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:14:16] Current bath temperature: 23.77 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:14:27] Current bath temperature: 23.78 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:14:37] Current bath temperature: 23.8 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:14:47] Current bath temperature: 23.8 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:14:57] Current bath temperature: 23.81 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:15:07] Current bath temperature: 23.82 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:15:17] Current bath temperature: 23.82 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:15:27] Current bath temperature: 23.82 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:15:37] Current bath temperature: 23.84 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:15:47] Current bath temperature: 23.84 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:15:58] Current bath temperature: 23.85 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:16:08] Current bath temperature: 23.88 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:16:18] Current bath temperature: 23.89 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:16:28] Current bath temperature: 23.9 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:16:38] Current bath temperature: 23.91 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:16:48] Current bath temperature: 23.92 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:16:58] Current bath temperature: 23.92 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:17:08] Current bath temperature: 23.93 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:17:18] Current bath temperature: 23.94 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:17:29] Current bath temperature: 23.95 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:17:39] Current bath temperature: 23.95 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:17:49] Current bath temperature: 23.95 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:17:59] Current bath temperature: 23.96 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:18:09] Current bath temperature: 23.97 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:18:19] Current bath temperature: 23.98 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:18:29] Current bath temperature: 23.99 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:18:39] Current bath temperature: 24.0 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:18:49] Current bath temperature: 24.01 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:19:00] Current bath temperature: 24.02 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:19:10] Current bath temperature: 24.03 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:19:20] Current bath temperature: 24.04 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:19:30] Current bath temperature: 24.05 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:19:40] Current bath temperature: 24.05 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:19:50] Current bath temperature: 24.05 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:20:00] Current bath temperature: 24.06 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:20:10] Current bath temperature: 24.06 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:20:20] Current bath temperature: 24.07 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:20:31] Current bath temperature: 24.08 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:20:41] Current bath temperature: 24.09 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:20:51] Current bath temperature: 24.1 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:21:01] Current bath temperature: 24.1 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:21:11] Current bath temperature: 24.12 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:21:21] Current bath temperature: 24.13 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:21:31] Current bath temperature: 24.15 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:21:41] Current bath temperature: 24.17 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:21:51] Current bath temperature: 24.18 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:22:02] Current bath temperature: 24.19 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:22:12] Current bath temperature: 24.19 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:22:22] Current bath temperature: 24.19 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:22:32] Current bath temperature: 24.19 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:22:42] Current bath temperature: 24.2 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:22:52] Current bath temperature: 24.21 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:23:02] Current bath temperature: 24.21 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:23:12] Current bath temperature: 24.22 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:23:22] Current bath temperature: 24.23 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:23:32] Current bath temperature: 24.23 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:23:43] Current bath temperature: 24.25 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:23:53] Current bath temperature: 24.25 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:24:03] Current bath temperature: 24.26 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:24:13] Current bath temperature: 24.27 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:24:23] Current bath temperature: 24.28 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:24:33] Current bath temperature: 24.29 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:24:43] Current bath temperature: 24.3 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:24:53] Current bath temperature: 24.3 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:25:03] Current bath temperature: 24.31 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:25:14] Current bath temperature: 24.31 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:25:24] Current bath temperature: 24.32 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:25:34] Current bath temperature: 24.33 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:25:44] Current bath temperature: 24.34 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:25:54] Current bath temperature: 24.34 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:26:04] Current bath temperature: 24.35 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:26:14] Current bath temperature: 24.37 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:26:24] Current bath temperature: 24.38 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:26:34] Current bath temperature: 24.38 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:26:45] Current bath temperature: 24.4 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:26:55] Current bath temperature: 24.41 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:27:05] Current bath temperature: 24.42 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:27:15] Current bath temperature: 24.43 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:27:25] Current bath temperature: 24.44 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:27:35] Current bath temperature: 24.44 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:27:45] Current bath temperature: 24.44 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:27:55] Current bath temperature: 24.45 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:28:05] Current bath temperature: 24.46 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:28:16] Current bath temperature: 24.47 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:28:26] Current bath temperature: 24.47 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:28:36] Current bath temperature: 24.48 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:28:46] Current bath temperature: 24.48 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:28:56] Current bath temperature: 24.48 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:29:06] Current bath temperature: 24.49 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:29:16] Current bath temperature: 24.5 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:29:26] Current bath temperature: 24.5 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:29:36] Current bath temperature: 24.51 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:29:47] Current bath temperature: 24.52 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:29:57] Current bath temperature: 24.52 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:30:07] Current bath temperature: 24.53 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:30:17] Current bath temperature: 24.54 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:30:27] Current bath temperature: 24.54 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:30:37] Current bath temperature: 24.55 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:30:47] Current bath temperature: 24.55 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:30:57] Current bath temperature: 24.56 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:31:07] Current bath temperature: 24.57 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:31:18] Current bath temperature: 24.58 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:31:28] Current bath temperature: 24.59 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:31:38] Current bath temperature: 24.59 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:31:48] Current bath temperature: 24.6 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:31:58] Current bath temperature: 24.6 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:32:08] Current bath temperature: 24.62 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:32:18] Current bath temperature: 24.62 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:32:28] Current bath temperature: 24.63 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:32:38] Current bath temperature: 24.65 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:32:49] Current bath temperature: 24.66 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:32:59] Current bath temperature: 24.67 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:33:09] Current bath temperature: 24.69 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:33:19] Current bath temperature: 24.7 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:33:29] Current bath temperature: 24.7 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:33:39] Current bath temperature: 24.71 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:33:49] Current bath temperature: 24.72 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:33:59] Current bath temperature: 24.72 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:34:09] Current bath temperature: 24.73 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:34:20] Current bath temperature: 24.74 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:34:30] Current bath temperature: 24.75 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:34:40] Current bath temperature: 24.75 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:34:50] Current bath temperature: 24.77 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:35:00] Current bath temperature: 24.78 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:35:10] Current bath temperature: 24.79 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:35:20] Current bath temperature: 24.8 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:35:30] Current bath temperature: 24.81 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:35:40] Current bath temperature: 24.82 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:35:51] Current bath temperature: 24.82 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:36:01] Current bath temperature: 24.83 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:36:11] Current bath temperature: 24.83 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:36:21] Current bath temperature: 24.84 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:36:31] Current bath temperature: 24.84 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:36:41] Current bath temperature: 24.85 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:36:51] Current bath temperature: 24.86 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:37:01] Current bath temperature: 24.87 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:37:11] Current bath temperature: 24.88 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:37:22] Current bath temperature: 24.9 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:37:32] Current bath temperature: 24.91 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:37:32] Reached target temperature of 25 C.
+
+[2026-09-17 21:35:56] [2026-09-18 00:37:32] Joined both subprocesses.
+
+[2026-09-17 21:35:56] [2026-09-18 00:38:27] Pullcast complete.
+
+[2026-09-17 21:35:56] [2026-09-18 00:40:37] Membrane air data: {'temperature': '25.44', 'humidity': '49.76'}
+
+[2026-09-17 21:35:56] [2026-09-18 00:40:37] Ambient air data: {'temperature': '25.28', 'humidity': '49.05'}
+
+[2026-09-17 21:35:56] [2026-09-18 00:40:49] Membrane sitting in bath for 1550 seconds.
+
+[2026-09-17 21:35:56] [2026-09-18 00:41:02] Ring has been placed on the coupon.
+
+[2026-09-17 21:35:56] [2026-09-18 00:43:27] Cleaning knife
+
+[2026-09-17 21:35:56] [2026-09-18 00:44:27] Knife cleaning finished.
+
+[2026-09-17 21:35:56] [2026-09-18 01:17:20] Initial membrane picture taken.
+
+[2026-09-17 21:35:56] [2026-09-18 01:17:50] Test has started!
+
+[2026-09-17 21:35:56] [2026-09-18 01:21:51] Test complete!
+
+[2026-09-17 21:35:56] [2026-09-18 01:21:56] Safe: True
+
+[2026-09-17 21:35:56] [2026-09-18 01:21:56] Recent: True
+
+[2026-09-17 21:35:56] [2026-09-18 01:21:56] Current Time: 1789694480.3925338
+
+[2026-09-17 21:35:56] [2026-09-18 01:21:56] Data Time: 1789694469.5484986
+
+[2026-09-17 21:35:56] [2026-09-18 01:21:56] Age: 10.844035148620605
+
+[2026-09-17 21:35:56] [2026-09-18 01:22:09] Test has started!
+
+[2026-09-17 21:35:56] [2026-09-18 01:26:08] Test complete!
+
+[2026-09-17 21:35:56] [2026-09-18 01:26:13] Safe: True
+
+[2026-09-17 21:35:56] [2026-09-18 01:26:13] Recent: True
+
+[2026-09-17 21:35:56] [2026-09-18 01:26:13] Current Time: 1789694737.4782739
+
+[2026-09-17 21:35:56] [2026-09-18 01:26:13] Data Time: 1789694726.7050607
+
+[2026-09-17 21:35:56] [2026-09-18 01:26:13] Age: 10.773213148117065
+
+[2026-09-17 21:35:56] [2026-09-18 01:26:26] Test has started!
+
+[2026-09-17 21:35:56] [2026-09-18 01:30:28] Test complete!
+
+[2026-09-17 21:35:56] [2026-09-18 01:30:33] Safe: True
+
+[2026-09-17 21:35:56] [2026-09-18 01:30:33] Recent: True
+
+[2026-09-17 21:35:56] [2026-09-18 01:30:33] Current Time: 1789694997.78854
+
+[2026-09-17 21:35:56] [2026-09-18 01:30:33] Data Time: 1789694987.0279064
+
+[2026-09-17 21:35:56] [2026-09-18 01:30:33] Age: 10.76063346862793
+
+[2026-09-17 21:35:56] [2026-09-18 01:30:46] Test has started!
+
+[2026-09-17 21:35:56] [2026-09-18 01:34:50] Test complete!
+
+[2026-09-17 21:35:56] [2026-09-18 01:34:55] Safe: True
+
+[2026-09-17 21:35:56] [2026-09-18 01:34:55] Recent: True
+
+[2026-09-17 21:35:56] [2026-09-18 01:34:55] Current Time: 1789695259.6414876
+
+[2026-09-17 21:35:56] [2026-09-18 01:34:55] Data Time: 1789695248.8167028
+
+[2026-09-17 21:35:56] [2026-09-18 01:34:55] Age: 10.824784755706787
+
+[2026-09-17 21:35:56] [2026-09-18 01:35:29] Final membrane picture taken.
+
+[2026-09-17 21:35:56] [2026-09-18 01:35:46] Coupon successfully discarded.
+
+[2026-09-17 21:35:56] [2026-09-18 01:36:32] Done
+
+[2026-09-17 21:35:56] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-09-17 21:35:56] 
+[1/5] organising files...
+
+[2026-09-17 21:35:56] [START] condition=19p5-0add-25deg-cosolv-none-bathSolv-none-0wt-130s-NoN2-1550s
+
+[2026-09-17 21:35:56] [2/5] processing pipeline for: 19p5-0add-25deg-cosolv-none-bathSolv-none-0wt-130s-NoN2-1550s
+
+[2026-09-17 21:35:56] ==============================================================================================================
+
+[2026-09-17 21:35:56] Condition: 19p5-0add-25deg-cosolv-none-bathSolv-none-0wt-130s-NoN2-1550s | pairs: 4
+
+[2026-09-17 21:35:57] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 21:35:57] Average Standard Deviation: 52.62521401701166
+
+[2026-09-17 21:35:59] Toe end strain (zero point): 0.0000
+
+[2026-09-17 21:36:03] PW + Double: 0.08896274267523581
+
+[2026-09-17 21:36:03] Piecewise Chosen! 0.08580958425040279 | Drop Calculation: 0.2484091384281073
+
+[2026-09-17 21:36:18]   elastic_r2                          29/30  NRMSE-score=0.958 (RMSE=0.54, range=13.06)
+
+[2026-09-17 21:36:18]   plateau_r2_start                     0/15  insufficient data
+
+[2026-09-17 21:36:18]   densification_r2                     0/15  insufficient data
+
+[2026-09-17 21:36:18]   yield_accuracy                      25/25  elastic tail undershoots data by 2.5% of elastic range
+
+[2026-09-17 21:36:18]   junction_continuity                  9/15  gap=6.0%
+
+[2026-09-17 21:36:18]   elastic_modulus_penalty              0/0  E=129.8 bar ok
+
+[2026-09-17 21:36:18]   bp1_accuracy_penalty                -30/0  plateau spans 105% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=-6%) — ok
+
+[2026-09-17 21:36:18]   catastrophic_slope_vs_modulus        0/0  slope ratio=2.53 — plateau slope ≥95% of elastic
+
+[2026-09-17 21:36:18]   CATASTROPHIC HALVING: 33 → 16
+
+[2026-09-17 21:36:18] Score: 16/100 → FAIL
+
+[2026-09-17 21:36:31] PW + Double: 0.16925492200560108
+
+[2026-09-17 21:36:31] Piecewise Chosen! 0.0967431319339806 | Drop Calculation: 0.14214519523910776
+
+[2026-09-17 21:36:45]   elastic_r2                          25/30  NRMSE-score=0.836 (RMSE=0.86, range=5.23)
+
+[2026-09-17 21:36:45]   plateau_r2_start                     0/15  insufficient data
+
+[2026-09-17 21:36:45]   densification_r2                     0/15  insufficient data
+
+[2026-09-17 21:36:45]   yield_accuracy                      24/25  elastic tail undershoots data by 18.6% of elastic range
+
+[2026-09-17 21:36:45]   junction_continuity                 11/15  gap=4.3%
+
+[2026-09-17 21:36:45]   elastic_modulus_penalty              0/0  E=239.3 bar ok
+
+[2026-09-17 21:36:45]   bp1_accuracy_penalty                -30/0  plateau spans 105% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=5%) — ok
+
+[2026-09-17 21:36:45]   catastrophic_slope_vs_modulus        0/0  slope ratio=1.37 — plateau slope ≥95% of elastic
+
+[2026-09-17 21:36:45]   CATASTROPHIC HALVING: 30 → 15
+
+[2026-09-17 21:36:45]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-09-17 21:36:45]     elastic_half_consistency: first-half R²=-0.833 vs second-half R²=-0.437 (gap=0.396)
+
+[2026-09-17 21:36:45] Score: 15/100 → FAIL
+
+[2026-09-17 21:36:45]   toe-mask retry: masked strain < 0.0858, good=False
+
+[2026-09-17 21:36:45] Elastic Modulus: 239.31 bar
+
+[2026-09-17 21:36:45] Pore Fraction: 0.5380
+
+[2026-09-17 21:36:46] Good Fit: False
+
+[2026-09-17 21:36:47] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 21:36:47] Average Standard Deviation: 54.585475813788115
+
+[2026-09-17 21:36:47] Toe end strain (zero point): 0.0297
+
+[2026-09-17 21:36:51] PW + Double: 0.1704527636893172
+
+[2026-09-17 21:36:51] Piecewise Chosen! 0.17214789310030038 | Drop Calculation: 0.09036224032794056
+
+[2026-09-17 21:37:01]   elastic_r2                          29/30  NRMSE-score=0.970 (RMSE=0.77, range=26.24)
+
+[2026-09-17 21:37:01]   plateau_r2_start                    15/15  R²(first 40%)=0.984
+
+[2026-09-17 21:37:01]   densification_r2                    14/15  R²=0.925
+
+[2026-09-17 21:37:01]   yield_accuracy                      25/25  elastic tail overshoots data by 0.5% of elastic range
+
+[2026-09-17 21:37:01]   junction_continuity                 14/15  gap=1.1%
+
+[2026-09-17 21:37:01]   plateau_r2_full_penalty              0/0  R²(full)=0.989
+
+[2026-09-17 21:37:01]   elastic_modulus_penalty              0/0  E=158.3 bar ok
+
+[2026-09-17 21:37:01]   bp1_accuracy_penalty                -30/0  plateau spans 82% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=-3%) — ok
+
+[2026-09-17 21:37:01]   changepoint_curvature_penalty        0/0  d2_norm=4.68, linear_stretch=53%
+
+[2026-09-17 21:37:01]   catastrophic_slope_vs_modulus        0/0  slope ratio=2.13 — plateau slope ≥95% of elastic
+
+[2026-09-17 21:37:01]   CATASTROPHIC HALVING: 67 → 34
+
+[2026-09-17 21:37:01] Score: 34/100 → FAIL
+
+[2026-09-17 21:37:07] PW + Double: 0.4256539448663302
+
+[2026-09-17 21:37:07] Drop Chosen! 0.28846212036469726 | Piecewise Calculation: 0.43734323787873275
+
+[2026-09-17 21:37:23]   elastic_r2                          29/30  NRMSE-score=0.972 (RMSE=1.21, range=43.72)
+
+[2026-09-17 21:37:23]   plateau_r2_start                    14/15  R²(first 40%)=0.948
+
+[2026-09-17 21:37:23]   densification_r2                    15/15  R²=0.969
+
+[2026-09-17 21:37:23]   yield_accuracy                      25/25  elastic tail undershoots data by 0.7% of elastic range
+
+[2026-09-17 21:37:23]   junction_continuity                 15/15  gap=0.1%
+
+[2026-09-17 21:37:23]   plateau_r2_full_penalty              0/0  R²(full)=0.986
+
+[2026-09-17 21:37:23]   elastic_modulus_penalty              0/0  E=350.7 bar ok
+
+[2026-09-17 21:37:23]   bp1_accuracy_penalty                 0/0  plateau spans 49% of remaining stress — ok | GAM slope stable in early plateau (drop=9%) — ok
+
+[2026-09-17 21:37:23]   changepoint_curvature_penalty       -3/0  d2_norm=0.13, linear_stretch=37%
+
+[2026-09-17 21:37:23]   slope_ratio_penalty                 -13/0  plateau/elastic slope ratio=0.80 — nearly parallel (-13 pts)
+
+[2026-09-17 21:37:23] Score: 82/100 → PASS
+
+[2026-09-17 21:37:23]   toe-mask retry: masked strain < 0.1721, good=True
+
+[2026-09-17 21:37:23] Elastic Modulus: 350.75 bar
+
+[2026-09-17 21:37:23] Pore Fraction: 0.4295
+
+[2026-09-17 21:37:24] Good Fit: True
+
+[2026-09-17 21:37:24] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 21:37:24] Average Standard Deviation: 49.722760348147766
+
+[2026-09-17 21:37:27] Toe end strain (zero point): 0.0000
+
+[2026-09-17 21:37:34] PW + Double: 0.11499383161494689
+
+[2026-09-17 21:37:34] Piecewise Chosen! 0.10488163496653319 | Drop Calculation: 0.15202289701498867
+
+[2026-09-17 21:37:39]   elastic_r2                          29/30  NRMSE-score=0.968 (RMSE=1.78, range=55.19)
+
+[2026-09-17 21:37:39]   plateau_r2_start                    14/15  R²(first 40%)=0.950
+
+[2026-09-17 21:37:39]   densification_r2                    14/15  R²=0.935
+
+[2026-09-17 21:37:39]   yield_accuracy                      25/25  elastic tail undershoots data by 0.7% of elastic range
+
+[2026-09-17 21:37:39]   junction_continuity                 12/15  gap=2.9%
+
+[2026-09-17 21:37:39]   plateau_r2_full_penalty              0/0  R²(full)=0.989
+
+[2026-09-17 21:37:39]   elastic_modulus_penalty              0/0  E=524.0 bar ok
+
+[2026-09-17 21:37:39]   bp1_accuracy_penalty                -30/0  plateau spans 65% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=35%) — ok
+
+[2026-09-17 21:37:39]   changepoint_curvature_penalty        0/0  d2_norm=2.32, linear_stretch=17%
+
+[2026-09-17 21:37:39]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.59 — good separation
+
+[2026-09-17 21:37:39] Score: 64/100 → FAIL
+
+[2026-09-17 21:37:39] Elastic Modulus: 523.99 bar
+
+[2026-09-17 21:37:39] Pore Fraction: 0.3021
+
+[2026-09-17 21:37:40] Good Fit: False
+
+[2026-09-17 21:37:40] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 21:37:40] Average Standard Deviation: 49.159424809275556
+
+[2026-09-17 21:37:44] Toe end strain (zero point): 0.0000
+
+[2026-09-17 21:37:51] PW + Double: 0.1360956390881416
+
+[2026-09-17 21:37:51] Piecewise Chosen! 0.11863673815725397 | Drop Calculation: 0.15549463515167744
+
+[2026-09-17 21:38:04]   elastic_r2                          29/30  NRMSE-score=0.970 (RMSE=1.59, range=53.28)
+
+[2026-09-17 21:38:04]   plateau_r2_start                     0/15  insufficient data
+
+[2026-09-17 21:38:04]   densification_r2                     0/15  insufficient data
+
+[2026-09-17 21:38:04]   yield_accuracy                      25/25  elastic tail overshoots data by 0.7% of elastic range
+
+[2026-09-17 21:38:04]   junction_continuity                 13/15  gap=1.8%
+
+[2026-09-17 21:38:04]   elastic_modulus_penalty              0/0  E=445.7 bar ok
+
+[2026-09-17 21:38:04]   bp1_accuracy_penalty                -30/0  plateau spans 180% of remaining stress — elastic peak likely wrong | GAM already flat at bp1 — ok
+
+[2026-09-17 21:38:04]   slope_ratio_penalty                 -17/0  plateau/elastic slope ratio=0.89 — nearly parallel (-17 pts)
+
+[2026-09-17 21:38:04] Score: 20/100 → FAIL
+
+[2026-09-17 21:38:04] Elastic Modulus: 445.74 bar
+
+[2026-09-17 21:38:04] Pore Fraction: 2571.6669
+
+[2026-09-17 21:38:04] Good Fit: False
+
+[2026-09-17 21:38:05] CV (19p5-0add-25deg-cosolv-none-bathSolv-none-0wt-130s-NoN2-1550s) [preDiscard]: 0.24793380858584688
+
+[2026-09-17 21:38:05] CV (19p5-0add-25deg-cosolv-none-bathSolv-none-0wt-130s-NoN2-1550s) [postDiscard]: nan
+
+[2026-09-17 21:38:05] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 21:38:05] Average Standard Deviation: 43.822635119941474
+
+[2026-09-17 21:38:07] Toe end strain (zero point): 0.0000
+
+[2026-09-17 21:38:12] PW + Double: 0.1967284418225889
+
+[2026-09-17 21:38:12] Piecewise Chosen! 0.221125300824011 | Drop Calculation: 0.22259113234173422
+
+[2026-09-17 21:38:23]   elastic_r2                          29/30  NRMSE-score=0.975 (RMSE=1.76, range=69.73)
+
+[2026-09-17 21:38:23]   plateau_r2_start                    15/15  R²(first 40%)=0.994
+
+[2026-09-17 21:38:23]   densification_r2                    15/15  R²=0.972
+
+[2026-09-17 21:38:23]   yield_accuracy                      25/25  elastic tail undershoots data by 1.6% of elastic range
+
+[2026-09-17 21:38:23]   junction_continuity                 15/15  gap=0.1%
+
+[2026-09-17 21:38:23]   plateau_r2_full_penalty              0/0  R²(full)=0.990
+
+[2026-09-17 21:38:23]   elastic_modulus_penalty              0/0  E=341.2 bar ok
+
+[2026-09-17 21:38:23]   bp1_accuracy_penalty                -30/0  plateau spans 51% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=3%) — ok
+
+[2026-09-17 21:38:23]   changepoint_curvature_penalty        0/0  d2_norm=1.61, linear_stretch=70%
+
+[2026-09-17 21:38:23]   slope_ratio_penalty                 -11/0  plateau/elastic slope ratio=0.74 — nearly parallel (-11 pts)
+
+[2026-09-17 21:38:23] Score: 58/100 → FAIL
+
+[2026-09-17 21:38:23] Elastic Modulus: 341.18 bar
+
+[2026-09-17 21:38:23] Pore Fraction: 0.3867
+
+[2026-09-17 21:38:24] Good Fit: False
+
+[2026-09-17 21:38:24] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 21:38:24] Average Standard Deviation: 43.84865541921301
+
+[2026-09-17 21:38:25] Toe end strain (zero point): 0.0000
+
+[2026-09-17 21:38:28] PW + Double: 0.1683733997402728
+
+[2026-09-17 21:38:28] Piecewise Chosen! 0.1697019082953808 | Drop Calculation: 0.29956446457429525
+
+[2026-09-17 21:38:40]   elastic_r2                          29/30  NRMSE-score=0.973 (RMSE=0.70, range=25.80)
+
+[2026-09-17 21:38:40]   plateau_r2_start                    15/15  R²(first 40%)=0.993
+
+[2026-09-17 21:38:40]   densification_r2                    13/15  R²=0.841
+
+[2026-09-17 21:38:40]   yield_accuracy                      25/25  elastic tail overshoots data by 0.5% of elastic range
+
+[2026-09-17 21:38:40]   junction_continuity                 14/15  gap=0.7%
+
+[2026-09-17 21:38:40]   plateau_r2_full_penalty              0/0  R²(full)=0.981
+
+[2026-09-17 21:38:40]   elastic_modulus_penalty              0/0  E=158.9 bar ok
+
+[2026-09-17 21:38:40]   bp1_accuracy_penalty                -30/0  plateau spans 90% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=1%) — ok
+
+[2026-09-17 21:38:40]   changepoint_curvature_penalty       -9/0  d2_norm=0.10, linear_stretch=100%
+
+[2026-09-17 21:38:40]   catastrophic_slope_vs_modulus        0/0  slope ratio=2.20 — plateau slope ≥95% of elastic
+
+[2026-09-17 21:38:40]   CATASTROPHIC HALVING: 57 → 28
+
+[2026-09-17 21:38:40] Score: 28/100 → FAIL
+
+[2026-09-17 21:38:40] Elastic Modulus: 158.94 bar
+
+[2026-09-17 21:38:40] Pore Fraction: 0.4971
+
+[2026-09-17 21:38:41] Good Fit: False
+
+[2026-09-17 21:38:48] [3/5] generating initial report...
+
+[2026-09-17 21:38:48] [4/5] running active learning...
+
+[2026-09-17 21:39:31] LLM suggestion: I'll analyze the experimental history systematically before proposing a new experiment.
+
+## Analysis
+
+**Validated modulus results (with measured Elastic Modulus):**
+| Experiment | polymer_wt | mixing_temp | bath_temp | pullcast_speed | N₂ | wait_time | nips_time | Modulus (MPa) | CV |
+|---|---|---|---|---|---|---|---|---|---|
+| 17wt, 25°C mix, 5°C bath, 10mm/s, N₂, 30s, 1200s | 17 | 25 | 5 | 10 | T | 30 | 1200 | 547 | 0.112 |
+| 18wt, 80°C mix, 15°C bath, 15mm/s, no N₂, 600s, 1350s | 18 | 80 | 15 | 15 | F | 600 | 1350 | 477 | 0.091 |
+| 17wt, 35°C mix, 10°C bath, 20mm/s, no N₂, 90s, 1400s | 17 | 35 | 10 | 20 | F | 90 | 1400 | 401 | 0.012 |
+| 17.5wt, 55°C mix, 25°C bath, 11mm/s, N₂, 375s, 1300s | 17.5 | 55 | 25 | 11 | T | 375 | 1300 | **592** | 0.109 |
+| 18wt, 30°C mix, 20°C bath, 16mm/s, N₂, 500s, 1450s | 18 | 30 | 20 | 16 | T | 500 | 1450 | 400 | nan |
+| 17.5wt, 25°C mix, 25°C bath, 9mm/s, N₂, 120s, 1800s | 17.5 | 25 | 25 | 9 | T | 120 | 1800 | 495 | 0.176 |
+| 17.5wt, 65°C mix, 10°C bath, 6mm/s, N₂, 15s, 1800s | 17.5 | 65 | 10 | 6 | T | 15 | 1800 | **709** | 0.129 |
+| 17.5wt, 75°C mix, 10°C bath, 14mm/s, N₂, 45s, 1550s | 17.5 | 75 | 10 | 14 | T | 45 | 1550 | 210 | nan |
+| 19wt, 65°C mix, 15°C bath, 2mm/s, N₂, 30s, 1600s | 19 | 65 | 15 | 2 | T | 30 | 1600 | 491 | 0.091 |
+| 17.5wt, 65°C mix, 10°C bath, 6mm/s, N₂, 15s, 1800s (run2) | 17.5 | 65 | 10 | 6 | T | 15 | 1800 | 475 | nan |
+| 17wt, 35°C mix, 5°C bath, 8mm/s, N₂, 0s, 1200s | 17 | 35 | 5 | 8 | T | 0 | 1200 | **569** | 0.046 |
+| 18.5wt, 25°C mix, 5°C bath, 19mm/s, no N₂, 330s, 1800s | 18.5 | 25 | 5 | 19 | F | 330 | 1800 | **667** | nan |
+| 20wt, 50°C mix, 15°C bath, 12mm/s, no N₂, 540s, 1450s | 20 | 50 | 15 | 12 | F | 540 | 1450 | 241 | nan |
+| 18wt, 45°C mix, 5°C bath, 4mm/s, N₂, 180s, 1800s | 18 | 45 | 5 | 4 | T | 180 | 1800 | **596** | nan |
+| 19.5wt, 55°C mix, 5°C bath, 18mm/s, N₂, 0s, 1500s | 19.5 | 55 | 5 | 18 | T | 0 | 1500 | **567** | nan |
+| 19wt, 70°C mix, 10°C bath, 10mm/s, no N₂, 240s, 1600s | 19 | 70 | 10 | 10 | F | 240 | 1600 | 516 | 0.056 |
+| 17.5wt, 50°C mix, 20°C bath, 7mm/s, N₂, 90s, 1250s | 17.5 | 50 | 20 | 7 | T | 90 | 1250 | **683** | nan |
+| 17wt, 75°C mix, 5°C bath, 10mm/s, N₂, 480s, 1750s | 17 | 75 | 5 | 10 | T | 480 | 1750 | 364 | nan |
+| 17.5wt, 25°C mix, 5°C bath, 12mm/s, N₂, 550s, 1450s | 17.5 | 25 | 5 | 12 | T | 550 | 1450 | **778** | 0.065 |
+| 17.5wt, 50°C mix, 5°C bath, 9mm/s, N₂, 350s, 1800s | 17.5 | 50 | 5 | 9 | T | 350 | 1800 | 472 | 0.042 |
+| 19.5wt, 80°C mix, 25°C bath, 6mm/s, no N₂, 130s, 1550s | 19.5 | 80 | 25 | 6 | F | 130 | 1550 | 351 | nan |
+| 18.5wt, 65°C mix, 5°C bath, 11mm/s, N₂, 105s, 1800s | 18.5 | 65 | 5 | 11 | T | 105 | 1800 | **593** | 0.150 |
+
+**Top performers:**
+1. 17.5wt, 25°C mix, 5°C bath, 12mm/s, N₂, 550s wait, 1450s nips → **778 MPa** (CV=0.065, good)
+2. 17.5wt, 65°C mix, 10°C bath, 6mm/s, N₂, 15s, 1800s → **709 MPa** (CV=0.129, run1 only; run2 gave 475 — significant discrepancy, not confirmed)
+3. 17.5wt, 50°C mix, 20°C bath, 7mm/s, N₂, 90s, 1250s → **683 MPa** (CV=nan, single measurement)
+4. 18.5wt, 25°C mix, 5°C bath, 19mm/s, no N₂, 330s, 1800s → **667 MPa** (CV=nan, single measurement)
+
+**Validation status:**
+- **778 MPa candidate** (17.5wt, 25°C, 5°C bath, 12mm/s, N₂, 550s, 1450s): Single run, no independent repeat. This is the apparent best. CV=0.065 is good, but synthesis reproducibility is unconfirmed. **Validation is warranted.**
+- The 709 MPa candidate has been repeated (run2=475 MPa) — the two runs disagree substantially, so it is not confirmed as a top performer.
+
+**Explore vs. validate decision:**
+The mode is **explore**, but the validation policy states: "Prioritize a validation repeat when an apparent best candidate or Pareto-front candidate has not been independently reproduced, especially for a large apparent gain." The 778 MPa result is the apparent best by a meaningful margin (~100 MPa above the next confirmed result), has not been independently reproduced, and has a good CV. The validation policy explicitly allows exact repeats in explore mode when a promising candidate needs independent validation.
+
+However, the prompt says "Search mode: explore. Prioritize design-space coverage and novelty... Allow an exact repeat when a promising candidate needs independent validation under the validation policy."
+
+Given the 778 MPa result is the clear apparent best with no independent repeat, and the validation policy explicitly prioritizes this, I will recommend a validation repeat of that candidate.
+
+**Checking feasibility:** polymer_wt=17.5, mixing_temp=25°C, bath_temp=5°C, pullcast_speed=12, nitrogen=True, coupon_to_bath_wait_time=550, nips_bath_wait_time=1450, additive_wt=0 — all within bounds. ✓
+
+```json
+{
+  "mixing_temp": 25,
+  "bath_temp": 5,
+  "pullcast_speed": 12,
+  "nitrogen": true,
+  "coupon_to_bath_wait_time": 550,
+  "nips_bath_wait_time": 1450,
+  "polymer_wt": 17.5,
+  "additive_wt": 0
+}
+```
+
+[2026-09-17 21:39:31]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_19p5-0add-25deg-cosolv-none-bathSolv-none-0wt-130s-NoN2-1550s.json
+
+[2026-09-17 21:39:31] [5/5] next params: {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 12, 'nitrogen': True, 'coupon_to_bath_wait_time': 550, 'nips_bath_wait_time': 1450, 'polymer_wt': 17.5, 'additive_wt': 0.0, 'polymer_type': 'Primospire', 'solvent_type': 'NMP', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-17 21:39:31] Python recieved!
+
+[2026-09-17 21:39:31] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 12, "nitrogen": true, "coupon_to_bath_wait_time": 550, "nips_bath_wait_time": 1450, "polymer_wt": 17.5, "additive_wt": 0.0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 21:39:31] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 5, "pullcast_speed": 12, "nitrogen": true, "coupon_to_bath_wait_time": 550, "nips_bath_wait_time": 1450, "polymer_wt": 17.5, "additive_wt": 0.0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 21:39:31] [DONE] 19p5-0add-25deg-cosolv-none-bathSolv-none-0wt-130s-NoN2-1550s  elapsed=215.2s
+
+[2026-09-17 23:45:36] ── PROTOCOL LOG (Opentrons) ────────────────────────────────────────
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:07] Recievied request for membrane with following parameters:
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:07] {'mixing_temp': 25, 'bath_temp': 5, 'pullcast_speed': 12, 'nitrogen': True, 'coupon_to_bath_wait_time': 550, 'nips_bath_wait_time': 1450, 'polymer_wt': 17.5, 'additive_wt': 0.0, 'polymer_type': 'Primospire', 'solvent_type': 'NMP', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:07] Bath chilling process started.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:07] Beginning zero tests on coupons.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:07] Opentrons process started.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:07] Target: 17.5 wt% polymer, 0 wt% additive, 1000.00 uL
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:07] Volumes (uL): polymer=824.00, polymer-additive=0.00, solvent=176.00
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:07] Bottle inventory before preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 22932.0, 'dead_volume_uL': 2000.0, 'available_uL': 20932.0}, 'solvent': {'remaining_uL': 42705.0, 'dead_volume_uL': 2000.0, 'available_uL': 40705.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:08] Current bath temperature: 23.69 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:18] Current bath temperature: 23.89 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:20] Temperature set to 25.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:28] Adding 176.00 uL from pure solvent.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:28] Current bath temperature: 24.1 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:31] entered if statement!!!
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:34] Test has started!
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:38] Current bath temperature: 24.21 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:48] Current bath temperature: 24.28 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:40:58] Current bath temperature: 24.16 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:41:08] Current bath temperature: 23.75 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:41:17] Adding 824.00 uL from polymer stock.
+
+[2026-09-17 23:45:36] [2026-09-18 01:41:19] Current bath temperature: 23.24 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:41:29] Current bath temperature: 22.72 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:41:39] Current bath temperature: 22.22 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:41:49] Current bath temperature: 21.75 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:41:59] Current bath temperature: 21.29 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:42:09] Current bath temperature: 20.85 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:42:19] Current bath temperature: 20.43 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:42:29] Current bath temperature: 20.03 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:42:39] Current bath temperature: 19.64 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:42:50] Current bath temperature: 19.25 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:00] Current bath temperature: 18.89 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:10] Current bath temperature: 18.52 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:20] Current bath temperature: 18.16 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:30] Current bath temperature: 17.81 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:40] Current bath temperature: 17.46 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:46] Test complete!
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:50] Current bath temperature: 17.12 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:51] Safe: True
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:51] Recent: True
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:51] Current Time: 1789695795.7109632
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:51] Data Time: 1789695784.9922912
+
+[2026-09-17 23:45:36] [2026-09-18 01:43:51] Age: 10.718672037124634
+
+[2026-09-17 23:45:36] [2026-09-18 01:44:00] Current bath temperature: 16.79 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:44:04] Test has started!
+
+[2026-09-17 23:45:36] [2026-09-18 01:44:10] Current bath temperature: 16.46 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:44:21] Current bath temperature: 16.14 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:44:31] Current bath temperature: 15.83 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:44:41] Current bath temperature: 15.52 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:44:51] Current bath temperature: 15.21 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:45:01] Current bath temperature: 14.91 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:45:11] Current bath temperature: 14.61 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:45:21] Current bath temperature: 14.31 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:45:31] Current bath temperature: 14.02 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:45:41] Current bath temperature: 13.73 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:45:52] Current bath temperature: 13.45 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:46:02] Current bath temperature: 13.17 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:46:12] Current bath temperature: 12.89 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:46:22] Current bath temperature: 12.61 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:46:26] entered if statement!!!
+
+[2026-09-17 23:45:36] [2026-09-18 01:46:32] Current bath temperature: 12.34 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:46:42] Current bath temperature: 12.07 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:46:52] Current bath temperature: 11.81 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:02] Current bath temperature: 11.54 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:12] Current bath temperature: 11.28 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:17] Test complete!
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:22] Safe: True
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:22] Recent: True
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:22] Current Time: 1789696006.1237738
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:22] Data Time: 1789695995.4205935
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:22] Age: 10.703180313110352
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:23] Current bath temperature: 11.02 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:33] Current bath temperature: 10.77 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:35] Test has started!
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:43] Current bath temperature: 10.51 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:47:53] Current bath temperature: 10.25 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:48:03] Current bath temperature: 10.0 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:48:13] Current bath temperature: 9.76 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:48:23] Current bath temperature: 9.5 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:48:33] Current bath temperature: 9.27 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:48:43] Current bath temperature: 9.02 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:48:54] Current bath temperature: 8.79 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:49:04] Current bath temperature: 8.56 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:49:14] Current bath temperature: 8.31 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:49:24] Current bath temperature: 8.1 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:49:34] Current bath temperature: 7.87 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:49:44] Current bath temperature: 7.66 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:49:54] Current bath temperature: 7.44 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:04] Current bath temperature: 7.24 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:14] Current bath temperature: 7.04 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:25] Current bath temperature: 6.86 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:35] Current bath temperature: 6.67 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:43] Test complete!
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:45] Current bath temperature: 6.53 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:49] Safe: True
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:49] Recent: True
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:49] Current Time: 1789696212.8299165
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:49] Data Time: 1789696202.0841296
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:49] Age: 10.745786905288696
+
+[2026-09-17 23:45:36] [2026-09-18 01:50:55] Current bath temperature: 6.41 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:51:02] Test has started!
+
+[2026-09-17 23:45:36] [2026-09-18 01:51:05] Current bath temperature: 6.3 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:51:15] Current bath temperature: 6.17 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:51:25] Current bath temperature: 6.04 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:51:35] Current bath temperature: 5.92 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:51:45] Current bath temperature: 5.8 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:51:56] Current bath temperature: 5.67 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:52:06] Current bath temperature: 5.55 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:52:16] Current bath temperature: 5.43 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:52:26] Current bath temperature: 5.31 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:52:36] Current bath temperature: 5.17 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:52:46] Current bath temperature: 5.01 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:52:46] Reached target temperature of 5 C.
+
+[2026-09-17 23:45:36] [2026-09-18 01:54:11] Test complete!
+
+[2026-09-17 23:45:36] [2026-09-18 01:54:16] Safe: True
+
+[2026-09-17 23:45:36] [2026-09-18 01:54:16] Recent: True
+
+[2026-09-17 23:45:36] [2026-09-18 01:54:16] Current Time: 1789696420.5317209
+
+[2026-09-17 23:45:36] [2026-09-18 01:54:16] Data Time: 1789696409.7581072
+
+[2026-09-17 23:45:36] [2026-09-18 01:54:16] Age: 10.773613691329956
+
+[2026-09-17 23:45:36] [2026-09-18 01:57:07] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 01:57:07] 0
+
+[2026-09-17 23:45:36] [2026-09-18 01:57:07] 10
+
+[2026-09-17 23:45:36] [2026-09-18 01:59:26] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 01:59:26] 0
+
+[2026-09-17 23:45:36] [2026-09-18 01:59:26] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:00:54] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 02:00:54] 1
+
+[2026-09-17 23:45:36] [2026-09-18 02:00:54] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:03:13] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 02:03:13] 1
+
+[2026-09-17 23:45:36] [2026-09-18 02:03:13] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:04:42] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 02:04:42] 2
+
+[2026-09-17 23:45:36] [2026-09-18 02:04:42] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:07:01] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 02:07:01] 2
+
+[2026-09-17 23:45:36] [2026-09-18 02:07:01] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:08:29] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 02:08:29] 3
+
+[2026-09-17 23:45:36] [2026-09-18 02:08:29] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:10:48] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 02:10:48] 3
+
+[2026-09-17 23:45:36] [2026-09-18 02:10:48] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:12:17] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 02:12:17] 4
+
+[2026-09-17 23:45:36] [2026-09-18 02:12:17] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:14:36] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 02:14:36] 4
+
+[2026-09-17 23:45:36] [2026-09-18 02:14:36] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:16:05] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 02:16:05] 5
+
+[2026-09-17 23:45:36] [2026-09-18 02:16:05] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:18:23] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 02:18:23] 5
+
+[2026-09-17 23:45:36] [2026-09-18 02:18:23] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:19:52] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 02:19:52] 6
+
+[2026-09-17 23:45:36] [2026-09-18 02:19:52] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:22:11] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 02:22:11] 6
+
+[2026-09-17 23:45:36] [2026-09-18 02:22:11] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:23:40] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 02:23:40] 7
+
+[2026-09-17 23:45:36] [2026-09-18 02:23:40] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:25:58] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 02:25:58] 7
+
+[2026-09-17 23:45:36] [2026-09-18 02:25:58] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:27:27] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 02:27:27] 8
+
+[2026-09-17 23:45:36] [2026-09-18 02:27:27] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:29:46] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 02:29:46] 8
+
+[2026-09-17 23:45:36] [2026-09-18 02:29:46] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:31:15] aspirate
+
+[2026-09-17 23:45:36] [2026-09-18 02:31:15] 9
+
+[2026-09-17 23:45:36] [2026-09-18 02:31:15] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:33:49] dispense
+
+[2026-09-17 23:45:36] [2026-09-18 02:33:49] 9
+
+[2026-09-17 23:45:36] [2026-09-18 02:33:49] 10
+
+[2026-09-17 23:45:36] [2026-09-18 02:33:49] 2291.6651470949873
+
+[2026-09-17 23:45:36] [2026-09-18 02:40:41] entered if statement!!!
+
+[2026-09-17 23:45:36] [2026-09-18 02:42:12] Bottle inventory after preparation: {'all_mix_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}, 'polymer_stock': {'remaining_uL': 22108.0, 'dead_volume_uL': 2000.0, 'available_uL': 20108.0}, 'solvent': {'remaining_uL': 42529.0, 'dead_volume_uL': 2000.0, 'available_uL': 40529.0}, 'solvent_additive_stock': {'remaining_uL': 20000.0, 'dead_volume_uL': 2000.0, 'available_uL': 18000.0}}
+
+[2026-09-17 23:45:36] [2026-09-18 02:42:12] Joined both subprocesses.
+
+[2026-09-17 23:45:36] [2026-09-18 02:42:59] Pullcast complete.
+
+[2026-09-17 23:45:36] [2026-09-18 02:42:59] Nitrogen on.
+
+[2026-09-17 23:45:36] [2026-09-18 02:52:22] Nitrogen off.
+
+[2026-09-17 23:45:36] [2026-09-18 02:52:22] Membrane air data: {'temperature': '25.88', 'humidity': '40.80'}
+
+[2026-09-17 23:45:36] [2026-09-18 02:52:22] Ambient air data: {'temperature': '25.71', 'humidity': '43.44'}
+
+[2026-09-17 23:45:36] [2026-09-18 02:52:33] Membrane sitting in bath for 1450 seconds.
+
+[2026-09-17 23:45:36] [2026-09-18 02:52:42] Nitrogen cap has been put away.
+
+[2026-09-17 23:45:36] [2026-09-18 02:52:57] Ring has been placed on the coupon.
+
+[2026-09-17 23:45:36] [2026-09-18 02:52:57] Cleaning knife
+
+[2026-09-17 23:45:36] [2026-09-18 02:53:57] Knife cleaning finished.
+
+[2026-09-17 23:45:36] [2026-09-18 03:27:24] Initial membrane picture taken.
+
+[2026-09-17 23:45:36] [2026-09-18 03:27:54] Test has started!
+
+[2026-09-17 23:45:36] [2026-09-18 03:31:59] Test complete!
+
+[2026-09-17 23:45:36] [2026-09-18 03:32:04] Safe: True
+
+[2026-09-17 23:45:36] [2026-09-18 03:32:04] Recent: True
+
+[2026-09-17 23:45:36] [2026-09-18 03:32:04] Current Time: 1789702288.1206172
+
+[2026-09-17 23:45:36] [2026-09-18 03:32:04] Data Time: 1789702277.2435584
+
+[2026-09-17 23:45:36] [2026-09-18 03:32:04] Age: 10.877058744430542
+
+[2026-09-17 23:45:36] [2026-09-18 03:32:17] Test has started!
+
+[2026-09-17 23:45:36] [2026-09-18 03:36:07] Test complete!
+
+[2026-09-17 23:45:36] [2026-09-18 03:36:12] Safe: True
+
+[2026-09-17 23:45:36] [2026-09-18 03:36:12] Recent: True
+
+[2026-09-17 23:45:36] [2026-09-18 03:36:12] Current Time: 1789702535.9696832
+
+[2026-09-17 23:45:36] [2026-09-18 03:36:12] Data Time: 1789702525.119485
+
+[2026-09-17 23:45:36] [2026-09-18 03:36:12] Age: 10.85019826889038
+
+[2026-09-17 23:45:36] [2026-09-18 03:36:25] Test has started!
+
+[2026-09-17 23:45:36] [2026-09-18 03:40:06] Test complete!
+
+[2026-09-17 23:45:36] [2026-09-18 03:40:11] Safe: True
+
+[2026-09-17 23:45:36] [2026-09-18 03:40:11] Recent: True
+
+[2026-09-17 23:45:36] [2026-09-18 03:40:11] Current Time: 1789702775.1313183
+
+[2026-09-17 23:45:36] [2026-09-18 03:40:11] Data Time: 1789702764.2314327
+
+[2026-09-17 23:45:36] [2026-09-18 03:40:11] Age: 10.899885654449463
+
+[2026-09-17 23:45:36] [2026-09-18 03:40:24] Test has started!
+
+[2026-09-17 23:45:36] [2026-09-18 03:44:31] Test complete!
+
+[2026-09-17 23:45:36] [2026-09-18 03:44:36] Safe: True
+
+[2026-09-17 23:45:36] [2026-09-18 03:44:36] Recent: True
+
+[2026-09-17 23:45:36] [2026-09-18 03:44:36] Current Time: 1789703040.0112524
+
+[2026-09-17 23:45:36] [2026-09-18 03:44:36] Data Time: 1789703029.2697268
+
+[2026-09-17 23:45:36] [2026-09-18 03:44:36] Age: 10.741525650024414
+
+[2026-09-17 23:45:36] [2026-09-18 03:45:10] Final membrane picture taken.
+
+[2026-09-17 23:45:36] [2026-09-18 03:45:27] Coupon successfully discarded.
+
+[2026-09-17 23:45:36] [2026-09-18 03:46:12] Done
+
+[2026-09-17 23:45:36] ── END PROTOCOL LOG ───────────────────────────────────────────────
+
+[2026-09-17 23:45:36] 
+[1/5] organising files...
+
+[2026-09-17 23:45:36] Condition already tested. New folder: 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s_run2
+
+[2026-09-17 23:45:36] [START] condition=17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s_run2
+
+[2026-09-17 23:45:36] [2/5] processing pipeline for: 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s_run2
+
+[2026-09-17 23:45:36] ==============================================================================================================
+
+[2026-09-17 23:45:36] Condition: 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s_run2 | pairs: 4
+
+[2026-09-17 23:45:37] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 23:45:37] Average Standard Deviation: 56.68311042369197
+
+[2026-09-17 23:45:39] Toe end strain (zero point): 0.0000
+
+[2026-09-17 23:45:43] PW + Double: 0.020090943782814313
+
+[2026-09-17 23:45:43] Piecewise Chosen! 0.019771402878814688 | Drop Calculation: 0.02161526793229207
+
+[2026-09-17 23:46:03]   elastic_r2                          27/30  NRMSE-score=0.890 (RMSE=0.96, range=8.72)
+
+[2026-09-17 23:46:03]   plateau_r2_start                    14/15  R²(first 40%)=0.958
+
+[2026-09-17 23:46:03]   densification_r2                    10/15  R²=0.648
+
+[2026-09-17 23:46:03]   yield_accuracy                      25/25  elastic tail undershoots data by 2.6% of elastic range
+
+[2026-09-17 23:46:03]   junction_continuity                  5/15  gap=9.8%
+
+[2026-09-17 23:46:03]   plateau_r2_full_penalty              0/0  R²(full)=0.604
+
+[2026-09-17 23:46:03]   elastic_modulus_penalty              0/0  E=353.8 bar ok
+
+[2026-09-17 23:46:03]   bp1_accuracy_penalty                 0/0  plateau spans 26% of remaining stress — ok | GAM slope stable in early plateau (drop=20%) — ok
+
+[2026-09-17 23:46:03]   changepoint_curvature_penalty       -1/0  d2_norm=0.69, linear_stretch=33%
+
+[2026-09-17 23:46:03]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.30 — good separation
+
+[2026-09-17 23:46:03]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-09-17 23:46:03]     elastic_half_consistency: first-half R²=0.250 vs second-half R²=0.504 (gap=0.254)
+
+[2026-09-17 23:46:03] Score: 80/100 → PASS
+
+[2026-09-17 23:46:03] Elastic Modulus: 353.79 bar
+
+[2026-09-17 23:46:03] Pore Fraction: 0.3587
+
+[2026-09-17 23:46:03] Good Fit: True
+
+[2026-09-17 23:46:04] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 23:46:04] Average Standard Deviation: 52.135330900067565
+
+[2026-09-17 23:46:06] Toe end strain (zero point): 0.0000
+
+[2026-09-17 23:46:14] PW + Double: 0.34364247264938425
+
+[2026-09-17 23:46:14] Drop Chosen! 0.14205422469612833 | Piecewise Calculation: 0.3565806970847618
+
+[2026-09-17 23:46:28]   elastic_r2                          29/30  NRMSE-score=0.968 (RMSE=1.61, range=50.99)
+
+[2026-09-17 23:46:28]   plateau_r2_start                    15/15  R²(first 40%)=0.974
+
+[2026-09-17 23:46:28]   densification_r2                    15/15  R²=0.976
+
+[2026-09-17 23:46:28]   yield_accuracy                      25/25  elastic tail undershoots data by 1.9% of elastic range
+
+[2026-09-17 23:46:28]   junction_continuity                 13/15  gap=2.5%
+
+[2026-09-17 23:46:28]   plateau_r2_full_penalty              0/0  R²(full)=0.989
+
+[2026-09-17 23:46:28]   elastic_modulus_penalty              0/0  E=331.2 bar ok
+
+[2026-09-17 23:46:28]   bp1_accuracy_penalty                 0/0  plateau spans 46% of remaining stress — ok | GAM slope stable in early plateau (drop=27%) — ok
+
+[2026-09-17 23:46:28]   changepoint_curvature_penalty        0/0  d2_norm=1.76, linear_stretch=27%
+
+[2026-09-17 23:46:28]   slope_ratio_penalty                 -9/0  plateau/elastic slope ratio=0.69 — nearly parallel (-9 pts)
+
+[2026-09-17 23:46:28] Score: 88/100 → PASS
+
+[2026-09-17 23:46:28] Elastic Modulus: 331.21 bar
+
+[2026-09-17 23:46:28] Pore Fraction: 0.3339
+
+[2026-09-17 23:46:28] Good Fit: True
+
+[2026-09-17 23:46:29] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 23:46:29] Average Standard Deviation: 48.94085753410874
+
+[2026-09-17 23:46:32] Toe end strain (zero point): 0.0000
+
+[2026-09-17 23:46:38] PW + Double: 0.12283277293986253
+
+[2026-09-17 23:46:38] Piecewise Chosen! 0.09187047311858171 | Drop Calculation: 0.13191880297844374
+
+[2026-09-17 23:46:47]   elastic_r2                          29/30  NRMSE-score=0.962 (RMSE=1.53, range=40.17)
+
+[2026-09-17 23:46:47]   plateau_r2_start                    14/15  R²(first 40%)=0.965
+
+[2026-09-17 23:46:47]   densification_r2                    14/15  R²=0.934
+
+[2026-09-17 23:46:47]   yield_accuracy                      25/25  elastic tail undershoots data by 1.7% of elastic range
+
+[2026-09-17 23:46:47]   junction_continuity                  8/15  gap=7.3%
+
+[2026-09-17 23:46:47]   plateau_r2_full_penalty              0/0  R²(full)=0.954
+
+[2026-09-17 23:46:47]   elastic_modulus_penalty              0/0  E=419.1 bar ok
+
+[2026-09-17 23:46:47]   bp1_accuracy_penalty                -35/0  plateau spans 77% of remaining stress — elastic peak likely wrong | GAM slope drops 47% in early plateau — bp1 suspect
+
+[2026-09-17 23:46:47]   changepoint_curvature_penalty        0/0  d2_norm=4.27, linear_stretch=40%
+
+[2026-09-17 23:46:47]   slope_ratio_penalty                 -10/0  plateau/elastic slope ratio=0.71 — nearly parallel (-10 pts)
+
+[2026-09-17 23:46:47] Score: 45/100 → FAIL
+
+[2026-09-17 23:46:47] Elastic Modulus: 419.08 bar
+
+[2026-09-17 23:46:47] Pore Fraction: 0.3791
+
+[2026-09-17 23:46:48] Good Fit: False
+
+[2026-09-17 23:46:48] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 23:46:48] Average Standard Deviation: 52.63046142434123
+
+[2026-09-17 23:46:51] Toe end strain (zero point): 0.0000
+
+[2026-09-17 23:46:56] PW + Double: 0.06284117164484873
+
+[2026-09-17 23:46:56] Piecewise Chosen! 0.04533354981948001 | Drop Calculation: 0.19745984890263732
+
+[2026-09-17 23:47:14]   elastic_r2                          28/30  NRMSE-score=0.942 (RMSE=0.23, range=4.04)
+
+[2026-09-17 23:47:14]   plateau_r2_start                    15/15  R²(first 40%)=0.995
+
+[2026-09-17 23:47:14]   densification_r2                     0/15  insufficient data
+
+[2026-09-17 23:47:14]   yield_accuracy                      25/25  elastic tail undershoots data by 1.3% of elastic range
+
+[2026-09-17 23:47:14]   junction_continuity                  0/15  gap=38.8%
+
+[2026-09-17 23:47:14]   plateau_r2_full_penalty              0/0  R²(full)=0.957
+
+[2026-09-17 23:47:14]   elastic_modulus_penalty              0/0  E=91.9 bar ok
+
+[2026-09-17 23:47:14]   bp1_accuracy_penalty                -30/0  plateau spans 101% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=-28%) — ok
+
+[2026-09-17 23:47:14]   catastrophic_slope_vs_modulus        0/0  slope ratio=3.25 — plateau slope ≥95% of elastic
+
+[2026-09-17 23:47:14]   CATASTROPHIC HALVING: 38 → 19
+
+[2026-09-17 23:47:14] Score: 19/100 → FAIL
+
+[2026-09-17 23:47:20] PW + Double: 0.17003244353189048
+
+[2026-09-17 23:47:20] Piecewise Chosen! 0.18634857911380384 | Drop Calculation: 0.20239435727094474
+
+[2026-09-17 23:47:35]   elastic_r2                          29/30  NRMSE-score=0.978 (RMSE=0.92, range=41.90)
+
+[2026-09-17 23:47:35]   plateau_r2_start                    15/15  R²(first 40%)=0.989
+
+[2026-09-17 23:47:35]   densification_r2                    15/15  R²=0.983
+
+[2026-09-17 23:47:35]   yield_accuracy                      25/25  elastic tail undershoots data by 0.1% of elastic range
+
+[2026-09-17 23:47:35]   junction_continuity                 15/15  gap=0.2%
+
+[2026-09-17 23:47:35]   plateau_r2_full_penalty              0/0  R²(full)=0.995
+
+[2026-09-17 23:47:35]   elastic_modulus_penalty              0/0  E=306.4 bar ok
+
+[2026-09-17 23:47:35]   bp1_accuracy_penalty                -30/0  plateau spans 57% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=25%) — ok
+
+[2026-09-17 23:47:35]   changepoint_curvature_penalty        0/0  d2_norm=1.87, linear_stretch=37%
+
+[2026-09-17 23:47:35]   slope_ratio_penalty                 -11/0  plateau/elastic slope ratio=0.75 — nearly parallel (-11 pts)
+
+[2026-09-17 23:47:35] Score: 58/100 → FAIL
+
+[2026-09-17 23:47:35]   toe-mask retry: masked strain < 0.0453, good=False
+
+[2026-09-17 23:47:35] Elastic Modulus: 306.35 bar
+
+[2026-09-17 23:47:35] Pore Fraction: 0.4376
+
+[2026-09-17 23:47:36] Good Fit: False
+
+[2026-09-17 23:47:36] CV (17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s_run2) [preDiscard]: 0.20317710880141907
+
+[2026-09-17 23:47:36] CV (17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s_run2) [postDiscard]: 0.2503662587182044
+
+[2026-09-17 23:47:37] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 23:47:37] Average Standard Deviation: 43.892179291514196
+
+[2026-09-17 23:47:39] Toe end strain (zero point): 0.0000
+
+[2026-09-17 23:47:45] PW + Double: 0.10050614436897998
+
+[2026-09-17 23:47:45] Piecewise Chosen! 0.07454758422786271 | Drop Calculation: 0.03676616374722786
+
+[2026-09-17 23:47:59]   elastic_r2                          29/30  NRMSE-score=0.970 (RMSE=0.51, range=17.06)
+
+[2026-09-17 23:47:59]   plateau_r2_start                    15/15  R²(first 40%)=0.993
+
+[2026-09-17 23:47:59]   densification_r2                    14/15  R²=0.961
+
+[2026-09-17 23:47:59]   yield_accuracy                      25/25  elastic tail overshoots data by 1.8% of elastic range
+
+[2026-09-17 23:47:59]   junction_continuity                  2/15  gap=13.0%
+
+[2026-09-17 23:47:59]   plateau_r2_full_penalty              0/0  R²(full)=0.954
+
+[2026-09-17 23:47:59]   elastic_modulus_penalty              0/0  E=221.1 bar ok
+
+[2026-09-17 23:47:59]   bp1_accuracy_penalty                -30/0  plateau spans 89% of remaining stress — elastic peak likely wrong | GAM slope stable in early plateau (drop=-2%) — ok
+
+[2026-09-17 23:47:59]   changepoint_curvature_penalty        0/0  d2_norm=6.16, linear_stretch=100%
+
+[2026-09-17 23:47:59]   catastrophic_slope_vs_modulus        0/0  slope ratio=1.43 — plateau slope ≥95% of elastic
+
+[2026-09-17 23:47:59]   CATASTROPHIC HALVING: 55 → 28
+
+[2026-09-17 23:47:59] Score: 28/100 → FAIL
+
+[2026-09-17 23:47:59] Elastic Modulus: 221.07 bar
+
+[2026-09-17 23:47:59] Pore Fraction: 0.4545
+
+[2026-09-17 23:48:00] Good Fit: False
+
+[2026-09-17 23:48:00] 
+
+------------ NEW REP ---------------
+
+[2026-09-17 23:48:00] Average Standard Deviation: 44.00153284379719
+
+[2026-09-17 23:48:01] Toe end strain (zero point): 0.0000
+
+[2026-09-17 23:48:04] PW + Double: 0.010849649027833462
+
+[2026-09-17 23:48:04] Piecewise Chosen! 0.010377566573403666 | Drop Calculation: 0.03289544840601303
+
+[2026-09-17 23:48:20]   elastic_r2                          26/30  NRMSE-score=0.869 (RMSE=0.97, range=7.45)
+
+[2026-09-17 23:48:20]   plateau_r2_start                    14/15  R²(first 40%)=0.951
+
+[2026-09-17 23:48:20]   densification_r2                    14/15  R²=0.900
+
+[2026-09-17 23:48:20]   yield_accuracy                      25/25  elastic tail undershoots data by 4.1% of elastic range
+
+[2026-09-17 23:48:20]   junction_continuity                  9/15  gap=6.0%
+
+[2026-09-17 23:48:20]   plateau_r2_full_penalty              0/0  R²(full)=0.631
+
+[2026-09-17 23:48:20]   elastic_modulus_penalty              0/0  E=410.5 bar ok
+
+[2026-09-17 23:48:20]   bp1_accuracy_penalty                 0/0  plateau spans 33% of remaining stress — ok | GAM slope stable in early plateau (drop=-16%) — ok
+
+[2026-09-17 23:48:20]   changepoint_curvature_penalty       -3/0  d2_norm=0.29, linear_stretch=37%
+
+[2026-09-17 23:48:20]   slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.38 — good separation
+
+[2026-09-17 23:48:20]   DATA FLAGS (no score impact — route to goodData_eval):
+
+[2026-09-17 23:48:20]     elastic_half_consistency: first-half R²=-0.258 vs second-half R²=0.499 (gap=0.757)
+
+[2026-09-17 23:48:20] Score: 85/100 → PASS
+
+[2026-09-17 23:48:20] Elastic Modulus: 410.50 bar
+
+[2026-09-17 23:48:20] Pore Fraction: 0.3159
+
+[2026-09-17 23:48:20] Good Fit: True
+
+[2026-09-17 23:48:28] [3/5] generating initial report...
+
+[2026-09-17 23:48:28] [4/5] running active learning...
+
+[2026-09-17 23:49:23] LLM suggestion: I'll analyze the experimental history systematically before proposing a new experiment.
+
+## Analysis
+
+**Validated modulus results (with measured Elastic Modulus):**
+| Experiment | polymer_wt | mixing_temp | bath_temp | pullcast_speed | N₂ | wait_time | nips_time | Modulus (MPa) | CV |
+|---|---|---|---|---|---|---|---|---|---|
+| 17wt, 25°C, 5°C bath, 10mm/s, N₂, 30s, 1200s | 17 | 25 | 5 | 10 | T | 30 | 1200 | 547 | 0.112 |
+| 18wt, 80°C, 15°C bath, 15mm/s, no N₂, 600s, 1350s | 18 | 80 | 15 | 15 | F | 600 | 1350 | 477 | 0.091 |
+| 17wt, 35°C, 10°C bath, 20mm/s, no N₂, 90s, 1400s | 17 | 35 | 10 | 20 | F | 90 | 1400 | 401 | 0.012 |
+| 17.5wt, 55°C, 25°C bath, 11mm/s, N₂, 375s, 1300s | 17.5 | 55 | 25 | 11 | T | 375 | 1300 | **592** | 0.109 |
+| 17.5wt, 25°C, 25°C bath, 9mm/s, N₂, 120s, 1800s | 17.5 | 25 | 25 | 9 | T | 120 | 1800 | 495 | 0.176 |
+| 17.5wt, 65°C, 10°C bath, 6mm/s, N₂, 15s, 1800s | 17.5 | 65 | 10 | 6 | T | 15 | 1800 | **709** | 0.129 |
+| 17.5wt, 75°C, 10°C bath, 14mm/s, N₂, 45s, 1550s | 17.5 | 75 | 10 | 14 | T | 45 | 1550 | 210 | nan |
+| 19wt, 65°C, 15°C bath, 2mm/s, N₂, 30s, 1600s | 19 | 65 | 15 | 2 | T | 30 | 1600 | 491 | 0.091 |
+| 17.5wt, 65°C, 10°C, 6mm/s, N₂, 15s, 1800s (run2) | 17.5 | 65 | 10 | 6 | T | 15 | 1800 | 475 | nan |
+| 17wt, 35°C, 5°C, 8mm/s, N₂, 0s, 1200s | 17 | 35 | 5 | 8 | T | 0 | 1200 | 569 | 0.046 |
+| 18.5wt, 25°C, 5°C, 19mm/s, no N₂, 330s, 1800s | 18.5 | 25 | 5 | 19 | F | 330 | 1800 | **667** | nan |
+| 20wt, 50°C, 15°C, 12mm/s, no N₂, 540s, 1450s | 20 | 50 | 15 | 12 | F | 540 | 1450 | 241 | nan |
+| 18wt, 45°C, 5°C, 4mm/s, N₂, 180s, 1800s | 18 | 45 | 5 | 4 | T | 180 | 1800 | 596 | nan |
+| 19.5wt, 55°C, 5°C, 18mm/s, N₂, 0s, 1500s | 19.5 | 55 | 5 | 18 | T | 0 | 1500 | 567 | nan |
+| 19wt, 70°C, 10°C, 10mm/s, no N₂, 240s, 1600s | 19 | 70 | 10 | 10 | F | 240 | 1600 | 516 | 0.056 |
+| 18.5wt, 65°C, 5°C, 11mm/s, N₂, 105s, 1800s | 18.5 | 65 | 5 | 11 | T | 105 | 1800 | 593 | 0.150 |
+| 17.5wt, 50°C, 20°C, 7mm/s, N₂, 90s, 1250s | 17.5 | 50 | 20 | 7 | T | 90 | 1250 | **683** | nan |
+| 17wt, 75°C, 5°C, 10mm/s, N₂, 480s, 1750s | 17 | 75 | 5 | 10 | T | 480 | 1750 | 364 | nan |
+| 20.5wt, 30°C, 20°C, 20mm/s, no N₂, 0s, 1200s | 20.5 | 30 | 20 | 20 | F | 0 | 1200 | nan | nan |
+| 19.5wt, 80°C, 25°C, 6mm/s, no N₂, 130s, 1550s | 19.5 | 80 | 25 | 6 | F | 130 | 1550 | 351 | nan |
+| 17.5wt, 25°C, 5°C, 12mm/s, N₂, 550s, 1450s | 17.5 | 25 | 5 | 12 | T | 550 | 1450 | **778** | 0.065 |
+| 17.5wt, 50°C, 5°C, 9mm/s, N₂, 350s, 1800s | 17.5 | 50 | 5 | 9 | T | 350 | 1800 | 472 | 0.042 |
+| 17.5wt, 25°C, 5°C, 12mm/s, N₂, 550s, 1450s (run2) | 17.5 | 25 | 5 | 12 | T | 550 | 1450 | 342 | 0.250 |
+
+**Key observations:**
+- **Best single measurement:** 17.5wt, 25°C mixing, 5°C bath, 12mm/s, N₂, 550s wait, 1450s nips → 778 MPa (run1), but run2 gave only 342 MPa with high CV (0.25). These two runs are highly discrepant — the candidate is NOT confirmed.
+- **Second best:** 17.5wt, 65°C, 10°C bath, 6mm/s, N₂, 15s, 1800s → run1: 709 MPa, run2: 475 MPa. Also discrepant between runs.
+- **Third best:** 17.5wt, 50°C, 20°C bath, 7mm/s, N₂, 90s, 1250s → 683 MPa (single measurement, no repeat).
+- **Fourth best:** 18.5wt, 25°C, 5°C bath, 19mm/s, no N₂, 330s, 1800s → 667 MPa (single measurement, no repeat).
+
+**Validation status:**
+- The 778 MPa candidate (17.5wt, 25°C, 5°C, 12mm/s, N₂, 550s, 1450s) has been repeated twice. Run1=778, Run2=342. These are dramatically different — high variability, not confirmed. The mean of the two runs is ~560 MPa, not exceptional.
+- The 709 MPa candidate (17.5wt, 65°C, 10°C, 6mm/s, N₂, 15s, 1800s) has run1=709, run2=475. Mean ~592 MPa, also variable.
+- The 683 MPa candidate (17.5wt, 50°C, 20°C, 7mm/s, N₂, 90s, 1250s) has only one measurement.
+- The 667 MPa candidate (18.5wt, 25°C, 5°C, 19mm/s, no N₂, 330s, 1800s) has only one measurement.
+
+**Mode: Explore.** The instruction is to prioritize design-space coverage and novelty. With 33 experiments done, the space is reasonably sampled but there are still sparse regions. Looking at the diversity context:
+- `bath_temp` has only 5 unique values (5, 10, 15, 20, 25°C) — all covered
+- `polymer_wt` has 9 unique values from 17–21 — sparse around 17.5–18 at certain bath/mixing combos
+- `mixing_temp` has 12 unique values — fairly well covered
+- `nips_bath_wait_time` has 13 unique values — moderate coverage
+
+**Sparse regions to explore:**
+- High mixing_temp (70-80°C) + intermediate bath_temp (10-15°C) + higher polymer_wt (19-20wt) + moderate-high pullcast speed + N₂ + intermediate wait time — this combination is underrepresented.
+- Specifically: mixing_temp=75°C, bath_temp=15°C, polymer_wt=20wt, pullcast_speed=19mm/s, N₂=True, wait=400s, nips=1600s — this is far from existing points.
+
+Let me check for near-duplicates:
+- mixing_temp=75, bath_temp=10, pullcast=14, N₂=T, wait=45, nips=1550, polymer=17.5 — exists
+- mixing_temp=75, bath_temp=5, pullcast=10, N₂=T, wait=480, nips=1750, polymer=17 — exists
+- Proposed: mixing_temp=75, bath_temp=15, pullcast=19, N₂=True, wait=400, nips=1600, polymer=20 — novel combination, no near-duplicate
+
+This is a genuinely sparse region: high mixing temp (75°C) + bath_temp=15°C (undersampled at this mixing_temp) + polymer_wt=20 (not tried at these conditions) + fast pullcast (19mm/s, only one prior at this speed) + N₂ + moderate wait (400s) + nips=1600s.
+
+```json
+{
+  "mixing_temp": 75,
+  "bath_temp": 15,
+  "pullcast_speed": 19,
+  "nitrogen": true,
+  "coupon_to_bath_wait_time": 400,
+  "nips_bath_wait_time": 1600,
+  "polymer_wt": 20.0,
+  "additive_wt": 0
+}
+```
+
+[2026-09-17 23:49:23]   JSON result: C:\Users\opentrons\Documents\Auto-Membranes\data\llm_results\llm_result_17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s_run2.json
+
+[2026-09-17 23:49:23] [5/5] next params: {'mixing_temp': 75, 'bath_temp': 15, 'pullcast_speed': 19, 'nitrogen': True, 'coupon_to_bath_wait_time': 400, 'nips_bath_wait_time': 1600, 'polymer_wt': 20.0, 'additive_wt': 0.0, 'polymer_type': 'Primospire', 'solvent_type': 'NMP', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 21.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-17 23:49:23] Python recieved!
+
+[2026-09-17 23:49:23] Exact payload being sent: {"mixing_temp": 75, "bath_temp": 15, "pullcast_speed": 19, "nitrogen": true, "coupon_to_bath_wait_time": 400, "nips_bath_wait_time": 1600, "polymer_wt": 20.0, "additive_wt": 0.0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 23:49:23] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 75, "bath_temp": 15, "pullcast_speed": 19, "nitrogen": true, "coupon_to_bath_wait_time": 400, "nips_bath_wait_time": 1600, "polymer_wt": 20.0, "additive_wt": 0.0, "polymer_type": "Primospire", "solvent_type": "NMP", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 21.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-17 23:49:23] [DONE] 17p5-0add-5deg-cosolv-none-bathSolv-none-0wt-550s-N2-1450s_run2  elapsed=226.8s
+
+[2026-09-18 12:21:30] 
+stopping server...
+
