@@ -16,10 +16,12 @@ CONTEXT = ['cosolvent_type', 'nips_bath_solvent', 'nips_bath_solvent_wt_percent'
            'Air Temp Mean', 'Humidity Mean', 'Coupon Temp Mean', 'Coupon Humidity Mean']
 
 
-def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='Caller-selected dataframe'):
+def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='Caller-selected dataframe',
+                      *, last_campaign=POLARCLEAN_LAST_CAMPAIGN, chemistry_verified=False):
     """Export selected aggregate rows; retain failures as unknown-outcome history."""
     data = frame.copy()
-    data = data[data['campaign'] <= POLARCLEAN_LAST_CAMPAIGN].copy()
+    if last_campaign is not None:
+        data = data[data['campaign'] <= last_campaign].copy()
     data = data.drop_duplicates('condition', keep='last').sort_values('sample_time')
     # Negative strain at 50 bar indicates an artifact; retain unknown outcomes.
     strain_50 = pd.to_numeric(data['Strain at 50 bar Mean'], errors='coerce')
@@ -73,14 +75,14 @@ def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='
     data.to_csv(output_path, index=False)
     summary = {
         'rows': len(data),
-        'last_campaign': POLARCLEAN_LAST_CAMPAIGN,
+        'last_campaign': last_campaign,
         'excluded_negative_strain_rows': excluded_negative_strain_rows,
         'complete_parameter_rows': int(data[PARAMETERS].notna().all(axis=1).sum()),
         'modulus_rows': int(data['Elastic Modulus Mean'].notna().sum()),
         'paired_objective_rows': int(data[['Elastic Modulus Mean', 'Pore Fraction Mean']].notna().all(axis=1).sum()),
         'campaigns': sorted(data['campaign'].unique().tolist()),
         'selection': selection_description,
-        'limitations': ['Chemistry is inferred, not verified.', 'Pore fraction is a compression-fit estimate.',
+        'limitations': ([] if chemistry_verified else ['Chemistry is inferred, not verified.']) + ['Pore fraction is a compression-fit estimate.',
                        'Independent synthesis validation status is unknown.',
                        'Notebook filters exclude thin/failed samples: exploration coverage is incomplete.'],
     }

@@ -95,10 +95,10 @@ ITERATE_POLYMER = False
 #   "explore": maximize diversity/coverage to populate the dataset
 # Double mode needs measured pore fractions in performance reports or the LLM CSV's
 # pore_fraction_report column, with units/scale. Missing measurements remain unknown.
-LLM_AL_SEARCH_MODE = "explore"
+LLM_AL_SEARCH_MODE = "double"
 # Historical context only; does not seed checkpoints or resume old suggestions.
 # Set to None to start without historical context.
-LLM_AL_WARM_START_CSV = None  # _REPO_ROOT / "data/warm_start/polysulfone_polarclean.csv"
+LLM_AL_WARM_START_CSV = _REPO_ROOT / "data/warm_start/primospire_nmp.csv"
 llm_context.resolve_al_mode(LLM_AL_SEARCH_MODE)  # Fail early on a misspelled mode.
 # Number of recent unique points provided as diversity context when
 # LLM_AL_SEARCH_MODE="explore". None means keep all historical unique points.
@@ -106,7 +106,7 @@ LLM_AL_EXPLORATION_HISTORY_POINTS = None
 #basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
 #in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
-CONTINUE_CAMPAIGN = "2026-09-10"
+CONTINUE_CAMPAIGN = None
 
 
 def _campaign_date_folder_tag(continue_campaign):
