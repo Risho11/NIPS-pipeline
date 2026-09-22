@@ -1,7 +1,7 @@
 """
 run_loop.py — continuous active learning loop.
 
-1. Sends INITIAL_PARAMS to robot → robot runs synthesis + compression test
+1. Sends a warm-start suggestion (or INITIAL_PARAMS) to robot for synthesis + compression test
 2. Robot POSTs back to /server/process
 3. Pipeline processes new condition, saves to output2.csv
 4. Claude suggests next params → url.run_test(next_params)
@@ -50,8 +50,8 @@ import llm_context                             # <<< IMPORT >>> what branch resu
 
 # Semi-batch material choices. Recorded with every condition and provided to LLM_AL as context,
 # but never selected or changed by the model.
-POLYMER_TYPE = "Primospire"  # Set before starting the campaign.
-SOLVENT_TYPE = "NMP"  # Base casting solvent identity.
+POLYMER_TYPE = "Polysulfone"  # PSf; set before starting the campaign.
+SOLVENT_TYPE = "PolarClean"  # Base casting solvent identity.
 COSOLVENT_TYPE = "none"
 NIPS_BATH_SOLVENT = "none"
 NIPS_BATH_SOLVENT_WT_PERCENT = 0.0
@@ -96,9 +96,9 @@ ITERATE_POLYMER = False
 # Double mode needs measured pore fractions in performance reports or the LLM CSV's
 # pore_fraction_report column, with units/scale. Missing measurements remain unknown.
 LLM_AL_SEARCH_MODE = "double"
-# Historical context only; does not seed checkpoints or resume old suggestions.
+# Historical context; also generates the first suggestion for a new campaign.
 # Set to None to start without historical context.
-LLM_AL_WARM_START_CSV = _REPO_ROOT / "data/warm_start/primospire_nmp.csv"
+LLM_AL_WARM_START_CSV = _REPO_ROOT / "data/warm_start/polysulfone_polarclean.csv"
 llm_context.resolve_al_mode(LLM_AL_SEARCH_MODE)  # Fail early on a misspelled mode.
 # Number of recent unique points provided as diversity context when
 # LLM_AL_SEARCH_MODE="explore". None means keep all historical unique points.
@@ -314,18 +314,30 @@ IMAGES_PATH  = Path(r"C:\Users\opentrons\Documents\auto-membranes\images")
 SERVER_IP    = "169.254.230.148"
 SERVER_PORT  = 8000
 CAMERA_INDEX = 2  # change if wrong camera after restart or replug
+CAMERA_WARMUP_SECONDS = 5.0
 # ──────────────────────────────────────────────────────────────────────────────
 
 def take_snapshot():
+    print("[CAMERA] Snapshot requested; warming up camera.")
+    # Read/discard frames so auto-exposure adapts rather than saving a stale frame.
+    warmup_until = time.monotonic() + CAMERA_WARMUP_SECONDS
+    while time.monotonic() < warmup_until:
+        ret, _ = cam.read()
+        if not ret:
+            raise RuntimeError("Unable to read camera during warm-up")
+        time.sleep(0.01)
     ret, img = cam.read()
     if ret:
         # IMAGES_PATH, not a relative "images" -- must match get_last_set_img()'s read path
         # exactly, or snapshots silently land wherever the script's CWD happens to be instead
         # of where move_and_rename() looks for them.
         ts = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        cv2.imwrite(str(IMAGES_PATH / f"{ts}.jpg"), img)
+        image_path = IMAGES_PATH / f"{ts}.jpg"
+        if not cv2.imwrite(str(image_path), img):
+            raise RuntimeError(f"Unable to save camera snapshot: {image_path}")
+        print(f"[CAMERA] Snapshot saved: {image_path}")
     else:
-        print("Error: unable to take picture")
+        raise RuntimeError("Unable to take camera snapshot")
 
 def get_last_set_csv():
     # Reps per condition varies by protocol -- 8 is today's number, not a hard rule. Since
@@ -505,6 +517,55 @@ def _validate_params(params):
         raise ValueError("next_params['nips_bath_solvent_wt_percent'] must be between 0 and 100")
 
 
+def _enforce_stock_mixing_temperature(params):
+    """Normalize outgoing parameters only; never rewrite measured experiment inputs."""
+    if activeLearning.bounds.is_undiluted_polymer_stock(
+        params["polymer_wt"], params["additive_wt"]
+    ) and params["mixing_temp"] != 25:
+        print(f"[STOCK] Undiluted polymer stock: forcing mixing_temp "
+              f"from {params['mixing_temp']} to 25 C (no mixing).")
+        params["mixing_temp"] = 25
+    return params
+
+
+def _new_campaign_params():
+    """Use historical observations for the first experiment when configured."""
+    if LLM_AL_WARM_START_CSV is None:
+        return _enforce_stock_mixing_temperature(dict(INITIAL_PARAMS))
+    print(f"Generating first experiment from warm-start history: {LLM_AL_WARM_START_CSV}")
+    suggestion = llm_context.generate_warm_start_suggestion(
+        LLM_AL_WARM_START_CSV, activeLearning,
+        locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
+        al_search_mode=LLM_AL_SEARCH_MODE,
+        material_context={"polymer_type": POLYMER_TYPE, "solvent_type": SOLVENT_TYPE},
+        exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
+    )
+    params = _extract_next_params(suggestion)
+    if LOCK_ADDITIVE_WT:
+        params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
+    params["polymer_wt"], params["additive_wt"] = activeLearning.bounds.test_target(
+        params["polymer_wt"], params["additive_wt"]
+    )
+    params.update(
+        polymer_type=POLYMER_TYPE, solvent_type=SOLVENT_TYPE,
+        cosolvent_type=COSOLVENT_TYPE, nips_bath_solvent=NIPS_BATH_SOLVENT,
+        nips_bath_solvent_wt_percent=NIPS_BATH_SOLVENT_WT_PERCENT,
+    )
+    _validate_params(params)
+    _enforce_stock_mixing_temperature(params)
+    CSV_AGG_LLM.parent.mkdir(parents=True, exist_ok=True)
+    result_path = CSV_AGG_LLM.parent / "initial_suggestion.json"
+    result_path.write_text(json.dumps({
+        "warm_start_csv": str(LLM_AL_WARM_START_CSV),
+        "search_mode": LLM_AL_SEARCH_MODE,
+        "suggestion": suggestion,
+        "next_params": params,
+        "stock_metadata": activeLearning.bounds.send_metadata(),
+    }, indent=2), encoding="utf-8")
+    print(f"Saved first recommendation: {result_path}")
+    return params
+
+
 def _load_resume_params_for_campaign(campaign_date):
     """Load the most recent saved next params for a given campaign date."""
     llm_csv = DATA_ROOT / "data" / "results" / f"begins_{campaign_date}" / "llm.csv"
@@ -561,6 +622,7 @@ def _load_resume_params_for_campaign(campaign_date):
         recovered_params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
         recovered_params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
         _validate_params(recovered_params)
+        _enforce_stock_mixing_temperature(recovered_params)
 
         saved_params = dict(recovered_params)
         saved_params["stock_metadata"] = activeLearning.bounds.send_metadata()
@@ -584,6 +646,7 @@ def _load_resume_params_for_campaign(campaign_date):
     params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
     params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
     _validate_params(params)
+    _enforce_stock_mixing_temperature(params)
     print(f"Resuming campaign {campaign_date} from {llm_result.name}")
     return params
 
@@ -730,6 +793,7 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
             new_params["nips_bath_solvent"] = NIPS_BATH_SOLVENT
             new_params["nips_bath_solvent_wt_percent"] = NIPS_BATH_SOLVENT_WT_PERCENT
             _validate_params(new_params)
+            _enforce_stock_mixing_temperature(new_params)
 
             # attach stock class metadata so the opentrons server has it alongside the params
             new_params["stock_metadata"] = activeLearning.bounds.send_metadata()
@@ -740,6 +804,8 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
             _complete_stage(condition_name, state, "recommendation_saved")
             print(f"  JSON result: {json_out}")
 
+        # Recheck cached recommendations too: they may predate this constraint.
+        _enforce_stock_mixing_temperature(new_params)
         print(f"[5/5] next params: {new_params}")
         if "submission_started" in completed:
             raise RuntimeError(
@@ -786,10 +852,18 @@ class LoopHandler(BaseHTTPRequestHandler):
             }).encode())
 
         elif path == "/camera/snapshot":
-            self.send_response(200)
+            try:
+                take_snapshot()
+                status, result = 200, True
+            except Exception as exc:
+                print(f"[CAMERA] Snapshot failed: {exc}")
+                status, result = 500, {"error": str(exc)}
+            payload = json.dumps(result).encode()
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(payload)))
             self.end_headers()
-            take_snapshot()
-            self.wfile.write(json.dumps(True).encode())
+            self.wfile.write(payload)
 
         else:
             self.send_response(404)
@@ -852,12 +926,13 @@ if __name__ == "__main__":
     elif CONTINUE_CAMPAIGN is not None:
         first_params = _load_resume_params_for_campaign(d)
     else:
-        first_params = dict(INITIAL_PARAMS)
+        first_params = _new_campaign_params()
 
     if first_params is not None:
         first_params["stock_metadata"] = activeLearning.bounds.send_metadata()
         if LOCK_ADDITIVE_WT:
-            first_params["additive_wt"] = 0
+            first_params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
+        _enforce_stock_mixing_temperature(first_params)
         print(f"kicking off first experiment: {first_params}")
         url.run_test(first_params)
     print("robot started — loop running. Ctrl+C to stop.")

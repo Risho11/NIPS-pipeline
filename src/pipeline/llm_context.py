@@ -420,6 +420,51 @@ def generate_reports_and_suggestion(
         # Current campaign records supersede the same historical condition.
         history_df = pd.concat([historical, llm_df], ignore_index=True, sort=False)
         history_df = history_df.drop_duplicates("name", keep="last")
+    quality_observations = build_observations(agg_llm_path, "quality", current_condition_name=condition_name)
+    if warm_start_csv is not None and "quality_report" in historical:
+        prior_quality = historical[~historical["name"].isin(llm_df["name"])]
+        quality_observations += "\n\n" + _historical_quality(prior_quality)
+    params_suggestion = _suggest_from_history(
+        history_df, activeLearning, quality_observations, locked_additive_wt,
+        al_search_mode, exploration_history_points, material_context,
+    )
+    llm_df.at[idx, "LLM_suggestion"] = params_suggestion
+    llm_df.to_csv(agg_llm_path, index=False)
+    return llm_df["LLM_suggestion"].dropna().iloc[-1]
+
+
+def _historical_quality(history):
+    if "quality_report" not in history:
+        return ""
+    return "\n\n".join(
+        f"[{row['name']}] ({row['formatted_parameters']}) {row['quality_report']}"
+        for _, row in history.iterrows() if pd.notna(row['quality_report'])
+    )
+
+
+def generate_warm_start_suggestion(
+    warm_start_csv, activeLearning, locked_additive_wt=None,
+    al_search_mode="single", exploration_history_points=None, material_context=None,
+):
+    """Suggest a first experiment without creating or modifying campaign rows."""
+    history = pd.read_csv(warm_start_csv)
+    required = {"name", "final_report", "formatted_parameters"}
+    if not required.issubset(history.columns):
+        raise ValueError(f"Warm-start CSV missing columns: {sorted(required - set(history.columns))}")
+    if history.empty:
+        raise ValueError(f"Warm-start CSV has no data rows: {warm_start_csv}")
+    history = history.drop_duplicates("name", keep="last")
+    return _suggest_from_history(
+        history, activeLearning, _historical_quality(history), locked_additive_wt,
+        al_search_mode, exploration_history_points, material_context,
+    )
+
+
+def _suggest_from_history(
+    history_df, activeLearning, quality_observations, locked_additive_wt,
+    al_search_mode, exploration_history_points, material_context,
+):
+    objective_mode, search_strategy = resolve_al_mode(al_search_mode)
     performance_observations = "\n\n---\n\n".join(history_df["final_report"].dropna().tolist())
     if material_context is not None:
         performance_observations = (
@@ -427,13 +472,6 @@ def generate_reports_and_suggestion(
             + json.dumps(material_context, sort_keys=True)
             + "\nHistorical rows without material identities are unknown; do not assume they used the current materials.\n\n"
             + performance_observations
-        )
-    quality_observations = build_observations(agg_llm_path, "quality", current_condition_name=condition_name)
-    if warm_start_csv is not None and "quality_report" in historical:
-        prior_quality = historical[~historical["name"].isin(llm_df["name"])]
-        quality_observations += "\n\n" + "\n\n".join(
-            f"[{row['name']}] ({row['formatted_parameters']}) {row['quality_report']}"
-            for _, row in prior_quality.iterrows() if pd.notna(row['quality_report'])
         )
     diversity_context = ""
     if search_strategy == "explore":
@@ -461,6 +499,4 @@ def generate_reports_and_suggestion(
     )
     print(f"LLM suggestion: {params_suggestion}")
 
-    llm_df.at[idx, "LLM_suggestion"] = params_suggestion
-    llm_df.to_csv(agg_llm_path, index=False)
-    return llm_df["LLM_suggestion"].dropna().iloc[-1]
+    return params_suggestion

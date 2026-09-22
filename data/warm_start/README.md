@@ -1,21 +1,32 @@
 Warm-start history for Polysulfone / PolarClean
 =============================================
 
-`polysulfone_polarclean.csv` contains 59 conditions matching the current
-`campaign_trends.ipynb` selection, dated August 14 through September 5, 2026.
-All 59 have the eight synthesis parameters; 56 have both elastic modulus and
+`polysulfone_polarclean.csv` contains 66 conditions from the exported notebook
+selection through campaign `2026-08-22-exploration-mode`.
+All 66 have the eight synthesis parameters; 63 have both elastic modulus and
 pore fraction. The three with missing objectives remain useful parameter history.
 The companion JSON records counts, campaign provenance, filters, and limitations.
 
 In `src/pipeline/run_loop.py`, set:
 
 ```python
-LLM_AL_SEARCH_MODE = "single"  # "double" or "explore" also work
+POLYMER_TYPE = "Polysulfone"  # PSf
+SOLVENT_TYPE = "PolarClean"
+LLM_AL_SEARCH_MODE = "double"  # modulus and pore fraction
 LLM_AL_WARM_START_CSV = _REPO_ROOT / "data/warm_start/polysulfone_polarclean.csv"
+CONTINUE_CAMPAIGN = None
 ```
 
 For a new campaign, also set `CONTINUE_CAMPAIGN = None`. Restart the pipeline
-after changing settings. The history is read when generating recommendations;
+after changing settings. In active-learning mode, the first experiment is now a
+fresh suggestion based on the warm-start history instead of `INITIAL_PARAMS`.
+It uses the selected search mode, current stock bounds, additive lock, and manual
+material settings. The suggestion and final parameters are saved to
+`data/results/begins_<campaign>/initial_suggestion.json` before submission.
+Missing, empty, or invalid history stops startup rather than falling back to defaults.
+With `LLM_AL_WARM_START_CSV = None`, new campaigns use `INITIAL_PARAMS`.
+Explicit sweeps and campaigns with no enabled processing branches still use their
+iteration lists. The history is read when generating recommendations;
 already-saved recommendations are not regenerated. Historical rows are never
 copied into campaign CSVs or checkpoints. A current row with the same condition
 name supersedes its historical row. Set the warm-start path to `None` to disable.

@@ -39,6 +39,7 @@ layout or ``"four_bottle"`` for the polymer/cosolvent/all-mix layout.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from math import isclose
 
 #in any mix with cosolvent and solvent, there's this amt of cosolvent
 #for each unit of solvent. NOT incluidng polymer
@@ -47,7 +48,7 @@ cosolvent_frac = 0.70
 
 @dataclass
 class OldStockStruct:
-    polymer_stock_wt_percent: float = 21.0
+    polymer_stock_wt_percent: float = 17.0
     additive_stock_polymer_wt_percent: float = 17.0
     additive_stock_additive_wt_percent: float = 4.0
 
@@ -236,6 +237,22 @@ def get_composition_bounds(stocks: StockParameters | OldStockStruct = None) -> d
         "polymer_wt_max": max(v[0] for v in vertices),
         "additive_wt_max": max(v[1] for v in vertices),
     }
+
+
+def polymer_stock_concentration(stocks=None) -> float:
+    """Concentration of the additive-free polymer bottle in the active layout."""
+    if stocks is None:
+        stocks = DEFAULT_STOCKS
+    return (stocks.polymer_stock_pwt if isinstance(stocks, StockParameters)
+            else stocks.polymer_stock_wt_percent)
+
+
+def is_undiluted_polymer_stock(polymer_wt, additive_wt, stocks=None) -> bool:
+    """Only the pure polymer-stock recipe skips mixing, not every max-polymer blend."""
+    return (
+        isclose(polymer_wt, polymer_stock_concentration(stocks), rel_tol=0, abs_tol=1e-9)
+        and isclose(additive_wt, 0, rel_tol=0, abs_tol=1e-9)
+    )
 
 
 def test_target(

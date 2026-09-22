@@ -1,0 +1,122 @@
+[2026-09-21 16:11:08] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-09-21 16:11:08] server listening on 169.254.230.148:8000
+
+[2026-09-21 16:11:08] Generating first experiment from warm-start history: C:\Users\opentrons\Documents\Auto-Membranes\data\warm_start\polysulfone_polarclean.csv
+
+[2026-09-21 16:11:33] LLM suggestion: I'll systematically analyze the data to identify Pareto-front candidates and determine the best next experiment.
+
+## Step 1: Identify Valid Observations (Both Objectives Measured)
+
+Filtering to experiments with both Elastic Modulus and Pore Fraction measured:
+
+Key candidates sorted by modulus (descending):
+- **[16p5-0add-19deg-175s-N2-1450s]**: Modulus=437.9, PF=0.394 — high modulus but low PF
+- **[17-0add-5deg-90s-N2-1800s_run2]**: Modulus=356.6, PF=0.569 — high modulus, decent PF (CV=0.078, 1 discarded fit)
+- **[17-0add-15deg-30s-N2-1200s]**: Modulus=355.3, PF=0.459 — high modulus, moderate PF
+- **[17-0add-5deg-120s-N2-1800s]**: Modulus=347.9, PF=0.385 — high modulus, low PF
+- **[17-0add-21deg-325s-N2-1800s]**: Modulus=324.2, PF=0.452 — moderate both
+- **[17-0add-5deg-90s-N2-1800s_run3]**: Modulus=232.7, PF=0.642 — lower modulus, high PF (SD_PF=0.105, high variability)
+
+## Step 2: Pareto Front Analysis
+
+Dominated check (maximize both):
+- (437.9, 0.394): dominated by (356.6, 0.569) — lower modulus but higher PF dominates on PF; actually 437.9 > 356.6 on modulus but 0.394 < 0.569 on PF → neither dominates the other → both on Pareto front
+- (356.6, 0.569): not dominated
+- (355.3, 0.459): dominated by (356.6, 0.569) — both objectives worse
+- (347.9, 0.385): dominated
+- (232.7, 0.642): not dominated by (356.6, 0.569) since PF is higher
+
+**Approximate Pareto front**: (437.9, 0.394), (356.6, 0.569), (232.7, 0.642)
+
+## Step 3: Validation Status
+
+- **[17-0add-5deg-90s-N2-1800s_run2]** (mixing_temp=80, bath_temp=5, pullcast_speed=18, N2=True, wait=90s, nips=1800s, polymer=17): Single synthesis run, high modulus SD (45.9 bar, ~13% CV), 1 discarded fit. **Not independently validated.**
+- **[17-0add-5deg-90s-N2-1800s_run3]** (same label family but different speed=20): Single run, very high PF SD (0.105). Not validated.
+- **[16p5-0add-19deg-175s-N2-1450s]**: Single run, very high modulus SD (102 bar, ~23% CV). Not validated.
+
+The most balanced Pareto candidate with reasonable quality is **[17-0add-5deg-90s-N2-1800s_run2]**: Modulus=356.6 (SD=45.9), PF=0.569 (SD=0.015), good membrane quality (full coverage, wrinkle noted but minor), and it sits in a strong position on the Pareto front. This has never been independently reproduced (run2 and run3 differ in pullcast_speed: 18 vs 20).
+
+**Recommendation: Validate [17-0add-5deg-90s-N2-1800s_run2]** at its exact parameters: mixing_temp=80, bath_temp=5, pullcast_speed=18, nitrogen=True, coupon_to_bath_wait_time=90, nips_bath_wait_time=1800, polymer_wt=17.0, additive_wt=0.
+
+```json
+{
+  "mixing_temp": 80,
+  "bath_temp": 5,
+  "pullcast_speed": 18.0,
+  "nitrogen": true,
+  "coupon_to_bath_wait_time": 90,
+  "nips_bath_wait_time": 1800,
+  "polymer_wt": 17.0,
+  "additive_wt": 0.0
+}
+```
+
+[2026-09-21 16:11:33] Saved first recommendation: C:\Users\opentrons\Documents\Auto-Membranes\data\results\begins_2026-09-21\initial_suggestion.json
+
+[2026-09-21 16:11:33] kicking off first experiment: {'mixing_temp': 80, 'bath_temp': 5, 'pullcast_speed': 18.0, 'nitrogen': True, 'coupon_to_bath_wait_time': 90, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0, 'polymer_type': 'Polysulfone', 'solvent_type': 'PolarClean', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-21 16:11:33] Python recieved!
+
+[2026-09-21 16:11:33] Exact payload being sent: {"mixing_temp": 80, "bath_temp": 5, "pullcast_speed": 18.0, "nitrogen": true, "coupon_to_bath_wait_time": 90, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0, "polymer_type": "Polysulfone", "solvent_type": "PolarClean", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-21 16:11:35] Network connection issue to Opentrons: [WinError 10061] No connection could be made because the target machine actively refused it
+
+[2026-09-21 16:11:35] Traceback (most recent call last):
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1319[0m, in [35mdo_open[0m
+    [31mh.request[0m[1;31m(req.get_method(), req.selector, req.data, headers,[0m
+    [31m~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+              [1;31mencode_chunked=req.has_header('Transfer-encoding'))[0m
+              [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1367[0m, in [35mrequest[0m
+    [31mself._send_request[0m[1;31m(method, url, body, headers, encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1413[0m, in [35m_send_request[0m
+    [31mself.endheaders[0m[1;31m(body, encode_chunked=encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1362[0m, in [35mendheaders[0m
+    [31mself._send_output[0m[1;31m(message_body, encode_chunked=encode_chunked)[0m
+    [31m~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1122[0m, in [35m_send_output[0m
+    [31mself.send[0m[1;31m(msg)[0m
+    [31m~~~~~~~~~[0m[1;31m^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1066[0m, in [35msend[0m
+    [31mself.connect[0m[1;31m()[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\http\client.py"[0m, line [35m1032[0m, in [35mconnect[0m
+    self.sock = [31mself._create_connection[0m[1;31m([0m
+                [31m~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^[0m
+        [1;31m(self.host,self.port), self.timeout, self.source_address)[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socket.py"[0m, line [35m868[0m, in [35mcreate_connection[0m
+    raise exceptions[0]
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\socket.py"[0m, line [35m853[0m, in [35mcreate_connection[0m
+    [31msock.connect[0m[1;31m(sa)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^[0m
+[2026-09-21 16:11:35] [1;35mConnectionRefusedError[0m: [35m[WinError 10061] No connection could be made because the target machine actively refused it[0m
+[2026-09-21 16:11:35] 
+During handling of the above exception, another exception occurred:
+
+[2026-09-21 16:11:35] Traceback (most recent call last):
+[2026-09-21 16:11:35]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m908[0m, in [35m<module>[0m
+    [31murl.run_test[0m[1;31m(first_params)[0m
+    [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\url_29.py"[0m, line [35m33[0m, in [35mrun_test[0m
+    with [31murllib.request.urlopen[0m[1;31m(req, timeout=timeout)[0m as response:
+         [31m~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m189[0m, in [35murlopen[0m
+    return [31mopener.open[0m[1;31m(url, data, timeout)[0m
+           [31m~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m489[0m, in [35mopen[0m
+    response = self._open(req, data)
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m506[0m, in [35m_open[0m
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m466[0m, in [35m_call_chain[0m
+    result = func(*args)
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1348[0m, in [35mhttp_open[0m
+    return [31mself.do_open[0m[1;31m(http.client.HTTPConnection, req)[0m
+           [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-09-21 16:11:35]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\urllib\request.py"[0m, line [35m1322[0m, in [35mdo_open[0m
+    raise URLError(err)
+[2026-09-21 16:11:35] [1;35murllib.error.URLError[0m: [35m<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>[0m

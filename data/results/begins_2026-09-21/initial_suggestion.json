@@ -1,0 +1,26 @@
+{
+  "warm_start_csv": "C:\\Users\\opentrons\\Documents\\Auto-Membranes\\data\\warm_start\\polysulfone_polarclean.csv",
+  "search_mode": "double",
+  "suggestion": "I'll systematically analyze the data to identify the Pareto front and determine the best next experiment.\n\n## Step 1: Identify Observations with Both Objectives Measured\n\nFiltering for experiments with valid Elastic Modulus AND Pore Fraction measurements:\n\nKey candidates sorted by modulus (descending):\n- [16p5-0add-19deg-...]: Modulus=437.9, PF=0.394 \u2014 high modulus but low PF\n- [17-0add-5deg-90s-N2-1800s_run2]: Modulus=356.6, PF=0.569 \u2014 high modulus, decent PF (but CV=0.078, 1 discarded fit, wrinkle)\n- [17-0add-15deg-30s-N2-1200s]: Modulus=355.3, PF=0.459 \u2014 high modulus, moderate PF\n- [17-0add-5deg-120s-N2-1800s]: Modulus=347.9, PF=0.385 \u2014 high modulus, low PF\n- [17-0add-21deg-...]: Modulus=324.2, PF=0.452 \u2014 high CV, top gap defect\n- [17-0add-14deg-...]: Modulus=297.4, PF=0.509 \u2014 good modulus, decent PF, good quality\n- [16p5-0add-25deg-...]: Modulus=291.0, PF=0.538 \u2014 good modulus, decent PF, good quality\n- [17-0add-5deg-cosolv-600s-N2-1800s]: Modulus=285.3, PF=0.399 \u2014 decent modulus, low PF\n- [16p3-0add-5deg-...]: Modulus=302.1, PF=0.566 \u2014 good modulus, good PF (but severely defective coupon)\n- [17-0add-22deg-...]: Modulus=261.9, PF=0.618 \u2014 decent modulus, high PF (2 discarded fits)\n- [15-0add-12deg-...]: Modulus=194.3, PF=0.675 \u2014 lower modulus, high PF (2 discarded fits)\n- [14-0add-8deg-...]: Modulus=103.6, PF=0.747 \u2014 low modulus, very high PF\n\n## Step 2: Construct Pareto Front\n\nFor a point to be Pareto-dominated, another point must have \u2265 modulus AND \u2265 PF strictly better in at least one.\n\nChecking non-dominated candidates:\n- **[16p5-0add-19deg-...]**: Modulus=437.9, PF=0.394 \u2014 dominated by [17-0add-5deg-90s-run2] (356.6 vs 437.9: no, 437.9 > 356.6 in modulus, but PF 0.394 < 0.569). Not dominated \u2014 on front.\n- **[17-0add-5deg-90s-N2-1800s_run2]**: Modulus=356.6, PF=0.569 \u2014 is anything better in both? [16p5-0add-19deg] has higher modulus but lower PF. Not dominated \u2014 on front.\n- **[17-0add-22deg-...]**: Modulus=261.9, PF=0.618 \u2014 dominated by run2 (356.6 > 261.9 AND 0.569 < 0.618)? No, 0.569 < 0.618 so run2 doesn't dominate. Not dominated \u2014 on front.\n- **[15-0add-12deg-...]**: Modulus=194.3, PF=0.675 \u2014 dominated by [17-0add-22deg] (261.9 > 194.3 AND 0.618 < 0.675)? No. Not dominated \u2014 on front.\n- **[14-0add-8deg-...]**: Modulus=103.6, PF=0.747 \u2014 dominated by [15-0add-12deg] (194.3 > 103.6 AND 0.675 < 0.747)? No. On front.\n\n**Pareto front**: [16p5-0add-19deg], [17-0add-5deg-90s-run2], [17-0add-22deg], [15-0add-12deg], [14-0add-8deg]\n\n## Step 3: Validation Status\n\n- **[16p5-0add-19deg-...]**: Single run, Modulus=437.9 with SD=102.3 (CV~23%), high uncertainty, 1 run only \u2014 **needs validation**\n- **[17-0add-5deg-90s-N2-1800s_run2]**: Single run labeled \"run2\" but run3 used different speed (20 vs 18 mm/s) \u2014 no true independent repeat at same parameters. Has wrinkle defect, 1 discarded fit. **Needs validation**\n- **[17-0add-22deg-...]**: Single run, SD=0.57 (suspiciously low, only 2 valid fits), 2 discarded fits \u2014 **needs validation**\n\nThe most strategically valuable Pareto candidate to validate is **[16p5-0add-19deg-...]** because it has the highest modulus observed (437.9 bar) with acceptable PF (0.394), but the SD is very large (102 bar, ~23% CV), it's a single run, and the quality assessment showed a wrinkle in the upper-right. Confirming or refuting this extreme modulus value is high priority.\n\nHowever, [17-0add-22deg-...] (Modulus=261.9, PF=0.618) is also compelling \u2014 it sits in a balanced region of the Pareto front with good PF, and only 2 valid fits (SD nearly zero is suspicious). \n\nGiven the instructions prioritize validating apparent best/Pareto candidates with large apparent gains or high CV, **[16p5-0add-19deg-...]** has the largest apparent gain in modulus and highest CV \u2014 this is the priority validation.\n\nParameters: mixing_temp=58, bath_temp=19, pullcast_speed=12.0, nitrogen=True, coupon_to_bath_wait_time=175, nips_bath_wait_time=1450, polymer_wt=16.5, additive_wt=0.0\n\nAll parameters are within bounds. polymer_wt=16.5 \u2260 17.0, so no mixing constraint applies.\n\n```json\n{\n  \"mixing_temp\": 58,\n  \"bath_temp\": 19,\n  \"pullcast_speed\": 12.0,\n  \"nitrogen\": true,\n  \"coupon_to_bath_wait_time\": 175,\n  \"nips_bath_wait_time\": 1450,\n  \"polymer_wt\": 16.5,\n  \"additive_wt\": 0.0\n}\n```",
+  "next_params": {
+    "mixing_temp": 58,
+    "bath_temp": 19,
+    "pullcast_speed": 12.0,
+    "nitrogen": true,
+    "coupon_to_bath_wait_time": 175,
+    "nips_bath_wait_time": 1450,
+    "polymer_wt": 16.5,
+    "additive_wt": 0.0,
+    "polymer_type": "Polysulfone",
+    "solvent_type": "PolarClean",
+    "cosolvent_type": "none",
+    "nips_bath_solvent": "none",
+    "nips_bath_solvent_wt_percent": 0.0
+  },
+  "stock_metadata": {
+    "polymer_stock_wt_percent": 17.0,
+    "additive_stock_polymer_wt_percent": 17.0,
+    "additive_stock_additive_wt_percent": 4.0,
+    "stock_mode": "two_bottle"
+  }
+}

@@ -68,7 +68,7 @@ def Generate_report(Formatted_Parameters, Model = "anthropic/claude-sonnet-4.6",
     result = response.choices[0].message.content
     return result
 
-_BASE_RANGES = 'The "mixing_temp" can be between 25 and 80 degrees Celsius; Note that if proposing a "polymer_wt" at max value, the "mixing_temp" must be 25 degrees Celsius and not be tuned as no mixing is happening at the stock concentration. The "bath_temp" can be between 5 and 25 degrees Celsius. The "pullcast_speed" can be between 1 and 20 mm/s. The "coupon_to_bath_wait_time" can be between 0 and 600 seconds. The "nips_bath_wait_time" can be between 1200 and 1800seconds. The "nitrogen" can be either True or False.'
+_BASE_RANGES = 'The "mixing_temp" can be between 25 and 80 degrees Celsius. The "bath_temp" can be between 5 and 25 degrees Celsius. The "pullcast_speed" can be between 1 and 20 mm/s. The "coupon_to_bath_wait_time" can be between 0 and 600 seconds. The "nips_bath_wait_time" can be between 1200 and 1800seconds. The "nitrogen" can be either True or False.'
 
 _DEFAULT_SEARCH_MODE = "optimize"
 
@@ -139,7 +139,15 @@ def current_ranges(locked_additive_wt=None) -> str:
             f'always suggest exactly {locked_additive_wt} for "additive_wt", regardless of '
             f'prior observations. The "polymer_wt" maximum is {composition_bounds["polymer_wt_max"]}.'
         )
-    return _BASE_RANGES + tri_ranges
+    stock_rule = (
+        f' When "polymer_wt" equals the polymer stock concentration '
+        f'({bounds.polymer_stock_concentration()} wt%) and "additive_wt" is 0, '
+        'the solution is undiluted polymer stock: "mixing_temp" must be 25 degrees Celsius '
+        'because no mixing occurs. This constraint overrides historical temperatures, '
+        'including when repeating a historical candidate for validation. '
+        'A blend containing additive does not automatically skip mixing at maximum polymer concentration.'
+    )
+    return _BASE_RANGES + tri_ranges + stock_rule
 #-----------#
 def _encode_image(path):
     with open(path, "rb") as f:

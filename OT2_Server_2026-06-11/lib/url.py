@@ -11,9 +11,15 @@ def get_compressiontester_status():
     with urllib.request.urlopen(f"{BASE_URL}/compressiontester/status") as response:
         return json.loads(response.read())
 
-def take_snapshot():
-    with urllib.request.urlopen(f"{BASE_URL}/camera/snapshot") as response:
-        return json.loads(response.read())
+def take_snapshot(timeout=60):
+    # Allow for the PC camera warm-up, capture, and disk write independently of
+    # any global socket timeout installed by a robot library. Do not auto-retry:
+    # a timed-out request may still have saved an image.
+    with urllib.request.urlopen(f"{BASE_URL}/camera/snapshot", timeout=timeout) as response:
+        result = json.loads(response.read())
+    if result is not True:
+        raise RuntimeError(f"PC did not confirm a saved camera snapshot: {result!r}")
+    return result
 
 # POST method, since we want to pass the parameters to the server
 def start_processing(params, protocol_log=None):
