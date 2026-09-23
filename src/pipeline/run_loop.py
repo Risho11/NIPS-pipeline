@@ -106,7 +106,7 @@ LLM_AL_EXPLORATION_HISTORY_POINTS = None
 #basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
 #in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
-CONTINUE_CAMPAIGN = None
+CONTINUE_CAMPAIGN = "2026-09-21"
 
 
 def _campaign_date_folder_tag(continue_campaign):
