@@ -30,7 +30,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULTS_ROOT = REPO_ROOT / "data" / "results"
 DEFAULT_RAW_ROOT = REPO_ROOT / "data" / "raw"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "EVALUATE" / "campaign_trends_output"
-POLARCLEAN_LAST_CAMPAIGN = "2026-08-22-exploration-mode"
+POLARCLEAN_LAST_CAMPAIGN = "2026-09-21"
 
 DEFAULT_PROPERTIES = (
     "Thickness",
@@ -89,6 +89,7 @@ def load_campaign_data(
     *,
     prefer: str = "postDiscard",
     last_campaign: str | None = None,
+    campaigns: Iterable[str] | None = None,
 ) -> pd.DataFrame:
     """Load and de-duplicate all campaign aggregate CSVs.
 
@@ -96,11 +97,15 @@ def load_campaign_data(
     otherwise the pre-discard/plain aggregate is retained.  Among repeated processing
     records, the newest CSV timestamp wins. ``sample_time`` comes from the raw specimen
     filename when available and falls back to the aggregate row's timestamp.
+    ``campaigns`` restricts source folders before de-duplication.
     """
     results_root, raw_root = Path(results_root), Path(raw_root)
+    selected_campaigns = None if campaigns is None else set(campaigns)
     frames: list[pd.DataFrame] = []
     for path in sorted(results_root.glob("begins_*/agg.csv")):
         # Restrict source campaigns before later records can replace historical rows.
+        if selected_campaigns is not None and path.parent.name[len("begins_"):] not in selected_campaigns:
+            continue
         if last_campaign is not None and path.parent.name[len("begins_"):] > last_campaign:
             continue
         try:
