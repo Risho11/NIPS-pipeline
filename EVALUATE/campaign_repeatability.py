@@ -184,7 +184,9 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
     axes = grid[0]
     rng = np.random.default_rng(seed)
     labels = []
-    colors = plt.get_cmap('tab10')
+    chronology = pd.to_numeric(rows['iteration'], errors='coerce')
+    normalization = plt.Normalize(chronology.min(), chronology.max())
+    color_map = plt.get_cmap('viridis')
     for position, (group, members) in enumerate(groups, 1):
         span = lambda column: value_range(members, column)
         nitrogen = 'on' if nitrogen_state(members['nitrogen'].iloc[0]) else 'off'
@@ -195,7 +197,8 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
         )
         # Use the same offsets in each response panel to help follow observations.
         offsets = rng.uniform(-.16, .16, len(members))
-        color = colors((position - 1) % 10)
+        color = '#888888'
+        iterations = pd.to_numeric(members['iteration'], errors='coerce').to_numpy()
         for ax, prop in zip(axes, properties):
             values = pd.to_numeric(members[f'{prop} Mean'], errors='coerce').to_numpy()
             valid = np.isfinite(values)
@@ -205,8 +208,8 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
                            boxprops={'facecolor': color, 'alpha': .22, 'edgecolor': color},
                            medianprops={'color': 'black', 'linewidth': 1.5},
                            whiskerprops={'color': color}, capprops={'color': color})
-                ax.scatter(values[valid], position + offsets[valid], s=45, color=color,
-                           edgecolor='white', linewidth=.6, zorder=3)
+                ax.scatter(values[valid], position + offsets[valid], s=55, c=iterations[valid],
+                           cmap=color_map, norm=normalization, edgecolor='#444444', linewidth=.6, zorder=3)
             else:
                 ax.text(.5, position, 'No data', transform=ax.get_yaxis_transform(),
                         ha='center', va='center', color='0.5')
@@ -221,5 +224,10 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
         ax.grid(axis='x', alpha=.2)
         for boundary in np.arange(1.5, len(groups), 1):
             ax.axhline(boundary, color='0.92', lw=.8, zorder=0)
-    fig.subplots_adjust(left=.34, right=.985, bottom=.09, top=.94, wspace=.20)
+    fig.subplots_adjust(left=.31, right=.92, bottom=.09, top=.94, wspace=.20)
+    colorbar_axis = fig.add_axes([.945, .17, .012, .68])
+    colorbar = fig.colorbar(plt.cm.ScalarMappable(norm=normalization, cmap=color_map),
+                            cax=colorbar_axis)
+    colorbar.set_label('Campaign iteration (earlier to later)', fontsize=14, labelpad=12)
+    colorbar.ax.tick_params(labelsize=12)
     return fig
