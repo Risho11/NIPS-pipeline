@@ -67,3 +67,24 @@ export_warm_start(campaign_detailed, repo_root / "data/warm_start/custom.csv")
 
 For custom selections, pass `selection_description="..."` to document your filters
 in the companion JSON.
+
+Dated PSf/PolarClean snapshot: September 25, 2026
+------------------------------------------------
+
+`polysulfone_polarclean_through_2026-09-25.csv` contains 94 unique conditions:
+66 from the original warm start and 28 from `begins_2026-09-21/llm.csv`.
+All aggregate Mean/SD columns are preserved; 91 rows have both objective means.
+The latest specimen timestamp is September 25, 2026 at 12:31:24.
+The companion JSON documents sources, counts, selection, and limitations.
+
+The September 21 campaign's proposal reports omitted some measured properties.
+Those measurements remain valid numeric history and are included by the new
+structured proposal context. The export preserves reports and marks that campaign
+with `proposal_context_version`; historical chemistry inference stays separate
+from the newer recorded polymer/solvent identities. Original CSVs are unchanged.
+
+`run_loop.py` now selects this dated snapshot and `CONTINUE_CAMPAIGN = None`.
+Restarting the pipeline will use the current date for a new campaign and generate
+its first proposal from this history. No pipeline or experiment was launched by
+creating this export. The generic exporter above still targets the original filename;
+this dated snapshot is a separate merge of the two sources named in its JSON.

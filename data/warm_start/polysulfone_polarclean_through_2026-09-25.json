@@ -1,0 +1,31 @@
+{
+  "rows": 94,
+  "export_date": "2026-09-25",
+  "last_sample_time": "2026-09-25 12:31:24",
+  "sources": {
+    "data/warm_start/polysulfone_polarclean.csv": 66,
+    "data/results/begins_2026-09-21/llm.csv": 28
+  },
+  "paired_objective_rows": 91,
+  "campaigns": [
+    "1999",
+    "2026-08-14",
+    "2026-08-15",
+    "2026-08-17",
+    "2026-08-18",
+    "2026-08-19",
+    "2026-08-20-exploration-mode",
+    "2026-08-21-exploration-mode",
+    "2026-08-22-exploration-mode",
+    "2026-09-21"
+  ],
+  "selection": "Existing 66-row PSf/PolarClean warm start plus all 28 promoted conditions from begins_2026-09-21/llm.csv. No new property filtering. Repeated runN conditions remain separate.",
+  "notes": [
+    "Historical 66-row chemistry is inferred; added 28-row chemistry is recorded in polymer_type/solvent_type.",
+    "September 21 campaign used incomplete property context for proposals; measured outcomes remain available as numeric columns.",
+    "New proposal context reads all Mean/SD fields; stored reports are preserved as historical records.",
+    "Three historical observations lack paired objectives; unknown measurements are retained.",
+    "Pore fraction is a compression-curve estimate; SD is intra-sample."
+  ],
+  "source_commit": "1e0864a"
+}

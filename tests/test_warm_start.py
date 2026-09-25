@@ -37,7 +37,7 @@ class WarmStartTests(unittest.TestCase):
                     self.assertIn("good film", call.kwargs["quality_observations"])
                     self.assertEqual(call.kwargs["locked_additive_wt"], 0)
                     if mode == "double":
-                        self.assertIn("0.7", call.kwargs["pore_fraction_observations"])
+                        self.assertIn("0.7 dimensionless", call.args[0])
                     if mode == "explore":
                         self.assertTrue(call.kwargs["diversity_context"])
                     self.assertEqual(path.read_bytes(), original)

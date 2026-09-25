@@ -17,6 +17,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
+from property_context import build_performance_observations
 
 import curve_segmentation
 import membrane_quality_llm
@@ -370,7 +371,7 @@ def generate_reports_and_suggestion(
 ):
     """Exact strategy run_loop.py uses to go from a CSV row to a next-params suggestion: build
     initial_report (performance, via activeLearning.Generate_report), fold the mech-property
-    outcome text into final_report, join performance_observations across campaign history, pull
+    outcome text into final_report for archival use, build structured campaign history, pull
     quality_observations (already-built quality_report column), call activeLearning.LLM_AL with
     both. Returns the raw params_suggestion string. `activeLearning` is passed in (not imported
     here) so tests/test_master.py can monkeypatch activeLearning_29.Generate_report/LLM_AL to
@@ -378,8 +379,8 @@ def generate_reports_and_suggestion(
 
     al_search_mode: 'single' maximizes modulus; 'double' maximizes modulus and pore
     fraction; 'explore' prioritizes coverage. Legacy 'optimize' means 'single'.
-    Double mode uses pore fractions in performance reports or a pore_fraction_report
-    column (condition-labeled, with units/scale); absent measurements remain unknown.
+    Double mode uses numeric pore fractions in structured observations; report-only
+    legacy rows retain a labeled fallback. Absent measurements remain unknown.
     warm_start_csv: optional exported history merged only into LLM context. Current
     condition rows supersede matching historical names; campaign CSVs stay separate.
 
@@ -411,14 +412,18 @@ def generate_reports_and_suggestion(
     llm_df.at[idx, "final_report"] = final_report
     llm_df.to_csv(agg_llm_path, index=False)
 
-    history_df = llm_df
+    history_df = llm_df.copy()
+    history_df['_observation_source'] = 'current_campaign'
+    history_df['campaign'] = agg_llm_path.parent.name.replace('begins_', '', 1)
+    history_df['source_csv'] = str(agg_llm_path)
     if warm_start_csv is not None:
         historical = pd.read_csv(warm_start_csv)
+        historical['_observation_source'] = 'warm_start'
         required = {"name", "final_report", "formatted_parameters"}
         if not required.issubset(historical.columns):
             raise ValueError(f"Warm-start CSV missing columns: {sorted(required - set(historical.columns))}")
         # Current campaign records supersede the same historical condition.
-        history_df = pd.concat([historical, llm_df], ignore_index=True, sort=False)
+        history_df = pd.concat([historical, history_df], ignore_index=True, sort=False)
         history_df = history_df.drop_duplicates("name", keep="last")
     quality_observations = build_observations(agg_llm_path, "quality", current_condition_name=condition_name)
     if warm_start_csv is not None and "quality_report" in historical:
@@ -453,7 +458,8 @@ def generate_warm_start_suggestion(
         raise ValueError(f"Warm-start CSV missing columns: {sorted(required - set(history.columns))}")
     if history.empty:
         raise ValueError(f"Warm-start CSV has no data rows: {warm_start_csv}")
-    history = history.drop_duplicates("name", keep="last")
+    history = history.drop_duplicates("name", keep="last").copy()
+    history["_observation_source"] = "warm_start"
     return _suggest_from_history(
         history, activeLearning, _historical_quality(history), locked_additive_wt,
         al_search_mode, exploration_history_points, material_context,
@@ -465,7 +471,7 @@ def _suggest_from_history(
     al_search_mode, exploration_history_points, material_context,
 ):
     objective_mode, search_strategy = resolve_al_mode(al_search_mode)
-    performance_observations = "\n\n---\n\n".join(history_df["final_report"].dropna().tolist())
+    performance_observations = build_performance_observations(history_df)
     if material_context is not None:
         performance_observations = (
             "Current campaign material identities (manually set; do not change): "
@@ -480,22 +486,14 @@ def _suggest_from_history(
     # every call now, not a value cached at activeLearning_29 import time (see LLM_AL/
     # current_ranges' docstrings for why that caching was actively harmful).
     suggest = activeLearning.LLM_AL
-    objective_kwargs = {}
     if objective_mode == "double":
         suggest = activeLearning.LLM_AL_modulus_pore_fraction
-        # Keep all measured history rather than truncating historical pore-fraction reports.
-        if "pore_fraction_report" in history_df.columns:
-            objective_kwargs["pore_fraction_observations"] = "\n\n".join(
-                f"[{row['name']}] {row['pore_fraction_report']}"
-                for _, row in history_df.iterrows()
-                if pd.notna(row["pore_fraction_report"])
-            )
+        # Pore-fraction measurements (and legacy fallback) are in each structured observation.
     params_suggestion = suggest(
         performance_observations, quality_observations=quality_observations,
         locked_additive_wt=locked_additive_wt,
         search_mode=search_strategy,
         diversity_context=diversity_context,
-        **objective_kwargs,
     )
     print(f"LLM suggestion: {params_suggestion}")
 

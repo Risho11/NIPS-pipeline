@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import copy
 import pandas as pd
+from property_context import format_property_measurements, PROPERTY_CONTEXT_NOTE
 import piecewise_regression
 from pygam import LinearGAM, s
 from sklearn.linear_model import LinearRegression
@@ -50,15 +51,15 @@ MECH_PROP_SCHEMA = {
     "Coupon Humidity":   {"sd": False,  "llm": True,  "always": False},
     "Thickness":         {"sd": True,  "llm": True, "always": True},
     "Elastic Modulus":   {"sd": True,  "llm": True,  "always": False},
-    "Yield Strength":    {"sd": True,  "llm": False, "always": False},
-    "Pore Fraction":       {"sd": True,  "llm": False, "always": False},
-    "Slope Plateau":     {"sd": True,  "llm": False, "always": False},
-    "Slope Densification": {"sd": True, "llm": False, "always": False},
-    "Creep Strain":      {"sd": True,  "llm": False, "always": False},
+    "Yield Strength":    {"sd": True,  "llm": True, "always": False},
+    "Pore Fraction":       {"sd": True,  "llm": True, "always": False},
+    "Slope Plateau":     {"sd": True,  "llm": True, "always": False},
+    "Slope Densification": {"sd": True, "llm": True, "always": False},
+    "Creep Strain":      {"sd": True,  "llm": True, "always": False},
     "Strain at 50 bar":  {"sd": True,  "llm": True,  "always": True},
-    "Strain at 80 bar":  {"sd": True,  "llm": False, "always": False},
-    "Strain at 150 bar": {"sd": True,  "llm": False, "always": False},
-    "Strain at 500 bar": {"sd": True,  "llm": False, "always": False},
+    "Strain at 80 bar":  {"sd": True,  "llm": True, "always": False},
+    "Strain at 150 bar": {"sd": True,  "llm": True, "always": False},
+    "Strain at 500 bar": {"sd": True,  "llm": True, "always": False},
     "CV":                {"sd": False, "llm": True,  "always": False},
 }
 LLM_PROP_KEYS = [k for k, v in MECH_PROP_SCHEMA.items() if v["llm"]]  # mech props sent to the LLM in mech_res
@@ -2336,7 +2337,8 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
                     agg_row[f"{k} Mean"] = float(np.nanmean(vals)) if vals else np.nan
                     if k not in no_sd_cols:
                         agg_row[f"{k} SD"] = float(np.nanstd(vals)) if vals else np.nan
-                mech_res = str({f"{k} Mean": agg_row.get(f"{k} Mean") for k in LLM_PROP_KEYS if agg_row.get(f"{k} Mean") is not None})
+                mech_res = (PROPERTY_CONTEXT_NOTE + "\n"
+                            + format_property_measurements(agg_row, LLM_PROP_KEYS))
                 agg_row["formatted_parameters"] = formatted_parameters(agg_row)
                 agg_row["initial_report"] = ""
                 _context = all_props if all_props is not None else list(props_iter)

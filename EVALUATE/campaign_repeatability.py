@@ -184,10 +184,13 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
     axes = grid[0]
     rng = np.random.default_rng(seed)
     labels = []
-    chronology = pd.to_numeric(rows['iteration'], errors='coerce')
-    normalization = plt.Normalize(chronology.min(), chronology.max())
-    color_map = plt.get_cmap('viridis')
+    max_rank = max(len(members) for _, members in groups)
+    color_map = plt.get_cmap('viridis', max_rank)
+    normalization = plt.matplotlib.colors.BoundaryNorm(
+        np.arange(0.5, max_rank + 1.5), color_map.N)
+
     for position, (group, members) in enumerate(groups, 1):
+        members = members.sort_values(['sample_time', 'iteration', 'condition'])
         span = lambda column: value_range(members, column)
         nitrogen = 'on' if nitrogen_state(members['nitrogen'].iloc[0]) else 'off'
         labels.append(
@@ -198,7 +201,9 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
         # Use the same offsets in each response panel to help follow observations.
         offsets = rng.uniform(-.16, .16, len(members))
         color = '#888888'
-        iterations = pd.to_numeric(members['iteration'], errors='coerce').to_numpy()
+        # Rank all group members before omitting missing responses, keeping colors
+        # consistent for a sample across panels. Equal timestamps use iteration/ID.
+        ranks = np.arange(1, len(members) + 1)
         for ax, prop in zip(axes, properties):
             values = pd.to_numeric(members[f'{prop} Mean'], errors='coerce').to_numpy()
             valid = np.isfinite(values)
@@ -208,7 +213,7 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
                            boxprops={'facecolor': color, 'alpha': .22, 'edgecolor': color},
                            medianprops={'color': 'black', 'linewidth': 1.5},
                            whiskerprops={'color': color}, capprops={'color': color})
-                ax.scatter(values[valid], position + offsets[valid], s=55, c=iterations[valid],
+                ax.scatter(values[valid], position + offsets[valid], s=55, c=ranks[valid],
                            cmap=color_map, norm=normalization, edgecolor='#444444', linewidth=.6, zorder=3)
             else:
                 ax.text(.5, position, 'No data', transform=ax.get_yaxis_transform(),
@@ -227,7 +232,7 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
     fig.subplots_adjust(left=.31, right=.92, bottom=.09, top=.94, wspace=.20)
     colorbar_axis = fig.add_axes([.945, .17, .012, .68])
     colorbar = fig.colorbar(plt.cm.ScalarMappable(norm=normalization, cmap=color_map),
-                            cax=colorbar_axis)
-    colorbar.set_label('Campaign iteration (earlier to later)', fontsize=14, labelpad=12)
+                            cax=colorbar_axis, ticks=np.arange(1, max_rank + 1))
+    colorbar.set_label('Chronological rank within group (1 = earliest)', fontsize=14, labelpad=12)
     colorbar.ax.tick_params(labelsize=12)
     return fig
