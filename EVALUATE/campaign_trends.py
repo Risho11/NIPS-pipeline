@@ -30,7 +30,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULTS_ROOT = REPO_ROOT / "data" / "results"
 DEFAULT_RAW_ROOT = REPO_ROOT / "data" / "raw"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "EVALUATE" / "campaign_trends_output"
-POLARCLEAN_LAST_CAMPAIGN = "2026-09-21"
+POLARCLEAN_LAST_CAMPAIGN = "2026-09-25"
 
 DEFAULT_PROPERTIES = (
     "Thickness",
@@ -130,10 +130,20 @@ def load_campaign_data(
     )
     data["condition"] = data["name"].map(base_condition)
     name_lower = data["name"].astype(str).str.lower()
+    # Keep pre-discard quality independently of the preferred property row.
+    # Plain rows represent runs with no discarded specimens. Never substitute
+    # a post-discard CV when a matching pre-discard record is unavailable.
+    cv_keys = ["source_csv", "condition", "processed_time"]
+    pre_rows = data.loc[~name_lower.str.endswith("_postdiscard")].copy()
+    pre_rows["CV PreDiscard Mean"] = pd.to_numeric(
+        pre_rows.get("CV Mean", pd.Series(index=pre_rows.index, dtype=float)), errors="coerce"
+    )
+    pre_cv = pre_rows.drop_duplicates(cv_keys, keep="last")[cv_keys + ["CV PreDiscard Mean"]]
     preferred_suffix = prefer.lower()
     data["_preference"] = name_lower.str.endswith("_" + preferred_suffix).astype(int)
     data = data.sort_values(["condition", "_preference", "processed_time"])
     data = data.drop_duplicates("condition", keep="last").drop(columns="_preference")
+    data = data.merge(pre_cv, on=cv_keys, how="left", validate="many_to_one")
 
     raw_times = {condition: specimen_time(raw_root, condition) for condition in data["condition"]}
     data["specimen_time"] = data["condition"].map(raw_times)
