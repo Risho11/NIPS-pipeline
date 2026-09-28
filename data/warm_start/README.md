@@ -23,6 +23,13 @@ fresh suggestion based on the warm-start history instead of `INITIAL_PARAMS`.
 It uses the selected search mode, current stock bounds, additive lock, and manual
 material settings. The suggestion and final parameters are saved to
 `data/results/begins_<campaign>/initial_suggestion.json` before submission.
+Restarting a new campaign in the same campaign folder reuses that file without
+another LLM call. Current stock bounds, additive lock, material settings, and the
+stock-only 25 C rule are reapplied. Rename the file to explicitly request a fresh
+suggestion. An invalid saved file stops startup instead of silently regenerating.
+With `CONTINUE_CAMPAIGN = None`, the folder is based on today's date; a different
+date uses a different folder. Reusing a suggestion does not resume a physical
+experiment that was interrupted.
 Missing, empty, or invalid history stops startup rather than falling back to defaults.
 With `LLM_AL_WARM_START_CSV = None`, new campaigns use `INITIAL_PARAMS`.
 Explicit sweeps and campaigns with no enabled processing branches still use their

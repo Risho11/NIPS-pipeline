@@ -66,8 +66,45 @@ class WarmStartTests(unittest.TestCase):
                 self.assertEqual(saved["next_params"], params)
                 self.assertFalse(csv_path.exists())
 
+    def test_cached_initial_suggestion_skips_llm_and_rechecks_stock(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "initial_suggestion.json"
+            path.write_text(json.dumps({
+                "suggestion": "original reasoning", "search_mode": "double",
+                "next_params": dict(run_loop.INITIAL_PARAMS, polymer_wt=21,
+                                    additive_wt=2, mixing_temp=80),
+            }))
+            with patch.object(run_loop, "CSV_AGG_LLM", Path(tmp) / "llm.csv"), \
+                 patch.object(run_loop, "LOCK_ADDITIVE_WT", True), \
+                 patch.object(run_loop, "LOCK_ADDITIVE_WT_VALUE", 0), \
+                 patch.object(run_loop.activeLearning.bounds, "DEFAULT_STOCKS",
+                              run_loop.activeLearning.bounds.OldStockStruct(polymer_stock_wt_percent=17)), \
+                 patch.object(llm_context, "generate_warm_start_suggestion") as generate:
+                for history in ("missing_history.csv", None):
+                    with patch.object(run_loop, "LLM_AL_WARM_START_CSV", history):
+                        params = run_loop._new_campaign_params()
+                        self.assertEqual((params["polymer_wt"], params["additive_wt"], params["mixing_temp"]), (17, 0, 25))
+                generate.assert_not_called()
+                saved = json.loads(path.read_text())
+                self.assertEqual(saved["suggestion"], "original reasoning")
+                self.assertEqual(saved["next_params"], params)
+
+    def test_invalid_cache_does_not_regenerate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "initial_suggestion.json"
+            with patch.object(run_loop, "CSV_AGG_LLM", Path(tmp) / "llm.csv"), \
+                 patch.object(llm_context, "generate_warm_start_suggestion") as generate:
+                for content in ('{', '{}', '{"next_params": {}}'):
+                    path.write_text(content)
+                    with self.assertRaises(ValueError):
+                        run_loop._new_campaign_params()
+                    self.assertEqual(path.read_text(), content)
+                generate.assert_not_called()
+
     def test_no_history_uses_defaults(self):
-        with patch.object(run_loop, "LLM_AL_WARM_START_CSV", None):
+        with tempfile.TemporaryDirectory() as tmp, \
+             patch.object(run_loop, "CSV_AGG_LLM", Path(tmp) / "llm.csv"), \
+             patch.object(run_loop, "LLM_AL_WARM_START_CSV", None):
             params = run_loop._new_campaign_params()
             self.assertEqual(params, run_loop.INITIAL_PARAMS)
             self.assertIsNot(params, run_loop.INITIAL_PARAMS)

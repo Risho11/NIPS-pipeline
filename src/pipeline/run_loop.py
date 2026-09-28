@@ -529,18 +529,32 @@ def _enforce_stock_mixing_temperature(params):
 
 
 def _new_campaign_params():
-    """Use historical observations for the first experiment when configured."""
-    if LLM_AL_WARM_START_CSV is None:
+    """Reuse this campaign's saved first suggestion before requesting a new one."""
+    result_path = CSV_AGG_LLM.parent / "initial_suggestion.json"
+    if result_path.exists():
+        saved = json.loads(result_path.read_text(encoding="utf-8"))
+        if not isinstance(saved, dict) or not isinstance(saved.get("next_params"), dict):
+            raise ValueError(f"Invalid saved initial suggestion: {result_path}")
+        params = dict(saved["next_params"])
+        _validate_params(params)
+        print(f"Reusing saved first recommendation: {result_path}")
+    elif LLM_AL_WARM_START_CSV is None:
         return _enforce_stock_mixing_temperature(dict(INITIAL_PARAMS))
-    print(f"Generating first experiment from warm-start history: {LLM_AL_WARM_START_CSV}")
-    suggestion = llm_context.generate_warm_start_suggestion(
-        LLM_AL_WARM_START_CSV, activeLearning,
-        locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
-        al_search_mode=LLM_AL_SEARCH_MODE,
-        material_context={"polymer_type": POLYMER_TYPE, "solvent_type": SOLVENT_TYPE},
-        exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
-    )
-    params = _extract_next_params(suggestion)
+    else:
+        print(f"Generating first experiment from warm-start history: {LLM_AL_WARM_START_CSV}")
+        suggestion = llm_context.generate_warm_start_suggestion(
+            LLM_AL_WARM_START_CSV, activeLearning,
+            locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
+            al_search_mode=LLM_AL_SEARCH_MODE,
+            material_context={"polymer_type": POLYMER_TYPE, "solvent_type": SOLVENT_TYPE},
+            exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
+        )
+        params = _extract_next_params(suggestion)
+        saved = {
+            "warm_start_csv": str(LLM_AL_WARM_START_CSV),
+            "search_mode": LLM_AL_SEARCH_MODE,
+            "suggestion": suggestion,
+        }
     if LOCK_ADDITIVE_WT:
         params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
     params["polymer_wt"], params["additive_wt"] = activeLearning.bounds.test_target(
@@ -554,14 +568,13 @@ def _new_campaign_params():
     _validate_params(params)
     _enforce_stock_mixing_temperature(params)
     CSV_AGG_LLM.parent.mkdir(parents=True, exist_ok=True)
-    result_path = CSV_AGG_LLM.parent / "initial_suggestion.json"
-    result_path.write_text(json.dumps({
-        "warm_start_csv": str(LLM_AL_WARM_START_CSV),
-        "search_mode": LLM_AL_SEARCH_MODE,
-        "suggestion": suggestion,
+    saved.update({
         "next_params": params,
         "stock_metadata": activeLearning.bounds.send_metadata(),
-    }, indent=2), encoding="utf-8")
+    })
+    temporary = result_path.with_suffix(".json.tmp")
+    temporary.write_text(json.dumps(saved, indent=2), encoding="utf-8")
+    os.replace(temporary, result_path)
     print(f"Saved first recommendation: {result_path}")
     return params
 

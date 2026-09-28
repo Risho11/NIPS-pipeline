@@ -1,0 +1,93 @@
+[2026-09-25 14:49:22] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-09-25 14:49:22] server listening on 169.254.230.148:8000
+
+[2026-09-25 14:49:22] Generating first experiment from warm-start history: C:\Users\opentrons\Documents\Auto-Membranes\data\warm_start\polysulfone_polarclean_through_2026-09-25.csv
+
+[2026-09-25 14:50:05] LLM suggestion: I'll systematically analyze the data to identify the Pareto front and determine the best next experiment.
+
+## Data Analysis
+
+### Key candidates with both objectives measured (filtering for reasonable quality):
+
+**Top Elastic Modulus candidates:**
+- `16p5-0add-19deg-175s-N2-1450s` (run1): E=437.9, PF=0.394 (high CV, 1 discard)
+- `17-0add-5deg-90s-N2-1800s_run2`: E=356.6, PF=0.569 (1 discard, wrinkle)
+- `17-0add-5deg-90s-N2-1800s_run6`: E=390.5, PF=0.356 (high CV, 1 run only)
+- `17-0add-5deg-90s-N2-1800s_run2`: E=364.8, PF=0.390 (run2, high CV)
+- `17-0add-15deg-30s-N2-1200s_run5`: E=324.3, PF=0.384 (1 discard)
+- `17-0add-15deg-30s-N2-1200s_run6`: E=330.4, PF=0.390
+- `17-0add-22deg-200s-N2-1450s_run11`: E=282.7, PF=0.372
+
+**High Pore Fraction candidates:**
+- `14-0add-8deg-120s-N2-1250s`: E=103.6, PF=0.747 (single run)
+- `15-0add-12deg-270s-N2-1300s`: E=194.3, PF=0.675 (2 discards)
+- `13-0add-20deg-375s-N2-1550s`: E=147.8, PF=0.648 (1 discard)
+- `17-0add-5deg-90s-N2-1800s_run2` (original): E=356.6, PF=0.569
+
+### Pareto Front Assessment:
+
+The non-dominated candidates (no other point beats both objectives simultaneously):
+1. **`16p5-0add-19deg-175s-N2-1450s`**: E≈437.9, PF≈0.394 — highest modulus but only 3 runs, high variability (SD=102 bar), 1 discard in run1, run3 has high CV=0.227. The mean across runs 1,2,3: ~(437.9+196.9+291.7)/3 ≈ 309 bar modulus, PF ~(0.394+0.505+0.415)/3 ≈ 0.438. Highly variable.
+2. **`17-0add-5deg-90s-N2-1800s`** (runs 1-6): E ranges 192-390, PF ranges 0.356-0.575 — very high variability across synthesis repeats.
+3. **`17-0add-15deg-30s-N2-1200s`** (runs 1-7): Mean E ≈ (216+248+209+164+324+330+305)/7 ≈ 257 bar, Mean PF ≈ (0.507+0.494+0.523+0.589+0.384+0.390+0.416)/7 ≈ 0.472. Reasonable balance.
+
+### Validation Status:
+
+- `16p5-0add-19deg-175s-N2-1450s`: 3 independent runs exist. Run1: E=437.9±102, PF=0.394; Run2: E=196.9±10, PF=0.505; Run3: E=291.7±44, PF=0.415. Enormous run-to-run variability — not confirmed as a stable high-modulus candidate.
+- `17-0add-5deg-90s-N2-1800s`: 6 runs, E varies 192–390 bar, PF varies 0.356–0.575. Very unstable.
+- `17-0add-15deg-30s-N2-1200s`: 7 runs with reasonable consistency in some runs.
+
+### Identifying the best balanced Pareto candidate:
+
+Looking for high E AND high PF simultaneously:
+- `17-0add-5deg-90s-N2-1800s_run2` (original warm start): E=356.6, PF=0.569 — best single-point balance, but only 1 synthesis run with 1 discard.
+- `17-0add-15deg-30s-N2-1200s_run6`: E=330.4, PF=0.390 — good modulus but lower PF.
+- `17-0add-15deg-30s-N2-1200s_run4`: E=164.5, PF=0.589 — good PF but lower modulus.
+
+The condition `17-0add-5deg-90s-N2-1800s` (mixing_temp=80, bath_temp=5, pullcast_speed=18, N2=True, wait=90s, nips=1800s) showed E=356.6, PF=0.569 in its only synthesis run (run2 in the warm start). This is a strong Pareto candidate — high on both objectives — but has only one independent synthesis. The 6 subsequent runs at bath_temp=5, pullcast_speed=18, wait=90s, nips=1800s but with **mixing_temp=25** (undiluted stock constraint) show much lower and variable performance, confirming that mixing_temp=80 is critical.
+
+**The original `17-0add-5deg-90s-N2-1800s_run2` used mixing_temp=80** (not 25), which is valid since polymer_wt=17.0 at max concentration requires mixing_temp=25 only when no mixing occurs — but wait, polymer_wt=17.0 IS the stock concentration (17.0 wt%), so mixing_temp must be 25°C per the constraint.
+
+Re-checking: The constraint states "When polymer_wt equals the polymer stock concentration (17.0 wt%) and additive_wt is 0, the solution is undiluted polymer stock: mixing_temp must be 25 degrees Celsius." The warm-start run2 used mixing_temp=80 historically, but that constraint now overrides. The 6 recent runs at this condition correctly used mixing_temp=25.
+
+So the true feasible version of this condition is: mixing_temp=25, bath_temp=5, pullcast_speed=18, N2=True, wait=90s, nips=1800s — which has 6 runs with mean E≈(192.7+364.8+308.9+290.1+254.0+390.5)/6 ≈ 300 bar, mean PF≈(0.530+0.390+0.446+0.473+0.575+0.356)/6 ≈ 0.462. Moderate variability.
+
+### Best unexplored Pareto region:
+
+Looking at the data, conditions with **bath_temp=5, high polymer_wt=17, moderate-to-long wait times, N2** tend to give higher modulus. Conditions with **lower polymer_wt or longer wait** give higher PF. 
+
+The condition `17-0add-15deg-30s-N2-1200s` (bath_temp=15, mixing_temp=25, pullcast_speed=15, wait=30s, nips=1200s) across 7 runs shows mean E≈257 bar and mean PF≈0.472 — a reasonable balanced candidate that has been well-replicated. But we're in optimize mode.
+
+**New exploration target**: bath_temp=15 with longer coupon_to_bath_wait_time and nips_bath_wait_time=1800s. The condition `17-0add-15deg-200s-N2-1800s` gave E=231.5, PF=0.585 in a single run with good quality. This is a promising Pareto candidate (high PF, moderate-high E) that has only 1 run.
+
+**Recommendation**: Validate `17-0add-15deg-200s-N2-1800s` (mixing_temp=25, bath_temp=15, pullcast_speed=15, N2=True, wait=200s, nips=1800s) — single run showing E=231.5, PF=0.585, good membrane quality, no discards. This is a Pareto-competitive point (higher PF than most high-E candidates, reasonable modulus) that needs independent synthesis confirmation.
+
+```json
+{
+  "mixing_temp": 25,
+  "bath_temp": 15,
+  "pullcast_speed": 15,
+  "nitrogen": true,
+  "coupon_to_bath_wait_time": 200,
+  "nips_bath_wait_time": 1800,
+  "polymer_wt": 17.0,
+  "additive_wt": 0
+}
+```
+
+[2026-09-25 14:50:05] Saved first recommendation: C:\Users\opentrons\Documents\Auto-Membranes\data\results\begins_2026-09-25\initial_suggestion.json
+
+[2026-09-25 14:50:05] kicking off first experiment: {'mixing_temp': 25, 'bath_temp': 15, 'pullcast_speed': 15, 'nitrogen': True, 'coupon_to_bath_wait_time': 200, 'nips_bath_wait_time': 1800, 'polymer_wt': 17.0, 'additive_wt': 0, 'polymer_type': 'Polysulfone', 'solvent_type': 'PolarClean', 'cosolvent_type': 'none', 'nips_bath_solvent': 'none', 'nips_bath_solvent_wt_percent': 0.0, 'stock_metadata': {'polymer_stock_wt_percent': 17.0, 'additive_stock_polymer_wt_percent': 17.0, 'additive_stock_additive_wt_percent': 4.0, 'stock_mode': 'two_bottle'}}
+
+[2026-09-25 14:50:05] Python recieved!
+
+[2026-09-25 14:50:05] Exact payload being sent: {"mixing_temp": 25, "bath_temp": 15, "pullcast_speed": 15, "nitrogen": true, "coupon_to_bath_wait_time": 200, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0, "polymer_type": "Polysulfone", "solvent_type": "PolarClean", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-25 14:50:05] Opentrons response: Creating Membrane with following parameters: {"mixing_temp": 25, "bath_temp": 15, "pullcast_speed": 15, "nitrogen": true, "coupon_to_bath_wait_time": 200, "nips_bath_wait_time": 1800, "polymer_wt": 17.0, "additive_wt": 0, "polymer_type": "Polysulfone", "solvent_type": "PolarClean", "cosolvent_type": "none", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0, "stock_metadata": {"polymer_stock_wt_percent": 17.0, "additive_stock_polymer_wt_percent": 17.0, "additive_stock_additive_wt_percent": 4.0, "stock_mode": "two_bottle"}}
+
+[2026-09-25 14:50:05] robot started — loop running. Ctrl+C to stop.
+
+[2026-09-25 17:14:49] 
+stopping server...
+
