@@ -159,7 +159,7 @@ def plot_repeatability(rows, properties=RESPONSES):
 
 
 def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
-    """All groups in one figure; boxes and jitter summarize sample means."""
+    """All groups in one figure; jitter color shows chronological rank."""
     groups = list(rows.dropna(subset=['repeat_group']).groupby('repeat_group', sort=False))
     if not groups:
         fig, ax = plt.subplots(figsize=(9, 3))
@@ -180,7 +180,7 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
         return result + (' (missing)' if len(values) < len(members) else '')
 
     fig, grid = plt.subplots(1, len(properties), squeeze=False, sharey=True,
-                             figsize=(20, 9))  # Short, wide layout for a slide.
+                             figsize=(24, 14))
     axes = grid[0]
     rng = np.random.default_rng(seed)
     labels = []
@@ -194,15 +194,15 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
         span = lambda column: value_range(members, column)
         nitrogen = 'on' if nitrogen_state(members['nitrogen'].iloc[0]) else 'off'
         labels.append(
-            f"{group} (n={len(members)}) | Polymer {span('polymer_wt')} wt%; N2 {nitrogen}\n"
-            f"Exposure {span('coupon_to_bath_wait_time')} s; Bath {span('bath_temp')} \N{DEGREE SIGN}C\n"
-            f"Casting {span('pullcast_speed')} mm/s; RH {span('Humidity Mean')}%"
+            f"{group} (n={len(members)})  |  Polymer {span('polymer_wt')} wt%  |  N2 {nitrogen}\n"
+            f"Stock age {span('polymer_solution_age_days')} d  |  Exposure {span('coupon_to_bath_wait_time')} s  |  "
+            f"Bath {span('bath_temp')} \N{DEGREE SIGN}C\n"
+            f"Casting {span('pullcast_speed')} mm/s  |  RH {span('Humidity Mean')}%"
         )
         # Use the same offsets in each response panel to help follow observations.
         offsets = rng.uniform(-.16, .16, len(members))
         color = '#888888'
-        # Rank all group members before omitting missing responses, keeping colors
-        # consistent for a sample across panels. Equal timestamps use iteration/ID.
+        # Rank before omitting missing responses so a sample keeps one color in every panel.
         ranks = np.arange(1, len(members) + 1)
         for ax, prop in zip(axes, properties):
             values = pd.to_numeric(members[f'{prop} Mean'], errors='coerce').to_numpy()
@@ -219,7 +219,7 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
                 ax.text(.5, position, 'No data', transform=ax.get_yaxis_transform(),
                         ha='center', va='center', color='0.5')
     axes[0].set_yticks(np.arange(1, len(groups) + 1))
-    axes[0].set_yticklabels(labels, fontsize=12, linespacing=1.25)
+    axes[0].set_yticklabels(labels, fontsize=13, linespacing=1.35)
     axes[0].set_ylim(len(groups) + .65, .35)
     for ax, prop in zip(axes, properties):
         ax.set_title(prop, fontsize=18, pad=14)
@@ -229,8 +229,8 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
         ax.grid(axis='x', alpha=.2)
         for boundary in np.arange(1.5, len(groups), 1):
             ax.axhline(boundary, color='0.92', lw=.8, zorder=0)
-    fig.subplots_adjust(left=.31, right=.92, bottom=.09, top=.94, wspace=.20)
-    colorbar_axis = fig.add_axes([.945, .17, .012, .68])
+    fig.subplots_adjust(left=.39, right=.93, bottom=.08, top=.94, wspace=.20)
+    colorbar_axis = fig.add_axes([.952, .17, .012, .68])
     colorbar = fig.colorbar(plt.cm.ScalarMappable(norm=normalization, cmap=color_map),
                             cax=colorbar_axis, ticks=np.arange(1, max_rank + 1))
     colorbar.set_label('Chronological rank within group (1 = earliest)', fontsize=14, labelpad=12)
