@@ -50,8 +50,8 @@ import llm_context                             # <<< IMPORT >>> what branch resu
 
 # Semi-batch material choices. Recorded with every condition and provided to LLM_AL as context,
 # but never selected or changed by the model.
-POLYMER_TYPE = "Polysulfone"  # PSf; set before starting the campaign.
-SOLVENT_TYPE = "PolarClean"  # Base casting solvent identity.
+POLYMER_TYPE = "Primospire"  # Set before starting the campaign.
+SOLVENT_TYPE = "NMP"  # Base casting solvent identity.
 COSOLVENT_TYPE = "none"
 NIPS_BATH_SOLVENT = "none"
 NIPS_BATH_SOLVENT_WT_PERCENT = 0.0
@@ -98,7 +98,7 @@ ITERATE_POLYMER = False
 LLM_AL_SEARCH_MODE = "double"
 # Historical context; also generates the first suggestion for a new campaign.
 # Set to None to start without historical context.
-LLM_AL_WARM_START_CSV = _REPO_ROOT / "data/warm_start/polysulfone_polarclean_through_2026-09-25.csv"
+LLM_AL_WARM_START_CSV = _REPO_ROOT / "data/warm_start/primospire_nmp.csv"
 llm_context.resolve_al_mode(LLM_AL_SEARCH_MODE)  # Fail early on a misspelled mode.
 # Number of recent unique points provided as diversity context when
 # LLM_AL_SEARCH_MODE="explore". None means keep all historical unique points.
@@ -106,7 +106,7 @@ LLM_AL_EXPLORATION_HISTORY_POINTS = None
 #basically if None, it'll make a new thing but it'll be put automatically in old_csv... or. possibly
 #in another csv thing so there'd be campaign csvs (like REAL campaigns) so yea
 #otherwise put the date of the campaign in YYYY-MM-DD format in a string
-CONTINUE_CAMPAIGN = "2026-09-25"  # Start separately from the September 21 campaign with incomplete proposal context.
+CONTINUE_CAMPAIGN = None  # Start a new campaign dated on launch.
 
 
 def _campaign_date_folder_tag(continue_campaign):
