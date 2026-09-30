@@ -907,9 +907,9 @@ def goodFit_eval(
         plateau_stress_rise = slopePlateau * plateau_strain_range
         remaining_stress = data['stress (bar)'].max() - float(yieldStrength)
         rise_fraction = plateau_stress_rise / (remaining_stress + 1e-9)
-        plateau_bad = rise_fraction > 0.5
+        plateau_bad = rise_fraction > 0.75
         if plateau_bad:
-            bp1_penalty += -30
+            bp1_penalty += -20
             bp1_notes.append(f'plateau spans {rise_fraction*100:.0f}% of remaining stress — elastic peak likely wrong')
         else:
             bp1_notes.append(f'plateau spans {rise_fraction*100:.0f}% of remaining stress — ok')
