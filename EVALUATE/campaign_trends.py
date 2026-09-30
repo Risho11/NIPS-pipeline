@@ -196,7 +196,7 @@ def plot_property(
         yerr=error, fmt="o-" if connect_points else "o", markersize=4, linewidth=1.2,
         capsize=3, elinewidth=1, alpha=0.9,
     )
-    ax.set(title=property_name, xlabel="Sample date and time", ylabel=f"{property_name} (mean ± SD)")
+    ax.set(title=property_name, xlabel="Sample date and time", ylabel=property_name)
     ax.grid(True, alpha=0.25)
     ax.xaxis.set_major_locator(mdates.AutoDateLocator())
     ax.xaxis.set_major_formatter(mdates.ConciseDateFormatter(ax.xaxis.get_major_locator()))
