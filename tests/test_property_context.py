@@ -29,6 +29,46 @@ def load_context():
 
 
 class PropertyContextTests(unittest.TestCase):
+    def test_prompt_rounding_for_both_sources_preserves_raw_measurements(self):
+        history = pd.DataFrame([
+            {'name': '17.123-polymer', '_observation_source': source,
+             'polymer_wt': 17.123456, 'nitrogen': True,
+             'Pore Fraction Mean': .56789, 'Pore Fraction SD': .012345,
+             'Elastic Modulus Mean': 123.4567,
+             'CV Mean': 1.234e-5}
+            for source in ('warm_start', 'current_campaign')
+        ])
+        before = history.copy(deep=True)
+        payload = json.loads(build_performance_observations(history))
+        for observation in payload['observations']:
+            self.assertEqual(observation['identity']['condition'], '17.123-polymer')
+            self.assertEqual(observation['conditions']['polymer_wt'], 17.12)
+            self.assertIs(observation['conditions']['nitrogen'], True)
+            self.assertEqual(observation['measurements']['Pore Fraction Mean'], .57)
+            self.assertEqual(observation['measurements']['Pore Fraction SD'], .01)
+            self.assertEqual(observation['measurements']['Elastic Modulus Mean'], 123.46)
+            self.assertEqual(observation['measurements']['CV Mean'], 0)
+        pd.testing.assert_frame_equal(history, before)
+        self.assertEqual(json.loads(format_property_measurements(history.iloc[0]))[
+            'Pore Fraction Mean'], .56789)
+
+    def test_quality_legacy_and_diversity_prompt_rounding(self):
+        history = pd.DataFrame([{'name': 'legacy', 'polymer_wt': 17.12345,
+                                 'final_report': 'modulus 123.4567; SD 1.234e-3',
+                                 'pore_fraction_report': '0.56789 dimensionless'}])
+        observation = json.loads(build_performance_observations(history))['observations'][0]
+        self.assertEqual(observation['legacy_report'], 'modulus 123.46; SD 0')
+        self.assertEqual(observation['legacy_pore_fraction_report'], '0.57 dimensionless')
+        self.context._suggest_from_history(
+            history, self.al, 'thickness=123.4567; temperature=-1.236',
+            None, 'explore', None, {'nips_bath_solvent_wt_percent': 1.23456})
+        call = self.al.LLM_AL.call_args
+        self.assertEqual(call.kwargs['quality_observations'], 'thickness=123.46; temperature=-1.24')
+        self.assertIn('"nips_bath_solvent_wt_percent": 1.23', call.args[0])
+        diversity = json.loads(call.kwargs['diversity_context'])
+        self.assertEqual(diversity['coverage']['polymer_wt']['min'], 17.12)
+        self.assertEqual(diversity['recent_unique_points'][0]['polymer_wt'], 17.12)
+
     def setUp(self):
         self.context = load_context()
         self.al = SimpleNamespace(Generate_report=Mock(return_value='New narrative'),

@@ -1,7 +1,35 @@
-"""Lossless numeric property context for experimental proposal prompts."""
+"""Numeric property context for experimental proposal prompts."""
 
 import json
 import math
+import re
+from decimal import Decimal
+
+
+def format_prompt_numbers(text):
+    """Round standalone numeric values in prompt prose, preserving embedded IDs."""
+    def rounded(match):
+        value = Decimal(match.group())
+        result = format(value, '.2f').rstrip('0').rstrip('.')
+        return '0' if result == '-0' else result
+
+    return re.sub(
+        r'(?<![\w./-])[+-]?(?:\d+\.\d*|\.\d+|\d+[eE][+-]?\d+)(?:[eE][+-]?\d+)?(?![\d./-])',
+        rounded, text,
+    )
+
+
+def round_prompt_values(value):
+    """Make a rounded prompt copy without changing source data or booleans."""
+    if isinstance(value, float):
+        return round(value, 2)
+    if isinstance(value, dict):
+        return {key: round_prompt_values(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [round_prompt_values(item) for item in value]
+    if isinstance(value, str):
+        return format_prompt_numbers(value)
+    return value
 
 
 PROPERTY_CONTEXT_NOTE = (
@@ -113,7 +141,11 @@ def build_performance_observations(history):
             observation['legacy_report'] = _value(row.get('final_report'))
         if measurements.get('Pore Fraction Mean') is None:
             observation['legacy_pore_fraction_report'] = _value(row.get('pore_fraction_report'))
-        observations.append(observation)
+        # Preserve provenance verbatim; only format experimental context for the prompt.
+        observations.append({
+            key: value if key == 'identity' else round_prompt_values(value)
+            for key, value in observation.items()
+        })
     return json.dumps({
         'schema': 'experimental_observations_v1',
         'measurement_conventions': PROPERTY_CONTEXT_NOTE,

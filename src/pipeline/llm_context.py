@@ -17,7 +17,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
-from property_context import build_performance_observations
+from property_context import build_performance_observations, format_prompt_numbers, round_prompt_values
 
 import curve_segmentation
 import membrane_quality_llm
@@ -310,7 +310,7 @@ def build_diversity_context(agg_llm_path, max_points=None):
         "coverage": coverage,
         "recent_unique_points": sampled_points,
     }
-    return json.dumps(payload)
+    return json.dumps(round_prompt_values(payload))
 
 
 def _clear_stale_performance_outcome(condition_name, agg_llm_path):
@@ -475,7 +475,7 @@ def _suggest_from_history(
     if material_context is not None:
         performance_observations = (
             "Current campaign material identities (manually set; do not change): "
-            + json.dumps(material_context, sort_keys=True)
+            + json.dumps(round_prompt_values(material_context), sort_keys=True)
             + "\nHistorical rows without material identities are unknown; do not assume they used the current materials.\n\n"
             + performance_observations
         )
@@ -490,7 +490,7 @@ def _suggest_from_history(
         suggest = activeLearning.LLM_AL_modulus_pore_fraction
         # Pore-fraction measurements (and legacy fallback) are in each structured observation.
     params_suggestion = suggest(
-        performance_observations, quality_observations=quality_observations,
+        performance_observations, quality_observations=format_prompt_numbers(quality_observations),
         locked_additive_wt=locked_additive_wt,
         search_mode=search_strategy,
         diversity_context=diversity_context,
