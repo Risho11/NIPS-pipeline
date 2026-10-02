@@ -366,13 +366,15 @@ class Arm():
 
     # placing cap requires a special method as we need to hover the cap for some time before placing
     # but can be removed with the normal pick_up() method
-    def put_cap(self, hover_time):
+    def put_cap(self, hover_time, on_hover_end=None):
         self.pick_up("cap stand")
         
         self.go_to_position("opentrons", "cap waypoint")
         self.go_to_position("opentrons", "cap hover")
         
         time.sleep(hover_time)
+        if on_hover_end is not None:
+            on_hover_end()
         
         self.go_to_position("opentrons", "cap")
         self.open_gripper()

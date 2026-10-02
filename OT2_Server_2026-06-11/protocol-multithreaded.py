@@ -456,17 +456,14 @@ def run_test(param = None):
         arduino.start_blow()
         print("Nitrogen on.")
         
-        # place cap over coupon
-        hover_process = threading.Thread(target=xArm.put_cap, args=(coupon_to_bath_wait_time, ))
-        hover_process.start()
-        
-        # take air measurement
-        time.sleep(5)
-        parameters["coupon_air_data"] = arduino.read_2nd_temp_humidity()
-        
-        # stop nitrgoen
-        hover_process.join()
-        arduino.stop_blow()
+        # Read while the cap is still hovering and N2 is flowing.
+        def read_coupon_during_n2():
+            parameters["coupon_air_data"] = arduino.read_2nd_temp_humidity()
+
+        try:
+            xArm.put_cap(coupon_to_bath_wait_time, on_hover_end=read_coupon_during_n2)
+        finally:
+            arduino.stop_blow()
         print("Nitrogen off.")
     else:
         time.sleep(coupon_to_bath_wait_time)

@@ -8,6 +8,8 @@
 
 import serial
 import time
+import math
+import threading
 
 arduino_port = '/dev/serial/by-id/usb-Arduino__www.arduino.cc__0043_75130303036351E02061-if00'
 BAUD_RATE = 115200
@@ -16,6 +18,7 @@ timeout_time = 5
 
 class Uno:
     def __init__(self):
+        self._serial_lock = threading.Lock()
         self.board = serial.Serial(arduino_port, BAUD_RATE, timeout=2)
         # give the Arduino time to reset after the serial port opens
         # (opening a serial connection resets most Arduino Unos)
@@ -26,9 +29,14 @@ class Uno:
         # matching the original pyfirmata behavior
 
     def _send_command(self, cmd_char):
-        self.board.write(cmd_char.encode('ascii'))
-        response = self.board.readline().decode('ascii', errors='replace').strip()
-        return response
+        # All users of this port must keep each request/reply together.
+        with self._serial_lock:
+            self.board.write(cmd_char.encode('ascii'))
+            raw = self.board.readline()
+            if not raw.endswith(b'\n'):
+                print(f"Arduino command {cmd_char!r}: incomplete reply {raw!r}")
+                return ''
+            return raw.decode('ascii', errors='replace').strip()
 
     # ---------------- N2 Blower ----------------
 
@@ -109,44 +117,38 @@ class Uno:
                 time.sleep(0.1)
         return response
 
-    # SHT40
-    def read_temp_humidity(self):
-        """
-        Returns temperature/humidity strings in a dict, or None on failure.
-        """
-        response = self._read_sensor_response('S', 'SHT40')
+    def _read_temp_humidity(self, command, sensor_name):
+        response = self._read_sensor_response(command, sensor_name)
         if response.startswith("ERR"):
             return None
         try:
             temp_str, hum_str = response.split(",")
+            temperature, humidity = float(temp_str), float(hum_str)
+            # Broad wire-format bounds; do not filter real process variation.
+            if not (math.isfinite(temperature) and math.isfinite(humidity)
+                    and -45 <= temperature <= 130 and 0 <= humidity <= 100):
+                raise ValueError("Invalid temperature/humidity")
             air_data = {
                 "temperature": temp_str,
                 "humidity": hum_str
             }
-            #return float(temp_str), float(hum_str)
             return air_data
         except (ValueError, AttributeError):
-            print(f"Unexpected response from sensor: {response!r}")
+            print(f"Unexpected response from {sensor_name}: {response!r}")
             return None
+
+    # SHT40
+    def read_temp_humidity(self):
+        """Return validated temperature/humidity strings, or None on failure."""
+        return self._read_temp_humidity('S', 'SHT40')
 
     # SHT31    
     def read_2nd_temp_humidity(self):
         """
         Returns temperature/humidity strings in a dict, or None on failure.
         """
-        response = self._read_sensor_response('T', 'SHT31')
-        if response.startswith("ERR"):
-            return None
-        try:
-            temp_str, hum_str = response.split(",")
-            air_data = {
-                "temperature": temp_str,
-                "humidity": hum_str
-            }
-            return air_data
-        except (ValueError, AttributeError):
-            print(f"Unexpected response from sensor: {response!r}")
-            return None
+        return self._read_temp_humidity('T', 'SHT31')
 
     def close(self):
-        self.board.close()
+        with self._serial_lock:
+            self.board.close()
