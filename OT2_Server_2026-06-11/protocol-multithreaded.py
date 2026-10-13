@@ -12,7 +12,9 @@ from ot2 import OT2
 from chiller import BathChiller
 from uno_control import Uno
 import url as url
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import HTTPServer
+from pathlib import Path
+from request_server import RequestJournal, make_handler
 
 import threading
 
@@ -123,23 +125,6 @@ else:
 # ==================================================
 
 # server definition
-class RequestHandler(BaseHTTPRequestHandler):
-    def do_POST(self):
-        content_length = int(self.headers.get('Content-Length', 0))
-        post_body_bytes = self.rfile.read(content_length)
-        post_body_str = post_body_bytes.decode('utf-8')
-        parameters = json.loads(post_body_str)
-        response = f"Creating Membrane with following parameters: {post_body_str}"
-        self.send_response(200)
-        self.send_header('Content-Type', 'text/plain; charset=utf-8')
-        self.end_headers()
-        self.wfile.write(response.encode('utf-8'))
-        print("Recievied request for membrane with following parameters: ")
-        print(parameters)
-        global runProcess
-        runProcess = threading.Thread(target=run_test, args=(parameters, ))
-        runProcess.start()
-
 # log capture defintion
 class _LogCapture:
     def __init__(self, stream):
@@ -625,7 +610,8 @@ def run_test(param = None):
 
 # set up server, class definition at top of the document
 if __name__ == '__main__':
-    server = HTTPServer(("169.254.46.48", 8000), RequestHandler)
+    journal = RequestJournal(Path(__file__).resolve().with_name("request_journal.json"))
+    server = HTTPServer(("169.254.46.48", 8000), make_handler(journal, run_test))
     print("Ready to begin experiments.")
     server.serve_forever()
 

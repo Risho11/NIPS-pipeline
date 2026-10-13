@@ -11,7 +11,7 @@ Usage:
     python run_loop.py
 """
 
-import json, re, threading, time, shutil, csv, os, sys, datetime
+import json, re, threading, time, shutil, csv, os, sys, datetime, uuid
 import cv2
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -820,14 +820,20 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
         # Recheck cached recommendations too: they may predate this constraint.
         _enforce_stock_mixing_temperature(new_params)
         print(f"[5/5] next params: {new_params}")
-        if "submission_started" in completed:
+        if "submission_started" in completed and not state.get("submission_request_id"):
             raise RuntimeError(
                 "Previous robot submission has an unknown outcome; refusing to send a duplicate. "
                 "Verify robot state, then remove submission_started from the condition checkpoint "
                 "only if the request was not accepted."
             )
+        health = url.check_health(expected_journal=state.get("submission_journal_id"))
+        if "submission_started" in completed and not state.get("submission_journal_id"):
+            raise RuntimeError("Submission journal identity missing; inspect robot state before recovery.")
+        state.setdefault("submission_request_id", str(uuid.uuid4()))
+        state["submission_journal_id"] = health["journal_id"]
         _complete_stage(condition_name, state, "submission_started")
-        url.run_test(new_params)
+        url.run_test(new_params, request_id=state["submission_request_id"],
+                     journal_id=state["submission_journal_id"])
         _complete_stage(condition_name, state, "next_run_submitted")
         print(f"[DONE] {condition_name}  elapsed={time.time()-_t0:.1f}s")
 
