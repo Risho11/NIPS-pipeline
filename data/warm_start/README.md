@@ -38,9 +38,23 @@ already-saved recommendations are not regenerated. Historical rows are never
 copied into campaign CSVs or checkpoints. A current row with the same condition
 name supersedes its historical row. Set the warm-start path to `None` to disable.
 
-Single mode receives historical modulus and uncertainty; double mode also receives
-the explicit pore-fraction reports; explore mode includes the historical parameter
-points in its diversity context. All modes receive available quality reports.
+Set `LLM_AL_SEARCH_MODE = "double_explore"` for equal-priority modulus and pore-fraction
+optimization with modest exploration of promising, under-sampled conditions. This
+mode includes diversity coverage and retains candidate validation requirements.
+`double` retains its existing objective-first strategy; `explore` prioritizes coverage.
+Restart the pipeline after changing the mode; saved recommendations are reused.
+
+All modes receive `experimental_observations_v2`: each experiment contains its
+conditions, property means/SDs, `image_analysis.quality_report`, and
+`experiment_timing` (date/time and source). CSV input columns remain compatible:
+`quality_report`, `sample_time`, and `time_source` accompany the property columns.
+Missing fields become null. Historical exports retain these columns; no regeneration
+is needed for existing files that already contain them. Live runs record the earliest
+timestamp in their `Specimen_*.csv` filenames. Processing time stays separate;
+historical processing-time fallbacks remain labeled by their source. Timestamps
+without timezone information are not assigned a timezone. Time is context, not a
+third optimization objective. Image reports are included in full in the same record
+as the properties, so long campaigns can produce larger prompts.
 
 Limitations:
 

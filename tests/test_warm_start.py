@@ -24,7 +24,7 @@ class WarmStartTests(unittest.TestCase):
                 "pore_fraction_report": "0.7 dimensionless", "polymer_wt": 17,
             }]).to_csv(path, index=False)
             original = path.read_bytes()
-            for mode in ("single", "double", "explore"):
+            for mode in ("single", "double", "double_explore", "explore"):
                 with self.subTest(mode=mode):
                     al = SimpleNamespace(LLM_AL=Mock(return_value="suggestion"),
                         LLM_AL_modulus_pore_fraction=Mock(return_value="suggestion"))
@@ -32,13 +32,14 @@ class WarmStartTests(unittest.TestCase):
                         path, al, al_search_mode=mode, locked_additive_wt=0,
                         material_context={"polymer_type": "Primospire"})
                     self.assertEqual(result, "suggestion")
-                    call = (al.LLM_AL_modulus_pore_fraction if mode == "double" else al.LLM_AL).call_args
+                    call = (al.LLM_AL_modulus_pore_fraction if mode in {"double", "double_explore"} else al.LLM_AL).call_args
                     self.assertIn("measured modulus", call.args[0])
-                    self.assertIn("good film", call.kwargs["quality_observations"])
+                    self.assertIn("good film", call.args[0])
+                    self.assertEqual(call.kwargs["quality_observations"], "")
                     self.assertEqual(call.kwargs["locked_additive_wt"], 0)
-                    if mode == "double":
+                    if mode in {"double", "double_explore"}:
                         self.assertIn("0.7 dimensionless", call.args[0])
-                    if mode == "explore":
+                    if mode in {"explore", "double_explore"}:
                         self.assertTrue(call.kwargs["diversity_context"])
                     self.assertEqual(path.read_bytes(), original)
             pd.DataFrame(columns=["name", "final_report", "formatted_parameters"]).to_csv(path, index=False)

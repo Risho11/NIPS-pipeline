@@ -84,6 +84,7 @@ def _normalized_search_mode(search_mode: str) -> str:
         "exploration": "explore",
         "exploratory": "explore",
         "diversity": "explore",
+        "balanced": "balanced",
     }
     return aliases.get(mode, _DEFAULT_SEARCH_MODE)
 
@@ -95,6 +96,18 @@ def build_search_strategy_instructions(search_mode: str, diversity_context: str 
     explore: maximize design-space coverage and novelty to grow the dataset.
     """
     mode = _normalized_search_mode(search_mode)
+    if mode == "balanced":
+        return (
+            "Search mode: balanced. Keep elastic modulus and pore fraction as equally "
+            "important objectives. Favor modest exploration among physically plausible "
+            "candidates that could improve the Pareto frontier or clarify an uncertain "
+            "tradeoff. Use diversity coverage to prefer under-sampled promising regions "
+            "over near-duplicates; do not maximize distance for its own sake. Explain "
+            "the expected objective benefit and what the experiment will teach us. "
+            "Respect quality evidence, bounds, and the independent candidate validation "
+            "policy; repeat a candidate when that policy requires validation. "
+            "Experiment timing is context, not an additional optimization objective."
+        )
     if mode != "explore":
         return (
             "Search mode: optimize. Prioritize objective improvement while still respecting "
@@ -190,7 +203,7 @@ def _llm_al(prompt_template, performance_observations, ranges, quality_observati
             Model, Temperature, sleep, pore_fraction_observations=None):
     if ranges is None:
         ranges = current_ranges(locked_additive_wt=locked_additive_wt)
-    text = f'\nPrior Performance Observations: {performance_observations}'
+    text = f'\nPrior Experimental Observations (properties, image analysis, and timing grouped by experiment): {performance_observations}'
     if pore_fraction_observations:
         text += f'\n\nPrior Pore Fraction Observations: {pore_fraction_observations}'
     if quality_observations:

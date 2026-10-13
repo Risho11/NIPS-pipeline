@@ -89,7 +89,7 @@ def build_performance_observations(history):
 
     Numeric CSV fields are authoritative. Report-only legacy rows retain a labeled
     fallback so historical measurements are not silently lost during migration.
-    Vision quality reports remain in the existing separate quality channel.
+    Vision analysis and timing accompany the properties in the same record.
     """
     observations = []
     for _, row in history.iterrows():
@@ -127,6 +127,13 @@ def build_performance_observations(history):
             },
             'conditions': parameters,
             'measurements': measurements,
+            'image_analysis': {
+                'quality_report': _value(row.get('quality_report')),
+            },
+            'experiment_timing': {
+                'sample_time': _value(row.get('sample_time')),
+                'time_source': _value(row.get('time_source')),
+            },
             'quality_notes': {
                 'discarded_fit_reasons': _value(row.get('Discarded Fit Reasons')),
                 'validation_status': _value(row.get('validation_status')),
@@ -143,11 +150,14 @@ def build_performance_observations(history):
             observation['legacy_pore_fraction_report'] = _value(row.get('pore_fraction_report'))
         # Preserve provenance verbatim; only format experimental context for the prompt.
         observations.append({
-            key: value if key == 'identity' else round_prompt_values(value)
+            key: value if key in {'identity', 'experiment_timing'} else round_prompt_values(value)
             for key, value in observation.items()
         })
     return json.dumps({
-        'schema': 'experimental_observations_v1',
+        'schema': 'experimental_observations_v2',
+        'timing_conventions': 'sample_time is the recorded experiment date/time; inspect '
+            'time_source for provenance or a processing-time fallback. Missing timing is '
+            'unknown. Do not infer a timezone. Timing is context, not an objective.',
         'measurement_conventions': PROPERTY_CONTEXT_NOTE,
         'observations': observations,
     }, allow_nan=False)

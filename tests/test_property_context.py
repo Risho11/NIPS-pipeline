@@ -124,13 +124,15 @@ class PropertyContextTests(unittest.TestCase):
             warm = Path(tmp) / 'warm.csv'
             current = Path(tmp) / 'llm.csv'
             pd.DataFrame([{'name': 'same', 'formatted_parameters': 'polymer_wt=17',
-                           'final_report': 'historical', 'Pore Fraction Mean': .1}]).to_csv(warm, index=False)
+                           'final_report': 'historical', 'Pore Fraction Mean': .1,
+                           'quality_report': 'old image'}]).to_csv(warm, index=False)
             self.context.generate_warm_start_suggestion(warm, self.al, al_search_mode='double')
             self.assertIn('"Pore Fraction Mean": 0.1', self.al.LLM_AL_modulus_pore_fraction.call_args[0][0])
             pd.DataFrame([{'name': 'same', 'formatted_parameters': 'polymer_wt=17',
                            'formatted_parameters_withProp': 'polymer_wt=17\nmodulus only',
                            'final_report': '', 'Pore Fraction Mean': .6, 'Pore Fraction SD': .02,
-                           'Yield Strength Mean': 25, 'Yield Strength SD': 2}]).to_csv(current, index=False)
+                           'Yield Strength Mean': 25, 'Yield Strength SD': 2,
+                           'quality_report': 'current image'}]).to_csv(current, index=False)
             self.context.generate_reports_and_suggestion('same', current, self.al,
                 al_search_mode='double', warm_start_csv=warm)
             text = self.al.LLM_AL_modulus_pore_fraction.call_args[0][0]
@@ -139,6 +141,9 @@ class PropertyContextTests(unittest.TestCase):
             self.assertNotIn('"Pore Fraction Mean": 0.1', text)
             observation = json.loads(text)['observations'][0]
             self.assertEqual(observation['identity']['source'], 'current_campaign')
+            self.assertEqual(observation['image_analysis']['quality_report'], 'current image')
+            self.assertNotIn('old image', text)
+            self.assertEqual(self.al.LLM_AL_modulus_pore_fraction.call_args.kwargs['quality_observations'], '')
             saved = pd.read_csv(current)
             self.assertEqual(saved.loc[0, 'initial_report'], 'New narrative')
             self.assertIn('New narrative', saved.loc[0, 'final_report'])
@@ -178,6 +183,73 @@ class PropertyContextTests(unittest.TestCase):
         row = {f'{key} Mean': 1.0 for key in schema}
         row.update({f'{key} SD': .1 for key, spec in schema.items() if spec['sd']})
         self.assertEqual(json.loads(format_property_measurements(row, schema)), row)
+
+    def test_joined_observations_and_balanced_routing(self):
+        history = pd.DataFrame([
+            {'name': 'a', 'Elastic Modulus Mean': 123, 'Pore Fraction Mean': .5,
+             'quality_report': 'Film a has defects', 'sample_time': '2026-10-01 12:30:00',
+             'time_source': 'specimen_filename', 'polymer_wt': 17},
+            {'name': 'b', 'quality_report': 'Film b is intact', 'polymer_wt': 18},
+        ])
+        self.context._suggest_from_history(history, self.al, '', 0, 'double_explore', None, None)
+        self.al.LLM_AL.assert_not_called()
+        call = self.al.LLM_AL_modulus_pore_fraction.call_args
+        self.assertEqual(call.kwargs['search_mode'], 'balanced')
+        self.assertEqual(json.loads(call.kwargs['diversity_context'])['sample_count'], 2)
+        payload = json.loads(call.args[0])
+        self.assertEqual(payload['schema'], 'experimental_observations_v2')
+        a, b = payload['observations']
+        self.assertEqual(a['image_analysis']['quality_report'], 'Film a has defects')
+        self.assertEqual(a['measurements']['Elastic Modulus Mean'], 123)
+        self.assertEqual(a['experiment_timing']['sample_time'], '2026-10-01 12:30:00')
+        self.assertEqual(b['image_analysis']['quality_report'], 'Film b is intact')
+        self.assertIsNone(b['experiment_timing']['sample_time'])
+
+    def test_specimen_time_is_persisted_for_matching_condition_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            for name in ['Specimen_10012026_123000.csv', 'Specimen_10012026_124000.csv',
+                         'Specimen_99999999_999999.csv']:
+                (folder / name).touch()
+            path = folder / 'llm.csv'
+            pd.DataFrame([{'name': 'a', 'date': '2026-10-02'},
+                          {'name': 'b', 'date': '2026-10-03'}]).to_csv(path, index=False)
+            self.context.attach_experiment_time('a', folder, path)
+            frame = pd.read_csv(path)
+            self.assertEqual(frame.loc[0, 'sample_time'], '2026-10-01 12:30:00')
+            self.assertEqual(frame.loc[0, 'time_source'], 'specimen_filename')
+            self.assertTrue(pd.isna(frame.loc[1, 'sample_time']))
+            self.assertEqual(frame.loc[0, 'date'], '2026-10-02')
+
+    def test_balanced_prompt_retains_objectives_and_validation(self):
+        # Load pure strategy functions without importing API clients or credentials.
+        tree = ast.parse((PIPELINE / 'activeLearning_29.py').read_text(encoding='utf-8'))
+        functions = [node for node in tree.body if isinstance(node, ast.FunctionDef)
+                     and node.name in {'_normalized_search_mode', 'build_search_strategy_instructions'}]
+        namespace = {'_DEFAULT_SEARCH_MODE': 'optimize'}
+        source = 'from __future__ import annotations\n' + '\n'.join(ast.unparse(node) for node in functions)
+        exec(compile(source, '<strategy>', 'exec'), namespace)
+        text = namespace['build_search_strategy_instructions']('balanced', '{}')
+        self.assertIn('elastic modulus and pore fraction', text)
+        self.assertIn('under-sampled', text)
+        self.assertIn('validation', text)
+        self.assertIn('not an additional optimization objective', text)
+
+    def test_balanced_warm_start_preserves_source_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'warm.csv'
+            pd.DataFrame([{'name': 'warm', 'formatted_parameters': '', 'final_report': '',
+                           'polymer_wt': 17, 'Pore Fraction Mean': .5,
+                           'quality_report': 'intact film', 'sample_time': '2026-10-01 13:00:00',
+                           'time_source': 'specimen_filename'}]).to_csv(path, index=False)
+            before = path.read_bytes()
+            self.context.generate_warm_start_suggestion(path, self.al, al_search_mode='double_explore')
+            call = self.al.LLM_AL_modulus_pore_fraction.call_args
+            self.assertEqual(call.kwargs['search_mode'], 'balanced')
+            observation = json.loads(call.args[0])['observations'][0]
+            self.assertEqual(observation['image_analysis']['quality_report'], 'intact film')
+            self.assertEqual(observation['experiment_timing']['sample_time'], '2026-10-01 13:00:00')
+            self.assertEqual(path.read_bytes(), before)
 
 
 if __name__ == '__main__':

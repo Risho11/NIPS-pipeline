@@ -14,6 +14,7 @@ run_loop.py.
 """
 import datetime
 import json
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -136,6 +137,36 @@ def ensure_condition_row(condition_name, condition_dir, agg_llm_path):
         new_df = pd.concat([existing, new_df], ignore_index=True)
     agg_llm_path.parent.mkdir(parents=True, exist_ok=True)
     new_df.to_csv(agg_llm_path, index=False)
+
+
+def attach_experiment_time(condition_name, condition_dir, *csv_paths):
+    """Record the earliest specimen acquisition timestamp, never processing time."""
+    timestamps = []
+    for path in Path(condition_dir).glob("Specimen_*.csv"):
+        match = re.search(r"(\d{8})_(\d{6})", path.name)
+        if match:
+            try:
+                timestamps.append(datetime.datetime.strptime(''.join(match.groups()), "%m%d%Y%H%M%S"))
+            except ValueError:
+                continue
+    if not timestamps:
+        return
+    for csv_path in csv_paths:
+        csv_path = Path(csv_path)
+        if not csv_path.exists() or not csv_path.stat().st_size:
+            continue
+        frame = pd.read_csv(csv_path)
+        mask = frame['name'].isin([condition_name, condition_name + '_preDiscard',
+                                   condition_name + '_postDiscard'])
+        if mask.any():
+            # Explicit object dtype also supports legacy all-empty numeric columns.
+            for column in ('sample_time', 'time_source'):
+                if column not in frame:
+                    frame[column] = None
+                frame[column] = frame[column].astype(object)
+            frame.loc[mask, 'sample_time'] = min(timestamps).isoformat(sep=' ')
+            frame.loc[mask, 'time_source'] = 'specimen_filename'
+            frame.to_csv(csv_path, index=False)
 
 
 def attach_branch_result_to_csv(condition_name, branch_type, branch_result, agg_path, agg_llm_path,
@@ -354,9 +385,11 @@ def resolve_al_mode(mode):
         return "single", "optimize"
     if normalized == "double":
         return "double", "optimize"
+    if normalized == "double_explore":
+        return "double", "balanced"
     if normalized in {"explore", "exploration", "exploratory", "diversity"}:
         return "single", "explore"
-    raise ValueError(f"Invalid AL mode {mode!r}; choose 'single', 'double', or 'explore'.")
+    raise ValueError(f"Invalid AL mode {mode!r}; choose 'single', 'double', 'double_explore', or 'explore'.")
 
 
 def generate_reports_and_suggestion(
@@ -372,13 +405,14 @@ def generate_reports_and_suggestion(
     """Exact strategy run_loop.py uses to go from a CSV row to a next-params suggestion: build
     initial_report (performance, via activeLearning.Generate_report), fold the mech-property
     outcome text into final_report for archival use, build structured campaign history, pull
-    quality_observations (already-built quality_report column), call activeLearning.LLM_AL with
-    both. Returns the raw params_suggestion string. `activeLearning` is passed in (not imported
+    image analysis (already-built quality_report column) into each observation, then call
+    activeLearning.LLM_AL. Returns the raw params_suggestion string. `activeLearning` is passed in (not imported
     here) so tests/test_master.py can monkeypatch activeLearning_29.Generate_report/LLM_AL to
     stubs before calling this, rather than reimplementing the flow.
 
     al_search_mode: 'single' maximizes modulus; 'double' maximizes modulus and pore
-    fraction; 'explore' prioritizes coverage. Legacy 'optimize' means 'single'.
+    fraction; 'double_explore' adds modest exploration to those two objectives;
+    'explore' prioritizes coverage. Legacy 'optimize' means 'single'.
     Double mode uses numeric pore fractions in structured observations; report-only
     legacy rows retain a labeled fallback. Absent measurements remain unknown.
     warm_start_csv: optional exported history merged only into LLM context. Current
@@ -425,10 +459,8 @@ def generate_reports_and_suggestion(
         # Current campaign records supersede the same historical condition.
         history_df = pd.concat([historical, history_df], ignore_index=True, sort=False)
         history_df = history_df.drop_duplicates("name", keep="last")
-    quality_observations = build_observations(agg_llm_path, "quality", current_condition_name=condition_name)
-    if warm_start_csv is not None and "quality_report" in historical:
-        prior_quality = historical[~historical["name"].isin(llm_df["name"])]
-        quality_observations += "\n\n" + _historical_quality(prior_quality)
+    # Image analysis travels with the measurements in each history row.
+    quality_observations = ""
     params_suggestion = _suggest_from_history(
         history_df, activeLearning, quality_observations, locked_additive_wt,
         al_search_mode, exploration_history_points, material_context,
@@ -461,7 +493,7 @@ def generate_warm_start_suggestion(
     history = history.drop_duplicates("name", keep="last").copy()
     history["_observation_source"] = "warm_start"
     return _suggest_from_history(
-        history, activeLearning, _historical_quality(history), locked_additive_wt,
+        history, activeLearning, "", locked_additive_wt,
         al_search_mode, exploration_history_points, material_context,
     )
 
@@ -480,7 +512,7 @@ def _suggest_from_history(
             + performance_observations
         )
     diversity_context = ""
-    if search_strategy == "explore":
+    if search_strategy in {"explore", "balanced"}:
         diversity_context = build_diversity_context(history_df, max_points=exploration_history_points)
     # ranges omitted on purpose -- LLM_AL computes it fresh from polymer_additive_bounds.py on
     # every call now, not a value cached at activeLearning_29 import time (see LLM_AL/
