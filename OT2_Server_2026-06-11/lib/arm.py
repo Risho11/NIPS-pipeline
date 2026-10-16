@@ -13,8 +13,8 @@ grab_speed = 100 # mm/s
 
 coupon_spacing = 20 # mm
 ring_spacing = 15 # mm
-final_thickness = 8 # mm, thickness of the final assembly we put in the discard stack
-
+# final_thickness = 8 # mm, thickness of the final assembly we put in the discard stack
+final_thickness = 0 # mm, suppresed for dropping above
 coupon_offset = [coupon_spacing, 0.3, 0, 0, 0, 0]
 ring_offset = [-ring_spacing, 0, 0, 0, 0, 0]
 discard_offset = [0, 0, final_thickness, 0, 0, 0]
@@ -192,18 +192,18 @@ positions = {
         
         #"discard waypoint": [40, 250, 350, 180, 45, 90],
         #"discard": [40, 250, 136, 180, 45, 90],
-        "discard waypoint": [0, 240, 350, 180, 45, 90], # new discard bath location
-        "discard": [-2, 280, 117, 180, 45, 90],
+        "discard waypoint": [20, 250, 350, 180, 45, 90], # new discard bath location
+        "discard": [20, 250, 117+120, 180, 45, 90],
         
         "2nd bath waypoint": [280, 240, 300, 180, 45, 89], # leave in bath
         "2nd bath": [286, 247, 113, 180, 45, 89],
         "hover bath waypoint": [270, 225, 310, 180, 45, 90], # arm holds coupon in bath
         "hover bath": [270, 225, 170, 180, 45, 90],
         
-        "squeegee stand waypoint 1": [100, 165, 250, 180, 0, 90],
-        "squeegee stand waypoint 2": [100, 165, 185, 180, 0, 90],
-        "squeegee stand waypoint": [94, 288, 185, 180, 0, 90],
-        "squeegee stand": [94, 288, 163, 180, 0, 90],
+        "squeegee stand waypoint 1": [230, 165, 250, 180, 0, 90],
+        "squeegee stand waypoint 2": [230, 165, 185, 180, 0, 90],
+        "squeegee stand waypoint": [224, 288, 185, 180, 0, 90],
+        "squeegee stand": [224, 288, 163, 180, 0, 90],
         
         "squeegee 1 waypoint 1": [270, 200, 254, 180, 0, 90],
         "squeegee 1 waypoint 2": [270, 400, 254, 180, 0, 90],
@@ -430,9 +430,9 @@ class Arm():
     def discard(self, pitch = False):
         offset = [coordinate * self.discards for coordinate in discard_offset]
         self.go_to_position("tester", "discard waypoint", pitch = pitch)
-        self.go_to_position_offset("tester", "discard", offset, pitch = pitch)
+        self.go_to_position_offset("tester", "discard", offset, pitch = pitch, speed = 50)
         self.open_gripper()
-        self.go_to_position("tester", "discard waypoint", pitch = pitch)
+        self.go_to_position("tester", "discard waypoint", pitch = pitch, speed = 50)
         self.discards += 1
         
     # similar idea for the rings, but also  offset the waypoints

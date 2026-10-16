@@ -1,0 +1,26 @@
+{
+  "warm_start_csv": "C:\\Users\\opentrons\\Documents\\Auto-Membranes\\data\\warm_start\\polysulfone_polarclean_notebook_filtered_2026-10-15.csv",
+  "search_mode": "double_explore",
+  "suggestion": "## Analysis\n\n### Pareto Front Assessment\n\nLet me identify the non-dominated candidates (maximizing both Elastic Modulus and Pore Fraction):\n\n| Condition | Modulus (bar) | Pore Fraction | Quality Notes |\n|---|---|---|---|\n| 14-0add-8deg (14wt, bath 8\u00b0C) | 103.6 | **0.75** | Minor creases, CV=0.04 |\n| 13-0add-20deg (13wt, bath 20\u00b0C) | 147.8 | **0.65** | Top gap defect, 1 discard |\n| 14p8-0add-17deg (14.8wt, bath 17\u00b0C) | 181.4 | **0.65** | Clean membrane |\n| 17-0add-13deg run1 (17wt, bath 13\u00b0C) | 260.1 | **0.65** | Top gap defect |\n| 17-0add-13deg run2 (17wt, bath 13\u00b0C) | **354.4** | **0.61** | Coverage gaps, 1 discard |\n| 17-0add-12deg run1 (17wt, bath 12\u00b0C) | 267.5 | **0.60** | Minor wrinkle, clean |\n| 17-0add-22deg run3 (17wt, bath 22\u00b0C) | 272.5 | **0.60** | Slight top gap |\n| 17-0add-22deg run5 (17wt, bath 22\u00b0C) | 237.6 | **0.60** | Top gap |\n\nThe approximate Pareto front (non-dominated in modulus \u00d7 pore fraction):\n- **14-0add-8deg**: 103.6 bar, 0.75 \u2014 highest pore fraction observed\n- **14p8-0add-17deg**: 181.4 bar, 0.65 \u2014 clean, good balance\n- **17-0add-13deg run2**: 354.4 bar, 0.61 \u2014 high modulus but coverage issues, high CV\n\n### Validation Status\n\n**14-0add-8deg** (polymer_wt=14, bath_temp=8, mixing_temp=30, pullcast_speed=5, N2=true, wait=120s, nips=1250s): **Only 1 synthesis run**. This is the highest pore fraction observed (0.75) with decent modulus (103.6 bar). It is a Pareto-front candidate with a large apparent gain in pore fraction \u2014 it needs independent validation before being treated as confirmed.\n\n**17-0add-13deg** (polymer_wt=17, bath_temp=13, mixing_temp=25, pullcast_speed=15, N2=true, wait=100s, nips=1800s): 4 runs with highly variable results (modulus 260\u2013354 bar, pore fraction 0.40\u20130.65). The run2 result (354 bar, 0.61) is the highest modulus+pore fraction combination but has high CV and coverage defects. The run1 result (260 bar, 0.65) is more reproducible-looking but only one clean run.\n\n### Decision\n\nThe **14-0add-8deg** candidate (14 wt%, bath 8\u00b0C, mixing 30\u00b0C, speed 5 mm/s, N2, wait 120s, nips 1250s) is the clearest Pareto-front candidate requiring validation: it has the highest pore fraction (0.75) with moderate modulus (103.6 bar), good membrane quality (minor surface creases only), low CV (0.04), and has never been independently repeated. A large apparent gain in pore fraction from a single run warrants confirmation before treating it as a reliable operating point.\n\nThis repeat will:\n1. Confirm whether pore fraction ~0.75 is reproducible at these conditions\n2. Establish whether modulus ~103 bar is stable\n3. Determine if this is a genuine Pareto improvement over the 14.8wt/17\u00b0C candidate (181 bar, 0.65)\n\n```json\n{\n  \"mixing_temp\": 30,\n  \"bath_temp\": 8,\n  \"pullcast_speed\": 5.0,\n  \"nitrogen\": true,\n  \"coupon_to_bath_wait_time\": 120,\n  \"nips_bath_wait_time\": 1250,\n  \"polymer_wt\": 14.0,\n  \"additive_wt\": 0\n}\n```",
+  "next_params": {
+    "mixing_temp": 30,
+    "bath_temp": 8,
+    "pullcast_speed": 5.0,
+    "nitrogen": true,
+    "coupon_to_bath_wait_time": 120,
+    "nips_bath_wait_time": 1250,
+    "polymer_wt": 14.0,
+    "additive_wt": 0.0,
+    "polymer_type": "Polysulfone",
+    "solvent_type": "PolarClean",
+    "cosolvent_type": "none",
+    "nips_bath_solvent": "none",
+    "nips_bath_solvent_wt_percent": 0.0
+  },
+  "stock_metadata": {
+    "polymer_stock_wt_percent": 17.0,
+    "additive_stock_polymer_wt_percent": 17.0,
+    "additive_stock_additive_wt_percent": 4.0,
+    "stock_mode": "two_bottle"
+  }
+}
