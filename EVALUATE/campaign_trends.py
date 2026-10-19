@@ -30,7 +30,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULTS_ROOT = REPO_ROOT / "data" / "results"
 DEFAULT_RAW_ROOT = REPO_ROOT / "data" / "raw"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "EVALUATE" / "campaign_trends_output"
-POLARCLEAN_LAST_CAMPAIGN = "2026-09-25"
+POLARCLEAN_LAST_CAMPAIGN = "2026-10-15"
 
 DEFAULT_PROPERTIES = (
     "Thickness",
