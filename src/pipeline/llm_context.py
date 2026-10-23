@@ -506,9 +506,17 @@ def _suggest_from_history(
     performance_observations = build_performance_observations(history_df)
     if material_context is not None:
         performance_observations = (
-            "Current campaign material identities (manually set; do not change): "
+            "Current operator-set context for the NEXT experiment (fixed; not optimization variables): "
             + json.dumps(round_prompt_values(material_context), sort_keys=True)
-            + "\nHistorical rows without material identities are unknown; do not assume they used the current materials.\n\n"
+            + "\nUse this bath composition to inform recommendations for the tunable parameters. "
+            "Do not include nips_bath_solvent or nips_bath_solvent_wt_percent in next_params; "
+            "the operator supplies these values separately. "
+            "Historical observations retain their own recorded bath solvent and concentration, "
+            "including 0 wt%. Never apply the current bath composition to historical rows. "
+            "Compare results with their recorded bath context; do not attribute differences "
+            "between bath compositions solely to other parameters. "
+            "Historical rows without material or bath information are unknown; do not assume "
+            "they used either the current bath or a 0 wt% bath.\n\nHistorical observations:\n"
             + performance_observations
         )
     diversity_context = ""

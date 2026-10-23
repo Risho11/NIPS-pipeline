@@ -1,6 +1,6 @@
-date,name,mixing_temp,bath_temp,polymer_wt,additive_wt,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,Discarded Fit Quality Mean,Discarded Fit Reasons,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion
+date,name,mixing_temp,bath_temp,polymer_wt,additive_wt,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,Discarded Fit Quality Mean,Discarded Fit Reasons,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion,nips_bath_solvent,nips_bath_solvent_wt_percent,bath_context_source
 "2026-08-19
-10:17:25",17-0add-5deg-30s-N2-125s_run6,25,5,17.0,0.0,10,True,30,125,mixing_temp=25; bath_temp=5; polymer_wt=17; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=125; Air Temp Mean=23.26; Humidity Mean=38.67,"# Experimental Report: Automated NIPS Membrane Synthesis
+10:17:25",17-0add-5deg-30s-N2-125s_run6,25,5,17.0,0.0,10,True,30,125,mixing_temp=25; bath_temp=5; polymer_wt=17; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=125; Air Temp Mean=23.26; Humidity Mean=38.67; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with **no PVP additive** included in the formulation. The polymer solution was mixed and heated at **25°C**.
@@ -27,7 +27,7 @@ The cast membrane was subsequently immersed into the non-solvent (NIPS) bath, wh
 | Ambient temperature | 23.26°C |
 | Relative humidity | 38.67% |",23.26,38.67,149.55599778623494,1.982417085651572,199.940436883412,17.818853763096246,30.517776927762974,2.060815913320808,0.4509351556320152,0.0178441531128632,120.75914980107072,9.550353105325833,473.8482262407685,86.68251225369086,0.1537828545029297,0.0205895987506844,0.3284642817875165,0.0202183331921381,0.4794829660246474,0.0165959007177815,0.642889105873599,0.0359690473311847,,,0.0649990805722997,,,"mixing_temp=25; bath_temp=5; polymer_wt=17; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=125; Air Temp Mean=23.26; Humidity Mean=38.67
 
-{'Air Temp Mean': 23.26, 'Humidity Mean': 38.67, 'Thickness Mean': 149.55599778623494, 'Elastic Modulus Mean': 199.94043688341196, 'Strain at 50 bar Mean': 0.3284642817875165, 'CV Mean': 0.06499908057229976}","# Experimental Report: Automated NIPS Membrane Synthesis
+{'Air Temp Mean': 23.26, 'Humidity Mean': 38.67, 'Thickness Mean': 149.55599778623494, 'Elastic Modulus Mean': 199.94043688341196, 'Strain at 50 bar Mean': 0.3284642817875165, 'CV Mean': 0.06499908057229976}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) solution was prepared at a concentration of **17 wt%** in PolarClean solvent, with **no PVP additive** included in the formulation. The polymer solution was mixed and heated at **25°C**.
@@ -55,7 +55,7 @@ The cast membrane was subsequently immersed into the non-solvent (NIPS) bath, wh
 | Relative humidity | 38.67% |
 
 
-{'Air Temp Mean': 23.26, 'Humidity Mean': 38.67, 'Thickness Mean': 149.55599778623494, 'Elastic Modulus Mean': 199.94043688341196, 'Strain at 50 bar Mean': 0.3284642817875165, 'CV Mean': 0.06499908057229976}","- **Presence**: Membrane is visible — a pale white/grey sheet occupies the central aperture.
+{'Air Temp Mean': 23.26, 'Humidity Mean': 38.67, 'Thickness Mean': 149.55599778623494, 'Elastic Modulus Mean': 199.94043688341196, 'Strain at 50 bar Mean': 0.3284642817875165, 'CV Mean': 0.06499908057229976}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence**: Membrane is visible — a pale white/grey sheet occupies the central aperture.
 
 - **Vertical Coverage**: **Deficient at the top** — a significant gap exists between the membrane's upper edge and the top of the aperture, with backing material exposed. The bottom edge reaches the aperture boundary adequately.
 
@@ -97,9 +97,9 @@ The cast membrane was subsequently immersed into the non-solvent (NIPS) bath, wh
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-19
-17:43:53",17-0add-5deg-30s-N2-1200s,25,5,17.0,0.0,15,True,30,1200,mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=23.39; Humidity Mean=39.32,"# Experimental Report: NIPS Membrane Synthesis
+17:43:53",17-0add-5deg-30s-N2-1200s,25,5,17.0,0.0,15,True,30,1200,mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=23.39; Humidity Mean=39.32; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) casting solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -124,7 +124,7 @@ The cast film was subsequently immersed into a non-solvent (water) bath maintain
 | Bath temperature | 5°C |
 | Bath immersion time | 1200 s |",23.39,39.32,138.47447252968502,2.0891742414113508,226.7831670699663,7.4618400320259,32.2770350249721,1.6572606939734449,0.4192348785548739,0.0104713795343446,129.0657578151212,2.639827552455507,552.7063623164863,39.64282069438261,0.1299867458892547,0.0210806137069277,0.2802170111680824,0.0132087691244755,0.4318574659580722,0.0135839216420391,0.5652551060687128,0.0184715473232388,,,0.04754020777647,,,"mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=23.39; Humidity Mean=39.32
 
-{'Air Temp Mean': 23.39, 'Humidity Mean': 39.32, 'Thickness Mean': 138.47447252968502, 'Elastic Modulus Mean': 226.7831670699663, 'Strain at 50 bar Mean': 0.2802170111680824, 'CV Mean': 0.04754020777647002}","# Experimental Report: NIPS Membrane Synthesis
+{'Air Temp Mean': 23.39, 'Humidity Mean': 39.32, 'Thickness Mean': 138.47447252968502, 'Elastic Modulus Mean': 226.7831670699663, 'Strain at 50 bar Mean': 0.2802170111680824, 'CV Mean': 0.04754020777647002}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) casting solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -150,7 +150,7 @@ The cast film was subsequently immersed into a non-solvent (water) bath maintain
 | Bath immersion time | 1200 s |
 
 
-{'Air Temp Mean': 23.39, 'Humidity Mean': 39.32, 'Thickness Mean': 138.47447252968502, 'Elastic Modulus Mean': 226.7831670699663, 'Strain at 50 bar Mean': 0.2802170111680824, 'CV Mean': 0.04754020777647002}","- **Presence**: Membrane is visible — a pale white/light-grey sheet is seated within the aperture.
+{'Air Temp Mean': 23.39, 'Humidity Mean': 39.32, 'Thickness Mean': 138.47447252968502, 'Elastic Modulus Mean': 226.7831670699663, 'Strain at 50 bar Mean': 0.2802170111680824, 'CV Mean': 0.04754020777647002}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence**: Membrane is visible — a pale white/light-grey sheet is seated within the aperture.
 
 - **Vertical Coverage**: The membrane does not fully span the vertical extent; a visible gap/exposed backing strip is present along the top edge, indicating incomplete top coverage. This is a defect.
 
@@ -189,9 +189,9 @@ The cast film was subsequently immersed into a non-solvent (water) bath maintain
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-19
-19:13:19",17-0add-5deg-30s-N2-1800s_run2,25,5,17.0,0.0,20,True,30,1800,mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=20; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=23.48; Humidity Mean=39.93,"# Experimental Report: Automated NIPS Membrane Synthesis
+19:13:19",17-0add-5deg-30s-N2-1800s_run2,25,5,17.0,0.0,20,True,30,1800,mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=20; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=23.48; Humidity Mean=39.93; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -214,7 +214,7 @@ After the 30-second nitrogen purge period, the cast film was immersed into a non
 | NIPS bath temperature | 5°C |
 | Bath immersion time | 1800 s |",23.48,39.93,148.91609213678737,2.4164614113580334,204.7599828037633,27.09025973785666,24.76400182190552,3.394798400733133,0.5407650291767228,0.0285981939026035,62.53107622636757,11.50116777951025,632.1734498292501,48.67442677207122,0.0865498911987271,0.0053986361924179,0.4606504547769394,0.0232056679315211,0.5857023904004552,0.0214422122849198,0.652863321127264,0.0,,,0.0643188059813144,,,"mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=20; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=23.48; Humidity Mean=39.93
 
-{'Air Temp Mean': 23.48, 'Humidity Mean': 39.93, 'Thickness Mean': 148.91609213678737, 'Elastic Modulus Mean': 204.7599828037633, 'Strain at 50 bar Mean': 0.46065045477693944, 'CV Mean': 0.06431880598131447}","# Experimental Report: Automated NIPS Membrane Synthesis
+{'Air Temp Mean': 23.48, 'Humidity Mean': 39.93, 'Thickness Mean': 148.91609213678737, 'Elastic Modulus Mean': 204.7599828037633, 'Strain at 50 bar Mean': 0.46065045477693944, 'CV Mean': 0.06431880598131447}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -238,7 +238,7 @@ After the 30-second nitrogen purge period, the cast film was immersed into a non
 | Bath immersion time | 1800 s |
 
 
-{'Air Temp Mean': 23.48, 'Humidity Mean': 39.93, 'Thickness Mean': 148.91609213678737, 'Elastic Modulus Mean': 204.7599828037633, 'Strain at 50 bar Mean': 0.46065045477693944, 'CV Mean': 0.06431880598131447}","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
+{'Air Temp Mean': 23.48, 'Humidity Mean': 39.93, 'Thickness Mean': 148.91609213678737, 'Elastic Modulus Mean': 204.7599828037633, 'Strain at 50 bar Mean': 0.46065045477693944, 'CV Mean': 0.06431880598131447}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
 
 - **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap is visible between the membrane's upper boundary and the top of the aperture rim. This is a vertical coverage defect.
 
@@ -281,9 +281,9 @@ After the 30-second nitrogen purge period, the cast film was immersed into a non
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-19
-20:40:10",17-0add-5deg-15s-N2-1800s_run2,25,5,17.0,0.0,12,True,15,1800,mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=12; nitrogen=True; coupon_to_bath_wait_time=15; nips_bath_wait_time=1800; Air Temp Mean=23.34; Humidity Mean=37.2,"# Experimental Report: Automated NIPS Membrane Synthesis
+20:40:10",17-0add-5deg-15s-N2-1800s_run2,25,5,17.0,0.0,12,True,15,1800,mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=12; nitrogen=True; coupon_to_bath_wait_time=15; nips_bath_wait_time=1800; Air Temp Mean=23.34; Humidity Mean=37.2; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -309,7 +309,7 @@ After the 15-second nitrogen exposure period, the cast film was immersed into th
 | Ambient temperature | 23.34°C |
 | Ambient humidity | 37.2% RH |",23.34,37.2,139.06000087219076,4.018521305820055,171.44375279727814,22.467088765240053,25.408237555381938,2.3513077351226737,0.589467041930634,0.0246349860357242,80.46057127441522,7.512034322222033,596.9640380700663,77.25255343587779,0.0971471609600103,0.0089551311006672,0.4547849658493065,0.0428272461527994,0.6069052705043599,0.0241680283374546,0.7614820867072242,0.0229561293914114,,,0.0815193964647114,,,"mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=12; nitrogen=True; coupon_to_bath_wait_time=15; nips_bath_wait_time=1800; Air Temp Mean=23.34; Humidity Mean=37.2
 
-{'Air Temp Mean': 23.34, 'Humidity Mean': 37.2, 'Thickness Mean': 139.06000087219076, 'Elastic Modulus Mean': 171.44375279727814, 'Strain at 50 bar Mean': 0.4547849658493065, 'CV Mean': 0.08151939646471144}","# Experimental Report: Automated NIPS Membrane Synthesis
+{'Air Temp Mean': 23.34, 'Humidity Mean': 37.2, 'Thickness Mean': 139.06000087219076, 'Elastic Modulus Mean': 171.44375279727814, 'Strain at 50 bar Mean': 0.4547849658493065, 'CV Mean': 0.08151939646471144}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -336,7 +336,7 @@ After the 15-second nitrogen exposure period, the cast film was immersed into th
 | Ambient humidity | 37.2% RH |
 
 
-{'Air Temp Mean': 23.34, 'Humidity Mean': 37.2, 'Thickness Mean': 139.06000087219076, 'Elastic Modulus Mean': 171.44375279727814, 'Strain at 50 bar Mean': 0.4547849658493065, 'CV Mean': 0.08151939646471144}","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
+{'Air Temp Mean': 23.34, 'Humidity Mean': 37.2, 'Thickness Mean': 139.06000087219076, 'Elastic Modulus Mean': 171.44375279727814, 'Strain at 50 bar Mean': 0.4547849658493065, 'CV Mean': 0.08151939646471144}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
 
 - **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap is visible between the membrane's upper boundary and the top of the aperture rim. Bottom edge appears adequately seated. This is a notable vertical coverage defect.
 
@@ -377,9 +377,9 @@ After the 15-second nitrogen exposure period, the cast film was immersed into th
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-19
-22:02:26",17-0add-10deg-30s-N2-1200s,25,10,17.0,0.0,15,True,30,1200,mixing_temp=25; bath_temp=10; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=23.22; Humidity Mean=35.28,"# Experimental Report: Automated NIPS Membrane Synthesis
+22:02:26",17-0add-10deg-30s-N2-1200s,25,10,17.0,0.0,15,True,30,1200,mixing_temp=25; bath_temp=10; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=23.22; Humidity Mean=35.28; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) casting solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -406,7 +406,7 @@ The cast film was subsequently immersed in a non-solvent bath maintained at **10
 | NIPS bath temperature | 10°C |
 | NIPS bath immersion time | 1200 s |",23.22,35.28,139.02289330064968,0.9123510048308804,229.2250523007689,11.940671529647693,31.108138828320293,0.6261609069613522,0.4233819426076047,0.0576600227159055,115.35955109897372,7.26388827876724,426.9864248247675,109.32786000563443,0.1362682561771887,0.0372862335127693,0.3048932178631586,0.016434372651149,0.4650478315733273,0.0266713621975277,0.6377232805728479,0.0622308183276875,,,0.085124990322013,,,"mixing_temp=25; bath_temp=10; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=23.22; Humidity Mean=35.28
 
-{'Air Temp Mean': 23.22, 'Humidity Mean': 35.28, 'Thickness Mean': 139.02289330064968, 'Elastic Modulus Mean': 229.22505230076894, 'Strain at 50 bar Mean': 0.3048932178631586, 'CV Mean': 0.085124990322013}","# Experimental Report: Automated NIPS Membrane Synthesis
+{'Air Temp Mean': 23.22, 'Humidity Mean': 35.28, 'Thickness Mean': 139.02289330064968, 'Elastic Modulus Mean': 229.22505230076894, 'Strain at 50 bar Mean': 0.3048932178631586, 'CV Mean': 0.085124990322013}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) casting solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -434,7 +434,7 @@ The cast film was subsequently immersed in a non-solvent bath maintained at **10
 | NIPS bath immersion time | 1200 s |
 
 
-{'Air Temp Mean': 23.22, 'Humidity Mean': 35.28, 'Thickness Mean': 139.02289330064968, 'Elastic Modulus Mean': 229.22505230076894, 'Strain at 50 bar Mean': 0.3048932178631586, 'CV Mean': 0.085124990322013}","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
+{'Air Temp Mean': 23.22, 'Humidity Mean': 35.28, 'Thickness Mean': 139.02289330064968, 'Elastic Modulus Mean': 229.22505230076894, 'Strain at 50 bar Mean': 0.3048932178631586, 'CV Mean': 0.085124990322013}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
 
 - **Vertical Coverage:** Membrane reaches the bottom aperture edge cleanly; at the top edge, the membrane appears to fall slightly short, leaving a small gap between the membrane's upper boundary and the top of the aperture — a notable vertical coverage defect.
 
@@ -483,9 +483,9 @@ The cast film was subsequently immersed in a non-solvent bath maintained at **10
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-20
-13:16:05",17-0add-5deg-30s-N2-1200s_run2,25,5,17.0,0.0,17,True,30,1200,mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0; pullcast_speed=17; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=22.97; Humidity Mean=45.89000000000001,"# Experimental Report: Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
+13:16:05",17-0add-5deg-30s-N2-1200s_run2,25,5,17.0,0.0,17,True,30,1200,mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0; pullcast_speed=17; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=22.97; Humidity Mean=45.89000000000001; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
 ## Solution Preparation
 A polymer solution was prepared using polysulfone (PSf) as the membrane-forming polymer dissolved in PolarClean as the solvent. The solution was formulated at a polymer concentration of **17.0 wt%** with **no PVP additive**. The solution was mixed and heated at **25°C**.
@@ -511,7 +511,7 @@ The cast film was subsequently immersed in a water coagulation bath maintained a
 | Bath temperature | 5°C |
 | Bath immersion time | 1200 s |",22.97,45.89000000000001,137.51689028149286,14.536716968048852,257.1626975603503,31.4045116295488,31.268436749288508,2.41074678367598,0.4793940053032833,0.0263517546669583,77.10668456337828,9.800684327077716,854.5140279105023,97.46344943639272,0.092962138148878,0.000387798774162,0.4090666964742438,0.0693841232499715,0.4978190847145405,0.0307243844442577,0.5919739123088155,0.0320467358952466,,,0.089271868178894,38.0,"1 failed due to plateau slope >= elastic modulus, no real transition","mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0; pullcast_speed=17; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=22.97; Humidity Mean=45.89000000000001
 
-{'Air Temp Mean': 22.97, 'Humidity Mean': 45.89000000000001, 'Thickness Mean': 137.51689028149286, 'Elastic Modulus Mean': 257.1626975603503, 'Strain at 50 bar Mean': 0.4090666964742438, 'CV Mean': 0.08927186817889406}, 'Discarded Fit Quality Mean': '38.0/100', 'Discarded Fit Reasons': '1 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
+{'Air Temp Mean': 22.97, 'Humidity Mean': 45.89000000000001, 'Thickness Mean': 137.51689028149286, 'Elastic Modulus Mean': 257.1626975603503, 'Strain at 50 bar Mean': 0.4090666964742438, 'CV Mean': 0.08927186817889406}, 'Discarded Fit Quality Mean': '38.0/100', 'Discarded Fit Reasons': '1 failed due to plateau slope >= elastic modulus, no real transition'; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
 ## Solution Preparation
 A polymer solution was prepared using polysulfone (PSf) as the membrane-forming polymer dissolved in PolarClean as the solvent. The solution was formulated at a polymer concentration of **17.0 wt%** with **no PVP additive**. The solution was mixed and heated at **25°C**.
@@ -538,7 +538,7 @@ The cast film was subsequently immersed in a water coagulation bath maintained a
 | Bath immersion time | 1200 s |
 
 
-{'Air Temp Mean': 22.97, 'Humidity Mean': 45.89000000000001, 'Thickness Mean': 137.51689028149286, 'Elastic Modulus Mean': 257.1626975603503, 'Strain at 50 bar Mean': 0.4090666964742438, 'CV Mean': 0.08927186817889406}, 'Discarded Fit Quality Mean': '38.0/100', 'Discarded Fit Reasons': '1 failed due to plateau slope >= elastic modulus, no real transition'","- **Presence**: Membrane is visible — a pale white/grey sheet occupies the central aperture.
+{'Air Temp Mean': 22.97, 'Humidity Mean': 45.89000000000001, 'Thickness Mean': 137.51689028149286, 'Elastic Modulus Mean': 257.1626975603503, 'Strain at 50 bar Mean': 0.4090666964742438, 'CV Mean': 0.08927186817889406}, 'Discarded Fit Quality Mean': '38.0/100', 'Discarded Fit Reasons': '1 failed due to plateau slope >= elastic modulus, no real transition'; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence**: Membrane is visible — a pale white/grey sheet occupies the central aperture.
 
 - **Vertical Coverage**: The membrane does not reach the top edge of the aperture; a clear gap is visible between the membrane's upper boundary and the top of the opening. Bottom edge appears adequately seated. **Top-gap defect present.**
 
@@ -591,9 +591,9 @@ The cast film was subsequently immersed in a water coagulation bath maintained a
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-20
-14:29:31",17-0add-15deg-30s-N2-1200s,25,15,17.0,0.0,15,True,30,1200,mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=22.94; Humidity Mean=46.68,"# Experimental Report: Automated NIPS Membrane Synthesis
+14:29:31",17-0add-15deg-30s-N2-1200s,25,15,17.0,0.0,15,True,30,1200,mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=22.94; Humidity Mean=46.68; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) casting solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -619,7 +619,7 @@ The cast film was subsequently immersed into a non-solvent (NIPS) bath maintaine
 | Bath temperature | 15°C |
 | Bath immersion time | 1200 s |",22.94,46.68,133.88294309379182,3.0757975393476884,355.258360099119,25.3249530774858,29.907973194929447,1.020490508900375,0.4594754860981407,0.0151619197036573,63.23076317598673,4.297413140240288,756.3853323016513,9.777987444676988,0.0886916397962389,0.004017283859703,0.3596857530773072,0.0177119839154544,0.4893549587120539,0.0150893331987593,0.5858953928946471,0.0156518263879558,,,0.0443467877201712,,,"mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=22.94; Humidity Mean=46.68
 
-{'Air Temp Mean': 22.94, 'Humidity Mean': 46.68, 'Thickness Mean': 133.88294309379182, 'Elastic Modulus Mean': 355.258360099119, 'Strain at 50 bar Mean': 0.3596857530773072, 'CV Mean': 0.044346787720171296}","# Experimental Report: Automated NIPS Membrane Synthesis
+{'Air Temp Mean': 22.94, 'Humidity Mean': 46.68, 'Thickness Mean': 133.88294309379182, 'Elastic Modulus Mean': 355.258360099119, 'Strain at 50 bar Mean': 0.3596857530773072, 'CV Mean': 0.044346787720171296}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polysulfone (PSf) casting solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -646,7 +646,7 @@ The cast film was subsequently immersed into a non-solvent (NIPS) bath maintaine
 | Bath immersion time | 1200 s |
 
 
-{'Air Temp Mean': 22.94, 'Humidity Mean': 46.68, 'Thickness Mean': 133.88294309379182, 'Elastic Modulus Mean': 355.258360099119, 'Strain at 50 bar Mean': 0.3596857530773072, 'CV Mean': 0.044346787720171296}","- **Presence**: Membrane is visible — a pale white/grey sheet is seated within the aperture.
+{'Air Temp Mean': 22.94, 'Humidity Mean': 46.68, 'Thickness Mean': 133.88294309379182, 'Elastic Modulus Mean': 355.258360099119, 'Strain at 50 bar Mean': 0.3596857530773072, 'CV Mean': 0.044346787720171296}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence**: Membrane is visible — a pale white/grey sheet is seated within the aperture.
 
 - **Vertical Coverage**: A gap is present at the top edge where the membrane does not reach the upper aperture boundary; bottom edge appears adequately seated. This is a notable vertical coverage defect.
 
@@ -690,9 +690,9 @@ The cast film was subsequently immersed into a non-solvent (NIPS) bath maintaine
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-20
-15:43:03",17-0add-20deg-30s-N2-1200s,25,20,17.0,0.0,15,True,30,1200,mixing_temp=25; bath_temp=20; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=23.2; Humidity Mean=46.37,"# Experimental Report: Automated Membrane Synthesis via NIPS
+15:43:03",17-0add-20deg-30s-N2-1200s,25,20,17.0,0.0,15,True,30,1200,mixing_temp=25; bath_temp=20; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=23.2; Humidity Mean=46.37; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Solution Preparation
 A polysulfone (PSf) solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -719,7 +719,7 @@ The cast film was subsequently immersed into a **non-solvent (water) bath** main
 | Ambient temperature | 23.2°C |
 | Relative humidity | 46.4% |",23.2,46.37,128.25406521533412,5.005350201554425,274.6864735408978,33.748251572950785,29.41453657211772,2.944030136675137,0.4751222411404132,0.0130122576562081,72.0648038957554,6.519019937000454,819.6259679520617,29.273159998511563,0.0859767172430526,0.008149240115892,0.3619427671946078,0.0107500128345575,0.4970483244882671,0.0094946759718239,0.5853344791107848,0.0116567260600029,,,0.0344144364246379,,,"mixing_temp=25; bath_temp=20; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; Air Temp Mean=23.2; Humidity Mean=46.37
 
-{'Air Temp Mean': 23.2, 'Humidity Mean': 46.37, 'Thickness Mean': 128.25406521533412, 'Elastic Modulus Mean': 274.6864735408978, 'Strain at 50 bar Mean': 0.36194276719460783, 'CV Mean': 0.034414436424637984}","# Experimental Report: Automated Membrane Synthesis via NIPS
+{'Air Temp Mean': 23.2, 'Humidity Mean': 46.37, 'Thickness Mean': 128.25406521533412, 'Elastic Modulus Mean': 274.6864735408978, 'Strain at 50 bar Mean': 0.36194276719460783, 'CV Mean': 0.034414436424637984}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Solution Preparation
 A polysulfone (PSf) solution was prepared at a concentration of **17.0 wt%** in PolarClean solvent, with **no PVP additive** included. The solution was mixed and heated at **25°C**.
@@ -747,7 +747,7 @@ The cast film was subsequently immersed into a **non-solvent (water) bath** main
 | Relative humidity | 46.4% |
 
 
-{'Air Temp Mean': 23.2, 'Humidity Mean': 46.37, 'Thickness Mean': 128.25406521533412, 'Elastic Modulus Mean': 274.6864735408978, 'Strain at 50 bar Mean': 0.36194276719460783, 'CV Mean': 0.034414436424637984}","- **Presence:** Membrane is visible — a pale white/grey sheet is present within the aperture.
+{'Air Temp Mean': 23.2, 'Humidity Mean': 46.37, 'Thickness Mean': 128.25406521533412, 'Elastic Modulus Mean': 274.6864735408978, 'Strain at 50 bar Mean': 0.36194276719460783, 'CV Mean': 0.034414436424637984}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey sheet is present within the aperture.
 
 - **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a visible gap exposes the backing material at the top. Bottom edge appears adequately seated. **Top gap is a defect.**
 
@@ -797,4 +797,4 @@ The cast film was subsequently immersed into a **non-solvent (water) bath** main
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent

@@ -1,6 +1,6 @@
-name,date,mixing_temp,bath_temp,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,polymer_wt,additive_wt,Air Temp Mean,Humidity Mean,formatted_parameters,formatted_parameters_withProp,initial_report,final_report,quality_report,LLM_suggestion
+name,date,mixing_temp,bath_temp,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,polymer_wt,additive_wt,Air Temp Mean,Humidity Mean,formatted_parameters,formatted_parameters_withProp,initial_report,final_report,quality_report,LLM_suggestion,nips_bath_solvent,nips_bath_solvent_wt_percent,bath_context_source
 10-0add-5deg-60s-N2-121s,"2026-08-11
-17:38:41",25,5,10,True,60,121,10,0,25.14,44.87,mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=121; Air Temp Mean=25.14; Humidity Mean=44.87,mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=121; Air Temp Mean=25.14; Humidity Mean=44.87,"# Experimental Report: Automated NIPS Membrane Synthesis
+17:38:41",25,5,10,True,60,121,10,0,25.14,44.87,mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=121; Air Temp Mean=25.14; Humidity Mean=44.87; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,mixing_temp=25; bath_temp=5; polymer_wt=10; additive_wt=0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=121; Air Temp Mean=25.14; Humidity Mean=44.87; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 A polymer solution was prepared containing **10 wt% polysulfone** as the base polymer with **no PVP additive** (0 wt%) dissolved in PolarClean as the solvent. The solution was mixed and heated at **25°C**.
@@ -49,7 +49,7 @@ The cast film was subsequently immersed into a non-solvent bath held at **5°C**
 | Pre-immersion wait time | 60 s |
 | Bath temperature | 5°C |
 | Bath immersion time | 121 s |
-","- **Presence:** Membrane is visible and present within the aperture.
+; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible and present within the aperture.
 - **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gaps at the top or bottom edges.
 - **Uniformity:** Overall color and opacity are consistent and predominantly uniform; a very slight tonal gradient toward the lower portion is minor and within acceptable range.
 - **Defects:** Three small pinpoint dark spots (possible micro-bubbles or particulates) are visible near the center; a faint small wrinkle/fold is apparent at the lower-left edge of the membrane.
@@ -85,4 +85,4 @@ The cast film was subsequently immersed into a non-solvent bath held at **5°C**
   ""polymer_wt"": 21.0,
   ""additive_wt"": 0.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent

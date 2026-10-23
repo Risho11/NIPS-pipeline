@@ -15,6 +15,37 @@ import run_loop
 
 
 class WarmStartTests(unittest.TestCase):
+    def test_current_bath_context_preserves_historical_compositions(self):
+        history = pd.DataFrame([
+            {"name": "old_water", "nips_bath_solvent": "none", "nips_bath_solvent_wt_percent": 0.0},
+            {"name": "new_bath", "nips_bath_solvent": "PolarClean", "nips_bath_solvent_wt_percent": 10.0},
+            {"name": "legacy_water", "formatted_parameters": "nips_bath_solvent=none; nips_bath_solvent_wt_percent=0"},
+            {"name": "unknown_bath"},
+        ])
+        original = history.copy(deep=True)
+        with patch.object(run_loop, "NIPS_BATH_SOLVENT", "PolarClean"), \
+             patch.object(run_loop, "NIPS_BATH_SOLVENT_WT_PERCENT", 10.0):
+            context = run_loop._current_material_context()
+        for mode in ("single", "double", "double_explore", "explore"):
+            with self.subTest(mode=mode):
+                al = SimpleNamespace(LLM_AL=Mock(return_value="suggestion"),
+                    LLM_AL_modulus_pore_fraction=Mock(return_value="suggestion"))
+                llm_context._suggest_from_history(history, al, "", 0, mode, None, context)
+                suggest = al.LLM_AL_modulus_pore_fraction if mode in {"double", "double_explore"} else al.LLM_AL
+                prompt = suggest.call_args.args[0]
+                current, historical = prompt.split("\n\nHistorical observations:\n", 1)
+                self.assertIn('"nips_bath_solvent_wt_percent": 10.0', current)
+                self.assertIn("Do not include nips_bath_solvent or nips_bath_solvent_wt_percent in next_params", current)
+                rows = json.loads(historical)["observations"]
+                baths = {row["identity"]["condition"]: row["conditions"] for row in rows}
+                self.assertEqual(baths["old_water"]["nips_bath_solvent_wt_percent"], 0)
+                self.assertEqual(baths["legacy_water"]["nips_bath_solvent_wt_percent"], 0)
+                self.assertEqual(baths["new_bath"]["nips_bath_solvent_wt_percent"], 10)
+                self.assertIsNone(baths["unknown_bath"]["nips_bath_solvent_wt_percent"])
+                pd.testing.assert_frame_equal(history, original)
+        self.assertNotIn("nips_bath_solvent", run_loop.LLM_PARAMS_KEYS)
+        self.assertNotIn("nips_bath_solvent_wt_percent", run_loop.LLM_PARAMS_KEYS)
+
     def test_history_only_all_modes(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "history.csv"

@@ -7,6 +7,7 @@ from pathlib import Path
 import json
 import pandas as pd
 from campaign_trends import load_campaign_data, DEFAULT_PROPERTIES, POLARCLEAN_LAST_CAMPAIGN
+from historical_bath_context import apply_historical_bath_context
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / 'data' / 'warm_start' / 'polysulfone_polarclean.csv'
@@ -19,7 +20,7 @@ CONTEXT = ['cosolvent_type', 'nips_bath_solvent', 'nips_bath_solvent_wt_percent'
 def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='Caller-selected dataframe',
                       *, last_campaign=POLARCLEAN_LAST_CAMPAIGN, chemistry_verified=False):
     """Export selected aggregate rows; retain failures as unknown-outcome history."""
-    data = frame.copy()
+    data = apply_historical_bath_context(frame)
     if last_campaign is not None:
         data = data[data['campaign'] <= last_campaign].copy()
     data = data.drop_duplicates('condition', keep='last').sort_values('sample_time')
@@ -74,6 +75,11 @@ def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='
     output_path.parent.mkdir(parents=True, exist_ok=True)
     data.to_csv(output_path, index=False)
     summary = {
+        'historical_bath_context': {
+            'source': 'operator-confirmed 2026-10-23',
+            'manifest': 'data/warm_start/historical_zero_bath_conditions.json',
+            'policy': 'Explicit historical conditions use 0 wt%; nonzero records and unlisted conditions are preserved.',
+        },
         'rows': len(data),
         'last_campaign': last_campaign,
         'excluded_negative_strain_rows': excluded_negative_strain_rows,

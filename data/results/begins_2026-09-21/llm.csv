@@ -1,4 +1,4 @@
-date,name,mixing_temp,bath_temp,polymer_wt,additive_wt,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,polymer_type,solvent_type,cosolvent_type,nips_bath_solvent,nips_bath_solvent_wt_percent,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Coupon Temp Mean,Coupon Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,Discarded Fit Quality Mean,Discarded Fit Reasons,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion
+date,name,mixing_temp,bath_temp,polymer_wt,additive_wt,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,polymer_type,solvent_type,cosolvent_type,nips_bath_solvent,nips_bath_solvent_wt_percent,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Coupon Temp Mean,Coupon Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,Discarded Fit Quality Mean,Discarded Fit Reasons,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion,bath_context_source
 "2026-09-21
 20:46:58",16p5-0add-19deg-cosolv-none-bathSolv-none-0wt-175s-N2-1450s_run2,58,19,16.5,0.0,12.0,True,175,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=58; bath_temp=19; polymer_wt=16.5; additive_wt=0; pullcast_speed=12.0; nitrogen=True; coupon_to_bath_wait_time=175; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.47 [room air temperature during casting]; Humidity Mean=32.12 [room air humidity during casting]; Coupon Temp Mean=25.06 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=36.93 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
 
@@ -87,7 +87,7 @@ After the pre-immersion wait period, the cast film was immersed into a pure wate
 | Coupon-stage humidity (N₂ window) | 36.93% RH |
 
 
-{'Air Temp Mean': 25.47, 'Humidity Mean': 32.12, 'Coupon Temp Mean': 25.06, 'Coupon Humidity Mean': 36.93, 'Thickness Mean': 140.57626744360857, 'Elastic Modulus Mean': 196.93834130247032, 'Strain at 50 bar Mean': 0.4336886312054604, 'CV Mean': 0.05098456286265035}","- **Presence:** Membrane is clearly visible as a pale white/light-grey sheet within the aperture.
+{'Air Temp Mean': 25.47, 'Humidity Mean': 32.12, 'Coupon Temp Mean': 25.06, 'Coupon Humidity Mean': 36.93, 'Thickness Mean': 140.57626744360857, 'Elastic Modulus Mean': 196.93834130247032, 'Strain at 50 bar Mean': 0.4336886312054604, 'CV Mean': 0.05098456286265035}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is clearly visible as a pale white/light-grey sheet within the aperture.
 
 - **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gaps at the top or bottom edges. ✓
 
@@ -163,7 +163,7 @@ Note: polymer_wt=17.0 with mixing_temp=25°C is valid (undiluted stock, no mixin
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-22
 16:22:50",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run2,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.09 [room air temperature during casting]; Humidity Mean=34.02 [room air humidity during casting]; Coupon Temp Mean=24.13 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=36.99 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
@@ -266,7 +266,7 @@ After the pre-immersion hold period, the cast film was immersed into a **pure wa
 | Coupon-stage humidity (N₂ window) | 36.99% |
 
 
-{'Air Temp Mean': 24.09, 'Humidity Mean': 34.02, 'Coupon Temp Mean': 24.13, 'Coupon Humidity Mean': 36.99, 'Thickness Mean': 140.48125459597082, 'Elastic Modulus Mean': 309.9163667255366, 'Strain at 50 bar Mean': 0.2490732847317933, 'CV Mean': 0.08817618942217453}","- **Presence:** Membrane is visible — a pale white/opaque sheet occupies the aperture.
+{'Air Temp Mean': 24.09, 'Humidity Mean': 34.02, 'Coupon Temp Mean': 24.13, 'Coupon Humidity Mean': 36.99, 'Thickness Mean': 140.48125459597082, 'Elastic Modulus Mean': 309.9163667255366, 'Strain at 50 bar Mean': 0.2490732847317933, 'CV Mean': 0.08817618942217453}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/opaque sheet occupies the aperture.
 
 - **Vertical Coverage:** Membrane spans top-to-bottom fully; no gap at the top or bottom edge.
 
@@ -330,7 +330,7 @@ The parameters are: polymer_wt=17.0 → mixing_temp must be 25°C (undiluted sto
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-22
 17:34:31",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run3,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=23.9 [room air temperature during casting]; Humidity Mean=33.84 [room air humidity during casting]; Coupon Temp Mean=23.89 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=37.06 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
@@ -427,7 +427,7 @@ The cast film was subsequently immersed into the **pure water NIPS bath**, maint
 The use of a dry nitrogen purge during the pre-immersion period, combined with the relatively low ambient humidity (~34% RH), minimizes moisture-induced surface skinning prior to controlled phase inversion in the water bath. The extended bath immersion time of ~24 minutes ensures thorough solvent-nonsolvent exchange and complete membrane solidification.
 
 
-{'Air Temp Mean': 23.9, 'Humidity Mean': 33.84, 'Coupon Temp Mean': 23.89, 'Coupon Humidity Mean': 37.06, 'Thickness Mean': 148.9750632289701, 'Elastic Modulus Mean': 272.5430464732252, 'Strain at 50 bar Mean': 0.42693567639656593, 'CV Mean': 0.03193606203731905}","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
+{'Air Temp Mean': 23.9, 'Humidity Mean': 33.84, 'Coupon Temp Mean': 23.89, 'Coupon Humidity Mean': 37.06, 'Thickness Mean': 148.9750632289701, 'Elastic Modulus Mean': 272.5430464732252, 'Strain at 50 bar Mean': 0.42693567639656593, 'CV Mean': 0.03193606203731905}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
 
 - **Vertical Coverage:** Membrane reaches the bottom edge adequately; at the top edge a very narrow gap/thin dark line is visible between the membrane and the aperture rim, suggesting slight under-coverage at the top.
 
@@ -500,7 +500,7 @@ The constraint check: polymer_wt=17.0 = stock concentration, additive_wt=0 → m
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-22
 18:49:24",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run4,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=23.95 [room air temperature during casting]; Humidity Mean=34.52 [room air humidity during casting]; Coupon Temp Mean=23.96 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=38.11 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","## Experimental Report: Automated NIPS Membrane Synthesis
 
@@ -547,7 +547,7 @@ The cast film was subsequently immersed in a **pure water NIPS bath** (no co-sol
 *This experiment was conducted using an automated robotic membrane synthesis platform under controlled casting and environmental conditions.*
 
 
-{'Air Temp Mean': 23.95, 'Humidity Mean': 34.52, 'Coupon Temp Mean': 23.96, 'Coupon Humidity Mean': 38.11, 'Thickness Mean': 156.8826860839936, 'Elastic Modulus Mean': 274.5851606413021, 'Strain at 50 bar Mean': 0.319828700583399, 'CV Mean': 0.07314234713115757}","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
+{'Air Temp Mean': 23.95, 'Humidity Mean': 34.52, 'Coupon Temp Mean': 23.96, 'Coupon Humidity Mean': 38.11, 'Thickness Mean': 156.8826860839936, 'Elastic Modulus Mean': 274.5851606413021, 'Strain at 50 bar Mean': 0.319828700583399, 'CV Mean': 0.07314234713115757}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
 
 - **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap is visible between the membrane's upper boundary and the top of the aperture rim. Bottom edge appears adequately seated. **Top-gap defect present.**
 
@@ -624,7 +624,7 @@ Targeting: polymer_wt=17.0 (max, for high modulus), bath_temp=18°C (intermediat
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-22
 20:04:37",17-0add-18deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s,25,18,17.0,0.0,15.0,True,90,1800,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=18; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.12 [room air temperature during casting]; Humidity Mean=34.19 [room air humidity during casting]; Coupon Temp Mean=24.06 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=37.77 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -711,7 +711,7 @@ The cast film was subsequently immersed in the non-solvent precipitation bath, m
 | Coupon-stage humidity (N₂ window) | 37.77% |
 
 
-{'Air Temp Mean': 24.12, 'Humidity Mean': 34.19, 'Coupon Temp Mean': 24.06, 'Coupon Humidity Mean': 37.77, 'Thickness Mean': 135.16298120006925, 'Elastic Modulus Mean': 217.08573635812067, 'Strain at 50 bar Mean': 0.46672779431814915, 'CV Mean': 0.04374559092363513}","- **Presence:** Membrane is visible — a pale white/opaque sheet occupies the aperture.
+{'Air Temp Mean': 24.12, 'Humidity Mean': 34.19, 'Coupon Temp Mean': 24.06, 'Coupon Humidity Mean': 37.77, 'Thickness Mean': 135.16298120006925, 'Elastic Modulus Mean': 217.08573635812067, 'Strain at 50 bar Mean': 0.46672779431814915, 'CV Mean': 0.04374559092363513}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/opaque sheet occupies the aperture.
 
 - **Vertical Coverage:** The membrane spans the full top-to-bottom extent of the aperture with no gap at the top or bottom edge. ✓
 
@@ -786,7 +786,7 @@ The constraint check: polymer_wt=17.0 = stock concentration, additive_wt=0 → m
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-22
 21:23:25",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run5,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.14 [room air temperature during casting]; Humidity Mean=33.21 [room air humidity during casting]; Coupon Temp Mean=24.04 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=37.14 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","## Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -867,7 +867,7 @@ The cast film was subsequently immersed into the NIPS coagulation bath, maintain
 | Coupon-stage humidity (N₂ window) | 37.14% RH |
 
 
-{'Air Temp Mean': 24.14, 'Humidity Mean': 33.21, 'Coupon Temp Mean': 24.04, 'Coupon Humidity Mean': 37.14, 'Thickness Mean': 152.30499792507027, 'Elastic Modulus Mean': 237.54522588504608, 'Strain at 50 bar Mean': 0.3968811282805039, 'CV Mean': 0.03003941728869583}","- **Presence:** Membrane is visible — a pale white/opaque sheet is seated within the aperture.
+{'Air Temp Mean': 24.14, 'Humidity Mean': 33.21, 'Coupon Temp Mean': 24.04, 'Coupon Humidity Mean': 37.14, 'Thickness Mean': 152.30499792507027, 'Elastic Modulus Mean': 237.54522588504608, 'Strain at 50 bar Mean': 0.3968811282805039, 'CV Mean': 0.03003941728869583}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/opaque sheet is seated within the aperture.
 
 - **Vertical Coverage:** A small but clear gap is present at the top edge where the membrane does not fully reach the upper rim of the aperture; bottom edge appears adequately covered. This is a notable vertical coverage defect.
 
@@ -952,7 +952,7 @@ I'll recommend: **polymer_wt=17.0, mixing_temp=25, bath_temp=15, pullcast_speed=
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-22
 22:47:38",17-0add-15deg-cosolv-none-bathSolv-none-0wt-200s-N2-1800s,25,15,17.0,0.0,15.0,True,200,1800,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1800; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.13 [room air temperature during casting]; Humidity Mean=30.8 [room air humidity during casting]; Coupon Temp Mean=24.04 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=34.66 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
 
@@ -1041,7 +1041,7 @@ After the pre-immersion hold, the cast film was immersed into the NIPS bath, mai
 | Coupon-stage humidity (N₂ window) | 34.66% |
 
 
-{'Air Temp Mean': 24.13, 'Humidity Mean': 30.8, 'Coupon Temp Mean': 24.04, 'Coupon Humidity Mean': 34.66, 'Thickness Mean': 129.0049556973574, 'Elastic Modulus Mean': 231.51059594621546, 'Strain at 50 bar Mean': 0.4559961923992518, 'CV Mean': 0.08762445381161352}","**Presence:** Membrane is visible — a pale white/grey sheet seated within the aperture.
+{'Air Temp Mean': 24.13, 'Humidity Mean': 30.8, 'Coupon Temp Mean': 24.04, 'Coupon Humidity Mean': 34.66, 'Thickness Mean': 129.0049556973574, 'Elastic Modulus Mean': 231.51059594621546, 'Strain at 50 bar Mean': 0.4559961923992518, 'CV Mean': 0.08762445381161352}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","**Presence:** Membrane is visible — a pale white/grey sheet seated within the aperture.
 
 **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gap at either the top or bottom edge. ✓
 
@@ -1118,7 +1118,7 @@ Parameters: mixing_temp=25, bath_temp=22, pullcast_speed=19, nitrogen=True, coup
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-23
 00:21:58",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run6,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.12 [room air temperature during casting]; Humidity Mean=32.37 [room air humidity during casting]; Coupon Temp Mean=24.06 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=36.08 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -1217,7 +1217,7 @@ After the pre-immersion hold, the cast film was immersed into the NIPS bath, whi
 | Coupon-stage humidity (N₂ window) | 36.08% |
 
 
-{'Air Temp Mean': 24.12, 'Humidity Mean': 32.37, 'Coupon Temp Mean': 24.06, 'Coupon Humidity Mean': 36.08, 'Thickness Mean': 146.03934098569158, 'Elastic Modulus Mean': 247.02617079887227, 'Strain at 50 bar Mean': 0.34731745645093126, 'CV Mean': 0.1253790886928706}, 'Discarded Fit Quality Mean': '59.0/100', 'Discarded Fit Reasons': '1 failed due to yield point (bp1) likely misplaced'","- **Presence:** Membrane is visible — a pale white/light-grey sheet is present within the aperture.
+{'Air Temp Mean': 24.12, 'Humidity Mean': 32.37, 'Coupon Temp Mean': 24.06, 'Coupon Humidity Mean': 36.08, 'Thickness Mean': 146.03934098569158, 'Elastic Modulus Mean': 247.02617079887227, 'Strain at 50 bar Mean': 0.34731745645093126, 'CV Mean': 0.1253790886928706}, 'Discarded Fit Quality Mean': '59.0/100', 'Discarded Fit Reasons': '1 failed due to yield point (bp1) likely misplaced'; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/light-grey sheet is present within the aperture.
 
 - **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap is visible at the top where the metal rim is exposed. Bottom edge appears adequately seated. **Top gap is a defect.**
 
@@ -1297,7 +1297,7 @@ The parameters are feasible: polymer_wt=17.0, additive_wt=0 → mixing_temp must
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-23
 16:40:50",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run7,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.05 [room air temperature during casting]; Humidity Mean=40.91 [room air humidity during casting]; Coupon Temp Mean=24.1 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=44.99 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
@@ -1380,7 +1380,7 @@ After the pre-immersion wait period, the cast film was immersed into the NIPS ba
 | Coupon-stage humidity (N₂ window) | 44.99% |
 
 
-{'Air Temp Mean': 24.05, 'Humidity Mean': 40.91, 'Coupon Temp Mean': 24.1, 'Coupon Humidity Mean': 44.99, 'Thickness Mean': 151.74845874340278, 'Elastic Modulus Mean': 202.11367526519098, 'Strain at 50 bar Mean': 0.4532427847727071, 'CV Mean': 0.0279328579388319}","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
+{'Air Temp Mean': 24.05, 'Humidity Mean': 40.91, 'Coupon Temp Mean': 24.1, 'Coupon Humidity Mean': 44.99, 'Thickness Mean': 151.74845874340278, 'Elastic Modulus Mean': 202.11367526519098, 'Strain at 50 bar Mean': 0.4532427847727071, 'CV Mean': 0.0279328579388319}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
 
 - **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap is visible at the top where the metal rim is exposed. This is a vertical coverage defect.
 
@@ -1459,7 +1459,7 @@ This is the best feasible Pareto candidate with both objectives measured, only 1
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-23
 17:45:25",17-0add-15deg-cosolv-none-bathSolv-none-0wt-30s-N2-1200s,25,15,17.0,0.0,15.0,True,30,1200,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15.0; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=23.99 [room air temperature during casting]; Humidity Mean=38.07 [room air humidity during casting]; Coupon Temp Mean=24.02 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=41.07 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -1582,7 +1582,7 @@ Ambient conditions in the casting environment were stable, with a room temperatu
 A 17.0 wt% polysulfone/PolarClean casting solution (no additives) was blade-cast at 15.0 mm/s under controlled laboratory conditions (~24 °C, ~38% RH). A 30-second dry nitrogen purge was applied post-casting before immersion into a pure water bath at 15 °C, where phase separation proceeded for 20 minutes. The nitrogen purge partially reduced humidity exposure at the film surface during the pre-immersion period, with coupon-stage humidity recorded at ~41% RH during the blow window.
 
 
-{'Air Temp Mean': 23.99, 'Humidity Mean': 38.07, 'Coupon Temp Mean': 24.02, 'Coupon Humidity Mean': 41.07, 'Thickness Mean': 159.01899199094572, 'Elastic Modulus Mean': 216.24280762393033, 'Strain at 50 bar Mean': 0.4473898576896726, 'CV Mean': 0.07109119569305532}","- **Presence:** Membrane is visible — a pale/white coupon is seated within the aperture.
+{'Air Temp Mean': 23.99, 'Humidity Mean': 38.07, 'Coupon Temp Mean': 24.02, 'Coupon Humidity Mean': 41.07, 'Thickness Mean': 159.01899199094572, 'Elastic Modulus Mean': 216.24280762393033, 'Strain at 50 bar Mean': 0.4473898576896726, 'CV Mean': 0.07109119569305532}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale/white coupon is seated within the aperture.
 - **Vertical Coverage:** The membrane does not fully span the vertical extent; a gap is visible at the top edge where the membrane falls short of the aperture rim, and the bottom edge also shows incomplete contact. Both are notable vertical coverage defects.
 - **Uniformity:** The central field appears largely uniform in color and opacity with no obvious patchiness or dark spots.
 - **Defects:** Multiple distinct wrinkles/folds are visible within the membrane material itself — prominent raised ridges run along the upper-left and lower-right regions of the coupon.
@@ -1673,7 +1673,7 @@ Wait — let me re-examine run1 parameters: mixing_temp=25, bath_temp=22, pullca
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-23
 19:16:50",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run8,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.0 [room air temperature during casting]; Humidity Mean=39.83 [room air humidity during casting]; Coupon Temp Mean=24.0 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=42.91 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
@@ -1758,7 +1758,7 @@ The cast film was subsequently immersed into the NIPS coagulation bath, maintain
 | Coupon-Stage Humidity (pre-immersion) | 42.91% RH |
 
 
-{'Air Temp Mean': 24.0, 'Humidity Mean': 39.83, 'Coupon Temp Mean': 24.0, 'Coupon Humidity Mean': 42.91, 'Thickness Mean': 154.0919010536284, 'Elastic Modulus Mean': 186.0043547421679, 'Strain at 50 bar Mean': 0.47505014846596716, 'CV Mean': 0.06901763677705122}","- **Presence:** Membrane is visible — a pale white/grey sheet is present within the aperture.
+{'Air Temp Mean': 24.0, 'Humidity Mean': 39.83, 'Coupon Temp Mean': 24.0, 'Coupon Humidity Mean': 42.91, 'Thickness Mean': 154.0919010536284, 'Elastic Modulus Mean': 186.0043547421679, 'Strain at 50 bar Mean': 0.47505014846596716, 'CV Mean': 0.06901763677705122}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey sheet is present within the aperture.
 
 - **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap exposing the metal backing is visible at the top. This is a vertical coverage defect.
 
@@ -1846,7 +1846,7 @@ This is the correct validation experiment: repeat the exact same parameters to o
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-23
 20:27:30",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run9,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=23.96 [room air temperature during casting]; Humidity Mean=39.31 [room air humidity during casting]; Coupon Temp Mean=23.93 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=42.82 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -1953,7 +1953,7 @@ After the pre-immersion wait period, the cast film was immersed into the NIPS ba
 | Coupon-stage humidity (N₂ window) | 42.82% RH |
 
 
-{'Air Temp Mean': 23.96, 'Humidity Mean': 39.31, 'Coupon Temp Mean': 23.93, 'Coupon Humidity Mean': 42.82, 'Thickness Mean': 138.4990590169046, 'Elastic Modulus Mean': 161.27030009038748, 'Strain at 50 bar Mean': 0.44430017372261466, 'CV Mean': 0.029492061006899953}","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture interior.
+{'Air Temp Mean': 23.96, 'Humidity Mean': 39.31, 'Coupon Temp Mean': 23.93, 'Coupon Humidity Mean': 42.82, 'Thickness Mean': 138.4990590169046, 'Elastic Modulus Mean': 161.27030009038748, 'Strain at 50 bar Mean': 0.44430017372261466, 'CV Mean': 0.029492061006899953}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture interior.
 
 - **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gap at either the top or bottom edge. Coverage is complete vertically.
 
@@ -2039,7 +2039,7 @@ This is the best actionable validation target: single synthesis, on Pareto front
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-23
 21:32:15",17-0add-15deg-cosolv-none-bathSolv-none-0wt-30s-N2-1200s_run2,25,15,17.0,0.0,15.0,True,30,1200,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15.0; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=23.78 [room air temperature during casting]; Humidity Mean=38.24 [room air humidity during casting]; Coupon Temp Mean=23.72 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=41.61 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -2136,7 +2136,7 @@ The casting environment was monitored throughout the experiment. The mean ambien
 | Coupon-Stage Humidity (N₂ period) | 41.61% RH |
 
 
-{'Air Temp Mean': 23.78, 'Humidity Mean': 38.24, 'Coupon Temp Mean': 23.72, 'Coupon Humidity Mean': 41.61, 'Thickness Mean': 159.56752368548825, 'Elastic Modulus Mean': 248.440421058875, 'Strain at 50 bar Mean': 0.46086048825339737, 'CV Mean': 0.03731080443726159}","- **Presence**: Membrane is visible — a pale white/off-white sheet occupies the aperture.
+{'Air Temp Mean': 23.78, 'Humidity Mean': 38.24, 'Coupon Temp Mean': 23.72, 'Coupon Humidity Mean': 41.61, 'Thickness Mean': 159.56752368548825, 'Elastic Modulus Mean': 248.440421058875, 'Strain at 50 bar Mean': 0.46086048825339737, 'CV Mean': 0.03731080443726159}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence**: Membrane is visible — a pale white/off-white sheet occupies the aperture.
 
 - **Vertical Coverage**: The membrane does not reach the top edge of the aperture; a clear gap is visible at the top, exposing the backing/rim beneath. Bottom edge appears adequately seated. This is a notable vertical coverage defect.
 
@@ -2206,7 +2206,7 @@ Actually, re-examining: **[17-0add-15deg-30s-N2-1200s]** has mixing_temp=25 (cor
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-23
 22:39:35",17-0add-15deg-cosolv-none-bathSolv-none-0wt-30s-N2-1200s_run3,25,15,17.0,0.0,15.0,True,30,1200,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15.0; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=23.68 [room air temperature during casting]; Humidity Mean=37.59 [room air humidity during casting]; Coupon Temp Mean=23.64 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=40.71 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
@@ -2281,7 +2281,7 @@ After the pre-immersion hold period, the cast film was immersed into the NIPS ba
 | Coupon-Stage Humidity (N₂ window) | 40.71% |
 
 
-{'Air Temp Mean': 23.68, 'Humidity Mean': 37.59, 'Coupon Temp Mean': 23.64, 'Coupon Humidity Mean': 40.71, 'Thickness Mean': 140.6678668084691, 'Elastic Modulus Mean': 209.1012515687972, 'Strain at 50 bar Mean': 0.4028997367896979, 'CV Mean': 0.08510179350529551}","- **Presence:** Membrane is visible — a pale white/opaque coupon seated within the circular aperture.
+{'Air Temp Mean': 23.68, 'Humidity Mean': 37.59, 'Coupon Temp Mean': 23.64, 'Coupon Humidity Mean': 40.71, 'Thickness Mean': 140.6678668084691, 'Elastic Modulus Mean': 209.1012515687972, 'Strain at 50 bar Mean': 0.4028997367896979, 'CV Mean': 0.08510179350529551}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/opaque coupon seated within the circular aperture.
 
 - **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gap at either the top or bottom edge. ✓
 
@@ -2373,7 +2373,7 @@ This is within all current bounds. polymer_wt=17.0 with additive_wt=0 requires m
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-24
 00:12:19",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run10,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=23.72 [room air temperature during casting]; Humidity Mean=39.4 [room air humidity during casting]; Coupon Temp Mean=23.65 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=42.38 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -2462,7 +2462,7 @@ After the pre-immersion wait period, the cast film was immersed into the NIPS ba
 | Coupon-stage humidity (N₂ window) | 42.38% |
 
 
-{'Air Temp Mean': 23.72, 'Humidity Mean': 39.4, 'Coupon Temp Mean': 23.65, 'Coupon Humidity Mean': 42.38, 'Thickness Mean': 152.62656313049433, 'Elastic Modulus Mean': 182.8201938096032, 'Strain at 50 bar Mean': 0.482540978751692, 'CV Mean': 0.05490419764196255}","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
+{'Air Temp Mean': 23.72, 'Humidity Mean': 39.4, 'Coupon Temp Mean': 23.65, 'Coupon Humidity Mean': 42.38, 'Thickness Mean': 152.62656313049433, 'Elastic Modulus Mean': 182.8201938096032, 'Strain at 50 bar Mean': 0.482540978751692, 'CV Mean': 0.05490419764196255}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
 
 - **Vertical Coverage:** The membrane reaches both the top and bottom edges of the aperture with no gap; vertical coverage is complete.
 
@@ -2566,7 +2566,7 @@ Note: The original run used mixing_temp=80, but since polymer_wt=17.0 (stock con
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-24
 01:27:50",17-0add-5deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s,25,5,17.0,0.0,18.0,True,90,1800,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=18.0; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=23.62 [room air temperature during casting]; Humidity Mean=40.29 [room air humidity during casting]; Coupon Temp Mean=23.56 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=43.5 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
@@ -2639,7 +2639,7 @@ The cast film was subsequently immersed into the NIPS bath, maintained at **5 °
 | Coupon-Stage Humidity (N₂ window) | 43.5% |
 
 
-{'Air Temp Mean': 23.62, 'Humidity Mean': 40.29, 'Coupon Temp Mean': 23.56, 'Coupon Humidity Mean': 43.5, 'Thickness Mean': 139.41094084099245, 'Elastic Modulus Mean': 192.73841844253053, 'Strain at 50 bar Mean': 0.4449626987721206, 'CV Mean': 0.07635281380738339}","- **Presence:** Membrane is visible — a pale white/opaque sheet occupies the aperture.
+{'Air Temp Mean': 23.62, 'Humidity Mean': 40.29, 'Coupon Temp Mean': 23.56, 'Coupon Humidity Mean': 43.5, 'Thickness Mean': 139.41094084099245, 'Elastic Modulus Mean': 192.73841844253053, 'Strain at 50 bar Mean': 0.4449626987721206, 'CV Mean': 0.07635281380738339}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/opaque sheet occupies the aperture.
 - **Vertical Coverage:** The membrane spans the full top-to-bottom extent of the aperture with no gap at the top or bottom edge. ✓
 - **Uniformity:** The membrane is largely uniform in color and opacity across its surface, with no obvious dark spots or patchiness.
 - **Defects:** A distinct fold or wrinkle is present within the membrane material itself along the right side, where the sheet appears to have buckled and overlapped onto itself. No trapped air bubbles are evident.
@@ -2715,7 +2715,7 @@ This is the correct validation target.
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-24
 02:42:47",17-0add-15deg-cosolv-none-bathSolv-none-0wt-30s-N2-1200s_run4,25,15,17.0,0.0,15.0,True,30,1200,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15.0; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=23.55 [room air temperature during casting]; Humidity Mean=39.7 [room air humidity during casting]; Coupon Temp Mean=23.47 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=43.25 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -2826,7 +2826,7 @@ After the 30-second pre-immersion wait, the cast film was immersed into the NIPS
 The use of a nitrogen purge during the pre-immersion period, combined with the relatively low ambient humidity (~40%), suggests that surface moisture exposure was minimized prior to phase inversion. The cooled bath temperature (15 °C, below ambient) may influence the kinetics of solvent/non-solvent exchange and the resulting membrane morphology relative to bath-temperature-matched controls.
 
 
-{'Air Temp Mean': 23.55, 'Humidity Mean': 39.7, 'Coupon Temp Mean': 23.47, 'Coupon Humidity Mean': 43.25, 'Thickness Mean': 143.18538302999914, 'Elastic Modulus Mean': 164.46469774199085, 'Strain at 50 bar Mean': 0.5368946881851502, 'CV Mean': 0.04833221974116984}","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
+{'Air Temp Mean': 23.55, 'Humidity Mean': 39.7, 'Coupon Temp Mean': 23.47, 'Coupon Humidity Mean': 43.25, 'Thickness Mean': 143.18538302999914, 'Elastic Modulus Mean': 164.46469774199085, 'Strain at 50 bar Mean': 0.5368946881851502, 'CV Mean': 0.04833221974116984}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
 - **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gap at the top or bottom edge. Vertical coverage is complete.
 - **Uniformity:** The membrane appears largely uniform in color and opacity across its surface, with no obvious patchiness, dark spots, or significant thickness variation.
 - **Defects:** No wrinkles or trapped air bubbles are detected within the membrane material itself; faint linear marks near the center are very subtle and likely surface artifacts rather than structural defects.
@@ -2903,7 +2903,7 @@ Given the constraint, I need to identify the best Pareto-front candidate whose o
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-24
 16:07:20",17-0add-22deg-cosolv-none-bathSolv-none-0wt-200s-N2-1450s_run11,25,22,17.0,0.0,19.0,True,200,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=22; polymer_wt=17.0; additive_wt=0; pullcast_speed=19.0; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.41 [room air temperature during casting]; Humidity Mean=34.8 [room air humidity during casting]; Coupon Temp Mean=24.27 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=37.19 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
 
@@ -2986,7 +2986,7 @@ After the 200-second nitrogen purge period, the cast film was immersed into the 
 | NIPS bath immersion time | 1,450 s |
 
 
-{'Air Temp Mean': 24.41, 'Humidity Mean': 34.8, 'Coupon Temp Mean': 24.27, 'Coupon Humidity Mean': 37.19, 'Thickness Mean': 148.72715791629912, 'Elastic Modulus Mean': 282.68037202501205, 'Strain at 50 bar Mean': 0.22985398949778227, 'CV Mean': 0.027233375892988302}","- **Presence:** Membrane is visible — a pale white/opaque sheet occupies the aperture.
+{'Air Temp Mean': 24.41, 'Humidity Mean': 34.8, 'Coupon Temp Mean': 24.27, 'Coupon Humidity Mean': 37.19, 'Thickness Mean': 148.72715791629912, 'Elastic Modulus Mean': 282.68037202501205, 'Strain at 50 bar Mean': 0.22985398949778227, 'CV Mean': 0.027233375892988302}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/opaque sheet occupies the aperture.
 - **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap is visible between the membrane's upper boundary and the top of the circular opening. This is a vertical coverage defect.
 - **Uniformity:** The membrane body appears largely uniform in color and opacity with no obvious patchiness or dark spots.
 - **Defects:** No wrinkles or trapped air bubbles are evident within the membrane material itself; bright features at the boundary are rim/lighting artifacts.
@@ -3100,7 +3100,7 @@ Parameters: mixing_temp=62, bath_temp=25, pullcast_speed=5, nitrogen=False, coup
   ""polymer_wt"": 16.5,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-24
 18:18:22",16p5-0add-25deg-cosolv-none-bathSolv-none-0wt-130s-NoN2-1250s_run2,62,25,16.5,0.0,5.0,False,130,1250,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=62; bath_temp=25; polymer_wt=16.5; additive_wt=0.0; pullcast_speed=5; nitrogen=False; coupon_to_bath_wait_time=130; nips_bath_wait_time=1250; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=27.48 [room air temperature during casting]; Humidity Mean=30.16 [room air humidity during casting]; Coupon Temp Mean=25.74 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=37.11 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Polysulfone Membrane Synthesis via NIPS
 
@@ -3189,7 +3189,7 @@ The cast film was immersed into a **pure deionized water** coagulation bath (no 
 | Coupon-Stage Humidity | 37.11% RH |
 
 
-{'Air Temp Mean': 27.48, 'Humidity Mean': 30.16, 'Coupon Temp Mean': 25.74, 'Coupon Humidity Mean': 37.11, 'Thickness Mean': 129.08758557496205, 'Elastic Modulus Mean': 119.55897270175063, 'Strain at 50 bar Mean': 0.48433458002427654, 'CV Mean': 0.058736840566781655}","- **Presence:** Membrane is clearly visible as a pale white/grey sheet filling the aperture.
+{'Air Temp Mean': 27.48, 'Humidity Mean': 30.16, 'Coupon Temp Mean': 25.74, 'Coupon Humidity Mean': 37.11, 'Thickness Mean': 129.08758557496205, 'Elastic Modulus Mean': 119.55897270175063, 'Strain at 50 bar Mean': 0.48433458002427654, 'CV Mean': 0.058736840566781655}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is clearly visible as a pale white/grey sheet filling the aperture.
 - **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gaps at either edge. ✓
 - **Uniformity:** Surface appears highly uniform in color and opacity throughout; no patchiness, dark spots, or thickness variation detected.
 - **Defects:** No wrinkles or trapped air bubbles visible within the membrane material itself. One very small dark pinpoint speck is present near center, likely a minor surface particle.
@@ -3267,7 +3267,7 @@ Therefore, the validation repeat must use mixing_temp=25°C with all other param
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-24
 19:35:26",17-0add-5deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s_run2,25,5,17.0,0.0,18.0,True,90,1800,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=18.0; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.23 [room air temperature during casting]; Humidity Mean=35.53 [room air humidity during casting]; Coupon Temp Mean=24.76 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=34.51 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -3384,7 +3384,7 @@ After the 90-second nitrogen blow period, the cast film was immersed into a **pu
 The use of a dry nitrogen purge during the pre-immersion period, combined with the relatively low bath temperature of 5 °C, was intended to control the rate of solvent-nonsolvent exchange and influence the resulting membrane morphology. The ambient humidity during casting was moderate (~35.5%), and the nitrogen blow effectively maintained similar humidity levels at the coupon stage (~34.5%), suggesting limited additional moisture exposure beyond ambient conditions.
 
 
-{'Air Temp Mean': 25.23, 'Humidity Mean': 35.53, 'Coupon Temp Mean': 24.76, 'Coupon Humidity Mean': 34.51, 'Thickness Mean': 160.4280811224264, 'Elastic Modulus Mean': 364.7956031870716, 'Strain at 50 bar Mean': 0.23750933501441962, 'CV Mean': 0.06590608464303167}","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
+{'Air Temp Mean': 25.23, 'Humidity Mean': 35.53, 'Coupon Temp Mean': 24.76, 'Coupon Humidity Mean': 34.51, 'Thickness Mean': 160.4280811224264, 'Elastic Modulus Mean': 364.7956031870716, 'Strain at 50 bar Mean': 0.23750933501441962, 'CV Mean': 0.06590608464303167}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
 
 - **Vertical Coverage:** Incomplete — a clear gap is present at the top edge where the membrane does not reach the upper rim of the aperture, exposing the backing/cell surface beneath.
 
@@ -3458,7 +3458,7 @@ The **[17-0add-5deg-90s-N2-1800s_run2]** conditions (bath_temp=5, wait=90s, spee
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-24
 20:50:54",17-0add-5deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s_run3,25,5,17.0,0.0,18.0,True,90,1800,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=18.0; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.7 [room air temperature during casting]; Humidity Mean=34.55 [room air humidity during casting]; Coupon Temp Mean=24.32 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=36.11 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -3565,7 +3565,7 @@ After the 90-second nitrogen blow period, the cast film was immersed into the NI
 | Coupon-stage humidity (N₂ period) | 36.11% |
 
 
-{'Air Temp Mean': 24.7, 'Humidity Mean': 34.55, 'Coupon Temp Mean': 24.32, 'Coupon Humidity Mean': 36.11, 'Thickness Mean': 147.37759850132494, 'Elastic Modulus Mean': 308.8570522174612, 'Strain at 50 bar Mean': 0.2718381249927017, 'CV Mean': 0.08582971871639263}","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
+{'Air Temp Mean': 24.7, 'Humidity Mean': 34.55, 'Coupon Temp Mean': 24.32, 'Coupon Humidity Mean': 36.11, 'Thickness Mean': 147.37759850132494, 'Elastic Modulus Mean': 308.8570522174612, 'Strain at 50 bar Mean': 0.2718381249927017, 'CV Mean': 0.08582971871639263}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
 
 - **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gap at the top or bottom edge. ✓
 
@@ -3635,7 +3635,7 @@ This is the highest-priority action: validate both objectives at this promising 
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-24
 22:06:20",17-0add-5deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s_run4,25,5,17.0,0.0,18.0,True,90,1800,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=18.0; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.51 [room air temperature during casting]; Humidity Mean=36.55 [room air humidity during casting]; Coupon Temp Mean=24.09 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=35.88 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
@@ -3716,7 +3716,7 @@ After the 90-second nitrogen blow, the cast film was immersed into a **pure deio
 | Coupon-stage humidity (N₂ blow) | 35.88% |
 
 
-{'Air Temp Mean': 24.51, 'Humidity Mean': 36.55, 'Coupon Temp Mean': 24.09, 'Coupon Humidity Mean': 35.88, 'Thickness Mean': 161.64009122323702, 'Elastic Modulus Mean': 290.1110936122996, 'Strain at 50 bar Mean': 0.2847608244307581, 'CV Mean': 0.13300031309009597}","- **Presence:** Membrane is visible — a white/opaque coupon is seated in the aperture.
+{'Air Temp Mean': 24.51, 'Humidity Mean': 36.55, 'Coupon Temp Mean': 24.09, 'Coupon Humidity Mean': 35.88, 'Thickness Mean': 161.64009122323702, 'Elastic Modulus Mean': 290.1110936122996, 'Strain at 50 bar Mean': 0.2847608244307581, 'CV Mean': 0.13300031309009597}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a white/opaque coupon is seated in the aperture.
 - **Vertical Coverage:** Gap present at the top edge; the membrane does not reach the top of the aperture, exposing the rim. Bottom edge appears adequately seated.
 - **Uniformity:** Overall color is consistent white/opaque with no significant patchiness or dark zones; a few minor specks present but minor.
 - **Defects:** Two faint linear creases/wrinkles are visible within the membrane material itself, running diagonally across the upper-center region.
@@ -3789,7 +3789,7 @@ The **17-0add-15deg-30s-N2-1200s** candidate (Modulus=355, PF=0.459) has not bee
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-24
 23:23:39",17-0add-15deg-cosolv-none-bathSolv-none-0wt-30s-N2-1200s_run5,25,15,17.0,0.0,15.0,True,30,1200,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.5 [room air temperature during casting]; Humidity Mean=39.3 [room air humidity during casting]; Coupon Temp Mean=23.99 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=40.3 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
 
@@ -3878,7 +3878,7 @@ After the 30-second pre-immersion period, the cast film was immersed into a pure
 | Coupon-stage humidity (end of wait) | 40.3% RH |
 
 
-{'Air Temp Mean': 24.5, 'Humidity Mean': 39.3, 'Coupon Temp Mean': 23.99, 'Coupon Humidity Mean': 40.3, 'Thickness Mean': 193.27054268787438, 'Elastic Modulus Mean': 324.2694296131552, 'Strain at 50 bar Mean': 0.22766420220934214, 'CV Mean': 0.07470857986151183}, 'Discarded Fit Quality Mean': '45.0/100', 'Discarded Fit Reasons': '1 failed due to plateau slope >= elastic modulus, no real transition'","- **Presence:** Membrane is visible within the aperture.
+{'Air Temp Mean': 24.5, 'Humidity Mean': 39.3, 'Coupon Temp Mean': 23.99, 'Coupon Humidity Mean': 40.3, 'Thickness Mean': 193.27054268787438, 'Elastic Modulus Mean': 324.2694296131552, 'Strain at 50 bar Mean': 0.22766420220934214, 'CV Mean': 0.07470857986151183}, 'Discarded Fit Quality Mean': '45.0/100', 'Discarded Fit Reasons': '1 failed due to plateau slope >= elastic modulus, no real transition'; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible within the aperture.
 
 - **Vertical Coverage:** Significant gaps at both the top and bottom edges — the membrane does not span the full vertical extent of the aperture, exposing the backing/aperture interior above and below the coupon.
 
@@ -4053,7 +4053,7 @@ Parameters: mixing_temp=58, bath_temp=19, pullcast_speed=12.0, nitrogen=True, co
   ""polymer_wt"": 16.5,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-25
 01:39:00",16p5-0add-19deg-cosolv-none-bathSolv-none-0wt-175s-N2-1450s_run3,58,19,16.5,0.0,12.0,True,175,1450,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=58; bath_temp=19; polymer_wt=16.5; additive_wt=0.0; pullcast_speed=12.0; nitrogen=True; coupon_to_bath_wait_time=175; nips_bath_wait_time=1450; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=26.89 [room air temperature during casting]; Humidity Mean=31.48 [room air humidity during casting]; Coupon Temp Mean=25.38 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=35.98 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
 
@@ -4170,7 +4170,7 @@ The cast film was immersed in a **pure deionized water bath** (no co-solvent add
 The application of dry nitrogen during the pre-immersion period effectively reduced the local humidity at the coupon stage (35.98%) relative to the ambient room humidity (31.48%), though the coupon-stage temperature (25.38 °C) was slightly below ambient room temperature (26.89 °C) at the end of the wait period. These conditions are expected to minimize moisture-induced surface skinning prior to controlled phase inversion in the water bath.
 
 
-{'Air Temp Mean': 26.89, 'Humidity Mean': 31.48, 'Coupon Temp Mean': 25.38, 'Coupon Humidity Mean': 35.98, 'Thickness Mean': 137.6981327133849, 'Elastic Modulus Mean': 291.7176199884008, 'Strain at 50 bar Mean': 0.25724789936277015, 'CV Mean': 0.22706520806144118}","- **Presence**: Membrane is visible — a pale white/grey sheet is seated within the aperture.
+{'Air Temp Mean': 26.89, 'Humidity Mean': 31.48, 'Coupon Temp Mean': 25.38, 'Coupon Humidity Mean': 35.98, 'Thickness Mean': 137.6981327133849, 'Elastic Modulus Mean': 291.7176199884008, 'Strain at 50 bar Mean': 0.25724789936277015, 'CV Mean': 0.22706520806144118}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence**: Membrane is visible — a pale white/grey sheet is seated within the aperture.
 
 - **Vertical Coverage**: The membrane does not reach the top edge of the aperture; a gap exposing the backing/rim is visible at the top. This is a vertical coverage defect.
 
@@ -4245,7 +4245,7 @@ Feasibility check: mixing_temp=25°C (polymer_wt=17.0 = stock, so must be 25°C 
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-25
 02:43:00",17-0add-15deg-cosolv-none-bathSolv-none-0wt-30s-N2-1200s_run6,25,15,17.0,0.0,15.0,True,30,1200,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15.0; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.05 [room air temperature during casting]; Humidity Mean=37.93 [room air humidity during casting]; Coupon Temp Mean=24.55 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=36.88 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
 
@@ -4324,7 +4324,7 @@ The cast film was subsequently immersed in a **pure deionized water bath** (no c
 | NIPS Bath Immersion Time | 1200 s |
 
 
-{'Air Temp Mean': 25.05, 'Humidity Mean': 37.93, 'Coupon Temp Mean': 24.55, 'Coupon Humidity Mean': 36.88, 'Thickness Mean': 156.01690928529194, 'Elastic Modulus Mean': 330.4153304118747, 'Strain at 50 bar Mean': 0.25105798455221356, 'CV Mean': 0.05798039888710948}","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
+{'Air Temp Mean': 25.05, 'Humidity Mean': 37.93, 'Coupon Temp Mean': 24.55, 'Coupon Humidity Mean': 36.88, 'Thickness Mean': 156.01690928529194, 'Elastic Modulus Mean': 330.4153304118747, 'Strain at 50 bar Mean': 0.25105798455221356, 'CV Mean': 0.05798039888710948}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
 
 - **Vertical Coverage:** Membrane spans fully from the top to the bottom edge of the aperture with no vertical gap detected.
 
@@ -4382,7 +4382,7 @@ This candidate has high modulus AND reasonable pore fraction, good fit quality, 
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-25
 03:48:26",17-0add-15deg-cosolv-none-bathSolv-none-0wt-30s-N2-1200s_run7,25,15,17.0,0.0,15.0,True,30,1200,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=15; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=15.0; nitrogen=True; coupon_to_bath_wait_time=30; nips_bath_wait_time=1200; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.84 [room air temperature during casting]; Humidity Mean=40.26 [room air humidity during casting]; Coupon Temp Mean=24.42 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=36.95 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -4481,7 +4481,7 @@ Ambient conditions during casting were stable, with a room temperature of approx
 A 17.0 wt% polysulfone/PolarClean casting solution was prepared and blade-cast at 15.0 mm/s under controlled laboratory conditions (~25 °C, ~40% RH). A 30-second dry nitrogen purge was applied post-casting to limit humidity-driven surface skinning before immersion. Phase inversion was carried out in a pure water bath at 15 °C for 20 minutes. The nitrogen purge modestly reduced local humidity at the film surface (~37% RH vs. ~40% ambient), suggesting limited but present humidity mitigation during the pre-immersion window.
 
 
-{'Air Temp Mean': 24.84, 'Humidity Mean': 40.26, 'Coupon Temp Mean': 24.42, 'Coupon Humidity Mean': 36.95, 'Thickness Mean': 148.13344065898534, 'Elastic Modulus Mean': 305.10532022434234, 'Strain at 50 bar Mean': 0.2704331162857819, 'CV Mean': 0.09490881165025224}","- **Presence:** Membrane is visible — a white/pale coupon is seated within the circular aperture.
+{'Air Temp Mean': 24.84, 'Humidity Mean': 40.26, 'Coupon Temp Mean': 24.42, 'Coupon Humidity Mean': 36.95, 'Thickness Mean': 148.13344065898534, 'Elastic Modulus Mean': 305.10532022434234, 'Strain at 50 bar Mean': 0.2704331162857819, 'CV Mean': 0.09490881165025224}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a white/pale coupon is seated within the circular aperture.
 
 - **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap is visible between the membrane's upper boundary and the top of the aperture rim. This is a vertical coverage defect.
 
@@ -4567,7 +4567,7 @@ I recommend **one more repeat** of this condition to confirm both objectives und
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-25
 12:30:08",17-0add-5deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s_run5,25,5,17.0,0.0,18.0,True,90,1800,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0; pullcast_speed=18.0; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.59 [room air temperature during casting]; Humidity Mean=28.2 [room air humidity during casting]; Coupon Temp Mean=24.44 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=35.05 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -4656,7 +4656,7 @@ After the 90-second nitrogen blow period, the cast film was immersed into a pure
 | Coupon-stage humidity (N₂ window) | 35.05% RH |
 
 
-{'Air Temp Mean': 24.59, 'Humidity Mean': 28.2, 'Coupon Temp Mean': 24.44, 'Coupon Humidity Mean': 35.05, 'Thickness Mean': 117.24652236012948, 'Elastic Modulus Mean': 253.95080088503838, 'Strain at 50 bar Mean': 0.3912908554156244, 'CV Mean': 0.05063458984780885}","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
+{'Air Temp Mean': 24.59, 'Humidity Mean': 28.2, 'Coupon Temp Mean': 24.44, 'Coupon Humidity Mean': 35.05, 'Thickness Mean': 117.24652236012948, 'Elastic Modulus Mean': 253.95080088503838, 'Strain at 50 bar Mean': 0.3912908554156244, 'CV Mean': 0.05063458984780885}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
 
 - **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gap at either the top or bottom edge. ✓
 
@@ -4722,7 +4722,7 @@ The condition **polymer_wt=17.0, mixing_temp=25, bath_temp=5, pullcast_speed=18,
   ""polymer_wt"": 17.0,
   ""additive_wt"": 0.0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-09-25
 13:43:58",17-0add-5deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s_run6,25,5,17.0,0.0,18.0,True,90,1800,Polysulfone,PolarClean,none,none,0.0,"mixing_temp=25; bath_temp=5; polymer_wt=17.0; additive_wt=0.0; pullcast_speed=18.0; nitrogen=True; coupon_to_bath_wait_time=90; nips_bath_wait_time=1800; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=24.45 [room air temperature during casting]; Humidity Mean=30.15 [room air humidity during casting]; Coupon Temp Mean=24.17 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=49.57 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -4843,7 +4843,7 @@ After the 90-second nitrogen blow period, the cast film was immersed into the **
 | Coupon-stage humidity (N₂ window) | 49.57% |
 
 
-{'Air Temp Mean': 24.45, 'Humidity Mean': 30.15, 'Coupon Temp Mean': 24.17, 'Coupon Humidity Mean': 49.57, 'Thickness Mean': 141.0016396475968, 'Elastic Modulus Mean': 390.47182273195193, 'Strain at 50 bar Mean': 0.20297468016943485, 'CV Mean': 0.1011087607795219}","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
+{'Air Temp Mean': 24.45, 'Humidity Mean': 30.15, 'Coupon Temp Mean': 24.17, 'Coupon Humidity Mean': 49.57, 'Thickness Mean': 141.0016396475968, 'Elastic Modulus Mean': 390.47182273195193, 'Strain at 50 bar Mean': 0.20297468016943485, 'CV Mean': 0.1011087607795219}; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
 
 - **Vertical Coverage:** The membrane reaches the bottom edge of the aperture adequately, but at the top there is a visible gap between the membrane's upper edge and the aperture rim, exposing the metal backing — this is a top-edge vertical coverage defect.
 
@@ -4955,4 +4955,4 @@ Parameters: mixing_temp=57, bath_temp=12, pullcast_speed=11, nitrogen=True, coup
   ""polymer_wt"": 15.0,
   ""additive_wt"": 0
 }
-```"
+```",operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent

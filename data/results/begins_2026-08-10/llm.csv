@@ -1,6 +1,6 @@
-date,name,mixing_temp,bath_temp,weight_percent,volume,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion
+date,name,mixing_temp,bath_temp,weight_percent,volume,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion,nips_bath_solvent,nips_bath_solvent_wt_percent,bath_context_source
 "2026-08-10
-16:03:51",21-0add-5deg-300s-N2-1800s_run2,60,5,,,1,True,300,1800,mixing_temp=60; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=300; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated Membrane Synthesis via NIPS
+16:03:51",21-0add-5deg-300s-N2-1800s_run2,60,5,,,1,True,300,1800,mixing_temp=60; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=300; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Solution Preparation & Casting
 
@@ -29,7 +29,7 @@ The cast membrane was subsequently immersed in the non-solvent coagulation bath,
 MEMBRANE DETECTION: 3/4 replicates detected a membrane.
 FIT DETECTION: 0/3 of detected membranes passed quality checks.
 OUTCOME: PARTIAL_COVERAGE_NO_FIT
-INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.","# Experimental Report: Automated Membrane Synthesis via NIPS
+INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Solution Preparation & Casting
 
@@ -59,7 +59,7 @@ The cast membrane was subsequently immersed in the non-solvent coagulation bath,
 MEMBRANE DETECTION: 3/4 replicates detected a membrane.
 FIT DETECTION: 0/3 of detected membranes passed quality checks.
 OUTCOME: PARTIAL_COVERAGE_NO_FIT
-INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
 - **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
 - **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
 - **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
@@ -98,9 +98,9 @@ INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quali
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-10
-18:20:38",21-2add-60degMix-15deg-30s-NoN2-1800s,60,15,,,5,False,30,1800,mixing_temp=60; bath_temp=15; pullcast_speed=5; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated NIPS Membrane Synthesis
+18:20:38",21-2add-60degMix-15deg-30s-NoN2-1800s,60,15,,,5,False,30,1800,mixing_temp=60; bath_temp=15; pullcast_speed=5; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 The polymer solution was prepared and mixed at a heating temperature of **60°C**.
@@ -119,7 +119,7 @@ The cast membrane was subsequently immersed into the non-solvent coagulation bat
 MEMBRANE DETECTION: 1/4 replicates detected a membrane.
 FIT DETECTION: 0/1 of detected membranes passed quality checks.
 OUTCOME: PARTIAL_SINGLE_BAD_FIT
-INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.","# Experimental Report: Automated NIPS Membrane Synthesis
+INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 The polymer solution was prepared and mixed at a heating temperature of **60°C**.
@@ -139,7 +139,7 @@ The cast membrane was subsequently immersed into the non-solvent coagulation bat
 MEMBRANE DETECTION: 1/4 replicates detected a membrane.
 FIT DETECTION: 0/1 of detected membranes passed quality checks.
 OUTCOME: PARTIAL_SINGLE_BAD_FIT
-INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
 - **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
 - **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
 - **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
@@ -180,9 +180,9 @@ INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measureme
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-10
-20:29:57",21-2add-50degMix-15deg-60s-NoN2-1800s,50,15,,,10,False,60,1800,mixing_temp=50; bath_temp=15; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated Membrane Synthesis via NIPS
+20:29:57",21-2add-50degMix-15deg-60s-NoN2-1800s,50,15,,,10,False,60,1800,mixing_temp=50; bath_temp=15; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Overview
 Polysulfone membranes were fabricated using non-solvent-induced phase separation (NIPS) via an automated robotic casting system. The solvent used was PolarClean.
@@ -212,7 +212,7 @@ The cast coupon was immersed in a NIPS bath maintained at **15°C** and allowed 
 MEMBRANE DETECTION: 1/4 replicates detected a membrane.
 FIT DETECTION: 0/1 of detected membranes passed quality checks.
 OUTCOME: PARTIAL_SINGLE_BAD_FIT
-INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.","# Experimental Report: Automated Membrane Synthesis via NIPS
+INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Overview
 Polysulfone membranes were fabricated using non-solvent-induced phase separation (NIPS) via an automated robotic casting system. The solvent used was PolarClean.
@@ -243,7 +243,7 @@ The cast coupon was immersed in a NIPS bath maintained at **15°C** and allowed 
 MEMBRANE DETECTION: 1/4 replicates detected a membrane.
 FIT DETECTION: 0/1 of detected membranes passed quality checks.
 OUTCOME: PARTIAL_SINGLE_BAD_FIT
-INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
 - **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
 - **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
 - **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
@@ -289,9 +289,9 @@ The triangular constraint: at polymer_wt=21.0, additive_wt can range 0–4.0 ✓
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-10
-22:41:21",21-2add-70degMix-5deg-30s-NoN2-1800s,70,5,,,3,False,30,1800,mixing_temp=70; bath_temp=5; pullcast_speed=3; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated NIPS Membrane Synthesis
+22:41:21",21-2add-70degMix-5deg-30s-NoN2-1800s,70,5,,,3,False,30,1800,mixing_temp=70; bath_temp=5; pullcast_speed=3; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 The polymer solution was prepared and mixed at a heating temperature of **70°C**.
@@ -321,7 +321,7 @@ The cast membrane was subsequently immersed into the non-solvent bath, which was
 MEMBRANE DETECTION: 3/4 replicates detected a membrane.
 FIT DETECTION: 0/3 of detected membranes passed quality checks.
 OUTCOME: PARTIAL_COVERAGE_NO_FIT
-INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.","# Experimental Report: Automated NIPS Membrane Synthesis
+INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 The polymer solution was prepared and mixed at a heating temperature of **70°C**.
@@ -352,7 +352,7 @@ The cast membrane was subsequently immersed into the non-solvent bath, which was
 MEMBRANE DETECTION: 3/4 replicates detected a membrane.
 FIT DETECTION: 0/3 of detected membranes passed quality checks.
 OUTCOME: PARTIAL_COVERAGE_NO_FIT
-INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
 - **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
 - **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
 - **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
@@ -400,9 +400,9 @@ INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quali
   ""polymer_wt"": 21.0,
   ""additive_wt"": 4.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-11
-00:03:49",21-4add-75degMix-5deg-120s-N2-1800s,75,5,,,1,True,120,1800,mixing_temp=75; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated NIPS Membrane Synthesis
+00:03:49",21-4add-75degMix-5deg-120s-N2-1800s,75,5,,,1,True,120,1800,mixing_temp=75; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Overview
 Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
@@ -431,7 +431,7 @@ The cast film was subsequently immersed in a NIPS bath maintained at **5°C** fo
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","# Experimental Report: Automated NIPS Membrane Synthesis
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Overview
 Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
@@ -461,7 +461,7 @@ The cast film was subsequently immersed in a NIPS bath maintained at **5°C** fo
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
 - **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
 - **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
 - **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
@@ -505,9 +505,9 @@ The triangular constraint: at `polymer_wt = 21.0`, `additive_wt` can range from 
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-11
-02:16:48",21-2add-60degMix-5deg-120s-N2-1800s,60,5,,,3,True,120,1800,mixing_temp=60; bath_temp=5; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated Membrane Synthesis via NIPS
+02:16:48",21-2add-60degMix-5deg-120s-N2-1800s,60,5,,,3,True,120,1800,mixing_temp=60; bath_temp=5; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Solution Preparation & Casting
 The polymer solution was prepared and mixed at a heating temperature of **60°C**. The solution was blade-cast onto the substrate at a casting speed of **3 mm/s**.
@@ -533,7 +533,7 @@ The cast membrane was subsequently immersed into the non-solvent coagulation bat
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","# Experimental Report: Automated Membrane Synthesis via NIPS
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Solution Preparation & Casting
 The polymer solution was prepared and mixed at a heating temperature of **60°C**. The solution was blade-cast onto the substrate at a casting speed of **3 mm/s**.
@@ -560,7 +560,7 @@ The cast membrane was subsequently immersed into the non-solvent coagulation bat
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
 - **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
 - **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
 - **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
@@ -613,9 +613,9 @@ All 6 prior experiments have failed to produce membranes with acceptable mechani
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-11
-04:26:35",21-2add-60degMix-15deg-60s-N2-1800s,60,15,,,3,True,60,1800,mixing_temp=60; bath_temp=15; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"# Experimental Report: Automated NIPS Membrane Synthesis
+04:26:35",21-2add-60degMix-15deg-60s-N2-1800s,60,15,,,3,True,60,1800,mixing_temp=60; bath_temp=15; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Overview
 Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
@@ -644,7 +644,7 @@ The coupon was subsequently immersed into the NIPS bath, which was maintained at
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","# Experimental Report: Automated NIPS Membrane Synthesis
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Overview
 Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
@@ -674,7 +674,7 @@ The coupon was subsequently immersed into the NIPS bath, which was maintained at
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
 - **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
 - **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
 - **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
@@ -713,9 +713,9 @@ The most glaring issue is that **polymer concentration has not been explicitly s
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-11
-06:44:18",21-2add-80degMix-5deg-60s-N2-1800s,80,5,,,1,True,60,1800,mixing_temp=80; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"Here is a short experimental report based on the provided parameters:
+06:44:18",21-2add-80degMix-5deg-60s-N2-1800s,80,5,,,1,True,60,1800,mixing_temp=80; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"Here is a short experimental report based on the provided parameters:
 
 ---
 
@@ -731,7 +731,7 @@ Let me know if you'd like to add polymer concentration, additive content, or any
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","Here is a short experimental report based on the provided parameters:
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","Here is a short experimental report based on the provided parameters:
 
 ---
 
@@ -748,7 +748,7 @@ Let me know if you'd like to add polymer concentration, additive content, or any
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
 - **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
 - **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
 - **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
@@ -788,9 +788,9 @@ The most critical untested lever is **polymer concentration**. None of the repor
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
 "2026-08-11
-09:26:09",21-2add-70degMix-25deg-60s-N2-1800s,70,25,,,3,True,60,1800,mixing_temp=70; bath_temp=25; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan,"Here is a short experimental report based on the provided parameters:
+09:26:09",21-2add-70degMix-25deg-60s-N2-1800s,70,25,,,3,True,60,1800,mixing_temp=70; bath_temp=25; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"Here is a short experimental report based on the provided parameters:
 
 ---
 
@@ -812,7 +812,7 @@ Let me know if you'd like any modifications to the tone, length, or detail level
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","Here is a short experimental report based on the provided parameters:
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","Here is a short experimental report based on the provided parameters:
 
 ---
 
@@ -835,7 +835,7 @@ Let me know if you'd like any modifications to the tone, length, or detail level
 MEMBRANE DETECTION: 4/4 replicates detected a membrane.
 FIT DETECTION: 0/4 of detected membranes passed quality checks.
 OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
+INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","- **Presence:** Membrane is visible, presenting a pale blue-white cast across the aperture.
 - **Vertical Coverage:** Membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap detected.
 - **Uniformity:** Non-uniform — notable patchiness with a brighter central zone, uneven opacity variation, and irregular lighter/darker regions throughout.
 - **Defects:** Multiple trapped air bubbles visible, particularly concentrated along the perimeter; surface also shows localized raised/bumpy texture consistent with bubble entrapment. No prominent wrinkles observed.
@@ -884,4 +884,4 @@ The triangular constraint: at polymer_wt=21.0, additive_wt can range from 0 to 4
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```"
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent

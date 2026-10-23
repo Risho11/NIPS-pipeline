@@ -1,6 +1,18 @@
 Warm-start history for Polysulfone / PolarClean
 =============================================
 
+Historical bath correction (operator confirmed 2026-10-23): all recorded historical
+NIPS baths contained **0 wt% solvent**. Warm-start exports and historical campaign
+CSV rows now explicitly record `nips_bath_solvent=none` and
+`nips_bath_solvent_wt_percent=0.0`, with a `bath_context_source` provenance column.
+This is separate from the current **10 wt% PolarClean** bath used for future runs.
+The fixed condition list in `historical_zero_bath_conditions.json` limits the
+backfill to confirmed history; future/unlisted conditions do not default to zero,
+and explicit nonzero records are preserved. The exporter reapplies this context
+when rebuilding a warm-start CSV. To restore the same context after regenerating
+historical result CSVs, run `python EVALUATE/backfill_historical_bath_context.py`.
+This does not recompute fits, change measurements, or regenerate LLM suggestions.
+
 `polysulfone_polarclean.csv` contains 66 conditions from the exported notebook
 selection through campaign `2026-08-22-exploration-mode`.
 All 66 have the eight synthesis parameters; 63 have both elastic modulus and

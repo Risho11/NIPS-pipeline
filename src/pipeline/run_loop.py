@@ -56,6 +56,17 @@ COSOLVENT_TYPE = "none"
 NIPS_BATH_SOLVENT = "PolarClean"
 NIPS_BATH_SOLVENT_WT_PERCENT = 10.0
 
+
+def _current_material_context():
+    """Operator settings for the next experiment, never defaults for historical rows."""
+    return {
+        "polymer_type": POLYMER_TYPE,
+        "solvent_type": SOLVENT_TYPE,
+        "cosolvent_type": COSOLVENT_TYPE,
+        "nips_bath_solvent": NIPS_BATH_SOLVENT,
+        "nips_bath_solvent_wt_percent": NIPS_BATH_SOLVENT_WT_PERCENT,
+    }
+
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {
     "mixing_temp": 25,
@@ -547,7 +558,7 @@ def _new_campaign_params():
             LLM_AL_WARM_START_CSV, activeLearning,
             locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
             al_search_mode=LLM_AL_SEARCH_MODE,
-            material_context={"polymer_type": POLYMER_TYPE, "solvent_type": SOLVENT_TYPE},
+            material_context=_current_material_context(),
             exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
         )
         params = _extract_next_params(suggestion)
@@ -617,7 +628,7 @@ def _load_resume_params_for_campaign(campaign_date):
             locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
             al_search_mode=LLM_AL_SEARCH_MODE,
             warm_start_csv=LLM_AL_WARM_START_CSV,
-            material_context={"polymer_type": POLYMER_TYPE, "solvent_type": SOLVENT_TYPE},
+            material_context=_current_material_context(),
             exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
         )
         recovered_params = _extract_next_params(params_suggestion)
@@ -769,7 +780,7 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
                 locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
                 al_search_mode=LLM_AL_SEARCH_MODE,
                 warm_start_csv=LLM_AL_WARM_START_CSV,
-                material_context={"polymer_type": POLYMER_TYPE, "solvent_type": SOLVENT_TYPE},
+                material_context=_current_material_context(),
                 exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
             )
 
