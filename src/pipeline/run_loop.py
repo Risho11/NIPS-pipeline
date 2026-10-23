@@ -53,8 +53,8 @@ import llm_context                             # <<< IMPORT >>> what branch resu
 POLYMER_TYPE = "Polysulfone"  # Set before starting the campaign.
 SOLVENT_TYPE = "PolarClean"  # Base casting solvent identity.
 COSOLVENT_TYPE = "none"
-NIPS_BATH_SOLVENT = "none"
-NIPS_BATH_SOLVENT_WT_PERCENT = 0.0
+NIPS_BATH_SOLVENT = "PolarClean"
+NIPS_BATH_SOLVENT_WT_PERCENT = 10.0
 
 # ── edit these before going to the lab ────────────────────────────────────────
 INITIAL_PARAMS = {

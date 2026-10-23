@@ -17,9 +17,10 @@ robot process or repair Ethernet/DNS failures.
 `GET http://169.254.46.48:8000/health` is read-only: it does not move hardware or
 change experiment state. It identifies the server and its persistent request journal.
 It confirms the HTTP service is available, not that every hardware device is healthy.
-Windows checks it before submission, with up to three attempts (60-second network
-timeouts and 30-second waits between attempts, approximately four minutes if all
-three connection attempts time out). Old servers without this endpoint are rejected;
+Windows checks it before submission, with up to five attempts (60-second network
+timeouts and 375-second waits between attempts, approximately 30 minutes if all
+five connection attempts time out). Immediate connection failures finish sooner;
+success proceeds immediately. Old servers without this endpoint are rejected;
 there is no fallback to unprotected POSTs.
 
 ## Submission and duplicate protection

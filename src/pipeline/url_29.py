@@ -8,12 +8,13 @@ import uuid
 
 BASE_URL = "http://169.254.46.48:8000"
 ATTEMPTS = 3
+HEALTH_ATTEMPTS = 5
 HEALTH_TIMEOUT = 60
-HEALTH_RETRY_WAIT = 30
+HEALTH_RETRY_WAIT = 375  # 5 * 60 + 4 * 375 = 1800 seconds (30 minutes).
 NETWORK_ERRORS = (urllib.error.URLError, OSError, http.client.HTTPException)
 
 
-def check_health(timeout=HEALTH_TIMEOUT, attempts=ATTEMPTS, expected_journal=None):
+def check_health(timeout=HEALTH_TIMEOUT, attempts=HEALTH_ATTEMPTS, expected_journal=None):
     """Read-only preflight. No robot action is sent by this function."""
     destination = f"{BASE_URL}/health"
     for attempt in range(1, attempts + 1):

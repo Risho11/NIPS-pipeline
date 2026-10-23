@@ -154,10 +154,12 @@ class RobotTests(unittest.TestCase):
 
 class ClientTests(unittest.TestCase):
     def test_preflight_exhaustion_never_posts(self):
-        with patch.object(client.urllib.request, 'urlopen', side_effect=urllib.error.URLError(socket.gaierror('DNS'))) as send, patch.object(client.time, 'sleep'):
+        with patch.object(client.urllib.request, 'urlopen', side_effect=urllib.error.URLError(socket.gaierror('DNS'))) as send, patch.object(client.time, 'sleep') as wait:
             with self.assertRaisesRegex(RuntimeError, 'no POST sent'):
                 client.run_test({})
-        self.assertEqual(send.call_count, 3)
+        self.assertEqual(send.call_count, 5)
+        self.assertEqual([call.kwargs['timeout'] for call in send.call_args_list], [60] * 5)
+        self.assertEqual([call.args[0] for call in wait.call_args_list], [375] * 4)
         self.assertTrue(all(isinstance(c.args[0], str) and c.args[0].endswith('/health') for c in send.call_args_list))
 
     def test_ambiguous_retries_reuse_id_and_are_bounded(self):
