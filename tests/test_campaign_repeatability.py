@@ -15,6 +15,7 @@ def samples(exposures):
         'sample_time': pd.date_range('2026-09-21', periods=n, freq='h'),
         'condition': [f'sample_{i}' for i in range(n)],
         'polymer_wt': [17.] * n, 'nitrogen': [True] * n,
+        'nips_bath_solvent_wt_percent': [0.] * n,
         'coupon_to_bath_wait_time': exposures, 'bath_temp': [22.] * n,
         'mixing_temp': [25.] * n, 'nips_bath_wait_time': [1200.] * n,
         'pullcast_speed': [19.] * n, 'Humidity Mean': [40.] * n,
@@ -58,6 +59,23 @@ class RepeatabilityTests(unittest.TestCase):
         rows, pairs = match_conditions(data)
         self.assertEqual(len(pairs), 1)
         self.assertEqual(rows['repeat_group'].notna().sum(), 2)
+
+    def test_bath_concentration_must_match_exactly(self):
+        data = samples([0, 0, 0, 0, 0, 0])
+        data['nips_bath_solvent_wt_percent'] = [0., '0', 10., 10., np.nan, np.inf]
+        rows, pairs = match_conditions(data)
+        self.assertEqual(len(pairs), 2)
+        self.assertEqual((rows['match_status'] == 'Missing matching inputs').sum(), 2)
+        for _, members in rows.dropna(subset=['repeat_group']).groupby('repeat_group'):
+            self.assertEqual(pd.to_numeric(members['nips_bath_solvent_wt_percent']).nunique(), 1)
+        from campaign_repeatability import group_conditions
+        self.assertEqual(set(group_conditions(rows)['nips_bath_solvent_wt_percent']), {0., 10.})
+
+    def test_absent_bath_concentration_is_not_assumed_zero(self):
+        data = samples([0, 0]).drop(columns='nips_bath_solvent_wt_percent')
+        rows, pairs = match_conditions(data)
+        self.assertTrue(pairs.empty)
+        self.assertTrue((rows['match_status'] == 'Missing matching inputs').all())
 
     def test_summary_uses_between_sample_sd(self):
         data = samples([0, 0])

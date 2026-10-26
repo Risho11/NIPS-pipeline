@@ -30,7 +30,8 @@ def nitrogen_state(value):
 def match_conditions(data, tolerances=None):
     """Return annotated rows and all qualifying pairs, without using responses.
 
-    Polymer concentration and nitrogen state must match exactly. Complete linkage
+    Polymer concentration, nitrogen state, and NIPS bath solvent concentration
+    must match exactly. Complete linkage
     limits the entire span of each other variable to its tolerance, preventing
     chains of near neighbors from producing groups with dissimilar endpoints.
     Groups form a deterministic, disjoint partition; qualifying pairs across
@@ -44,7 +45,8 @@ def match_conditions(data, tolerances=None):
     rows = data.sort_values(['sample_time', 'condition']).reset_index(drop=True).copy()
     if 'iteration' not in rows:
         rows['iteration'] = np.arange(1, len(rows) + 1)
-    inputs = rows[['polymer_wt'] + list(tolerances)].apply(pd.to_numeric, errors='coerce')
+    inputs = rows.reindex(columns=['polymer_wt', 'nips_bath_solvent_wt_percent'] + list(tolerances)).apply(
+        pd.to_numeric, errors='coerce')
     inputs['nitrogen_state'] = rows['nitrogen'].map(nitrogen_state)
     valid = np.isfinite(inputs.to_numpy(dtype=float)).all(axis=1)
     rows['repeat_group'] = pd.Series(pd.NA, index=rows.index, dtype='object')
@@ -53,7 +55,7 @@ def match_conditions(data, tolerances=None):
     values = inputs.loc[valid].reset_index(drop=True)
     count = len(values)
     distances = np.zeros((count, count))
-    for column in ['polymer_wt', 'nitrogen_state'] + list(tolerances):
+    for column in ['polymer_wt', 'nitrogen_state', 'nips_bath_solvent_wt_percent'] + list(tolerances):
         v = values[column].to_numpy(dtype=float)
         delta = np.abs(v[:, None] - v[None, :])
         tolerance = tolerances.get(column, 0)
@@ -105,6 +107,8 @@ def group_conditions(rows, tolerances=None):
         record = {'group': group, 'n': len(members),
                   'iterations': ', '.join(str(int(i)) for i in members['iteration']),
                   'polymer_wt': members['polymer_wt'].iloc[0],
+                  'nips_bath_solvent_wt_percent': pd.to_numeric(
+                      members['nips_bath_solvent_wt_percent'], errors='coerce').iloc[0],
                   'nitrogen': 'On' if nitrogen_state(members['nitrogen'].iloc[0]) else 'Off'}
         for col in tolerances:
             values = pd.to_numeric(members[col], errors='coerce')
@@ -144,7 +148,11 @@ def plot_repeatability(rows, properties=RESPONSES):
             if stats['n']:
                 ax.axhline(stats['mean'], color='0.35', ls='--', lw=1)
             cv = f"{stats['CV_percent']:.1f}%" if pd.notna(stats['CV_percent']) else 'NA'
-            ax.set_title(f"{group} | {prop}\nn={int(stats['n'])}; between-sample CV={cv}")
+            concentration = pd.to_numeric(
+                members['nips_bath_solvent_wt_percent'], errors='coerce').iloc[0]
+            ax.set_title(f"{group} | {prop}\n"
+                         f"n={int(stats['n'])}; between-sample CV={cv}\n"
+                         f"Bath solvent {concentration:g} wt%")
             ax.set_xticks(positions)
             ax.set_xticklabels([f'I{int(i)}' for i in members['iteration']], rotation=45, ha='right')
             ax.set_ylabel('' if prop == 'Pore Fraction' else 'bar')
@@ -197,6 +205,7 @@ def plot_repeatability_boxes(rows, properties=RESPONSES, seed=42):
             f"{group} (n={len(members)})  |  Polymer {span('polymer_wt')} wt%  |  N2 {nitrogen}\n"
             f"Stock age {span('polymer_solution_age_days')} d  |  Exposure {span('coupon_to_bath_wait_time')} s  |  "
             f"Bath {span('bath_temp')} \N{DEGREE SIGN}C\n"
+            f"Bath solvent {span('nips_bath_solvent_wt_percent')} wt%  |  "
             f"Casting {span('pullcast_speed')} mm/s  |  RH {span('Humidity Mean')}%"
         )
         # Use the same offsets in each response panel to help follow observations.
