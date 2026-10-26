@@ -27,6 +27,7 @@ import datetime
 import json
 import re
 import shutil
+import filecmp
 from pathlib import Path
 
 import pandas as pd
@@ -161,7 +162,7 @@ def copy_asset(path: Path, assets_dir: Path, cond_safe: str, used_assets: set = 
     size and made every commit carry a full new multi-MB blob. Plain files sit outside git
     history (or diff cleanly) and load faster in the browser besides.
 
-    Only copies when the dest is missing/stale (mtime-gated) -- generate() no longer wipes
+    Only copies when the dest is missing or its content differs -- generate() no longer wipes
     assets_dir up front, so an unchanged source file keeps its dest's original mtime. That's
     what lets `git add` skip rehashing it via git's stat cache instead of touching all ~2000
     asset files (and their full content) on every regen.
@@ -169,7 +170,7 @@ def copy_asset(path: Path, assets_dir: Path, cond_safe: str, used_assets: set = 
     dest_dir = assets_dir / cond_safe
     dest_dir.mkdir(parents=True, exist_ok=True)
     dest = dest_dir / path.name
-    if not dest.exists() or dest.stat().st_mtime < path.stat().st_mtime:
+    if not dest.exists() or not filecmp.cmp(path, dest, shallow=False):
         shutil.copy2(path, dest)
     if used_assets is not None:
         used_assets.add(dest.resolve())
@@ -180,11 +181,9 @@ _RUN_SUFFIX_RE = re.compile(r"^_run(\d+)$")
 
 
 def _best_condition_dir(parent_dir: Path, condition_name: str):
-    """Find condition_name (or condition_name_run2, _run3, ...) under parent_dir and return
-    the highest-numbered one -- curve_segmentation.process_zero_sample_pairs_pipeline never
-    overwrites a same-day plot folder, it bumps to _run2/_run3/... on every rerun instead, so
-    the plain condition_name folder can be a stale run from earlier the same day while the
-    freshest plots sit in a _runN sibling. condition_name itself counts as run 1.
+    """Match exact experiment identity; suffixed reprocessing needs provenance.
+
+    Legacy _runN folders may be separate experiments, so never infer their source.
     """
     best, best_n = None, -1
     if not parent_dir.is_dir():
@@ -192,9 +191,20 @@ def _best_condition_dir(parent_dir: Path, condition_name: str):
     for child in parent_dir.iterdir():
         if not child.is_dir():
             continue
+        provenance = child / "plot_source.json"
+        source_condition = None
+        if provenance.exists():
+            try:
+                source_condition = json.loads(provenance.read_text(encoding="utf-8"))["condition_name"]
+            except (ValueError, KeyError, OSError, TypeError):
+                continue
+            if source_condition != condition_name:
+                continue
         if child.name == condition_name:
             n = 1
         elif child.name.startswith(condition_name + "_run"):
+            if source_condition != condition_name:
+                continue
             m = _RUN_SUFFIX_RE.match(child.name[len(condition_name):])
             if not m:
                 continue
@@ -212,7 +222,7 @@ def find_plots(condition_name: str):
     comp_paths includes raw_average_curves.png if present.
     avg_fit_paths contains average_fit_*.png from averageFits/.
     Priority: real run-* dirs first, then pseudo-runs/test-* dirs.
-    Within each day-folder, the most recently-rerun _runN variant wins over the plain folder.
+    Suffixed reprocessing folders are eligible only with matching source metadata.
     Prefers Segmentation images; falls back to Pre-Processing.
     """
     candidates = []
@@ -1190,7 +1200,7 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
 </html>"""
 
     out.write_text(html, encoding="utf-8")
-    print(f"[fit log] Written → {out}  ({len(cond_order)} conditions)")
+    print(f"[fit log] Written: {out}  ({len(cond_order)} conditions)")
 
 
 if __name__ == "__main__":

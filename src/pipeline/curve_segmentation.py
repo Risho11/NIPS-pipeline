@@ -1940,6 +1940,13 @@ def process_zero_sample_pairs_pipeline(
             else:
                 condition_save_dir = _cond_base
 
+        # _runN can mean a distinct experiment OR a processing rerun. Record the
+        # actual source identity so report generation never guesses from the name.
+        condition_save_dir.mkdir(parents=True, exist_ok=True)
+        (condition_save_dir / "plot_source.json").write_text(
+            json.dumps({"condition_name": condition_name}), encoding="utf-8"
+        )
+
         print("=" * 110)
         print("Condition: {} | pairs: {}".format(condition_name, payload["num_pairs"]))
 
