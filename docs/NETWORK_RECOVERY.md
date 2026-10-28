@@ -62,6 +62,16 @@ server accepted them. No existing checkpoint is migrated or cleared automaticall
 
 ## Quality reports
 
+Experimental text reports and active-learning recommendations use a separate
+five-attempt connection retry policy: 60-second SDK network timeouts and 375-second
+waits between attempts (about 30 minutes if all five time out; immediate DNS errors
+finish sooner). Only the failing API call repeats, with the same model and prompt;
+curve processing and robot submission are not part of this retry loop. SDK retries
+are disabled for these calls. Authentication and other HTTP errors fail immediately.
+Connection retries can repeat provider work/charges after an ambiguous timeout.
+Restart the Windows pipeline to load this policy. Test it without API calls using
+`python tests/test_llm_retry.py`.
+
 OpenRouter quality-report connection/timeouts get three attempts with 1- and
 2-second backoffs and a 60-second SDK network timeout. SDK built-in retries are
 disabled to prevent multiplying attempts. Authentication, validation, and other

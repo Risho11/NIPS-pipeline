@@ -16,6 +16,7 @@ from pathlib import Path
 
 import polymer_additive_bounds as bounds
 import system_prompt
+from llm_retry import create_chat_completion
 
 # ignore warnings
 import warnings
@@ -56,7 +57,7 @@ params = {
 
 def Generate_report(Formatted_Parameters, Model = "anthropic/claude-sonnet-4.6", Temperature = 0.0, sleep = 0.5):
     param_descriptions = " ".join(f'"{k}" means {v}.' for k, v in params.items())
-    response = client.chat.completions.create(
+    response = create_chat_completion(client, stage="experimental-report",
       model= Model,
       messages=[{"role": "system", "content":
                  system_prompt.EXPERIMENTAL_REPORT_PROMPT.format(param_descriptions=param_descriptions)},
@@ -221,7 +222,7 @@ def _llm_al(prompt_template, performance_observations, ranges, quality_observati
                 })
 
     strategy = build_search_strategy_instructions(search_mode, diversity_context=diversity_context)
-    response = client.chat.completions.create(
+    response = create_chat_completion(client, stage="next-experiment-recommendation",
         model=Model,
         messages=[
             {"role": "system", "content":

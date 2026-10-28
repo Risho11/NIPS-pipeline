@@ -7486,3 +7486,1162 @@ A good exploration target: **polymer_wt = 15.0, bath_temp = 8°C, pullcast_speed
 ```
 
 **Expected benefit:** This condition is in an under-sampled region of the 10 wt% PolarClean bath space. The 0 wt% bath analog (15 wt% polymer, 8°C, ~200s wait, speed ~6–7) produced modulus 190–284 bar and pore fraction 0.45–0.60. Under the 10 wt% bath, the reduced phase-separation driving force may preserve or increase pore fraction while modulus may be moderate. The slower pullcast speed (5 vs. 6–8 used previously) reduces wrinkling risk. This experiment will clarify whether the 10 wt% bath can achieve a Pareto improvement over the single existing 10 wt% data point (124 bar / 0.55) by moving toward higher modulus at similar or better pore fraction.",
+"2026-10-26
+18:05:40",15-0add-8deg-cosolv-none-bathSolv-PolarClean-10wt-200s-N2-1600s,40,8,15.0,0.0,5.0,True,200,1600,Polysulfone,PolarClean,none,PolarClean,10.0,"mixing_temp=40; bath_temp=8; polymer_wt=15.0; additive_wt=0; pullcast_speed=5; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.77 [room air temperature during casting]; Humidity Mean=22.39 [room air humidity during casting]; Coupon Temp Mean=26.62 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=17.54 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Polysulfone Membrane Synthesis via NIPS
+
+## Overview
+
+A polysulfone flat-sheet membrane was fabricated using non-solvent-induced phase separation (NIPS) with an automated robotic casting system. The following describes the solution preparation, casting procedure, and phase separation conditions employed.
+
+---
+
+## Polymer Solution Preparation
+
+A casting solution was prepared at a polysulfone concentration of **15.0 wt%** dissolved in **PolarClean** as the base solvent, with **no cosolvent or additive** included (additive wt% = 0). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+---
+
+## Casting Procedure
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **5 mm/s**. Following casting, the film was subjected to a **dry nitrogen (N₂) purge** for a pre-immersion wait period of **200 seconds** before immersion into the coagulation bath. The nitrogen blow was applied in a laminar fashion to minimize ambient humidity exposure at the film surface during this interval.
+
+### Ambient & Coupon-Stage Conditions During Casting
+
+| Parameter | Value |
+|---|---|
+| Room Air Temperature | 26.77 °C |
+| Room Relative Humidity | 22.39% |
+| Coupon-Stage Temperature (during N₂ blow) | 26.62 °C |
+| Coupon-Stage Humidity (during N₂ blow) | 17.54% |
+
+The reduced coupon-stage humidity (17.54%) relative to ambient (22.39%) confirms effective moisture displacement at the film surface during the nitrogen purge window.
+
+---
+
+## Phase Separation (NIPS Bath)
+
+After the pre-immersion wait period, the cast film was immersed into the coagulation bath, which consisted of a **PolarClean/water mixture at 10.0 wt% PolarClean**, maintained at a controlled temperature of **8 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1600 seconds** before retrieval.
+
+---
+
+## Summary of Key Parameters
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Base Solvent | PolarClean |
+| Cosolvent | None |
+| Polymer Concentration | 15.0 wt% |
+| Additive Concentration | 0 wt% |
+| Mixing Temperature | 40 °C |
+| Casting Speed | 5 mm/s |
+| Pre-Immersion Wait Time | 200 s |
+| Pre-Immersion Atmosphere | Dry N₂ purge |
+| NIPS Bath Composition | 10.0 wt% PolarClean in water |
+| NIPS Bath Temperature | 8 °C |
+| NIPS Bath Immersion Time | 1600 s |",26.77,22.39,26.62,17.54,143.1307068236328,6.038124125967923,129.3390946704227,26.97826033884295,16.33179554168037,1.847182818236133,0.4850876601012924,0.0327300142176082,43.06989469345642,19.0413324779534,1009.4489287139452,31.12013787405479,0.0380135340137017,0.0019123472030284,0.4767739232330061,0.0339894712955261,0.532765197365726,0.036407897852454,0.59689960562464,0.0443280918988526,,,0.0946687089288734,,,"mixing_temp=40; bath_temp=8; polymer_wt=15.0; additive_wt=0; pullcast_speed=5; nitrogen=True; coupon_to_bath_wait_time=200; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.77 [room air temperature during casting]; Humidity Mean=22.39 [room air humidity during casting]; Coupon Temp Mean=26.62 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=17.54 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.77, ""Humidity Mean"": 22.39, ""Coupon Temp Mean"": 26.62, ""Coupon Humidity Mean"": 17.54, ""Thickness Mean"": 143.1307068236328, ""Thickness SD"": 6.038124125967923, ""Elastic Modulus Mean"": 129.3390946704227, ""Elastic Modulus SD"": 26.97826033884295, ""Yield Strength Mean"": 16.33179554168037, ""Yield Strength SD"": 1.847182818236133, ""Pore Fraction Mean"": 0.48508766010129245, ""Pore Fraction SD"": 0.03273001421760822, ""Slope Plateau Mean"": 43.06989469345642, ""Slope Plateau SD"": 19.041332477953397, ""Slope Densification Mean"": 1009.4489287139452, ""Slope Densification SD"": 31.12013787405479, ""Creep Strain Mean"": 0.03801353401370172, ""Creep Strain SD"": 0.001912347203028441, ""Strain at 50 bar Mean"": 0.47677392323300616, ""Strain at 50 bar SD"": 0.03398947129552616, ""Strain at 80 bar Mean"": 0.532765197365726, ""Strain at 80 bar SD"": 0.036407897852454026, ""Strain at 150 bar Mean"": 0.59689960562464, ""Strain at 150 bar SD"": 0.044328091898852694, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.09466870892887343}","# Experimental Report: Polysulfone Membrane Synthesis via NIPS
+
+## Overview
+
+A polysulfone flat-sheet membrane was fabricated using non-solvent-induced phase separation (NIPS) with an automated robotic casting system. The following describes the solution preparation, casting procedure, and phase separation conditions employed.
+
+---
+
+## Polymer Solution Preparation
+
+A casting solution was prepared at a polysulfone concentration of **15.0 wt%** dissolved in **PolarClean** as the base solvent, with **no cosolvent or additive** included (additive wt% = 0). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+---
+
+## Casting Procedure
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **5 mm/s**. Following casting, the film was subjected to a **dry nitrogen (N₂) purge** for a pre-immersion wait period of **200 seconds** before immersion into the coagulation bath. The nitrogen blow was applied in a laminar fashion to minimize ambient humidity exposure at the film surface during this interval.
+
+### Ambient & Coupon-Stage Conditions During Casting
+
+| Parameter | Value |
+|---|---|
+| Room Air Temperature | 26.77 °C |
+| Room Relative Humidity | 22.39% |
+| Coupon-Stage Temperature (during N₂ blow) | 26.62 °C |
+| Coupon-Stage Humidity (during N₂ blow) | 17.54% |
+
+The reduced coupon-stage humidity (17.54%) relative to ambient (22.39%) confirms effective moisture displacement at the film surface during the nitrogen purge window.
+
+---
+
+## Phase Separation (NIPS Bath)
+
+After the pre-immersion wait period, the cast film was immersed into the coagulation bath, which consisted of a **PolarClean/water mixture at 10.0 wt% PolarClean**, maintained at a controlled temperature of **8 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1600 seconds** before retrieval.
+
+---
+
+## Summary of Key Parameters
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Base Solvent | PolarClean |
+| Cosolvent | None |
+| Polymer Concentration | 15.0 wt% |
+| Additive Concentration | 0 wt% |
+| Mixing Temperature | 40 °C |
+| Casting Speed | 5 mm/s |
+| Pre-Immersion Wait Time | 200 s |
+| Pre-Immersion Atmosphere | Dry N₂ purge |
+| NIPS Bath Composition | 10.0 wt% PolarClean in water |
+| NIPS Bath Temperature | 8 °C |
+| NIPS Bath Immersion Time | 1600 s |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.77, ""Humidity Mean"": 22.39, ""Coupon Temp Mean"": 26.62, ""Coupon Humidity Mean"": 17.54, ""Thickness Mean"": 143.1307068236328, ""Thickness SD"": 6.038124125967923, ""Elastic Modulus Mean"": 129.3390946704227, ""Elastic Modulus SD"": 26.97826033884295, ""Yield Strength Mean"": 16.33179554168037, ""Yield Strength SD"": 1.847182818236133, ""Pore Fraction Mean"": 0.48508766010129245, ""Pore Fraction SD"": 0.03273001421760822, ""Slope Plateau Mean"": 43.06989469345642, ""Slope Plateau SD"": 19.041332477953397, ""Slope Densification Mean"": 1009.4489287139452, ""Slope Densification SD"": 31.12013787405479, ""Creep Strain Mean"": 0.03801353401370172, ""Creep Strain SD"": 0.001912347203028441, ""Strain at 50 bar Mean"": 0.47677392323300616, ""Strain at 50 bar SD"": 0.03398947129552616, ""Strain at 80 bar Mean"": 0.532765197365726, ""Strain at 80 bar SD"": 0.036407897852454026, ""Strain at 150 bar Mean"": 0.59689960562464, ""Strain at 150 bar SD"": 0.044328091898852694, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.09466870892887343}","- **Presence:** Membrane is visible — a white/opaque sheet occupies most of the aperture.
+
+- **Vertical Coverage:** The membrane appears to reach both the top and bottom edges of the aperture with no clear vertical gap; top and bottom coverage looks adequate.
+
+- **Uniformity:** The membrane body is largely uniform in color and opacity, with no obvious dark spots or patchiness across the white area.
+
+- **Defects:** A distinct curved crease/fold line is visible within the membrane material itself, running roughly vertically through the right-center portion — this is a genuine wrinkle in the membrane sheet, not a lighting artifact.
+
+- **Summary:** Membrane is present with adequate vertical coverage but exhibits a notable wrinkle/fold within the membrane material that represents a fabrication defect.",2026-10-26 15:46:18,specimen_filename,"## Analysis
+
+### Pareto Front Assessment (current bath: 10 wt% PolarClean)
+
+The current campaign has introduced the 10 wt% PolarClean bath. The only directly comparable experiment in this bath context is:
+
+**15-0add-9deg-bathSolv-PolarClean-10wt-250s-N2-1600s** (polymer_wt=15.0, bath=9°C, speed=6, wait=250s):
+- Elastic Modulus: **124.3 bar** (SD=38.3), Pore Fraction: **0.55** (SD=0.03) — clean membrane, good quality
+
+**14p5-0add-10deg-bathSolv-PolarClean-10wt-200s-N2-1500s** (polymer_wt=14.5, bath=10°C, speed=7, wait=200s):
+- Elastic Modulus: **132.7 bar** (SD=16.3), Pore Fraction: **0.62** (SD=0.05) — clean membrane
+
+**14p5-0add-10deg-bathSolv-PolarClean-10wt-200s-N2-1500s_run2** (same params):
+- Elastic Modulus: **105.5 bar** (SD=7.2), Pore Fraction: **0.66** (SD=0.10) — clean membrane
+
+**15p5-0add-9deg-bathSolv-PolarClean-10wt-250s-N2-1600s_run2** (polymer_wt=15.5, bath=9°C, speed=7, wait=250s):
+- Elastic Modulus: **110.7 bar** (SD=11.7), Pore Fraction: **0.59** (SD=0.06) — clean membrane
+
+The 10 wt% PolarClean bath clearly reduces modulus compared to 0 wt% bath experiments at similar polymer concentrations (which showed 180–300+ bar). Pore fractions in the 10 wt% bath are moderate (0.55–0.66), not dramatically higher than 0 wt% bath results.
+
+### Key observations from 0 wt% bath (for comparison):
+- **14-0add-8deg (run2/3/4)**: polymer=14, bath=8°C → modulus ~170–246 bar, pore fraction 0.57–0.71 — notably high pore fractions
+- **15-0add-9deg (runs 1–10)**: polymer=15, bath=9°C → modulus ~200–315 bar, pore fraction 0.50–0.85 — very high pore fractions in some runs, but high CV and variability
+- **14p8-0add-17deg (runs 2–4)**: polymer=14.8, bath=17°C → modulus ~217–288 bar, pore fraction 0.44–0.82 — run2 showed pore fraction 0.82 with modulus 217 bar (clean membrane)
+
+### What's undersampled in the 10 wt% bath?
+The 10 wt% bath experiments have clustered around:
+- polymer_wt: 14.5–15.5
+- bath_temp: 8–10°C
+- mixing_temp: 40–45°C
+- pullcast_speed: 5–8 mm/s
+- wait_time: 200–300s
+
+**Undersampled regions in 10 wt% bath:**
+- Higher polymer concentration (16–17 wt%) — in 0 wt% bath, higher polymer gave higher modulus
+- Lower bath temperature (5–7°C) — in 0 wt% bath, cold bath + high polymer gave high modulus
+- Longer wait times (400–500s) — could affect skin formation and pore structure
+
+### Strategy
+The 10 wt% PolarClean bath is the current context. The most informative next experiment would explore **higher polymer concentration** (e.g., 16 wt%) with the 10 wt% bath, which is undersampled. In the 0 wt% bath, polymer_wt=16–17 with moderate bath temps gave modulus 200–350 bar with pore fractions 0.50–0.65. With the 10 wt% bath slowing phase separation, a higher polymer concentration might recover modulus while maintaining reasonable pore fraction.
+
+The 16 wt% + 10 wt% bath combination has only one data point (16-0add-9deg, modulus=177 bar, pore fraction=0.52, but top-gap defect). That's a single noisy point with a coverage defect. Trying **polymer_wt=16.0** with a slightly different parameter set (lower bath temp, moderate wait, moderate speed) would be informative and diversifying.
+
+Alternatively, **polymer_wt=14.5 or 15.0 with bath_temp=5–6°C** in the 10 wt% bath is completely unsampled and could yield higher modulus (cold bath drives faster phase separation even with solvent in bath).
+
+I'll choose **polymer_wt=15.5, bath_temp=6°C, mixing_temp=40°C, pullcast_speed=6, wait=250s, N2=true, nips_bath_wait=1600s** — this is a modest step from the existing 15.5/9°C cluster toward colder bath temperature, which is unsampled in the 10 wt% bath context and physically expected to increase modulus (faster phase separation kinetics) while the 10 wt% bath may preserve pore fraction relative to pure water. This diversifies bath_temp coverage in the 10 wt% bath regime.
+
+**Expected benefit:** Colder bath (6°C vs 9°C) with 10 wt% PolarClean bath should increase phase separation driving force, potentially raising elastic modulus toward 200+ bar while the partial solvent in bath may moderate densification and preserve pore fraction ≥0.55. This fills a gap in the bath_temp dimension for the 10 wt% bath context.
+
+```json
+{
+  ""mixing_temp"": 40,
+  ""bath_temp"": 6,
+  ""pullcast_speed"": 6,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 250,
+  ""nips_bath_wait_time"": 1600,
+  ""polymer_wt"": 15.5,
+  ""additive_wt"": 0
+}
+```",
+"2026-10-27
+15:20:52",15p5-0add-6deg-cosolv-none-bathSolv-PolarClean-10wt-250s-N2-1600s,40,6,15.5,0.0,6.0,True,250,1600,Polysulfone,PolarClean,none,PolarClean,10.0,"mixing_temp=40; bath_temp=6; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.74 [room air temperature during casting]; Humidity Mean=22.08 [room air humidity during casting]; Coupon Temp Mean=26.67 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=6.28 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Polysulfone Membrane Fabrication via NIPS
+
+## Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a polymer concentration of **15.5 wt%** dissolved in **PolarClean** as the base solvent, with **no cosolvent or additive** included (additive wt% = 0.0). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **6 mm/s**. The ambient laboratory conditions during casting were recorded at a mean air temperature of **26.74 °C** and a mean relative humidity of **22.08%**.
+
+## Pre-Immersion Drying Step
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a duration of **250 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the pre-immersion period. Under these conditions, the coupon-stage temperature was measured at a mean of **26.67 °C** and the coupon-stage relative humidity was reduced to a mean of **6.28%**, confirming effective humidity suppression at the film surface.
+
+## Phase Inversion (NIPS) Bath
+
+After the 250-second nitrogen purge, the cast film was immersed into the **NIPS bath**, which consisted of a **10.0 wt% PolarClean in water** solution maintained at **6 °C**. The membrane was allowed to undergo phase separation in the bath for **1600 seconds** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Solvent | PolarClean |
+| Cosolvent | None |
+| Polymer concentration | 15.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 40 °C |
+| Casting speed | 6 mm/s |
+| Pre-immersion treatment | Dry N₂ purge |
+| Pre-immersion wait time | 250 s |
+| Coupon-stage temp (during N₂) | 26.67 °C |
+| Coupon-stage humidity (during N₂) | 6.28% RH |
+| Ambient air temperature | 26.74 °C |
+| Ambient humidity | 22.08% RH |
+| NIPS bath composition | 10.0 wt% PolarClean in water |
+| NIPS bath temperature | 6 °C |
+| NIPS bath immersion time | 1600 s |",26.74,22.08,26.67,6.28,135.09002821416098,1.0041669967722502,159.02550598856232,14.921197737971264,24.554678323959784,0.9333670949280788,0.6089090031382316,0.0646081989133942,83.53609984640539,1.0581619544859806,731.3312613010098,167.1542888608554,0.0594876239277849,0.0140333672296957,0.4770112892202097,0.0632555389123027,0.6221228646383179,0.0605701173183392,0.6883799586721135,0.0514555794459966,,,0.1493073482991835,,,"mixing_temp=40; bath_temp=6; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.74 [room air temperature during casting]; Humidity Mean=22.08 [room air humidity during casting]; Coupon Temp Mean=26.67 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=6.28 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.74, ""Humidity Mean"": 22.08, ""Coupon Temp Mean"": 26.67, ""Coupon Humidity Mean"": 6.28, ""Thickness Mean"": 135.09002821416098, ""Thickness SD"": 1.0041669967722502, ""Elastic Modulus Mean"": 159.02550598856232, ""Elastic Modulus SD"": 14.921197737971264, ""Yield Strength Mean"": 24.554678323959784, ""Yield Strength SD"": 0.9333670949280787, ""Pore Fraction Mean"": 0.6089090031382316, ""Pore Fraction SD"": 0.06460819891339425, ""Slope Plateau Mean"": 83.53609984640539, ""Slope Plateau SD"": 1.0581619544859806, ""Slope Densification Mean"": 731.3312613010098, ""Slope Densification SD"": 167.1542888608554, ""Creep Strain Mean"": 0.05948762392778495, ""Creep Strain SD"": 0.014033367229695799, ""Strain at 50 bar Mean"": 0.4770112892202097, ""Strain at 50 bar SD"": 0.06325553891230272, ""Strain at 80 bar Mean"": 0.6221228646383179, ""Strain at 80 bar SD"": 0.06057011731833923, ""Strain at 150 bar Mean"": 0.6883799586721135, ""Strain at 150 bar SD"": 0.051455579445996685, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.14930734829918352}","# Experimental Report: Polysulfone Membrane Fabrication via NIPS
+
+## Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a polymer concentration of **15.5 wt%** dissolved in **PolarClean** as the base solvent, with **no cosolvent or additive** included (additive wt% = 0.0). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **6 mm/s**. The ambient laboratory conditions during casting were recorded at a mean air temperature of **26.74 °C** and a mean relative humidity of **22.08%**.
+
+## Pre-Immersion Drying Step
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a duration of **250 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the pre-immersion period. Under these conditions, the coupon-stage temperature was measured at a mean of **26.67 °C** and the coupon-stage relative humidity was reduced to a mean of **6.28%**, confirming effective humidity suppression at the film surface.
+
+## Phase Inversion (NIPS) Bath
+
+After the 250-second nitrogen purge, the cast film was immersed into the **NIPS bath**, which consisted of a **10.0 wt% PolarClean in water** solution maintained at **6 °C**. The membrane was allowed to undergo phase separation in the bath for **1600 seconds** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Solvent | PolarClean |
+| Cosolvent | None |
+| Polymer concentration | 15.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 40 °C |
+| Casting speed | 6 mm/s |
+| Pre-immersion treatment | Dry N₂ purge |
+| Pre-immersion wait time | 250 s |
+| Coupon-stage temp (during N₂) | 26.67 °C |
+| Coupon-stage humidity (during N₂) | 6.28% RH |
+| Ambient air temperature | 26.74 °C |
+| Ambient humidity | 22.08% RH |
+| NIPS bath composition | 10.0 wt% PolarClean in water |
+| NIPS bath temperature | 6 °C |
+| NIPS bath immersion time | 1600 s |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.74, ""Humidity Mean"": 22.08, ""Coupon Temp Mean"": 26.67, ""Coupon Humidity Mean"": 6.28, ""Thickness Mean"": 135.09002821416098, ""Thickness SD"": 1.0041669967722502, ""Elastic Modulus Mean"": 159.02550598856232, ""Elastic Modulus SD"": 14.921197737971264, ""Yield Strength Mean"": 24.554678323959784, ""Yield Strength SD"": 0.9333670949280787, ""Pore Fraction Mean"": 0.6089090031382316, ""Pore Fraction SD"": 0.06460819891339425, ""Slope Plateau Mean"": 83.53609984640539, ""Slope Plateau SD"": 1.0581619544859806, ""Slope Densification Mean"": 731.3312613010098, ""Slope Densification SD"": 167.1542888608554, ""Creep Strain Mean"": 0.05948762392778495, ""Creep Strain SD"": 0.014033367229695799, ""Strain at 50 bar Mean"": 0.4770112892202097, ""Strain at 50 bar SD"": 0.06325553891230272, ""Strain at 80 bar Mean"": 0.6221228646383179, ""Strain at 80 bar SD"": 0.06057011731833923, ""Strain at 150 bar Mean"": 0.6883799586721135, ""Strain at 150 bar SD"": 0.051455579445996685, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.14930734829918352}","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the aperture.
+
+- **Vertical Coverage:** Full top-to-bottom coverage appears intact; the membrane reaches both the top and bottom edges of the aperture with no visible gap.
+
+- **Uniformity:** Color and opacity are largely uniform across the membrane surface with only very subtle tonal gradient; no dark spots or obvious thickness variation.
+
+- **Defects:** One faint linear crease/wrinkle is visible within the membrane material in the lower-left quadrant; no trapped air bubbles detected.
+
+- **Summary:** Membrane is present with good vertical coverage and generally uniform appearance, but a minor crease in the lower-left region of the membrane material warrants attention.",2026-10-27 12:54:46,specimen_filename,"## Analysis
+
+### Pareto Front Assessment
+
+Let me identify the non-dominated candidates (both objectives measured, good quality):
+
+| Condition | Modulus (bar) | Pore Fraction | Notes |
+|---|---|---|---|
+| 14-0add-8deg-N2-1250s (run1) | 103.6 | 0.75 | 0wt bath |
+| 14-0add-8deg-N2-1250s (run2) | 189.4 | 0.71 | 0wt bath |
+| 14-0add-8deg-N2-1250s (run3) | 171.5 | 0.63 | 0wt bath |
+| 14-0add-8deg-N2-1250s (run4) | 246.0 | 0.57 | 0wt bath |
+| 14p8-17deg-N2-1425s (run1) | 181.4 | 0.65 | 0wt bath |
+| 14p8-17deg-N2-1425s (run2) | 217.0 | 0.82 | 10wt bath |
+| 14p8-17deg-N2-1425s (run3) | 287.9 | 0.63 | 10wt bath |
+| 15-9deg-N2-1600s (run1) | 246.6 | 0.77 | 0wt bath |
+| 15-9deg-N2-1600s (run4) | 221.3 | 0.75 | 0wt bath |
+| 15-9deg-N2-1600s (run5) | 276.8 | 0.85 | 0wt bath |
+| 13-20deg-N2-1550s | 147.8 | 0.65 | 0wt bath |
+| 17-13deg-N2-1800s (run2) | 354.4 | 0.61 | 0wt bath |
+
+**Key Pareto-front candidates in the current 10wt PolarClean bath context:**
+
+The most relevant observations with the **current bath (10wt PolarClean)** are:
+- `15-9deg-10wt-250s-N2-1600s`: Modulus 124.3, PF 0.55 (good quality)
+- `14p5-10deg-10wt-200s-N2-1500s` (run1): Modulus 132.7, PF 0.62 (good quality)
+- `14p5-10deg-10wt-200s-N2-1500s` (run2): Modulus 105.5, PF 0.66 (good quality)
+- `15p5-9deg-10wt-250s-N2-1600s` (run2): Modulus 110.7, PF 0.59 (good quality)
+- `15p5-6deg-10wt-250s-N2-1600s`: Modulus 159.0, PF 0.61 (good quality)
+
+The 10wt bath data is sparse. The 0wt bath data shows that **polymer_wt ~15, bath_temp ~9°C, mixing_temp ~40°C, coupon_to_bath_wait_time ~250s, N2=true, nips_bath_wait_time ~1600s** yields high pore fractions (0.75–0.85) with moderate-to-good modulus (220–280 bar). The `15-9deg-0wt-250s-N2-1600s` run5 is the best observed Pareto point (276.8 bar, 0.85 PF) but was in a 0wt bath.
+
+### Validation Check
+
+The `15-9deg-N2-1600s` condition (polymer_wt=15, bath_temp=9, mixing_temp=40, pullcast_speed=6, coupon_to_bath_wait_time=250, nips_bath_wait_time=1600, N2=true) has been run 10 times in the **0wt bath** with highly variable pore fractions (0.50–0.85) and moduli (198–315 bar). This is the strongest Pareto candidate in the 0wt bath but has **not been independently reproduced in the current 10wt bath**. Only one valid run exists in the 10wt bath (run1: 124 bar, 0.55 PF), which is notably weaker than the 0wt results — the 10wt bath appears to reduce both objectives.
+
+### Strategy
+
+The current bath is 10wt PolarClean. The 10wt bath data is sparse and shows lower modulus/pore fraction than the 0wt bath at similar conditions. We need to:
+1. Understand whether the 10wt bath can achieve competitive performance at different conditions
+2. The `14p8-17deg-10wt-530s-N2-1425s` run2 showed an exceptional PF=0.82 with modulus=217 bar — this is the best single-objective (pore fraction) result in the 10wt bath, but it had wrinkles and has only one valid measurement.
+
+**Validation priority**: The `14p8-17deg-10wt-530s-N2-1425s` condition (run2) showed PF=0.82, modulus=217 bar in the 10wt bath — a strong Pareto candidate. Run3 gave PF=0.63, modulus=288 bar (different balance). Run4 gave PF=0.44, modulus=260 bar. The results are highly variable across runs, suggesting this condition is unstable. 
+
+A better approach: the `14p5-10deg-10wt-200s-N2-1500s` condition has two runs (132.7/0.62 and 105.5/0.66) — both show moderate pore fraction but low modulus. 
+
+**Exploration target**: The 10wt bath data is clustered around mixing_temp=40–45, bath_temp=8–10, polymer_wt=14–15.5. We haven't tried **higher polymer_wt (15.5–16) with the 10wt bath at moderate bath temps (8–10°C)** with longer wait times. The 0wt bath showed that polymer_wt ~15 with bath_temp ~9°C gives high pore fractions. The 10wt bath slows phase separation (solvent in bath reduces driving force), which may require adjusting polymer concentration upward to maintain structural integrity while preserving porosity.
+
+Given the 10wt bath context and the need to explore a promising but under-sampled region: **polymer_wt=15.5, bath_temp=8°C, mixing_temp=40°C, pullcast_speed=6, coupon_to_bath_wait_time=350s, nips_bath_wait_time=1600s, N2=true** is a new point. The longer wait time (350s vs 250s) allows more solvent evaporation/skin formation before bath immersion, which in the 0wt bath context tended to increase modulus. Combined with 15.5 wt% polymer (slightly higher than the 15wt runs), this could improve modulus while the 10wt bath maintains higher pore fraction by slowing phase separation. This combination is not yet sampled.
+
+```json
+{
+  ""mixing_temp"": 40,
+  ""bath_temp"": 8,
+  ""pullcast_speed"": 6,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 350,
+  ""nips_bath_wait_time"": 1600,
+  ""polymer_wt"": 15.5,
+  ""additive_wt"": 0
+}
+```
+
+**Rationale:**
+- **Polymer_wt = 15.5**: Slightly higher than the 15wt runs in the 10wt bath, which should increase modulus while the 10wt bath's reduced phase-separation driving force helps preserve pore fraction.
+- **Bath_temp = 8°C**: Cold bath promotes rapid phase separation; combined with the 10wt PolarClean bath (which slows it slightly), this may yield a balanced pore structure.
+- **coupon_to_bath_wait_time = 350s**: Longer pre-bath exposure than the 250s runs; in the 0wt bath, longer wait times at this polymer_wt tended to increase modulus without catastrophically reducing pore fraction. This is under-sampled in the 10wt bath.
+- **mixing_temp = 40°C, pullcast_speed = 6 mm/s, N2 = true**: Consistent with the productive region identified in recent experiments; N2 blanket reduces humidity effects.
+- **Expected benefit**: This explores whether a modest increase in polymer_wt + longer pre-bath wait can push modulus above the ~160 bar ceiling seen in 10wt bath runs while maintaining PF ≥ 0.55, potentially improving the Pareto frontier for the current bath system.",
+"2026-10-27
+17:51:31",15p5-0add-8deg-cosolv-none-bathSolv-PolarClean-10wt-350s-N2-1600s,40,8,15.5,0.0,6.0,True,350,1600,Polysulfone,PolarClean,none,PolarClean,10.0,"mixing_temp=40; bath_temp=8; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=350; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.47 [room air temperature during casting]; Humidity Mean=20.81 [room air humidity during casting]; Coupon Temp Mean=26.4 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=7.08 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Polymer Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a concentration of **15.5 wt%** polymer in **PolarClean** as the base solvent, with **no cosolvent or additive** included (additive wt% = 0.0). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.47 °C** and a mean relative humidity of **20.81%**.
+
+## Pre-Immersion Drying Step
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) blow** for a duration of **350 seconds** prior to immersion in the NIPS bath. This laminar nitrogen flow was applied to minimize moisture uptake from the ambient environment and to promote controlled solvent evaporation at the film surface. During this period, the coupon-stage temperature was measured at **26.4 °C** and the local relative humidity at the coupon stage was reduced to **7.08%**, confirming effective displacement of ambient humidity by the nitrogen purge.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion wait period, the cast film was immersed into the NIPS bath, which consisted of a **10.0 wt% PolarClean in water** solution maintained at **8 °C**. The use of a PolarClean/water co-bath (rather than pure water) serves to moderate the solvent/non-solvent exchange rate, potentially yielding a more controlled phase separation. The membrane coupon remained in the bath for **1600 seconds** to ensure complete phase inversion and solidification of the membrane structure.
+
+## Summary of Key Parameters
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Solvent | PolarClean |
+| Cosolvent/Additive | None |
+| Polymer Concentration | 15.5 wt% |
+| Mixing Temperature | 40 °C |
+| Cast Speed | 6 mm/s |
+| Pre-immersion Treatment | Dry N₂ blow |
+| Pre-immersion Wait Time | 350 s |
+| Coupon-Stage Temp (N₂) | 26.4 °C |
+| Coupon-Stage Humidity (N₂) | 7.08% RH |
+| NIPS Bath Composition | 10.0 wt% PolarClean/water |
+| NIPS Bath Temperature | 8 °C |
+| NIPS Immersion Time | 1600 s |
+| Ambient Temperature | 26.47 °C |
+| Ambient Humidity | 20.81% RH |",26.47,20.81,26.4,7.08,140.53506961324763,2.2394012764063977,135.58011386261634,12.860554398498456,17.63146052859438,1.7844649003858917,0.5704299040787024,0.0174879708644055,54.77335866881368,4.567390457600733,1027.9704129918605,39.49007515421833,0.0440448228862391,0.0035063653405603,0.5300101026923448,0.0062189951829834,0.6023497711081653,0.0131141677085885,0.6720901776820485,0.0168565898619696,,,0.0319987964305343,,,"mixing_temp=40; bath_temp=8; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=350; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.47 [room air temperature during casting]; Humidity Mean=20.81 [room air humidity during casting]; Coupon Temp Mean=26.4 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=7.08 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.47, ""Humidity Mean"": 20.81, ""Coupon Temp Mean"": 26.4, ""Coupon Humidity Mean"": 7.08, ""Thickness Mean"": 140.53506961324763, ""Thickness SD"": 2.2394012764063977, ""Elastic Modulus Mean"": 135.58011386261634, ""Elastic Modulus SD"": 12.860554398498456, ""Yield Strength Mean"": 17.63146052859438, ""Yield Strength SD"": 1.7844649003858915, ""Pore Fraction Mean"": 0.5704299040787024, ""Pore Fraction SD"": 0.017487970864405525, ""Slope Plateau Mean"": 54.77335866881368, ""Slope Plateau SD"": 4.567390457600733, ""Slope Densification Mean"": 1027.9704129918605, ""Slope Densification SD"": 39.49007515421833, ""Creep Strain Mean"": 0.04404482288623915, ""Creep Strain SD"": 0.003506365340560364, ""Strain at 50 bar Mean"": 0.5300101026923448, ""Strain at 50 bar SD"": 0.006218995182983469, ""Strain at 80 bar Mean"": 0.6023497711081653, ""Strain at 80 bar SD"": 0.013114167708588581, ""Strain at 150 bar Mean"": 0.6720901776820485, ""Strain at 150 bar SD"": 0.016856589861969622, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.031998796430534326}","# Experimental Report: Automated Membrane Synthesis via NIPS
+
+## Polymer Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a concentration of **15.5 wt%** polymer in **PolarClean** as the base solvent, with **no cosolvent or additive** included (additive wt% = 0.0). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.47 °C** and a mean relative humidity of **20.81%**.
+
+## Pre-Immersion Drying Step
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) blow** for a duration of **350 seconds** prior to immersion in the NIPS bath. This laminar nitrogen flow was applied to minimize moisture uptake from the ambient environment and to promote controlled solvent evaporation at the film surface. During this period, the coupon-stage temperature was measured at **26.4 °C** and the local relative humidity at the coupon stage was reduced to **7.08%**, confirming effective displacement of ambient humidity by the nitrogen purge.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion wait period, the cast film was immersed into the NIPS bath, which consisted of a **10.0 wt% PolarClean in water** solution maintained at **8 °C**. The use of a PolarClean/water co-bath (rather than pure water) serves to moderate the solvent/non-solvent exchange rate, potentially yielding a more controlled phase separation. The membrane coupon remained in the bath for **1600 seconds** to ensure complete phase inversion and solidification of the membrane structure.
+
+## Summary of Key Parameters
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Solvent | PolarClean |
+| Cosolvent/Additive | None |
+| Polymer Concentration | 15.5 wt% |
+| Mixing Temperature | 40 °C |
+| Cast Speed | 6 mm/s |
+| Pre-immersion Treatment | Dry N₂ blow |
+| Pre-immersion Wait Time | 350 s |
+| Coupon-Stage Temp (N₂) | 26.4 °C |
+| Coupon-Stage Humidity (N₂) | 7.08% RH |
+| NIPS Bath Composition | 10.0 wt% PolarClean/water |
+| NIPS Bath Temperature | 8 °C |
+| NIPS Immersion Time | 1600 s |
+| Ambient Temperature | 26.47 °C |
+| Ambient Humidity | 20.81% RH |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.47, ""Humidity Mean"": 20.81, ""Coupon Temp Mean"": 26.4, ""Coupon Humidity Mean"": 7.08, ""Thickness Mean"": 140.53506961324763, ""Thickness SD"": 2.2394012764063977, ""Elastic Modulus Mean"": 135.58011386261634, ""Elastic Modulus SD"": 12.860554398498456, ""Yield Strength Mean"": 17.63146052859438, ""Yield Strength SD"": 1.7844649003858915, ""Pore Fraction Mean"": 0.5704299040787024, ""Pore Fraction SD"": 0.017487970864405525, ""Slope Plateau Mean"": 54.77335866881368, ""Slope Plateau SD"": 4.567390457600733, ""Slope Densification Mean"": 1027.9704129918605, ""Slope Densification SD"": 39.49007515421833, ""Creep Strain Mean"": 0.04404482288623915, ""Creep Strain SD"": 0.003506365340560364, ""Strain at 50 bar Mean"": 0.5300101026923448, ""Strain at 50 bar SD"": 0.006218995182983469, ""Strain at 80 bar Mean"": 0.6023497711081653, ""Strain at 80 bar SD"": 0.013114167708588581, ""Strain at 150 bar Mean"": 0.6720901776820485, ""Strain at 150 bar SD"": 0.016856589861969622, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.031998796430534326}","- **Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
+- **Vertical Coverage:** Full top-to-bottom coverage is present; the membrane reaches both the top and bottom edges of the aperture with no gap.
+- **Uniformity:** Color and opacity are largely uniform across the membrane surface with only minor subtle tonal variation; no significant patchiness or dark spots detected.
+- **Defects:** No wrinkles or trapped air bubbles are visible within the membrane material itself; the surface texture appears smooth and flat.
+- **Summary:** The membrane coupon presents complete vertical coverage, a visually uniform surface, and no detectable structural defects.",2026-10-27 15:29:39,specimen_filename,"## Analysis
+
+### Pareto Front Assessment (current bath: PolarClean 10 wt%)
+
+The only directly comparable experiment in the **current bath context** (PolarClean 10 wt%) with complete measurements is:
+
+| Condition | Modulus (bar) | Pore Fraction |
+|---|---|---|
+| 15-0add-9deg-bathSolv-PolarClean-10wt-250s-N2-1600s | 124.3 | 0.55 |
+| 15p5-0add-9deg-PolarClean-10wt-250s-N2-1600s_run2 | 110.7 | 0.59 |
+| 14p5-0add-10deg-PolarClean-10wt-200s-N2-1500s | 132.7 | 0.62 |
+| 14p5-0add-10deg-PolarClean-10wt-200s-N2-1500s_run2 | 105.5 | 0.66 |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s | 159.0 | 0.61 |
+| 15p5-0add-8deg-PolarClean-10wt-350s-N2-1600s | 135.6 | 0.57 |
+| 15-0add-8deg-PolarClean-10wt-200s-N2-1600s | 129.3 | 0.49 |
+
+The 10 wt% PolarClean bath is new (only ~7 valid experiments), and modulus values are notably lower (105–159 bar) compared to the 0 wt% bath (where values up to 437 bar were seen). Pore fractions are moderate (0.49–0.66). The best two-objective candidate in this bath so far is **15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s** (modulus 159, pore fraction 0.61) — but it has only one run and a minor crease defect.
+
+### Key Observations
+
+1. **Bath effect**: The 10 wt% PolarClean bath substantially reduces modulus vs. 0 wt% bath. This is a new regime with limited data — we need more exploration here.
+
+2. **Polymer concentration effect in 10 wt% bath**: Higher polymer_wt (15.5 vs 14.5) appears to give higher modulus. The 15.5 wt% at bath_temp=6°C gave the highest modulus (159 bar) with good pore fraction (0.61).
+
+3. **Under-sampled region**: In the 10 wt% bath, we haven't tried higher polymer concentrations (16–17 wt%) or lower bath temperatures (5°C). In the 0 wt% bath, conditions like polymer_wt ~14–15 with bath_temp ~8–9°C and moderate wait times gave high pore fractions (0.65–0.85) with moderate modulus (190–280 bar). The 10 wt% bath may shift the Pareto front differently.
+
+4. **Validation need**: The 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s candidate (best modulus+pore fraction in current bath) has only one run with a minor defect. It warrants a repeat, but the CV was 0.15 (high) and there was a crease — uncertain quality.
+
+5. **Exploration opportunity**: Trying polymer_wt = 16.0 with bath_temp = 6°C in the 10 wt% bath is unexplored and could push modulus higher while maintaining pore fraction. The 16 wt% at bath_temp=9°C gave modulus 177 with pore fraction 0.52 — bath_temp=6°C might improve pore fraction.
+
+### Decision
+
+The 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s experiment is the current apparent best in the 10 wt% bath but has only one run with a crease defect and high CV (0.15). Per the validation policy, this candidate should be repeated before treating it as confirmed. The repeat is feasible within current bounds.
+
+**Recommendation: Validate 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s**
+
+- **Modulus**: 159 bar (highest in 10 wt% bath)
+- **Pore fraction**: 0.61 (good, above median for this bath)
+- **Rationale**: Only one synthesis, high CV (0.15), minor crease defect — synthesis reproducibility unknown. This is a Pareto-front candidate in the current bath context. Confirming it will either validate a genuine improvement or reveal it was a lucky outlier, guiding next exploration steps.
+
+```json
+{
+  ""mixing_temp"": 40,
+  ""bath_temp"": 6,
+  ""pullcast_speed"": 6,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 250,
+  ""nips_bath_wait_time"": 1600,
+  ""polymer_wt"": 15.5,
+  ""additive_wt"": 0
+}
+```",
+"2026-10-27
+20:11:58",15p5-0add-6deg-cosolv-none-bathSolv-PolarClean-10wt-250s-N2-1600s_run2,40,6,15.5,0.0,6.0,True,250,1600,Polysulfone,PolarClean,none,PolarClean,10.0,"mixing_temp=40; bath_temp=6; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.39 [room air temperature during casting]; Humidity Mean=21.45 [room air humidity during casting]; Coupon Temp Mean=26.41 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=8.38 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Polysulfone Membrane Synthesis via NIPS
+
+## Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a polymer concentration of **15.5 wt%** in PolarClean as the base solvent, with no cosolvent or additive included (additive wt% = 0.0%). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.39 °C** and a mean relative humidity of **21.45%**.
+
+## Pre-Immersion Conditioning
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a hold period of **250 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the evaporation interval. Under these conditions, the coupon-stage temperature was measured at **26.41 °C** and the local relative humidity at the coupon surface was reduced to **8.38%**, confirming effective humidity suppression by the nitrogen flow.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion hold, the cast film was immersed into a NIPS coagulation bath consisting of **10.0 wt% PolarClean** in water (non-solvent), maintained at a controlled bath temperature of **6 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1600 seconds** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Polymer concentration | 15.5 wt% |
+| Solvent | PolarClean |
+| Cosolvent/Additive | None (0.0 wt%) |
+| Mixing temperature | 40 °C |
+| Casting speed | 6 mm/s |
+| Pre-immersion hold time | 250 s (N₂ purge) |
+| Coupon-stage temp (N₂ window) | 26.41 °C |
+| Coupon-stage humidity (N₂ window) | 8.38% RH |
+| Ambient air temperature | 26.39 °C |
+| Ambient humidity | 21.45% RH |
+| NIPS bath composition | 10.0 wt% PolarClean in water |
+| Bath temperature | 6 °C |
+| Bath immersion time | 1600 s |",26.39,21.45,26.41,8.38,134.20143091103975,1.6937285975764644,162.78250518811384,30.234492686023447,29.391244174979928,2.079608581049399,0.730410037171844,0.0388546909715334,41.34160701551116,16.809131671502545,879.3892947907556,67.78520929852043,0.048837956002107,0.0039370415217257,0.677034054592398,0.0420477861420229,0.7622416850806576,0.0368981469959293,0.8351598918433998,0.0355804490462208,,,0.0739890123675184,,,"mixing_temp=40; bath_temp=6; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.39 [room air temperature during casting]; Humidity Mean=21.45 [room air humidity during casting]; Coupon Temp Mean=26.41 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=8.38 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.39, ""Humidity Mean"": 21.45, ""Coupon Temp Mean"": 26.41, ""Coupon Humidity Mean"": 8.38, ""Thickness Mean"": 134.20143091103975, ""Thickness SD"": 1.6937285975764644, ""Elastic Modulus Mean"": 162.78250518811384, ""Elastic Modulus SD"": 30.234492686023447, ""Yield Strength Mean"": 29.391244174979928, ""Yield Strength SD"": 2.079608581049399, ""Pore Fraction Mean"": 0.730410037171844, ""Pore Fraction SD"": 0.038854690971533434, ""Slope Plateau Mean"": 41.34160701551116, ""Slope Plateau SD"": 16.809131671502545, ""Slope Densification Mean"": 879.3892947907556, ""Slope Densification SD"": 67.78520929852043, ""Creep Strain Mean"": 0.048837956002107, ""Creep Strain SD"": 0.003937041521725792, ""Strain at 50 bar Mean"": 0.677034054592398, ""Strain at 50 bar SD"": 0.04204778614202294, ""Strain at 80 bar Mean"": 0.7622416850806576, ""Strain at 80 bar SD"": 0.036898146995929346, ""Strain at 150 bar Mean"": 0.8351598918433998, ""Strain at 150 bar SD"": 0.03558044904622089, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.0739890123675184}","# Experimental Report: Polysulfone Membrane Synthesis via NIPS
+
+## Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a polymer concentration of **15.5 wt%** in PolarClean as the base solvent, with no cosolvent or additive included (additive wt% = 0.0%). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.39 °C** and a mean relative humidity of **21.45%**.
+
+## Pre-Immersion Conditioning
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a hold period of **250 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the evaporation interval. Under these conditions, the coupon-stage temperature was measured at **26.41 °C** and the local relative humidity at the coupon surface was reduced to **8.38%**, confirming effective humidity suppression by the nitrogen flow.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion hold, the cast film was immersed into a NIPS coagulation bath consisting of **10.0 wt% PolarClean** in water (non-solvent), maintained at a controlled bath temperature of **6 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1600 seconds** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Polymer concentration | 15.5 wt% |
+| Solvent | PolarClean |
+| Cosolvent/Additive | None (0.0 wt%) |
+| Mixing temperature | 40 °C |
+| Casting speed | 6 mm/s |
+| Pre-immersion hold time | 250 s (N₂ purge) |
+| Coupon-stage temp (N₂ window) | 26.41 °C |
+| Coupon-stage humidity (N₂ window) | 8.38% RH |
+| Ambient air temperature | 26.39 °C |
+| Ambient humidity | 21.45% RH |
+| NIPS bath composition | 10.0 wt% PolarClean in water |
+| Bath temperature | 6 °C |
+| Bath immersion time | 1600 s |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.39, ""Humidity Mean"": 21.45, ""Coupon Temp Mean"": 26.41, ""Coupon Humidity Mean"": 8.38, ""Thickness Mean"": 134.20143091103975, ""Thickness SD"": 1.6937285975764644, ""Elastic Modulus Mean"": 162.78250518811384, ""Elastic Modulus SD"": 30.234492686023447, ""Yield Strength Mean"": 29.391244174979928, ""Yield Strength SD"": 2.079608581049399, ""Pore Fraction Mean"": 0.730410037171844, ""Pore Fraction SD"": 0.038854690971533434, ""Slope Plateau Mean"": 41.34160701551116, ""Slope Plateau SD"": 16.809131671502545, ""Slope Densification Mean"": 879.3892947907556, ""Slope Densification SD"": 67.78520929852043, ""Creep Strain Mean"": 0.048837956002107, ""Creep Strain SD"": 0.003937041521725792, ""Strain at 50 bar Mean"": 0.677034054592398, ""Strain at 50 bar SD"": 0.04204778614202294, ""Strain at 80 bar Mean"": 0.7622416850806576, ""Strain at 80 bar SD"": 0.036898146995929346, ""Strain at 150 bar Mean"": 0.8351598918433998, ""Strain at 150 bar SD"": 0.03558044904622089, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.0739890123675184}","**Presence:** Membrane is visible — a pale white/grey sheet occupies the aperture.
+
+**Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gap at either the top or bottom edge. ✓
+
+**Uniformity:** Color and opacity are consistent across the membrane surface; no dark spots, patchiness, or obvious thickness variation detected.
+
+**Defects:** No wrinkles or trapped air bubbles are visible within the membrane material itself. The bright curved highlight on the right side is a specular reflection on the metal aperture rim, not a membrane defect.
+
+**Summary:** The membrane coupon presents as fully vertically seated, visually uniform, and free of wrinkles or bubble defects.",2026-10-27 17:52:53,specimen_filename,"## Analysis
+
+### Pareto Front Assessment (with 10 wt% PolarClean bath context)
+
+The current bath is 10 wt% PolarClean. All historical experiments used either 0 wt% or 10 wt% baths. I must compare within-bath-context carefully.
+
+**Experiments with 10 wt% PolarClean bath (current context):**
+
+| Condition | Modulus (bar) | Pore Fraction | Quality |
+|---|---|---|---|
+| 15-0add-9deg-bathSolv-PolarClean-10wt-250s-N2-1600s | 124.3 | 0.55 | Good |
+| 15p5-0add-9deg-PolarClean-10wt-250s-N2-1600s | failed | null | Failed |
+| 16-0add-9deg-PolarClean-10wt-250s-N2-1600s | 176.7 | 0.52 | Top gap |
+| 14p5-0add-10deg-PolarClean-10wt-200s-N2-1500s | 132.7 | 0.62 | Good |
+| 14p5-0add-10deg-PolarClean-10wt-200s-N2-1500s_run2 | 105.5 | 0.66 | Good |
+| 15-0add-8deg-PolarClean-10wt-300s-N2-1600s | 147.1 | 0.58 | Top gap |
+| 15p5-0add-9deg-PolarClean-10wt-250s-N2-1600s_run2 | 110.7 | 0.59 | Good |
+| 15p5-0add-8deg-PolarClean-10wt-200s-N2-1600s | failed | null | Failed |
+| 15-0add-8deg-PolarClean-10wt-200s-N2-1600s | 129.3 | 0.49 | Wrinkle |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s | 159.0 | 0.61 | Minor crease |
+| 15p5-0add-8deg-PolarClean-10wt-350s-N2-1600s | 135.6 | 0.57 | Good |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s_run2 | 162.8 | 0.73 | Good ✓ |
+
+The **15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s_run2** stands out: modulus 162.8 bar, pore fraction 0.73 — the highest pore fraction in the 10 wt% bath context with decent modulus. This is a single run (only one independent synthesis at these exact parameters in the 10 wt% bath). The first run (run1) gave modulus 159.0, pore fraction 0.61 — somewhat lower pore fraction. The two runs show different pore fractions (0.61 vs 0.73), suggesting variability. Both have good membrane quality.
+
+**Validation check:** Two runs exist at (mixing_temp=40, bath_temp=6, pullcast_speed=6, N2=true, wait=250s, nips=1600s, polymer=15.5, bath=PolarClean 10wt%). Run1: E=159, PF=0.61. Run2: E=162.8, PF=0.73. These are two independent syntheses. The pore fraction spread (0.61 vs 0.73) is notable — SD of ~0.08 across runs. The moduli are consistent (~160 bar). With two runs showing good quality and the highest pore fraction in this bath context, this is a promising candidate but the pore fraction variability warrants a third independent repeat to confirm whether PF~0.73 is reproducible or whether ~0.61 is more typical.
+
+**Alternative consideration:** Could we explore a new region? The 10 wt% bath data is still sparse. Higher polymer_wt (e.g., 16–16.5) with the 10 wt% bath has only one data point (16.0 wt%, which had a top-gap defect). Lower bath temps (5°C) with 10 wt% bath are unexplored. However, the validation policy says: prioritize a validation repeat when an apparent best candidate or Pareto-front candidate has not been independently reproduced with sufficient confidence, especially with high CV or uncertain pore fraction.
+
+The 15.5 wt% / 6°C / 6 mm/s / 250s / 1600s condition in the 10 wt% bath is the current Pareto-front leader for this bath context (highest pore fraction with reasonable modulus). Two runs exist but pore fraction varies significantly (0.61 vs 0.73). A third repeat will clarify the true mean and variability before we move on.
+
+**Expected benefit:** Confirm whether PF~0.73 is reproducible (which would make this a strong Pareto candidate) or whether PF~0.61–0.65 is the true mean. Also confirms modulus reproducibility (~160 bar). This is the most informative next step under the validation policy.
+
+**Constraint check:** polymer_wt=15.5 ≠ 17.0, so mixing_temp=40 is valid (not the undiluted stock constraint). additive_wt=0 as required.
+
+```json
+{
+  ""mixing_temp"": 40,
+  ""bath_temp"": 6,
+  ""pullcast_speed"": 6.0,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 250,
+  ""nips_bath_wait_time"": 1600,
+  ""polymer_wt"": 15.5,
+  ""additive_wt"": 0
+}
+```",
+"2026-10-27
+22:46:37",15p5-0add-6deg-cosolv-none-bathSolv-PolarClean-10wt-250s-N2-1600s_run3,40,6,15.5,0.0,6.0,True,250,1600,Polysulfone,PolarClean,none,PolarClean,10.0,"mixing_temp=40; bath_temp=6; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6.0; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.4 [room air temperature during casting]; Humidity Mean=22.62 [room air humidity during casting]; Coupon Temp Mean=26.4 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=8.52 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
+
+## Solution Preparation
+
+A **15.5 wt% Polysulfone** casting solution was prepared in **PolarClean** as the base solvent, with **no cosolvent or additive** included (additive\_wt = 0.0 wt%). The polymer solution was mixed and heated at **40 °C** prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the coupon stage at a pull-cast speed of **6.0 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.4 °C** and a mean relative humidity of **22.62%**.
+
+## Pre-Immersion Drying Step
+
+Following casting, the membrane coupon was subjected to a **dry nitrogen (N₂) blow** for **250 seconds** prior to immersion in the NIPS bath. During this period, the coupon-stage temperature was measured at **26.4 °C** and the local humidity at the coupon stage was reduced to **8.52%**, confirming effective removal of ambient moisture from the film surface.
+
+## Phase Inversion (NIPS Bath)
+
+The cast film was subsequently immersed in a **NIPS bath** consisting of **10.0 wt% PolarClean** in water (non-solvent), maintained at a bath temperature of **6 °C**. The membrane was allowed to undergo phase inversion for **1600 seconds** before retrieval.
+
+## Summary of Key Parameters
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Polymer concentration | 15.5 wt% |
+| Base solvent | PolarClean |
+| Cosolvent / Additive | None |
+| Mixing temperature | 40 °C |
+| Pull-cast speed | 6.0 mm/s |
+| Pre-immersion treatment | Dry N₂ blow |
+| Pre-immersion wait time | 250 s |
+| NIPS bath composition | 10.0 wt% PolarClean in water |
+| NIPS bath temperature | 6 °C |
+| NIPS immersion time | 1600 s |
+| Ambient temperature / humidity | 26.4 °C / 22.62% RH |
+| Coupon-stage temp / humidity (N₂ blow) | 26.4 °C / 8.52% RH |",26.4,22.62,26.4,8.52,144.02964542954226,5.910289184644198,214.9659463164309,5.830379988489648,24.19969604877538,1.2282026499719885,0.5741575986609492,0.0720515142021145,114.26832858806804,4.666994294684597,774.0210359275,210.2979322145746,0.055256623158733,0.0114507460707068,0.3358502307251274,0.0105956688027286,0.5389753938834039,0.0642020782550443,0.6562634933859998,0.0758348479864238,,,0.1115647394974977,,,"mixing_temp=40; bath_temp=6; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6.0; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.4 [room air temperature during casting]; Humidity Mean=22.62 [room air humidity during casting]; Coupon Temp Mean=26.4 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=8.52 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.4, ""Humidity Mean"": 22.62, ""Coupon Temp Mean"": 26.4, ""Coupon Humidity Mean"": 8.52, ""Thickness Mean"": 144.02964542954226, ""Thickness SD"": 5.910289184644198, ""Elastic Modulus Mean"": 214.96594631643086, ""Elastic Modulus SD"": 5.830379988489648, ""Yield Strength Mean"": 24.19969604877538, ""Yield Strength SD"": 1.2282026499719885, ""Pore Fraction Mean"": 0.5741575986609492, ""Pore Fraction SD"": 0.07205151420211456, ""Slope Plateau Mean"": 114.26832858806804, ""Slope Plateau SD"": 4.666994294684597, ""Slope Densification Mean"": 774.0210359275, ""Slope Densification SD"": 210.2979322145746, ""Creep Strain Mean"": 0.05525662315873303, ""Creep Strain SD"": 0.011450746070706888, ""Strain at 50 bar Mean"": 0.33585023072512743, ""Strain at 50 bar SD"": 0.010595668802728681, ""Strain at 80 bar Mean"": 0.5389753938834039, ""Strain at 80 bar SD"": 0.06420207825504438, ""Strain at 150 bar Mean"": 0.6562634933859998, ""Strain at 150 bar SD"": 0.07583484798642386, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.11156473949749773}","# Experimental Report: Automated Membrane Synthesis via Non-Solvent-Induced Phase Separation (NIPS)
+
+## Solution Preparation
+
+A **15.5 wt% Polysulfone** casting solution was prepared in **PolarClean** as the base solvent, with **no cosolvent or additive** included (additive\_wt = 0.0 wt%). The polymer solution was mixed and heated at **40 °C** prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the coupon stage at a pull-cast speed of **6.0 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.4 °C** and a mean relative humidity of **22.62%**.
+
+## Pre-Immersion Drying Step
+
+Following casting, the membrane coupon was subjected to a **dry nitrogen (N₂) blow** for **250 seconds** prior to immersion in the NIPS bath. During this period, the coupon-stage temperature was measured at **26.4 °C** and the local humidity at the coupon stage was reduced to **8.52%**, confirming effective removal of ambient moisture from the film surface.
+
+## Phase Inversion (NIPS Bath)
+
+The cast film was subsequently immersed in a **NIPS bath** consisting of **10.0 wt% PolarClean** in water (non-solvent), maintained at a bath temperature of **6 °C**. The membrane was allowed to undergo phase inversion for **1600 seconds** before retrieval.
+
+## Summary of Key Parameters
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Polymer concentration | 15.5 wt% |
+| Base solvent | PolarClean |
+| Cosolvent / Additive | None |
+| Mixing temperature | 40 °C |
+| Pull-cast speed | 6.0 mm/s |
+| Pre-immersion treatment | Dry N₂ blow |
+| Pre-immersion wait time | 250 s |
+| NIPS bath composition | 10.0 wt% PolarClean in water |
+| NIPS bath temperature | 6 °C |
+| NIPS immersion time | 1600 s |
+| Ambient temperature / humidity | 26.4 °C / 22.62% RH |
+| Coupon-stage temp / humidity (N₂ blow) | 26.4 °C / 8.52% RH |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.4, ""Humidity Mean"": 22.62, ""Coupon Temp Mean"": 26.4, ""Coupon Humidity Mean"": 8.52, ""Thickness Mean"": 144.02964542954226, ""Thickness SD"": 5.910289184644198, ""Elastic Modulus Mean"": 214.96594631643086, ""Elastic Modulus SD"": 5.830379988489648, ""Yield Strength Mean"": 24.19969604877538, ""Yield Strength SD"": 1.2282026499719885, ""Pore Fraction Mean"": 0.5741575986609492, ""Pore Fraction SD"": 0.07205151420211456, ""Slope Plateau Mean"": 114.26832858806804, ""Slope Plateau SD"": 4.666994294684597, ""Slope Densification Mean"": 774.0210359275, ""Slope Densification SD"": 210.2979322145746, ""Creep Strain Mean"": 0.05525662315873303, ""Creep Strain SD"": 0.011450746070706888, ""Strain at 50 bar Mean"": 0.33585023072512743, ""Strain at 50 bar SD"": 0.010595668802728681, ""Strain at 80 bar Mean"": 0.5389753938834039, ""Strain at 80 bar SD"": 0.06420207825504438, ""Strain at 150 bar Mean"": 0.6562634933859998, ""Strain at 150 bar SD"": 0.07583484798642386, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.11156473949749773}","- **Presence:** Membrane is clearly visible as a pale white/light-blue sheet within the aperture.
+
+- **Vertical Coverage:** Membrane spans the full top-to-bottom extent of the aperture with no gaps at either the top or bottom edge. ✓
+
+- **Uniformity:** Appearance is highly uniform — consistent pale color and opacity throughout, no patchiness or thickness variation detected.
+
+- **Defects:** No wrinkles or trapped air bubbles visible within the membrane material itself. Two very minor dark specks (likely dust particles) are present but negligible.
+
+- **Summary:** The membrane coupon presents as fully vertically seated, visually uniform, and free of structural defects.",2026-10-27 20:13:37,specimen_filename,"I'll analyze the data systematically to identify the Pareto frontier and recommend the next experiment.
+
+## Pareto Front Analysis (current bath: PolarClean 10 wt%)
+
+The current bath context is PolarClean 10 wt%. Only the last few experiments use this bath. Let me identify the best candidates across all bath contexts, noting that bath composition differences confound direct comparison.
+
+**Key observations from the 10 wt% PolarClean bath experiments:**
+- `15-0add-9deg-bathSolv-PolarClean-10wt-250s-N2-1600s`: EM=246 bar, PF=0.77 (run1); EM=240, PF=0.66 (run2) — high pore fraction but variable
+- `15p5-0add-6deg-bathSolv-PolarClean-10wt-250s-N2-1600s`: EM=163, PF=0.61 (run1); EM=163, PF=0.73 (run2); EM=215, PF=0.57 (run3) — moderate both
+- `15p5-0add-8deg-bathSolv-PolarClean-10wt-350s-N2-1600s`: EM=136, PF=0.57 — lower modulus
+- `14p5-0add-10deg-bathSolv-PolarClean-10wt-200s-N2-1500s`: EM=133, PF=0.62 (run1); EM=105, PF=0.66 (run2) — lower modulus
+
+The 10 wt% bath appears to reduce modulus compared to 0 wt% bath at similar polymer concentrations. The `15-0add-9deg-PolarClean-10wt-250s-N2-1600s` condition shows the most promising combination (high PF ~0.77, moderate EM ~246) but only one clean run (run1 was clean, run2 had a wrinkle defect).
+
+**From 0 wt% bath (historical reference for parameter intuition):**
+- `14-0add-8deg-0wt-120s-N2-1250s`: EM=103, PF=0.75 (original); runs 2-4 in current campaign show EM~170-246, PF~0.57-0.71 — good pore fraction
+- `14p8-0add-17deg-0wt-530s-N2-1425s`: run2 showed EM=217, PF=0.82 (but wrinkles); run3 EM=288, PF=0.63; run4 EM=260, PF=0.44
+
+**Validation status check:**
+- `15-0add-9deg-PolarClean-10wt-250s-N2-1600s` (run1): EM=246, PF=0.77, clean membrane — only one clean independent synthesis in the 10 wt% bath. Run2 had a wrinkle defect. This is a strong Pareto candidate in the current bath context with a large apparent gain in PF. It needs validation.
+
+**Decision:** The `15-0add-9deg-PolarClean-10wt-250s-N2-1600s` condition (run1) showed the best balanced performance in the current 10 wt% PolarClean bath: PF=0.77 (highest among 10 wt% bath experiments) with EM=246 bar (competitive). Run2 had a wrinkle defect and lower PF=0.66. This is a Pareto-front candidate with only one clean synthesis — validation is required before treating it as confirmed.
+
+```json
+{
+  ""mixing_temp"": 40,
+  ""bath_temp"": 9,
+  ""pullcast_speed"": 6,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 250,
+  ""nips_bath_wait_time"": 1600,
+  ""polymer_wt"": 15.0,
+  ""additive_wt"": 0
+}
+```
+
+**Rationale:** This repeats the `15-0add-9deg-PolarClean-10wt-250s-N2-1600s` condition exactly. In the current 10 wt% PolarClean bath, run1 produced the highest pore fraction observed (0.77) with a competitive elastic modulus (246 bar) and a clean, defect-free membrane — making it the leading Pareto-front candidate for the dual objective of maximizing both EM and PF simultaneously. Run2 yielded a wrinkle defect and lower PF (0.66), so synthesis reproducibility is unconfirmed. Per the validation policy, an independent repeat is required before this candidate can be treated as a confirmed improvement. This experiment will establish whether the high PF/moderate EM combination is reproducible under the current 10 wt% bath conditions.",
+"2026-10-28
+01:16:44",15-0add-9deg-cosolv-none-bathSolv-PolarClean-10wt-250s-N2-1600s_run2,40,9,15.0,0.0,6.0,True,250,1600,Polysulfone,PolarClean,none,PolarClean,10.0,"mixing_temp=40; bath_temp=9; polymer_wt=15.0; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Polysulfone Membrane Synthesis via NIPS
+
+## Materials
+
+- **Polymer:** Polysulfone (PSf)
+- **Casting solvent:** PolarClean
+- **Cosolvent/additive:** None
+- **NIPS bath non-solvent:** Water
+- **NIPS bath cosolvent:** PolarClean (10.0 wt%)
+
+## Solution Preparation
+
+A polysulfone casting solution was prepared at a polymer concentration of **15.0 wt%** in PolarClean with no additional cosolvent or additive. The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto a substrate at a casting speed of **6 mm/s**. Immediately following casting, the film was subjected to a **dry nitrogen purge** for a duration of **250 seconds** prior to bath immersion, in order to control surface humidity exposure and minimize atmospheric moisture uptake during the pre-immersion period. Ambient air temperature and relative humidity during casting were not recorded (N/A), and coupon-stage temperature and humidity during the nitrogen blow window were likewise not recorded (N/A).
+
+## Phase Inversion (NIPS)
+
+After the 250-second nitrogen purge period, the cast film was immersed into the NIPS bath, which consisted of a **water/PolarClean mixture (90/10 wt%)** maintained at **9 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1600 seconds** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Casting solvent | PolarClean |
+| Cosolvent | None |
+| Polymer concentration | 15.0 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 40 °C |
+| Casting speed | 6 mm/s |
+| Pre-immersion wait time | 250 s (N₂ purge) |
+| NIPS bath composition | Water / PolarClean (90/10 wt%) |
+| NIPS bath temperature | 9 °C |
+| NIPS immersion time | 1600 s |",,,,,1.4885037882260328,2.987220367601809,,,,,,,,,,,,,,,,,,,,,,,4 failed due to insufficient data to fit,"mixing_temp=40; bath_temp=9; polymer_wt=15.0; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 1.4885037882260328, ""Thickness SD"": 2.987220367601809, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": null, ""Strain at 50 bar SD"": null, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Reasons': '4 failed due to insufficient data to fit'","# Experimental Report: Polysulfone Membrane Synthesis via NIPS
+
+## Materials
+
+- **Polymer:** Polysulfone (PSf)
+- **Casting solvent:** PolarClean
+- **Cosolvent/additive:** None
+- **NIPS bath non-solvent:** Water
+- **NIPS bath cosolvent:** PolarClean (10.0 wt%)
+
+## Solution Preparation
+
+A polysulfone casting solution was prepared at a polymer concentration of **15.0 wt%** in PolarClean with no additional cosolvent or additive. The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto a substrate at a casting speed of **6 mm/s**. Immediately following casting, the film was subjected to a **dry nitrogen purge** for a duration of **250 seconds** prior to bath immersion, in order to control surface humidity exposure and minimize atmospheric moisture uptake during the pre-immersion period. Ambient air temperature and relative humidity during casting were not recorded (N/A), and coupon-stage temperature and humidity during the nitrogen blow window were likewise not recorded (N/A).
+
+## Phase Inversion (NIPS)
+
+After the 250-second nitrogen purge period, the cast film was immersed into the NIPS bath, which consisted of a **water/PolarClean mixture (90/10 wt%)** maintained at **9 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1600 seconds** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Casting solvent | PolarClean |
+| Cosolvent | None |
+| Polymer concentration | 15.0 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 40 °C |
+| Casting speed | 6 mm/s |
+| Pre-immersion wait time | 250 s (N₂ purge) |
+| NIPS bath composition | Water / PolarClean (90/10 wt%) |
+| NIPS bath temperature | 9 °C |
+| NIPS immersion time | 1600 s |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 1.4885037882260328, ""Thickness SD"": 2.987220367601809, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": null, ""Strain at 50 bar SD"": null, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Reasons': '4 failed due to insufficient data to fit'","- **Presence**: Membrane is only partially present — a small white coupon fragment is visible at the bottom of the aperture; the vast majority of the aperture is bare metal.
+
+- **Vertical Coverage**: Severe defect — membrane covers only the bottom ~20% of the aperture; the upper ~80% is completely absent.
+
+- **Uniformity**: The small visible fragment appears opaque/white but is too limited to assess meaningful uniformity.
+
+- **Defects**: The membrane fragment shows a torn, curled edge consistent with mechanical damage or delamination; no wrinkles within the material itself are discernible.
+
+- **Summary**: The membrane coupon is critically under-loaded or has catastrophically failed, with only a small torn fragment remaining at the bottom of the aperture.",2026-10-27 22:55:06,specimen_filename,"## Analysis
+
+### Pareto Front Assessment (current bath: PolarClean 10 wt%)
+
+The objectives are **Elastic Modulus** (higher = better) and **Pore Fraction** (higher = better). I need to identify non-dominated candidates from the full history, being careful to compare only within comparable bath contexts where relevant.
+
+**Key observations from history:**
+
+Looking at experiments with the **current bath (PolarClean 10 wt%)**:
+- `15-0add-9deg-bathSolv-PolarClean-10wt-250s-N2-1600s`: E=124 bar, PF=0.55 (run1, good quality)
+- `15p5-0add-6deg-bathSolv-PolarClean-10wt-250s-N2-1600s` run1: E=159, PF=0.61 (minor crease)
+- `15p5-0add-6deg-bathSolv-PolarClean-10wt-250s-N2-1600s` run2: E=163, PF=0.73 (clean)
+- `15p5-0add-6deg-bathSolv-PolarClean-10wt-250s-N2-1600s` run3: E=215, PF=0.57 (clean)
+- `15p5-0add-8deg-bathSolv-PolarClean-10wt-350s-N2-1600s`: E=136, PF=0.57 (clean)
+- `14p5-0add-10deg-bathSolv-PolarClean-10wt-200s-N2-1500s` run1: E=133, PF=0.62 (clean)
+- `14p5-0add-10deg-bathSolv-PolarClean-10wt-200s-N2-1500s` run2: E=105, PF=0.66 (clean, high CV=0.17)
+
+**The standout candidate in the 10 wt% bath is `15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s`:**
+- Run 1: E=159, PF=0.61
+- Run 2: E=163, PF=0.73 ← high pore fraction, good modulus
+- Run 3: E=215, PF=0.57
+
+Three runs exist but they show **high variability** in both objectives (PF ranges 0.57–0.73, E ranges 159–215). This is a strong Pareto-front candidate in the 10 wt% bath context, but the variability is substantial. Run 2 is particularly attractive (high on both axes), but run 3 shows much lower PF. The mean across runs is roughly E≈179, PF≈0.64 — still competitive. However, the spread is large enough that a 4th independent repeat would meaningfully clarify whether this condition reliably delivers both high modulus and high pore fraction.
+
+**Validation policy check:** Three independent synthesis repeats exist for this condition. The spread is large (PF SD across runs ~0.08, E SD ~28 bar). The policy says to validate when there's high CV or uncertain fit. With 3 runs showing this spread, a 4th repeat would further stabilize the mean estimate and is warranted before treating this as a confirmed Pareto improvement.
+
+**Alternative: explore a nearby region.** The data suggests that in the 10 wt% bath, lower bath temperature (6°C) with polymer_wt=15.5 and moderate wait time (250s) gives the best combined performance. We haven't tried slightly higher polymer_wt (e.g., 16.0) with bath_temp=6°C in the 10 wt% bath — that region is unexplored and could push modulus higher while maintaining pore fraction. However, the validation policy takes priority here.
+
+**Decision:** Validate `15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s` (4th repeat). The three existing runs show high variability across both objectives, making this a high-priority validation. The condition is feasible: polymer_wt=15.5 < 17.0, so mixing_temp=40°C is valid (not the undiluted stock constraint).
+
+**Expected benefit:** A 4th repeat will tighten the mean estimate for both E and PF. If the mean holds near run 2 (E≈163, PF≈0.73), this is a strong Pareto point in the 10 wt% bath — high pore fraction with reasonable modulus. If it regresses toward run 3, we learn the condition is unreliable and should explore alternatives.
+
+```json
+{
+  ""mixing_temp"": 40,
+  ""bath_temp"": 6,
+  ""pullcast_speed"": 6,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 250,
+  ""nips_bath_wait_time"": 1600,
+  ""polymer_wt"": 15.5,
+  ""additive_wt"": 0
+}
+```",
+"2026-10-28
+03:41:23",15p5-0add-6deg-cosolv-none-bathSolv-PolarClean-10wt-250s-N2-1600s_run4,40,6,15.5,0.0,6.0,True,250,1600,Polysulfone,PolarClean,none,PolarClean,10.0,"mixing_temp=40; bath_temp=6; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.5 [room air temperature during casting]; Humidity Mean=25.38 [room air humidity during casting]; Coupon Temp Mean=26.52 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=12.77 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a concentration of **15.5 wt%** in PolarClean as the primary solvent, with **no cosolvent or additive** included (additive wt% = 0.0). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.5 °C** and a mean relative humidity of **25.38%**.
+
+## Pre-Immersion Drying Step
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a total wait period of **250 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the evaporation interval. During this period, the coupon-stage temperature was measured at a mean of **26.52 °C**, with a reduced coupon-stage relative humidity of **12.77%**, confirming effective humidity suppression relative to ambient conditions.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion interval, the cast film was immersed into a NIPS coagulation bath consisting of **water with 10.0 wt% PolarClean** as a co-solvent additive to the bath, maintained at a controlled temperature of **6 °C**. The membrane coupon remained in the bath for **1600 seconds** to ensure complete phase inversion and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Solvent | PolarClean |
+| Cosolvent/Additive | None |
+| Polymer Concentration | 15.5 wt% |
+| Mixing Temperature | 40 °C |
+| Cast Speed | 6 mm/s |
+| Pre-Immersion Condition | Dry N₂ purge |
+| Pre-Immersion Wait Time | 250 s |
+| Ambient Temperature | 26.5 °C |
+| Ambient Humidity | 25.38% RH |
+| Coupon-Stage Temperature (N₂) | 26.52 °C |
+| Coupon-Stage Humidity (N₂) | 12.77% RH |
+| NIPS Bath Composition | Water + 10.0 wt% PolarClean |
+| Bath Temperature | 6 °C |
+| Bath Immersion Time | 1600 s |",26.5,25.38,26.52,12.77,131.12069163655713,1.8908921867247084,151.11588377799697,13.211503333457085,21.995320655414844,3.958781545358732,0.8157297032122697,0.0333587421419968,51.29275097875982,3.790456401138111,903.3998742859244,88.7427442537924,0.0484611176981762,0.00447043147994,0.6825541997359672,0.0800759568253858,0.8333805981757486,0.0242030284558327,0.9140619460005746,0.0295514043955189,,,0.0624199009566379,,,"mixing_temp=40; bath_temp=6; polymer_wt=15.5; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.5 [room air temperature during casting]; Humidity Mean=25.38 [room air humidity during casting]; Coupon Temp Mean=26.52 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=12.77 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.5, ""Humidity Mean"": 25.38, ""Coupon Temp Mean"": 26.52, ""Coupon Humidity Mean"": 12.77, ""Thickness Mean"": 131.12069163655713, ""Thickness SD"": 1.8908921867247084, ""Elastic Modulus Mean"": 151.11588377799697, ""Elastic Modulus SD"": 13.211503333457085, ""Yield Strength Mean"": 21.995320655414844, ""Yield Strength SD"": 3.958781545358732, ""Pore Fraction Mean"": 0.8157297032122697, ""Pore Fraction SD"": 0.033358742141996856, ""Slope Plateau Mean"": 51.29275097875982, ""Slope Plateau SD"": 3.790456401138111, ""Slope Densification Mean"": 903.3998742859245, ""Slope Densification SD"": 88.7427442537924, ""Creep Strain Mean"": 0.04846111769817629, ""Creep Strain SD"": 0.004470431479940096, ""Strain at 50 bar Mean"": 0.6825541997359672, ""Strain at 50 bar SD"": 0.08007595682538585, ""Strain at 80 bar Mean"": 0.8333805981757486, ""Strain at 80 bar SD"": 0.024203028455832762, ""Strain at 150 bar Mean"": 0.9140619460005746, ""Strain at 150 bar SD"": 0.02955140439551893, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.06241990095663794}","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a concentration of **15.5 wt%** in PolarClean as the primary solvent, with **no cosolvent or additive** included (additive wt% = 0.0). The solution was mixed and heated at **40 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.5 °C** and a mean relative humidity of **25.38%**.
+
+## Pre-Immersion Drying Step
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a total wait period of **250 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the evaporation interval. During this period, the coupon-stage temperature was measured at a mean of **26.52 °C**, with a reduced coupon-stage relative humidity of **12.77%**, confirming effective humidity suppression relative to ambient conditions.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion interval, the cast film was immersed into a NIPS coagulation bath consisting of **water with 10.0 wt% PolarClean** as a co-solvent additive to the bath, maintained at a controlled temperature of **6 °C**. The membrane coupon remained in the bath for **1600 seconds** to ensure complete phase inversion and membrane solidification.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Solvent | PolarClean |
+| Cosolvent/Additive | None |
+| Polymer Concentration | 15.5 wt% |
+| Mixing Temperature | 40 °C |
+| Cast Speed | 6 mm/s |
+| Pre-Immersion Condition | Dry N₂ purge |
+| Pre-Immersion Wait Time | 250 s |
+| Ambient Temperature | 26.5 °C |
+| Ambient Humidity | 25.38% RH |
+| Coupon-Stage Temperature (N₂) | 26.52 °C |
+| Coupon-Stage Humidity (N₂) | 12.77% RH |
+| NIPS Bath Composition | Water + 10.0 wt% PolarClean |
+| Bath Temperature | 6 °C |
+| Bath Immersion Time | 1600 s |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.5, ""Humidity Mean"": 25.38, ""Coupon Temp Mean"": 26.52, ""Coupon Humidity Mean"": 12.77, ""Thickness Mean"": 131.12069163655713, ""Thickness SD"": 1.8908921867247084, ""Elastic Modulus Mean"": 151.11588377799697, ""Elastic Modulus SD"": 13.211503333457085, ""Yield Strength Mean"": 21.995320655414844, ""Yield Strength SD"": 3.958781545358732, ""Pore Fraction Mean"": 0.8157297032122697, ""Pore Fraction SD"": 0.033358742141996856, ""Slope Plateau Mean"": 51.29275097875982, ""Slope Plateau SD"": 3.790456401138111, ""Slope Densification Mean"": 903.3998742859245, ""Slope Densification SD"": 88.7427442537924, ""Creep Strain Mean"": 0.04846111769817629, ""Creep Strain SD"": 0.004470431479940096, ""Strain at 50 bar Mean"": 0.6825541997359672, ""Strain at 50 bar SD"": 0.08007595682538585, ""Strain at 80 bar Mean"": 0.8333805981757486, ""Strain at 80 bar SD"": 0.024203028455832762, ""Strain at 150 bar Mean"": 0.9140619460005746, ""Strain at 150 bar SD"": 0.02955140439551893, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.06241990095663794}","- **Presence:** Membrane is visible — a pale white/light-grey sheet occupies the central aperture.
+
+- **Vertical Coverage:** Membrane appears to span the full top-to-bottom extent of the aperture with no gap at the top or bottom edge. ✓
+
+- **Uniformity:** Color and opacity are largely consistent across the membrane surface; slight tonal gradient toward the upper portion but no pronounced patchiness or dark spots.
+
+- **Defects:** No wrinkles, folds, or trapped air bubbles are discernible within the membrane material itself. Bright highlights visible on the metal rim are lighting artifacts.
+
+- **Summary:** The membrane coupon presents with good vertical coverage, acceptable uniformity, and no observable structural defects.",2026-10-28 01:18:47,specimen_filename,"## Analysis
+
+### Pareto Front Assessment (current bath: 10 wt% PolarClean)
+
+The current campaign context is **10 wt% PolarClean bath**. I must compare candidates carefully by their recorded bath context.
+
+**Key observations from the 10 wt% PolarClean bath experiments (most relevant to current context):**
+
+| Condition | Modulus (bar) | Pore Fraction | Quality |
+|---|---|---|---|
+| 15-0add-9deg-PolarClean-10wt-250s-N2-1600s | 124.3 | 0.55 | Good |
+| 15p5-0add-9deg-PolarClean-10wt-250s-N2-1600s (run2) | 110.7 | 0.59 | Good |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s (run1) | 159.0 | 0.61 | Minor crease |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s (run2) | 162.8 | 0.73 | Good ✓ |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s (run3) | 215.0 | 0.57 | Good ✓ |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s (run4) | 151.1 | 0.82 | Good ✓ |
+| 15p5-0add-8deg-PolarClean-10wt-350s-N2-1600s | 135.6 | 0.57 | Good ✓ |
+| 14p5-0add-10deg-PolarClean-10wt-200s-N2-1500s (run1) | 132.7 | 0.62 | Good ✓ |
+| 14p5-0add-10deg-PolarClean-10wt-200s-N2-1500s (run2) | 105.5 | 0.66 | Good ✓ |
+
+**The 15.5 wt% / 6°C / 250s / N2 / 1600s condition** (runs 1–4) is the most interesting in the 10 wt% bath:
+- Run 2: Modulus 162.8, PF 0.73 — high pore fraction
+- Run 3: Modulus 215.0, PF 0.57 — high modulus
+- Run 4: Modulus 151.1, PF 0.82 — very high pore fraction
+
+This condition shows **high variability** across runs (PF ranging 0.57–0.82, modulus 151–215 bar). With 4 runs, the mean pore fraction is approximately 0.68 and mean modulus ~171 bar. The CV is moderate. This is a promising candidate but the variability is high — it has not been independently confirmed as a stable Pareto-front point.
+
+**Validation status:** The 15.5/6°C/250s/N2/1600s condition has 4 runs in the 10 wt% bath, but with high variability (PF SD ~0.11, modulus SD ~28 bar across runs). This is enough data to estimate the mean but the spread is large. The condition is not yet confirmed as a reliable Pareto improvement.
+
+**Exploration opportunity:** The data in the 10 wt% bath is concentrated around polymer_wt 14–15.5, bath_temp 6–10°C, pullcast_speed 5–8, coupon_to_bath_wait_time 200–350s. The **higher polymer concentration (16–17 wt%)** with the 10 wt% bath is undersampled — only one attempt at 16 wt% (which had a top-gap defect). Higher polymer concentration tends to increase modulus; the 10 wt% bath (which slows phase separation) combined with higher polymer_wt could yield a different modulus/pore-fraction tradeoff.
+
+**Decision:** The 15.5/6°C/250s condition has shown the best combined performance in the 10 wt% bath but with high run-to-run variability. However, 4 runs have been completed. Rather than repeating indefinitely, I should now **explore a nearby but distinct region** that could improve the Pareto front: slightly higher polymer concentration (16 wt%) with the 10 wt% bath, moderate bath temp (7–8°C), and moderate wait time. This is under-sampled in the current bath context and physically motivated — higher polymer_wt should increase modulus while the 10 wt% bath may preserve pore fraction better than a pure water bath.
+
+The 16 wt% / 9°C attempt had a top-gap defect. I'll try **16 wt%, bath_temp 7°C, pullcast_speed 6, coupon_to_bath_wait_time 250s, N2, nips_bath_wait_time 1600s, mixing_temp 50°C** — a modest step from the 15.5 wt% region toward higher modulus while keeping conditions that have produced good membranes.
+
+```json
+{
+  ""mixing_temp"": 50,
+  ""bath_temp"": 7,
+  ""pullcast_speed"": 6,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 250,
+  ""nips_bath_wait_time"": 1600,
+  ""polymer_wt"": 16.0,
+  ""additive_wt"": 0
+}
+```
+
+**Rationale:**
+- **Polymer_wt = 16.0**: Steps into an under-sampled region in the 10 wt% PolarClean bath. Higher polymer concentration is expected to increase elastic modulus. The only prior 16 wt% attempt in this bath (bath_temp 9°C) had a coverage defect; this uses bath_temp 7°C which has shown better coverage in nearby conditions.
+- **Bath_temp = 7°C**: Colder bath accelerates phase separation, which combined with the 10 wt% PolarClean bath (which moderates it) may yield a balanced structure. This temperature is under-sampled in the 10 wt% bath context.
+- **Pullcast_speed = 6 mm/s, coupon_to_bath_wait_time = 250s, N2 = true**: Consistent with the productive region identified in the 10 wt% bath experiments (good membrane quality, full coverage).
+- **Mixing_temp = 50°C**: Appropriate for 16 wt% polymer to ensure good dissolution without being at the undiluted stock constraint.
+- **Expected benefit**: If modulus increases toward 200–250 bar while pore fraction remains ≥0.60, this would represent a Pareto improvement over the current 10 wt% bath front. If pore fraction drops, it clarifies the tradeoff at higher polymer concentration in this bath system.",
+"2026-10-28
+06:23:12",16-0add-7deg-cosolv-none-bathSolv-PolarClean-10wt-250s-N2-1600s,50,7,16.0,0.0,6.0,True,250,1600,Polysulfone,PolarClean,none,PolarClean,10.0,"mixing_temp=50; bath_temp=7; polymer_wt=16.0; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.56 [room air temperature during casting]; Humidity Mean=23.95 [room air humidity during casting]; Coupon Temp Mean=26.71 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=11.47 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","## Experimental Report: Polysulfone Membrane Synthesis via NIPS
+
+### Polymer Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a concentration of **16.0 wt%** in PolarClean as the primary solvent, with no cosolvent or additive included (0.0 wt% additive). The solution was mixed and heated at **50 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+### Membrane Casting
+
+The polymer solution was blade-cast onto a substrate at a casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.56 °C** and a mean relative humidity of **23.95%**.
+
+### Pre-Immersion Drying Step
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a hold period of **250 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the evaporation interval. During this period, the coupon-stage temperature was measured at a mean of **26.71 °C**, with a reduced local relative humidity of **11.47%**, confirming effective displacement of ambient humidity at the film surface by the nitrogen flow.
+
+### Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion hold, the cast film was immersed into a NIPS coagulation bath consisting of **water with 10.0 wt% PolarClean** as a co-solvent additive, maintained at a controlled bath temperature of **7 °C**. The membrane was held in the bath for **1600 seconds** to allow complete phase inversion and membrane solidification.
+
+### Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Polymer concentration | 16.0 wt% |
+| Solvent | PolarClean |
+| Cosolvent/Additive | None (0.0 wt%) |
+| Mixing temperature | 50 °C |
+| Casting speed | 6 mm/s |
+| Pre-immersion hold time | 250 s (N₂ purge) |
+| Coupon-stage temperature (N₂) | 26.71 °C |
+| Coupon-stage humidity (N₂) | 11.47% RH |
+| Ambient temperature | 26.56 °C |
+| Ambient humidity | 23.95% RH |
+| NIPS bath composition | Water + 10.0 wt% PolarClean |
+| Bath temperature | 7 °C |
+| Bath immersion time | 1600 s |",26.56,23.95,26.71,11.47,121.67871555168465,0.563676421529119,192.48978964302387,38.1244707184283,26.621704539382726,2.45910407126092,0.5295511549160502,0.0691497727323758,104.11296022883867,6.256193758011024,628.3231501256439,193.9230660179532,0.0866151076009522,0.031513141022017,0.3675695319229959,0.0198902991413338,0.5250868904380105,0.0299865649111435,0.6532462030583196,0.0,,,0.1002075215241323,,,"mixing_temp=50; bath_temp=7; polymer_wt=16.0; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.56 [room air temperature during casting]; Humidity Mean=23.95 [room air humidity during casting]; Coupon Temp Mean=26.71 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=11.47 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.56, ""Humidity Mean"": 23.95, ""Coupon Temp Mean"": 26.71, ""Coupon Humidity Mean"": 11.47, ""Thickness Mean"": 121.67871555168465, ""Thickness SD"": 0.563676421529119, ""Elastic Modulus Mean"": 192.48978964302387, ""Elastic Modulus SD"": 38.1244707184283, ""Yield Strength Mean"": 26.621704539382726, ""Yield Strength SD"": 2.45910407126092, ""Pore Fraction Mean"": 0.5295511549160502, ""Pore Fraction SD"": 0.06914977273237584, ""Slope Plateau Mean"": 104.11296022883869, ""Slope Plateau SD"": 6.256193758011024, ""Slope Densification Mean"": 628.3231501256439, ""Slope Densification SD"": 193.92306601795318, ""Creep Strain Mean"": 0.0866151076009522, ""Creep Strain SD"": 0.031513141022017035, ""Strain at 50 bar Mean"": 0.3675695319229959, ""Strain at 50 bar SD"": 0.019890299141333896, ""Strain at 80 bar Mean"": 0.5250868904380105, ""Strain at 80 bar SD"": 0.029986564911143553, ""Strain at 150 bar Mean"": 0.6532462030583196, ""Strain at 150 bar SD"": 0.0, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.10020752152413236}","## Experimental Report: Polysulfone Membrane Synthesis via NIPS
+
+### Polymer Solution Preparation
+
+A polysulfone (PSf) casting solution was prepared at a concentration of **16.0 wt%** in PolarClean as the primary solvent, with no cosolvent or additive included (0.0 wt% additive). The solution was mixed and heated at **50 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+### Membrane Casting
+
+The polymer solution was blade-cast onto a substrate at a casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.56 °C** and a mean relative humidity of **23.95%**.
+
+### Pre-Immersion Drying Step
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a hold period of **250 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the evaporation interval. During this period, the coupon-stage temperature was measured at a mean of **26.71 °C**, with a reduced local relative humidity of **11.47%**, confirming effective displacement of ambient humidity at the film surface by the nitrogen flow.
+
+### Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion hold, the cast film was immersed into a NIPS coagulation bath consisting of **water with 10.0 wt% PolarClean** as a co-solvent additive, maintained at a controlled bath temperature of **7 °C**. The membrane was held in the bath for **1600 seconds** to allow complete phase inversion and membrane solidification.
+
+### Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Polysulfone |
+| Polymer concentration | 16.0 wt% |
+| Solvent | PolarClean |
+| Cosolvent/Additive | None (0.0 wt%) |
+| Mixing temperature | 50 °C |
+| Casting speed | 6 mm/s |
+| Pre-immersion hold time | 250 s (N₂ purge) |
+| Coupon-stage temperature (N₂) | 26.71 °C |
+| Coupon-stage humidity (N₂) | 11.47% RH |
+| Ambient temperature | 26.56 °C |
+| Ambient humidity | 23.95% RH |
+| NIPS bath composition | Water + 10.0 wt% PolarClean |
+| Bath temperature | 7 °C |
+| Bath immersion time | 1600 s |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.56, ""Humidity Mean"": 23.95, ""Coupon Temp Mean"": 26.71, ""Coupon Humidity Mean"": 11.47, ""Thickness Mean"": 121.67871555168465, ""Thickness SD"": 0.563676421529119, ""Elastic Modulus Mean"": 192.48978964302387, ""Elastic Modulus SD"": 38.1244707184283, ""Yield Strength Mean"": 26.621704539382726, ""Yield Strength SD"": 2.45910407126092, ""Pore Fraction Mean"": 0.5295511549160502, ""Pore Fraction SD"": 0.06914977273237584, ""Slope Plateau Mean"": 104.11296022883869, ""Slope Plateau SD"": 6.256193758011024, ""Slope Densification Mean"": 628.3231501256439, ""Slope Densification SD"": 193.92306601795318, ""Creep Strain Mean"": 0.0866151076009522, ""Creep Strain SD"": 0.031513141022017035, ""Strain at 50 bar Mean"": 0.3675695319229959, ""Strain at 50 bar SD"": 0.019890299141333896, ""Strain at 80 bar Mean"": 0.5250868904380105, ""Strain at 80 bar SD"": 0.029986564911143553, ""Strain at 150 bar Mean"": 0.6532462030583196, ""Strain at 150 bar SD"": 0.0, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.10020752152413236}","- **Presence:** Membrane is visible — a pale white/grey coupon occupies the aperture.
+
+- **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap is visible between the membrane's upper boundary and the top of the aperture rim. Bottom edge appears adequately covered. This is a notable vertical coverage defect.
+
+- **Uniformity:** The membrane surface appears largely uniform in color and opacity, with no obvious patchiness or dark spots across the bulk of the material.
+
+- **Defects:** No wrinkles or trapped air bubbles are discernible within the membrane material itself; bright reflections are confined to the metal rim and are lighting artifacts.
+
+- **Summary:** The membrane is present and visually uniform, but exhibits a significant top-edge vertical coverage gap that constitutes a placement defect.",2026-10-28 03:57:09,specimen_filename,"## Analysis
+
+### Pareto Front Assessment (current bath: PolarClean 10 wt%)
+
+The current campaign context is **PolarClean 10 wt% NIPS bath**. I must compare candidates under their recorded bath conditions — the historical 0 wt% bath results are not directly comparable to the current 10 wt% bath context.
+
+**Experiments with PolarClean 10 wt% bath (current context):**
+
+| Condition | Modulus (bar) | Pore Fraction | Quality |
+|---|---|---|---|
+| 15-0add-9deg-PolarClean-10wt-250s-N2-1600s | 124.3 | 0.55 | Good |
+| 15p5-0add-9deg-PolarClean-10wt-250s-N2-1600s | failed | null | Failed |
+| 16-0add-9deg-PolarClean-10wt-250s-N2-1600s | 176.7 | 0.52 | Top gap |
+| 14p5-0add-10deg-PolarClean-10wt-200s-N2-1500s | 132.7 | 0.62 | Good |
+| 15-0add-8deg-PolarClean-10wt-300s-N2-1600s | 147.1 | 0.58 | Top gap |
+| 15p5-0add-9deg-PolarClean-10wt-250s-N2-1600s_run2 | 110.7 | 0.59 | Good |
+| 14p5-0add-10deg-PolarClean-10wt-200s-N2-1500s_run2 | 105.5 | 0.66 | Good |
+| 15p5-0add-8deg-PolarClean-10wt-200s-N2-1600s | failed | null | Failed |
+| 15-0add-8deg-PolarClean-10wt-200s-N2-1600s | 129.3 | 0.49 | Wrinkle |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s | 159.0 | 0.61 | Minor crease |
+| 15p5-0add-8deg-PolarClean-10wt-350s-N2-1600s | 135.6 | 0.57 | Good |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s_run2 | 162.8 | 0.73 | Good ✓ |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s_run3 | 215.0 | 0.57 | Good ✓ |
+| 15-0add-9deg-PolarClean-10wt-250s-N2-1600s_run2 | failed | null | Failed |
+| 15p5-0add-6deg-PolarClean-10wt-250s-N2-1600s_run4 | 151.1 | 0.82 | Good ✓ |
+| 16-0add-7deg-PolarClean-10wt-250s-N2-1600s | 192.5 | 0.53 | Top gap |
+
+### Key Observations
+
+**Best candidates in 10 wt% bath:**
+- **15p5-0add-6deg-run2**: Modulus 162.8, Pore Fraction 0.73 — good quality, high pore fraction
+- **15p5-0add-6deg-run3**: Modulus 215.0, Pore Fraction 0.57 — good quality, high modulus
+- **15p5-0add-6deg-run4**: Modulus 151.1, Pore Fraction 0.82 — good quality, very high pore fraction
+
+The condition **polymer_wt=15.5, bath_temp=6°C, pullcast_speed=6, coupon_to_bath_wait_time=250, nips_bath_wait_time=1600, mixing_temp=40, N2=true** has been run 4 times with the 10 wt% bath. Results show high variability: pore fraction ranges 0.57–0.82, modulus 151–215 bar. This is a promising region but with high run-to-run variability.
+
+**Validation status**: The 15p5/6°C/250s condition has 4 independent runs (run1 had minor crease, runs 2–4 were good quality). The mean modulus across good-quality runs (2,3,4) is ~176 bar, mean pore fraction ~0.71. This is already reasonably validated with 3 clean runs, though variability is high (CV on pore fraction ~0.18).
+
+**Under-explored region in 10 wt% bath**: Higher polymer concentrations (16–17 wt%) with the 10 wt% bath have barely been explored (only 16 wt% at 9°C and 7°C, both with top-gap defects). The 0 wt% bath data shows that higher polymer_wt (16–17) tends to give higher modulus. With the 10 wt% bath slowing phase separation, a moderate polymer concentration with a colder bath could yield both higher modulus and maintained pore fraction.
+
+**Gap in coverage**: The combination of **polymer_wt ~15.5–16, bath_temp ~5–7°C, moderate wait time ~200–300s** with the 10 wt% bath is under-sampled. The 15p5/6°C condition is promising but we haven't tried slightly higher polymer_wt (16.0) with a very cold bath (5°C) in the 10 wt% bath context.
+
+**Proposed experiment**: polymer_wt=16.0, bath_temp=5°C, mixing_temp=45°C, pullcast_speed=6, coupon_to_bath_wait_time=250s, nips_bath_wait_time=1600s, N2=true.
+
+**Rationale**: 
+- Higher polymer_wt (16.0 vs 15.5) should increase modulus (consistent with 0 wt% bath trends)
+- Colder bath (5°C vs 6°C) slows phase separation further, potentially maintaining or increasing pore fraction
+- The 10 wt% PolarClean bath already slows demixing; combining with cold bath and slightly higher polymer concentration explores a promising but unsampled region
+- Moderate wait time (250s) and slow speed (6 mm/s) are consistent with the successful 15p5/6°C runs
+- This is a genuinely new point in the 10 wt% bath space (no prior experiment at polymer_wt=16.0, bath_temp=5°C with this bath)
+- Expected benefit: potentially higher modulus than 15p5 runs (~200+ bar) while maintaining pore fraction ≥0.60
+
+```json
+{
+  ""mixing_temp"": 45,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 6,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 250,
+  ""nips_bath_wait_time"": 1600,
+  ""polymer_wt"": 16.0,
+  ""additive_wt"": 0
+}
+```",
+"2026-10-28
+08:57:33",16-0add-5deg-cosolv-none-bathSolv-PolarClean-10wt-250s-N2-1600s,45,5,16.0,0.0,6.0,True,250,1600,Polysulfone,PolarClean,none,PolarClean,10.0,"mixing_temp=45; bath_temp=5; polymer_wt=16.0; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.41 [room air temperature during casting]; Humidity Mean=24.6 [room air humidity during casting]; Coupon Temp Mean=26.58 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=11.24 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]",,26.41,24.6,26.58,11.24,162.29698810197954,3.421752261346787,222.89795319987184,8.591344538344067,26.470123095489583,2.3369407524005514,0.5212616889442515,0.1034714636044093,122.5858326673685,7.033480951740099,511.15791232902177,122.32941208973553,0.0763478335954294,0.0301690520451488,0.3352970712941032,0.0240354023700127,0.4889966644095262,0.0355239698586824,0.7216989813967264,0.0240519254740382,,,0.1159927414944658,,,"mixing_temp=45; bath_temp=5; polymer_wt=16.0; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=250; nips_bath_wait_time=1600; polymer_type=Polysulfone; solvent_type=PolarClean; cosolvent_type=none; nips_bath_solvent=PolarClean; nips_bath_solvent_wt_percent=10.0; Air Temp Mean=26.41 [room air temperature during casting]; Humidity Mean=24.6 [room air humidity during casting]; Coupon Temp Mean=26.58 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=11.24 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.41, ""Humidity Mean"": 24.6, ""Coupon Temp Mean"": 26.58, ""Coupon Humidity Mean"": 11.24, ""Thickness Mean"": 162.29698810197954, ""Thickness SD"": 3.421752261346787, ""Elastic Modulus Mean"": 222.89795319987184, ""Elastic Modulus SD"": 8.591344538344067, ""Yield Strength Mean"": 26.470123095489583, ""Yield Strength SD"": 2.3369407524005514, ""Pore Fraction Mean"": 0.5212616889442515, ""Pore Fraction SD"": 0.10347146360440937, ""Slope Plateau Mean"": 122.5858326673685, ""Slope Plateau SD"": 7.033480951740099, ""Slope Densification Mean"": 511.15791232902177, ""Slope Densification SD"": 122.32941208973553, ""Creep Strain Mean"": 0.07634783359542946, ""Creep Strain SD"": 0.030169052045148893, ""Strain at 50 bar Mean"": 0.33529707129410324, ""Strain at 50 bar SD"": 0.02403540237001275, ""Strain at 80 bar Mean"": 0.48899666440952627, ""Strain at 80 bar SD"": 0.03552396985868241, ""Strain at 150 bar Mean"": 0.7216989813967264, ""Strain at 150 bar SD"": 0.024051925474038227, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.11599274149446584}",,,,,,
