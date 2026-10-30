@@ -10,9 +10,13 @@
   plan and external-source binding. Resolve shared skills through
   `NIPS_SHARED_AGENT_ROOT`; do not add a submodule or copy shared skill bodies.
 - The user has authorized Goal execution of the reviewed Harness plan. Product
-  execution requires a
-  verified independent persistent top-level Writer in this exact Worktree and
+  execution requires a verified independent persistent top-level Writer in this exact Worktree and
   controller-approved literal step ownership. A generic subagent is not a Writer.
+- The user selected ordinary Git commits instead of the shared automatic commit
+  manager. Keep the plan, Controller/Writer ownership, independent QA and final
+  DCP; use explicit-file Git staging and commit verification. Do not run the
+  canonical manager or create its progress.json/fingerprint records for this task.
+- The controller records progress in the selected workspace's EXECUTION_STATUS.md.
 - Preserve pre-existing uncommitted implementation. Planning files do not prove
   Harness initialization, QA acceptance, production support or step completion.
 - Dynamic experiment turns use `docs/mas/workflow.md` and
