@@ -47,6 +47,8 @@ import url_29 as url                           # <<< IMPORT >>> must be in same 
 import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same folder
 import master_processing                       # <<< IMPORT >>> dispatches curve_segmentation + image_processing branches
 import llm_context                             # <<< IMPORT >>> what branch results become CSV/report text for the LLM
+import codex_context
+from mas_schema import validate_conditions
 
 # Semi-batch material choices. Recorded with every condition and provided to LLM_AL as context,
 # but never selected or changed by the model.
@@ -105,13 +107,17 @@ ITERATE_POLYMER = False
 #   "double": maximize elastic modulus and pore fraction, including validation
 #   "double_explore": same two objectives with modest exploration of promising regions
 #   "explore": maximize diversity/coverage to populate the dataset
+#   "dynamic": Codex hypothesis-driven MAS with independent stage QA
 # Double mode needs measured pore fractions in performance reports or the LLM CSV's
 # pore_fraction_report column, with units/scale. Missing measurements remain unknown.
 LLM_AL_SEARCH_MODE = "double_explore"
 # Historical context; also generates the first suggestion for a new campaign.
 # Set to None to start without historical context.
 LLM_AL_WARM_START_CSV = _REPO_ROOT / "data/warm_start/primospire_nmp.csv"
-llm_context.resolve_al_mode(LLM_AL_SEARCH_MODE)  # Fail early on a misspelled mode.
+REQUIRE_CODEX_MODES = codex_context.REQUIRE_CODEX_MODES
+DYNAMIC_OBJECTIVE = codex_context.DEFAULT_OBJECTIVE  # Operator-editable campaign objective.
+if LLM_AL_SEARCH_MODE not in REQUIRE_CODEX_MODES:
+    llm_context.resolve_al_mode(LLM_AL_SEARCH_MODE)  # Fail early on a misspelled mode.
 # Number of recent unique points provided as diversity context when
 # LLM_AL_SEARCH_MODE="explore" or "double_explore". None keeps all unique points.
 LLM_AL_EXPLORATION_HISTORY_POINTS = None
@@ -543,6 +549,14 @@ def _enforce_stock_mixing_temperature(params):
 def _new_campaign_params():
     """Reuse this campaign's saved first suggestion before requesting a new one."""
     result_path = CSV_AGG_LLM.parent / "initial_suggestion.json"
+    if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+        decision = _dynamic_recommendation(None, CSV_AGG_LLM, initial=True)
+        if decision["action"] != "run":
+            print(f"[MAS] {decision['action']}: {decision['reason']}")
+            return None
+        params = decision["next_params"]
+        _write_dynamic_params(result_path, params, initial=True)
+        return params
     if result_path.exists():
         saved = json.loads(result_path.read_text(encoding="utf-8"))
         if not isinstance(saved, dict) or not isinstance(saved.get("next_params"), dict):
@@ -618,6 +632,17 @@ def _load_resume_params_for_campaign(campaign_date):
         )
 
     llm_result = JSON_RESULTS_DIR / f"llm_result_{last_condition}.json"
+    if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+        state = _load_checkpoint(last_condition)
+        if "next_run_submitted" in (state or {}).get("completed_stages", []):
+            print(f"[MAS] next experiment already submitted for {last_condition}; waiting for callback")
+            return None
+        params_path = _checkpoint_path(last_condition).parent / "params.json"
+        if not params_path.exists():
+            raise ValueError(f"Dynamic recovery requires the original performed conditions: {params_path}")
+        _run_pipeline_and_trigger_next(json.loads(params_path.read_text(encoding="utf-8")),
+                                       resume_condition=last_condition)
+        return None
     if not llm_result.exists() or llm_result.stat().st_size == 0:
         print(
             f"Resume recommendation missing for {last_condition}; "
@@ -676,6 +701,85 @@ def _load_resume_params_for_campaign(campaign_date):
     return params
 
 
+def _validate_dynamic_settings():
+    if LLM_AL_SEARCH_MODE not in REQUIRE_CODEX_MODES:
+        return
+    if ITERATE_ADDITIVES or ITERATE_POLYMER:
+        raise ValueError("Dynamic MAS cannot be combined with fixed iteration modes")
+    if not any(config["enabled"] and config["type"] == "performance"
+               for config in master_processing.BRANCH_CONFIG.values()):
+        raise ValueError("Dynamic MAS requires an enabled performance branch")
+
+
+def _dynamic_recommendation(condition_name, llm_csv, *, initial=False):
+    _validate_dynamic_settings()
+    decision = codex_context.generate_reports_and_suggestion(
+        condition_name, llm_csv, activeLearning,
+        locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
+        al_search_mode=LLM_AL_SEARCH_MODE,
+        warm_start_csv=LLM_AL_WARM_START_CSV,
+        material_context=_current_material_context(), initial=initial,
+        objective=DYNAMIC_OBJECTIVE,
+    )
+    if decision["action"] == "run":
+        _validate_dynamic_params(decision["next_params"])
+    return decision
+
+
+def _validate_dynamic_params(params):
+    clean = {key: value for key, value in params.items() if key != "stock_metadata"}
+    _validate_params(clean)
+    validate_conditions(clean, activeLearning.bounds, _current_material_context(),
+                        LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None)
+
+
+def _write_dynamic_params(path, params, *, initial=False):
+    """Persist exactly reviewed conditions, refusing an inconsistent recovery file."""
+    _validate_dynamic_params(params)
+    saved = dict(params)
+    if initial:
+        saved = {"search_mode": LLM_AL_SEARCH_MODE, "next_params": saved}
+    else:
+        saved["stock_metadata"] = activeLearning.bounds.send_metadata()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
+        existing = json.loads(path.read_text(encoding="utf-8"))
+        compared = {key: existing.get(key) for key in saved} if initial else existing
+        if compared != saved:
+            raise ValueError(f"Saved execution conditions differ from the reviewed MAS decision: {path}")
+        return  # Preserve an initial submission journal already saved in this file.
+    temporary = path.with_suffix(".json.tmp")
+    temporary.write_text(json.dumps(saved, indent=2), encoding="utf-8")
+    os.replace(temporary, path)
+
+
+def _submit_dynamic_initial(params):
+    """Use a durable request ID for the initial experiment, including restart recovery."""
+    _validate_dynamic_params(params)
+    path = CSV_AGG_LLM.parent / "initial_suggestion.json"
+    saved = json.loads(path.read_text(encoding="utf-8"))
+    clean = {key: value for key, value in params.items() if key != "stock_metadata"}
+    if saved["next_params"] != clean:
+        raise ValueError("Initial conditions changed after MAS review")
+    submission = saved.get("submission", {})
+    if submission.get("submitted"):
+        print("[MAS] initial experiment already submitted; waiting for callback")
+        return
+    if submission and not (submission.get("request_id") and submission.get("journal_id")):
+        raise RuntimeError("Initial submission identity missing; inspect robot state")
+    health = url.check_health(expected_journal=submission.get("journal_id"))
+    submission.setdefault("request_id", str(uuid.uuid4()))
+    submission["journal_id"] = health["journal_id"]
+    saved["submission"] = submission
+    temporary = path.with_suffix(".json.tmp")
+    temporary.write_text(json.dumps(saved, indent=2), encoding="utf-8")
+    os.replace(temporary, path)
+    url.run_test(params, request_id=submission["request_id"], journal_id=submission["journal_id"])
+    submission["submitted"] = True
+    temporary.write_text(json.dumps(saved, indent=2), encoding="utf-8")
+    os.replace(temporary, path)
+
+
 def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=None):
     # robot echoes back whatever we posted, including stock_metadata — strip it here so
     # it never reaches params.json / move_and_rename / the CSV pipeline
@@ -693,8 +797,9 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
     # sent to the next physical test, and whether an unparseable LLM suggestion is fatal.
     iterating = ITERATE_ADDITIVES or ITERATE_POLYMER or not master_processing.any_branch_enabled()
 
+    condition_name = None
     try:
-        condition_name = None
+        _validate_dynamic_settings()
         line = "\n-----------------------------------\n"
         print("\n[1/5] organising files...")
         condition_name = resume_condition or move_and_rename(params)
@@ -704,6 +809,12 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
             "branch_results": {},
         }
         completed = state.setdefault("completed_stages", [])
+        if "next_run_submitted" in completed:
+            print(f"[RESUME] next experiment already submitted for {condition_name}")
+            return
+        if state.get("mas_decision", {}).get("action") in {"hold", "stop"}:
+            print(f"[MAS] preserving {state['mas_decision']['action']}: {state['mas_decision']['reason']}")
+            return
         if "files_saved" not in completed:
             _complete_stage(condition_name, state, "files_saved")
         if resume_condition:
@@ -770,7 +881,21 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
             raise ValueError(f"LLM CSV missing or empty after promote_to_main: {CSV_AGG_LLM}")
 
         json_out = JSON_RESULTS_DIR / f"llm_result_{condition_name}.json"
-        if "recommendation_saved" in completed and json_out.exists():
+        if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+            if "submission_started" in completed and not state.get("mas_decision"):
+                raise RuntimeError("Cannot adopt an unreviewed legacy submission as a dynamic decision")
+            decision = _dynamic_recommendation(condition_name, CSV_AGG_LLM)
+            _complete_stage(condition_name, state, "decision_recorded", mas_decision={
+                key: decision[key] for key in ("action", "reason", "report_path")
+            })
+            if decision["action"] != "run":
+                print(f"[MAS] {decision['action']}: {decision['reason']}")
+                return
+            new_params = decision["next_params"]
+            _write_dynamic_params(json_out, new_params)
+            new_params = dict(new_params, stock_metadata=activeLearning.bounds.send_metadata())
+            _complete_stage(condition_name, state, "recommendation_saved")
+        elif "recommendation_saved" in completed and json_out.exists():
             with json_out.open(encoding="utf-8") as f:
                 new_params = json.load(f)
         else:
@@ -926,6 +1051,7 @@ class LoopHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 if __name__ == "__main__":
+    _validate_dynamic_settings()
     startup(LOCK_ADDITIVE_WT, LOCK_ADDITIVE_WT_VALUE, ITERATE_ADDITIVES, ITERATE_POLYMER, CONTINUE_CAMPAIGN, d)
     _log_path = _REPO_ROOT / "logs" / f"run_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')}.log"
     sys.stdout = _TeeLogger(_log_path, sys.__stdout__)
@@ -958,7 +1084,9 @@ if __name__ == "__main__":
         if first_params is None:
             print("[ITERATE] iteration list(s) empty — nothing to run")
             sys.exit(1)
-    elif CONTINUE_CAMPAIGN is not None:
+    elif (CONTINUE_CAMPAIGN is not None
+          or (LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES
+              and CSV_AGG_LLM.exists() and CSV_AGG_LLM.stat().st_size > 0)):
         first_params = _load_resume_params_for_campaign(d)
     else:
         first_params = _new_campaign_params()
@@ -969,8 +1097,11 @@ if __name__ == "__main__":
             first_params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
         _enforce_stock_mixing_temperature(first_params)
         print(f"kicking off first experiment: {first_params}")
-        url.run_test(first_params)
-    print("robot started — loop running. Ctrl+C to stop.")
+        if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+            _submit_dynamic_initial(first_params)
+        else:
+            url.run_test(first_params)
+    print("server ready — experiment loop or saved MAS hold/stop active. Ctrl+C to stop.")
 
     try:
         while True:

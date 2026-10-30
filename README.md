@@ -78,3 +78,7 @@ and supplied to LLM-AL for both new and resumed recommendations. `SOLVENT_TYPE`
 is the base casting solvent, separate from the cosolvent and NIPS bath solvent.
 The model cannot change these settings. Older records without identities remain
 unknown rather than inheriting the current campaign's materials.
+
+For the optional Codex hypothesis-driven `dynamic` mode, install the locked Python
+environment with `uv sync --locked` and follow [the MAS workflow](docs/mas/workflow.md).
+Its report-only entry point and offline tests do not submit robot requests.
