@@ -9,8 +9,8 @@ No canonical progress.json or transaction fingerprint is generated.
 | Bootstrap | Preserve unaccepted old WIP | VERIFIED | 7c69df0a |
 | Local execution | Ordinary Git; Controller/Writer and QA retained | VERIFIED | 4968dd68, 4a9ee17c |
 | 1 / 1 | Shared evidence and inquiry guidance | VERIFIED | e0b6e66f |
-| 1 / 2 | Main agent and adaptive workflow | QA_ACCEPTED | Subject: docs design adaptive campaign main agent |
-| 2 / 1 | Analyst and analysis QA | PENDING | — |
+| 1 / 2 | Main agent and adaptive workflow | VERIFIED | 6e26d681 |
+| 2 / 1 | Analyst and analysis QA | QA_ACCEPTED | Subject: docs design experiment analysis agent pair |
 | 2 / 2 | Hypothesis updater and hypothesis QA | PENDING | — |
 | 2 / 3 | Designer and design QA | PENDING | — |
 | 3 / 1 | Isolated report-only SDK pilot | PENDING | — |
@@ -19,9 +19,9 @@ No canonical progress.json or transaction fingerprint is generated.
 
 ## Current boundary
 
-Phase 1 Step 2 Writer returned ownership; independent QA accepted the frozen
-three-document candidate. Controller owns this receipt and native Git commit.
-The analysis/analysis-QA pair is next after publication.
+Phase 2 Step 1 Writer returned ownership. Fresh independent QA accepted four
+analysis-pair documents. Controller owns this receipt and exact native Git
+transition; hypothesis pair follows after the matching commit.
 
 ## Setup acceptance
 
@@ -48,3 +48,12 @@ isolated fresh reader inspected only the supplied main AGENTS artifact with
 zero additional reads; formal QA adjudicated applicable readability with no
 blocking finding. File hashes, whitespace and source claims checked; live SDK/
 scientific usefulness and production migration remain untested.
+
+## Phase 2 Step 1 acceptance
+
+Fresh independent QA: PASS, no findings. Full four-document source/style review,
+14 links, worked arithmetic and October table headers passed. Both AGENTS had
+fresh isolated exact-file readers with zero extra reads; formal QA adjudicated
+no action-changing ambiguity. Role/candidate/own-review-workarea boundaries are
+clear. No live scientific/SDK or production behavior is accepted by this step.
+Phase 3 binding rollout must synchronize any current-binding boundary wording.
