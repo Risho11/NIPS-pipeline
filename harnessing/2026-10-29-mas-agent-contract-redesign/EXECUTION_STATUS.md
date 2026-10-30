@@ -14,17 +14,19 @@ No canonical progress.json or transaction fingerprint is generated.
 | 2 / 2 | Hypothesis updater and hypothesis QA | VERIFIED | d62b16c1 |
 | 2 / 3 | Designer and design QA | VERIFIED | 13a956f3 |
 | 3 / 1 | Isolated report-only SDK pilot | VERIFIED | f57409b0 |
-| 3 / 2 | Actual-data next-point evaluation | QA_ACCEPTED | Subject: docs evaluate MAS inquiry on existing experiment data |
-| 4 / 1 | Durable Contract Promotion | PENDING | — |
+| 3 / 2 | Actual-data next-point evaluation | VERIFIED | 2d37e5df |
+| 4 / 1 | Durable Contract Promotion | QA_ACCEPTED | Subject: docs Durable Contract Promotion |
 
 ## Current boundary
 
-Phase 3 Step 2 has fresh independent QA2 acceptance after the report count
-correction and awaits native Git publication. Writer is QUIESCENT with ownership
-returned. One actual English report-only case completed; no actionable scientific
-or implementation defect remains in that tested recommendation. The documented
-soft coordination aim and private-language observability limit are retained,
-not relabeled PASS. Untested coverage remains NOT_RUN. Final DCP is still pending.
+All seven ordered predecessors are committed/verified. Fresh independent DCP
+QA passed; controller adjudicates PROMOTED with genuine new docs/mas/README.md
+and no reason field. Writer has returned ownership. Publication is complete
+only when the actual native HEAD has subject docs Durable Contract Promotion,
+contains exactly README plus this scoped receipt, and matches accepted bytes.
+Controller must verify that actual receipt, clean index/worktree and preserved
+source/data before completing the Goal. No broader runtime/production claim
+is supplied by DCP.
 
 ## Setup acceptance
 
@@ -172,3 +174,22 @@ records. No runtime/source change occurred, so another inference is not needed
 for this correction. Current evidence supports no additional speculative repair.
 Final documentation must preserve the untested scientific/physical/production
 coverage and operational limits. DCP remains mandatory-last and unexecuted.
+
+## Final DCP acceptance and publication contract
+
+Fresh independent DCP QA: PASS with no blocker or required disposition. README
+SHA478fd11549ccfa838d13053662a239f560371289aedc99ecdb758a5578dc2a55
+is genuine new non-ledger evidence. Whole source/contract/status review,26links/
+anchors, sixbindings, seven predecessor receipts, report parity, external pin
+and mandatory-last shape passed. Reference-linked README needs no isolated
+reader dispatch. No executable input changed; no additional model/test suite
+was run. Controller-selected outcome is PROMOTED; proposed payload contains
+only docs/mas/README.md and omits the reason field. Native Git adds only this
+controller receipt. The subject-based receipt avoids a self-referential commit
+hash and counts only after actual publication/membership/byte verification.
+
+One actual case and its accepted bounded recommendation are the completion
+evidence. No actionable in-scope blocker remains; all untested scientific/
+physical/production paths and the unmet soft aim/language-observability limit
+remain explicitly retained, rather than relabeled successful. No source repair
+or speculative second inference is needed to fix the report-only count wording.
