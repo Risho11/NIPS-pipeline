@@ -6,6 +6,10 @@ This is the accepted planning objective distilled from the current user conversa
 
 Configure a development Harness by external reference to junhyeong-custom-agent-setting, without a submodule. Select STANDARD_CONTROLLER_WRITER. The plan was independently reviewed; on 2026-10-30 the user authorized Goal execution of that plan. Preserve the existing implementation. Product ownership requires verified Writer identity and a literal step handoff. The user subsequently selected ordinary Git commits instead of the automatic manager; retain the Harness plan, Controller/Writer, independent QA and final DCP under MANUAL_GIT_TRANSITIONS.
 
+## Actual-data evaluation authorization (2026-10-30)
+
+The user requested actual execution, observed-defect repairs and reruns until no actionable shortcoming remains in scope, and required English for all scientific execution. After automatic review requested explicit payload/destination approval, the user selected: approval to transmit the specified 37 files and derived results to OpenAI Codex and perform repeated evaluations. The exact review is /private/tmp/nips-mas-data-transfer-review.md: llm58/agg64/reps232 rows, seven source references and selected domain/role docs/settings, approximately1.32MB. Each run remains report-only, at most1200seconds, within that input scope and its derivatives. Controller assigns literal repair paths and fresh independent QA before acceptance. No hardware, production export, different destination or extra private dataset is authorized. Conversation remains Korean.
+
 ## Scientific operating model
 
 - One persistent experiment main thread follows data, artifacts, reports and outstanding questions.

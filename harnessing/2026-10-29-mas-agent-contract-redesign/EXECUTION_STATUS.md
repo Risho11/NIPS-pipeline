@@ -14,18 +14,17 @@ No canonical progress.json or transaction fingerprint is generated.
 | 2 / 2 | Hypothesis updater and hypothesis QA | VERIFIED | d62b16c1 |
 | 2 / 3 | Designer and design QA | VERIFIED | 13a956f3 |
 | 3 / 1 | Isolated report-only SDK pilot | VERIFIED | f57409b0 |
-| 3 / 2 | Actual-data next-point evaluation | NOT_RUN | — |
+| 3 / 2 | Actual-data next-point evaluation | QA_ACCEPTED | Subject: docs evaluate MAS inquiry on existing experiment data |
 | 4 / 1 | Durable Contract Promotion | PENDING | — |
 
 ## Current boundary
 
-Phase 3 Step 1 is committed/verified. The live Phase 3 Step 2 handoff was
-rejected by automatic approval review for sensitive internal-data egress without
-explicit approval of the exact payload and destination. No handoff was delivered
-and no live model/SDK/robot started. Writer remains quiescent after P3S1.
-Controller prepared an offline 37-file/1,316,805-byte transfer preview and exact
-case/context for user review. Live evaluation and mandatory-last DCP remain
-pending; no completion or independent scientific acceptance is claimed.
+Phase 3 Step 2 has fresh independent QA2 acceptance after the report count
+correction and awaits native Git publication. Writer is QUIESCENT with ownership
+returned. One actual English report-only case completed; no actionable scientific
+or implementation defect remains in that tested recommendation. The documented
+soft coordination aim and private-language observability limit are retained,
+not relabeled PASS. Untested coverage remains NOT_RUN. Final DCP is still pending.
 
 ## Setup acceptance
 
@@ -123,3 +122,53 @@ guides, seven source-reference files, explicit context and derived artifacts,
 one report-only inquiry up to 1200 seconds. Offline preview remains NOT_RUN.
 No workaround, alternate destination or indirect execution was attempted.
 Approval is required before resubmitting the live handoff.
+
+## User request and renewed automatic-review result
+
+On 2026-10-30 the human requested running the system, fixing observed shortcomings
+and rerunning, and separately required English for actual execution. Controller
+submitted a fresh bounded live handoff referencing the presented 37-file scope
+and OpenAI destination. Automatic review rejected it because these user messages
+were not considered explicit approval of that exact payload/destination. This
+is the authoritative execution gate; no alternate or indirect execution was
+attempted. The proposed transfer remains NOT_RUN pending explicit confirmation.
+
+## Explicit payload/destination approval received
+
+The human answered the structured confirmation: approval to transmit the
+specified 37 files and derived results to OpenAI Codex and perform repeated
+evaluations. This resolves the exact missing authorization in earlier automatic
+review denials. Source provider was rechecked as OpenAI before handoff; no
+custom OPENAI_BASE_URL is configured. Live outcome is still unproven until
+actual invocation and artifact review.
+
+## Phase 3 Step 2 live case and QA1
+
+First actual English report-only case completed in1001.382seconds, exit0. Native
+transport remains COMPLETED_UNREVIEWED; three scoped scientific QA verdicts and
+the exact reviewed repeat were inspected separately. Fresh independent development
+QA1 found no blocker and accepted the bounded recommendation, while identifying
+one factual report count correction:11Markdown files includes generated AGENTS,
+leaving10research records. Writer owns only that report correction; fresh QA2
+is required. Original numerical/metadata checks remain bound and unchanged.
+
+Controller retains18starts/messages versus soft12aim as an honestly unmet
+operational aim, and retains the encrypted-delegation language audit limit.
+Neither is relabeled PASS or turned into a new runtime gate. English visible
+artifacts/messages are verified. Untested author repair/history/upstream/hold/
+stop/live recovery/physical/production paths remain explicit NOT_RUN coverage.
+No actionable scientific/source repair was found in the tested recommendation;
+no extra inference is justified solely by a reporting-count correction.
+
+## Phase 3 Step 2 QA2 acceptance
+
+Fresh independent QA2: PASS, no blocker or required repair. Corrected report
+SHA746dbbb2ec0636958775da827b116102548cf4fd80265bfab006e2dbeddfeacb.
+Full scientific/source/contract review and fresh original-row, exact-condition,
+rank, frozen-artifact, metadata and reference checks support boundedACCEPT.
+QA1 full finite-modulus reconstruction remains retained with unchanged inputs.
+The count correction is accurate:11Markdown total, including AGENTS,10research
+records. No runtime/source change occurred, so another inference is not needed
+for this correction. Current evidence supports no additional speculative repair.
+Final documentation must preserve the untested scientific/physical/production
+coverage and operational limits. DCP remains mandatory-last and unexecuted.
