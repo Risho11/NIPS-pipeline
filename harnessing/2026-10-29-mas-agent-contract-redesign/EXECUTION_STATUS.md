@@ -10,8 +10,8 @@ No canonical progress.json or transaction fingerprint is generated.
 | Local execution | Ordinary Git; Controller/Writer and QA retained | VERIFIED | 4968dd68, 4a9ee17c |
 | 1 / 1 | Shared evidence and inquiry guidance | VERIFIED | e0b6e66f |
 | 1 / 2 | Main agent and adaptive workflow | VERIFIED | 6e26d681 |
-| 2 / 1 | Analyst and analysis QA | QA_ACCEPTED | Subject: docs design experiment analysis agent pair |
-| 2 / 2 | Hypothesis updater and hypothesis QA | PENDING | — |
+| 2 / 1 | Analyst and analysis QA | VERIFIED | 58c65734 |
+| 2 / 2 | Hypothesis updater and hypothesis QA | QA_ACCEPTED | Subject: docs design hypothesis reasoning agent pair |
 | 2 / 3 | Designer and design QA | PENDING | — |
 | 3 / 1 | Isolated report-only SDK pilot | PENDING | — |
 | 3 / 2 | Actual-data next-point evaluation | NOT_RUN | — |
@@ -19,9 +19,9 @@ No canonical progress.json or transaction fingerprint is generated.
 
 ## Current boundary
 
-Phase 2 Step 1 Writer returned ownership. Fresh independent QA accepted four
-analysis-pair documents. Controller owns this receipt and exact native Git
-transition; hypothesis pair follows after the matching commit.
+Phase 2 Step 2 Writer returned ownership; independent QA accepted the exact four
+hypothesis-pair documents. Controller owns this receipt and ordinary Git commit;
+design pair follows after publication.
 
 ## Setup acceptance
 
@@ -57,3 +57,12 @@ fresh isolated exact-file readers with zero extra reads; formal QA adjudicated
 no action-changing ambiguity. Role/candidate/own-review-workarea boundaries are
 clear. No live scientific/SDK or production behavior is accepted by this step.
 Phase 3 binding rollout must synchronize any current-binding boundary wording.
+
+## Phase 2 Step 2 acceptance
+
+Fresh independent QA: PASS with no findings. Full writer raw checks, source/
+method/style consistency, four identities, 16 links and meaningful revision cases
+were checked. Both AGENTS received fresh isolated exact-file readings with no
+extra reads; formal QA found no action-changing ambiguity. Hypothesis meaning,
+evidence judgments and main selection are distinct. Live usefulness remains a
+later pilot gate; no runtime or physical behavior was claimed.
