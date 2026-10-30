@@ -13,16 +13,19 @@ No canonical progress.json or transaction fingerprint is generated.
 | 2 / 1 | Analyst and analysis QA | VERIFIED | 58c65734 |
 | 2 / 2 | Hypothesis updater and hypothesis QA | VERIFIED | d62b16c1 |
 | 2 / 3 | Designer and design QA | VERIFIED | 13a956f3 |
-| 3 / 1 | Isolated report-only SDK pilot | QA_ACCEPTED | Subject: feat add isolated MAS agent contract pilot |
+| 3 / 1 | Isolated report-only SDK pilot | VERIFIED | f57409b0 |
 | 3 / 2 | Actual-data next-point evaluation | NOT_RUN | — |
 | 4 / 1 | Durable Contract Promotion | PENDING | — |
 
 ## Current boundary
 
-Phase 3 Step 1 has fresh independent QA2 acceptance and awaits native Git
-publication. Writer is QUIESCENT / OWNERSHIP_RETURNED. No live SDK/model has
-started. The reviewed first case and scenario are prepared outside the repository;
-Phase 3 Step 2 receives a separate literal execution handoff after publication.
+Phase 3 Step 1 is committed/verified. The live Phase 3 Step 2 handoff was
+rejected by automatic approval review for sensitive internal-data egress without
+explicit approval of the exact payload and destination. No handoff was delivered
+and no live model/SDK/robot started. Writer remains quiescent after P3S1.
+Controller prepared an offline 37-file/1,316,805-byte transfer preview and exact
+case/context for user review. Live evaluation and mandatory-last DCP remain
+pending; no completion or independent scientific acceptance is claimed.
 
 ## Setup acceptance
 
@@ -108,3 +111,15 @@ and no action-changing ambiguity. Actual native discovery, sandbox enforcement,
 scientific review/usefulness and exact design agreement remain live-evaluation
 gates. No model/app-server/MCP server/device started. QA1 remains a recorded FAIL
 for the earlier candidate; it is not overwritten by this accepted repair.
+
+## Phase 3 Step 2 execution boundary
+
+Automatic approval review rejected sending the live handoff: internal experimental
+data may be transmitted to an external model service, and exact payload plus
+destination require explicit user authorization. The proposed destination is
+the configured OpenAI provider through existing Codex authentication. Proposed
+scope is the full October copied tables (58/64/232 rows), selected domain/role
+guides, seven source-reference files, explicit context and derived artifacts,
+one report-only inquiry up to 1200 seconds. Offline preview remains NOT_RUN.
+No workaround, alternate destination or indirect execution was attempted.
+Approval is required before resubmitting the live handoff.
