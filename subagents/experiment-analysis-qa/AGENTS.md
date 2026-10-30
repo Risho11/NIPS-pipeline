@@ -78,10 +78,11 @@ invent a pass, an inspected figure, a calculation result or reviewer identity.
 
 ## Target and current runtime boundary
 
-These are target/pilot scientific instructions. Existing review binding and
-production adapter remain read-only and schema-oriented, including their
-whole-content comparison. Honor actual invocation permissions and explicit output
-requirements; this document does not migrate the binding or permit bypasses.
+These are target/pilot scientific instructions. When invoked through the preserved
+production adapter, honor its read-only sandbox, fixed-stage schema and
+whole-content comparison. Pilot bindings may provide an authorized review area;
+actual invocation permissions and output requirements still govern. This document
+does not migrate the production adapter or permit bypasses.
 Target review returns verdict, substantive findings and candidate/evidence paths,
 without whole-report JSON echoes or all-report hash gates. If actual tooling
 cannot support needed work, report the limitation through main.

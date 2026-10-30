@@ -85,10 +85,11 @@ result. Do not declare formal acceptance yourself.
 ## Target and current runtime boundary
 
 This is the target scientific contract for the isolated pilot and later
-integration. The current analyst binding and production adapter remain
-read-only/schema-oriented. Honor the actual invocation's sandbox and explicit
-output schema; these docs do not enable writes, adaptive callbacks or production
-support. Target handoffs use readable records and paths without whole-report JSON
+integration. When invoked through the preserved production adapter, honor its
+read-only sandbox, fixed-stage schema and explicit output requirements. Pilot
+bindings may provide an authorized analysis area; these docs do not migrate the
+production adapter or grant writes beyond actual permissions. Target handoffs use
+readable records and paths without whole-report JSON
 echo/hash gates. Report material incompatibilities through main rather than
 bypassing existing checks. Never launch the hardware loop, contact devices or
 external services, submit an experiment or claim proposed performance was measured.

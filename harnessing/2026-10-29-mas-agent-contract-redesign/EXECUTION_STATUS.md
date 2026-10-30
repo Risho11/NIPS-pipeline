@@ -12,17 +12,17 @@ No canonical progress.json or transaction fingerprint is generated.
 | 1 / 2 | Main agent and adaptive workflow | VERIFIED | 6e26d681 |
 | 2 / 1 | Analyst and analysis QA | VERIFIED | 58c65734 |
 | 2 / 2 | Hypothesis updater and hypothesis QA | VERIFIED | d62b16c1 |
-| 2 / 3 | Designer and design QA | QA_ACCEPTED | Subject: docs design hypothesis testing agent pair |
-| 3 / 1 | Isolated report-only SDK pilot | PENDING | — |
+| 2 / 3 | Designer and design QA | VERIFIED | 13a956f3 |
+| 3 / 1 | Isolated report-only SDK pilot | QA_ACCEPTED | Subject: feat add isolated MAS agent contract pilot |
 | 3 / 2 | Actual-data next-point evaluation | NOT_RUN | — |
 | 4 / 1 | Durable Contract Promotion | PENDING | — |
 
 ## Current boundary
 
-Phase 2 Step 3 has fresh independent acceptance and awaits native Git publication.
-Writer is QUIESCENT / OWNERSHIP_RETURNED; no product owner is active.
-The accepted Phase 3 Step 1 scope also synchronizes three binding-boundary
-descriptions when the six TOMLs change; production migration remains excluded.
+Phase 3 Step 1 has fresh independent QA2 acceptance and awaits native Git
+publication. Writer is QUIESCENT / OWNERSHIP_RETURNED. No live SDK/model has
+started. The reviewed first case and scenario are prepared outside the repository;
+Phase 3 Step 2 receives a separate literal execution handoff after publication.
 
 ## Setup acceptance
 
@@ -78,3 +78,33 @@ did not expose shell exit, so exit 0 is not claimed for that isolated read.
 Writer failed assertion was preserved; corrected source assertion passed without
 product changes. QA also accepted the three-file future binding-text scope
 clarification. Live usefulness and production behavior remain later boundaries.
+
+## Phase 3 Step 1 QA1 and repair
+
+Fresh independent QA1: FAIL, one blocker. The pinned CLI retained node_repl
+enabled under the pilot overrides despite mcp_servers={}; the mock checked only
+the supplied string. No app-server/model/device connection was started. The
+remaining source/data/role/schema contract had no findings. Writer now owns only
+the pilot script, its tests and pilot-evaluation guide for an effective-MCP
+disable/verify-before-SDK repair. Other nine products remain frozen. Offline
+checks passed eight tests but did not establish this external configuration
+boundary. Fresh QA2 is required before commit or live execution.
+
+Writer repair validation: 10 focused tests PASS; actual pinned CLI confirmed all
+effective MCPs disabled and trusted/untrusted project loading in a dotted
+scratch path. Earlier failed CLI key attempt remains recorded. Only the pilot
+script, tests and evaluation guide changed; other nine products are unchanged.
+Writer returned ownership. Fresh independent QA2 is pending; no live SDK started.
+
+## Phase 3 Step 1 QA2 acceptance
+
+Fresh independent QA2: PASS, no findings requiring disposition. Full 12-path
+contract/style/source/Pydantic/configuration review passed. Ten focused tests
+passed; exact effective MCP settings were reproduced with all servers disabled
+before constructor, and dotted-path trust loading verified. Independent actual
+data preparation retained 58/64/232 rows with matching field strings and original
+bytes unchanged. Both role AGENTS have captured isolated full-reader evidence
+and no action-changing ambiguity. Actual native discovery, sandbox enforcement,
+scientific review/usefulness and exact design agreement remain live-evaluation
+gates. No model/app-server/MCP server/device started. QA1 remains a recorded FAIL
+for the earlier candidate; it is not overwritten by this accepted repair.

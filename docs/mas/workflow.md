@@ -163,9 +163,11 @@ Current [run_loop.py](../../src/pipeline/run_loop.py) preserves hold/stop throug
 its decision checkpoint. Do not delete QA markers, change checkpoint fields or
 edit frozen files to force a new decision. Same-campaign adaptive reconsideration
 and a writable question-led workspace remain pilot/integration work, not behavior
-established by this documentation. The six existing custom-agent bindings also
-remain read-only/schema-oriented until their later scoped revision. The main role
-here is an instruction contract, not a newly registered SDK binding.
+established by this documentation. The six scientific role bindings now support
+the isolated pilot's explicitly authorized author/review work areas. They inherit
+the parent's actual permissions and do not migrate the preserved production
+invocation. The main role is an instruction contract activated by the pilot;
+it is not a newly registered SDK binding.
 
 The existing `dynamic` mode and legacy single/double/explore/double_explore modes
 remain separate routes. These docs do not authorize switching modes, launching
