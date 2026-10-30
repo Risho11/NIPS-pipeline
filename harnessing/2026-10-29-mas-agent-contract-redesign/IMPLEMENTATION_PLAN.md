@@ -144,8 +144,9 @@ The generic shared full-application documentation skeleton is not adopted; seman
 ```
 - owner: verified persistent Writer; independent read-only development QA
 - purpose: Provide the smallest way to exercise the accepted agent contracts on actual existing data.
-- files: [".codex/agents/experiment-analyst.toml",".codex/agents/experiment-analysis-qa.toml",".codex/agents/hypothesis-updater.toml",".codex/agents/hypothesis-qa.toml",".codex/agents/experiment-designer.toml",".codex/agents/experiment-design-qa.toml","scripts/mas_agent_pilot.py","tests/test_mas_agent_pilot.py","docs/mas/pilot-evaluation.md"]
+- files: [".codex/agents/experiment-analyst.toml",".codex/agents/experiment-analysis-qa.toml",".codex/agents/hypothesis-updater.toml",".codex/agents/hypothesis-qa.toml",".codex/agents/experiment-designer.toml",".codex/agents/experiment-design-qa.toml","scripts/mas_agent_pilot.py","tests/test_mas_agent_pilot.py","docs/mas/pilot-evaluation.md","subagents/experiment-analyst/AGENTS.md","subagents/experiment-analysis-qa/AGENTS.md","docs/mas/workflow.md"]
 - validation: uv run --locked python -m unittest discover -s tests -p 'test_mas_agent_pilot.py'; git diff --check
+- scope clarification: Synchronize only the three listed role/workflow descriptions of current bindings when the six TOMLs change; retain the preserved production-adapter boundary. No production code migration.
 - acceptance: Offline checks show the pilot preserves originals and cannot submit robot work. The actual SDK pilot remains NOT_RUN until Phase 3 Step 2; binding files match the documents.
 
 2. STEP 2: Evaluate next experiment selection on existing observations

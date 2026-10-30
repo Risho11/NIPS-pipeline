@@ -11,17 +11,18 @@ No canonical progress.json or transaction fingerprint is generated.
 | 1 / 1 | Shared evidence and inquiry guidance | VERIFIED | e0b6e66f |
 | 1 / 2 | Main agent and adaptive workflow | VERIFIED | 6e26d681 |
 | 2 / 1 | Analyst and analysis QA | VERIFIED | 58c65734 |
-| 2 / 2 | Hypothesis updater and hypothesis QA | QA_ACCEPTED | Subject: docs design hypothesis reasoning agent pair |
-| 2 / 3 | Designer and design QA | PENDING | — |
+| 2 / 2 | Hypothesis updater and hypothesis QA | VERIFIED | d62b16c1 |
+| 2 / 3 | Designer and design QA | QA_ACCEPTED | Subject: docs design hypothesis testing agent pair |
 | 3 / 1 | Isolated report-only SDK pilot | PENDING | — |
 | 3 / 2 | Actual-data next-point evaluation | NOT_RUN | — |
 | 4 / 1 | Durable Contract Promotion | PENDING | — |
 
 ## Current boundary
 
-Phase 2 Step 2 Writer returned ownership; independent QA accepted the exact four
-hypothesis-pair documents. Controller owns this receipt and ordinary Git commit;
-design pair follows after publication.
+Phase 2 Step 3 has fresh independent acceptance and awaits native Git publication.
+Writer is QUIESCENT / OWNERSHIP_RETURNED; no product owner is active.
+The accepted Phase 3 Step 1 scope also synchronizes three binding-boundary
+descriptions when the six TOMLs change; production migration remains excluded.
 
 ## Setup acceptance
 
@@ -66,3 +67,14 @@ were checked. Both AGENTS received fresh isolated exact-file readings with no
 extra reads; formal QA found no action-changing ambiguity. Hypothesis meaning,
 evidence judgments and main selection are distinct. Live usefulness remains a
 later pilot gate; no runtime or physical behavior was claimed.
+
+## Phase 2 Step 3 acceptance
+
+Fresh independent QA: PASS with no findings. Full four-document scientific,
+source, style and authority review passed; 23 links and hypothetical eight-field
+numeric/stock example checked. Both AGENTS received fresh isolated exact-file
+readings with no extra reads; no action-changing ambiguity. One reader wrapper
+did not expose shell exit, so exit 0 is not claimed for that isolated read.
+Writer failed assertion was preserved; corrected source assertion passed without
+product changes. QA also accepted the three-file future binding-text scope
+clarification. Live usefulness and production behavior remain later boundaries.

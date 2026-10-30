@@ -40,6 +40,9 @@ Owned files, literally and exclusively:
 - `scripts/mas_agent_pilot.py`
 - `tests/test_mas_agent_pilot.py`
 - `docs/mas/pilot-evaluation.md`
+- `subagents/experiment-analyst/AGENTS.md`
+- `subagents/experiment-analysis-qa/AGENTS.md`
+- `docs/mas/workflow.md`
 
 Use uv for Python. The user selected MANUAL_GIT_TRANSITIONS: ordinary commits by controller, no automatic manager execution or canonical fingerprints/ledger. Retain external planning/ownership/independent QA/DCP guidance. Resolve harness-runtime/harness-qa through NIPS_SHARED_AGENT_ROOT and verify the pinned source. Use code-agent-builder only as a role-content reference; do not install its unrelated scaffold.
 Respect the current user-authorized objective and this literal scope. Report material unresolved conflicts to controller. Existing uncommitted work in these paths is source context to inspect and revise only after ownership is explicitly transferred; preserve all other bytes.
@@ -50,7 +53,7 @@ Writer never edits EXECUTION_STATUS.md/progress.json, runs the manager, picks a 
 
 1. Verify the current step, ownership, external source and dependency evidence. Do not infer activation from these planning files.
 2. Inspect the closest live source and relevant shared/domain instructions.
-3. Inspect the pinned installed Codex SDK before implementing. Update the six domain role bindings to the accepted guides; do not generate an unrelated developer-agent scaffold, global hooks, submodule, or copied shared skills.
+3. Inspect the pinned installed Codex SDK before implementing. Update the six domain role bindings to the accepted guides. Synchronize only the three listed role/workflow descriptions of current binding permissions; keep preserved production-adapter restrictions explicit. No production migration; do not generate an unrelated developer-agent scaffold, global hooks, submodule, or copied shared skills.
 
 Add a small report-only pilot entry point that uses one main thread to operate the specialists. Create an isolated scratch workspace containing copies of selected data and the needed role/instruction files, allowing analysis artifacts without granting writes to original evidence or source. Never import/call run_loop, robot clients, or production recommendation export. Do not route through the existing fixed four-request adapter.
 
@@ -88,7 +91,10 @@ Proposed completion payload, only after actual work and QA:
     ".codex/agents/experiment-design-qa.toml",
     "scripts/mas_agent_pilot.py",
     "tests/test_mas_agent_pilot.py",
-    "docs/mas/pilot-evaluation.md"
+    "docs/mas/pilot-evaluation.md",
+    "subagents/experiment-analyst/AGENTS.md",
+    "subagents/experiment-analysis-qa/AGENTS.md",
+    "docs/mas/workflow.md"
   ]
 }
 ```
