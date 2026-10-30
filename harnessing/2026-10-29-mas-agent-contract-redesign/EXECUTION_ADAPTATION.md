@@ -59,4 +59,3 @@ by the current target-worktree file ownership. No shared code has been edited.
 
 The current pinned harness-runtime rule requires separately reviewed canonical
 previews/fingerprints for every manager mutation. The user answered the execution-choice question with “커밋은 하네스 시스템을 안쓰고 작업할 순 없니”. In the context of the approved Goal and Controller/Writer plan, this selects ordinary Git commits. MANUAL_GIT_TRANSITIONS is now the local execution method; the shared manager remains inactive. Literal Writer handoff and independent QA still gate each product step.
-

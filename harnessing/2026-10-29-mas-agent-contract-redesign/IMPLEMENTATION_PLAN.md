@@ -181,4 +181,3 @@ The generic shared full-application documentation skeleton is not adopted; seman
 - files: ["docs/mas/README.md"]
 - validation: git diff --check; Source-to-contract semantic review, relative link checks, and the step's worked cases; record actual paths/results.
 - acceptance: Independent acceptance exists; the chosen DCP outcome is correct; the final native Git receipt and actual committed files agree. Production integration remains an explicit separate follow-up.
-

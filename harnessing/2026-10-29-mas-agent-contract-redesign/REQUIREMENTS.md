@@ -41,4 +41,3 @@ This Harness owns agent contracts, their minimal isolated pilot and its evaluati
 Legacy single/double/explore/double_explore modes, measured CSVs, robot/server code and existing operator settings stay untouched by this Harness.
 No global custom-agent installation, shared-repository change, submodule/gitlink change, new worktree, remote issue/PR/push/merge, or physical experiment is authorized by this plan.
 Technical artifacts are English; user communication is Korean.
-

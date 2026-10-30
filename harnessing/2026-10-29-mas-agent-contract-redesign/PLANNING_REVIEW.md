@@ -73,4 +73,3 @@ This PASS does not initialize the Harness, bind a Writer, accept implementation,
 or supply a usable live transaction fingerprint. Actual execution readiness
 remains pending as recorded above. The fixture preview predates this evidence
 appendix and must never be reused as a mutation-ready snapshot.
-

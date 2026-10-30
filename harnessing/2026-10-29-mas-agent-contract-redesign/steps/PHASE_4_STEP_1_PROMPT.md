@@ -109,4 +109,3 @@ This is a proposal, not a result or authorization to run it. The controller make
 
 ## Main-agent Follow-up Required
 - Actions: fresh independent QA, controller review, and the proposed payload; never self-advance.
-
