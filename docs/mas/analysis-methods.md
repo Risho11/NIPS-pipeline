@@ -17,6 +17,14 @@ a measured outcome, a compatible explanation, and evidence that would discrimina
 explanations. Do not choose explore/optimize/repeat or invent a new hypothesis
 before identifying the evidence need.
 
+For a process/property question, also ask how a process change could produce an
+intermediate process/structure change and the observed property response. Use
+the [shared knowledge guide](knowledge.md) to separate original measurements,
+actually read scientific sources and proposed inferences. Search authorized
+original curves/photos/params/plot metadata via the [data contract](data-contract.md)
+before declaring evidence absent. Read current accepted knowledge and report
+which prior prediction the latest actual result does or does not test.
+
 ## Build a defensible comparison
 
 Locate the supplied CSV headers and numeric values. Trace material claims to a
@@ -55,6 +63,7 @@ comparison.
 | Did the latest point behave as predicted? | Link proposed conditions to actual execution; compare the stated observable and comparator; classify agreement, disagreement or inconclusive evidence | An unmatched proposal or qualitative resemblance is not a verified prediction |
 | Is a gain a processing artifact? | Compare aggregate variants, specimen inclusion and source fits; calculate sensitivity to documented processing choices | A better-looking post-discard mean is not automatically more reproducible material |
 | Is one factor responsible? | Seek matched controls or local contrasts; display other changed factors and competing explanations | A multivariable trajectory cannot isolate causality just because one axis is temperature |
+| Which process explanation is worth testing? | Trace variable → proposed intermediate → property, compare alternative predictions and inspect relevant original evidence | A compatible property direction does not establish the intermediate; unresolved causation does not forbid a clearly proposed explanation |
 | Is a result repeatable? | Separate specimen spread from verified independent-synthesis outcomes; inspect batch, time and process differences | Small specimen SD or `_runN` alone does not establish synthesis reproducibility |
 | Which tradeoff deserves a test? | Compare modulus and compression pore fraction jointly with quality/missingness visible; identify observed nondominated candidates if useful | A sampled frontier is not a global optimum or guaranteed future frontier |
 | Is the evidence region sparse? | Inspect coverage in relevant variables, with categories/scales explicit; identify an untested contrast that could change a hypothesis | Arbitrarily scaled coordinate distance is not scientific information gain |
@@ -73,6 +82,33 @@ exports of one synthesis from leaking across evaluation splits. Treat
 extrapolation, missing controls and limited independent coverage as limitations.
 A fitted surface is an analysis aid, not a mechanism or verified performance at
 an unexecuted point.
+
+## Work through an explanatory comparison
+
+Use the explicitly hypothetical PSf/PolarClean concentration competition in
+[knowledge.md](knowledge.md). A joint concentration/temperature change could
+motivate exchange-limited architecture or matrix-state explanations, while
+isolating neither. First state the actual joint contrast and search authorized
+matched observations and originals. Do not stop at “confounded”: identify what
+each account would predict differently under a feasible matched comparison.
+
+If both predict higher modulus, that property alone is uninformative about their
+pathways. H-S specifically proposes altered solvent retention/plasticization and
+a higher matrix stress-strain slope at comparable architecture; more total polymer
+or thickness alone cannot explain the normalized modulus. Distinguish modulus
+from load-displacement stiffness. Pore estimates, solvent/matrix-state evidence,
+exchange timing and structural observations have different roles; mass/thickness
+are controls, not decisive pathway evidence. Establish what actually exists and
+what its method measures. Coverage photos and compression fits cannot fill every
+intermediate. Ask for a justified additional observable or narrow the inference
+if the available outputs coincide under the alternatives. Do not invent a
+mechanism's universal sign or a quantitative effect size to make a test decisive.
+
+After an actual test, compare all relevant available outcomes with the recorded
+alternative predictions, retaining adverse and inconclusive components. Link
+the analysis to the round's proposed knowledge change; updater/QA assess shared
+claim status and main publishes it. Fit checks and reproducibility analysis
+support this inquiry when consequential, rather than obligatorily replacing it.
 
 ## Make the artifacts the question needs
 

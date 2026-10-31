@@ -10,12 +10,43 @@ its [campaign guide](../../subagents/campaign-main/docs/campaign-guide.md) gives
 worked methods. Use the shared [data contract](data-contract.md) and
 [analysis methods](analysis-methods.md) for evidence interpretation.
 
+The explanatory-reasoning and shared [material/process knowledge](knowledge.md)
+contracts have received independent development review. Actual scientific
+validation is requested; human review will address the scientific outputs before
+DCP. Revised-contract live evaluation remains NOT_RUN until actual run evidence
+is recorded. Earlier SDK-pilot evidence applies to its historical contracts/read
+set, not to this expanded inquiry.
+
 The adaptive inquiry below is the target for an isolated report-only pilot and
 later integration. The preserved production adapter has not been migrated by
 these documents. Its compatibility boundary is described below because it also
 loads this file into its main thread. Do not infer write, model-call or physical
 execution authority from a role document. Honor the actual invocation's scope,
 permissions, supplied constraints and output requirements.
+
+## Source and output bindings
+
+Bind the actual project as the instruction/evidence source and the authorized
+output root separately for each invocation. For temporary scientific sessions,
+PROJECT names the read-only project source and TEST_ROOT a temporary root such
+as `/tmp/<root>`. Scientific outputs belong in
+`TEST_ROOT/data/results/<campaign>/mas/rounds/<round-id>/` and
+`TEST_ROOT/data/knowledge/<material>/`; no generic `work/` subtree is needed.
+Give authors/reviewers explicit assigned output areas; only main publishes
+accepted shared knowledge. Do not resolve a relative output against PROJECT.
+
+Existing bindings use `PILOT_ROOT`, when supplied, for source role paths: it must
+identify PROJECT, never the temporary output root. Otherwise use the invocation's
+actual project root. These names are invocation bindings, not universal runtime
+variables. Keep analysis scratch/cache files in authorized outputs and use the
+existing environment without installing into or copying the project environment.
+
+Project-read-only and output-only writes are task restrictions, not proof of OS
+enforcement. Check and report actual CWD, inherited permissions and writable roots;
+a workspace-write project CWD may still allow project writes. Do not claim prose
+or specialist ownership enforces isolation. Respect the approved read set and
+transfer scope. Concrete paths, input selection, authorization and execution
+budget belong in the transient dispatch, not another repository test manual.
 
 ## Inquiry follows evidence and meaningful dependencies
 
@@ -25,10 +56,19 @@ objective/constraints. Check which proposed conditions were actually executed.
 An unlinked suggestion is not a tested prediction. Inspect available evidence,
 quality and comparability before interpreting a result.
 
+Recover shared material/process claims as well as round history. Follow
+authorized source identifiers to original curves, photos, params and plot metadata
+before calling evidence missing. Distinguish not supplied, not accessible and
+absent after a bounded search; obtain approval before expanding a model's read
+set. Warm-start is historical evidence with selection/provenance, not a second
+vote for a duplicated synthesis.
+
 The reasoning dependencies are:
 
 - Observation and reviewed analysis inform hypothesis maintenance.
-- Reviewed hypothesis maintenance informs main's selection of a test target.
+- Reviewed hypothesis maintenance proposes shared material/process knowledge
+  changes. Main accepts/publishes those changes within its authorized output
+  root, then selects a test target from the current bounded knowledge.
 - The selected hypothesis and competing explanations inform predictions and
   experimental design, including criteria for inconclusive outcomes.
 - The reviewed feasible design and its evidence inform main's final decision.
@@ -45,6 +85,15 @@ Choose explore/optimize/repeat after identifying the information needed. Explain
 why separating explanations, testing a promising local tradeoff or measuring
 independent repeatability is justified now. Main retains hypothesis and next
 experiment selection; specialists can recommend alternatives or request evidence.
+
+For a process/property question, seek explanations connecting a controllable
+variable to a proposed process/structure change and property consequences. Label
+measured, literature-derived and inferred links separately. Ask what alternatives
+predict differently; the knowledge guide's hypothetical concentration example
+shows how to propose this reasoning without claiming confirmation. Rank persistence,
+repeatability and fit diagnostics can be useful but do not automatically substitute
+for the explanatory question. Do not require proof before proposing a testable
+mechanism or force a new mechanism every turn.
 
 ## Scientific roles and collaboration
 
@@ -74,6 +123,12 @@ a material gap, request the needed evidence, change the question or hold; do not
 manufacture acceptance. Development QA of these contracts and the three scientific
 reviews of experiment reasoning are different activities.
 
+Reviewers should identify a constructive next distinction, not reward a draft
+only for accumulating caveats. If available outcomes cannot separate mechanisms,
+request another observable or a narrower conclusion. Updater drafts round-level
+knowledge changes; main alone publishes scientifically reviewed shared changes.
+No reviewer edits an author's draft or canonical knowledge.
+
 ## Return upstream and review affected judgments
 
 If design QA finds that a temperature claim confounds polymer concentration or
@@ -91,10 +146,11 @@ with no scientific effect does not require restarting the inquiry.
 
 ## Records are navigable and revisable
 
-Retain four accepted Markdown records: analysis, hypothesis update, experiment
-design and final decision. Use flexible layouts that explain the question,
+Retain readable Markdown records of analysis, hypothesis update, experiment
+design and final decision, organized for the inquiry without a fixed report-file
+quota. Use flexible layouts that explain the question,
 evidence, reasoning and limits. Their presence is not a scientific acceptance
-check, and filling four files is not the objective.
+check, and filling files is not the objective.
 If evidence is unresolved, record that limitation and the actual pending review
 instead of inventing a design, completed analysis or QA acceptance to fill a slot.
 
@@ -104,6 +160,13 @@ revisions, linked source/analysis artifacts, actual QA disposition, superseded
 judgments and unresolved questions. Main follows those paths and reads the parts
 needed for a decision. Revision notes or retained earlier versions preserve prior
 judgments; do not silently overwrite the accepted history.
+
+Shared material/process claims and current bounded status/history live outside
+rounds, linked to the round's evidence, proposed change and actual review. See
+[knowledge publication and history](knowledge.md). In the direct test, round and
+shared outputs belong only under the bound temporary test root; role/source
+paths still resolve against the actual project. Task restrictions and actual
+runtime enforcement must be checked separately.
 
 No whole-report JSON echo, all-report hash gate, cryptographic parentage framework
 or duplicate result.json is required by the target inquiry. A final structured

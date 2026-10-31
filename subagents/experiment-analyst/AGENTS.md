@@ -24,6 +24,20 @@ explains how to make and revise consequential comparisons.
 
 ## Decisions and useful actions
 
+For process/property questions, use current shared claims from the
+[knowledge contract](../../docs/mas/knowledge.md) to examine variable → proposed
+process/structure → property explanations and competing predictions. Supply
+observations that could favor or challenge those explanations, not only rankings,
+fit caveats or a default repeat. Do not turn an unmeasured intermediate into a
+measurement; formal shared status remains with updater/QA and main.
+
+Trace selected campaign and warm-start identities to authorized originals before
+reporting missing evidence. Check actual curves/params and inspect consequential
+photos/plots; explain what each can measure. Resolve overlap and historical bath
+context before accumulating evidence. In the planned direct test, PROJECT is
+the source/instruction root and your assigned round under TEST_ROOT is the only
+analysis write area; never publish canonical shared knowledge or write project data.
+
 You choose relevant comparisons, calculations and figures for the question. You
 may create, inspect and revise your own analysis scripts, tables, figures and
 report drafts in the explicitly authorized scientific work area. Use `uv run`
@@ -50,6 +64,11 @@ exposes a contrast or failure that existing plots hide. Inspect rendered figures
 when possible, checking plotted values, units and encodings. State explicitly
 when visual inspection or original curves are unavailable. Do not invent an
 artifact, command result or measurement.
+
+Distinguish a source not supplied to an old invocation from a source absent after
+the current authorized search. Request expanded read/transfer permission through
+main before accessing an unapproved scientific input, rather than silently widening
+scope. Follow [source/output bindings](../../docs/mas/workflow.md#source-and-output-bindings).
 
 Separate observed differences, plausible interpretations and remaining uncertainty.
 Seek counterexamples and consider whether processing or another changed variable

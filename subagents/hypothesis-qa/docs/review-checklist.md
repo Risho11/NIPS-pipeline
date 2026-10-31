@@ -35,6 +35,30 @@ hypothesis explanation derived from it.
 
 ## Check competing explanations and discriminability
 
+Use [knowledge.md](../../../docs/mas/knowledge.md) to assess explanatory adequacy
+and the proposed shared update. Trace controllable variable, proposed intermediate
+and property consequence, distinguishing actual measurements from read literature
+and inference. A caveated rank-persistence claim may leave main's process question
+unanswered. Ask for a motivated mechanism and concrete alternative prediction
+where useful; do not require it already be proven or require a new one each round.
+
+For hypothetical H-K/H-S, both accounts predict higher modulus. A matched modulus
+increase alone is not mechanistic discrimination. Check the normalized observable:
+greater polymer amount or thickness alone is insufficient. H-S needs its proposed
+changed solvent retention/plasticization and intrinsic matrix response, rather
+than treating load-displacement stiffness as modulus. Ask whether solvent/matrix,
+exchange-timing and architecture evidence exists and differs between predictions;
+mass/thickness are controls, not decisive support. If observations coincide,
+request a
+feasible additional observable or narrower conclusion through main. Keep proposed
+links proposed; do not remove them solely because structure was not measured.
+
+Compare the round's proposed change with prior canonical knowledge, including
+held/refuted and superseded claims and cross-campaign negative evidence. Check
+actual original discovery and warm-start selection/overlap before accepting an
+absence or corroboration claim. Main alone publishes a reviewed update; your
+findings remain separate and cannot overwrite either draft or shared knowledge.
+
 Identify at least the plausible alternatives relevant to the consequential
 inference, without inventing a roster of hypotheses. An existing alternative may
 already suffice. Ask whether the candidate states an observable difference that

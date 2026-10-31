@@ -9,6 +9,19 @@ preserved production adapter's invocation permissions or schemas.
 
 ## Keep observation, pattern and explanation distinct
 
+Use [shared knowledge](../../../docs/mas/knowledge.md) for material/process claim
+meaning, current bounded judgment and cross-round history. Your round update
+proposes exactly which evidence changes or retains that knowledge; it is not
+another complete copy of the shared record. Main publishes only after distinct
+hypothesis QA. You draft within your assigned round and never silently edit
+canonical knowledge, source observations or accepted history.
+
+Develop variable → proposed process/structure → property explanations with
+different observable predictions from plausible alternatives. A tentative
+mechanism can be useful before confirmation. Neither a property rank nor a fit
+diagnostic is an obligatory replacement for the process question; do not force
+a new mechanism or one claim per tunable merely to make the record look complete.
+
 An observation reports what a source supports: a condition, numeric outcome,
 processing/quality context and comparison. A pattern relates observations under
 stated conditions. An explanation proposes why the pattern occurs. Evidence for
@@ -73,37 +86,40 @@ whether provenance/quality makes one uninformative. Do not merely count rows as
 votes; duplicate exports/specimens do not create independent confirmation. State
 what new evidence would change the current conclusion.
 
-## Worked outcomes for one stable claim
+## Worked outcomes for an explanatory claim
 
-All conditions, outcomes and identifiers in this example are hypothetical, not
-repository measurements. H-T states: within a specified polymer/solvent/bath
-system at fixed polymer content, exposure, stock context and adequate measurement
-quality, raising bath temperature across a specified local comparison increases
-compression-estimated pore fraction. It is a scoped pattern claim, not a proven
-pore-formation mechanism. Its prediction and useful comparison criteria must be
-recorded before evaluating the test; the designer later specifies the exact point.
+Use the explicitly hypothetical PSf/PolarClean H-K and H-S in
+[the knowledge guide](../../../docs/mas/knowledge.md). H-K proposes concentration
+→ delayed exchange → compact load-bearing architecture → higher modulus/lower
+compression pore fraction; H-S proposes changed solvent retention/plasticization
+and a higher intrinsic matrix stress-strain slope at comparable architecture.
+Total polymer amount or thickness alone does not explain higher normalized
+modulus, and mass/thickness alone cannot favor H-S. Neither account is an
+observed or universal material law. Recover
+scope, alternatives and prior criteria before judging new evidence; design later
+specifies the feasible point and available observables.
 
-- **Unchanged:** the new experiment changed casting speed without a comparable
-  temperature contrast. Retain H-T's prior status and evidence. Explain that this
-  result does not evaluate its prediction; do not add a replacement hypothesis
-  just to record activity.
-- **Supported:** a verified matched contrast, assessed under the stated criteria,
-  shows the predicted increase with quality and uncertainty adequate for that
-  conclusion. Update support for H-T's local pattern. Do not transfer that support
-  to a nitrogen or phase-separation mechanism that was not discriminated.
-- **Refuted in tested scope:** a verified matched contrast gives a reliable
-  opposite result that conflicts with the stated prediction/criteria. Record
-  the contradiction and scoped refutation. Do not quietly rewrite H-T to predict
-  a decrease or narrow away the tested conditions under its existing ID.
-- **Inconclusive:** temperature and polymer content both change, bath identity is
-  unresolved, the relevant outcome is missing, or uncertainty prevents the
-  claimed distinction. Explain the concrete gap. The result may still contain
-  useful observations, but does not isolate H-T's temperature relation.
+- **Unchanged:** a casting-speed observation does not test the stipulated matched
+  concentration contrast or pathway. Preserve H-K's prior judgment and explain
+  why this round supplies no relevant adjudication.
+- **Supported within scope:** reliable matched property observations plus valid
+  intermediate evidence distinguish H-K's account from H-S under the stated
+  criteria. Say which links gained support. Property directions alone may support
+  the property component while leaving the pathway proposed/inconclusive; do not
+  promote the whole mechanism from that alone.
+- **Refuted in tested scope:** reliable relevant observations contradict H-K's
+  recorded property or intermediate predictions under adequate controls. Preserve
+  the contrary result and which component it challenges. Do not reverse its
+  predicted sign or remove tested conditions under the same ID.
+- **Inconclusive:** concentration/temperature both change, intermediate evidence
+  is unavailable after authorized discovery, or alternatives predict the same
+  measured outcomes. State the unresolved link and suggest a distinguishing
+  observable or narrower claim. Confirmation is not required before posing a
+  useful explanation.
 
-These are alternative evidence situations, not a required sequence of status
-transitions. If prior support remains and a new ambiguous test adds no relevant
-contradiction, retain/qualify that support rather than mechanically downgrade it.
-Record why the ambiguous evidence does not settle the claim.
+These are alternative evidence situations, not a required status sequence. If
+prior support remains and an ambiguous test adds no relevant contradiction,
+retain/qualify that support with reasons rather than mechanically downgrade it.
 
 ## Worked competition, refinement and a return to analysis
 

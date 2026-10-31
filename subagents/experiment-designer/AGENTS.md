@@ -25,6 +25,22 @@ prediction, comparison and feasibility choices with worked cases.
 
 ## Derive the test before endorsing a point
 
+Recover main's selected shared claim/revision and its round's original evidence
+under the [knowledge contract](../../docs/mas/knowledge.md). Translate the proposed
+process/structure pathway and alternatives into different observable predictions.
+A property rank or unchanged-fit check is not automatically a discriminating
+mechanism test. If both explanations predict the same property response, identify
+another feasible observable or limit the test's claim through main. A tentative
+mechanism can motivate design without being established in advance.
+
+Check whether authorized originals already supply the needed observation before
+proposing a new acquisition. Distinguish proposed extra measurement from the
+eight tunables and obtain any required operator authority through main. Use the
+authorized source and assigned round output areas. For the planned direct test,
+read roles/evidence from PROJECT and write only your assigned TEST_ROOT round
+draft via the [source/output bindings](../../docs/mas/workflow.md#source-and-output-bindings). Do not modify
+canonical knowledge, prior accepted claims or project measurements.
+
 Identify the observable predicted by the selected claim and the outcomes expected
 under plausible alternatives. Ask what result would support, challenge or leave
 the distinction unresolved. Base effect scales, useful uncertainty, thresholds

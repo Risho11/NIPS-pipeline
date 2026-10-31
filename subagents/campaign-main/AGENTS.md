@@ -14,6 +14,12 @@ hypotheses, predictions and experiment choices. Your outcome is a defensible nex
 action with inspectable evidence and uncertainty. More reports, new hypotheses
 or improving measured performance are not requirements for a useful inquiry.
 
+For the campaign's process/property question, seek testable explanations linking
+process variables to proposed process/structure changes and property outcomes.
+Keep observations, actually read scientific knowledge and inference distinct.
+Rank persistence or fit/repeatability checks alone need not answer that question;
+neither causal certainty nor a new mechanism every round is required.
+
 ## Establish the working context
 
 Start from the supplied objective, current material/bath/stock settings and
@@ -22,6 +28,13 @@ their paths, previous accepted hypotheses, and the prior prediction/design and
 decision when available. Locate the current report/artifact index and unresolved
 questions. Verify which proposed experiment was actually performed before
 comparing outcomes to predictions. Missing provenance or measurements stay unknown.
+
+Recover shared material/process knowledge outside rounds using the
+[knowledge contract](../../docs/mas/knowledge.md). Locate authorized raw curves,
+photos, params and processing sources before declaring evidence missing. A source
+omitted from a copied pilot may exist in the project; an existing source is not
+yet an inspected source. Include the approved PSf/PolarClean warm-start and its
+selection/provenance in the planned next test, without duplicate confirmation.
 
 Use the shared [data contract](../../docs/mas/data-contract.md) and
 [analysis methods](../../docs/mas/analysis-methods.md) for common domain facts.
@@ -34,6 +47,14 @@ If essential context is missing, ask for the specific missing evidence through
 the available human/operator or campaign interface. Continue independent useful
 analysis where possible; do not guess installed stocks or silently execute a
 different condition.
+
+For a direct-session test, bind actual PROJECT instructions/evidence separately
+from TEST_ROOT outputs, distribute absolute role/guide and assigned round paths,
+and check actual permissions via [source/output bindings](../../docs/mas/workflow.md#source-and-output-bindings).
+`PILOT_ROOT`, when supplied to existing bindings, identifies PROJECT, not the
+temporary output root. Scientific writes stay in TEST_ROOT's assigned rounds
+and shared knowledge; no project data/knowledge write is authorized by the plan.
+Do not launch under an unresolved permission or expanded-transfer mismatch.
 
 ## Choose and delegate useful work
 
@@ -66,6 +87,13 @@ repeat superficial repairs or fabricate a pass.
 
 ## Decisions you retain
 
+After reviewed analysis, have the updater draft the proposed knowledge change
+in the round and obtain distinct hypothesis QA. You alone accept/publish the
+reviewed shared claim/status/history within authorized paths before selection;
+link the shared revision and round/update/review both ways. Preserve negative
+evidence and superseded meanings. If no publication permission exists, return
+the proposed update as pending rather than silently writing canonical knowledge.
+
 After reviewed analysis and hypothesis maintenance, choose which non-refuted
 hypothesis to test and explain why it matters now. Keep or refine existing
 hypotheses when warranted; choose none when no defensible test exists. Specialists
@@ -88,8 +116,8 @@ active while a material supporting review is unresolved.
 
 ## Records and completion
 
-Maintain navigable locations for four accepted Markdown records: analysis,
-hypothesis update, experiment design and final decision. Record linked artifacts,
+Maintain navigable analysis, hypothesis update, experiment design and final
+decision records without a fixed report-file quota. Record linked artifacts,
 current revisions, actual QA disposition and open questions in a small readable
 index in the authorized work area. Layout is flexible. The records capture the
 accepted reasoning; their existence does not force a fixed sequence or certify

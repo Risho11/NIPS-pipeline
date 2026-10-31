@@ -32,6 +32,29 @@ This question sets the work, rather than a preset optimization/exploration label
 
 ## Give specialists a problem they can solve
 
+Recover shared material/process claims and prior judgments using the
+[knowledge guide](../../../docs/mas/knowledge.md), then ask what the new evidence
+changes. For example, “compare exchange-limited architecture with solid loading;
+which observed and unmeasured links separate them?” is more useful than “confirm
+the best point repeats.” A repeat may still be chosen when informative, but
+ranking or measurement diagnostics are not default substitutes for explanation.
+Keep the guide's concentration example hypothetical.
+
+Give analysis the authorized original-source discovery task as well as CSVs.
+The old pilot omitted curves/photos/warm-start; it did not establish their absence
+from the project. Ask for actual params/plot linkage and relevant curve/image
+inspection, retaining “present but unread” separately from “missing.” Warm-start
+selection, inferred chemistry, per-row bath and source overlap accompany its
+values. Expand a model's read set only after applicable approval.
+
+After analysis QA, updater drafts a round-specific proposed shared revision;
+hypothesis QA reviews original sources and prior meaning. Main publishes the
+accepted change to authorized shared knowledge, linking back to the source round
+and actual review, then selects the test target. If design returns an invalid
+premise, mark dependent knowledge/decision as needing review and reopen the
+affected pair. Held/refuted claims and adverse evidence remain navigable across
+rounds and campaigns; publication is not proof of truth.
+
 A useful delegation describes the question, evidence and its purpose. For example:
 
 > Determine whether the apparent bath-temperature association survives matching
@@ -59,6 +82,13 @@ to the author, inspect the response, and obtain a new judgment on consequential
 revisions. No scientific review is completed by switching main's persona.
 
 ## Select the hypothesis and the purpose of the test
+
+For a direct-session test, pass the concrete PROJECT and TEST_ROOT bindings from
+[source/output bindings](../../../docs/mas/workflow.md#source-and-output-bindings). Resolve role/shared
+instructions in PROJECT and all drafts/reviews/publication in the assigned
+TEST_ROOT paths. The root development Harness does not become scientific main.
+Check actual permissions and expanded transfer authority before launch; no Python
+integration or runtime enforcement follows from these instructions alone.
 
 Have hypothesis maintenance distinguish retained, supported, refuted and
 inconclusive explanations using the reviewed observations. Keeping a hypothesis
@@ -154,7 +184,7 @@ context to assess explicitly, not a license to overwrite past records.
 ## Follow artifacts and close the decision
 
 Use a small readable index in the authorized scientific work area to point to
-the four accepted report locations, current revisions, supporting calculations/
+the accepted research-record locations, current revisions, supporting calculations/
 figures, actual QA findings and outstanding questions. Existing records can serve
 this purpose; no separate database, immutable ledger or duplicate result.json is
 needed. Drafts are distinguishable from accepted conclusions. Preserve prior

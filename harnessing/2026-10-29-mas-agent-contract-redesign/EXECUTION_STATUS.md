@@ -1,5 +1,89 @@
 # Execution status
 
+## Active renewed Goal — Phase 5 / Step 1
+
+Expected ordinary publication subject: 261031-16-42 docs exercise explanatory MAS on historical evidence
+
+Final Phase5S1 independent development QA: PASS, no material blockers. Run0001 actualinquiry1046s; run0002 actualfocusedcontinuation308s; respective1200/600limitsmet. Nativeauthor/reviewrecords, warm/originalevidence,4unchangedPROPOSED/INCONCLUSIVEsharedclaims, endpoint-specificF-D1repair and actualrenewedreview verified. Round2didnotmodifyround1/KB or inventnewdata. Source144identities, measureddataemptydiff, links/whitespace and original8-stepplanprefix verified. FINAL OUTPUT REVIEW REQUEST is for native scientific reports, not agent-doc approval.
+
+Latest scientific index: /private/tmp/nips-mas-test-20261031/data/results/begins_2026-10-15/mas/rounds/0002/main/index.md
+Current decision: same directory decision.md. Shared knowledge: /private/tmp/nips-mas-test-20261031/data/knowledge/polysulfone_polarclean/index.md
+Reviewed next point: mixing50°C,bath5°C,speed6mm/s,N2true,exposure250s,immersion1600s,polymer16wt%,additive0; fixed10wt%PCbath. ReportonlyRUN, neveractualexecution. Observationalcomparators/unmeasuredmechanisms/unknownindependence remain explicit.
+
+Ordinary Phase5S1 publication is bound to the local commit subject below and is complete only after controller verifies its exact file membership/content and clean index/worktree. It is NOT DCP and grants no physical/production authority. Phase5S2DCP remains DEFERRED until later human continuation. Native scientific main and Writer are quiescent; final human scientific-output review is pending.
+
+Actual run0001 completed2026-10-31T20:30:37Z (1046s, within1200s). Native main and six distinct science author/QA roles actually read warm73+campaign58/64/232 and consequential originals. Analysis/hypothesisPASS; designv1initialPASS was reopened after actualoutputfindingF-D1 (secondarypore missingness blanket-invalidatedprimaryE). Originaldesigner repairedv2; distinctQA renewedPASS; exactbridge50/5/6/N2/250/1600/16/0 unchanged. MainrecommendationRUN is reportonly. IndependentdevelopmentreviewPASS forboundedround1; no newphysicaldata/mechanismconfirmation. Original144sourcebaseline unchanged before authorizedWriter prevention.
+
+Observed-defect prevention: Writer added endpoint/claim-specific missingness paragraph ONLY to data-contract.md andreturnedownership. Focused native continuation0002 started20:34:19Z, hardlimit600s/deadline20:44:19Z, SAMEscientificmain. It recoverspublishedknowledge, retainsunchangedclaimswithoutnewmeasurement, and actuallyreassessesdesignwithdistinctQA underupdatedguidance. Current statusRUNNING; finalwholeGoalQA pending. No scientific testmanual, physicalexperiment, productionPythonchange orDCP.
+
+Planning repair/QA: PASS; matching phase5step1/2 identities and old prefix verified. Writer cleanup13paths returned and independentcleanupQA PASS; one-off manual deleted,151links, no actualtestcompletionclaim fromdocchecks. Actual native scientific main /root/mas_campaign_test dispatched2026-10-31T20:13:11Z, deadline20:33:11Z. Status RUNNING; output root /private/tmp/nips-mas-test-20261031. Source-read-only is a task restriction under inherited workspace permissions, not OS isolation. No physical submission.
+
+The human explicitly renewed Goal execution through actual MAS testing, observed-defect repair/re-run and review of final scientific outputs, not agent-doc review. Phase5S1 and deferredPhase5S2DCP are now appended to ORIGINAL plan.json and IMPLEMENTATION_PLAN.md; historical eight-step prefix/DCP preserved. This is the native-Git append equivalent under the existing user exception, NOT a canonical manager reopen-append invocation. No simulated progress.json. Prior docs-only FOLLOWUP_PLAN attempt and QA remain historical evidence, not completion of actual testing.
+
+The human explicitly approved selective reading/OpenAI Codex transfer of the exact input-scope.json set (3749files/~2.77GB maximum available set, not bulk upload), derived outputs and repeated evaluations; eachrun<=1200s, no hardware. Exact transient source: /private/tmp/nips-mas-live-retry-20261031/input-scope.json. Scientific outputs: /private/tmp/nips-mas-test-20261031/data/results and data/knowledge. Source/measurement/productionPython writes prohibited. Current actualtest: NOT_RUN, pending bounded session dispatch after minimal cleanup/QA. DCP: DEFERRED.
+
+
+## Historical docs-only follow-up — scientific reasoning and knowledge
+
+The human authorized Goal work to revise the agent system and request their
+review before DCP, then explicitly requested warm-start inclusion in the next
+test. [FOLLOWUP_PLAN.md](FOLLOWUP_PLAN.md) owns this bounded continuation; the
+historical eight-step records below remain historical and unchanged. Initial
+HEAD: 600874c57c79ada538a59589eb1bb828336839f0; index/worktree clean. Mode remains
+MANUAL_GIT_TRANSITIONS with STANDARD_CONTROLLER_WRITER and the pinned external
+source. No controller succession, canonical reopen or manager mutation occurs.
+
+F1: Writer returned a 20-document candidate; controller verified its exact bytes.
+Initial product mapping identity: 64f3c80046132f3305b9a8e7e77af97c7a7c51ee5421ef28108e25786b601ad1.
+F2 QA1: FAIL, one substantive finding. H-S's mass/thickness account did not
+specify a physical pathway to increased normalized modulus; geometry/amount
+alone is insufficient under the producer's stress/strain normalization.
+Controller accepts the finding and is returning a bounded same-pattern repair.
+Nonblocking role-root wording will be clarified; scratch/cache placement is
+retained. QA independently verified 158 links, 20 product / 51 protected / five
+input identities, role bindings and source counts/locations. Scientific efficacy
+and runtime enforcement were not tested.
+REPAIR1: Writer returned ownership after exactly 12 allowed repairs; the eight
+other candidate documents and protected inputs/implementation remain unchanged.
+H-S now explicitly proposes a retained-solvent/plasticization → matrix-response
+pathway, not mass/thickness alone. General role roots are invocation-specific.
+Controller verified current 20-file mapping identity
+6516d7eebbb60cbb7437d618f8ace65022b555d48c665594b6ba1b3dddc16868;
+159 links and Writer static normalization/discrimination checks passed.
+Fresh independent QA2: FAIL on one claim-identity instruction. The normalized
+modulus/material-pathway repair and role-root qualifications are resolved.
+The remaining knowledge-guide sentence forced a main's undefined solid-loading
+claim to mean the worked example's specific matrix-state proposal. Controller
+accepts a single-document scope clarification; no mechanism or role expansion.
+QA2 independently verified the 12/8 repair boundary, 159 links, protected/source
+bytes and normalization controls.
+REPAIR2: Writer returned ownership after changing only knowledge.md, preserving
+the other 19 candidate documents. The alias is scoped to the worked example;
+real undefined/different claims require clarification or an explicit reviewed
+linked revision. Controller verified mapping identity
+73b7230675dd609cfbfa3abbfccdb69f33722dacc2a547f8fff73fd827ff6f77.
+Fresh exact-candidate QA3: PASS for the 20-document development candidate on
+that mapping identity, no blocking findings. QA3 independently verified the
+one-file repair / 19 unchanged boundary, 159 links, protected 51 / input five
+identities, unchanged HEAD and empty index. QA2's still-valid normalization
+controls were retained without arbitrary reruns. QA1 and QA2 remain FAIL in
+history; they are not relabeled. Controller accepts the two repairs and the
+retained cache/runtime-preflight disposition.
+
+Delivery: READY_FOR_USER_REVIEW. This is development-contract adequacy, not
+scientific efficacy or hypothesis confirmation. The full product candidate is
+uncommitted; no Git ref/index transition or DCP has occurred. Actual scientific
+execution, source curve/photo scientific assessment, runtime enforcement and
+production integration remain NOT_RUN. Expanded live transfer remains subject
+to its exact reviewed authorization. The next test plan includes the specified
+PSf/PolarClean warm-start plus October tables and consequential linked originals.
+Writer is QUIESCENT / OWNERSHIP_RETURNED; independent QA has completed.
+DCP: DEFERRED_BY_EXPLICIT_USER_INSTRUCTION; not part of this delivery.
+New live scientific inference: NOT_RUN. Additional data transfer requires exact
+expanded read-set review; no existing approval is silently enlarged.
+Production Python/source, measured data and scientific knowledge in the project
+remain untouched. The review candidate will remain uncommitted.
+
 Mode: MANUAL_GIT_TRANSITIONS. Controller-managed readable progress.
 QA_ACCEPTED becomes complete only with its listed actual native Git receipt.
 No canonical progress.json or transaction fingerprint is generated.

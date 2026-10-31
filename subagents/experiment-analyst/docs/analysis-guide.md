@@ -32,6 +32,23 @@ operator context.
 
 ## Select a calculation or artifact for a reason
 
+When main asks for a process explanation, trace the proposed intermediate rather
+than ending at a property ranking. Use the hypothetical concentration competition
+in [knowledge.md](../../../docs/mas/knowledge.md): modulus agreement alone fits
+both exchange-limited architecture and the defined matrix-state alternative.
+H-S needs evidence for its solvent-retention/matrix-response pathway; increased
+mass/thickness alone cannot establish increased normalized modulus. Determine
+whether original
+curves, photos, params or plots address their different predictions; do not treat
+a coverage image as cross-sectional evidence. If no such observable exists within
+the authorized sources, identify the specific gap and a useful narrower comparison.
+
+Draft evidence for the round's knowledge update, not a canonical status change.
+Compare actual outcomes with recorded prior alternative predictions. Preserve
+unfavorable observations, source precision and warm-start selection/overlap so
+updater and independent QA can assess what changed. Your analysis and scripts
+belong to your assigned round; main alone publishes shared knowledge.
+
 If the question concerns a measured difference, calculate the contrast at source
 precision and report units, direction, comparator and inclusion choices. A
 relative contrast needs a meaningful nonzero denominator. If the question is
@@ -84,6 +101,14 @@ a plot grouped by composition to expose whether the earlier pooled trend holds.
 If they do not, the defensible result is a combined observed change with no
 isolated temperature effect. Specify the missing matched contrast and what
 competing explanations it could distinguish, without selecting final conditions.
+
+That conclusion does not prohibit proposed process reasoning. A concentration-
+driven exchange account and the explicitly defined matrix-state account can be
+motivated while
+remaining unconfirmed. State their different predicted process/property outcomes
+and ask which source could discriminate them. Search authorized raw directories
+and params/plot_source linkage before asking for another measurement; if a source
+exists, read or inspect it rather than merely listing it as available.
 
 Send the source row identities, checked controls, comparison/artifact paths and
 qualified conclusion to main and analysis QA. Suppose QA notices that A's bath

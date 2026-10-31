@@ -9,6 +9,13 @@ the preserved production adapter or authorize execution.
 
 ## Translate the selected claim into distinguishable outcomes
 
+Recover the accepted shared claim/revision and its source round/update/review
+under [knowledge.md](../../../docs/mas/knowledge.md). Design is downstream of
+main's reviewed selection, not authority to rewrite shared status. If competing
+process/structure explanations predict identical available properties, identify
+a feasible additional observable or ask main to narrow/reselect the question.
+Construct a test of the explanation before inventing a novel coordinate.
+
 Recover the exact selected hypothesis and main's reason for testing it. Identify
 its domain, predicted observable and competing explanation. Ask whether the
 proposed test permits outcomes that would change judgment. If every possible
@@ -73,60 +80,83 @@ original point or of the changed scientific test. Revise the candidate explicitl
 and re-review it if values change. Check how a constraint-induced change affects
 the controls, prediction and hypothesis; return upstream through main if necessary.
 
-## Worked next point: informative without chasing the maximum
+## Worked next point: concentration explanations with different predictions
 
-Every condition and outcome in this example is hypothetical, not a repository
-measurement, an inferred operator setting or an actual recommendation. Assume
-main selected a local claim that increasing bath temperature at fixed formulation
-increases compression-estimated pore fraction. A composition-only explanation
-predicts no systematic temperature effect under matched conditions. Assume the
-supplied case establishes a reliable prior comparator at 14 wt% polymer, 8 °C
-bath and the same remaining conditions below, with confirmed comparable material,
-bath, stock and processing context.
+Every condition, outcome and intermediate in this example is hypothetical, not
+repository evidence, a material law, installed stock confirmation or an actual
+recommendation. Main selects H-K, the proposed PSf/PolarClean exchange-limited
+architecture account in [knowledge.md](../../../docs/mas/knowledge.md), against
+H-S's proposed matrix-state account. Both predict higher normalized modulus as
+polymer concentration rises. H-K predicts delayed exchange and more compact
+architecture with lower compression-estimated pore fraction; H-S specifically
+predicts changed solvent retention/plasticization and increased intrinsic matrix
+modulus at comparable architecture. More total material or a thicker membrane
+alone is not that pathway. Recover the full
+proposed meanings and limits before using these predictions.
 
-Suppose the explicitly supplied hypothetical constraints use two-bottle stocks
-with vertices (17, 0), (17, 4), (0, 0), additive lock 0 and the normal numeric
-ranges. One proposed next condition to complete this local contrast is:
+Assume the case explicitly supplies a reliable 14 wt% polymer, 8 °C bath comparator
+with all remaining settings below matched, fixed PSf/PolarClean/no-cosolvent
+materials, a specified unchanged bath composition, and comparable stock/acquisition
+context. These are assumptions for the example; locate real comparator evidence
+before offering a real point. Suppose stocks are the supplied triangle (17,0),
+(17,4),(0,0), additive lock0, with normal source numeric bounds.
 
 | Tunable | Hypothetical next value |
 | --- | --- |
 | `mixing_temp` | 25 °C |
-| `bath_temp` | 15 °C |
+| `bath_temp` | 8 °C |
 | `pullcast_speed` | 10 mm/s |
 | `nitrogen` | true |
 | `coupon_to_bath_wait_time` | 120 s |
 | `nips_bath_wait_time` | 1250 s |
-| `polymer_wt` | 14 wt% |
+| `polymer_wt` | 16 wt% |
 | `additive_wt` | 0 wt% |
 
-Hold the supplied operator materials/bath unchanged; their actual identities and
-concentrations must accompany a real case. These illustrative values serve the
-hypothetical matched contrast and lie within those stipulated constraints. They
-are not an evidence-derived optimum or proof that a current physical bath exists.
-No precise effect size or independent repeat count is inferred from the example.
+Only concentration changes relative to the stipulated comparator. The proposed
+(16,0) composition is diluted polymer stock, feasible as 16/17 stock plus 1/17
+solvent by mass; the undiluted-stock special rule is not triggered. Keep all
+actual material/bath constraints explicit; no dispensing instruction or physical
+execution follows. This point explores a distinction rather than chasing the
+largest predicted modulus. No exact gain, tolerance or sufficient repeat count
+is invented.
 
-The purpose is exploration of a distinguishing contrast, even if another
-formulation is expected to have higher modulus. Keep quality/objective constraints
-in view rather than maximize one metric by inventing weights. Prospective outcome
-interpretation is:
+First inspect authorized existing curves/photos/params/processing evidence and
+warm-start comparisons to identify what is already measurable. If valid exchange
+timing, solvent/matrix-state or structural measurements exist, evaluate their
+applicability. Surface
+coverage images are not cross-section images; compression pore estimates cannot
+supply exchange kinetics. Additional rheology, time-resolved observations or
+structural or residual-solvent acquisition would be a separately authorized
+measurement plan, not a
+new tunable or an observation assumed already available.
 
-- A reliable pore-fraction increase distinguishable from relevant comparison
-  uncertainty favors the local positive-temperature relation over no temperature
-  effect; it does not establish a specific pore-formation mechanism.
-- An adequately measured opposite result challenges the selected local prediction.
-  It does not by itself prove the composition-only mechanism.
-- An apparently unchanged value that cannot be separated from uncertainty is
-  inconclusive; so are invalid fitting evidence or unresolved comparator context.
-  Do not label a failed fit as zero pore fraction.
-- A modulus decrease can remain useful evidence alongside the predicted pore
-  response. Evaluate the observed tradeoff and the selected claim rather than
-  declare failure solely because modulus did not improve.
+Prospectively distinguish:
 
-Actual decision thresholds and replication sufficiency require the case's
-measurement/independent-variation evidence. If those are unavailable, qualify
-what the single result can establish and ask for the needed evidence through main.
-This proposal is one future condition against a stipulated existing comparator,
-not a claim the new observation or an independent validation was performed.
+- Delayed exchange and independently compact architecture with higher bulk
+  modulus, at comparable matrix state, favors H-K as the principal driver within
+  the controls. A pore estimate alone does not image that architecture.
+- Lower retained solvent and independently increased matrix modulus at comparable
+  architecture favors the stated H-S. Mass/thickness increase alone does not.
+  A conditioning contrast that equalizes solvent content could further test the
+  predicted reduction of the bulk-modulus difference only if architecture and
+  other conditions remain comparable and that measurement/treatment is authorized.
+  Missing solvent/matrix evidence leaves this pathway untested; reliable absence
+  of its specified changes challenges H-S.
+- Mixed architecture and matrix changes may support combined explanations.
+  Neither a favorable property direction nor a mass/thickness change proves an
+  exclusive pathway. Retain contrary property and intermediate observations.
+- Property changes alone can test the scoped property predictions but leave
+  intermediate pathways unresolved. If both accounts fit all available outcomes,
+  request another discriminating observable or narrow the inference through main.
+- Invalid acquisition, missing outcomes, unmatched execution or unresolved
+  uncertainty leaves the affected distinction inconclusive. Preserve valid adverse
+  evidence rather than using uncertainty to dismiss every unfavorable result.
+
+Explain why this next synthesis and comparison would be informative under actual
+resource/quality constraints, and what it alone cannot establish. An additional
+matched observation or independent repeat may be needed; label it future planned
+work. No generic repeatability question replaces the selected process explanation
+unless main explicitly reselects after affected review.
 
 ## Worked rejection: feasible but unable to answer the question
 

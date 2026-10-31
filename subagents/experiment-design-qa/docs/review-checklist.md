@@ -27,6 +27,13 @@ execution mismatch is not automatically physical refutation.
 
 ## Review the information argument
 
+Read the current shared claim and proposed round-to-knowledge interpretation,
+not only a selected ID. Constructive criticism should ask what alternative
+prediction the next observation distinguishes; acceptance is not earned just
+by feasibility checks or caveats. A tentative pathway is allowed, but support
+cannot exceed its actual observables. Main publishes any reviewed knowledge
+revision after routing affected author/QA work; reviewers never edit it.
+
 | Design component | Independent question | A useful repair request |
 | --- | --- | --- |
 | Prediction | Does the observable follow from the selected scoped claim and differ meaningfully from alternatives? | Explain the discriminating outcome or return the unresolved hypothesis question through main |
@@ -67,28 +74,41 @@ not silent reviewer repair. If current stock context is missing, do not certify
 physical feasibility from defaults. Mechanical validation supplements scientific
 review; it does not prove that the comparator or inference is valid.
 
-## Worked review: an informative matched contrast
+## Worked review: an explanatory concentration contrast
 
-The [designer guide](../../experiment-designer/docs/design-guide.md) gives an
-explicitly hypothetical next condition at 14 wt% polymer, zero additive and 15 °C
-bath, against a stipulated measured 8 °C comparator with other relevant conditions
-matched. Independently verify those assumptions in a real case; the example
-itself is not evidence that the comparator or physical setup exists.
+The [designer guide](../../experiment-designer/docs/design-guide.md) proposes an
+explicitly hypothetical 16 wt% / 8 °C next point against a stipulated 14 wt% /
+8 °C comparator. It tests the proposed H-K exchange-limited architecture account
+against the stated H-S concentration-driven matrix-state alternative in
+[knowledge.md](../../../docs/mas/knowledge.md). Neither this example nor its
+feasibility supplies a real measured comparator or confirms physical settings.
 
-If the supplied sources establish that comparison and current constraints permit
-the exact condition, ask whether a reliable pore-fraction increase, reliable
-opposite result and an uncertainty-limited result have appropriately different
-interpretations. A modulus decrease need not defeat the local pore-fraction test.
-The outcome may discriminate a local temperature relation from no temperature
-effect while leaving the underlying mechanism unresolved. Do not demand a higher
-expected modulus to accept a useful contrast.
+Independently verify the comparison and which observables actually exist.
+Both explanations predict higher modulus, so a modulus increase alone cannot
+support claimed mechanistic discrimination. Check that H-S explicitly changes
+the matrix's normalized material response through its hypothetical solvent-
+retention/plasticization pathway. Greater total polymer amount or thickness is
+not enough. Exchange/architecture evidence at comparable matrix state bears on
+H-K; retained-solvent and independently assessed matrix-modulus evidence at
+comparable architecture bears on H-S. Mass/thickness alone is not decisive, and
+the compression fit does not image architecture. If both pathways change, retain
+combined explanations. Ask for a feasible additional
+observable or a narrower property conclusion when necessary. Do not demand that
+H-K be confirmed before allowing it as a testable proposal.
 
-If review instead finds a different polymer concentration or bath composition in
-the comparator, the temperature attribution is not isolated. Return the exact
-source difference through main for analysis/comparability review and, if needed,
-hypothesis reconsideration. Ask the designer to revise the test/interpretation
-only after the upstream question is resolved. Do not quietly rewrite its
-comparator or choose a different hypothesis yourself.
+If required evidence is already in authorized original curves/photos/params or
+processing sources, request its inspection instead of defaulting to another
+synthesis. A coverage photo may settle placement but not the proposed pathway.
+If the necessary intermediate acquisition is only planned, require explicit
+operator/measurement authority and limits on what the next point alone tests.
+A revised hypothesis or observational scope returns through main and the affected
+updater/QA; the designer cannot silently replace the claim to rescue a point.
+
+Check all eight settings, stock feasibility and fixed bath/material context
+separately. A different polymer concentration in a supposed temperature-only
+comparison or a changed bath could invalidate the discrimination. Route that
+source difference through main for analysis and reconsideration. Do not repair
+the author's candidate, canonical shared knowledge or comparator yourself.
 
 ## Worked review: repeats, missing controls and false completion
 

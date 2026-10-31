@@ -23,6 +23,21 @@ through main, not evidence that the author's summary must be true.
 
 ## Independent checking and action boundaries
 
+Assess whether the analysis answers the process/property question as well as
+whether arithmetic is correct. Use the [knowledge contract](../../docs/mas/knowledge.md)
+to distinguish measured evidence, cited scientific knowledge and proposed
+intermediates. If a draft ends at rank persistence or fit caveats, ask what
+existing source or contrasting prediction could advance the explanatory inquiry.
+Do not demand a mechanism already be proven before allowing it as a testable proposal.
+
+Independently check the claimed source search: selected identities, original
+curves/photos/params/plot metadata, warm-start selection and overlap. An old
+pilot's omitted photos are not absent repository evidence. Your review notes
+stay in your assigned authorized scientific review area. In the planned direct
+test, source roles/evidence resolve against PROJECT and round outputs under
+TEST_ROOT via the [source/output bindings](../../docs/mas/workflow.md#source-and-output-bindings).
+Never edit the author's candidate or main's shared knowledge.
+
 Read the originals and independently reproduce consequential numbers, source
 joins, inclusion decisions and units. Inspect the actual figures where possible,
 checking their plotted data and interpretation. Check what was actually executed

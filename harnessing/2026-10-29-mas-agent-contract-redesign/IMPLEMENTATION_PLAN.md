@@ -182,3 +182,39 @@ The generic shared full-application documentation skeleton is not adopted; seman
 - files: ["docs/mas/README.md"]
 - validation: git diff --check; Source-to-contract semantic review, relative link checks, and the step's worked cases; record actual paths/results.
 - acceptance: Independent acceptance exists; the chosen DCP outcome is correct; the final native Git receipt and actual committed files agree. Production integration remains an explicit separate follow-up.
+
+
+### Phase 5: Actual explanatory MAS evaluation and repair
+
+1. STEP 1: Exercise the scientific MAS and deliver outputs for review
+
+```harness-step-json
+{
+  "phase": 5,
+  "step": 1,
+  "expected_commit_msg": "docs exercise explanatory MAS on historical evidence",
+  "prompt": "steps/PHASE_5_STEP_1_PROMPT.md"
+}
+```
+- owner: Controller orchestrates; verified persistent Writer owns literal product-doc repairs; separate scientific main owns temporary research outputs; independent development QA reviews useful behavior.
+- purpose: Actual direct-session evaluation, observed-defect repair and re-evaluation, ending in review of scientific outputs rather than agent-doc review.
+- scope: Preserve the current 20-document candidate; remove the one-off direct-session test manual and fix its references, retaining reusable guidance. Source project is read-only to science; outputs use /tmp/<test-root>/data/results/<campaign>/mas/rounds and data/knowledge. No Python/production integration or hardware.
+- inputs: exact expanded input-scope.json in the transient handoff; PSf/PolarClean warm73 plus October llm58/agg64/reps232 and consequential original sources. Human explicitly approved selective OpenAI transfer and repeated evaluation within that scope on2026-10-31; each run <=1200seconds.
+- validation: actual session/event/output inspection, original-source and scientific-QA review, source preservation, meaningful explanatory hypotheses and competing predictions, separate cumulative knowledge, reviewed feasible exact decision; fix and rerun observed material defects.
+- acceptance: final native scientific outputs are available for human review with truthful limits; report-only recommendation is never physical execution. A static documentation PASS is insufficient. Retain failed runs and review findings; do not claim all possible scientific behavior tested.
+- continuation: user-selected manual-Git append equivalent; old eight steps and historical DCP remain immutable. No canonical-manager command, fake ledger or claim of canonical reopen execution. Existing FOLLOWUP_PLAN.md is retained as historical docs-only attempt, not active execution authority.
+
+2. STEP 2: Durable Contract Promotion — deferred for human review
+
+```harness-step-json
+{
+  "phase": 5,
+  "step": 2,
+  "expected_commit_msg": "docs Durable Contract Promotion",
+  "prompt": "steps/PHASE_5_STEP_2_PROMPT.md"
+}
+```
+- owner: Controller after later explicit authorization.
+- purpose: retain mandatory-last continuation shape without executing DCP before the requested final-output review.
+- files: no DCP product ownership is granted now.
+- validation/acceptance: NOT_RUN / DEFERRED; not part of this Goal's requested delivery.

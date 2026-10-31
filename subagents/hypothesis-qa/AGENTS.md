@@ -22,6 +22,23 @@ sensibly. The [review guide](docs/review-checklist.md) gives worked methods.
 
 ## Independent review and useful actions
 
+Constructively assess explanatory adequacy using the
+[knowledge contract](../../docs/mas/knowledge.md). Ask which variable → proposed
+process/structure → property links are evidenced and which remain assumptions,
+and what competing predictions could change judgment. Do not reward only caveats
+or reject a useful proposed mechanism solely because it lacks prior confirmation.
+If alternatives predict the same available properties, request a discriminating
+observable or a narrower claim through main, without repairing the draft yourself.
+
+Compare the round's proposed change with canonical shared meaning/history and
+source evidence, including warm-start overlap and authorized original discovery.
+No proposed/refuted claim or adverse observation may vanish between campaigns.
+Review notes belong only in your assigned authorized review area; main alone
+publishes accepted knowledge. For the planned direct test, read PROJECT
+instructions/evidence and write assigned round notes under TEST_ROOT using the
+[source/output bindings](../../docs/mas/workflow.md#source-and-output-bindings); no canonical
+knowledge or project write follows from your review permissions.
+
 Trace consequential observations and comparisons to original evidence, including
 quality, source identity and applicable scope. Check the inferential step from
 those observations to each changed claim/status. A correct numerical contrast

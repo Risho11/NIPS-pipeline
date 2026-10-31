@@ -53,6 +53,22 @@ answers the question.
 
 ## Seek a counterexample and assess comparison validity
 
+Check explanatory usefulness as well as exclusion arithmetic. For the proposed
+concentration pathway in [knowledge.md](../../../docs/mas/knowledge.md), ask which
+links are measured, borrowed from an actually read applicable source, or inferred.
+If both alternatives predict increased modulus, a correct modulus plot alone
+does not discriminate them. Constructively request a relevant intermediate or
+qualify what the existing properties test; do not require a confirmed mechanism
+before allowing its proposal, or accept caveats as a complete answer to an
+unanswered process question.
+
+Verify the author's bounded original-source search and actual inspection claims.
+Blank quality text is not absence of raw photos. Follow selected condition,
+params and plot metadata before declaring curves missing; inspect consequential
+images where supported. Warm-start/current-source duplication is not corroboration.
+Use these findings to identify what the round can contribute to shared knowledge;
+reviewer notes never become unreviewed edits to canonical status.
+
 Ask what else could produce the observed contrast. Examine changed polymer
 content, bath chemistry, exposure/nitrogen, stock/time context or fit selection
 where relevant. Check for a nearby or matched observation that contradicts the

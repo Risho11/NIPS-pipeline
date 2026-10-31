@@ -11,9 +11,10 @@ not zero and not permission to invent a replacement measurement.
 
 The target MAS lets campaign main direct analysis, maintain and select hypotheses,
 revisit upstream judgments, and choose run, hold or stop. Specialists and their
-independent scientific QA support those decisions. Four accepted Markdown records
-remain: analysis, hypothesis update, experiment design and final decision. Their
-layout follows the question; report locations and revision reasons let main follow
+independent scientific QA support those decisions. Readable Markdown records cover
+analysis, hypothesis update, experiment design and final decision, without a fixed
+report-file quota. Layout follows the question; report locations and revision
+reasons let main follow
 evidence without whole-report JSON echoes or report-hash gates.
 
 These documents do not implement that target. The preserved
@@ -24,6 +25,15 @@ stages and verifies report hashes. Its existing artifact generator is not the
 target question-led analysis workspace. Writing scripts/figures and reopening
 judgments require the separately scoped isolated pilot or later integration;
 this guide does not grant filesystem permissions or migrate the adapter.
+
+Shared material/process claims and their bounded evidence judgments follow
+[knowledge.md](knowledge.md); round reports explain the changes rather than
+duplicating canonical knowledge. Bind instruction/evidence sources separately
+from authorized scientific outputs using the workflow's
+[source/output principles](workflow.md#source-and-output-bindings). A temporary
+scientific session writes round/knowledge outputs only beneath its assigned
+temporary root. These documents grant no project knowledge writes or new Python
+persistence behavior.
 
 ## Locate the evidence before interpreting it
 
@@ -47,6 +57,30 @@ Read them with a CSV-aware reader: quoted narrative and date fields contain
 newlines. A physical text line is not a reliable row identifier. Cite the path,
 exact `name`, property and processing version; add `Trial` for specimen claims.
 Check headers and populated values in the actual supplied file before coding.
+
+## Discover consequential originals within the authorized scope
+
+Before declaring a source missing, follow the selected exact condition/source
+identity to `data/raw/<condition>/`, actual `params.json` and specimen filenames;
+trace processing plots through `plot_source.json` and input metadata. A plot
+directory's date can be a processing date and does not authorize later experiment
+inputs. Use warm-start `source_csv`, `source_name` and campaign to resolve aliases.
+Do not invent a native path from a label or search unrestricted future evidence.
+
+Record whether evidence was not supplied to an invocation, present but unread,
+inaccessible, or absent after a named bounded search. Request authorization before
+expanding a scientific model's input scope. A blank quality narrative is not
+evidence that raw photos do not exist. Latest October L and the three current
+all-fit-failure identities from the old pilot have original specimen CSVs, JPGs
+and params in their exact raw directories. That locates sources; it does not
+validate their contents. Read consequential curves/params and inspect rendered
+photos/plots before attributing a physical failure or requesting new evidence.
+
+Sample/zero curve pairing, photograph identity, actual settings and processing
+selection must remain traceable. A top-surface coverage photograph may answer
+placement/tearing questions but cannot establish an unobserved cross-section.
+Compression-derived pore fraction does not measure exchange kinetics or image
+pore architecture. Keep those proposed intermediates distinct from measured data.
 
 The existing adapter's `observation_inputs` freezes campaign `llm.csv`, `agg.csv`
 and `reps.csv` when present, optional `warm_start.csv`, and `context.json` with
@@ -114,6 +148,15 @@ A single finite value can produce SD zero without establishing precision or
 repeatability. Aggregate SD is neither a standard error nor a confidence interval.
 Do not infer counts from SD or substitute specimen count for synthesis count.
 
+Interpret support, adverse results and inconclusive evidence per selected claim
+and endpoint. A missing secondary endpoint alone limits dependent joint-property
+or tradeoff claims; it does not erase an independently valid primary contrast.
+It also does not certify primary validity: inspect whether shared sample/zero
+pairing, contact/thickness correction, fit or selection defects compromise that
+measurement too, and classify the affected claims accordingly. Follow the actual
+question and quality dependencies without requiring fixed primary/secondary
+report fields or inventing acceptance thresholds.
+
 When failures exist, `agg.csv` retains pre/post-discard versions. Current
 `PROMOTE_POSTDISCARD=True` selects post-discard when present, and promotion removes
 the processing suffix in `llm.csv`. Inspect the corresponding rows to establish
@@ -156,6 +199,17 @@ has `Polysulfone / PolarClean (inferred)` chemistry with blank material fields i
 some rows. That is not operator-confirmed material identity. The
 [Primospire history](../../data/warm_start/primospire_nmp.csv) belongs to another
 polymer/solvent context and cannot supply a direct Polysulfone performance repeat.
+
+The next test plan explicitly includes the filtered PSf/PolarClean CSV and its
+[companion selection metadata](../../data/warm_start/polysulfone_polarclean_notebook_filtered_2026-10-15.json):
+73 selected records through campaign 2026-09-25. Its chemistry is inferred,
+independent synthesis validation is unknown, and notebook filters exclude some
+thin/failed samples; it is not unbiased coverage. Preserve the recorded
+thickness/CV/discard/date selection and per-row bath provenance, including linked
+historical bath metadata. Do not import Primospire/NMP by default or replace old
+bath settings with current defaults. Count records, specimens and syntheses
+separately. Zero name overlap with October would not establish independence;
+resolve source identity/processing overlap before accumulating confirmation.
 
 The legacy [history merger](../../src/pipeline/llm_context.py) keeps the current
 campaign row on a historical `name` match. This is a deduplication rule, not proof

@@ -25,6 +25,21 @@ required by the target method.
 
 ## Check information and feasibility independently
 
+Trace the design to main's selected shared claim/revision and the reviewed
+round update using the [knowledge contract](../../docs/mas/knowledge.md). Challenge
+whether proposed process/structure pathways and alternatives predict different
+available observations. A caveated modulus trend may still leave the mechanism
+untested. Request a feasible additional observable or narrower conclusion when
+needed; do not require causal proof before permitting a useful explanatory test.
+
+Check claims that required evidence is missing against authorized original-source
+discovery, not only the old copied pilot. Reviewer notes stay in your assigned
+authorized review area. In the planned direct test, TEST_ROOT holds assigned
+round outputs while PROJECT supplies instructions/evidence under the
+[source/output bindings](../../docs/mas/workflow.md#source-and-output-bindings). You never repair
+the designer's draft, canonical shared knowledge or project data. Return any
+claim/status consequence through main to updater and its distinct QA.
+
 Ask what different possible outcomes would teach. Check whether the predicted
 observable actually bears on the selected claim, whether alternatives could give
 the same result, and whether comparator, controls and repeat strategy support

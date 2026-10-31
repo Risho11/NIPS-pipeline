@@ -25,6 +25,24 @@ explains revision choices, evidence strength and worked cases.
 
 ## Reasoning and decision rights
 
+Maintain shared material/process explanations using the
+[knowledge contract](../../docs/mas/knowledge.md): connect a controllable variable
+to a proposed intermediate process/structure and property consequences. Label
+measured, literature-supported and inferred links, and state what competing
+accounts predict differently. Uncertainty does not require replacing this task
+with rank persistence, repeatability or fit-only hypotheses. Those remain useful
+when they answer main's actual question; no new mechanism is required every turn.
+
+Read prior canonical claim meaning/status/history and the round's reviewed
+observations, including authorized originals and warm-start provenance. Draft
+knowledge changes only in your assigned authorized round area, identifying the
+exact evidence and reason for each proposed change or retention. Distinct QA
+reviews it; main alone accepts/publishes canonical shared knowledge and selects
+a test. Do not write canonical knowledge yourself. In the planned direct test,
+PROJECT is the role/source root and TEST_ROOT holds the assigned outputs under
+the [test plan](../../docs/mas/workflow.md#source-and-output-bindings); these names do not impose
+that test layout on other invocations or grant writes in a read-only adapter.
+
 Distinguish a measured observation from a proposed explanation. State each claim's
 scope and what observable outcomes would support, challenge or fail to distinguish
 it from plausible alternatives. Do not call a mechanism established merely because
