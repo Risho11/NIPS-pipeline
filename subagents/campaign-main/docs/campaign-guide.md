@@ -1,203 +1,139 @@
 # Running an evidence-led campaign inquiry
 
-This guide supports the [campaign-main role](../AGENTS.md), activated only by an
-explicit experiment-main assignment. Domain facts and calculations belong in
-the shared [data contract](../../../docs/mas/data-contract.md) and
-[analysis methods](../../../docs/mas/analysis-methods.md). The
-[workflow](../../../docs/mas/workflow.md) defines collaboration and the unmigrated
-production boundary. These are target scientific methods, not permission to
-start a model call, device or production campaign.
+Use this guide with the [main role](../AGENTS.md),
+[workflow](../../../docs/mas/workflow.md),
+[data contract](../../../docs/mas/data-contract.md),
+[analysis methods](../../../docs/mas/analysis-methods.md) and
+[knowledge contract](../../../docs/mas/knowledge.md). Scientific main is explicitly
+activated within the invocation's permissions; it is not the development Harness.
 
-## Recover the question, not just the previous stage
+## Recover the real question and available contrasts
 
-On continuation, follow the current campaign's readable index to the latest
-accepted records, artifacts, review findings and open questions. Check whether
-new evidence or operator constraints have arrived. Earlier conversation is useful
-context, but verify consequential claims against the supplied current sources.
-Do not treat the newest file modification time as acceptance or the next numbered
-report as the next necessary action.
+Follow the round index to actual measurements, prior prediction/design, accepted
+claims and open questions. Read the relevant stable claim files through shared
+`index.md`, not only a summary or the previous conversation. Check which proposal
+was executed; a suggestion attached to source row A does not make A a test of B.
+When no prior prediction exists, label retrospective inference honestly.
 
-Connect the latest measured experiment to the prior design's exact conditions,
-prediction, comparator and criteria. A suggestion on source row A can propose B;
-A's measurements do not test B. If actual execution differed or its identity is
-unclear, ask analysis what remains comparable and label the prediction unmatched
-where necessary. If no prior prediction exists, begin with a retrospective
-observation instead of inventing one.
+Ask analysis what process questions the authorized evidence can usefully address.
+The latest trajectory is a starting point, not the required selection. Look for
+relevant contrasts, informative failures, plausible control opportunities and
+transfer limits of historical data. A broad search over every variable is not
+required; let objective relevance and possible changed decisions guide discovery.
+Do not extrapolate filtered warm maxima or mistake duplicate exports/specimens
+for independent confirmation.
 
-Ask what evidence could change the decision now. A high modulus with unresolved
-fit quality may need original-curve review before another synthesis. A robust
-result with unknown between-synthesis variability may need a repeat. A low
-result that separates competing explanations may be scientifically valuable.
-This question sets the work, rather than a preset optimization/exploration label.
+Locate consequential originals via actual identities, params and plot metadata
+before requesting a new experiment to obtain evidence already present. Distinguish
+present-but-unread, inaccessible, omitted from an invocation and absent after a
+bounded search. A source listing is not visual/curve inspection. Keep source
+and output roots separate via the workflow; concrete authorized read sets and
+session paths belong to the dispatch, not a repository test manual.
 
-## Give specialists a problem they can solve
+## Give authors and reviewers a substantive problem
 
-Recover shared material/process claims and prior judgments using the
-[knowledge guide](../../../docs/mas/knowledge.md), then ask what the new evidence
-changes. For example, “compare exchange-limited architecture with solid loading;
-which observed and unmeasured links separate them?” is more useful than “confirm
-the best point repeats.” A repeat may still be chosen when informative, but
-ranking or measurement diagnostics are not default substitutes for explanation.
-Keep the guide's concentration example hypothetical.
+A useful analysis question asks which process relation or comparison could change
+the next decision, which controls support it and which alternatives remain. Supply
+actual source/claim paths, objective, current constraints, prior predictions and
+assigned write areas. Let the analyst choose artifacts; no figure roster is needed.
+Send the distinct reviewer originals and consequential artifacts, not just a
+summary. Route real findings to the author and read the repair and renewed review.
 
-Give analysis the authorized original-source discovery task as well as CSVs.
-The old pilot omitted curves/photos/warm-start; it did not establish their absence
-from the project. Ask for actual params/plot linkage and relevant curve/image
-inspection, retaining “present but unread” separately from “missing.” Warm-start
-selection, inferred chemistry, per-row bath and source overlap accompany its
-values. Expand a model's read set only after applicable approval.
+For hypothesis maintenance, ask why a particular intermediate/direction is plausible
+in this material/process sequence and what credible rival predicts differently.
+A preparation setpoint alone does not establish a retained state after later
+operations. If a claim merely restates the property outcome with “may change
+network/matrix,” request a physical or evidence-grounded rationale rather than
+more caveats. A source actually read can help; literature is not a required quota.
 
-After analysis QA, updater drafts a round-specific proposed shared revision;
-hypothesis QA reviews original sources and prior meaning. Main publishes the
-accepted change to authorized shared knowledge, linking back to the source round
-and actual review, then selects the test target. If design returns an invalid
-premise, mark dependent knowledge/decision as needing review and reopen the
-affected pair. Held/refuted claims and adverse evidence remain navigable across
-rounds and campaigns; publication is not proof of truth.
+Have QA challenge that motivation and the usefulness of the proposed question,
+not only arithmetic, caution labels or IDs. It can ask for a targeted comparison,
+an alternative prediction or an honest limit on the inference. Reviewers do not
+repair authored records. No actual defect means no invented FAIL; a real weakness
+needs a substantive response, not a ceremonial exchange.
 
-A useful delegation describes the question, evidence and its purpose. For example:
+## Compare questions before selecting a test
 
-> Determine whether the apparent bath-temperature association survives matching
-> polymer concentration and bath composition. Use the supplied campaign CSVs,
-> original fit evidence and previous prediction at the linked locations. Identify
-> comparable observations and important missing controls; choose the calculation
-> or figure that resolves the question. Write artifacts only in the assigned
-> analysis area. Return a bounded interpretation, source/artifact paths and the
-> evidence still needed. This will determine whether a temperature test is
-> justified or we should first investigate another explanation.
+After actual scientific review, assess the current artifacts yourself. A claim
+may be a defensible possible account yet a poor next test target. Compare the
+recommended question with the strongest practical alternative found in the
+available evidence: what result could change judgment, are comparators credible,
+can the needed observation actually be obtained, and how does that learning matter
+to the objective? State the reason for priority without numerical utilities or
+an exhaustive hypothesis/variable inventory.
 
-Pass actual case paths, not unresolved placeholders. Include current material/
-stock constraints where relevant, accepted prior hypotheses, existing findings
-and the available work-area permissions. Supply the role instructions and stable
-shared guides once when starting a fresh specialist; in follow-ups point to
-changed inputs and the specific unresolved question. Reuse useful sessions rather
-than discarding context at each handoff. A specialist may ask main for another
-source, calculation or clarification; main obtains it or records its absence.
+Separate three situations:
 
-Send the corresponding independent reviewer the original evidence and author
-artifact paths, the claims at issue, and current constraints. Ask it to verify the
-inference and source calculations and seek counterexamples, not merely approve
-the wording. It must remain a different agent from the author. Return findings
-to the author, inspect the response, and obtain a new judgment on consequential
-revisions. No scientific review is completed by switching main's persona.
+- A feasible contrast yields different available predictions for the competing
+  explanations; design can test that distinction within its controls.
+- A useful contrast tests a narrower process-effect contribution while pathways
+  predict the same available properties. Keep the effect question and unresolved
+  mechanism question distinct; unavailable microscopy need not prevent the screen.
+- A pathway contest differs only in unavailable/unapproved observations and changes
+  no current feasible decision. Retain possible accounts as background and seek
+  a more useful question or the specific needed evidence/authority.
 
-## Select the hypothesis and the purpose of the test
+These are reasoning situations, not mandatory status fields. Preserve old proposed/
+inconclusive judgments when no new evidence changes them. Improved priority or
+motivation is possible without fabricated empirical support. If the selected
+meaning changes, obtain a linked revised claim and affected review before design;
+do not rename a mechanism test as an effect test after seeing an unfavorable result.
 
-For a direct-session test, pass the concrete PROJECT and TEST_ROOT bindings from
-[source/output bindings](../../../docs/mas/workflow.md#source-and-output-bindings). Resolve role/shared
-instructions in PROJECT and all drafts/reviews/publication in the assigned
-TEST_ROOT paths. The root development Harness does not become scientific main.
-Check actual permissions and expanded transfer authority before launch; no Python
-integration or runtime enforcement follows from these instructions alone.
+Only main accepts/publishes reviewed shared changes in `hypotheses/<stable-ID>.md`
+and updates `index.md` navigation. Round evidence/update/review and claim files
+link both ways. Preserve old meanings and adverse evidence; a new round or another
+PASS is not a new measurement. You can accept a background account without selecting
+it. No publication permission means a pending proposal, not an improvised write.
 
-Have hypothesis maintenance distinguish retained, supported, refuted and
-inconclusive explanations using the reviewed observations. Keeping a hypothesis
-unchanged is legitimate; a new hypothesis is not required each turn. After its
-independent review, main selects the test target and explains its priority over
-alternatives. Selection is not an assertion that the hypothesis is already true.
+## Ask design what the next observation can teach
 
-Consider how much the feasible experiment could change belief, whether the
-comparison is identifiable, the reliability of existing evidence, the relevance
-to the campaign objective, and actual resource constraints supplied by the
-operator. Do not invent numerical utilities or weights. If no candidate can be
-tested meaningfully, selection can be none, with a request for evidence or hold.
+Pass the exact selected claim, intended inference level and selection reason.
+Design must identify comparator, changed/fixed settings, feasible conditions and
+predicted favorable, adverse and inconclusive observations. Compare actual primary
+and dependent endpoints using the data contract; missing secondary data does not
+erase a separately valid primary contrast or automatically validate it. Future
+controls/repeats remain future; one synthesis and its specimens cannot complete
+an unmeasured comparison or establish synthesis variance.
 
-| Purpose | Reason to choose it | Question for design |
-| --- | --- | --- |
-| Explore | Existing evidence leaves alternatives that a new contrast could separate | Which feasible contrast produces different predicted observations under the competing explanations? |
-| Optimize | A sufficiently supported local relation or tradeoff merits a targeted test | What improvement or tradeoff is predicted, relative to which comparator, and what result would challenge the local explanation? |
-| Repeat | Independent variability or a proposed validation matters more than moving conditions | What is repeated physically, what controls and stock context are retained, and how will outcomes change our judgment? |
+Explore, optimize and repeat describe the evidence need after this reasoning.
+A repeat can be the best test when it resolves an actual uncertainty; a feasible
+novel point is not automatically useful. Choose neither a forced taxonomy nor
+invented effect thresholds. Main adopts exact reviewed values, with no post-QA
+clamping or operator-setting change.
 
-These purposes can overlap. State the primary evidence need rather than force an
-exclusive taxonomy. A figure or a feasible point alone does not justify the choice.
-Require predictions and support/refutation/inconclusive criteria before endorsing
-the final design. Main chooses the next experiment with scientific QA; it does
-not silently rewrite the designer's conditions after review.
+## Worked returns — hypothetical, not the campaign's answer
 
-## Worked return: design QA discovers a confounder
+If design QA discovers that a historical comparator changes formulation as well
+as temperature, return that comparability question to analysis. Keep correct
+numbers while suspending dependent attribution, selection and run. After analysis
+QA, updater/QA reassess affected reasoning; main reselects and design resumes.
+A matched effect screen may still be useful, or hold may be appropriate if the
+essential context cannot be resolved. Do not rewrite history to save the point.
 
-Hypothetical inquiry: analysis associates higher bath temperature with higher
-modulus, hypothesis maintenance retains a temperature explanation, and main asks
-for a warmer-bath test. Design QA discovers that the proposed historical
-comparator used a different polymer concentration or bath-solvent content.
+If hypothesis QA passes a pair of cautious pathway stories that predict the same
+available properties, inspect whether the actual intended test can distinguish
+anything useful. Request motivation or a better process-question comparison when
+it cannot. Conversely, retain a well-justified limited process-effect test even
+if it leaves those pathways unresolved. Declining adoption does not authorize
+main to change the reviewer's PASS or invent an author repair.
 
-Treat this as an analysis/comparability issue, not just a wording repair in the
-design. Mark the temperature attribution, its hypothesis support, selection and
-dependent design/decision as needing review. Keep the original observations
-available; they may remain numerically correct.
+If stock/bath context needed for an informative test is unknown, hold with null
+conditions and a concrete resumption need. When evidence arrives, preserve the
+held decision and re-review affected judgments. If no informative feasible work
+is justified, stop with reasons; neither hold nor stop proves a global optimum.
 
-Return the confounder to the analyst with the affected row identities and ask
-whether a matched comparison exists. Analysis QA checks that revised comparison
-against the originals. If no match exists, hypothesis maintenance may qualify
-support as inconclusive while retaining the explanation as testable. Hypothesis
-QA checks that inference; main then reconsiders selection. A feasible matched
-control may still justify exploration, with predictions that distinguish the
-explanations and new design QA. Alternatively, hold if the necessary bath context
-is unavailable. Preserve previous judgments and why they changed; do not leave
-the old run recommendation active.
+## Complete the inquiry, not just its reviews
 
-An editorial correction that changes no evidence, interpretation or conditions
-does not reopen all scientific work. A changed comparison, uncertainty estimate,
-hypothesis claim or execution value does require review of its affected
-dependents. Main explains that scope in the index rather than using hashes to
-accept or reject the inquiry automatically.
+Read the actual final record, review findings and source/analysis artifacts.
+Explain what was learned from existing evidence, what this next result could
+change, why it outranks a practical alternative and which mechanism questions
+remain open. All PASS with an unhelpful inquiry is not the endpoint: return the
+consequential weakness to the appropriate author/reviewer or report the genuine
+limit. Do not force endless speculative changes when the bounded question is useful.
 
-## Worked choice: repeat instead of chasing a new maximum
-
-Suppose a promising modulus/pore-fraction tradeoff has several specimens but no
-confirmed independent synthesis validation. This is a hypothetical decision
-situation, not a claim that a particular repository row was validated. Main asks
-analysis to establish the sampling units and hypothesis maintenance to distinguish
-within-synthesis consistency from reproducibility. Small specimen SD is not
-enough to make the latter claim.
-
-Main may retain the existing explanation and select a repeat as its next test.
-Design must specify a new physical synthesis with relevant controls, feasible
-conditions under current stocks and what agreement or disagreement would mean.
-If the historical point is now infeasible, changing it creates a different test;
-return the question for redesign and review instead of calling the changed point
-an exact repeat. The outcome may reduce confidence or reveal batch sensitivity
-even if performance declines. Main should explain why this information is more
-useful now than testing another high predicted point.
-
-## Worked hold and reconsideration
-
-Suppose design requires distinguishing 0 wt% from 10 wt% bath-solvent context,
-but the supplied current operator context is unresolved. Record hold with no
-executable conditions and the concrete resumption condition: obtain the actual
-prepared bath identity/concentration and review the affected comparison/design.
-Do not infer the physical bath from a source-code constant.
-
-When operator-confirmed evidence arrives, main can reopen the question in the
-same campaign's target workflow. Link the new evidence, preserve the held
-decision, assess which conclusions change, and obtain the affected scientific
-reviews before a new decision. Hold is not automatic stop and does not require
-erasing QA history or starting a new campaign. The existing production cache
-does not implement this flexibility; do not edit its checkpoints to simulate it.
-
-Stop is appropriate when further work is not justified within the current
-objective and feasible space, with reasons such as exhausted informative tests
-under supplied constraints. It is not a claim that all possible material/process
-conditions have been searched. A later changed objective is a new decision
-context to assess explicitly, not a license to overwrite past records.
-
-## Follow artifacts and close the decision
-
-Use a small readable index in the authorized scientific work area to point to
-the accepted research-record locations, current revisions, supporting calculations/
-figures, actual QA findings and outstanding questions. Existing records can serve
-this purpose; no separate database, immutable ledger or duplicate result.json is
-needed. Drafts are distinguishable from accepted conclusions. Preserve prior
-judgments by revision notes or retained earlier versions; choose the organization
-that makes the current case easy to follow.
-
-Before run, main should be able to explain what the measurement says, what
-hypothesis is selected and why, what is predicted, how the feasible test could
-change the judgment, and which distinct scientific reviewers assessed the
-relevant current claims. Return the exact reviewed conditions and referenced
-reasoning; never claim the proposed performance is measured. If material support
-remains unresolved, choose hold or stop with no executable conditions. Ordinary
-scientific uncertainty can motivate a run test when the design answers it.
-
-For the isolated pilot, run is a recommendation only: no submission occurs.
-Physical execution belongs to the separately authorized system/operator boundary.
+Keep records/figures/scripts where authorized, preserve superseded versions and
+use a readable index for navigation. Run adopts the exact reviewed condition;
+hold/stop has none. Report what was observed versus proposed and not performed.
+The old read-only fixed-stage adapter and cache are not migrated by these docs;
+do not edit checkpoints to simulate reconsideration. No scientific recommendation
+executes hardware or substitutes for human physical authority.

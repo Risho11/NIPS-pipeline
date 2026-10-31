@@ -1,168 +1,121 @@
-# Maintaining hypotheses without rewriting the evidence
+# Developing useful explanations and preserving their meaning
 
-This guide supports the explicitly invoked [hypothesis updater](../AGENTS.md).
-Use the [data contract](../../../docs/mas/data-contract.md) and
-[analysis methods](../../../docs/mas/analysis-methods.md) for measurement and
-comparison semantics. The [workflow](../../../docs/mas/workflow.md) assigns main
-hypothesis selection after independent review. These methods do not change the
-preserved production adapter's invocation permissions or schemas.
+Use this guide with the [hypothesis-updater role](../AGENTS.md), shared
+[data contract](../../../docs/mas/data-contract.md),
+[knowledge contract](../../../docs/mas/knowledge.md) and
+[workflow](../../../docs/mas/workflow.md). Main selects the test after independent
+review; this guide neither executes a condition nor changes invocation permissions.
 
-## Keep observation, pattern and explanation distinct
+## Start from an unresolved question, not a mechanism label
 
-Use [shared knowledge](../../../docs/mas/knowledge.md) for material/process claim
-meaning, current bounded judgment and cross-round history. Your round update
-proposes exactly which evidence changes or retains that knowledge; it is not
-another complete copy of the shared record. Main publishes only after distinct
-hypothesis QA. You draft within your assigned round and never silently edit
-canonical knowledge, source observations or accepted history.
+Read the reviewed observations and prior claim before drafting. Ask which
+relationship matters to the objective and what remains unexplained. Use relevant
+matched or partially controlled comparisons, original processing evidence and
+applicable history. Do not restrict discovery to the last attractive trajectory
+when another available contrast could answer a more useful question. Selection
+bias, chemistry/bath differences and uncertain synthesis identity limit the use
+of history; they do not make all historical evidence irrelevant.
 
-Develop variable → proposed process/structure → property explanations with
-different observable predictions from plausible alternatives. A tentative
-mechanism can be useful before confirmation. Neither a property rank nor a fit
-diagnostic is an obligatory replacement for the process question; do not force
-a new mechanism or one claim per tunable merely to make the record look complete.
+Distinguish observation, process-effect proposition and explanatory pathway. A
+local variable change can motivate a directional effect question without proving
+why it acts. A pathway additionally proposes intermediate changes linking process
+to normalized material response. Keep those levels explicit; a successful effect
+screen does not establish a specific intermediate.
 
-An observation reports what a source supports: a condition, numeric outcome,
-processing/quality context and comparison. A pattern relates observations under
-stated conditions. An explanation proposes why the pattern occurs. Evidence for
-a pattern need not identify its mechanism, especially when outcomes share curve
-processing or several process variables changed together.
+A useful motivation explains why these particular links and direction deserve
+attention in the actual material/process sequence. It may use source observations,
+a physical argument with stated assumptions or an applicable scientific source
+actually read. Literature is not compulsory. Simply restating that the observed
+property rose, then proposing a state that would make it rise, is circular. Ask
+what source or physical consideration makes that state more plausible than a
+credible rival, and what contradicts it. Unmeasured links remain assumptions;
+a plausible story alone supplies neither support nor priority.
 
-Before updating a hypothesis, recover its prior meaning, scope, predictions,
-status and evidence. Ask which new observation actually bears on it. Check that
-the actual experiment matches the predicted contrast, that required outcomes
-exist, and that source identity/quality allows the comparison. Inspect original
-pointers for important claims; accepted analysis is a reasoned input, not license
-to ignore a visible contradiction or a missing control.
+For preparation-history accounts, consider how a proposed state could persist
+through subsequent mixing, exposure, immersion and conditioning. A setpoint is
+not the material's temperature at a later stage. If persistence or a directional
+link has no present basis, say so. Keep the pathway as a possible background
+account, request targeted evidence, or recommend a justified process-effect test;
+do not manufacture the missing justification or force a new mechanism.
 
-A useful explanation permits disagreement. Say what observable result would be
-expected, under what controls, what alternative also predicts it and what could
-distinguish those alternatives. A broad phrase such as "better morphology improves
-performance" is too underspecified to adjudicate without defining the morphology,
-observable and relevant conditions. Do not fill the gap with an invented
-measurement or an after-the-fact success threshold. Request the needed analysis
-or propose a clearly tentative testable explanation instead.
+## Compare predictions and recommend a useful question
 
-## Choose a maintenance action for a reason
+Give the strongest relevant rival, rather than a convenient alternative that
+cannot explain the observation. Consider joint effects and contextual causes
+when supported; rivals need not be mutually exclusive. State what each expects
+under the same proposed contrast and which observation could favor, challenge
+or leave the distinction unresolved. Use evidence-supported scales only; do not
+invent effect sizes, tolerances or confidence values.
 
-| Action | When it is useful | What to preserve or clarify |
-| --- | --- | --- |
-| Retain | No relevant new evidence changes the earlier judgment, or the existing explanation is still the useful question | Same ID/meaning, earlier evidence and why no change is justified |
-| Clarify | Wording or a source reference becomes clearer without changing what outcomes the claim permits | Same ID, revision note and unchanged substantive claim |
-| Refine meaning | The mechanism, domain, relation or distinguishing prediction changes | Original claim/history; new linked ID for the changed meaning, without inheriting old support automatically |
-| Split | An earlier compound explanation contains separable claims that evidence affects differently | Parent claim and why it was decomposed; linked distinct claims and their separate evidence |
-| Add | Evidence motivates a genuinely different, testable alternative not already represented | New ID, motivating observation, scope, competing explanation and discriminating observable |
-| Update status | Relevant evidence changes support or contradiction within the existing claim's meaning | Prior/new judgment, original evidence, contradictory observations and reason |
+If accounts predict the same available modulus/pore outcomes and differ only in
+unavailable structure/solvent measurements, their pathway competition is not
+currently actionable. Retain it honestly. A feasible variable-effect screen can
+still be useful if its outcomes change a process decision; specify that narrower
+question without relabeling the screen mechanism confirmation. A new acquisition
+or treatment must be both feasible and separately authorized, not merely named.
 
-These are reasoning/editing choices, not new mandatory runtime status fields or
-a generic ontology. Keep readable links between prior and current claims. Do not
-rename an old refuted claim to make its contradiction disappear, change its scope
-after an unfavorable result without a new linked claim, or duplicate synonyms as
-new hypotheses. Several existing claims may remain useful without adding any.
+Compare relevant questions by what could be learned now, reliable comparators,
+control of consequential alternatives, feasible measurements and objective
+relevance. Explain why the recommended question outranks the strongest practical
+alternative. No exhaustive parameter sweep, fixed hypothesis count, artifact
+quota or numerical score is required. A repeat can be preferable if it resolves
+a concrete uncertainty; a new coordinate is not inherently more informative.
+Main retains selection and the designer retains exact conditions.
 
-## Evaluate evidence strength and status
+## Maintain claims while improving the inquiry
 
-**Proposed** means a motivated, testable explanation awaits adequate evaluation.
-**Supported** means relevant evidence favors the stated claim within its scope;
-it is not proof, verified future performance or automatic confirmation of a
-mechanism. **Refuted** means reliable relevant evidence conflicts with the
-claim's stated predictions/criteria within the tested scope. **Inconclusive**
-means the available test/evidence does not justify the intended distinction.
-An absence of relevant new evidence can leave any earlier status unchanged.
+Recover the actual prior meaning, judgment and contradictory evidence. Retain a
+claim unchanged when no relevant evidence changes its status; qualify working
+priority separately when the reasoning or feasibility is weak. No new measurement
+means no fabricated confirmation/refutation. Better evidence interpretation or
+new sources must be explained rather than silently treated as a new experiment.
 
-Consider comparison validity, observed uncertainty, independent synthesis coverage,
-fit quality, provenance and competing explanations. An increase in modulus can
-be compatible with many causes; it is not itself support for whichever mechanism
-was proposed. A performance decline may match the prediction and supply support
-for a scoped relationship. A missing outcome, unexecuted proposal or failed fit
-is not a measured contradiction. A single reliable counterexample can matter to
-a universal claim, while a probabilistic/local claim needs interpretation under
-its actual uncertainty and criteria. Do not impose a universal significance test
-or invent a posterior probability from a few rows.
+Clarify wording under the same ID only when meaning is unchanged. A changed
+mechanism, domain or distinguishing prediction gets a linked new ID. Preserve
+the parent statement and adverse evidence when narrowing or splitting a compound
+claim; a supported property component cannot lend its support automatically to
+a pathway. Do not rename a refuted claim or duplicate synonyms to create progress.
 
-Keep positive and opposing evidence together. If studies disagree, assess whether
-they test the same claim with comparable materials, controls and processing, or
-whether provenance/quality makes one uninformative. Do not merely count rows as
-votes; duplicate exports/specimens do not create independent confirmation. State
-what new evidence would change the current conclusion.
+Use proposed/supported/refuted/inconclusive as scoped judgments. A reliable
+contrary result matters under the actual prediction and conditions. Missing
+measurements, unmatched execution and failed fits are not physical refutation;
+valid adverse performance is not automatically a quality failure. Follow the
+data contract's endpoint-specific validity rules rather than erasing all evidence
+when a secondary outcome is unavailable.
 
-## Worked outcomes for an explanatory claim
+## Worked critique and repair — hypothetical
 
-Use the explicitly hypothetical PSf/PolarClean H-K and H-S in
-[the knowledge guide](../../../docs/mas/knowledge.md). H-K proposes concentration
-→ delayed exchange → compact load-bearing architecture → higher modulus/lower
-compression pore fraction; H-S proposes changed solvent retention/plasticization
-and a higher intrinsic matrix stress-strain slope at comparable architecture.
-Total polymer amount or thickness alone does not explain higher normalized
-modulus, and mass/thickness alone cannot favor H-S. Neither account is an
-observed or universal material law. Recover
-scope, alternatives and prior criteria before judging new evidence; design later
-specifies the feasible point and available observables.
+Suppose a draft says a preparation-temperature change produced higher modulus
+because it left a stiffer matrix. If its only motivation is that temperature
+and modulus changed together, labeling every arrow hypothetical does not improve
+the explanation. Recover actual process history and seek relevant comparisons;
+ask what could preserve a changed matrix state through later treatment and why
+the direction follows. Check a credible competing process contribution or an
+acquisition/context explanation using the available evidence.
 
-- **Unchanged:** a casting-speed observation does not test the stipulated matched
-  concentration contrast or pathway. Preserve H-K's prior judgment and explain
-  why this round supplies no relevant adjudication.
-- **Supported within scope:** reliable matched property observations plus valid
-  intermediate evidence distinguish H-K's account from H-S under the stated
-  criteria. Say which links gained support. Property directions alone may support
-  the property component while leaving the pathway proposed/inconclusive; do not
-  promote the whole mechanism from that alone.
-- **Refuted in tested scope:** reliable relevant observations contradict H-K's
-  recorded property or intermediate predictions under adequate controls. Preserve
-  the contrary result and which component it challenges. Do not reverse its
-  predicted sign or remove tested conditions under the same ID.
-- **Inconclusive:** concentration/temperature both change, intermediate evidence
-  is unavailable after authorized discovery, or alternatives predict the same
-  measured outcomes. State the unresolved link and suggest a distinguishing
-  observable or narrower claim. Confirmation is not required before posing a
-  useful explanation.
+A constructive repair can provide a grounded physical rationale and contrasting
+observable predictions. Alternatively, it can acknowledge that the pathway is
+weakly motivated, keep it unresolved and justify a narrower preparation-effect
+question against another useful process contrast. Both can improve the inquiry;
+merely adding cautions or changing supported to proposed does not answer the
+motivation question. This example prescribes no actual hypothesis or next condition.
 
-These are alternative evidence situations, not a required status sequence. If
-prior support remains and an ambiguous test adds no relevant contradiction,
-retain/qualify that support with reasons rather than mechanically downgrade it.
+The hypothetical concentration pathways in the knowledge guide illustrate
+possible account structure, not evidence that either applies to the current
+case. Correct stress/strain normalization matters: more mass/thickness alone
+cannot explain greater normalized modulus. Do not borrow the example's specific
+solvent/plasticization meaning for an undefined real claim.
 
-## Worked competition, refinement and a return to analysis
+## Return a reviewable change
 
-Suppose a candidate attributes a modulus increase to temperature-induced pore
-structure while polymer content changed too. A higher-solid-content explanation
-also fits the observation. Request matched comparisons through main before
-calling either explanation supported by that contrast. Ask analysis which rows
-are comparable, which outcomes are reliable and whether stock/bath differences
-remain. Hypothesis QA can find this inference gap even if the numeric contrast
-was already accepted as descriptive analysis.
+Draft in the assigned round; main publishes accepted changes into shared
+`hypotheses/<stable-ID>.md` records and updates `index.md` navigation. Each shared
+record keeps its own meaning/evidence/status/history and links to the source
+round update and actual review. The round explains what changed and why; it does
+not duplicate the entire knowledge base. Internal prose/layout remains flexible.
 
-If the mechanism cannot be distinguished from a simpler composition explanation,
-retain it as tentative where motivated and state the competing prediction. Do
-not require a new hypothesis if an existing composition claim already represents
-the alternative. If an earlier compound H-C claimed both a local property pattern
-and a specific mechanism, preserve H-C and propose linked claims separating those
-meanings when that separation matters. Their evidence/status can differ. Do not
-let the supported pattern silently certify the mechanistic component.
-
-If new evidence motivates a narrower temperature range or changed bath context,
-that changes which observations could refute the claim. Preserve the old claim
-and contradiction, give the revised meaning a linked new ID, and assess its
-support on the evidence that actually tests it. A clarification of a misspelled
-source label without changed meaning can remain under the existing ID.
-
-Send main the revised candidate, evidence/analysis paths, original and changed
-judgments, alternatives and the comparison needed to distinguish them. Main
-selects a hypothesis after hypothesis QA. Suggest the type of evidence needed,
-not exact execution conditions or an unreviewed explore/optimize/repeat decision.
-
-## Keep history usable and know when to stop
-
-Use the hypothesis-update research record and linked earlier revisions to keep
-stable claim meaning, prior/current status, evidence, opposing observations and
-revision reasons navigable. Flexible prose/tables are sufficient; no whole-report
-JSON echo, duplicate result.json or hash gate is required by this target method.
-Do not edit previously accepted source records to make the new account consistent.
-
-Return to analysis through main when adjudication depends on a source identity,
-comparison, fit exclusion or calculation that has not been resolved. Identify the
-specific question and how its answer would change the hypothesis judgment.
-When existing evidence cannot decide, an explicit inconclusive or unchanged
-judgment can be complete useful work. Do not manufacture a mechanism, new entry
-or proof of improvement to finish. Independent hypothesis QA checks the update;
-main then chooses a test target or none, followed by prediction/design and final
-decision under the workflow.
+Return current and prior claim paths, actual motivation and counterevidence,
+rival predictions, proposed changes/retentions, question priorities and unresolved
+requests. Ask main for targeted analysis when source identity, comparability or
+a consequential assumption is unresolved. Independent QA must review affected
+repairs; preserving prior statuses is not an excuse to stop useful reasoning.

@@ -1,158 +1,112 @@
-# Reviewing hypothesis meaning and inference
+# Reviewing useful hypothesis reasoning
 
-Use this guide when assigned the [scientific hypothesis QA role](../AGENTS.md).
-The shared [data contract](../../../docs/mas/data-contract.md) and
-[analysis methods](../../../docs/mas/analysis-methods.md) define evidence semantics;
-the [workflow](../../../docs/mas/workflow.md) retains main's hypothesis selection.
-Review the reasoning and sources, not the attractiveness of a mechanism or the
-format of a complete JSON payload. Actual invocation permissions govern review
-notes/calculations; do not modify the author's candidate or originals.
+Use this guide with the [hypothesis-QA role](../AGENTS.md),
+[data contract](../../../docs/mas/data-contract.md),
+[knowledge contract](../../../docs/mas/knowledge.md) and
+[workflow](../../../docs/mas/workflow.md). Review the actual current candidate,
+prior claim and original evidence. Your findings are separate from author repair.
 
-## Recover the old claim and inspect the new inference
+## Establish what the candidate needs to accomplish
 
-Identify the current candidate/revision, main's question and which updates could
-change main's choice. Follow the prior accepted hypothesis record to recover the
-original statement, domain, predicted relation, judgment and reasons. Then read
-the newly cited analysis and consequential original evidence. A candidate's
-assertion that an old claim is unchanged is not a substitute for that comparison.
-Use readable locations/revision descriptions; no cryptographic parentage system
-or whole-report echo is necessary.
+Recover main's process question and the decision the update should inform. A
+correct retrospective observation, an acceptable possible pathway and a justified
+next test are different achievements. Determine which the candidate actually
+supplies. Do not infer adequacy from file completeness, cautious language or an
+upstream PASS; inspect the reasoning relevant to this use.
 
-For a consequential update, ask what was observed, whether it tests the stated
-claim, and why it changes or retains the judgment. Inspect actual execution vs
-proposal, controls, measurement availability/quality, processing versions and
-independence. Recompute a consequential contrast or trace an ambiguous source
-where needed. Accepted descriptive analysis does not automatically validate the
-hypothesis explanation derived from it.
+Trace consequential observations, controls and sampling units to originals.
+Check actual execution versus prior prediction, material/bath and stock context,
+processing selection and warm-start provenance. Source checks establish what
+was observed; they do not automatically supply an explanation of why.
 
-| Proposed inference | Independent challenge | Useful follow-up |
-| --- | --- | --- |
-| Higher modulus supports a temperature mechanism | Did formulation, bath composition, stock or another variable change too? Could the same observation follow from an alternative? | Ask for a matched comparison or qualify the mechanistic support |
-| A negative result refutes the claim | Was its predicted observable measured reliably within scope, and did the executed point actually test its criteria? | Resolve outcome/quality/execution linkage or retain inconclusive evidence |
-| Repeats corroborate the explanation | Are these independent syntheses rather than specimens, processing variants or duplicate exports? | Request source identity/replication evidence and qualify support |
-| A revised/split claim inherits support | Does the cited evidence address the new meaning and distinguish its alternatives? | Assess each claim's evidence separately and preserve the parent history |
-| No status change is proposed | Is there relevant contradictory evidence omitted, or genuinely no new information bearing on the claim? | Add the contradiction or explain justified retention |
+## Probe the explanation's motivation
 
-## Check competing explanations and discriminability
+Ask why the named process could change the stated intermediate in this material,
+why that direction is expected and how the state could survive later operations.
+Look for a physical argument with explicit assumptions, relevant comparison or
+applicable scientific source actually read. Literature and direct intermediate
+measurements are not mandatory before a proposal; retrospective compatibility
+alone is still weaker than a motivated directional account.
 
-Use [knowledge.md](../../../docs/mas/knowledge.md) to assess explanatory adequacy
-and the proposed shared update. Trace controllable variable, proposed intermediate
-and property consequence, distinguishing actual measurements from read literature
-and inference. A caveated rank-persistence claim may leave main's process question
-unanswered. Ask for a motivated mechanism and concrete alternative prediction
-where useful; do not require it already be proven or require a new one each round.
+A useful adversarial question is whether the same prose could explain the
+opposite property result just by replacing “stiffer” with “softer.” If so, request
+the missing directional rationale, a more specific observable or an honestly
+narrower process-effect question. This is a reasoning probe, not a rule that every
+hypothesis needs a new assay or a universal sign. Check dimensional/material
+meaning: geometry or greater mass alone is not a normalized-modulus mechanism.
 
-For hypothetical H-K/H-S, both accounts predict higher modulus. A matched modulus
-increase alone is not mechanistic discrimination. Check the normalized observable:
-greater polymer amount or thickness alone is insufficient. H-S needs its proposed
-changed solvent retention/plasticization and intrinsic matrix response, rather
-than treating load-displacement stiffness as modulus. Ask whether solvent/matrix,
-exchange-timing and architecture evidence exists and differs between predictions;
-mass/thickness are controls, not decisive support. If observations coincide,
-request a
-feasible additional observable or narrower conclusion through main. Keep proposed
-links proposed; do not remove them solely because structure was not measured.
+## Compare credible rivals and feasible predictions
 
-Compare the round's proposed change with prior canonical knowledge, including
-held/refuted and superseded claims and cross-campaign negative evidence. Check
-actual original discovery and warm-start selection/overlap before accepting an
-absence or corroboration claim. Main alone publishes a reviewed update; your
-findings remain separate and cannot overwrite either draft or shared knowledge.
+Examine the strongest relevant competitor rather than a straw rival. Compare
+predictions for the same proposed intervention and actual measurement. Ask which
+outcome would favor each, which would challenge it and what remains ambiguous.
+Joint contributions and contextual effects can coexist; do not force exclusive
+mechanisms or invented thresholds.
 
-Identify at least the plausible alternatives relevant to the consequential
-inference, without inventing a roster of hypotheses. An existing alternative may
-already suffice. Ask whether the candidate states an observable difference that
-could favor one explanation over another. Merely predicting that "performance
-may change" permits everything and offers no discrimination.
+Before declaring discrimination unavailable, ask which potentially relevant
+measured responses or provenance already exist beyond the optimization targets
+and whether they permit a narrower testable prediction. Return a focused question
+to analysis if needed, checking shared processing, fitting regions and endpoint
+counts. Extra descriptors do not independently establish microstructure or require
+a feature/plot roster, refit or new assay. If accounts still predict the same
+available outcomes, retain the pathway limit; a justified process-effect screen
+can remain useful without mechanism proof.
 
-A pattern can receive bounded support even when its mechanism is unresolved.
-Check that the candidate does not conflate those meanings. Shared curve-processing
-origins or a confounded comparison may explain apparent associations; independent
-microstructure evidence must not be assumed from compression estimates. A
-motivated mechanism can remain proposed/inconclusive if the lack of direct
-discrimination is explicit. It need not be deleted simply because it is not yet
-confirmed.
+Review why this question deserves attention over practical alternatives exposed
+by analysis. Existing authorized contrasts may be more informative than another
+latest-point story. No exhaustive variable inventory or numerical utility is
+required. If the update merely retains all statuses, ask what useful reasoning
+it adds now or what specific analysis could resolve the priority. Lack of a new
+measurement forbids invented status changes, not improved question selection.
 
-Check contrary observations rather than treating each supporting row as a vote.
-A reliable scoped counterexample matters, but unknown material context, an
-unexecuted suggestion or a failed fit is not itself a physical contradiction.
-For probabilistic/local claims, interpret discordance under their stated scope,
-uncertainty and prior criteria rather than impose a universal one-row rule.
-Do not require significance tests, invented probabilities or improved performance
-as a condition of accepted reasoning.
+## Make criticism constructive — hypothetical cases
 
-## Worked review: plausible observation, unjustified mechanism
+A draft links a jointly changed preparation/bath history to higher modulus via
+less plasticization. It correctly calls every link unmeasured. Do not accept that
+label as the missing motivation: request process-history evidence, a reason the
+state/direction could persist, and comparison with a credible competing contribution.
+The author may ground the pathway or park it and justify a narrower effect test.
+The reviewer asks for the reasoning; the author writes the repair.
 
-Hypothetical draft: two records show higher modulus at higher bath temperature,
-with polymer concentration changing at the same time. The updater calls a
-specific temperature-driven pore mechanism supported. Independently inspect
-both source conditions and whether reliable pore/microstructure observations
-actually discriminate the mechanism from a composition explanation.
+Conversely, a feasible bridge could remove a known process mismatch and inform a
+local property relation while leaving network versus matrix pathways unresolved.
+Do not call it useless merely because it cannot prove either pathway. Challenge
+any overclaim, the choice over available alternatives or a comparator weakness,
+not the legitimate distinction between effect testing and mechanism testing.
 
-A concrete finding can identify the exact claim and joint change, explain that
-the evidence does not isolate temperature or its mechanism, and request a matched
-comparison through main to analysis. Ask the updater to qualify the inference
-using the resulting analysis and retain the competing explanation. Do not simply
-demand a prettier figure or replace the hypothesis yourself.
+If a known primary/secondary endpoint distinction affects interpretation, use the
+data contract's dependency rule: unavailable secondary data neither erases a
+separately valid primary contrast nor automatically validates it. Inspect shared
+pairing/contact/thickness/fit defects before accepting the primary evidence.
+These examples prescribe neither the real campaign's answer nor a hypothesis quota.
 
-If analysis finds no matched evidence, the repaired candidate can retain a
-motivated testable explanation as proposed/inconclusive and explain the missing
-discrimination. A descriptive increase can remain accepted. Main can select a
-reviewed testable question or none after hypothesis QA; you do not choose a new
-point. A later reliable matched contradiction would require an actual evidence
-update rather than indefinite protection of the old explanation.
+## Protect current and historical claim meaning
 
-## Worked identity review: do not move the goalposts
+Read `hypotheses/<stable-ID>.md` via the material's `index.md`. Compare old/new
+meaning, domain, prediction, evidence and history. A changed sign, mechanism or
+scope cannot retain old support silently. A clarification may retain its ID;
+a materially changed claim needs a linked new record and preserved parent.
+Duplicate exports are not confirmation; an unexecuted suggestion is not a tested
+prediction. Retain adverse evidence and inferred chemistry labels.
 
-Hypothetical prior H-T predicts an increased pore-fraction estimate over a stated
-local temperature contrast at fixed material/formulation/exposure. The new
-candidate uses the same ID but predicts a decrease after an opposing outcome,
-or removes the tested range while retaining the old support. Compare the actual
-old/new statements: this changes the claim, not just its wording.
+With no new relevant evidence, retaining proposed/inconclusive status can be
+correct. Evaluate working priority and explanatory quality separately. Neither
+force confirmation/refutation nor let “unchanged” end an otherwise answerable
+inquiry. Migration from an old all-in-index record must preserve meaning/status
+and history; file organization is not new scientific evidence.
 
-Request preservation of H-T's meaning, contradiction and scoped judgment, plus a
-new linked ID if the revised explanation is useful and testable. The new claim
-must have its own evidence assessment; do not mechanically inherit supported
-status. If the author merely corrects a source label without changing which
-results the claim permits, the same ID with a revision reason is appropriate.
-For a compound pattern-plus-mechanism claim, a justified split can expose different
-support for each component while keeping the parent and decomposition reason
-navigable. No additional machine genealogy or new status enum is required.
+## Return findings and bounded acceptance
 
-## Worked status review: unchanged and inconclusive are useful outcomes
+Name the specific inferential failure and its decision consequence, plus a
+concrete analysis question, comparison or claim repair. Route source/comparison
+issues to analysis and hypothesis/priority issues to the updater through main.
+Keep your original notes; never rewrite the authored candidate or canonical record.
+A material weakness in the claimed selection basis blocks that use even if
+all numbers and caution labels are correct. Background accounts can remain
+parked with their limits; they need not be deleted or manufactured into active tests.
 
-If the latest experiment changes casting speed without a relevant temperature
-contrast, retention of H-T's prior judgment can be justified. Check that there
-is no omitted relevant contradiction and that the updater explains why the new
-result does not adjudicate H-T. Do not require a new hypothesis or downgrade
-previous support merely because this turn adds no relevant test.
-
-If the intended contrast is confounded or its essential outcome missing, a
-qualified inconclusive judgment can be sufficient. Conversely, a reliable matched
-result contrary to the claim's stated prediction/criteria cannot be dismissed
-merely because modulus improved or an appealing mechanism remains possible.
-Ask the updater to confront the contradiction under the actual scope and
-uncertainty. These examples concern hypothetical evidence situations, not claims
-that a repository hypothesis has been tested or refuted.
-
-## Return actionable findings and bounded acceptance
-
-A blocker is a defect that could change the claimed judgment or main's decision:
-unsupported inference, erased negative evidence, hidden meaning change, duplicated
-confirmation, missing essential context or an untestable consequential claim.
-State the claim/source, what independently failed, why it matters and the
-smallest useful repair/evidence request. Route analysis problems to analysis and
-hypothesis/history problems to the updater through main. Preserve the candidate;
-review is not author repair.
-
-Ordinary uncertainty can remain when the conclusion respects it. Accepting a
-proposed alternative or an inconclusive test does not certify the mechanism.
-A vague disclaimer is insufficient when supported status or selection reasoning
-still relies on the missing fact. State which distinctions remain unresolved and
-what evidence would change the conclusion.
-
-Return pass/fail for the identified current candidate, original/analysis pointers,
-reviewed inferences and identity changes, concrete findings and remaining limits.
-After repair, recheck affected claims and any same-cause errors elsewhere in the
-candidate. Do not claim a fresh pass from an older judgment. Main then chooses
-which hypothesis to test or none; design and its QA own exact testing conditions.
+Give a current pass/fail judgment, actual checked source/candidate paths,
+substantive findings and remaining limits. A PASS certifies the stated reasoning
+use, not truth, exact design or physical authority. Do not fabricate a finding
+or author revision to make a dialogue appear constructive. After real repairs,
+review affected reasoning and same-cause occurrences before a fresh judgment.

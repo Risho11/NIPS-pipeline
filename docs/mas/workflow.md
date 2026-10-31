@@ -10,12 +10,11 @@ its [campaign guide](../../subagents/campaign-main/docs/campaign-guide.md) gives
 worked methods. Use the shared [data contract](data-contract.md) and
 [analysis methods](analysis-methods.md) for evidence interpretation.
 
-The explanatory-reasoning and shared [material/process knowledge](knowledge.md)
-contracts have received independent development review. Actual scientific
-validation is requested; human review will address the scientific outputs before
-DCP. Revised-contract live evaluation remains NOT_RUN until actual run evidence
-is recorded. Earlier SDK-pilot evidence applies to its historical contracts/read
-set, not to this expanded inquiry.
+These contracts guide inquiry; they do not certify its execution or usefulness.
+Use actual native round/knowledge records for what was observed, reviewed or
+revised, and the existing [development execution status](../../harnessing/2026-10-29-mas-agent-contract-redesign/EXECUTION_STATUS.md)
+for development acceptance. Historical pilot evidence applies to its actual
+inputs/contracts; each changed inquiry needs its own useful scientific evidence.
 
 The adaptive inquiry below is the target for an isolated report-only pilot and
 later integration. The preserved production adapter has not been migrated by
@@ -86,14 +85,18 @@ why separating explanations, testing a promising local tradeoff or measuring
 independent repeatability is justified now. Main retains hypothesis and next
 experiment selection; specialists can recommend alternatives or request evidence.
 
-For a process/property question, seek explanations connecting a controllable
-variable to a proposed process/structure change and property consequences. Label
-measured, literature-derived and inferred links separately. Ask what alternatives
-predict differently; the knowledge guide's hypothetical concentration example
-shows how to propose this reasoning without claiming confirmation. Rank persistence,
-repeatability and fit diagnostics can be useful but do not automatically substitute
-for the explanatory question. Do not require proof before proposing a testable
-mechanism or force a new mechanism every turn.
+For a process/property question, explain why the particular process/intermediate
+and predicted direction are plausible in the actual material/process sequence.
+A label such as proposed does not supply that motivation. Use the
+[knowledge guide](knowledge.md) to separate observations, physical reasoning,
+actually read scientific sources and assumptions. Analysis should expose relevant
+available process questions; main compares their learning value before selection,
+without an exhaustive variable roster or forced new mechanism.
+
+Rival pathways with identical available property predictions remain possible
+accounts, not an actionable mechanistic discriminator. A justified narrower
+process-effect screen may still be useful. Preserve exact claim meaning when
+stating that inference ceiling; changing the claim requires affected review.
 
 ## Scientific roles and collaboration
 
@@ -123,11 +126,14 @@ a material gap, request the needed evidence, change the question or hold; do not
 manufacture acceptance. Development QA of these contracts and the three scientific
 reviews of experiment reasoning are different activities.
 
-Reviewers should identify a constructive next distinction, not reward a draft
-only for accumulating caveats. If available outcomes cannot separate mechanisms,
-request another observable or a narrower conclusion. Updater drafts round-level
-knowledge changes; main alone publishes scientifically reviewed shared changes.
-No reviewer edits an author's draft or canonical knowledge.
+Review motivation, credible rival predictions and question priority, not only
+source arithmetic and caution labels. A reviewer returns a concrete comparison
+or reasoning question when the claimed selection basis is weak; the author
+repairs it and the distinct reviewer evaluates the actual revision. No artificial
+finding count or fabricated dialogue is required. Main still judges actual
+scientific value after PASS and can decline adoption or reopen substantive work
+without rewriting the reviewer's verdict. Updater drafts; main alone publishes
+reviewed shared changes; reviewers never edit canonical knowledge or author work.
 
 ## Return upstream and review affected judgments
 
@@ -161,12 +167,14 @@ judgments and unresolved questions. Main follows those paths and reads the parts
 needed for a decision. Revision notes or retained earlier versions preserve prior
 judgments; do not silently overwrite the accepted history.
 
-Shared material/process claims and current bounded status/history live outside
-rounds, linked to the round's evidence, proposed change and actual review. See
-[knowledge publication and history](knowledge.md). In the direct test, round and
-shared outputs belong only under the bound temporary test root; role/source
-paths still resolve against the actual project. Task restrictions and actual
-runtime enforcement must be checked separately.
+Shared knowledge uses `data/knowledge/<material>/index.md` for navigation and
+`hypotheses/<stable-ID>.md` for each claim's meaning, motivation, evidence/status
+and history, linked to source rounds and actual reviews. Keep old meanings and
+negative evidence. Another round or review is not a new measurement; empirical
+support follows relevant evidence.
+Preserving a status does not preclude improving motivation or question priority.
+In temporary sessions these outputs stay beneath the authorized temporary root;
+actual permission enforcement is distinct from task instructions.
 
 No whole-report JSON echo, all-report hash gate, cryptographic parentage framework
 or duplicate result.json is required by the target inquiry. A final structured

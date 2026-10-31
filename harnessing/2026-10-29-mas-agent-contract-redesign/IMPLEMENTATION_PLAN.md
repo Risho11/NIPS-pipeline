@@ -218,3 +218,30 @@ The generic shared full-application documentation skeleton is not adopted; seman
 - purpose: retain mandatory-last continuation shape without executing DCP before the requested final-output review.
 - files: no DCP product ownership is granted now.
 - validation/acceptance: NOT_RUN / DEFERRED; not part of this Goal's requested delivery.
+
+
+### Phase 6: Hypothesis usefulness repair and actual inquiry
+
+Human identified that Phase5 stopped after endpoint repair without sufficient hypothesis improvement. Historical PASS is bounded, not usefulness completion. Resume verified same-Worktree Writer/independent QA and native English inquiry including approved warm/current/raw evidence; index plus per-claim records. Preserve all prior entries. Phase5Step2 remains unexecuted; Phase6Step2 is latest deferred DCP. Manual-Git append, no canonical reopen-append, hardware or production Python.
+
+```harness-step-json
+{
+  "phase": 6,
+  "step": 1,
+  "expected_commit_msg": "docs strengthen and exercise MAS hypothesis inquiry",
+  "prompt": "steps/PHASE_6_STEP_1_PROMPT.md"
+}
+```
+
+Ownership/acceptance: [Phase6Step1](steps/PHASE_6_STEP_1_PROMPT.md). New temporary rounds preserve earlier rounds and meanings.
+
+```harness-step-json
+{
+  "phase": 6,
+  "step": 2,
+  "expected_commit_msg": "docs Durable Contract Promotion",
+  "prompt": "steps/PHASE_6_STEP_2_PROMPT.md"
+}
+```
+
+DCP deferred until human output review.

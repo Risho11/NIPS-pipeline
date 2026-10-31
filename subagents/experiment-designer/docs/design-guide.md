@@ -9,18 +9,18 @@ the preserved production adapter or authorize execution.
 
 ## Translate the selected claim into distinguishable outcomes
 
-Recover the accepted shared claim/revision and its source round/update/review
-under [knowledge.md](../../../docs/mas/knowledge.md). Design is downstream of
-main's reviewed selection, not authority to rewrite shared status. If competing
-process/structure explanations predict identical available properties, identify
-a feasible additional observable or ask main to narrow/reselect the question.
-Construct a test of the explanation before inventing a novel coordinate.
+Recover main's exact selected claim from `hypotheses/<stable-ID>.md` through
+shared `index.md`, its evidence/review and why this question takes priority.
+Use [knowledge.md](../../../docs/mas/knowledge.md) for meaning/history. Do not
+silently substitute a pathway or narrow its meaning to rescue an attractive point.
 
-Recover the exact selected hypothesis and main's reason for testing it. Identify
-its domain, predicted observable and competing explanation. Ask whether the
-proposed test permits outcomes that would change judgment. If every possible
-outcome would be described as support, revise the question through main before
-choosing a point. Do not replace the selected hypothesis silently.
+State the intended inference: a process-effect contribution or a pathway distinction.
+If rival pathways predict the same available properties, a property-only test
+cannot distinguish their intermediates. A useful limited effect screen can still
+proceed when its comparator/outcomes answer a justified process question; leave
+the mechanisms unresolved. If another observable is essential, check whether it
+exists or is feasibly authorized, or return the claim/question to main. Do not
+prescribe new assays, hypotheses or coordinates merely to appear more explanatory.
 
 Predictions should distinguish a direction/pattern or an evidence-supported
 magnitude from the alternative. Use effect estimates or uncertainty scales only

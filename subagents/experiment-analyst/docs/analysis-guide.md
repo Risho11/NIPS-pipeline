@@ -10,11 +10,13 @@ output requirements still apply.
 
 ## Turn the inquiry into an evidence comparison
 
-Restate the uncertainty in a form the supplied data can address. For example,
-"did the temperature change behave as predicted?" first requires the previous
-prediction, exact proposed conditions, actual execution identity and comparator.
-If only a new aggregate row exists, do not assume it is the proposed experiment.
-Ask main to resolve that link or limit the comparison to observed records.
+Identify which process questions the authorized evidence could usefully address,
+not only how to summarize the latest high point. Compare relevant available
+contrasts and control gaps across the applicable data/history, guided by the
+objective rather than a fixed variable checklist. Explain which comparison could
+change the next decision and why it deserves attention. If judging a prior
+prediction, establish actual execution and its comparator first; otherwise label
+the interpretation retrospective rather than inventing a tested prediction.
 
 Locate numeric outcomes in the original table and inspect its header. Trace
 promoted values to the appropriate aggregate version when quality or exclusion
@@ -32,22 +34,28 @@ operator context.
 
 ## Select a calculation or artifact for a reason
 
-When main asks for a process explanation, trace the proposed intermediate rather
-than ending at a property ranking. Use the hypothetical concentration competition
-in [knowledge.md](../../../docs/mas/knowledge.md): modulus agreement alone fits
-both exchange-limited architecture and the defined matrix-state alternative.
-H-S needs evidence for its solvent-retention/matrix-response pathway; increased
-mass/thickness alone cannot establish increased normalized modulus. Determine
-whether original
-curves, photos, params or plots address their different predictions; do not treat
-a coverage image as cross-sectional evidence. If no such observable exists within
-the authorized sources, identify the specific gap and a useful narrower comparison.
+For a process explanation, distinguish the observation from the reason for its
+proposed intermediate and direction. Provide relevant source contrasts, process
+sequence and contrary evidence for updater/QA, rather than restating higher E
+as a “stiffer network.” A preparation setpoint does not establish a retained
+state after later treatment. Ask what available observation separates credible
+accounts; if the same property outcomes fit both, say which narrower process-
+effect question can still be tested and what mechanisms remain unresolved.
 
-Draft evidence for the round's knowledge update, not a canonical status change.
-Compare actual outcomes with recorded prior alternative predictions. Preserve
-unfavorable observations, source precision and warm-start selection/overlap so
-updater and independent QA can assess what changed. Your analysis and scripts
-belong to your assigned round; main alone publishes shared knowledge.
+Optimization targets do not exhaust explanatory evidence. Select other already-
+available measured responses or provenance when a credible prediction makes them
+informative, rather than defaulting to targets alone. Check actual definitions,
+contributing samples and fitting context: descriptors from shared curves/processing
+are not independent microstructure evidence. Do not analyze every feature, refit
+or add assays by default.
+
+Use the hypothetical concentration accounts in
+[knowledge.md](../../../docs/mas/knowledge.md) only as illustrations, not evidence
+for this case. Modulus is normalized: total mass/thickness alone cannot establish
+a material-response change. Coverage photos do not image cross-sections. Discover
+and inspect consequential authorized originals before declaring them unavailable.
+Return source precision, inference limits, useful alternatives and question
+priorities for the round's knowledge update; main alone publishes shared claims.
 
 If the question concerns a measured difference, calculate the contrast at source
 precision and report units, direction, comparator and inclusion choices. A
