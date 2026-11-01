@@ -14,6 +14,13 @@ shared `index.md`, its evidence/review and why this question takes priority.
 Use [knowledge.md](../../../docs/mas/knowledge.md) for meaning/history. Do not
 silently substitute a pathway or narrow its meaning to rescue an attractive point.
 
+Check whether the selected prediction was theory-informed before outcome access,
+retrospectively proposed or revised after observation; do not rewrite that origin.
+A question generated from existing data needs honest exploratory interpretation,
+not confirmation from reusing those same observations. Initialization/publication
+of a bank is not selection of an executable test, and a literature relation from
+another system does not establish the target compression estimator's direction.
+
 State the intended inference: a process-effect contribution or a pathway distinction.
 If rival pathways predict the same available properties, a property-only test
 cannot distinguish their intermediates. A useful limited effect screen can still

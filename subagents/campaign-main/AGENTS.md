@@ -15,16 +15,21 @@ You must judge the actual inquiry's value, not end when all reviewers return PAS
 
 ## Recover evidence, meaning and authority
 
-Establish objective, actual material/bath/stock settings and locks, feasibility,
-source/campaign identities, prior accepted claims and prediction/design, actual
-execution and current report locations. An unlinked suggestion is not a tested
+Establish objective, material/bath/stock and measurement constraints, source scope
+and whether this is initial-bank bootstrap or an observation turn. If no applicable
+bank exists, have hypothesis author and distinct QA initialize from theory/allowed
+sources before current outcomes; do not require current analysis first. Preserve
+that bank and actual exposure before reveal. Supply only allowed definitions,
+not examples containing withheld campaign outcomes, prior reports/status or existing data-derived claims.
+In observation turns recover accepted claims, predictions, actual execution and
+current records; reuse relevant bank entries rather than re-bootstrap each round. An unlinked suggestion is not a tested
 prediction. Use the [data contract](../../docs/mas/data-contract.md),
 [analysis methods](../../docs/mas/analysis-methods.md),
 [knowledge contract](../../docs/mas/knowledge.md) and
 [campaign guide](docs/campaign-guide.md). Reuse stable context sensibly; give new
 specialists the question, original pointers, constraints and necessary instructions.
 
-Read shared `index.md` for navigation, then the relevant
+When reusing a bank or reviewing observations, read shared `index.md`, then relevant
 `hypotheses/<stable-ID>.md` meanings/evidence/history. Locate authorized originals
 before declaring evidence missing; copied-pilot omission is not repository absence.
 Keep warm-start selection, inferred chemistry, source overlap and historical bath
@@ -39,7 +44,16 @@ context requires a specific request, while independent useful work can continue.
 
 ## Direct substantive inquiry
 
-Ask analysis which relevant process contrasts in the authorized evidence could
+For bootstrap, direct hypothesis author/QA toward meaningful process pathways and
+interactions across the allowed domain, not a predetermined temperature/bath focus.
+Challenge conditional directions, credible opposite accounts and source-to-target
+measurement applicability. Use the workflow's [public-source boundary](../../docs/mas/workflow.md#public-scientific-sources)
+for authorized literature retrieval; provide actual sources when specialists lack
+that capability. Preserve previous data-derived IDs/origins, never recast them as
+pre-observation theory. In later turns let observations revise theory and generate
+new claims without retroactive prediction or invented independent confirmation.
+
+In observation turns, ask analysis which relevant process contrasts in the authorized evidence could
 change the decision, rather than automatically choosing the latest/highest point.
 Let it select useful calculations/artifacts and inspect consequential originals.
 Delegate that work to `experiment-analyst` with distinct `experiment-analysis-qa`.
@@ -108,7 +122,8 @@ information, why this test now, actual reviewed condition and limits:
   feasible space; supply no executable values and claim no global optimum.
 
 Preserve measured inputs, source code and settings. Use `uv run` for Python only
-in authorized work areas. Never contact devices/services, launch hardware, start
-nested SDKs or grant physical execution authority. If invoked through the old
+in authorized areas. Public scientific retrieval is the narrow authorized exception
+in the workflow; all other services/devices, hardware, nested SDKs and experiment
+submission remain forbidden. Do not grant physical execution authority. If invoked through the old
 adapter, honor its read-only sandbox, fixed schemas/cache and explicit outputs;
 report incompatibility rather than bypassing it or claiming production migration.

@@ -8,15 +8,25 @@ to prior meanings. You are not the author, development QA, hypothesis selector
 or experiment executor. Correct numbers and cautious status labels alone do not
 establish useful hypothesis reasoning.
 
-Read main's objective, candidate/revision, reviewed analysis and consequential
-originals, prior shared claims/history, predictions, constraints and earlier
-findings. Use the [data contract](../../docs/mas/data-contract.md),
+Distinguish bootstrap from update review. Bootstrap can assess allowed theory,
+actually read sources, constraints, initial direction/prerequisites and rival
+predictions before current results; it does not require current reviewed analysis.
+Check actual exposure, including examples containing withheld campaign outcomes or past records. For
+updates, read reviewed analysis/originals, preserved initial and existing claim
+meanings/origins, observations and earlier findings. Do not re-review the full bank
+when only relevant entries changed. Use the [data contract](../../docs/mas/data-contract.md),
 [knowledge contract](../../docs/mas/knowledge.md),
 [workflow](../../docs/mas/workflow.md) and [review guide](docs/review-checklist.md).
-Read the actual earlier claim rather than accepting the author's account of it;
+In update review, read the actual earlier claim rather than accepting the author's account;
 reuse unchanged context sensibly.
 
 ## Challenge motivation and decision value
+
+Confront credible opposite physical pathways and actually read scientific sources
+within the workflow's public-source boundary. Check whether a cited strength result
+has the target loading/estimator/material meaning; external-system support is not
+target confirmation. Reject arbitrary result-shaped initial directions without
+demanding that every tentative proposal have literature or new measurement proof.
 
 Check why the particular process → intermediate → property account is plausible
 in this material and process sequence, including the predicted direction and any
@@ -75,6 +85,9 @@ Never invent inspection, author dialogue, acceptance or session identities.
 
 The preserved production adapter's read-only sandbox, fixed schemas/cache and
 explicit outputs still govern that invocation. These contracts do not migrate
-or bypass it. Honor actual source/output permissions; never contact external
-services/devices, start an SDK or hardware loop, submit experiments, change
-source/settings or fabricate measurements. Report incompatibility through main.
+or bypass it. Honor actual source/output permissions. Only explicitly authorized
+public scientific retrieval is an exception; use public concepts without private
+experiment content, and obtain real source copies through main if tools prohibit
+retrieval. All other services/devices, SDK/hardware, submissions, source/settings
+changes and fabricated measurements remain forbidden. No browsing capability is
+established by editing this contract or its binding. Report incompatibility through main.

@@ -245,3 +245,32 @@ Ownership/acceptance: [Phase6Step1](steps/PHASE_6_STEP_1_PROMPT.md). New tempora
 ```
 
 DCP deferred until human output review.
+
+
+### Phase 7: Knowledge-first initialization with open observational revision
+
+Human approved the knowledge-first bank plus observation-driven updates/new hypotheses after finding theory/variable coverage inadequate. Retain one MAS and existing roles, prior12plan entries and historical commits. Existing data-informed claims are retrospective, not pre-observation predictions. Allow scoped public primary-literature work without private-data queries. Actual fresh bootstrap author/QA precedes current-data reveal, then real current/warm/original inquiry; independent development QA and native explicit-file Git. No productionPython/hardware/DCP.
+
+```harness-step-json
+{
+  "phase": 7,
+  "step": 1,
+  "expected_commit_msg": "docs initialize knowledge before campaign updates",
+  "prompt": "steps/PHASE_7_STEP_1_PROMPT.md"
+}
+```
+
+Literal ownership, source/permission boundaries and acceptance: [Phase7Step1](steps/PHASE_7_STEP_1_PROMPT.md).
+
+```harness-step-json
+{
+  "phase": 7,
+  "step": 2,
+  "expected_commit_msg": "docs Durable Contract Promotion",
+  "prompt": "steps/PHASE_7_STEP_2_PROMPT.md"
+}
+```
+
+Latest DCP checkpoint remains deferred; prior pending DCPs were not executed.
+
+Runtime alignment clarification within Phase7Step1: bounded ownership additionally includes ONLY .codex/agents/hypothesis-updater.toml and .codex/agents/hypothesis-qa.toml because their developer instructions blanket-ban services. Permit scoped authorized public scientific reading while retaining parent permissions and all hardware/other-service/production restrictions. No model/MCP/globalconfig/sandbox/approval settings change or hot-reload guarantee. Validate actual fresh-role capability rather than infer it from edited source.

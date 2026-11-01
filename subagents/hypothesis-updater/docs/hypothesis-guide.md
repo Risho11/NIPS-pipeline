@@ -8,8 +8,14 @@ review; this guide neither executes a condition nor changes invocation permissio
 
 ## Start from an unresolved question, not a mechanism label
 
-Read the reviewed observations and prior claim before drafting. Ask which
-relationship matters to the objective and what remains unexplained. Use relevant
+For a new bank, begin with allowed theory/source and material/process/measurement
+context before current outcomes, without requiring current reviewed analysis.
+Preserve initial meaning, direction, prerequisites and credible rival predictions
+before reveal; do not obtain result-shaped signs from old reports or examples
+containing withheld campaign outcomes. Cover relevant process stages/interactions, not a one-variable-per-claim
+catalog. For recurring updates, read relevant bank records and reviewed observations;
+ask which relationship matters and what remains unexplained. Do not re-bootstrap
+or read the entire bank by default. In observation updates use relevant
 matched or partially controlled comparisons, original processing evidence and
 applicable history. Do not restrict discovery to the last attractive trajectory
 when another available contrast could answer a more useful question. Selection
@@ -38,6 +44,14 @@ link has no present basis, say so. Keep the pathway as a possible background
 account, request targeted evidence, or recommend a justified process-effect test;
 do not manufacture the missing justification or force a new mechanism.
 
+A public-source-supported relation may concern a different solvent, structure,
+conditioning or loading definition. Identify what the source actually measured:
+failure strength is not automatically this initial compression-modulus estimator.
+Treat transferred direction as conditional, confront credible opposite pathways,
+and retain source applicability limits. Use the workflow's public-concept-only
+query boundary and actual permissions; a proposal can also rest on an explicit
+physical argument without mandatory literature or new-data confirmation.
+
 ## Compare predictions and recommend a useful question
 
 Give the strongest relevant rival, rather than a convenient alternative that
@@ -64,7 +78,10 @@ Main retains selection and the designer retains exact conditions.
 
 ## Maintain claims while improving the inquiry
 
-Recover the actual prior meaning, judgment and contradictory evidence. Retain a
+After reveal, compare observations with the preserved initial predictions, including
+unexpected outcomes. Add data-inspired hypotheses when useful; do not force-fit
+theory or call generative reuse of those same data independent confirmation.
+Recover the actual prior meaning, judgment, origin and contradictory evidence. Retain a
 claim unchanged when no relevant evidence changes its status; qualify working
 priority separately when the reasoning or feasibility is weak. No new measurement
 means no fabricated confirmation/refutation. Better evidence interpretation or

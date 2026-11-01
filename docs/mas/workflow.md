@@ -47,11 +47,47 @@ or specialist ownership enforces isolation. Respect the approved read set and
 transfer scope. Concrete paths, input selection, authorization and execution
 budget belong in the transient dispatch, not another repository test manual.
 
+## Knowledge initialization and recurring inquiry
+
+One persistent main uses the same roles for two entry conditions. If no applicable
+knowledge bank exists, hypothesis author and distinct hypothesis QA first develop
+and review theory-informed claims from allowed material/process/measurement
+context and actually read sources. No reviewed current analysis is needed yet.
+Preserve that initial bank and disclose result exposure before revealing current
+outcomes; common guides and old reports may themselves contain withheld campaign results.
+An exposed, seeded or retrospective account must not be labeled an unexposed prior.
+
+With a bank available, reuse relevant records; do not re-bootstrap or reread the
+full bank every turn. Once authorized current/warm/original observations arrive,
+analysis plus independent review precedes observational updates/new hypotheses
+and their distinct review. Data can challenge theory or generate new accounts;
+main then selects a test and obtains design/review. No second MAS or new role is
+introduced. Historical reveal is not prospective confirmation; retain old claims'
+identities, temporal origin and contradictory evidence. See [knowledge](knowledge.md).
+
+## Public scientific sources
+
+When explicitly authorized and supported by actual tools/permissions, public
+scientific literature may be searched/read using only public concepts. Never put
+private experiment contents, identifiers, paths, credentials or result values in
+public queries. No other external-service or device access follows. Read actual
+sources and their material, loading/measurement definition and conditions; a
+reported strength or morphology relation need not transfer to this compression
+estimator. Seek credible opposing pathways and justify any transferred direction.
+
+If a specialist cannot retrieve sources under its actual binding, main can provide
+permitted source copies or retrieve them within its own authority. Do not pretend
+a summary is a paper read, override a stricter binding or infer browsing from a
+doc/source edit. Existing production-adapter and parent sandbox/tool restrictions
+remain; this guidance adds no browsing implementation. A useful tentative proposal
+can use a domain-appropriate physical argument without literature or new target
+data confirmation, with its assumptions and source-access limits explicit.
+
 ## Inquiry follows evidence and meaningful dependencies
 
-One persistent main follows campaign observations, artifacts, hypotheses and open
-questions. Begin with the actual latest experiment, prior prediction and current
-objective/constraints. Check which proposed conditions were actually executed.
+In observation turns, main follows campaign observations, artifacts, hypotheses
+and open questions. Begin with the actual latest experiment, preserved prediction
+and current objective/constraints. Check which proposed conditions were actually executed.
 An unlinked suggestion is not a tested prediction. Inspect available evidence,
 quality and comparability before interpreting a result.
 
@@ -64,7 +100,8 @@ vote for a duplicated synthesis.
 
 The reasoning dependencies are:
 
-- Observation and reviewed analysis inform hypothesis maintenance.
+- Initial theory author/QA can establish a bank before current-result access.
+- In observation turns, reviewed analysis informs maintenance or new hypotheses.
 - Reviewed hypothesis maintenance proposes shared material/process knowledge
   changes. Main accepts/publishes those changes within its authorized output
   root, then selects a test target from the current bounded knowledge.

@@ -7,9 +7,34 @@ Use this guide with the [main role](../AGENTS.md),
 [knowledge contract](../../../docs/mas/knowledge.md). Scientific main is explicitly
 activated within the invocation's permissions; it is not the development Harness.
 
+## Initialize once, then reuse and revise
+
+First distinguish a missing bank from a recurring observation turn. Main can ask
+the same hypothesis author/QA to bootstrap from allowed material/process/measurement
+context and actually read scientific sources before current-result access. No
+current-analysis PASS is required for that task. Keep actual initial predictions
+and exposure history. Do not leak withheld campaign outcomes through worked examples, prior
+science/status records or old data-derived claims, then call the bank prospective.
+If prior exposure exists, disclose it. An honest withheld historical reveal still
+is not a prospective experiment or independent confirmation.
+
+Use the [public-source permission boundary](../../../docs/mas/workflow.md#public-scientific-sources):
+public concepts only, no private experiment queries, and actual tools/permissions
+must allow retrieval. Main may provide real source copies when a specialist cannot
+browse. Review material/process and loading/estimator applicability, competing
+physical directions and prerequisites; literature support elsewhere is not proof
+here. Neither source counts nor a fixed hypothesis-per-variable catalog is useful.
+
+After the bank exists, read its index and relevant/changed claims. Reveal authorized
+observations for analysis/review, then retain, revise or add accounts through
+hypothesis author/QA. Preserve old data-derived IDs and origin; do not force data
+to fit theory or relabel newly inspired ideas as initial predictions. Existing
+confounds motivate discrimination questions rather than excluding whole process
+axes. Selection/design follows reviewed knowledge; it is not bootstrap publication.
+
 ## Recover the real question and available contrasts
 
-Follow the round index to actual measurements, prior prediction/design, accepted
+In observation turns, follow the round index to actual measurements, prior prediction/design, accepted
 claims and open questions. Read the relevant stable claim files through shared
 `index.md`, not only a summary or the previous conversation. Check which proposal
 was executed; a suggestion attached to source row A does not make A a test of B.

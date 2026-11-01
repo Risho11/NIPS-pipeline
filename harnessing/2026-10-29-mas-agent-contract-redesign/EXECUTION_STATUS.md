@@ -1,5 +1,63 @@
 # Execution status
 
+## Active authorized work — Phase 7 / Step 1
+
+Current result: actual knowledge-first initialization and subsequent observation
+inquiry are complete. Final independent development/output QA: PASS, no material
+blocker. All
+scientific specialists and the persistent Writer have returned ownership.
+Phase A retained six conditional initial claims and reviewed public-source
+background before private outcomes. Phase B used warm-start 73 and campaign
+58/64/232 rows plus targeted original evidence, retained those six meanings,
+and published two explicitly data-generated claims. No mechanism is confirmed.
+
+Actual report-only recommendation: polymer 15.5 wt%, mixing 45°C, bath 5°C,
+casting 6 mm/s, nitrogen true, exposure 250 s, immersion 1600 s, additive 0.
+Only polymer differs from the existing 16 wt% comparator; fixed materials and
+10 wt% PolarClean bath remain the supplied scenario. A single new response
+would give a provisional historical contrast; matched independent syntheses
+are still needed for stronger inference. No experiment was submitted.
+
+Phase B reported completion at 00:22:10 UTC on 2026-11-01; controller observed
+the completed reports at 00:23:00. Conservative dispatch/completion bound is
+1,162 s against 1,200 s; Phase A's bound is 977 s. Controller independently
+verified 144 project source files, 3,715 approved measured files, 148 historical
+outputs and 24 initial-round records unchanged, and all 12 product-candidate
+bytes retained. Evidence is in the temporary review root's preservation-final.json.
+Source/publication chronology and incidental post-publication exposure are
+disclosed; this is retrospective evaluation, not prospective validation.
+
+Final scientific navigation:
+/private/tmp/nips-mas-knowledge-first-20261031/data/results/begins_2026-10-15/mas/rounds/0006/main/index.md
+Shared knowledge:
+/private/tmp/nips-mas-knowledge-first-20261031/data/knowledge/polysulfone_polarclean/index.md
+Review root: /private/tmp/nips-mas-knowledge-first-20261031-review.
+Independent reviewer /root/knowledge_first_development_qa checked the frozen
+12-file candidate and both actual phases, including original-source numerical
+reproduction, photographs, initial-meaning prefixes, actual critical exchanges,
+selected/adopted equality and joint stock feasibility. Acceptance covers bounded
+retrospective scientific usefulness and the report-only recommendation, not
+confirmed mechanisms, prospective validation or production integration.
+
+Ordinary native Git publication subject:
+`261031-20-25 docs initialize knowledge before campaign updates`.
+Reviewed membership is exactly 12 product files plus five controller planning
+files. This final controller receipt does not change the frozen product/science
+candidate. Publication completes only after actual commit parent, membership,
+bytes and clean index/worktree are verified. Human review of the scientific
+outputs is still pending; Phase 7 Step 2 DCP remains deferred.
+Earlier Phase 7 progress notes below are historical. Production Python,
+hardware, DCP, push and merge remain outside this delivery.
+
+Actual PhaseA completed within977s/1200conservative bound. Six initialclaims/public-sourcebackground published with actual author/reviewer v1/v2/v3criticism before privatevalues; retained initialbank snapshot before reveal. Both registeredhypothesisroles actually permitted publicreading underupdatedbindings. Main later globalagentinventory accidentally exposed historicalprivateoutcomes after publication; disclosed, initialauthor/freshQA notgiven those values and noinitialscientificbankchange afterward. Thus no claim of perfect blindness/prospectivevalidation. Publicsame-materialstudies remain legitimate prior knowledge; no unnecessary exclusion rule. PhaseB authorized originalwarm73/current58/64/232+neededraw reveal follows now, newround0006, deadline00:23:30UTC. Source/docsunchanged, old148outputsreadonly.
+
+Writer returned QUIESCENT/OWNERSHIP_RETURNED with exact12sourcecandidatec42e82d0bb9e05603ceb142d9f41d3a5a6a4afa50f7c8bc46bffc0b9958c3b25. Independent frozen-source QA no blocker,12hashes/TOMLminimaldelta/protected58/historic148/plan12prefix and boundaries verified; actual scientific evaluation separate. Fresh /root/knowledge_first_science starts PhaseA with outcome-free operatorcontext/publicliterature only, prior outputs/CSV/oldbank withheld by task (not OS isolation). Bootstrap deadline2026-11-01T00:07:10Z. Registeredrole capability/reload must be observed or transparently mediated by allowedmain; no claim from source edits. PhaseB actual warm/current/raw reveal awaits accepted initialbank. No productionPython/hardware/DCP.
+
+Preflight found the same blanket service ban in2runtime developer-instruction bindings. Controller-expanded literal ownership to12paths (10docs+2hypothesisTOMLs), preserving other4role bindings/config and parent permissions. Native registered-role reload is not assumed; fresh execution must verify applicable permission. Explicit scientific/production permission boundaries unchanged.
+
+Human explicitly approved knowledge-first initialization with observational update/addition. Clean base2dbf0e2b63636fda74efa07cf0d9dc31ad3a30f7 and same pinned external source/Writer identity verified. Prior12plan entries preserved plus phase7manual-Git continuation; no canonical reopen-append. Bounded Writer handoff pending; new native bootstrap/update tests NOT_RUN. Public literature is permitted without private experiment queries. Scientific outputs use fresh /private/tmp/nips-mas-knowledge-first-20261031; previous outputs remain readonly. Python integration/hardware/DCP excluded.
+
+
 ## Active renewed Goal — Phase 6 / Step 1
 
 FINAL independent development QA: PASS for exact10doccandidate15337a04d6b9c6bba2eb257f29f009febe89978c678545da4eb305c60a1a7e19 plus scoped5controllerfiles and actual round3/4inquiry; no material blocker. Reviewer independently checked full contracts, source/plots/numerics, real criticism/repair, claim identity and actual knowledge publication. Fullround3<=1138s/1200 and focusedround4<=570s/600; allscientists/Writerquiescent. All3715approved measured-files unchanged,144source unchanged during finalrun, originalplan10prefix and oldround/archive preserved. Final result is bounded explanatory/processing improvement and a conditional report-only50/5/6/true/250/1600/16/0proposal; unresolved physical fit-regime comparability means physical conclusions INCONCLUSIVE, not automatic favorable support.

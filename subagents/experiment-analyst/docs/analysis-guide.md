@@ -10,6 +10,13 @@ output requirements still apply.
 
 ## Turn the inquiry into an evidence comparison
 
+In observation turns, recover the preserved theory-informed predictions and relevant
+bank origins before inspecting authorized outcomes. Compare agreements and surprises;
+observations may challenge prior accounts or motivate new ones. Keep data-generated
+ideas exploratory and do not count the same data as independent confirmation.
+Bootstrap theory does not require this analysis first, and a historical reveal
+is not a new prospective experiment. Reuse relevant bank records across turns.
+
 Identify which process questions the authorized evidence could usefully address,
 not only how to summarize the latest high point. Compare relevant available
 contrasts and control gaps across the applicable data/history, guided by the

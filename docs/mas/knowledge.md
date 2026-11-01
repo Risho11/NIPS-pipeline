@@ -38,7 +38,39 @@ files before publishing a navigable index. Review semantic preservation; relocat
 is not new evidence or permission to rewrite an old claim. A new test root inherits
 no acceptance silently; any deliberate seed needs provenance and authorized scope.
 
-## From an observation to a useful explanation
+## Initialize, then learn from observations
+
+When no applicable bank exists, main asks the same hypothesis author and distinct
+QA to initialize it from material/process/measurement constraints, articulated
+physical reasoning and scientific sources actually read, before current outcomes
+are examined. Reviewed current analysis is not a prerequisite to this bootstrap.
+Consider meaningful process stages and interactions beyond the latest temperature/
+bath story, without one claim per variable or a prescribed bank size.
+
+Preserve the initial meanings, conditional directions, prerequisites, rival
+predictions, sources and actual outcome exposure before revealing data. Do not
+follow worked examples containing withheld campaign outcomes, old science/status reports or data-derived
+claim files during an outcome-withheld bootstrap; supply allowed definitions or
+passages separately. If a participant already knows results, disclose that rather
+than claiming an unexposed prior. Existing data-derived claims retain their IDs,
+history and retrospective origin; never erase or relabel them as initial theory.
+
+After authorized observations arrive, analysis and distinct review inform updates,
+revisions and new ideas. Theory can be wrong; challenge it rather than force-fit
+results. Mark data-generated additions as such, distinguish exploratory use from
+an independent confirmatory test, and preserve old meanings when revising. Even
+an outcome-withheld reveal of historical data remains a retrospective evaluation,
+not a new prospective experiment. External-system evidence is not target-system
+confirmation, and using the same evidence to propose and assess a claim adds no
+independent support.
+
+Reuse an applicable bank across rounds/campaigns. Read its index and relevant or
+changed claim records, not the whole bank and bootstrap again each turn. Reconcile
+new theory and older retrospective accounts explicitly without hiding origins or
+counting duplicate ideas/evidence as corroboration. Initial publication and later
+observation updates remain separate from main's next-test selection.
+
+## Reasoning before and after observations
 
 Separate a measured observation, a testable process-effect proposition and a
 proposed pathway explaining that effect. A variable → process/structure → property
@@ -101,8 +133,9 @@ inform a process relation while both pathways stay unresolved.
 
 ## Review, publish and preserve history
 
-Analysis examines actual execution/outcomes against prior predictions and useful
-available contrasts. The updater drafts the round's proposed knowledge changes,
+Bootstrap author/QA can work before current observations; later analysis examines
+actual outcomes against the preserved predictions and useful available contrasts.
+The updater drafts the round's proposed knowledge changes,
 retentions, rationale, rival predictions and recommended question priorities.
 Distinct hypothesis QA checks motivation and usefulness as well as source truth,
 status and identity. Main reads actual artifacts/findings and makes its own value

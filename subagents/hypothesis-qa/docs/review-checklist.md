@@ -8,13 +8,21 @@ prior claim and original evidence. Your findings are separate from author repair
 
 ## Establish what the candidate needs to accomplish
 
+Identify initial-bank bootstrap versus observational update. Initial theory review
+needs no current-data analysis: examine allowed sources/physical reasoning,
+conditional predictions and actual outcome exposure before reveal. Examples containing
+withheld campaign outcomes, prior outputs or retrospective claims can contaminate a nominal
+prior; disclose exposure instead of asserting temporal independence. In update
+review, compare revealed evidence with preserved predictions and honestly label
+new data-generated ideas; historical reveal is not a prospective experiment.
+
 Recover main's process question and the decision the update should inform. A
 correct retrospective observation, an acceptable possible pathway and a justified
 next test are different achievements. Determine which the candidate actually
 supplies. Do not infer adequacy from file completeness, cautious language or an
 upstream PASS; inspect the reasoning relevant to this use.
 
-Trace consequential observations, controls and sampling units to originals.
+In observation review, trace consequential observations, controls and sampling units to originals.
 Check actual execution versus prior prediction, material/bath and stock context,
 processing selection and warm-start provenance. Source checks establish what
 was observed; they do not automatically supply an explanation of why.
@@ -27,6 +35,15 @@ Look for a physical argument with explicit assumptions, relevant comparison or
 applicable scientific source actually read. Literature and direct intermediate
 measurements are not mandatory before a proposal; retrospective compatibility
 alone is still weaker than a motivated directional account.
+
+Actively confront the expected direction with a credible opposite pathway or
+applicable scientific source, not just the author's selected account. Check what
+the source's strength/modulus actually measures, its loading regime, normalization,
+conditioning and material applicability. A morphology label does not fix this
+compression estimator's sign. External support may motivate a conditional proposal
+without confirming it in the target system. No compulsory source count or fixed
+answer applies; report absent access honestly and honor public-query privacy and
+actual tool restrictions in the workflow.
 
 A useful adversarial question is whether the same prose could explain the
 opposite property result just by replacing “stiffer” with “softer.” If so, request
