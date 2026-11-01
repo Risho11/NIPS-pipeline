@@ -87,99 +87,32 @@ original point or of the changed scientific test. Revise the candidate explicitl
 and re-review it if values change. Check how a constraint-induced change affects
 the controls, prediction and hypothesis; return upstream through main if necessary.
 
-## Worked next point: concentration explanations with different predictions
+## Separate executable conditions from operator proposals
 
-Every condition, outcome and intermediate in this example is hypothetical, not
-repository evidence, a material law, installed stock confirmation or an actual
-recommendation. Main selects H-K, the proposed PSf/PolarClean exchange-limited
-architecture account in [knowledge.md](../../../docs/mas/knowledge.md), against
-H-S's proposed matrix-state account. Both predict higher normalized modulus as
-polymer concentration rises. H-K predicts delayed exchange and more compact
-architecture with lower compression-estimated pore fraction; H-S specifically
-predicts changed solvent retention/plasticization and increased intrinsic matrix
-modulus at comparable architecture. More total material or a thicker membrane
-alone is not that pathway. Recover the full
-proposed meanings and limits before using these predictions.
+Use the actual reviewed inquiry/claim, not a worked causal answer or preset next
+point. Compare conditions with consequential controls fixed and explicitly state
+what this next observation can establish. If a required comparator is future work,
+label it planned; do not present a completed comparison or all planned controls
+as current executable conditions. A feasible joint change cannot ordinarily
+identify one factor's causal effect without further justified evidence.
 
-Assume the case explicitly supplies a reliable 14 wt% polymer, 8 °C bath comparator
-with all remaining settings below matched, fixed PSf/PolarClean/no-cosolvent
-materials, a specified unchanged bath composition, and comparable stock/acquisition
-context. These are assumptions for the example; locate real comparator evidence
-before offering a real point. Suppose stocks are the supplied triangle (17,0),
-(17,4),(0,0), additive lock0, with normal source numeric bounds.
+Known important fixed/locked settings remain valid hypothesis subjects. When the
+useful comparison requires changing operator-prepared bath, casting locks or a
+protocol constant, return a separate next-batch proposal through main with its
+scientific reason, competing predictions, controls and required human decision.
+Do not change settings or insert them into the eight current executable fields.
+The first-bath request time differs from fixed 45-minute second-bath residence;
+constant-time history does not identify a residence effect. New acquisitions are
+optional only when feasible, authorized and decision-critical; inspect available
+original curves/photos/params before proposing them.
 
-| Tunable | Hypothetical next value |
-| --- | --- |
-| `mixing_temp` | 25 °C |
-| `bath_temp` | 8 °C |
-| `pullcast_speed` | 10 mm/s |
-| `nitrogen` | true |
-| `coupon_to_bath_wait_time` | 120 s |
-| `nips_bath_wait_time` | 1250 s |
-| `polymer_wt` | 16 wt% |
-| `additive_wt` | 0 wt% |
+An operator summary links actual confirmed grouping/context and learning under
+`mas/batches/<batch-id>/summary.md`. Offline historical summaries are explicitly
+report-only candidates. Configured coupon capacity, a 202 acknowledgment or absent
+callback does not establish completed work, resource depletion or optimization.
+Main requests human resource/prepared-setting checks before further operation.
 
-Only concentration changes relative to the stipulated comparator. The proposed
-(16,0) composition is diluted polymer stock, feasible as 16/17 stock plus 1/17
-solvent by mass; the undiluted-stock special rule is not triggered. Keep all
-actual material/bath constraints explicit; no dispensing instruction or physical
-execution follows. This point explores a distinction rather than chasing the
-largest predicted modulus. No exact gain, tolerance or sufficient repeat count
-is invented.
-
-First inspect authorized existing curves/photos/params/processing evidence and
-warm-start comparisons to identify what is already measurable. If valid exchange
-timing, solvent/matrix-state or structural measurements exist, evaluate their
-applicability. Surface
-coverage images are not cross-section images; compression pore estimates cannot
-supply exchange kinetics. Additional rheology, time-resolved observations or
-structural or residual-solvent acquisition would be a separately authorized
-measurement plan, not a
-new tunable or an observation assumed already available.
-
-Prospectively distinguish:
-
-- Delayed exchange and independently compact architecture with higher bulk
-  modulus, at comparable matrix state, favors H-K as the principal driver within
-  the controls. A pore estimate alone does not image that architecture.
-- Lower retained solvent and independently increased matrix modulus at comparable
-  architecture favors the stated H-S. Mass/thickness increase alone does not.
-  A conditioning contrast that equalizes solvent content could further test the
-  predicted reduction of the bulk-modulus difference only if architecture and
-  other conditions remain comparable and that measurement/treatment is authorized.
-  Missing solvent/matrix evidence leaves this pathway untested; reliable absence
-  of its specified changes challenges H-S.
-- Mixed architecture and matrix changes may support combined explanations.
-  Neither a favorable property direction nor a mass/thickness change proves an
-  exclusive pathway. Retain contrary property and intermediate observations.
-- Property changes alone can test the scoped property predictions but leave
-  intermediate pathways unresolved. If both accounts fit all available outcomes,
-  request another discriminating observable or narrow the inference through main.
-- Invalid acquisition, missing outcomes, unmatched execution or unresolved
-  uncertainty leaves the affected distinction inconclusive. Preserve valid adverse
-  evidence rather than using uncertainty to dismiss every unfavorable result.
-
-Explain why this next synthesis and comparison would be informative under actual
-resource/quality constraints, and what it alone cannot establish. An additional
-matched observation or independent repeat may be needed; label it future planned
-work. No generic repeatability question replaces the selected process explanation
-unless main explicitly reselects after affected review.
-
-## Worked rejection: feasible but unable to answer the question
-
-If both polymer content and bath temperature change in the next point, a joint
-response can still be measured, but cannot ordinarily isolate the selected
-single-factor relation. A feasible stock mixture and a high predicted modulus
-do not fix that design. Seek a matched contrast, or ask main to reconsider the
-question using analysis/hypothesis review. Do not claim causal discrimination
-from a visually appealing two-point trend.
-
-If neither member of a required matched pair has been measured, propose one next
-condition only with an explicit future comparator plan and limits on its immediate
-interpretation. Do not list both as executable now, pretend the future control
-already exists or assert the full comparison will be complete after only one run.
-
-## Worked repeat and null design
+## Repeat and null design
 
 Suppose a promising point has several coupons but no verified independent synthesis
 repeat. Main may select the reproducibility question. Propose a new physical

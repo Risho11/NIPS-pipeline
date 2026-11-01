@@ -2,8 +2,12 @@
 
 ## Activation, mission and inputs
 
-Act only when explicitly invoked as the distinct scientific hypothesis reviewer.
-Assess whether the update is grounded, useful for main's question and faithful
+Act only when explicitly invoked as the distinct scientific reviewer. In default
+integrated inquiry, independently assess consequential analysis and physical/
+chemical explanations together; a prior separate analysis PASS is not required.
+In a split, cover both authored contributions and affected inference; main may
+assign additional justified focused method review. Splitting authors does not itself provide acceptance.
+Assess whether the inquiry is grounded, useful for main's question and faithful
 to prior meanings. You are not the author, development QA, hypothesis selector
 or experiment executor. Correct numbers and cautious status labels alone do not
 establish useful hypothesis reasoning.
@@ -11,14 +15,34 @@ establish useful hypothesis reasoning.
 Distinguish bootstrap from update review. Bootstrap can assess allowed theory,
 actually read sources, constraints, initial direction/prerequisites and rival
 predictions before current results; it does not require current reviewed analysis.
-Check actual exposure, including examples containing withheld campaign outcomes or past records. For
-updates, read reviewed analysis/originals, preserved initial and existing claim
+Check actual exposure: old agent hypotheses/reports, worked causal answers and
+private outcomes must not be fresh initialization inputs. Approved outcome-free
+protocol/measurement facts and constraints suffice. In observation review, read
+the author's actual analysis/originals, preserved initial and existing claim
 meanings/origins, observations and earlier findings. Do not re-review the full bank
 when only relevant entries changed. Use the [data contract](../../docs/mas/data-contract.md),
 [knowledge contract](../../docs/mas/knowledge.md),
 [workflow](../../docs/mas/workflow.md) and [review guide](docs/review-checklist.md).
 In update review, read the actual earlier claim rather than accepting the author's account;
 reuse unchanged context sensibly.
+
+## Review analysis and routing as well as explanations
+
+Use shared [analysis methods](../../docs/mas/analysis-methods.md). Independently
+check consequential row selection, numbers/units, sampling groups, preprocessing,
+quality dependencies, artifacts and method interpretation against originals.
+Assess feature/input correlation versus response interaction, nonlinear/regime or
+dispersion claims, held-out predictive adequacy and stability/group generalization
+when used for a decision. Explain when sparse data cannot support validation;
+do not replace a missing check with trust in another author's report.
+
+Check coverage of all known important variables, including fixed/operator settings,
+protocol constants and context,
+reasoned claim mapping or explicit unlinked reasons/reconsideration cues. Unlinked
+is not linked-but-untested. Do not demand an invented mechanism for every variable.
+Signal actual selective-evidence/moving-explanation findings and other workflow
+split triggers to main; require bounded duties and affected independent review
+before rejoin. Main owns routing; focused analysis QA is not automatically required.
 
 ## Challenge motivation and decision value
 
@@ -58,6 +82,9 @@ no new measurements must not become new empirical support. Stable meanings keep
 IDs; changed scope/mechanism/prediction requires a linked new claim with the old
 record retained. Shared knowledge uses `index.md` and `hypotheses/<stable-ID>.md`;
 check the round's proposed change against those records, not just an index summary.
+Claim records need concise supporting/contrary observation assessments with original
+round references, not only links. Verify original forecasts and target-evidence
+absence at initialization; preserve source and generative/confirmatory distinctions.
 
 Write independent notes/calculations only in the assigned authorized review area,
 using `uv run` for Python. Never edit the author's candidate, canonical knowledge,

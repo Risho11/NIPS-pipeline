@@ -5,15 +5,21 @@ Use this guide with the [hypothesis-updater role](../AGENTS.md), shared
 [knowledge contract](../../../docs/mas/knowledge.md) and
 [workflow](../../../docs/mas/workflow.md). Main selects the test after independent
 review; this guide neither executes a condition nor changes invocation permissions.
+Default explicit dispatch integrates analysis and explanation here, using shared
+[analysis methods](../../../docs/mas/analysis-methods.md); split work follows main's
+bounded duties and review coverage, without making prior analysis a universal gate.
 
 ## Start from an unresolved question, not a mechanism label
 
 For a new bank, begin with allowed theory/source and material/process/measurement
 context before current outcomes, without requiring current reviewed analysis.
 Preserve initial meaning, direction, prerequisites and credible rival predictions
-before reveal; do not obtain result-shaped signs from old reports or examples
-containing withheld campaign outcomes. Cover relevant process stages/interactions, not a one-variable-per-claim
-catalog. For recurring updates, read relevant bank records and reviewed observations;
+before reveal; give fresh participants no old agent hypotheses/reports, worked
+causal answers or private outcomes. Use approved outcome-free definitions/context.
+Account for important tunables, fixed settings, constants and environmental/provenance
+context in shared `variables.md`, linking claims or explicit unlinked reasons/cues.
+Cover process stages/interactions without a one-variable-per-claim catalog.
+For recurring updates, read relevant bank records and authorized observations;
 ask which relationship matters and what remains unexplained. Do not re-bootstrap
 or read the entire bank by default. In observation updates use relevant
 matched or partially controlled comparisons, original processing evidence and
@@ -100,36 +106,48 @@ valid adverse performance is not automatically a quality failure. Follow the
 data contract's endpoint-specific validity rules rather than erasing all evidence
 when a secondary outcome is unavailable.
 
-## Worked critique and repair — hypothetical
+## Resolve the analysis and explanation together
 
-Suppose a draft says a preparation-temperature change produced higher modulus
-because it left a stiffer matrix. If its only motivation is that temperature
-and modulus changed together, labeling every arrow hypothetical does not improve
-the explanation. Recover actual process history and seek relevant comparisons;
-ask what could preserve a changed matrix state through later treatment and why
-the direction follows. Check a credible competing process contribution or an
-acquisition/context explanation using the available evidence.
+Use physical/chemical reasoning to identify plausible processes, assumptions and
+observable predictions; let data challenge those assumptions. Inspect useful
+feature/response patterns, variable correlations versus effect interactions,
+local/nonlinear/regime behavior and dispersion. Choose calculations/models/figures
+for the question and independent coverage, with consequential sensitivity and
+held-out/grouped validation when relevant. A model's importance or an SS-curve
+pattern does not independently verify an internal mechanism. Check normalization
+and actual measurement definitions before transferring a direction from a source.
 
-A constructive repair can provide a grounded physical rationale and contrasting
-observable predictions. Alternatively, it can acknowledge that the pathway is
-weakly motivated, keep it unresolved and justify a narrower preparation-effect
-question against another useful process contrast. Both can improve the inquiry;
-merely adding cautions or changing supported to proposed does not answer the
-motivation question. This example prescribes no actual hypothesis or next condition.
+Motivate competing processes and conditions in which one might dominate. Unknown
+regime boundaries can remain unknown initially; later data may locate them and
+motivate later predictions. Preserve initial forecasts and do not retrofit them.
+Neither a universal sign nor an optimum for every variable is required. Avoid
+anything-can-happen accounts that absorb every adverse result without a changed
+judgment. A useful process-effect test can proceed while the internal account
+remains unresolved, without requiring new assays by default.
 
-The hypothetical concentration pathways in the knowledge guide illustrate
-possible account structure, not evidence that either applies to the current
-case. Correct stress/strain normalization matters: more mass/thickness alone
-cannot explain greater normalized modulus. Do not borrow the example's specific
-solvent/plasticization meaning for an undefined real claim.
+When an actual split trigger is seen, give main the competing analysis choices and
+action consequence, missing/invalid analysis/model/evaluation method blocking the
+action, or QA finding. For the method gap identify concrete construction/repair
+and validity check; routine CSV reading, arithmetic or a figure using an applicable
+method alone is not a trigger. An actual method gap needs no authored error.
+Main sets bounded analyst
+and inquiry duties, evidence, review coverage and rejoin condition. Keep original
+predictions and the disputed analysis visible; use the resolved evidence and
+obtain independent affected review before rejoin. Splitting authorship alone is
+not acceptance and cannot create missing independent data.
 
 ## Return a reviewable change
 
 Draft in the assigned round; main publishes accepted changes into shared
 `hypotheses/<stable-ID>.md` records and updates `index.md` navigation. Each shared
-record keeps its own meaning/evidence/status/history and links to the source
-round update and actual review. The round explains what changed and why; it does
-not duplicate the entire knowledge base. Internal prose/layout remains flexible.
+record keeps its meaning/conditions/predictions and concise supporting/contrary
+observation summaries, their interpretation/limits, current judgment and history,
+linked to original `inquiry.md` (or split analysis/update) and actual review. Initial
+records contain theory/actual literature and expectations, with target evidence
+absent when absent. One analysis can inform several claims without copied text.
+Update relevant variable mappings/unlinked reasons; main publishes, and internal
+prose/layout stays flexible. Fixed-setting ideas may become separate next-batch
+operator proposals, never changed executable settings.
 
 Return current and prior claim paths, actual motivation and counterevidence,
 rival predictions, proposed changes/retentions, question priorities and unresolved

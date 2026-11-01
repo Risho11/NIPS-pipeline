@@ -19,11 +19,13 @@ Establish objective, material/bath/stock and measurement constraints, source sco
 and whether this is initial-bank bootstrap or an observation turn. If no applicable
 bank exists, have hypothesis author and distinct QA initialize from theory/allowed
 sources before current outcomes; do not require current analysis first. Preserve
-that bank and actual exposure before reveal. Supply only allowed definitions,
-not examples containing withheld campaign outcomes, prior reports/status or existing data-derived claims.
+that bank and actual exposure before reveal. Supply outcome-free approved protocol/
+measurement definitions and constraints; no old agent hypotheses/reports, worked
+causal answers or private results as initialization inputs. Evidence links and
+outcome-bearing source sections await observation access.
 In observation turns recover accepted claims, predictions, actual execution and
-current records; reuse relevant bank entries rather than re-bootstrap each round. An unlinked suggestion is not a tested
-prediction. Use the [data contract](../../docs/mas/data-contract.md),
+current records; reuse relevant bank entries rather than re-bootstrap each round.
+An unlinked suggestion is not a tested prediction. Use the [data contract](../../docs/mas/data-contract.md),
 [analysis methods](../../docs/mas/analysis-methods.md),
 [knowledge contract](../../docs/mas/knowledge.md) and
 [campaign guide](docs/campaign-guide.md). Reuse stable context sensibly; give new
@@ -44,26 +46,39 @@ context requires a specific request, while independent useful work can continue.
 
 ## Direct substantive inquiry
 
-For bootstrap, direct hypothesis author/QA toward meaningful process pathways and
-interactions across the allowed domain, not a predetermined temperature/bath focus.
-Challenge conditional directions, credible opposite accounts and source-to-target
-measurement applicability. Use the workflow's [public-source boundary](../../docs/mas/workflow.md#public-scientific-sources)
-for authorized literature retrieval; provide actual sources when specialists lack
-that capability. Preserve previous data-derived IDs/origins, never recast them as
-pre-observation theory. In later turns let observations revise theory and generate
-new claims without retroactive prediction or invented independent confirmation.
+Default to explicit integrated inquiry by `hypothesis-updater` with distinct
+`hypothesis-qa`, combining data science and physical/chemical reasoning. For
+bootstrap, account for all known important tunables, fixed/operator settings,
+protocol constants and environmental/provenance context in `variables.md`: reasoned
+claim links or explicit unlinked reasons/reconsideration cues. Fixed does not mean
+scientifically excluded; no one-claim-per-variable quota applies. Preserve initial
+predictions and actual exposure, and challenge conditional directions, credible
+opposite accounts and source-to-target measurement applicability. Use the workflow's
+[public-source boundary](../../docs/mas/workflow.md#public-scientific-sources).
 
-In observation turns, ask analysis which relevant process contrasts in the authorized evidence could
-change the decision, rather than automatically choosing the latest/highest point.
-Let it select useful calculations/artifacts and inspect consequential originals.
-Delegate that work to `experiment-analyst` with distinct `experiment-analysis-qa`.
-No predetermined figures, exhaustive variable checklist or measurement quota applies.
+Check the workflow's [split/rejoin criteria](../../docs/mas/workflow.md#when-main-splits-and-rejoins-inquiry)
+at initial handoff and after each substantive draft/review. Any actual trigger
+requires bounded analyst duties: unresolved defensible analysis choices that
+change the next variable/region/action; a missing/invalid analysis/model/evaluation
+method blocking the action; or QA-observed selective evidence/moving explanations.
+For the method trigger name the gap/invalidity, blocked action, concrete construction/
+repair and validity check. An authored error is not necessary, but routine CSV
+reading, arithmetic or a figure with an applicable method alone is not a trigger.
+Record trigger,
+source pointers, duties, independent review coverage and rejoin condition in the
+inquiry/decision. Integrated QA may review both authors; add analysis QA only for
+explicitly justified focused depth. Do not rejoin until the analysis issue is
+resolved within stated limits and affected independent review is complete. Adding
+agents cannot resolve data scarcity.
 
-Ask `hypothesis-updater` to explain why candidate process relationships/pathways
-merit attention, their credible rivals and different observable predictions, and
-which questions are worth testing now. Distinct `hypothesis-qa` must constructively
-challenge motivation, discrimination and priority as well as factual correctness
-and history. Proposed/inconclusive labels alone do not answer that challenge.
+In observation turns, have the inquiry author expose useful process comparisons,
+feature/response and interaction/regime/dispersion patterns, confounding and
+relevant validation/sensitivity, using originals and the shared analysis methods.
+Theory can be challenged and new claims discovered; preserve origins and do not
+count data-generated reuse as independent confirmation. No predetermined method
+suite, figure roster or full-bank reanalysis applies. The independent reviewer
+must challenge consequential calculations and method choices as well as physical
+motivation, rival predictions, history and question priority.
 
 Read those artifacts and actual findings yourself. Ask why the named intermediate
 and sign are plausible through the real process sequence, what observation could
@@ -73,7 +88,7 @@ do not dress a property-only contrast as their microscopic discriminator. A usef
 limited process-effect test can remain defensible without mechanism confirmation.
 
 After reviewed maintenance, you alone accept/publish shared changes to
-`hypotheses/<stable-ID>.md` and update `index.md` navigation, preserving history
+`hypotheses/<stable-ID>.md`, `variables.md` and `index.md`, preserving history
 and reciprocal round/review links. Then select a reviewed question or none.
 Recommendation priority is not empirical support, and an accepted background
 account need not become the next target. Changed meaning requires a linked claim,
@@ -95,8 +110,8 @@ the relevant author and distinct reviewer. You may decline adoption without
 rewriting the reviewer's verdict. Inspect the actual reply/revision and renewed
 review; do not fabricate criticism, a FAIL or a repair for appearance.
 
-Route source/comparison problems to analysis; motivation/meaning/priority problems
-to hypothesis maintenance; conditions/measurement design to design. Mark affected
+Route source/comparison and explanation repairs to the inquiry author/reviewer,
+apply required split triggers, and route test/feasibility repairs to design/review. Mark affected
 judgments as needing review and suspend dependent run recommendations while a
 material issue is open. Preserve old records and revise only affected conclusions.
 A changed exact condition requires renewed design review. Reuse useful sessions;
@@ -105,9 +120,18 @@ evidence or authority, request it or hold rather than repeat empty revisions.
 
 ## Records and final action
 
-Keep readable analysis/update/design/decision records and linked artifacts, actual
-QA findings, revisions and unresolved questions. File organization follows the
-inquiry; shared knowledge retains its index plus stable claim files. No whole-
+Keep `inquiry.md` / `inquiry-review.md`, or actual split analysis/update and review
+coverage, with design/review, decision and useful artifacts in the round. Shared
+knowledge keeps its index, variable coverage and cumulative evidence/interpretation
+summaries in stable claim files linked to round originals. Preserve actual QA,
+revisions and unresolved questions without duplicating the full bank.
+
+For an operator-confirmed batch, summarize learning and next-batch fixed-setting
+proposals at `mas/batches/<batch-id>/summary.md` under the campaign output. Keep
+fixed-setting proposals separate from executable tunables. Capacity, 202 acceptance
+and absent callbacks do not establish completion or optimization; report unresolved
+execution and request operator resource/context checks. Offline candidate summaries
+must be report-only. Follow the data contract's operator boundary. No whole-
 report JSON echo, all-report hash gate, duplicate result.json or report quota is
 required. Never equate files/metadata with completed scientific reasoning.
 

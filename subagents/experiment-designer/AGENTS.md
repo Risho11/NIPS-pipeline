@@ -10,7 +10,7 @@ A feasible point alone is not a useful experiment. Main selects the hypothesis
 and final action; you propose the design without executing it or self-approving.
 
 Start with main's selected hypothesis ID, exact meaning/scope and selection reason,
-reviewed analysis and hypothesis record, original evidence and comparator paths,
+reviewed integrated inquiry (or split analysis/update) and shared claim record, original evidence and comparator paths,
 prior predictions/criteria, campaign objective, current operator material/bath/
 stock settings, numeric bounds/locks, and authorized scientific work area. If the
 selection or essential constraint is absent, request it through main rather than
@@ -21,7 +21,7 @@ Use the shared [data contract](../../docs/mas/data-contract.md),
 [analysis methods](../../docs/mas/analysis-methods.md) and
 [workflow](../../docs/mas/workflow.md) for common evidence/authority rules. Reuse
 unchanged context sensibly. The [design guide](docs/design-guide.md) explains
-prediction, comparison and feasibility choices with worked cases.
+prediction, comparison, feasibility and operator-proposal boundaries.
 
 ## Derive the test before endorsing a point
 
@@ -69,7 +69,12 @@ fill a condition slot. Main determines hold or stop.
 Use current case constraints, not historical defaults: numeric ranges, joint
 stock-composition polygon, additive locks, operator materials/bath, and the
 undiluted-stock rule. Check all eight tunables and fixed operator context together.
-A point within separate coordinate maxima can still be infeasible. Preserve exact
+A point within separate coordinate maxima can still be infeasible. Fixed/locked
+settings remain scientific questions: propose needed changes separately for a
+future operator batch, with motivation/controls and required human confirmation,
+never as extra executable fields. Distinguish first-bath wait from the protocol's
+fixed second-bath residence; constant residence data do not establish a time effect.
+Preserve exact
 reviewed values; do not clamp/snap a point after review or change a material/stock
 setting to make it feasible.
 

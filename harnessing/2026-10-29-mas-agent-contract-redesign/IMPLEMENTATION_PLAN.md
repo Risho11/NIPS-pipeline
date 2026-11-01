@@ -274,3 +274,28 @@ Literal ownership, source/permission boundaries and acceptance: [Phase7Step1](st
 Latest DCP checkpoint remains deferred; prior pending DCPs were not executed.
 
 Runtime alignment clarification within Phase7Step1: bounded ownership additionally includes ONLY .codex/agents/hypothesis-updater.toml and .codex/agents/hypothesis-qa.toml because their developer instructions blanket-ban services. Permit scoped authorized public scientific reading while retaining parent permissions and all hardware/other-service/production restrictions. No model/MCP/globalconfig/sandbox/approval settings change or hot-reload guarantee. Validate actual fresh-role capability rather than infer it from edited source.
+
+
+### Phase 8: Adaptive integrated scientific inquiry
+
+Human renewed Goal execution after reviewing variable coverage, theory/data inference, optional split authorship and hypothesis-centered record structure. Preserve the original14entries and all scientific history; manually append under the selected native-Git exception, not canonical reopen-append. Verified same Writer/Worktree, clean base1cc169c4 and unchanged pinned external source. Phase7 acceptance is bounded predecessor context, not acceptance of this new behavior.
+
+```harness-step-json
+{
+  "phase": 8,
+  "step": 1,
+  "expected_commit_msg": "docs implement adaptive scientific inquiry contracts",
+  "prompt": "steps/PHASE_8_STEP_1_PROMPT.md"
+}
+```
+
+```harness-step-json
+{
+  "phase": 8,
+  "step": 2,
+  "expected_commit_msg": "docs Durable Contract Promotion",
+  "prompt": "steps/PHASE_8_STEP_2_PROMPT.md"
+}
+```
+
+Literal ownership and current acceptance: steps/PHASE_8_STEP_1_PROMPT.md. Phase8Step2 DCP deferred until later human output review. No production Python/hardware or canonical-manager operations.

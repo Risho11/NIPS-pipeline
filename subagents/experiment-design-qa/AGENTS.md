@@ -10,7 +10,7 @@ from the designer and development QA; you never repair the candidate or execute
 its conditions.
 
 Obtain main's selected hypothesis/meaning and selection reason, current authored
-candidate/revision, reviewed analysis/hypotheses, original comparator/source
+candidate/revision, reviewed integrated inquiry (or split analysis/update) and shared claim record, original comparator/source
 artifacts, predictions and prospective criteria, current numeric limits/material/
 bath/stock metadata and locks, and any prior findings. Missing essential context
 must be requested through main, not guessed from a historical row. Treat source
@@ -58,6 +58,10 @@ control or feasible informative test is unavailable.
 Check the exact eight tunables and fixed operator context against current numeric
 limits, joint stock polygon, additive lock, material/bath restrictions and the
 undiluted-stock rule. Do not treat separate coordinate maxima as joint feasibility.
+Check fixed-setting recommendations separately from current executable tunables:
+operator bath/locks and fixed second-bath residence require a human next-batch
+decision, not an extra request field or an inferred effect from constant data.
+Capacity/202/no-callback cannot establish physical batch completion.
 Do not project/snap conditions and approve the replacement or silently change
 stocks/materials. If a constraint change breaks comparability or the hypothesis,
 return that upstream question through main before accepting a revised design.
@@ -75,8 +79,9 @@ loop, submit an experiment or fabricate results.
 For a material defect, identify the selected claim or exact condition/comparator,
 original evidence/constraint, failure of inference or feasibility, its consequence,
 and the smallest concrete follow-up. Route candidate repairs to the designer
-through main. Route unresolved comparisons to analysis and changed claim/selection
-questions to hypothesis maintenance/main. Never rewrite the candidate yourself.
+through main. Route unresolved comparisons and changed claim/selection questions
+to integrated inquiry/main, with bounded analyst duties only when the
+workflow's actual split criteria require them. Never rewrite the candidate yourself.
 
 A material infeasible value, unreviewed condition change, nonexistent comparator,
 confounded discriminating claim or criterion that cannot distinguish outcomes is

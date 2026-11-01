@@ -12,10 +12,11 @@ not zero and not permission to invent a replacement measurement.
 The target MAS lets campaign main direct analysis, maintain and select hypotheses,
 revisit upstream judgments, and choose run, hold or stop. Specialists and their
 independent scientific QA support those decisions. Readable Markdown records cover
-analysis, hypothesis update, experiment design and final decision, without a fixed
-report-file quota. Layout follows the question; report locations and revision
-reasons let main follow
-evidence without whole-report JSON echoes or report-hash gates.
+integrated inquiry (or split analysis/update), design and final decision, without
+a fixed report-file quota. Main applies the workflow's concrete split/rejoin
+criteria; the integrated reviewer can cover both split contributions, with focused
+analysis QA when justified. Report locations and revision reasons trace evidence
+without whole-report JSON echoes or report-hash gates.
 
 These documents do not implement that target. The preserved
 [Codex adapter](../../src/pipeline/codex_context.py) opens a read-only thread and
@@ -34,6 +35,12 @@ from authorized scientific outputs using the workflow's
 scientific session writes round/knowledge outputs only beneath its assigned
 temporary root. These documents grant no project knowledge writes or new Python
 persistence behavior.
+
+For outcome-withheld initialization use only approved protocol/measurement
+facts and constraints. The evidence-discovery/history sections and their linked
+tables, plots, notebooks and prior reports are for authorized observation turns;
+do not follow them to supply old outcomes or causal answers as priors. A supplied
+outcome-free context can replace reading outcome-bearing source sections.
 
 ## Locate the evidence before interpreting it
 
@@ -70,10 +77,8 @@ Do not invent a native path from a label or search unrestricted future evidence.
 Record whether evidence was not supplied to an invocation, present but unread,
 inaccessible, or absent after a named bounded search. Request authorization before
 expanding a scientific model's input scope. A blank quality narrative is not
-evidence that raw photos do not exist. Latest October L and the three current
-all-fit-failure identities from the old pilot have original specimen CSVs, JPGs
-and params in their exact raw directories. That locates sources; it does not
-validate their contents. Read consequential curves/params and inspect rendered
+evidence that raw photos do not exist. Finding source files does not validate
+their contents. Read consequential curves/params and inspect rendered
 photos/plots before attributing a physical failure or requesting new evidence.
 
 Sample/zero curve pairing, photograph identity, actual settings and processing
@@ -116,10 +121,9 @@ The preserved [MAS figure reader](../../src/pipeline/mas_analysis.py) still read
 checking the aggregate's actual `Pore Fraction Mean` column.
 
 Known specimen-export limitation: current `rep_col_order` selects `Changepoint`,
-while the successful fit dictionary uses `Pore Fraction`. The October specimen
-table has a `Changepoint` header with empty values in inspected successful-fit
-rows, although corresponding aggregate pore fractions exist. Renaming that empty
-column cannot recover values. Do not search for `Changepoint Mean` in an aggregate
+while the successful fit dictionary uses `Pore Fraction`. Check the actual
+supplied export; an empty `Changepoint` column cannot recover aggregate pore
+fractions by renaming it. Do not search for `Changepoint Mean` in an aggregate
 file or reconstruct an empirical SD without underlying per-specimen evidence.
 Report the unavailable detail and request original processing evidence. Repairing
 this producer/export mismatch is separate implementation work.
@@ -200,9 +204,9 @@ some rows. That is not operator-confirmed material identity. The
 [Primospire history](../../data/warm_start/primospire_nmp.csv) belongs to another
 polymer/solvent context and cannot supply a direct Polysulfone performance repeat.
 
-The next test plan explicitly includes the filtered PSf/PolarClean CSV and its
-[companion selection metadata](../../data/warm_start/polysulfone_polarclean_notebook_filtered_2026-10-15.json):
-73 selected records through campaign 2026-09-25. Its chemistry is inferred,
+When the filtered PSf/PolarClean history is authorized, read its
+[companion selection metadata](../../data/warm_start/polysulfone_polarclean_notebook_filtered_2026-10-15.json)
+for cutoff and selection. Its chemistry is inferred,
 independent synthesis validation is unknown, and notebook filters exclude some
 thin/failed samples; it is not unbiased coverage. Preserve the recorded
 thickness/CV/discard/date selection and per-row bath provenance, including linked
@@ -230,7 +234,7 @@ untested or unmatched.
 
 ## Conditions, operator authority and decisions
 
-The eight tunables are `mixing_temp`, `bath_temp`, `pullcast_speed`, `nitrogen`,
+The eight request fields, subject to current locks and bounds, are `mixing_temp`, `bath_temp`, `pullcast_speed`, `nitrogen`,
 `coupon_to_bath_wait_time`, `nips_bath_wait_time`, `polymer_wt`, and `additive_wt`.
 Temperatures use °C, speed mm/s, times seconds, and concentrations wt% of final
 casting solution. With nitrogen on, pre-bath wait is nitrogen exposure; with it
@@ -239,8 +243,9 @@ bath quantity, not casting-solution additive wt%.
 
 Operator-selected `polymer_type`, `solvent_type`, `cosolvent_type`,
 `nips_bath_solvent`, `nips_bath_solvent_wt_percent`, stock compositions and locks
-are supplied constraints, not agent choices. Use the case's explicit current
-context. Do not fill old rows from current defaults or infer installed stocks
+are supplied constraints, not executable agent choices. Fixed settings still
+belong in scientific hypothesis/variable coverage and may motivate next-batch
+operator comparisons. Use the case's explicit current context. Do not fill old rows from current defaults or infer installed stocks
 from historical maximum concentrations.
 
 [run_loop.py](../../src/pipeline/run_loop.py) currently records Polysulfone,
@@ -263,14 +268,54 @@ Intersect stocks, numeric limits, material restrictions and campaign locks befor
 scientific design QA. An infeasible historical condition is not permission to
 repeat it under changed constraints. Never silently clamp a reviewed design.
 
-In the target workflow, analysis separates observations, interpretations and
-uncertainty; hypotheses retain IDs, evidence and revision reasons; design records
+Important-variable coverage also considers relevant protocol constants (including
+second-bath residence and dispensed volume), recorded air/coupon temperature and
+humidity, stock age/batch, acquisition/processing and preparation context. Ground
+these in actual source/approved operator facts, retain unknowns and distinguish
+setpoints from measurements. Link each important variable to reasoned claims or
+an explicit unlinked reason/reconsideration cue in shared `variables.md`; fixed
+or unvaried does not mean irrelevant, and unlinked does not mean linked-but-untested.
+Do not infer a causal residence-time effect from constant-time observations.
+
+In the target workflow, integrated inquiry or split analysis separates observations,
+interpretations and uncertainty; hypotheses retain IDs, evidence summaries and
+revision reasons; design records
 predictions, comparators and support/refutation/inconclusive outcomes; main records
 the selected hypothesis and final action. Preserve previous judgments, explain
 revisions and re-review affected conclusions. Main follows report/artifact paths
 and may return upstream. Run adopts exactly the feasible scientifically reviewed
 conditions; hold/stop has no executable next conditions. A report-only pilot does
 not submit an experiment even when its scientific recommendation is run.
+
+## Operator batches and recommendations
+
+An operator batch is an explicitly confirmed grouping of physical work/context,
+not automatically a campaign folder or a fixed number of rows. Source
+[robot.json](../../OT2_Server_2026-06-11/robot.json) configures nine coupons/rings;
+[protocol run_test](../../OT2_Server_2026-06-11/protocol-multithreaded.py) processes
+one coupon per request and fixes second-bath residence at `60 * 45` seconds.
+The request's `nips_bath_wait_time` is the first-bath time, a different quantity.
+Source capacity/constants are not evidence of current loading or completion.
+Bath composition is operator-prepared and casting additive may be locked.
+
+The [request journal](../../OT2_Server_2026-06-11/lib/request_server.py) returns
+202 for acceptance, then executes asynchronously. Its local failed/completed
+state is distinct from the protocol's successful processing callback; a failure
+can leave the PC without a completion callback. Silence does not identify depleted
+resources, normal batch completion or scientific optimization completion. Report
+unresolved execution and request human resource/prepared-setting checks before
+the next operation; never retry or alter physical state through this workflow.
+
+Main's `data/results/<campaign>/mas/batches/<batch-id>/summary.md` links the confirmed
+grouping/context, available observations and cumulative learning, unresolved
+execution and proposed next-batch comparisons. State a fixed-setting proposal's
+scientific reason, competing prediction, controls and required operator decision;
+it is not an executable field of the next coupon. Never change locks, baths or
+protocol residence from a recommendation. Constant 45-minute data cannot establish
+a time effect. An offline historical summary must be labeled report-only/candidate
+and must not invent a completed physical batch.
+
+## Preserved adapter records
 
 For compatibility only, the preserved adapter generates schemas from
 [Pydantic models](../../src/pipeline/mas_schema.py), including

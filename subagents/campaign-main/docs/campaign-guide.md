@@ -13,8 +13,10 @@ First distinguish a missing bank from a recurring observation turn. Main can ask
 the same hypothesis author/QA to bootstrap from allowed material/process/measurement
 context and actually read scientific sources before current-result access. No
 current-analysis PASS is required for that task. Keep actual initial predictions
-and exposure history. Do not leak withheld campaign outcomes through worked examples, prior
-science/status records or old data-derived claims, then call the bank prospective.
+and exposure history. Give fresh participants outcome-free constraints and factual
+protocol/measurement definitions, without old agent hypotheses/reports, worked
+causal answers or private outcomes. Do not follow outcome-bearing evidence links
+before reveal or call a retrospective account prospective.
 If prior exposure exists, disclose it. An honest withheld historical reveal still
 is not a prospective experiment or independent confirmation.
 
@@ -25,9 +27,12 @@ browse. Review material/process and loading/estimator applicability, competing
 physical directions and prerequisites; literature support elsewhere is not proof
 here. Neither source counts nor a fixed hypothesis-per-variable catalog is useful.
 
-After the bank exists, read its index and relevant/changed claims. Reveal authorized
-observations for analysis/review, then retain, revise or add accounts through
-hypothesis author/QA. Preserve old data-derived IDs and origin; do not force data
+Account for all known important tunables, fixed settings, constants and relevant
+context through `variables.md`; link reasoned claims or explain unlinked variables
+and reconsideration cues. Do not fill gaps with invented mechanisms. After the
+bank exists, reuse its index and relevant/changed claims. Reveal authorized
+observations to the integrated inquiry author/reviewer, then retain, revise or add
+accounts; a bounded split supplies separately authored analysis when required. Preserve old data-derived IDs and origin; do not force data
 to fit theory or relabel newly inspired ideas as initial predictions. Existing
 confounds motivate discrimination questions rather than excluding whole process
 axes. Selection/design follows reviewed knowledge; it is not bootstrap publication.
@@ -40,11 +45,12 @@ claims and open questions. Read the relevant stable claim files through shared
 was executed; a suggestion attached to source row A does not make A a test of B.
 When no prior prediction exists, label retrospective inference honestly.
 
-Ask analysis what process questions the authorized evidence can usefully address.
+Ask the inquiry author what process questions the authorized evidence can usefully address.
 The latest trajectory is a starting point, not the required selection. Look for
 relevant contrasts, informative failures, plausible control opportunities and
-transfer limits of historical data. A broad search over every variable is not
-required; let objective relevance and possible changed decisions guide discovery.
+transfer limits of historical data. Initial important-variable accounting is
+required; exhaustive reanalysis of every variable each turn is not. Let objective
+relevance and possible changed decisions guide the current comparisons.
 Do not extrapolate filtered warm maxima or mistake duplicate exports/specimens
 for independent confirmation.
 
@@ -57,12 +63,31 @@ session paths belong to the dispatch, not a repository test manual.
 
 ## Give authors and reviewers a substantive problem
 
-A useful analysis question asks which process relation or comparison could change
-the next decision, which controls support it and which alternatives remain. Supply
-actual source/claim paths, objective, current constraints, prior predictions and
-assigned write areas. Let the analyst choose artifacts; no figure roster is needed.
-Send the distinct reviewer originals and consequential artifacts, not just a
-summary. Route real findings to the author and read the repair and renewed review.
+Dispatch the existing updater as integrated inquiry author and hypothesis QA as
+independent integrated reviewer. Give the question/decision, original source and
+claim paths, relevant prior predictions, actual constraints and assigned areas.
+Let the author choose useful methods and artifacts. The reviewer receives originals
+and calculations, not just a narrative summary; it checks evidence and explanation.
+
+At initial handoff and after substantive draft/review, apply the workflow's
+[concrete routing criteria](../../../docs/mas/workflow.md#when-main-splits-and-rejoins-inquiry).
+When a trigger occurs, name the actual competing analysis choices/action consequence,
+missing/invalid analysis/model/evaluation method blocking the action, or observed QA
+finding. For a method gap, specify concrete construction/repair and validity check;
+no authored error is required. Routine CSV reading, arithmetic or making a figure
+with an applicable method is not by itself this trigger. Give the analyst bounded duties and
+evidence; keep explanation/history with the inquiry author. Record review coverage
+and what checked resolution permits rejoin. Integrated QA can cover both; justify
+focused analysis QA when extra method depth is needed. Do not make separation a
+substitute for missing data, or declare rejoin while unresolved choices still
+change the action. Preserve original analysis/predictions when repairing.
+
+Both authors use physical/chemical knowledge and data science. Ask which feature/
+response, nonlinear/interaction/regime/dispersion patterns matter, whether inputs
+co-vary, and which sensitivity or held-out/grouped validation supports a proposed
+action. In-sample model explanations do not establish cause or batch generalization.
+No algorithm, figure count or reviewer count beyond the needed independent coverage
+is a quota. Read actual findings, repairs and renewed review before selection.
 
 For hypothesis maintenance, ask why a particular intermediate/direction is plausible
 in this material/process sequence and what credible rival predicts differently.
@@ -85,7 +110,7 @@ recommended question with the strongest practical alternative found in the
 available evidence: what result could change judgment, are comparators credible,
 can the needed observation actually be obtained, and how does that learning matter
 to the objective? State the reason for priority without numerical utilities or
-an exhaustive hypothesis/variable inventory.
+exhaustive repeated analysis of the variable inventory.
 
 Separate three situations:
 
@@ -105,8 +130,10 @@ meaning changes, obtain a linked revised claim and affected review before design
 do not rename a mechanism test as an effect test after seeing an unfavorable result.
 
 Only main accepts/publishes reviewed shared changes in `hypotheses/<stable-ID>.md`
-and updates `index.md` navigation. Round evidence/update/review and claim files
-link both ways. Preserve old meanings and adverse evidence; a new round or another
+and updates `variables.md` / `index.md` navigation. Claim files summarize actual
+supporting/contrary observations and their interpretation/limits with links to
+original round inquiry (or split records) and review. Link both ways; one analysis
+may inform several claims without duplicating its text. Preserve old meanings and adverse evidence; a new round or another
 PASS is not a new measurement. You can accept a background account without selecting
 it. No publication permission means a pending proposal, not an improvised write.
 
@@ -126,26 +153,24 @@ novel point is not automatically useful. Choose neither a forced taxonomy nor
 invented effect thresholds. Main adopts exact reviewed values, with no post-QA
 clamping or operator-setting change.
 
-## Worked returns — hypothetical, not the campaign's answer
+## Return material issues and carry operator recommendations
 
-If design QA discovers that a historical comparator changes formulation as well
-as temperature, return that comparability question to analysis. Keep correct
-numbers while suspending dependent attribution, selection and run. After analysis
-QA, updater/QA reassess affected reasoning; main reselects and design resumes.
-A matched effect screen may still be useful, or hold may be appropriate if the
-essential context cannot be resolved. Do not rewrite history to save the point.
+A material comparability, calculation or explanatory defect suspends dependent
+selection/run. Return it to the inquiry author and distinct reviewer, apply split
+criteria where observed, and re-review affected design. Keep valid numbers and
+unaffected judgments; do not rewrite history or the reviewer's verdict. A missing
+essential constraint calls for hold with a concrete resumption need, not invented
+values. Stop needs a bounded scientific reason and supplies no executable values.
 
-If hypothesis QA passes a pair of cautious pathway stories that predict the same
-available properties, inspect whether the actual intended test can distinguish
-anything useful. Request motivation or a better process-question comparison when
-it cannot. Conversely, retain a well-justified limited process-effect test even
-if it leaves those pathways unresolved. Declining adoption does not authorize
-main to change the reviewer's PASS or invent an author repair.
-
-If stock/bath context needed for an informative test is unknown, hold with null
-conditions and a concrete resumption need. When evidence arrives, preserve the
-held decision and re-review affected judgments. If no informative feasible work
-is justified, stop with reasons; neither hold nor stop proves a global optimum.
+Review fixed-setting ideas separately from current executable choices. At an
+operator-confirmed batch boundary, link the actual grouping/context and cumulative
+learning in `mas/batches/<batch-id>/summary.md`, and state proposed next-batch
+comparisons, predictions, controls and required human decisions. Source capacity
+is not observed depletion/completion, and 202/no-callback cannot settle execution.
+Ask for resource/prepared-setting checks before further operation. Offline historical
+summaries remain clearly labeled report-only candidates; they claim no physical
+batch completion or installation. Use the data contract for first/second-bath,
+operator-prepared composition and lock distinctions.
 
 ## Complete the inquiry, not just its reviews
 

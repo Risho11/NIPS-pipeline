@@ -74,43 +74,29 @@ not silent reviewer repair. If current stock context is missing, do not certify
 physical feasibility from defaults. Mechanical validation supplements scientific
 review; it does not prove that the comparator or inference is valid.
 
-## Worked review: an explanatory concentration contrast
+## Review operator proposals separately
 
-The [designer guide](../../experiment-designer/docs/design-guide.md) proposes an
-explicitly hypothetical 16 wt% / 8 °C next point against a stipulated 14 wt% /
-8 °C comparator. It tests the proposed H-K exchange-limited architecture account
-against the stated H-S concentration-driven matrix-state alternative in
-[knowledge.md](../../../docs/mas/knowledge.md). Neither this example nor its
-feasibility supplies a real measured comparator or confirms physical settings.
+Recover the actual reviewed integrated inquiry (or split records), exact selected
+claim and intended inference. No example pathway or preset point supplies a real
+comparator or physical settings. Check actual observables and source applicability;
+request inspection of authorized original evidence before assuming a new assay is
+necessary. Changing claim meaning or measurement scope returns to main and affected
+inquiry review, not a silent repair to save a design.
 
-Independently verify the comparison and which observables actually exist.
-Both explanations predict higher modulus, so a modulus increase alone cannot
-support claimed mechanistic discrimination. Check that H-S explicitly changes
-the matrix's normalized material response through its hypothetical solvent-
-retention/plasticization pathway. Greater total polymer amount or thickness is
-not enough. Exchange/architecture evidence at comparable matrix state bears on
-H-K; retained-solvent and independently assessed matrix-modulus evidence at
-comparable architecture bears on H-S. Mass/thickness alone is not decisive, and
-the compression fit does not image architecture. If both pathways change, retain
-combined explanations. Ask for a feasible additional
-observable or a narrower property conclusion when necessary. Do not demand that
-H-K be confirmed before allowing it as a testable proposal.
+Fixed/operator-prepared settings and protocol constants belong in variable and
+hypothesis coverage even when they cannot change in the next executable condition.
+A proposed next-batch comparison needs a scientific reason, competing predictions,
+controls and explicit operator decision. It must not change a bath/lock/residence
+or become an extra current request field. First-bath wait is distinct from fixed
+45-minute second-bath residence; constant-time data do not establish a time effect.
 
-If required evidence is already in authorized original curves/photos/params or
-processing sources, request its inspection instead of defaulting to another
-synthesis. A coverage photo may settle placement but not the proposed pathway.
-If the necessary intermediate acquisition is only planned, require explicit
-operator/measurement authority and limits on what the next point alone tests.
-A revised hypothesis or observational scope returns through main and the affected
-updater/QA; the designer cannot silently replace the claim to rescue a point.
+Review batch summaries against confirmed grouping/context and observations. A
+report-only historical candidate must claim no physical completion. The configured
+nine-coupon capacity is not nine per request or confirmed current resources. A 202
+acknowledgment and no callback do not prove normal completion, depletion or global
+optimum; unresolved execution needs operator inspection through main.
 
-Check all eight settings, stock feasibility and fixed bath/material context
-separately. A different polymer concentration in a supposed temperature-only
-comparison or a changed bath could invalidate the discrimination. Route that
-source difference through main for analysis and reconsideration. Do not repair
-the author's candidate, canonical shared knowledge or comparator yourself.
-
-## Worked review: repeats, missing controls and false completion
+## Repeats, missing controls and false completion
 
 Suppose the draft calls another coupon from the same synthesis independent
 validation. Trace physical specimen/synthesis identity and ask for a design that

@@ -16,17 +16,28 @@ an agent's private operating memory. Main alone publishes scientifically reviewe
 changes within its authorized output root.
 
 Use `data/knowledge/<material>/index.md` as navigation and concise current context,
-with each stable claim in `data/knowledge/<material>/hypotheses/<stable-ID>.md`.
+with `variables.md` for variable coverage and each stable claim in
+`data/knowledge/<material>/hypotheses/<stable-ID>.md`.
 The index points to those records, their current bounded judgments and open
 questions; do not embed all claim bodies or full reports in the index. Each claim
-record preserves its meaning/scope, motivation, evidence and counterevidence,
-current judgment and revision history, linked to source rounds and actual review.
+record preserves its meaning/scope, related variables, conditions, motivation and
+original predictions. Summarize actual supporting and contrary observations there:
+what comparison showed, which prediction it bears on, the interpretation and
+remaining rivals/limits, with links to original round analysis and actual review.
+The file alone should explain the current judgment and revision history; bare
+references are insufficient. Initial records state theory, actual literature and
+expectations, with no target experimental evidence or round-analysis reference
+unless such evidence was actually used and its origin disclosed. One analysis
+may be referenced by several claims.
 Internal prose/layout is flexible; this path convention is not a hypothesis quota,
 fixed report schema, ontology or hash framework. A material directory name does
 not verify chemistry.
 
-Round analysis/update/review/design/decision artifacts live under the authorized
-`data/results/<campaign>/mas/rounds/<round-id>/`. Link the round's proposed change
+Round originals live under authorized `data/results/<campaign>/mas/rounds/<round-id>/`:
+`inquiry.md` / `inquiry-review.md` for integrated work, or `analysis.md` plus
+`hypothesis-update.md` with actual review coverage for split work. Design/review,
+`decision.md` and useful `artifacts/` remain there. These paths locate needed work,
+not mandatory empty files or a fixed prose schema. Link the round's proposed change
 to the shared claim and the accepted claim revision back to its evidence/review.
 Do not copy the entire knowledge base into every round. In temporary sessions both
 round and shared writes stay beneath the bound temporary root; the project stays
@@ -44,18 +55,21 @@ When no applicable bank exists, main asks the same hypothesis author and distinc
 QA to initialize it from material/process/measurement constraints, articulated
 physical reasoning and scientific sources actually read, before current outcomes
 are examined. Reviewed current analysis is not a prerequisite to this bootstrap.
-Consider meaningful process stages and interactions beyond the latest temperature/
-bath story, without one claim per variable or a prescribed bank size.
+Account for all known important process variables and fixed/context settings
+through the variable coverage below. Form process-centered explanations involving
+meaningful stages and coupled effects, without one claim per variable or a
+prescribed bank size. Initially unknown applicable ranges may stay unknown; later
+observations can locate regimes and motivate predictions for later evaluation.
 
 Preserve the initial meanings, conditional directions, prerequisites, rival
 predictions, sources and actual outcome exposure before revealing data. Do not
-follow worked examples containing withheld campaign outcomes, old science/status reports or data-derived
-claim files during an outcome-withheld bootstrap; supply allowed definitions or
-passages separately. If a participant already knows results, disclose that rather
+supply old agent hypotheses/reports, worked causal answers or private outcomes to
+fresh initialization participants. Supply only approved constraints and factual
+measurement definitions; outcome-bearing source links/sections await reveal. If a participant already knows results, disclose that rather
 than claiming an unexposed prior. Existing data-derived claims retain their IDs,
 history and retrospective origin; never erase or relabel them as initial theory.
 
-After authorized observations arrive, analysis and distinct review inform updates,
+After authorized observations arrive, integrated inquiry or reviewed split analysis informs updates,
 revisions and new ideas. Theory can be wrong; challenge it rather than force-fit
 results. Mark data-generated additions as such, distinguish exploratory use from
 an independent confirmatory test, and preserve old meanings when revising. Even
@@ -100,42 +114,53 @@ fraction is not an image of structure; coverage photos do not measure a cross-se
 A numeric modulus and passing fits do not by themselves certify material quality.
 Evaluate each claim/endpoint and shared quality dependencies using the data contract.
 
-## Hypothetical pathways illustrate form, not a default answer
+## Variable coverage
 
-For illustration only, suppose a PSf/PolarClean concentration change under fixed
-bath/exposure/stock context motivates H-K: changed dope flow resistance → delayed
-exchange → a more compact load-bearing architecture → higher modulus/lower
-compression-pore estimate. H-S instead proposes changed solidification/retained
-solvent → less-plasticized polymer matrix → higher intrinsic matrix slope at
-comparable architecture. These directions and intermediates are assumptions, not
-repository observations, literature findings or universal concentration laws.
-The example supplies no case-specific motivation or priority by itself.
+Keep `data/knowledge/<material>/variables.md` as one concise coverage record, linked
+from the index. Ground definitions, units and control status in approved operator
+context and [source definitions](data-contract.md#conditions-operator-authority-and-decisions).
+Consider all known important request tunables, operator-prepared/locked settings,
+relevant protocol constants and environmental/provenance variables. Record what
+is controllable now, fixed for the batch, measured, inferred or unknown; a code
+constant does not certify physical installation. Link relevant context sources.
+
+Map each considered variable to the applicable claim IDs or an explicit unlinked
+section with why no present account is justified and what observation/source would
+prompt reconsideration. Unlinked differs from linked-but-untested. Several variables
+may enter one pathway and one variable may enter competing pathways. Do not invent
+mechanisms to fill cells or create variable-per-file/one-claim-per-variable catalogs.
+Reuse this record, updating relevant mappings when knowledge or constraints change.
+
+Fixed settings can motivate a scientific hypothesis and a future operator
+comparison, even though they cannot enter the current executable condition.
+Unknown environments or preparation histories are not silently assigned values.
+
+## Conditional explanations and measurement meaning
+
+Give a physical/source reason for the proposed direction, credible competing
+processes and the domain in which one could dominate. Nonlinear, coupled or
+regime-dependent explanations are welcome when motivated; neither universal signs
+nor an optimum for every variable follows. Avoid a symmetric list in which every
+outcome supports some interchangeable story. Preserve distinguishing predictions;
+when data suggest a boundary, label that discovery and assess later predictions
+without retroactively changing the original forecast.
 
 The [producer](../../src/pipeline/curve_segmentation.py) normalizes load by area
 and displacement by thickness. In consistent units, `E = k * thickness / area`,
 with `k` the load-displacement slope; retain the producer's bar conversion.
 More total polymer or thickness alone does not establish increased normalized E.
-A structural or matrix-response change must be specified. Within this example
-only, “solid-loading account” denotes H-S's defined matrix-state proposal. A real
-main's different/undefined meaning requires clarification or an explicitly reviewed
-linked revision, never automatic substitution.
-
-Both pathways predict higher modulus, so that outcome alone does not discriminate.
-Exchange/architecture evidence at comparable matrix state could favor H-K; retained-
-solvent and independently assessed matrix-response evidence at comparable architecture
-could favor H-S. A separately authorized conditioning comparison might probe the
-matrix account only if architecture and other consequential conditions remain
-comparable. Mass/thickness alone is not decisive support. Mixed changes leave
-combined causes possible; reliable absence of a pathway's specified changes
-challenges that account. No solvent, matrix or morphology measurement is assumed
-available or authorized. Without it, a justified concentration-effect screen can
-inform a process relation while both pathways stay unresolved.
+Separate measured response, proposed internal process and actually measured
+intermediate. Agreement with an SS-curve/property prediction can inform process
+behavior without confirming internal morphology. Use available originals before
+requesting new acquisitions; additional assays are optional only when feasible,
+authorized and decision-critical.
 
 ## Review, publish and preserve history
 
-Bootstrap author/QA can work before current observations; later analysis examines
-actual outcomes against the preserved predictions and useful available contrasts.
-The updater drafts the round's proposed knowledge changes,
+Bootstrap author/QA can work before current observations. The default integrated
+updater later analyzes outcomes and develops explanations together; a triggered
+split supplies analysis under assigned independent review. Distinct hypothesis QA
+reviews consequential analysis and inference. The updater drafts proposed changes,
 retentions, rationale, rival predictions and recommended question priorities.
 Distinct hypothesis QA checks motivation and usefulness as well as source truth,
 status and identity. Main reads actual artifacts/findings and makes its own value
@@ -143,7 +168,7 @@ judgment before publication/selection; PASS is not a command to choose a claim.
 
 Authors draft only in assigned areas; reviewers keep separate findings and never
 repair canonical knowledge or author work. Main publishes accepted changes to
-the claim files and index, retaining previous meanings, judgments, negative evidence
+the claim files, variable coverage and index, retaining previous meanings, judgments, negative evidence
 and round links. If no shared-write authority exists, return a pending proposal.
 Stable meaning retains its ID; a changed mechanism, scope or prediction requires
 a linked new claim without silently inherited support. No new measurement means

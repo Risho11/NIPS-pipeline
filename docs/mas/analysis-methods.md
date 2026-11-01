@@ -8,6 +8,14 @@ assign authorship, scientific QA and main's final decision. It describes the
 target inquiry and isolated analysis work, not capabilities already provided by
 the preserved read-only, fixed-stage adapter.
 
+Default integrated inquiry and a triggered split both use data science and
+physical/chemical reasoning. The integrated author performs needed calculations;
+an analyst receives a bounded unresolved issue under the workflow's
+[split/rejoin criteria](workflow.md#when-main-splits-and-rejoins-inquiry), not every
+round by default. Initialization uses approved definitions/constraints without
+following evidence links to outcomes, prior agent answers or notebook outputs.
+The comparisons below apply after authorized observation access.
+
 Turn main's question into an assessable uncertainty: did the latest experiment
 contradict a prediction, is an apparent improvement robust to processing, can a
 temperature effect be separated from composition, or is another synthesis needed?
@@ -83,32 +91,56 @@ extrapolation, missing controls and limited independent coverage as limitations.
 A fitted surface is an analysis aid, not a mechanism or verified performance at
 an unexecuted point.
 
-## Work through an explanatory comparison
+## Let data science and physical reasoning challenge each other
 
-Use the explicitly hypothetical PSf/PolarClean concentration competition in
-[knowledge.md](knowledge.md). A joint concentration/temperature change could
-motivate exchange-limited architecture or matrix-state explanations, while
-isolating neither. First state the actual joint contrast and search authorized
-matched observations and originals. Do not stop at “confounded”: identify what
-each account would predict differently under a feasible matched comparison.
+Inspect question-relevant feature/response relations, local behavior, nonlinearity,
+interactions, regimes and dispersion alongside variable correlations and missing
+coverage. Input correlation means settings co-occur; effect interaction means a
+variable's response relation depends on another setting. A correlated campaign
+trajectory does not identify either a causal main effect or interaction merely
+because a model assigns importance. Locate matched/local contrasts and credible
+counterexamples; preserve simultaneous changes and unknown controls.
 
-If both predict higher modulus, that property alone is uninformative about their
-pathways. H-S specifically proposes altered solvent retention/plasticization and
-a higher matrix stress-strain slope at comparable architecture; more total polymer
-or thickness alone cannot explain the normalized modulus. Distinguish modulus
-from load-displacement stiffness. Pore estimates, solvent/matrix-state evidence,
-exchange timing and structural observations have different roles; mass/thickness
-are controls, not decisive pathway evidence. Establish what actually exists and
-what its method measures. Coverage photos and compression fits cannot fill every
-intermediate. Ask for a justified additional observable or narrow the inference
-if the available outputs coincide under the alternatives. Do not invent a
-mechanism's universal sign or a quantitative effect size to make a test decisive.
+Use physical/chemical reasoning to propose interpretable domains, competing
+processes and distinguishing predictions. Examine authorized raw SS curves,
+params, photos and non-objective mechanical descriptors when they could challenge
+those predictions. Shared curve-fit outputs are dependent evidence, not independent
+morphology measurements. Data can locate an initially unknown regime or suggest
+a new account; preserve the original forecast and label data-inspired refinements
+before testing later predictions. Avoid a story that changes to fit every result.
+Useful process behavior can be learned without full internal-mechanism identification.
 
-After an actual test, compare all relevant available outcomes with the recorded
-alternative predictions, retaining adverse and inconclusive components. Link
-the analysis to the round's proposed knowledge change; updater/QA assess shared
-claim status and main publishes it. Fit checks and reproducibility analysis
-support this inquiry when consequential, rather than obligatorily replacing it.
+Choose a model only for an actual question and available independent coverage.
+In observation analysis, [campaign_trends.ipynb](../../EVALUATE/campaign_trends.ipynb)
+contains ridge, cross-validated permutation importance, interaction products,
+linear SHAP and PCA examples. Inspect source choices when relevant, without
+executing it by default, copying its filters/plots or treating it as a mandatory
+suite. Linear coefficients and linear SHAP cannot demonstrate arbitrary nonlinear
+behavior; PCA describes input variance, and importance explains predictive use,
+not a causal direction. Consider a suitable nonlinear/local comparison when the
+question/data justify it, not a universal complex-model requirement.
+
+For decision-critical predictions, assess held-out predictive sufficiency relative
+to a relevant simple baseline, residual behavior and support of the proposed
+region. Keep preprocessing, feature/model selection and tuning inside the relevant
+training split. Do not leak specimens/processing variants of one synthesis across
+splits. Use verified synthesis, temporal or operator-batch grouping/generalization
+when relevant, and state unknown independence rather than inventing groups.
+Assess sensitivity/stability to defensible exclusions, strata, features and model
+choices, including correlated-feature attribution. Sparse coverage may justify a
+bounded descriptive conclusion instead of reliable validation. Repeated random
+splits alone do not establish new-batch generalization.
+
+If defensible choices still change the next variable/region/action, a missing or
+invalid decision-critical analysis/model/evaluation method blocks the next action,
+or actual QA finds selective evidence or moving explanations, tell main with exact
+evidence. For a method task identify what is missing/invalid, its action blocker,
+concrete construction/repair and validity check. Routine CSV reading, arithmetic or
+a figure using an applicable method alone is not that trigger; an actual method
+gap can justify split without an authored error. Main must apply the split
+contract and record duties, review coverage and the rejoin condition. Adding agents
+does not manufacture data. Additional SEM/assays are optional only if feasible,
+authorized and necessary for the current decision.
 
 ## Make the artifacts the question needs
 
@@ -133,80 +165,22 @@ trends through changed conditions. Explain the pattern a figure reveals and the
 alternatives it leaves unresolved. A figure's existence is not evidence that its
 source values or mechanism were checked.
 
-## Worked case: actual same-label outcomes
+## Preserve observations while testing interpretations
 
-In the [October campaign table](../../data/results/begins_2026-10-15/llm.csv),
-select exact names
-`14-0add-8deg-cosolv-none-bathSolv-none-0wt-120s-N2-1250s_run2` and
-`14-0add-8deg-cosolv-none-bathSolv-none-0wt-120s-N2-1250s_run3`.
-Stored values displayed rounded are:
+A descriptive difference can remain correct while factor attribution is withdrawn.
+Keep exact sources, processing versions, controls and sample identities; show how
+alternative defensible inclusion or fit choices affect the decision. Do not select
+an attractive variant to protect an explanation. Missing/failed fits do not mean
+zero performance, and unavailable secondary endpoints do not automatically erase
+or validate a primary contrast: inspect their shared quality dependencies.
 
-| Row suffix | Elastic Modulus Mean / SD (bar) | Pore Fraction Mean / SD |
-| --- | --- | --- |
-| `_run2` | 189.4164 / 9.2727 | 0.7150 / 0.0178 |
-| `_run3` | 171.4564 / 14.3412 | 0.6270 / 0.0223 |
-
-The second row is about 17.9600 bar lower in mean modulus and 0.0880 lower in mean
-pore fraction (8.80 percentage points). This is a difference between selected
-aggregate records. It is not a controlled temperature contrast: the labels share
-the same bath-temperature setting. Their SDs describe specimen dispersion, not
-uncertainty of the between-record difference.
-
-Before calling this a reproducibility failure, inspect specimen identity,
-acquisition and processing to establish whether these are independent syntheses
-or another representation of the same material. Then inspect exclusions and
-stock/environmental context. If independence is confirmed and the difference is
-decision-relevant, investigate variability or propose another controlled synthesis.
-If it cannot be established, retain the bounded observation and request provenance;
-do not claim either successful validation or disproven reproducibility. This
-comparison does not perform an experiment or select an actual next point.
-
-## Worked case: temperature and composition change together
-
-Hypothetical example, not repository measurements: A uses 14 wt% polymer and an
-8 °C bath and yields 180 bar; B uses 16 wt% and a 15 °C bath and yields 230 bar.
-Other conditions, quality and source identities also need checking. The 50 bar
-difference cannot isolate temperature because polymer content changed. A modulus
-versus bath-temperature graph alone would conceal that.
-
-Search for 14 wt% at both temperatures or 16 wt% at both, with matched bath
-chemistry, exposure, stock context and adequate quality. If none exists, a
-transparent comparison table can be the useful result: the combined change
-improved the observed outcome while both explanations remain compatible. Pass
-that distinction to hypothesis maintenance and main. Main can select a hypothesis
-and ask design for a feasible matched control rather than optimize an unidentified
-temperature trend. If design QA later discovers different bath-solvent content,
-return to analysis and reopen affected judgments.
-
-## Worked case: exclusions change the apparent ranking
-
-Hypothetical example: C has specimen modulus values 100, 110 and 300 bar. The
-300 bar estimate fails elastic-region fit quality. The pre-discard mean is
-170 bar and passing-only mean 105 bar. Comparator D has an observed mean of
-120 bar with adequate fitting evidence. C's apparent advantage changes with the
-documented exclusion.
-
-Inspect why the fit failed and whether thickness/contact or region selection
-explains the extreme estimate. Show both processing interpretations, counts and
-ranking consequence; do not choose a variant to favor C. Check other properties
-separately: post-discard thickness and 50 bar strain may include broader evidence,
-and pore fraction shares fit assumptions. Without original curves, ranking
-sensitivity is established but the exclusion's physical explanation is unresolved.
-Main may seek processing review, a better measurement or another synthesis.
-Deleting a failed fit neither proves poor material performance nor independently
-validates D's reproducibility.
-
-## Worked case: history cannot supply a missing control
-
-October example rows record a 0 wt% bath-solvent context; current source settings
-describe a PolarClean 10 wt% bath. Suppose main asks whether a point in the latter
-context will preserve a historical high modulus. Historical 0 wt% outcomes may
-motivate an explanation, but are not measured controls at 10 wt%. Source settings
-also do not establish the physical bath used. Request operator-confirmed case
-conditions and inspect material/stock provenance. Label extrapolation and ask
-what comparison would discriminate the bath effect. Do not relabel history,
-describe an unexecuted point as verified, or repeat a historical formulation that
-violates current stock feasibility or an additive lock.
+Prediction assessment uses actual executed conditions and preserved criteria,
+not improvement alone or thresholds invented after reveal. A model fit, a repeated
+review or reuse of generative data adds no independent confirmation. Link the
+round's analysis to each affected claim with a concise observation/interpretation/
+limit summary in the canonical record, preserving adverse evidence and original
+predictions. Integrated QA reviews the analysis and explanation; focused analysis
+QA may add methodological depth when main explicitly justifies it.
 
 ## Decide when to return the work
 
@@ -225,7 +199,7 @@ check consequential claims independently; writer self-checks are not acceptance.
 
 An informative action can be a repeat to assess independent variability,
 exploration to separate explanations, a local optimization test, a request for
-evidence, or hold/stop. Main chooses after hypothesis maintenance and selection,
+evidence, or hold/stop. Main chooses after reviewed inquiry and selection,
 predictions, design and relevant scientific QA. A performance decline can still
 discriminate a hypothesis. Do not force improvement, a new hypothesis or a
 global-optimum claim as the condition for useful analysis.

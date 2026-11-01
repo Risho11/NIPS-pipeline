@@ -6,7 +6,10 @@ units, processing and source identity, and
 [analysis methods](../../../docs/mas/analysis-methods.md) for common calculations.
 The [workflow](../../../docs/mas/workflow.md) explains main's decisions and
 scientific review. These methods describe target/pilot work; actual sandbox and
-output requirements still apply.
+output requirements still apply. Your assignment is a bounded split issue chosen
+by main under the workflow, with duties, evidence, review coverage and a concrete
+rejoin condition. The default integrated author can perform these methods itself;
+no separate analyst or analysis QA is mandatory every round.
 
 ## Turn the inquiry into an evidence comparison
 
@@ -56,9 +59,8 @@ contributing samples and fitting context: descriptors from shared curves/process
 are not independent microstructure evidence. Do not analyze every feature, refit
 or add assays by default.
 
-Use the hypothetical concentration accounts in
-[knowledge.md](../../../docs/mas/knowledge.md) only as illustrations, not evidence
-for this case. Modulus is normalized: total mass/thickness alone cannot establish
+Follow [knowledge.md](../../../docs/mas/knowledge.md) for claim meanings and
+variable coverage without importing worked causal answers. Modulus is normalized: total mass/thickness alone cannot establish
 a material-response change. Coverage photos do not image cross-sections. Discover
 and inspect consequential authorized originals before declaring them unavailable.
 Return source precision, inference limits, useful alternatives and question
@@ -94,65 +96,36 @@ visual inspection is unavailable, state which conclusions rely only on the table
 or computation. Existing deterministic plots are not a substitute for checking
 their underlying fields.
 
-## Worked handoff: modulus changes with temperature and polymer content
+## Resolve the bounded issue and hand it back
 
-Hypothetical example, not repository measurements:
+Use both physical/chemical reasoning and data science. Determine whether competing
+defensible preprocessing/strata/model choices change the action; check relevant
+nonlinear, interaction, regime and dispersion behavior without a fixed method suite.
+For method construction/repair, bind the missing/invalid analysis/model/evaluation
+method, blocked action, concrete task and validity check. Routine CSV reading,
+arithmetic or a figure with an applicable method alone is not a split trigger;
+a method gap does not require an authored error. Correlated inputs and response
+interaction differ. When predictions drive a
+choice, assess held-out sufficiency, independence/grouping and sensitivity using
+the shared analysis methods. Do not treat in-sample model explanations as cause.
 
-| Record | Polymer wt% | Bath temperature (°C) | Modulus (bar) |
-| --- | --- | --- | --- |
-| A | 14 | 8 | 180 |
-| B | 16 | 15 | 230 |
+If QA identifies a selection or processing error, preserve the initial result and
+explanation, repair affected comparisons and sweep artifacts sharing that cause.
+Inspect available originals before proposing new acquisition; missing per-specimen
+fields cannot be reconstructed by renaming columns. State unresolved evidence
+rather than inventing a method validation or another independent sample.
 
-Main asks whether higher bath temperature explains the increased modulus. The
-observed B-minus-A contrast is 50 bar. Dividing by the 7 °C difference would give
-about 7.14 bar/°C, but would falsely attribute the full joint change to temperature.
-Both polymer content and temperature changed; bath/material/stock context and
-quality also need checking.
-
-Begin with a condition comparison table. Search the supplied evidence for 14 wt%
-at both temperatures or 16 wt% at both, holding other consequential context
-comparable. If those observations exist, make the matched contrast and, if useful,
-a plot grouped by composition to expose whether the earlier pooled trend holds.
-If they do not, the defensible result is a combined observed change with no
-isolated temperature effect. Specify the missing matched contrast and what
-competing explanations it could distinguish, without selecting final conditions.
-
-That conclusion does not prohibit proposed process reasoning. A concentration-
-driven exchange account and the explicitly defined matrix-state account can be
-motivated while
-remaining unconfirmed. State their different predicted process/property outcomes
-and ask which source could discriminate them. Search authorized raw directories
-and params/plot_source linkage before asking for another measurement; if a source
-exists, read or inspect it rather than merely listing it as available.
-
-Send the source row identities, checked controls, comparison/artifact paths and
-qualified conclusion to main and analysis QA. Suppose QA notices that A's bath
-solvent content is unknown. Return to that source, revise the comparability claim,
-and explain whether the contrast remains descriptively valid. Request the bath
-record through main if needed. A repair can retain the 50 bar observation while
-withdrawing temperature attribution. Main can then reconsider hypotheses/design;
-the analyst does not quietly adopt a new test point.
-
-## Worked response to an exclusion finding
-
-Use the shared methods guide's explicitly hypothetical 100, 110, 300 bar case:
-pre-discard mean 170 bar, passing-only mean 105 bar after the extreme estimate's
-fit failure. If QA finds that a draft compared the first mean against a
-post-discard comparator, inspect both source variants and revise the comparison
-at a consistent documented processing basis. Show sensitivity where the choice
-changes ranking rather than choose the attractive version.
-
-Review other figures/tables that consumed the same selected values. If original
-curves cannot be obtained, retain the documented sensitivity and the unresolved
-fit explanation. Do not invent a pore-fraction reconstruction from empty specimen
-fields or rewrite stored measurements. Main may need processing evidence or
-another physical measurement; analysis alone cannot guarantee reproducibility.
+Return exact sources, alternatives checked, method/artifact locations and the
+consequence for the next variable/region/action. Integrated QA may review both
+authors; main may explicitly justify focused analysis QA. Main rejoins only after
+the issue has a checked bounded resolution and independent affected review, while
+persistent constraints remain visible. Unresolved action-changing choices keep
+the issue open or require evidence/hold.
 
 ## Prediction agreement is different from improvement
 
-Hypothetical prediction: changing a process increases compression-estimated pore
-fraction while reducing modulus, with a specified comparator and criteria. If
-that pattern is observed, lower modulus is not automatically a failed prediction.
+Evaluate the preserved observable prediction and comparator/criteria. Lower
+objective performance is not automatically a failed prediction.
 Check execution, quality and criteria first; then report agreement, disagreement
 or inconclusive evidence for the predicted observations. Formal hypothesis status
 and selection remain with hypothesis maintenance/QA and main. Shared curve-fit

@@ -7,6 +7,9 @@ or a demand to reproduce every sentence. Consult the shared
 [analysis methods](../../../docs/mas/analysis-methods.md) for domain facts; use the
 [workflow](../../../docs/mas/workflow.md) for main's routing and affected review.
 Actual runtime permissions govern any independent calculation/artifact work.
+Main assigns focused methodological depth when justified; integrated hypothesis QA
+can otherwise use these checks across split contributions without another mandatory
+reviewer. Bind the actual analysis issue and rejoin condition, not a report quota.
 
 ## Bind the claim to the question and candidate
 
@@ -53,11 +56,10 @@ answers the question.
 
 ## Seek a counterexample and assess comparison validity
 
-Check explanatory usefulness as well as exclusion arithmetic. For the proposed
-concentration pathway in [knowledge.md](../../../docs/mas/knowledge.md), ask which
-links are measured, borrowed from an actually read applicable source, or inferred.
-If both alternatives predict increased modulus, a correct modulus plot alone
-does not discriminate them. Constructively request a relevant intermediate or
+Check explanatory usefulness as well as exclusion arithmetic. Using actual claim
+meanings from [knowledge.md](../../../docs/mas/knowledge.md), distinguish measured
+links, applicable sources actually read and inference. If alternatives predict
+the same available response, a correct response plot alone does not discriminate. Constructively request a relevant intermediate or
 qualify what the existing properties test; do not require a confirmed mechanism
 before allowing its proposal, or accept caveats as a complete answer to an
 unanswered process question.
@@ -83,44 +85,32 @@ from failure to obtain a reliable property estimate. Do not treat every missing
 value as a physical failure or every lower performance result as an unsuccessful
 scientific test.
 
-## Worked review: temperature attribution without matched evidence
+## Check method choices and decision consequences
 
-Hypothetical author draft: A at 14 wt% polymer and 8 °C has modulus 180 bar; B at
-16 wt% and 15 °C has 230 bar. The draft attributes the 50 bar increase to bath
-temperature. Independently confirm the original values and that both variables
-changed; inspect bath composition and quality as additional possible confounders.
-An attractive modulus-versus-temperature plot cannot isolate the factor.
+Compare defensible preprocessing, exclusions, strata and model alternatives when
+they could change the next variable/region/action. For a method-triggered assignment,
+check the missing/invalid analysis/model/evaluation method, blocked next action,
+concrete construction/repair and validity check. Routine CSV reading, arithmetic
+or a figure with an applicable method alone is not that trigger; an authored error
+is not required for a real method gap. Reproduce consequential validation or repair
+independently; do not validate only a script against its own
+summary. For prediction-driven choices, check a relevant baseline, held-out
+sufficiency, preprocessing/tuning leakage, grouping by verified synthesis and
+relevant time/batch generalization. Unknown identity and scarce independent data
+remain limits; repeated random splits cannot create independent experiments.
 
-A concrete blocking finding could say: the stated temperature effect is not
-identified because polymer content also changed; this attribution supports the
-proposed hypothesis direction. Request a matched comparison at fixed polymer
-content with consequential context checked. If no such comparison exists, ask
-for a descriptive joint-change conclusion and the missing discriminating evidence,
-not an invented temperature slope or a mandatory statistical test.
+Inspect nonlinear/local/regime and dispersion claims against available coverage.
+Input correlation differs from effect interaction; linear coefficients/SHAP, PCA
+and feature importance do not establish nonlinear causation. Seek adverse evidence
+and whether an account moves its domain or analysis choices to avoid challenge.
+Report actual selective evidence or moving explanations through main; preserve
+original predictions and do not invent a fault to exercise routing.
 
-After main returns the repaired candidate, inspect the cited search/comparison
-and any revised figure. If no matched data exist and the author explicitly
-withdraws causal attribution, the 50 bar descriptive contrast can pass with that
-scope and residual uncertainty. Tell main that dependent temperature-hypothesis
-support/selection/design may need reconsideration. Do not independently choose a
-replacement hypothesis or final experimental conditions.
-
-## Worked review: a correct mean can still support the wrong comparison
-
-In the shared guide's hypothetical exclusion case, 100, 110 and 300 bar average
-to 170 bar; removing the failed 300 bar fit leaves 105 bar. Recomputing 170 alone
-would not validate a ranking against a comparator whose values were post-discard.
-Trace each variant and failure rationale, inspect relevant fit evidence, and
-request a consistent comparison plus sensitivity where the ranking changes.
-The same discrepancy can affect multiple tables/figures; ask the analyst to find
-and repair that whole affected set, then check consequential repairs.
-
-If original curves are absent, do not invent validation of the exclusion's
-physical reason. A report can correctly show sensitivity and an unresolved
-fit-quality question. That supports a bounded analysis, while an unqualified
-claim of superior material or validated reproducibility remains blocking.
-Your review notes/calculations stay in your own authorized area; author repair
-is returned through main, never performed by rewriting the candidate.
+Give the checked resolution and action consequence, or the exact unresolved
+analysis alternatives and needed evidence. Main may rejoin only after the bounded
+issue is resolved within explicit limits and affected independent review is complete.
+Your focused method judgment does not automatically accept the full explanation,
+choose a new hypothesis or approve executable conditions.
 
 ## Distinguish blockers from uncertainty and finish usefully
 

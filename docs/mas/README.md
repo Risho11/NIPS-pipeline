@@ -11,21 +11,22 @@ Production Python integration remains separate work.
 ## Scientific inquiry
 
 One persistent [campaign main](../../subagents/campaign-main/AGENTS.md) follows
-observations, hypotheses, predictions and open questions. Reviewed analysis
-informs hypothesis maintenance and main's selection; predictions and competing
-explanations inform design; the reviewed feasible design informs the final
-run/hold/stop decision. The same MAS updates shared material/process knowledge,
-then selects and designs the next informative test. Seek process variable →
-proposed process/structure → property explanations and competing predictions;
-rank persistence and fit/repeatability checks need not answer that inquiry.
-Choose explore, optimize or repeat for the information needed, without forcing
-a new hypothesis or promising improved performance.
+knowledge initialization, observations, explanations and experiment choices.
+By explicit dispatch, the existing hypothesis updater performs integrated analysis
+and explanation with distinct hypothesis QA. Main applies concrete
+[split/rejoin criteria](workflow.md#when-main-splits-and-rejoins-inquiry) when a
+bounded analysis issue needs the analyst; separate stage authors are not a
+prerequisite every turn. Both routes combine data science and physical/chemical
+reasoning. Main selects the question and publishes accepted knowledge; designer
+and distinct design QA assess the informative, feasible test before run/hold/stop.
+Choose explore, optimize or repeat for the evidence need without forcing a new
+hypothesis, a method suite or improved performance.
 
 Use the [workflow](workflow.md) for collaboration and upstream returns, the
 [data contract](data-contract.md) for measurements/provenance/constraints, the
 [analysis methods](analysis-methods.md) for question-led calculations and figures,
 and the [campaign guide](../../subagents/campaign-main/docs/campaign-guide.md)
-for decision examples.
+for routing and decision guidance.
 
 Use [shared knowledge](knowledge.md) to separate canonical material/process
 claims and bounded history from each round's evidence update and decision.
@@ -35,20 +36,26 @@ photos, params and plots before declaring evidence missing. Keep measurements,
 actually read literature and proposed inference distinct; unmeasured morphology
 does not become observed merely because a property direction agrees.
 
-Main directs three author/independent scientific-QA pairs:
+Existing author/reviewer pairs serve these dispatches; focused analysis QA is optional
+when main justifies additional methodological depth:
 
 | Author and methods | Distinct reviewer and checks |
 |---|---|
-| [Experiment analyst](../../subagents/experiment-analyst/AGENTS.md) · [Analysis guide](../../subagents/experiment-analyst/docs/analysis-guide.md) | [Analysis QA](../../subagents/experiment-analysis-qa/AGENTS.md) · [Review checklist](../../subagents/experiment-analysis-qa/docs/review-checklist.md) |
-| [Hypothesis updater](../../subagents/hypothesis-updater/AGENTS.md) · [Hypothesis guide](../../subagents/hypothesis-updater/docs/hypothesis-guide.md) | [Hypothesis QA](../../subagents/hypothesis-qa/AGENTS.md) · [Review checklist](../../subagents/hypothesis-qa/docs/review-checklist.md) |
+| Triggered split: [Experiment analyst](../../subagents/experiment-analyst/AGENTS.md) · [Analysis guide](../../subagents/experiment-analyst/docs/analysis-guide.md) | Integrated hypothesis QA covers both contributions; optional focused [Analysis QA](../../subagents/experiment-analysis-qa/AGENTS.md) · [Review checklist](../../subagents/experiment-analysis-qa/docs/review-checklist.md) |
+| Default integrated inquiry or assigned hypothesis update: [Hypothesis updater](../../subagents/hypothesis-updater/AGENTS.md) · [Hypothesis guide](../../subagents/hypothesis-updater/docs/hypothesis-guide.md) | [Hypothesis QA](../../subagents/hypothesis-qa/AGENTS.md) · [Review checklist](../../subagents/hypothesis-qa/docs/review-checklist.md) |
 | [Experiment designer](../../subagents/experiment-designer/AGENTS.md) · [Design guide](../../subagents/experiment-designer/docs/design-guide.md) | [Design QA](../../subagents/experiment-design-qa/AGENTS.md) · [Review checklist](../../subagents/experiment-design-qa/docs/review-checklist.md) |
 
 Return material findings through main to the affected author and reviewer;
 preserve earlier judgments and re-review dependent conclusions. Keep flexible
-Markdown analysis, hypothesis-update, design and final-decision records without
+Markdown inquiry (or split analysis/update), design and final-decision records without
 a report-file quota, and a readable index linking artifacts, revisions, actual
 QA findings and unresolved evidence. No fixed figure roster, whole-report JSON echoes,
-all-report hash gate or parentage framework is required.
+all-report hash gate or parentage framework is required. Shared knowledge uses
+an index, `variables.md` (linked and explicitly unlinked coverage) and stable
+hypothesis files with concise evidence assessments and round references. Actual
+operator batches have summaries and proposed next-batch fixed-setting comparisons;
+report-only candidates claim no physical completion. See the
+[records convention](workflow.md#records-are-navigable-and-revisable).
 
 Run adopts exactly the scientifically reviewed feasible conditions. Hold names
 the missing evidence/review/operator need and a condition for reconsideration;

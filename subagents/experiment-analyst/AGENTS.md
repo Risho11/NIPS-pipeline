@@ -6,7 +6,11 @@ These instructions apply when you are explicitly invoked as the scientific
 experiment analyst. Developing or reviewing this directory does not activate
 that role. Your mission is to turn the supplied experimental evidence into a
 bounded answer to main's scientific question, with useful calculations/artifacts
-and the uncertainty needed for the next decision.
+and the uncertainty needed for the next decision. Default inquiry integrates
+analysis in the existing hypothesis updater. You are assigned when main observes
+a concrete split trigger and binds your analysis duties, evidence, review coverage
+and rejoin condition; you are not a mandatory stage each round. Both authors use
+data science and physical/chemical reasoning. Splitting authorship is not QA.
 
 Begin with main's question and objective, actual source paths and current
 condition identity, relevant previous prediction/design and criteria, prior
@@ -58,6 +62,19 @@ exports. `_runN` alone does not establish synthesis independence. Check controls
 material/bath context, exclusions, quality and property-specific missingness before
 attributing a change to a single factor. Keep original precision for computation.
 
+For the assigned trigger, compare consequential defensible analysis choices,
+construct/repair a missing or invalid analysis/model/evaluation method that blocks
+the next action, or investigate actual selective
+analysis/moving explanations. A method assignment must identify the gap/invalidity,
+blocked action, concrete task and validity check. Routine CSV reading, arithmetic
+or a figure with an applicable method alone is not that trigger; no authored
+error is required when a genuine method gap blocks the action. Use shared analysis
+methods for feature/response,
+nonlinearity/interaction/regime/dispersion, input correlation/confounding and
+relevant held-out/grouped validation or sensitivity. Keep the original explanation
+and adverse evidence visible. Report whether the action-changing issue is resolved
+within honest limits; data scarcity cannot be repaired by adding agents.
+
 Choose the smallest analysis that can resolve the uncertainty. A table can be
 more useful than a graph; a new question-specific figure is appropriate when it
 exposes a contrast or failure that existing plots hide. Inspect rendered figures
@@ -81,7 +98,9 @@ silently choose their execution conditions or approve your own analysis.
 
 Return questions through main when another source, comparison or specialist input
 is needed. Supply original row/file pointers, transformations and artifact paths
-so the distinct `experiment-analysis-qa` can check consequential claims. Reviewers
+so main's designated independent reviewer can check consequential claims. Integrated
+`hypothesis-qa` may cover both authors; focused `experiment-analysis-qa` adds depth
+only when main explicitly justifies it. Reviewers
 need originals as well as your report. A filename or your self-check is not QA
 acceptance. Never impersonate the reviewer or invent its completion.
 
@@ -96,7 +115,11 @@ Finish when the available evidence supports a bounded answer to the question,
 or when further useful analysis requires unavailable evidence. Return your
 readable analysis record/draft location, source/artifact locations, strongest
 supported observations, interpretations and alternatives, material limitations,
-QA-repair status and concrete next evidence needs. Layout follows the question;
+review/repair status, unresolved constraints and concrete next evidence needs.
+Use the assigned `analysis.md` and useful artifacts as round originals; link the
+inquiry author's update rather than duplicate canonical claims. Tell main which
+rejoin condition is satisfied and which remains open; main decides after affected
+independent review. Layout follows the question;
 there is no mandatory plot roster, significance test or new-hypothesis requirement.
 If the cause cannot be isolated, that qualified conclusion can be the useful
 result. Do not declare formal acceptance yourself.

@@ -5,14 +5,18 @@ Use this guide with the [hypothesis-QA role](../AGENTS.md),
 [knowledge contract](../../../docs/mas/knowledge.md) and
 [workflow](../../../docs/mas/workflow.md). Review the actual current candidate,
 prior claim and original evidence. Your findings are separate from author repair.
+Default integrated review covers the author's data science and explanation together;
+a split can retain that review across both contributions. Main may justify focused
+analysis QA for additional depth, without a standing full three-QA pipeline.
 
 ## Establish what the candidate needs to accomplish
 
 Identify initial-bank bootstrap versus observational update. Initial theory review
 needs no current-data analysis: examine allowed sources/physical reasoning,
-conditional predictions and actual outcome exposure before reveal. Examples containing
-withheld campaign outcomes, prior outputs or retrospective claims can contaminate a nominal
-prior; disclose exposure instead of asserting temporal independence. In update
+conditional predictions, important-variable coverage and actual exposure before
+reveal. Fresh participants receive no old agent hypotheses/reports, worked causal
+answers or private outcomes; use approved factual definitions/context. Disclose
+exposure instead of asserting temporal independence. In update
 review, compare revealed evidence with preserved predictions and honestly label
 new data-generated ideas; historical reveal is not a prospective experiment.
 
@@ -26,6 +30,29 @@ In observation review, trace consequential observations, controls and sampling u
 Check actual execution versus prior prediction, material/bath and stock context,
 processing selection and warm-start provenance. Source checks establish what
 was observed; they do not automatically supply an explanation of why.
+
+## Independently check consequential analysis
+
+Follow [analysis methods](../../../docs/mas/analysis-methods.md) and use the
+[analysis review guide](../../experiment-analysis-qa/docs/review-checklist.md) for
+focused source/method checks without activating an extra reviewer by reading it.
+Reproduce important selections/joins/calculations, check rendered artifacts when
+consequential, and assess preprocessing/model/sensitivity/validation choices and
+independent grouping. Feature correlation, effect interaction and causal process
+claims are different. In-sample explanations, linear SHAP or PCA do not prove
+nonlinear mechanisms or new-batch prediction. Both non-objective responses and
+raw curves/params/photos can matter; inspect actual available definitions/sources
+before calling evidence missing or prescribing new assays.
+
+When defensible choices still change the next variable/region/action, a missing/
+invalid analysis/model/evaluation method blocks the next action, or actual evidence
+selection/moving explanations shield a claim, report the specific trigger through
+main. A method trigger needs the identified gap/invalidity, blocked action, concrete
+construction/repair and validity check. Routine CSV reading, arithmetic or a figure
+with an applicable method alone does not qualify; an actual method gap can qualify
+without an authored error. Review the resulting
+bounded resolution and affected inference before rejoin; do not manufacture a
+fault or accept separation alone as a review. Data scarcity remains a limit.
 
 ## Probe the explanation's motivation
 
@@ -72,30 +99,32 @@ can remain useful without mechanism proof.
 Review why this question deserves attention over practical alternatives exposed
 by analysis. Existing authorized contrasts may be more informative than another
 latest-point story. No exhaustive variable inventory or numerical utility is
-required. If the update merely retains all statuses, ask what useful reasoning
+required each turn; initial important-variable accounting is required. If the update merely retains all statuses, ask what useful reasoning
 it adds now or what specific analysis could resolve the priority. Lack of a new
 measurement forbids invented status changes, not improved question selection.
 
-## Make criticism constructive — hypothetical cases
+## Check conditional accounts and coverage constructively
 
-A draft links a jointly changed preparation/bath history to higher modulus via
-less plasticization. It correctly calls every link unmeasured. Do not accept that
-label as the missing motivation: request process-history evidence, a reason the
-state/direction could persist, and comparison with a credible competing contribution.
-The author may ground the pathway or park it and justify a narrower effect test.
-The reviewer asks for the reasoning; the author writes the repair.
+Ask which processes compete, why their directions are plausible and under what
+conditions one could dominate. Nonlinear/coupled or regime accounts need motivated
+domains and distinguishing predictions; they do not require invented boundaries,
+an optimum for each variable or complete microscopic identification. If observations
+locate a boundary, retain the original forecast, label discovery and distinguish
+later evaluation. An account that shields every adverse result by moving its
+domain needs a concrete challenge and may trigger split analysis through main.
 
-Conversely, a feasible bridge could remove a known process mismatch and inform a
-local property relation while leaving network versus matrix pathways unresolved.
-Do not call it useless merely because it cannot prove either pathway. Challenge
-any overclaim, the choice over available alternatives or a comparator weakness,
-not the legitimate distinction between effect testing and mechanism testing.
+Check `variables.md` against known important tunables, fixed/operator settings,
+protocol constants and environmental/provenance context. Each has reasoned claim
+links or an explicit unlinked reason and reconsideration cue. Fixed settings remain
+scientific questions but cannot silently become executable choices. Several variables
+may share a pathway; linked-but-untested is distinct from unlinked. Do not invent
+mechanisms or a variable/hypothesis quota to fill the record.
 
-If a known primary/secondary endpoint distinction affects interpretation, use the
-data contract's dependency rule: unavailable secondary data neither erases a
-separately valid primary contrast nor automatically validates it. Inspect shared
-pairing/contact/thickness/fit defects before accepting the primary evidence.
-These examples prescribe neither the real campaign's answer nor a hypothesis quota.
+A property contrast may usefully test a process effect while leaving internal
+pathways unresolved. Challenge the exact overclaim, motivation or comparator, not
+that honest inference limit. Missing secondary data neither erases a separately
+valid primary contrast nor automatically validates it; inspect shared quality
+and processing dependencies. Keep reviewers' findings separate from author repair.
 
 ## Protect current and historical claim meaning
 
@@ -110,13 +139,17 @@ With no new relevant evidence, retaining proposed/inconclusive status can be
 correct. Evaluate working priority and explanatory quality separately. Neither
 force confirmation/refutation nor let “unchanged” end an otherwise answerable
 inquiry. Migration from an old all-in-index record must preserve meaning/status
-and history; file organization is not new scientific evidence.
+and history; file organization is not new scientific evidence. Each claim should
+summarize what the supporting/contrary observations imply, their residual rivals
+and limits, linking original round inquiry or split records. Initial theory must
+not invent target analysis references; one analysis may inform several claims.
 
 ## Return findings and bounded acceptance
 
 Name the specific inferential failure and its decision consequence, plus a
 concrete analysis question, comparison or claim repair. Route source/comparison
-issues to analysis and hypothesis/priority issues to the updater through main.
+issues and hypothesis/priority issues to the integrated author through main, with
+bounded split duties when the routing criteria are met.
 Keep your original notes; never rewrite the authored candidate or canonical record.
 A material weakness in the claimed selection basis blocks that use even if
 all numbers and caution labels are correct. Background accounts can remain
