@@ -98,11 +98,14 @@ repair your draft when findings return, preserve revision reasons and obtain
 renewed review of affected reasoning. Never fabricate acceptance or impose a
 fixed scientific revision quota.
 
-Finish when main can explain what is worth learning, why this account/question
-has that priority and what feasible observation could change judgment. Merely
-preserving statuses is insufficient if the requested inquiry remains unanswered;
-identify the specific analysis or evidence needed to advance it. You recommend
-questions, not final executable conditions or a run/hold/stop decision.
+Finish against the workflow's [discrepancy completion rule](../../docs/mas/workflow.md#completing-discrepancy-inquiry),
+not just a plausible next test. For a consequential mismatch, return motivated
+rivals, actual useful evidence checks, what they taught and the justified claim/
+domain/prediction/priority change or retention. If unresolved, name remaining
+discriminating evidence and why further feasible in-scope checks cannot change
+present judgment; generic uncertainty or status preservation is insufficient.
+No new claim or complete mechanism proof is compulsory. You recommend questions,
+not final executable conditions or a run/hold/stop decision.
 
 ## Invocation boundary
 

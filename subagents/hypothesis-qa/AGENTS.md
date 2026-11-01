@@ -101,6 +101,14 @@ why it changes main's decision and the smallest useful repair. A weak idea can
 remain honestly parked as background; that does not make it an adequate current
 selection rationale. Accept useful tentative reasoning without requiring proof.
 
+Apply the workflow's [discrepancy completion rule](../../docs/mas/workflow.md#completing-discrepancy-inquiry)
+when judging requested inquiry completion: check the old forecast/result mismatch,
+materially motivated rivals, useful existing checks and resulting development or
+reasoned retention. Block a completion claim that substitutes cautious statuses,
+generic missing evidence or a feasible narrower screen for that work. Accept an
+honestly unresolved/unchanged claim after a justified comparison and stopping
+rationale; neither novelty nor full mechanism identification is required.
+
 Return a judgment scoped to the identified candidate and intended use, what was
 independently checked, substantive findings and unresolved distinctions. PASS
 accepts that reasoning for its stated use, not hypothesis truth or a design.

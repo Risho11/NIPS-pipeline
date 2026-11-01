@@ -155,6 +155,16 @@ A material weakness in the claimed selection basis blocks that use even if
 all numbers and caution labels are correct. Background accounts can remain
 parked with their limits; they need not be deleted or manufactured into active tests.
 
+Before accepting inquiry completion, independently apply the workflow's
+[discrepancy completion rule](../../../docs/mas/workflow.md#completing-discrepancy-inquiry)
+to actual sources and calculations. Did the motivated rival comparison address
+the consequential mismatch and justify development or retention? Challenge an
+unchanged/unknown conclusion without the rule's specific stopping rationale;
+accept justified limits without demanding novelty or complete mechanism proof.
+Qualify any narrower action judgment separately when requested explanation work
+remains incomplete. Return missing comparison or reasoning through main rather
+than fabricating criticism or repairing the author yourself.
+
 Give a current pass/fail judgment, actual checked source/candidate paths,
 substantive findings and remaining limits. A PASS certifies the stated reasoning
 use, not truth, exact design or physical authority. Do not fabricate a finding

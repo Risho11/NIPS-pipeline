@@ -106,6 +106,8 @@ only in unavailable assays, retain them as unresolved possible accounts. Do not
 present a property screen as their mechanistic discriminator. A narrower process-
 effect test can still be worthwhile when its result changes a process decision;
 state its limited inference and why it takes priority over practical alternatives.
+Apply the workflow's [discrepancy completion rule](workflow.md#completing-discrepancy-inquiry)
+before treating that narrower action as completion of requested explanation work.
 Keep contextual and combined causes possible when supported, without creating a
 mandatory hypothesis for each variable or a new mechanism every turn.
 
@@ -162,6 +164,11 @@ updater later analyzes outcomes and develops explanations together; a triggered
 split supplies analysis under assigned independent review. Distinct hypothesis QA
 reviews consequential analysis and inference. The updater drafts proposed changes,
 retentions, rationale, rival predictions and recommended question priorities.
+For a consequential discrepancy, link the original forecast and adverse observation
+to the actual rival comparison: what was learned, what remains unidentified, and
+why meaning/domain/prediction/priority changes or stays. A changed substantive
+claim keeps a linked predecessor and data-generated origin; status bookkeeping
+alone does not supply that development. Justified retention needs no new claim.
 Distinct hypothesis QA checks motivation and usefulness as well as source truth,
 status and identity. Main reads actual artifacts/findings and makes its own value
 judgment before publication/selection; PASS is not a command to choose a claim.

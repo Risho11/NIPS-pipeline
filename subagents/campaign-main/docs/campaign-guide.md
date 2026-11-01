@@ -174,12 +174,19 @@ operator-prepared composition and lock distinctions.
 
 ## Complete the inquiry, not just its reviews
 
-Read the actual final record, review findings and source/analysis artifacts.
-Explain what was learned from existing evidence, what this next result could
-change, why it outranks a practical alternative and which mechanism questions
-remain open. All PASS with an unhelpful inquiry is not the endpoint: return the
-consequential weakness to the appropriate author/reviewer or report the genuine
-limit. Do not force endless speculative changes when the bounded question is useful.
+Read actual final records, findings and source/analysis artifacts against the
+workflow's [discrepancy completion rule](../../../docs/mas/workflow.md#completing-discrepancy-inquiry).
+Check what the rival comparison taught and why the claim/domain/prediction/priority
+changed or stayed, separately from whether the next condition is useful/feasible.
+A narrower screen and unresolved mechanisms may coexist, but choosing the screen
+cannot bypass consequential explanation work. Return missing work to the integrated
+author and distinct QA; do not broaden a limited PASS into inquiry completion.
+
+A justified end names the checks actually performed, their implications, the
+remaining discriminating evidence and why further feasible in-scope analysis would
+not change present judgment. Retention/unknown may then be legitimate; no invented
+successor or endless alternative enumeration is needed. If material work remains,
+report incomplete/hold rather than imply that caveats or budget ended the science.
 
 Keep records/figures/scripts where authorized, preserve superseded versions and
 use a readable index for navigation. Run adopts the exact reviewed condition;

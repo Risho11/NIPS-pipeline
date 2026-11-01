@@ -183,6 +183,44 @@ accounts, not an actionable mechanistic discriminator. A justified narrower
 process-effect screen may still be useful. Preserve exact claim meaning when
 stating that inference ceiling; changing the claim requires affected review.
 
+## Completing discrepancy inquiry
+
+A consequential discrepancy can change a claim's explanation, domain, prediction,
+priority or next decision: an opposite/mixed direction, conditional shift or
+unstable effect may qualify. Do not treat every noisy difference as a new mechanism.
+For the relevant discrepancy, recover the exact earlier forecast/comparison and
+actual result, with its conditions and quality limits. Develop credible process,
+context or measurement rivals motivated in the actual material/process, and say
+which observable expectations distinguish them under those conditions. Do not
+invent a pathway merely to populate alternatives or enumerate them without limit.
+
+Perform the useful checks that authorized existing evidence permits before
+calling the distinction indeterminate. Choose relevant raw/fit/quality/context or
+stratified evidence and feasible calculations for the rival predictions; no model,
+figure, assay or hypothesis count is required. Explain what the checks showed
+between rivals, what remains unidentified, and what should change in the claim,
+domain, prediction or priority, or why it should remain. Preserve original
+forecasts and adverse evidence; substantive successor meanings get linked IDs
+and honest data-generated origins, without independent confirmation from reuse
+of the same data. Unsupported conditional rescue is not hypothesis development.
+
+Main checks inquiry completion separately from next-action feasibility. Correct
+numbers, cautious labels, unchanged statuses or a feasible narrower process-effect
+screen cannot close requested explanation work while a consequential discrepancy
+remains unexamined. The screen may still be useful; state that limited action
+judgment without claiming broader inquiry completion. Independent QA must cover
+the requested explanation work as well as the action's reasoning scope.
+
+A justified end to in-scope analysis names the specific existing checks performed,
+their implications, the remaining discriminating evidence and why further feasible
+in-scope checks would not change present judgment. Retention or an unresolved
+mechanism can be sufficient on that basis; neither novelty nor complete mechanism
+identification is required. If no rival has adequate motivation, explain that
+limit rather than manufacture one. Missing-evidence prose alone is insufficient.
+Record the rationale in existing inquiry/review/decision records, without a new
+layout or report. A budget cutoff or pending material work is incomplete/hold,
+not evidence of scientific completion.
+
 ## Scientific roles and collaboration
 
 | Dispatch / author role | Responsibility | Independent scientific reviewer |

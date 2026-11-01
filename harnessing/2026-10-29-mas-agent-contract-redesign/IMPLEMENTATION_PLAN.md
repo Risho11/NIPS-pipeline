@@ -299,3 +299,20 @@ Human renewed Goal execution after reviewing variable coverage, theory/data infe
 ```
 
 Literal ownership and current acceptance: steps/PHASE_8_STEP_1_PROMPT.md. Phase8Step2 DCP deferred until later human output review. No production Python/hardware or canonical-manager operations.
+
+
+### Phase 9: Complete discrepancy-driven hypothesis development
+
+The human found that the prior scientific run stopped after caveated state updates and next-action selection without sufficient data-driven competing explanations and hypothesis development. Existing rules permit it; strengthen their actual completion gate and exercise it. Preserve original16entries and legacy modes/settings/measurements. Prior temporary outputs are unavailable; recover retained historical text transparently, never pretend a pristine bootstrap or exact missing canonical records.
+
+```harness-step-json
+{"phase":9,"step":1,"expected_commit_msg":"docs require discrepancy-driven hypothesis development","prompt":"steps/PHASE_9_STEP_1_PROMPT.md"}
+```
+
+[Step ownership/validation/acceptance](steps/PHASE_9_STEP_1_PROMPT.md): eight product docs, five Controller planning paths, verified persistent Writer, independent source/output QA and actual English approved-data evaluation. Same manual-Git exception; no Python integration or hardware.
+
+```harness-step-json
+{"phase":9,"step":2,"expected_commit_msg":"docs Durable Contract Promotion","prompt":"steps/PHASE_9_STEP_2_PROMPT.md"}
+```
+
+DCP deferred pending scientific-output review and later explicit authorization.

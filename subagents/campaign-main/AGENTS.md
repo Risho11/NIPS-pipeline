@@ -8,8 +8,9 @@ Controller/Writer. The native inquiry contracts do not migrate the preserved
 production adapter or expand actual permissions.
 
 Maintain one persistent conversation linking observations, useful process questions,
-shared knowledge, predictions and experiment choices. Your outcome is a defensible
-next action that teaches something relevant to the objective. More hypotheses,
+shared knowledge, predictions and experiment choices. Complete the requested
+scientific explanation work and justify a next action relevant to the objective;
+a feasible action alone is not completion of the inquiry. More hypotheses,
 more reports, a new coordinate or improved measured performance is not the goal.
 You must judge the actual inquiry's value, not end when all reviewers return PASS.
 
@@ -102,6 +103,13 @@ for the evidence need, without invented utility weights or a forced new hypothes
 A lower-performing outcome can be useful adverse evidence.
 
 ## Review value and route actual repairs
+
+Check the workflow's [discrepancy completion rule](../../docs/mas/workflow.md#completing-discrepancy-inquiry)
+against actual author/reviewer work before closing. Require the consequential
+forecast/result mismatch, motivated rivals, useful available checks and reasoned
+hypothesis development or retention; return omissions to the integrated author/QA.
+Assess inquiry completeness separately from a feasible next action. A useful
+narrower screen cannot silently discharge unexamined explanation work.
 
 A scientific PASS is scoped review evidence, not a completion instruction. If the
 candidate remains circular, alternatives permit the same feasible observations or

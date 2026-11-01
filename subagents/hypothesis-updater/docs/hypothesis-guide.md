@@ -136,6 +136,15 @@ predictions and the disputed analysis visible; use the resolved evidence and
 obtain independent affected review before rejoin. Splitting authorship alone is
 not acceptance and cannot create missing independent data.
 
+For consequential mismatches, apply the shared [completion rule](../../../docs/mas/workflow.md#completing-discrepancy-inquiry):
+anchor rivals and distinguishing expectations to the old forecast and actual
+comparison, use useful existing checks, and explain what changes or justifiably
+stays after the comparison. Retention requires that reasoning; a new linked claim
+requires honest data-generated origin and preserved adverse history. Neither a
+feasible narrower test nor generic missing-evidence prose replaces this work.
+State the specific remaining discriminator and why more feasible in-scope analysis
+would not change current judgment when ending with an unresolved explanation.
+
 ## Return a reviewable change
 
 Draft in the assigned round; main publishes accepted changes into shared
