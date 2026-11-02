@@ -316,3 +316,7 @@ The human found that the prior scientific run stopped after caveated state updat
 ```
 
 DCP deferred pending scientific-output review and later explicit authorization.
+
+## Phase 10 — whole-dataset scientific synthesis
+
+Step 1 strengthens scope-sensitive completion/QA and exercises all approved warm/current observations through actual English inquiry, reviewed hypothesis updates and substantive repair/rerun. Literal ownership and validation: steps/PHASE_10_STEP_1_PROMPT.md. Original18plan entries preserved. Step2DCP remains deferred; no production integration or physical execution.

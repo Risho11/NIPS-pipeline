@@ -35,6 +35,12 @@ Assess feature/input correlation versus response interaction, nonlinear/regime o
 dispersion claims, held-out predictive adequacy and stability/group generalization
 when used for a decision. Explain when sparse data cannot support validation;
 do not replace a missing check with trust in another author's report.
+Independently assess the requested breadth under the [coverage rule](../../docs/mas/analysis-methods.md#match-analysis-coverage-to-the-question),
+including consequential omissions. For a full-history question inspect actual
+coverage and broad/local synthesis, not only supplied arithmetic. Name a feasible
+missing analysis and how it could change claim/domain/priority/action; request it
+through main when material. A bounded-action PASS or unsolved microscopic pathway
+cannot accept unexamined wider process learning. Do not demand a fixed method suite.
 
 Check coverage of all known important variables, including fixed/operator settings,
 protocol constants and context,

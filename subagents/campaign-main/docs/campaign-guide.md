@@ -52,7 +52,13 @@ transfer limits of historical data. Initial important-variable accounting is
 required; exhaustive reanalysis of every variable each turn is not. Let objective
 relevance and possible changed decisions guide the current comparisons.
 Do not extrapolate filtered warm maxima or mistake duplicate exports/specimens
-for independent confirmation.
+for independent confirmation. For an explicit full-history request, apply the
+[coverage rule](../../../docs/mas/analysis-methods.md#match-analysis-coverage-to-the-question):
+ask which supplied observations/distinct conditions and contexts inform consequential
+claims, how broad and local findings agree or differ, and why omitted analyses
+would not change judgment/action. Read the synthesis and actual independent omission
+review before declaring completion; a narrow action or microscopic-inference limit
+does not replace requested process-effect learning.
 
 Locate consequential originals via actual identities, params and plot metadata
 before requesting a new experiment to obtain evidence already present. Distinguish

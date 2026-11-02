@@ -164,6 +164,15 @@ nonlinear, interaction, dispersion and validation reasoning. No fixed method sui
 forced new hypothesis or improved-performance requirement applies. A decline can
 be informative, while a fitted association alone does not identify a mechanism.
 
+Main binds the requested breadth and applies the shared [analysis coverage rule](analysis-methods.md#match-analysis-coverage-to-the-question).
+An explicit full-history question requires synthesized broad and conditional
+evidence, not only a local discrepancy or an internal-mechanism limit. Main
+justifies actual scope and omissions against consequential claim judgments/actions;
+independent QA checks feasible missing analyses as well as supplied calculations.
+A bounded-action PASS does not accept a wider unexamined inquiry. Reuse accepted
+relevant summaries for routine updates rather than require exhaustive work every
+round, but do not silently narrow a newly requested reassessment.
+
 Choose explore/optimize/repeat after identifying the information needed. Explain
 why separating explanations, testing a promising local tradeoff or measuring
 independent repeatability is justified now. Main retains hypothesis and next
@@ -211,9 +220,11 @@ remains unexamined. The screen may still be useful; state that limited action
 judgment without claiming broader inquiry completion. Independent QA must cover
 the requested explanation work as well as the action's reasoning scope.
 
-A justified end to in-scope analysis names the specific existing checks performed,
-their implications, the remaining discriminating evidence and why further feasible
-in-scope checks would not change present judgment. Retention or an unresolved
+A justified end to in-scope analysis names the actual coverage/checks and their
+implications, remaining discriminating evidence and why further feasible available-
+data checks would not alter the claim judgment or next action. An unresolved
+microscopic mechanism alone is insufficient if process/property learning remains
+possible within the requested scope. Retention or an unresolved
 mechanism can be sufficient on that basis; neither novelty nor complete mechanism
 identification is required. If no rival has adequate motivation, explain that
 limit rather than manufacture one. Missing-evidence prose alone is insufficient.

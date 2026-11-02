@@ -33,6 +33,40 @@ original curves/photos/params/plot metadata via the [data contract](data-contrac
 before declaring evidence absent. Read current accepted knowledge and report
 which prior prediction the latest actual result does or does not test.
 
+## Match analysis coverage to the question
+
+For an explicitly requested full-history assessment, account for all supplied
+historical/current records at their appropriate observation units, distinct
+conditions and contexts; do not silently replace that scope with selected local
+pairs. Explain actual coverage, source mappings/processing versions, exclusions,
+missing or selected outcomes, and how repeated conditions influence weighting.
+Show which observations and applicable contexts inform each consequential claim;
+record count is not independent evidence or generalizability.
+
+Synthesize useful whole-dataset and conditional feature/response patterns with
+local comparisons. Investigate consequential disagreement between broad and local
+findings, including plausible nonlinear/interaction behavior, support, batch/time/
+material context or selection effects, rather than choosing the convenient view.
+The absence of exact matches limits isolation, not every conditional/exploratory
+assessment. Distinguish association, predictive utility, conditional process-effect
+evidence and microscopic mechanism identification. Confounding qualifies numerical
+learning; it does not establish that no learning is possible. Failure to prove an
+internal intermediate alone cannot close an available-data process question.
+
+Choose summaries, models or sensitivities only when they could change a claim,
+domain, priority or action, using the comparison/validation guidance below.
+A defensible assessment may need no model or new hypothesis; no algorithm/plot
+suite, exhaustive variable sweep or statistically significant result is required.
+Link traceable numeric findings, both supporting and adverse, to the claim
+assessment, its stability/applicability and remaining limits. A generic caution
+or a list of files does not supply that synthesis.
+
+For routine updates, carry forward accepted relevant summaries and identify their
+scope; revisit them when new evidence, context or the question invalidates their
+use. Do not rerun every historical analysis or copy the full bank each turn.
+A newly requested broad reassessment still needs justified coverage of that scope;
+an earlier narrow result cannot silently stand in for it.
+
 ## Build a defensible comparison
 
 Locate the supplied CSV headers and numeric values. Trace material claims to a
@@ -184,8 +218,9 @@ QA may add methodological depth when main explicitly justifies it.
 
 ## Decide when to return the work
 
-Continue when a feasible check of available evidence could change the comparison,
-hypothesis status or experiment choice: resolve a duplicate source, inspect an
+Apply the [coverage rule](#match-analysis-coverage-to-the-question) before ending.
+Continue when a feasible omitted check of available evidence could change the
+comparison, claim/domain/priority or experiment choice: resolve a duplicate source, inspect an
 exclusion, or locate a matched historical row. Do not generate figures merely
 because uncertainty remains. When available analysis cannot resolve the material
 gap, name the needed measurement, provenance or discriminating experiment and

@@ -24,6 +24,12 @@ record preserves its meaning/scope, related variables, conditions, motivation an
 original predictions. Summarize actual supporting and contrary observations there:
 what comparison showed, which prediction it bears on, the interpretation and
 remaining rivals/limits, with links to original round analysis and actual review.
+For a broad-history reassessment, apply the [analysis coverage rule](analysis-methods.md#match-analysis-coverage-to-the-question)
+and synthesize actual broad and local numeric findings, both supporting and adverse,
+with consequential stability/applicability
+limits and original analysis links. Explain how that evidence changes or justifies
+retaining the claim/domain/prediction/priority; neither a missing microscopic
+intermediate nor unchanged labels replaces the assessment.
 The file alone should explain the current judgment and revision history; bare
 references are insufficient. Initial records state theory, actual literature and
 expectations, with no target experimental evidence or round-analysis reference

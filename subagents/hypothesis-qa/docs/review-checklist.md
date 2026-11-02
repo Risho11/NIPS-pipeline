@@ -54,6 +54,22 @@ without an authored error. Review the resulting
 bounded resolution and affected inference before rejoin; do not manufacture a
 fault or accept separation alone as a review. Data scarcity remains a limit.
 
+For an explicit full-history inquiry, independently apply the shared
+[coverage rule](../../../docs/mas/analysis-methods.md#match-analysis-coverage-to-the-question).
+Inspect which supplied records/distinct conditions, repeats and contexts actually
+inform consequential claims, and reconcile broad/conditional findings with local
+ones. Check material exclusions, missing/selected outcomes and stability, not only
+the calculations the author chose to show. Identify a feasible omitted analysis,
+its evidence basis and the judgment/action it could alter; perform a targeted
+independent check when useful, then route necessary author work through main.
+A correct narrow report cannot pass as whole-inquiry completion with that gap.
+
+Do not require a model/plot suite, novelty or microscopic proof. Accept no-model
+or unchanged outcomes after a real synthesis and justified limit. For incremental
+work, inspect reused accepted summaries for applicable scope instead of requiring
+full-history reruns. Distinguish a genuine need for new evidence from available-data
+process learning left undone; limited mechanistic inference alone does not settle it.
+
 ## Probe the explanation's motivation
 
 Ask why the named process could change the stated intermediate in this material,

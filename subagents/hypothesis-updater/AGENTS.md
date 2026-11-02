@@ -104,8 +104,13 @@ rivals, actual useful evidence checks, what they taught and the justified claim/
 domain/prediction/priority change or retention. If unresolved, name remaining
 discriminating evidence and why further feasible in-scope checks cannot change
 present judgment; generic uncertainty or status preservation is insufficient.
-No new claim or complete mechanism proof is compulsory. You recommend questions,
-not final executable conditions or a run/hold/stop decision.
+For a full-history request, meet the [analysis coverage rule](../../docs/mas/analysis-methods.md#match-analysis-coverage-to-the-question)
+with actual broad/conditional and local evidence synthesis linked to affected claim
+assessments. Justify consequential omissions; a microscopic-identification limit
+alone does not end useful existing-data analysis. Carry accepted relevant summaries
+for incremental updates and revisit invalidated scope. No new claim or complete
+mechanism proof is compulsory. You recommend questions, not final executable
+conditions or a run/hold/stop decision.
 
 ## Invocation boundary
 

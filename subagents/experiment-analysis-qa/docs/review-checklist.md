@@ -112,6 +112,16 @@ issue is resolved within explicit limits and affected independent review is comp
 Your focused method judgment does not automatically accept the full explanation,
 choose a new hypothesis or approve executable conditions.
 
+Within main's assigned review scope, assess consequential omissions under the
+[analysis coverage rule](../../../docs/mas/analysis-methods.md#match-analysis-coverage-to-the-question)
+as well as supplied calculations. If the task is full-history assessment, inspect
+actual coverage and broad/conditional versus local synthesis. Name an omitted
+feasible analysis and its possible effect on claim judgment/action rather than
+accepting a microscopic-inference limit as a reason to skip process learning.
+Check targeted evidence independently when useful and return missing author work
+through main. Do not unilaterally widen a focused assignment or require a fixed
+model/figure roster; qualify that bounded review separately from wider completion.
+
 ## Distinguish blockers from uncertainty and finish usefully
 
 A blocker is a defect or missing essential support that could change the claimed

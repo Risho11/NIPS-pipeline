@@ -145,6 +145,14 @@ feasible narrower test nor generic missing-evidence prose replaces this work.
 State the specific remaining discriminator and why more feasible in-scope analysis
 would not change current judgment when ending with an unresolved explanation.
 
+For a broad reassessment, apply the [coverage rule](../../../docs/mas/analysis-methods.md#match-analysis-coverage-to-the-question)
+and connect whole-history/conditional findings with local comparisons before
+returning claim changes or reasoned retention. Reconcile consequential disagreement
+and show numeric support/contrary evidence and relevant stability limits. Absence
+of an exact match or unobserved intermediate limits inference, not all exploratory
+process learning. State what useful omitted check could still change judgment;
+do not replace requested breadth with a familiar narrow contrast.
+
 ## Return a reviewable change
 
 Draft in the assigned round; main publishes accepted changes into shared

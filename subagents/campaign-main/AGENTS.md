@@ -110,6 +110,11 @@ forecast/result mismatch, motivated rivals, useful available checks and reasoned
 hypothesis development or retention; return omissions to the integrated author/QA.
 Assess inquiry completeness separately from a feasible next action. A useful
 narrower screen cannot silently discharge unexamined explanation work.
+Bind an explicit full-history request to the [analysis coverage rule](../../docs/mas/analysis-methods.md#match-analysis-coverage-to-the-question):
+require broad/conditional evidence synthesis and justified scope for consequential
+claims, and independently reviewed omissions that could change judgment/action.
+Do not accept an internal-mechanism limit as completion while available-data process
+learning remains. Routine updates may reuse accepted relevant summaries.
 
 A scientific PASS is scoped review evidence, not a completion instruction. If the
 candidate remains circular, alternatives permit the same feasible observations or
