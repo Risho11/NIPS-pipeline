@@ -1,0 +1,145 @@
+[2026-10-30 15:17:35] [master_processing] active branches: ['curve_segmentation', 'image_processing']
+
+[2026-10-30 15:17:41] server listening on 169.254.230.148:8000
+
+[2026-10-30 15:17:41] Generating first experiment from warm-start history: C:\Users\opentrons\Documents\Auto-Membranes\data\warm_start\primospire_nmp.csv
+
+[2026-10-30 15:17:41] [llm] destination=https://openrouter.ai/api/v1/ stage=next-experiment-recommendation attempt=1/5 timeout=60s
+
+[2026-10-30 15:17:55] [llm] stage=next-experiment-recommendation connection_error=[Errno 11001] getaddrinfo failed
+
+[2026-10-30 15:17:55] [llm] stage=next-experiment-recommendation retry_in=375s
+
+[2026-10-30 15:19:59] Traceback (most recent call last):
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_transports\default.py"[0m, line [35m101[0m, in [35mmap_httpcore_exceptions[0m
+    yield
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_transports\default.py"[0m, line [35m250[0m, in [35mhandle_request[0m
+    resp = self._pool.handle_request(req)
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection_pool.py"[0m, line [35m256[0m, in [35mhandle_request[0m
+    raise exc from None
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection_pool.py"[0m, line [35m236[0m, in [35mhandle_request[0m
+    response = connection.handle_request(
+        pool_request.request
+    )
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection.py"[0m, line [35m101[0m, in [35mhandle_request[0m
+    raise exc
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection.py"[0m, line [35m78[0m, in [35mhandle_request[0m
+    stream = self._connect(request)
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_sync\connection.py"[0m, line [35m124[0m, in [35m_connect[0m
+    stream = self._network_backend.connect_tcp(**kwargs)
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_backends\sync.py"[0m, line [35m207[0m, in [35mconnect_tcp[0m
+    with [31mmap_exceptions[0m[1;31m(exc_map)[0m:
+         [31m~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^[0m
+[2026-10-30 15:19:59]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\contextlib.py"[0m, line [35m162[0m, in [35m__exit__[0m
+    [31mself.gen.throw[0m[1;31m(value)[0m
+    [31m~~~~~~~~~~~~~~[0m[1;31m^^^^^^^[0m
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpcore\_exceptions.py"[0m, line [35m14[0m, in [35mmap_exceptions[0m
+    raise to_exc(exc) from exc
+[2026-10-30 15:19:59] [1;35mhttpcore.ConnectError[0m: [35m[Errno 11001] getaddrinfo failed[0m
+[2026-10-30 15:19:59] 
+The above exception was the direct cause of the following exception:
+
+[2026-10-30 15:19:59] Traceback (most recent call last):
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_base_client.py"[0m, line [35m1019[0m, in [35mrequest[0m
+    response = self._send_request(
+        request,
+        stream=stream or self._should_stream_response_body(request=request),
+        **kwargs,
+    )
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_client.py"[0m, line [35m400[0m, in [35m_send_request[0m
+    return [31mself._send_with_auth_retry[0m[1;31m(request, stream=stream, **kwargs)[0m
+           [31m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_client.py"[0m, line [35m378[0m, in [35m_send_with_auth_retry[0m
+    response = super()._send_request(request, stream=stream, **kwargs)
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_base_client.py"[0m, line [35m947[0m, in [35m_send_request[0m
+    return [31mself._client.send[0m[1;31m(request, stream=stream, **kwargs)[0m
+           [31m~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_client.py"[0m, line [35m914[0m, in [35msend[0m
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_client.py"[0m, line [35m942[0m, in [35m_send_handling_auth[0m
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_client.py"[0m, line [35m979[0m, in [35m_send_handling_redirects[0m
+    response = self._send_single_request(request)
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_client.py"[0m, line [35m1014[0m, in [35m_send_single_request[0m
+    response = transport.handle_request(request)
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_transports\default.py"[0m, line [35m249[0m, in [35mhandle_request[0m
+    with [31mmap_httpcore_exceptions[0m[1;31m()[0m:
+         [31m~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^[0m
+[2026-10-30 15:19:59]   File [35m"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3824.0_x64__qbz5n2kfra8p0\Lib\contextlib.py"[0m, line [35m162[0m, in [35m__exit__[0m
+    [31mself.gen.throw[0m[1;31m(value)[0m
+    [31m~~~~~~~~~~~~~~[0m[1;31m^^^^^^^[0m
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\httpx\_transports\default.py"[0m, line [35m118[0m, in [35mmap_httpcore_exceptions[0m
+    raise mapped_exc(message) from exc
+[2026-10-30 15:19:59] [1;35mhttpx.ConnectError[0m: [35m[Errno 11001] getaddrinfo failed[0m
+[2026-10-30 15:19:59] 
+The above exception was the direct cause of the following exception:
+
+[2026-10-30 15:19:59] Traceback (most recent call last):
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\llm_retry.py"[0m, line [35m18[0m, in [35mcreate_chat_completion[0m
+    return [31mcaller.chat.completions.create[0m[1;31m(**request)[0m
+           [31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^[0m
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_utils\_utils.py"[0m, line [35m287[0m, in [35mwrapper[0m
+    return func(*args, **kwargs)
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\resources\chat\completions\completions.py"[0m, line [35m1211[0m, in [35mcreate[0m
+    return [31mself._post[0m[1;31m([0m
+           [31m~~~~~~~~~~[0m[1;31m^[0m
+        [1;31m"/chat/completions",[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^[0m
+    ...<47 lines>...
+        [1;31mstream_cls=Stream[ChatCompletionChunk],[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    [1;31m)[0m
+    [1;31m^[0m
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_base_client.py"[0m, line [35m1314[0m, in [35mpost[0m
+    return cast(ResponseT, [31mself.request[0m[1;31m(cast_to, opts, stream=stream, stream_cls=stream_cls)[0m)
+                           [31m~~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\openai\_base_client.py"[0m, line [35m1054[0m, in [35mrequest[0m
+    raise APIConnectionError(request=request) from err
+[2026-10-30 15:19:59] [1;35mopenai.APIConnectionError[0m: [35mConnection error.[0m
+[2026-10-30 15:19:59] 
+During handling of the above exception, another exception occurred:
+
+[2026-10-30 15:19:59] Traceback (most recent call last):
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m964[0m, in [35m<module>[0m
+    first_params = _new_campaign_params()
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\run_loop.py"[0m, line [35m557[0m, in [35m_new_campaign_params[0m
+    suggestion = llm_context.generate_warm_start_suggestion(
+        LLM_AL_WARM_START_CSV, activeLearning,
+    ...<3 lines>...
+        exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
+    )
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\llm_context.py"[0m, line [35m495[0m, in [35mgenerate_warm_start_suggestion[0m
+    return _suggest_from_history(
+        history, activeLearning, "", locked_additive_wt,
+        al_search_mode, exploration_history_points, material_context,
+    )
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\llm_context.py"[0m, line [35m532[0m, in [35m_suggest_from_history[0m
+    params_suggestion = suggest(
+        performance_observations, quality_observations=format_prompt_numbers(quality_observations),
+    ...<2 lines>...
+        diversity_context=diversity_context,
+    )
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\activeLearning_29.py"[0m, line [35m194[0m, in [35mLLM_AL_modulus_pore_fraction[0m
+    return _llm_al(
+        system_prompt.ACTIVE_LEARNING_MODULUS_PORE_FRACTION_PROMPT_TEMPLATE,
+    ...<2 lines>...
+        pore_fraction_observations=pore_fraction_observations,
+    )
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\activeLearning_29.py"[0m, line [35m225[0m, in [35m_llm_al[0m
+    response = create_chat_completion(client, stage="next-experiment-recommendation",
+        model=Model,
+    ...<5 lines>...
+        temperature=Temperature
+    )
+[2026-10-30 15:19:59]   File [35m"C:\Users\opentrons\Documents\Auto-Membranes\src\pipeline\llm_retry.py"[0m, line [35m28[0m, in [35mcreate_chat_completion[0m
+    [31mtime.sleep[0m[1;31m(WAIT_SECONDS)[0m
+    [31m~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^[0m
+[2026-10-30 15:19:59] [1;35mKeyboardInterrupt[0m

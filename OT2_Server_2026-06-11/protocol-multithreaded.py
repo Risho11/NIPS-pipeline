@@ -346,7 +346,7 @@ def run_test(param = None):
     nitrogen = parameters["nitrogen"]
     coupon_to_bath_wait_time = parameters["coupon_to_bath_wait_time"]
     nips_bath_time = parameters["nips_bath_wait_time"]
-    second_bath_time = 60 * 45 # always 45 minutes
+    second_bath_time = 60 * 30 # always 30 minutes
     desired_weight_percent = parameters["polymer_wt"]
     desired_additive_percent = parameters["additive_wt"]
     total_vol = 1000 # volume is always 1000
@@ -496,6 +496,7 @@ def run_test(param = None):
 
     # move coupon to the camera 2nd bath
     xArm.pick_up("coupon bath", pitch = False)
+    time.sleep(2) # 2 sec sleep between bath
     xArm.put_down("2nd bath", pitch = False)
 
     # start timer
@@ -507,6 +508,7 @@ def run_test(param = None):
     second_timer_process.join()
     armLock.acquire()
     xArm.pick_up("2nd bath")
+    time.sleep(2) # 2 sec sleep between bath
     xArm.put_down("coupon camera tester", pitch = False)
     xArm.currentZone = "middle" # speed up process
     xArm.close_camera_box()

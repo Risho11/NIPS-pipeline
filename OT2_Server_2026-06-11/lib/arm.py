@@ -119,30 +119,30 @@ positions = {
 
         "pullcast start waypoint": [215, -540+3, 240, 180, 20, 0],
         "pullcast start": [215, -540+3, 224, 180, 20, 0],
-        "pullcast start pulldown": [215, -540+3, 223.9, 180, 20, 0],
-        "pullcast end pulldown": [110, -540+3, 223.9, 180, 20, 0],
+        "pullcast start pulldown": [215, -540+3, 223.5, 180, 20, 0],
+        "pullcast end pulldown": [110, -540+3, 223, 180, 20, 0],
         "pullcast end waypoint": [110, -540+3, 240, 180, 20, 0],
         
         "coupon angled waypoint": [300, -468, 300, 180, 45, -90],
         "coupon angled": [300, -468, 248, 180, 45, -90],
         
         "cap waypoint": [300, -394, 240, 180, 0, -90],
-        "cap hover": [300, -449, 251, 180, 30, -90],
-        "cap": [300, -489-2, 261, 180, 45, -90],
+        "cap hover": [300, -449, 255, 180, 30, -90],
+        "cap": [300, -489-2, 265, 180, 45, -90],
         "coupon bath cap": [265, -230, 119, 180, 45, -90],
         
-        "coupon bath waypoint": [262, -227, 240, 180, 45, -90],
-        "coupon bath": [262, -227, 113, 180, 45, -90], # slight offset to correct positioning issue
+        "coupon bath waypoint": [262, -232, 240, 180, 45, -90],
+        "coupon bath": [262, -232, 113, 180, 45, -90], # slight offset to correct positioning issue
         
         "cap stand waypoint": [70, -304, 300, 180, 65, 0],
-        "cap stand": [0, -304, 213, 180, 45, 0],
+        "cap stand": [0, -304, 208, 180, 45, 0],
         "cap bath waypoint": [264, -230, 240, 180, 45, -90],
         "cap bath": [264, -242, 135, 180, 40, -90]
     },
     "middle": {
-        "coupon bath waypoint": [262, -227, 240, 180, 45, -90],
+        "coupon bath waypoint": [262, -232, 240, 180, 45, -90],
         #"coupon bath cap": [270, -230, 119, 180, 45, -90],
-        "coupon bath": [262, -227, 115, 180, 45, -90],
+        "coupon bath": [262, -232, 115, 180, 45, -90],
         
         #"cap stand waypoint": [70, -308, 300, 180, 65, 0],
         #"cap stand": [0, -308, 200, 180, 45, 0],
@@ -151,8 +151,8 @@ positions = {
         
         "ring rack waypoint": [370, 0, 240, 180, 30, 0],
         "ring rack": [370, 0, 170, 180, 30, 0],
-        "ring bath waypoint": [262, -353, 240, 180, 90, -90],
-        "ring bath": [262, -353, 137, 180, 90, -90],
+        "ring bath waypoint": [262, -362, 240, 180, 90, -90],
+        "ring bath": [262, -362, 137, 180, 90, -90],
         #"coupon rack waypoint": [222, -3, 230, 180, 45, 0],
         #"coupon rack": [222, -3, 137, 180, 45, 0],
         "coupon rack waypoint": [222, -2, 230, 180, 45, 0],
