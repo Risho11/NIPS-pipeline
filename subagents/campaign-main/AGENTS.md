@@ -106,6 +106,10 @@ inquiry author and unified QA; review affected inference before redesign. Consid
 other questions or operator proposals when a claim has little opportunity, without
 forced novelty or an invented return.
 
+Give the inquiry author, unified QA, designer and design QA the original requested
+inference; retain it when accepting a narrower screen. Use their distinct judgments
+on directional premises and remaining inference gaps to route and adopt work within
+its actual scope, rather than taking over their substantive reasoning.
 Give `experiment-designer` your exact selected meaning, intended level of inference
 and priority reason; distinct `experiment-design-qa` assesses the actual test.
 Require credible alternative outcomes, comparator, controls, feasible exact values

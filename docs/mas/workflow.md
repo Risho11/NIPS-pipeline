@@ -221,6 +221,9 @@ screen cannot close requested explanation work while a consequential discrepancy
 remains unexamined. The screen may still be useful; state that limited action
 judgment without claiming broader inquiry completion. Independent QA must cover
 the requested explanation work as well as the action's reasoning scope.
+Keep the original requested inference visible in author, review and design handoffs;
+record what remains pending or its justified unresolved disposition in the existing
+records. Accepting a narrower question does not itself change that objective.
 
 A justified end to in-scope analysis names the actual coverage/checks and their
 implications, remaining discriminating evidence and why further feasible available-
@@ -243,6 +246,18 @@ predictive adequacy, remaining improvement opportunities and useful discriminati
 evidence. Explain uncertainty/tradeoffs without invented utility weights or gains.
 A supported local process relation can justify bounded optimization with unresolved
 microstructure; a plausible story alone is not a usable deduction.
+
+For each consequential endpoint forecast, trace the expected direction to an
+applicable empirical relation, physical argument or scientific source actually
+read, with its bridge assumptions under the actual conditions. A reason for one
+endpoint alone does not supply the other's sign without a justified applicable
+link; a shared physical or measurement relation may ground both. Physical
+possibility or falsifiability alone supplies no direction; state when a direction
+remains unidentified. An
+honestly scoped empirical or unsigned screen may still be useful, but distinguish
+the response it tests from the originally requested inference. Main supplies that
+objective; author, unified QA, designer and distinct design QA assess their own
+contributions against it rather than leaving all substantive judgment to main.
 
 Translate the selected meaning into a test under actual material/process conditions:
 what has evidential support, what extension is being tested, what comparator and

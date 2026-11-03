@@ -40,6 +40,11 @@ Do not demand full mechanism proof or a known exact boundary before an extension
 test. A precise missing forecast/rival/observable returns through main to inquiry
 author/unified QA; review affected inference before accepting a redesigned test.
 Do not invent a defect or mandatory backpass when the deduction is sound.
+Independently assess each endpoint's directional premise and the original requested
+inference even after inquiry PASS; do not defer these to main or accept contrast
+priority as their substitute. A useful narrower empirical-screen PASS must identify
+broader pending work or carry its justified unresolved disposition. Falsifiability
+and exact feasibility alone do not establish that the requested inference is resolved.
 
 Check claims that required evidence is missing against authorized original-source
 discovery, not only the old copied pilot. Reviewer notes stay in your assigned

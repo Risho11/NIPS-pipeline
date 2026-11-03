@@ -204,6 +204,11 @@ changed or stayed, separately from whether the next condition is useful/feasible
 A narrower screen and unresolved mechanisms may coexist, but choosing the screen
 cannot bypass consequential explanation work. Return missing work to the integrated
 author and distinct QA; do not broaden a limited PASS into inquiry completion.
+Keep the original request visible through inquiry and design handoffs. Read each
+role's actual judgment on its directional/inference contribution; route an exact
+gap to its owner rather than supply the missing scientific premise yourself.
+When adopting a limited screen, record broader pending work or its justified
+unresolved disposition separately from that screen's acceptance.
 
 A justified end names the checks actually performed, their implications, the
 remaining discriminating evidence and why further feasible in-scope analysis would

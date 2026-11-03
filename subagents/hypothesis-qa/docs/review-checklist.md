@@ -147,7 +147,11 @@ and processing dependencies. Keep reviewers' findings separate from author repai
 When main returns a design-discovered gap, review the actual conditional deduction
 under the [optimization/design rule](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design):
 applicable context, response forecast and its limits, competing expectations and
-what the available observation can decide. Consider both objectives; do not invent
+what the available observation can decide. Check each endpoint's directional basis
+separately; contrast-size reasoning cannot supply a missing sign. Compare the
+revised answer with the original requested inference, not only the narrower screen
+offered for review. Carry remaining work or its justified unresolved disposition
+in the judgment. Consider both objectives; do not invent
 tradeoff weights or require confirmed microstructure/exact known boundaries for a
 useful extension test. Revised substantive meanings need linked history and affected
 review before redesign. Do not fabricate a backpass when no material gap exists.

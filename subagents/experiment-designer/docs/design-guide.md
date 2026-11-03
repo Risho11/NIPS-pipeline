@@ -36,6 +36,11 @@ proceed when its comparator/outcomes answer a justified process question; leave
 the mechanisms unresolved. If another observable is essential, check whether it
 exists or is feasibly authorized, or return the claim/question to main. Do not
 prescribe new assays, hypotheses or coordinates merely to appear more explanatory.
+Compare that limited inference with the original request before choosing the
+contrast: why does each endpoint's sign follow, and what requested work remains?
+Neither a larger perturbation nor a convenient comparator supplies a missing
+directional premise. Return a material gap through main, even after inquiry PASS;
+an unidentified direction can instead remain explicit in a justified screen.
 
 Predictions should distinguish a direction/pattern or an evidence-supported
 magnitude from the alternative. Use effect estimates or uncertainty scales only

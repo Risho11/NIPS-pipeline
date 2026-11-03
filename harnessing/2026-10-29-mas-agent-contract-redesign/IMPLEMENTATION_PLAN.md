@@ -333,3 +333,16 @@ See steps/PHASE_11_STEP_1_PROMPT.md. Persistent Writer owns19literal contract/pr
 ### Phase 11 Step 2 — Deferred Durable Contract Promotion
 
 See steps/PHASE_11_STEP_2_PROMPT.md. NOT_RUN / DEFERRED until human output review and later authorization.
+
+
+## Phase 12 — Directional reasoning and distributed completion
+
+The human questioned whether the prior signed joint-response proposal followed from an explanatory hypothesis and asked that designer/design-QA responsibilities remain substantive. Verified Controller succession changes the sole Controller, not the source/evidence scope or topology. Prior Phase11 PASS is retained for its explicit limited process-effect screen; it does not close the broader deduction question. Controller-owned replan preserves all22entries and historical verdicts. No new Goal is inferred.
+
+### Phase 12 Step 1 — Preserve deductive goals across scientific roles
+
+See steps/PHASE_12_STEP_1_PROMPT.md. The verified persistent Writer owns only11literal local contracts; Controller owns the five named planning/status paths. Clarify the reasoning needed for each predicted objective, honest indeterminate directions and the distinction between a useful empirical screen and the requested explanatory aim. Each author/reviewer/designer must assess its part; main routes and adopts rather than replacing specialist work. Actual English approved-evidence reevaluation and independent source/final acceptance are required. Do not prescribe a point, sign, mechanism, reviewer increase, new claim, backpass or successful performance.
+
+### Phase 12 Step 2 — Deferred Durable Contract Promotion
+
+See steps/PHASE_12_STEP_2_PROMPT.md. NOT_RUN / DEFERRED until human scientific-output review and later authorization. Earlier pending DCPs remain historical and unexecuted. Ordinary explicit-file Git only; no manager/progress/fingerprint, external shared-source change, production Python, hardware or remote action.

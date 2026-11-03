@@ -83,7 +83,10 @@ a concrete uncertainty; a new coordinate is not inherently more informative.
 Main retains selection and the designer retains exact conditions. For a selected
 optimization question, provide a usable conditional forecast and applicability
 basis under the workflow's [design reasoning](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design),
-including implications/uncertainty for both objectives. Respond to concrete gaps
+including the basis and assumptions for each endpoint's direction, or why it
+remains unidentified. A local empirical forecast can be legitimate with unresolved
+mechanisms; distinguish what testing it could answer from main's original request
+and carry the remaining objective into the handoff. Respond to concrete gaps
 returned by design through main, preserving meaning/history and obtaining unified
 inquiry review before the designer relies on revised inference. A plausible
 mechanism label alone is insufficient; exact domain bounds or mechanism proof

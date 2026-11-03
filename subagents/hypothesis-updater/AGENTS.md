@@ -40,7 +40,11 @@ credible opposing pathways and measurement applicability. During update turns,
 analyze useful contrasts to challenge/retain/revise theory or propose new accounts;
 label observationally inspired additions honestly rather than retrofit predictions.
 Explain what physical question or observation motivates an account, why its
-intermediate is plausible in this material/process sequence, and why its predicted direction follows. Separate measured links,
+intermediate is plausible in this material/process sequence, and why each
+consequential endpoint's predicted direction follows under the workflow's
+[deduction rule](../../docs/mas/workflow.md#deduce-useful-optimization-and-design).
+Do not infer one endpoint's sign from the other's without a justified applicable
+link; state unidentified directions honestly. Separate measured links,
 actually read applicable scientific sources and assumptions. A proposed link
 need not be confirmed, but calling it proposed does not supply its motivation.
 
@@ -51,6 +55,8 @@ unresolved possible pathways; do not sell a property-only test as their
 mechanistic discriminator. An independently useful process-effect question can
 still be recommended, with the mechanism question explicitly left open. Do not
 silently narrow an accepted claim or substitute an example's meaning for it.
+Distinguish that screen's prediction from main's original requested inference;
+return remaining work or a justified unresolved disposition, not a replacement goal.
 
 Use the shared [analysis methods](../../docs/mas/analysis-methods.md) to inspect
 question-relevant feature/response, nonlinear/interaction/regime/dispersion patterns,

@@ -68,6 +68,12 @@ required persistence through later operations. Separate source evidence, actuall
 read scientific knowledge and assumptions. A proposed mechanism need not already
 be confirmed, but repeating the outcome with “may alter structure/state” is not
 adequate motivation for using it to choose a test.
+Independently assess the bridge to each consequential endpoint's direction under
+the workflow's [deduction rule](../../docs/mas/workflow.md#deduce-useful-optimization-and-design),
+including when a sign is unidentified. A caveat or falsifiable prediction alone
+does not supply that bridge. Compare the inference actually supported with main's
+original request; a limited empirical-screen PASS must leave broader work pending
+or justify its unresolved disposition under the completion rule below.
 
 Ask whether the strongest credible rival makes different predictions for a
 feasible observation. If all available property outcomes fit both pathways,

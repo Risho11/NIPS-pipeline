@@ -41,6 +41,11 @@ modulus and the fitted compression pore estimate without invented utility weight
 A supported process relation may suffice without confirmed microstructure; a
 plausible story or predicted high point alone does not. Unknown exact range may
 legitimately be tested if outcomes can change judgment prospectively.
+Check each endpoint's directional basis or explicit lack of an identified sign
+against main's original requested inference, even after unified inquiry PASS.
+A defensible contrast does not repair a missing directional premise. If accepting
+only a narrower screen, distinguish that acceptance from the broader objective's
+pending work or justified unresolved disposition in the existing review.
 
 If a material applicability/forecast/rival/observability link is missing, identify
 that gap and its consequence through main for inquiry author/unified QA. Recheck

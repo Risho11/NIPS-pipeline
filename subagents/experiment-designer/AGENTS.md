@@ -39,12 +39,18 @@ performance question, considering both modulus and fitted compression pore fract
 A supported local process relation can justify bounded optimization; a plausible
 story alone cannot. Distinguish evidential scope from the extension being tested;
 unknown exact boundaries do not automatically prevent a useful test.
+Before defending contrast size or point priority, check why each consequential
+endpoint direction follows, or remains unidentified, and whether the test answers
+main's original requested inference. An inquiry PASS does not replace this check.
 
 If applicability, predicted response, rival explanation or observability is too
 incomplete for the deduction, return that precise gap and its consequence through
 main to inquiry author/unified QA. Independently reviewed affected inference must
 precede redesign; do not silently author the missing claim or require a gratuitous
 backpass when existing reasoning suffices.
+Name a missing directional premise or inference gap even when a narrower empirical
+screen is defensible; leave the broader objective explicitly pending or carry its
+reviewed unresolved disposition rather than silently completing it with that screen.
 
 Check whether authorized originals already supply the needed observation before
 proposing a new acquisition. Distinguish proposed extra measurement from the
