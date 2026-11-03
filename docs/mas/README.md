@@ -13,14 +13,16 @@ Production Python integration remains separate work.
 One persistent [campaign main](../../subagents/campaign-main/AGENTS.md) follows
 knowledge initialization, observations, explanations and experiment choices.
 By explicit dispatch, the existing hypothesis updater performs integrated analysis
-and explanation with distinct hypothesis QA. Main applies concrete
+and explanation with unified inquiry QA (`hypothesis-qa`). Main applies concrete
 [split/rejoin criteria](workflow.md#when-main-splits-and-rejoins-inquiry) when a
 bounded analysis issue needs the analyst; separate stage authors are not a
 prerequisite every turn. Both routes combine data science and physical/chemical
 reasoning. Main selects the question and publishes accepted knowledge; designer
 and distinct design QA assess the informative, feasible test before run/hold/stop.
-Choose explore, optimize or repeat for the evidence need without forcing a new
-hypothesis, a method suite or improved performance.
+Follow the workflow's [hypothesis-to-design reasoning](workflow.md#deduce-useful-optimization-and-design)
+for optimization and concrete upstream returns. Consider both objectives and
+conditional applicability before naming explore/optimize/repeat, without forcing
+a new hypothesis, method suite or improved performance.
 
 Use the [workflow](workflow.md) for collaboration and upstream returns, the
 [data contract](data-contract.md) for measurements/provenance/constraints, the
@@ -36,14 +38,20 @@ photos, params and plots before declaring evidence missing. Keep measurements,
 actually read literature and proposed inference distinct; unmeasured morphology
 does not become observed merely because a property direction agrees.
 
-Existing author/reviewer pairs serve these dispatches; focused analysis QA is optional
-when main justifies additional methodological depth:
+One unified inquiry QA uses the existing `hypothesis-qa` ID across these authors.
+Additional specialist review is exceptional and uses a fresh instance of that same
+role for the workflow's named unresolved issue; adding an analyst does not add QA:
 
 | Author and methods | Distinct reviewer and checks |
 |---|---|
-| Triggered split: [Experiment analyst](../../subagents/experiment-analyst/AGENTS.md) · [Analysis guide](../../subagents/experiment-analyst/docs/analysis-guide.md) | Integrated hypothesis QA covers both contributions; optional focused [Analysis QA](../../subagents/experiment-analysis-qa/AGENTS.md) · [Review checklist](../../subagents/experiment-analysis-qa/docs/review-checklist.md) |
-| Default integrated inquiry or assigned hypothesis update: [Hypothesis updater](../../subagents/hypothesis-updater/AGENTS.md) · [Hypothesis guide](../../subagents/hypothesis-updater/docs/hypothesis-guide.md) | [Hypothesis QA](../../subagents/hypothesis-qa/AGENTS.md) · [Review checklist](../../subagents/hypothesis-qa/docs/review-checklist.md) |
+| Triggered split: [Experiment analyst](../../subagents/experiment-analyst/AGENTS.md) · [Analysis guide](../../subagents/experiment-analyst/docs/analysis-guide.md) | Unified [Inquiry QA](../../subagents/hypothesis-qa/AGENTS.md) covers analysis and inference across both authors |
+| Default integrated inquiry or assigned hypothesis update: [Hypothesis updater](../../subagents/hypothesis-updater/AGENTS.md) · [Hypothesis guide](../../subagents/hypothesis-updater/docs/hypothesis-guide.md) | Unified [Inquiry QA](../../subagents/hypothesis-qa/AGENTS.md) · [Review checklist](../../subagents/hypothesis-qa/docs/review-checklist.md) |
 | [Experiment designer](../../subagents/experiment-designer/AGENTS.md) · [Design guide](../../subagents/experiment-designer/docs/design-guide.md) | [Design QA](../../subagents/experiment-design-qa/AGENTS.md) · [Review checklist](../../subagents/experiment-design-qa/docs/review-checklist.md) |
+
+The retained [analysis-QA role](../../subagents/experiment-analysis-qa/AGENTS.md)
+and [method checks](../../subagents/experiment-analysis-qa/docs/review-checklist.md)
+serve explicit preserved adapter/compatibility-pilot dispatch. They are not a
+second target inquiry QA; the historical SDK route remains separate.
 
 Return material findings through main to the affected author and reviewer;
 preserve earlier judgments and re-review dependent conclusions. Keep flexible

@@ -34,6 +34,20 @@ by feasibility checks or caveats. A tentative pathway is allowed, but support
 cannot exceed its actual observables. Main publishes any reviewed knowledge
 revision after routing affected author/QA work; reviewers never edit it.
 
+Use the shared [deduction rule](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
+to check hypothesis-grounded optimization, not only a feasible tuple. Trace the
+conditional forecast, support/applicability and useful extension, considering both
+modulus and the fitted compression pore estimate without invented utility weights.
+A supported process relation may suffice without confirmed microstructure; a
+plausible story or predicted high point alone does not. Unknown exact range may
+legitimately be tested if outcomes can change judgment prospectively.
+
+If a material applicability/forecast/rival/observability link is missing, identify
+that gap and its consequence through main for inquiry author/unified QA. Recheck
+affected inference and changed design after actual repair; do not write the claim
+or demand a manufactured failure/backpass when the current deduction is adequate.
+The following questions guide judgment rather than enforce a scored report layout.
+
 | Design component | Independent question | A useful repair request |
 | --- | --- | --- |
 | Prediction | Does the observable follow from the selected scoped claim and differ meaningfully from alternatives? | Explain the discriminating outcome or return the unresolved hypothesis question through main |

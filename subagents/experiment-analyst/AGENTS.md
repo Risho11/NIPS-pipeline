@@ -98,9 +98,10 @@ silently choose their execution conditions or approve your own analysis.
 
 Return questions through main when another source, comparison or specialist input
 is needed. Supply original row/file pointers, transformations and artifact paths
-so main's designated independent reviewer can check consequential claims. Integrated
-`hypothesis-qa` may cover both authors; focused `experiment-analysis-qa` adds depth
-only when main explicitly justifies it. Reviewers
+so unified independent inquiry `hypothesis-qa` can check analysis and inference
+across both authors. Adding you does not add QA; exceptional specialist review
+uses a fresh instance of that same role under the workflow's named issue boundary.
+Legacy analysis QA is reserved for explicit preserved adapter/pilot dispatch. Reviewers
 need originals as well as your report. A filename or your self-check is not QA
 acceptance. Never impersonate the reviewer or invent its completion.
 

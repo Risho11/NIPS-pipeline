@@ -69,8 +69,8 @@ session paths belong to the dispatch, not a repository test manual.
 
 ## Give authors and reviewers a substantive problem
 
-Dispatch the existing updater as integrated inquiry author and hypothesis QA as
-independent integrated reviewer. Give the question/decision, original source and
+Dispatch the existing updater as integrated inquiry author and `hypothesis-qa` as
+unified independent inquiry reviewer. Give the question/decision, original source and
 claim paths, relevant prior predictions, actual constraints and assigned areas.
 Let the author choose useful methods and artifacts. The reviewer receives originals
 and calculations, not just a narrative summary; it checks evidence and explanation.
@@ -83,8 +83,10 @@ finding. For a method gap, specify concrete construction/repair and validity che
 no authored error is required. Routine CSV reading, arithmetic or making a figure
 with an applicable method is not by itself this trigger. Give the analyst bounded duties and
 evidence; keep explanation/history with the inquiry author. Record review coverage
-and what checked resolution permits rejoin. Integrated QA can cover both; justify
-focused analysis QA when extra method depth is needed. Do not make separation a
+and what checked resolution permits rejoin. Unified `hypothesis-qa` reviews both
+contributions. Additional review is exceptional: a fresh instance of the same role,
+named unresolved consequential issue, bounded evidence/question and resolution
+criterion. Adding an analyst alone does not justify it. Do not make separation a
 substitute for missing data, or declare rejoin while unresolved choices still
 change the action. Preserve original analysis/predictions when repairing.
 
@@ -117,6 +119,15 @@ available evidence: what result could change judgment, are comparators credible,
 can the needed observation actually be obtained, and how does that learning matter
 to the objective? State the reason for priority without numerical utilities or
 exhaustive repeated analysis of the variable inventory.
+
+Apply the workflow's [hypothesis-to-design reasoning](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
+when judging optimization opportunity: does the reviewed conditional forecast bear
+on a current performance limit and both objectives, within useful predictive and
+experimental support? Keep a possible extension distinct from established scope;
+unknown exact boundaries need not forbid an informative test. A claim with little
+remaining opportunity can yield to another claim, interaction, unlinked variable
+or separate operator proposal. Purpose labels follow this reasoning, not a fixed
+mode sequence or scored ranking.
 
 Separate three situations:
 
@@ -152,6 +163,12 @@ and dependent endpoints using the data contract; missing secondary data does not
 erase a separately valid primary contrast or automatically validate it. Future
 controls/repeats remain future; one synthesis and its specimens cannot complete
 an unmeasured comparison or establish synthesis variance.
+
+When design cannot deduce an interpretable test, require the concrete missing
+applicability, response forecast, rival or observable and why it matters. Return
+that question to inquiry author/unified QA and review the actual affected revision
+before redesign. Do not insist on a ceremonial backpass when the reviewed claim
+already supports the design, or on full mechanism proof/exact known boundary.
 
 Explore, optimize and repeat describe the evidence need after this reasoning.
 A repeat can be the best test when it resolves an actual uncertainty; a feasible

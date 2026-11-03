@@ -53,7 +53,9 @@ One persistent main uses the same roles for initialization and observation turns
 By explicit dispatch, `hypothesis-updater` is the default integrated inquiry author:
 it uses data science and physical/chemical reasoning together, performs useful
 calculations, and proposes explanations and knowledge changes. Distinct
-`hypothesis-qa` reviews the whole inquiry, including consequential analysis.
+`hypothesis-qa` is the unified independent inquiry reviewer, covering numerical
+analysis, interpretation, physical explanations, alternatives, history and
+consequential omissions across integrated or split authors.
 There is no mandatory separate analysis stage in this mode. Main owns routing,
 question/test priority and publication; designer plus distinct design QA own
 the proposed test and its feasibility review. Registered role identities remain.
@@ -102,9 +104,9 @@ Record the actual trigger, analyst/inquiry-author duties, source pointers, revie
 responsibilities and concrete rejoin condition briefly in the existing inquiry/
 decision context. `experiment-analyst` handles the bounded analysis issue while
 `hypothesis-updater` retains explanation/history work. Distinct `hypothesis-qa`
-can review both contributions. Main may assign distinct `experiment-analysis-qa`
-for explicitly justified focused methodological depth; splitting authorship does
-not automatically require a third full review. Both authors use physical/chemical
+reviews both contributions end to end; adding an analyst does not add another QA.
+Exceptional additional review follows the same-role issue boundary below.
+Both authors use physical/chemical
 and data-science reasoning and exchange questions through main. Split authorship
 is not independent acceptance; no author reviews their own contribution.
 
@@ -232,12 +234,64 @@ Record the rationale in existing inquiry/review/decision records, without a new
 layout or report. A budget cutoff or pending material work is incomplete/hold,
 not evidence of scientific completion.
 
+## Deduce useful optimization and design
+
+Start from a useful reviewed hypothesis and its conditional forecast, not a choice
+of explore/optimize/repeat. Main weighs relevance to current performance limitations,
+consequences for both elastic modulus and fitted compression pore fraction,
+predictive adequacy, remaining improvement opportunities and useful discriminating
+evidence. Explain uncertainty/tradeoffs without invented utility weights or gains.
+A supported local process relation can justify bounded optimization with unresolved
+microstructure; a plausible story alone is not a usable deduction.
+
+Translate the selected meaning into a test under actual material/process conditions:
+what has evidential support, what extension is being tested, what comparator and
+observable would assess the forecast, and what competing outcomes could change
+judgment. Exact domain boundaries need not already be known to test an extension.
+State that uncertainty prospectively; do not move the domain after an adverse result
+to protect the claim. Preserve original forecasts, adverse history and linked
+identity for substantive changed meanings. Methods, narrative and artifacts remain
+autonomous; these questions are not a required table, score or mode transition.
+
+If design exposes missing applicability, conditional response, competing explanation
+or observability needed to justify the test, name the precise gap and its decision
+consequence through main. Main returns it to the inquiry author and unified QA,
+using analyst splits only under existing triggers. Develop and independently review
+the affected inference before redesign; the designer must not silently fill the
+claim or accept an old PASS for changed reasoning. No defect means no invented
+backpass, revision or failure. Do not demand unconditional mechanism proof or a
+known exact range when a justified extension test can answer the question.
+
+If a claim offers little remaining opportunity, main may consider other reviewed
+claims, interactions, unlinked variables or separate operator fixed-setting
+proposals. No new hypothesis, changed point or global-optimum claim is required.
+Keep one exact next request when justified, future comparisons explicitly planned,
+and all stock/lock/bounds/operator and report-only boundaries. Distinct design QA
+checks the deduction and exact feasible test; unified inquiry QA reviews upstream
+analysis/explanation changes. A generic caveat or default repeat does not end useful
+authorized optimization reasoning, but a reasoned hold/stop can be correct.
+
 ## Scientific roles and collaboration
+
+Use the existing runtime ID `hypothesis-qa` for unified scientific inquiry review.
+It remains independent of every authored contribution. Main may request additional
+specialist review only for a named unresolved consequential issue, with bounded
+evidence, a specific question and a resolution criterion. Use a fresh instance of
+that same role; do not attach another reviewer merely because an analyst joined.
+Record the issue and review scope briefly in existing inquiry/decision context.
+Continued repair review is not automatically an additional specialist review.
+
+`experiment-design-qa` stays distinct for the exact proposed test. The retained
+`experiment-analysis-qa` role/files are only for explicit preserved adapter or
+compatibility-pilot dispatch, not an alternative target inquiry route. Their
+analysis methods may still be read as reference without activating that role.
+Runtime IDs/registration and actual permissions remain unchanged; source edits do
+not establish hot reload or production migration.
 
 | Dispatch / author role | Responsibility | Independent scientific reviewer |
 | --- | --- | --- |
 | Default integrated `hypothesis-updater` | Analyze evidence, develop/revise explanations and propose cumulative knowledge changes | `hypothesis-qa` reviews consequential analysis, physical reasoning, prediction/history and usefulness together |
-| Triggered split `experiment-analyst` | Resolve main's bounded analysis/method/sensitivity issue with evidence and artifacts | Integrated `hypothesis-qa` reviews both contributions; main may justify focused `experiment-analysis-qa` depth |
+| Triggered split `experiment-analyst` | Resolve main's bounded analysis/method/sensitivity issue with evidence and artifacts | Unified `hypothesis-qa` reviews analysis and inference across both contributions; additional review uses the bounded same-role issue rule |
 | `experiment-designer` | Propose a feasible informative test of main's selected question | `experiment-design-qa` checks predictions, controls and exact feasible conditions |
 
 The integrated dispatch is explicit, not a new role or permission change. A
@@ -262,7 +316,8 @@ repair conversation. No fixed two-cycle limit governs scientific revision.
 Route findings through main to the appropriate author. If repairs cannot resolve
 a material gap, request the needed evidence, change the question or hold; do not
 manufacture acceptance. Development acceptance QA and scientific inquiry/design
-review are different activities; focused analysis review is assigned when justified.
+review are different activities; exceptional specialist inquiry review stays
+within the unified role and named issue boundary.
 
 Review motivation, credible rival predictions and question priority, not only
 source arithmetic and caution labels. A reviewer returns a concrete comparison
@@ -277,8 +332,8 @@ reviewed shared changes; reviewers never edit canonical knowledge or author work
 
 When design or QA finds a material comparison, method or claim problem, main
 returns it to the inquiry author and distinct reviewer. Apply the split triggers:
-assign bounded analyst work when required and focused analysis QA when justified,
-then reassess affected explanations, selection and design. Correct numbers may
+assign bounded analyst work when required, retain unified inquiry QA, and reassess
+affected explanations, selection and design. Correct numbers may
 remain usable while interpretation changes. A default integrated repair does not
 require inventing a separate analysis stage.
 

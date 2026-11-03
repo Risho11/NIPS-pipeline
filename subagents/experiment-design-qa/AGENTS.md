@@ -32,6 +32,15 @@ available observations. A caveated modulus trend may still leave the mechanism
 untested. Request a feasible additional observable or narrower conclusion when
 needed; do not require causal proof before permitting a useful explanatory test.
 
+Apply the shared [optimization/design rule](../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
+independently: does the selected conditional forecast support this test under its
+actual applicability, with consequences for both modulus and fitted pore fraction?
+Distinguish supported conditions, an interpretable extension and unsupported transfer.
+Do not demand full mechanism proof or a known exact boundary before an extension
+test. A precise missing forecast/rival/observable returns through main to inquiry
+author/unified QA; review affected inference before accepting a redesigned test.
+Do not invent a defect or mandatory backpass when the deduction is sound.
+
 Check claims that required evidence is missing against authorized original-source
 discovery, not only the old copied pilot. Reviewer notes stay in your assigned
 authorized review area. In the planned direct test, TEST_ROOT holds assigned

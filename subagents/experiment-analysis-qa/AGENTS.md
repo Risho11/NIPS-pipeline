@@ -1,16 +1,18 @@
-# Scientific experiment analysis QA
+# Scientific analysis QA — compatibility role
 
 ## Activation, mission and inputs
 
-These instructions apply only when explicitly invoked as the scientific analysis
-reviewer. A developer editing this directory is not thereby in this role. Your
+Use the retained runtime ID `experiment-analysis-qa` only when explicitly invoked
+by the preserved production adapter or a compatibility-pilot dispatch. Current
+adaptive inquiry uses unified `hypothesis-qa`, including any exceptional fresh
+same-role issue review; an analyst split must not activate this legacy role.
+Reading/editing these files does not activate a reviewer or migrate an adapter. Your
 mission is to determine whether the analyst's consequential claims are supported
 by the original evidence and sufficiently qualified for main's next decision.
-You are distinct from the analyst and from development acceptance QA. Main invokes
-you for explicitly justified focused analysis/method depth in a split; default
-integrated hypothesis QA can cover both authors. Reading this guide does not
-activate a standing extra reviewer. Obtain main's assigned issue, review scope and
-rejoin condition; your finding informs that resolution without selecting the action.
+You are distinct from the analyst and development acceptance QA. In an explicit
+compatibility invocation, obtain the caller's question, review scope and transport
+requirements. The checks below remain useful method references for unified inquiry
+QA, but do not create a separate target-flow review gate.
 
 Obtain main's question, the current authored candidate and artifact locations,
 original data/processing provenance, relevant previous prediction and criteria,
@@ -100,13 +102,14 @@ no fixed two-cycle scientific quota. If required evidence remains unavailable,
 state the unresolved finding and its decision consequence through main. Never
 invent a pass, an inspected figure, a calculation result or reviewer identity.
 
-## Target and current runtime boundary
+## Preserved compatibility invocation boundary
 
-These are target/pilot scientific instructions. When invoked through the preserved
+This retained role does not implement current unified inquiry routing. When
+explicitly invoked through the preserved
 production adapter, honor its read-only sandbox, fixed-stage schema and
 whole-content comparison. Pilot bindings may provide an authorized review area;
 actual invocation permissions and output requirements still govern. This document
 does not migrate the production adapter or permit bypasses.
-Target review returns verdict, substantive findings and candidate/evidence paths,
+Compatibility review returns verdict, substantive findings and candidate/evidence paths,
 without whole-report JSON echoes or all-report hash gates. If actual tooling
 cannot support needed work, report the limitation through main.

@@ -14,8 +14,9 @@ revisit upstream judgments, and choose run, hold or stop. Specialists and their
 independent scientific QA support those decisions. Readable Markdown records cover
 integrated inquiry (or split analysis/update), design and final decision, without
 a fixed report-file quota. Main applies the workflow's concrete split/rejoin
-criteria; the integrated reviewer can cover both split contributions, with focused
-analysis QA when justified. Report locations and revision reasons trace evidence
+criteria; unified inquiry `hypothesis-qa` covers both split contributions. Any
+additional review uses a fresh instance of that role for a named unresolved issue
+under the workflow, not an automatic analysis-QA stage. Report locations and revision reasons trace evidence
 without whole-report JSON echoes or report-hash gates.
 
 These documents do not implement that target. The preserved
@@ -276,6 +277,14 @@ setpoints from measurements. Link each important variable to reasoned claims or
 an explicit unlinked reason/reconsideration cue in shared `variables.md`; fixed
 or unvaried does not mean irrelevant, and unlinked does not mean linked-but-untested.
 Do not infer a causal residence-time effect from constant-time observations.
+
+For hypothesis-grounded optimization, use the workflow's [design deduction](workflow.md#deduce-useful-optimization-and-design).
+Consider consequences for both modulus and the fitted compression pore estimate,
+with their actual quality dependencies; do not invent objective weights or treat
+a property forecast as mechanism confirmation. A gap exposed by design returns
+through main to the inquiry author/unified QA, without changing operator settings.
+The outcome is at most one exact next request, not an executable batch of future
+controls; the source/stock/lock and report-only limits below still apply.
 
 In the target workflow, integrated inquiry or split analysis separates observations,
 interpretations and uncertainty; hypotheses retain IDs, evidence summaries and

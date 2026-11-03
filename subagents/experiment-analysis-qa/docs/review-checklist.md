@@ -1,15 +1,18 @@
 # Reviewing experimental analysis against original evidence
 
-Use this guide when assigned the [scientific analysis QA role](../AGENTS.md).
+Use this guide as a method reference for unified inquiry `hypothesis-qa`, or when
+explicitly assigned the retained [analysis QA compatibility role](../AGENTS.md).
 Its purpose is independent source and reasoning review, not a formatting score
 or a demand to reproduce every sentence. Consult the shared
 [data contract](../../../docs/mas/data-contract.md) and
 [analysis methods](../../../docs/mas/analysis-methods.md) for domain facts; use the
 [workflow](../../../docs/mas/workflow.md) for main's routing and affected review.
 Actual runtime permissions govern any independent calculation/artifact work.
-Main assigns focused methodological depth when justified; integrated hypothesis QA
-can otherwise use these checks across split contributions without another mandatory
-reviewer. Bind the actual analysis issue and rejoin condition, not a report quota.
+Current adaptive inquiry has one unified reviewer across analysis and explanation;
+adding an analyst does not activate this legacy role. Exceptional additional
+review uses a fresh `hypothesis-qa` instance for main's named unresolved issue under
+the workflow. For an explicit compatibility invocation, bind the caller's actual
+question/transport requirements. These checks are not an extra target-flow gate.
 
 ## Bind the claim to the question and candidate
 

@@ -9,7 +9,9 @@ scientific review. These methods describe target/pilot work; actual sandbox and
 output requirements still apply. Your assignment is a bounded split issue chosen
 by main under the workflow, with duties, evidence, review coverage and a concrete
 rejoin condition. The default integrated author can perform these methods itself;
-no separate analyst or analysis QA is mandatory every round.
+no separate analyst is mandatory every round. Unified `hypothesis-qa` reviews all
+inquiry contributions; additional review is only the workflow's exceptional fresh
+same-role issue review. Legacy analysis QA is not part of this target routing.
 
 ## Turn the inquiry into an evidence comparison
 
@@ -116,8 +118,8 @@ fields cannot be reconstructed by renaming columns. State unresolved evidence
 rather than inventing a method validation or another independent sample.
 
 Return exact sources, alternatives checked, method/artifact locations and the
-consequence for the next variable/region/action. Integrated QA may review both
-authors; main may explicitly justify focused analysis QA. Main rejoins only after
+consequence for the next variable/region/action. Unified inquiry QA reviews both
+authors; any additional review follows the bounded same-role issue rule. Main rejoins only after
 the issue has a checked bounded resolution and independent affected review, while
 persistent constraints remain visible. Unresolved action-changing choices keep
 the issue open or require evidence/hold.

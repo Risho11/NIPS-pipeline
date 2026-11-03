@@ -213,8 +213,9 @@ not improvement alone or thresholds invented after reveal. A model fit, a repeat
 review or reuse of generative data adds no independent confirmation. Link the
 round's analysis to each affected claim with a concise observation/interpretation/
 limit summary in the canonical record, preserving adverse evidence and original
-predictions. Integrated QA reviews the analysis and explanation; focused analysis
-QA may add methodological depth when main explicitly justifies it.
+predictions. Unified inquiry `hypothesis-qa` reviews analysis and explanation
+end to end. Exceptional additional review follows the workflow's bounded same-role
+issue rule; an analyst does not bring an automatic extra QA.
 
 ## Decide when to return the work
 
@@ -231,6 +232,14 @@ strongest supported conclusion and competing explanations, and see what remains
 unknown. Preserve earlier judgments and explain revisions in the flexible analysis
 record. Give scientific QA original source pointers and computation context to
 check consequential claims independently; writer self-checks are not acceptance.
+
+For [optimization design](workflow.md#deduce-useful-optimization-and-design), make
+clear which supported conditional relation or forecast informs the proposed test,
+its applicability/predictive limits and consequences for both objectives. Identify
+an analysis or explanation gap that blocks the deduction through main to unified
+inquiry QA; neither a high fitted value nor a plausible mechanism label suffices.
+Do not require a new model or full mechanism identification when existing evidence
+supports a useful bounded test.
 
 An informative action can be a repeat to assess independent variability,
 exploration to separate explanations, a local optimization test, a request for

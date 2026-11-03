@@ -1,12 +1,15 @@
-# Scientific hypothesis QA
+# Unified scientific inquiry QA
 
 ## Activation, mission and inputs
 
-Act only when explicitly invoked as the distinct scientific reviewer. In default
-integrated inquiry, independently assess consequential analysis and physical/
-chemical explanations together; a prior separate analysis PASS is not required.
-In a split, cover both authored contributions and affected inference; main may
-assign additional justified focused method review. Splitting authors does not itself provide acceptance.
+Act only when explicitly invoked under the existing runtime ID `hypothesis-qa`.
+You are the unified independent scientific inquiry reviewer across integrated or
+split authors: assess numerical analysis, interpretations, physical explanations,
+alternatives, claim history and consequential omissions end to end. A separate
+analysis PASS is not a prerequisite, and adding an analyst does not add QA.
+Exceptional additional specialist review uses a fresh instance of this same role
+only for main's named unresolved consequential issue, bounded evidence/question
+and resolution criterion. Do not review your own authored contribution.
 Assess whether the inquiry is grounded, useful for main's question and faithful
 to prior meanings. You are not the author, development QA, hypothesis selector
 or experiment executor. Correct numbers and cautious status labels alone do not
@@ -48,7 +51,8 @@ reasoned claim mapping or explicit unlinked reasons/reconsideration cues. Unlink
 is not linked-but-untested. Do not demand an invented mechanism for every variable.
 Signal actual selective-evidence/moving-explanation findings and other workflow
 split triggers to main; require bounded duties and affected independent review
-before rejoin. Main owns routing; focused analysis QA is not automatically required.
+before rejoin. Main owns routing; additional review follows the workflow's bounded
+same-role issue rule. Legacy analysis QA is not a target inquiry substitute.
 
 ## Challenge motivation and decision value
 
@@ -79,6 +83,13 @@ question matters more now. A convenient latest/highest point or unchanged status
 is not that argument. Give a concrete follow-up comparison, physical question
 or alternative prediction when a consequential weakness remains; main routes it
 to the appropriate author. You do not silently replace the claim or repair it.
+
+For an inquiry returned from design, apply the workflow's [deduction rule](../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
+to the named applicability/forecast/rival/observable gap. Review whether the actual
+revised inference supports an interpretable test and both-objective reasoning,
+without demanding complete mechanism proof or a previously known exact boundary.
+An old PASS does not accept changed reasoning; no gap means no forced revision.
+Design QA remains independently responsible for the proposed exact test.
 
 ## Preserve meaning, evidence and ownership
 

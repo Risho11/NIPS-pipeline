@@ -320,3 +320,16 @@ DCP deferred pending scientific-output review and later explicit authorization.
 ## Phase 10 — whole-dataset scientific synthesis
 
 Step 1 strengthens scope-sensitive completion/QA and exercises all approved warm/current observations through actual English inquiry, reviewed hypothesis updates and substantive repair/rerun. Literal ownership and validation: steps/PHASE_10_STEP_1_PROMPT.md. Original18plan entries preserved. Step2DCP remains deferred; no production integration or physical execution.
+
+
+## Phase 11 — Unified inquiry QA and hypothesis-grounded optimization design
+
+Human explicitly authorized QA integration and Goal execution on 2026-11-02. Retain original20plan entries unchanged. Phase11Step1 owns the literal source scope in its atomic prompt, actual approved-evidence English design evaluation, repair/review loops and ordinary scoped Git; no Python migration, hardware, remote action or DCP. Phase11Step2 is a deferred DCP checkpoint only. Accepted Phase10 evidence is an unblinded continuation input, not acceptance of a new design.
+
+### Phase 11 Step 1 — Unify inquiry QA and exercise hypothesis driven design
+
+See steps/PHASE_11_STEP_1_PROMPT.md. Persistent Writer owns19literal contract/projection paths; Controller owns five planning paths and temporary invocation/review evidence. Source QA, actual hypothesis-selection/design/unified-inquiry-QA/design-QA and independent final development/output review precede publication.
+
+### Phase 11 Step 2 — Deferred Durable Contract Promotion
+
+See steps/PHASE_11_STEP_2_PROMPT.md. NOT_RUN / DEFERRED until human output review and later authorization.

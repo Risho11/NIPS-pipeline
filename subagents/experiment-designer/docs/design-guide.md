@@ -21,6 +21,14 @@ not confirmation from reusing those same observations. Initialization/publicatio
 of a bank is not selection of an executable test, and a literature relation from
 another system does not establish the target compression estimator's direction.
 
+Use the shared [deduction rule](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
+to connect the reviewed conditional forecast with current performance limitations,
+remaining opportunity and both-objective consequences. Distinguish supported
+conditions from the extension under test; unknown precise boundaries may be what
+this experiment learns. A local process relation can support bounded optimization
+without identifying all internal mechanisms, but a possible story alone is not
+an executable prediction. Define prospective alternatives rather than assume gain.
+
 State the intended inference: a process-effect contribution or a pathway distinction.
 If rival pathways predict the same available properties, a property-only test
 cannot distinguish their intermediates. A useful limited effect screen can still
@@ -50,6 +58,9 @@ question. A temperature contrast confounded with formulation or bath composition
 may not separate the explanations. If the missing control is itself unmeasured,
 explain how the next condition contributes to a planned comparison and what
 remains conditional until the other observation exists.
+
+The following are optional descriptions of purpose after the deduction, not
+required mode transitions or an instruction to choose the label first.
 
 | Evidence need | Purpose to consider | Design consequence |
 | --- | --- | --- |
@@ -136,6 +147,14 @@ the objective/feasible space, explain that assessment for main's stop decision;
 this is not proof of a global optimum.
 
 ## Handoff and repair
+
+If the deduction fails at a material link, name the missing applicability,
+conditional forecast, rival or observable and its design consequence through main.
+Inquiry author/unified QA develop and review affected inference before redesign;
+retain original predictions/adverse evidence and linked identity for changed
+meanings. No return is required when the reviewed claim already supports a useful
+feasible test. Do not request complete mechanism proof or exact known domain limits
+merely to eliminate honest uncertainty.
 
 Give main and design QA the selected claim, predictions/alternatives, original
 comparator evidence, variables/controls, repeat rationale, purpose, exact conditions,

@@ -33,6 +33,19 @@ mechanism test. If both explanations predict the same property response, identif
 another feasible observable or limit the test's claim through main. A tentative
 mechanism can motivate design without being established in advance.
 
+Apply the shared [optimization/design rule](../../docs/mas/workflow.md#deduce-useful-optimization-and-design):
+deduce the test from the selected conditional forecast/applicability and current
+performance question, considering both modulus and fitted compression pore fraction.
+A supported local process relation can justify bounded optimization; a plausible
+story alone cannot. Distinguish evidential scope from the extension being tested;
+unknown exact boundaries do not automatically prevent a useful test.
+
+If applicability, predicted response, rival explanation or observability is too
+incomplete for the deduction, return that precise gap and its consequence through
+main to inquiry author/unified QA. Independently reviewed affected inference must
+precede redesign; do not silently author the missing claim or require a gratuitous
+backpass when existing reasoning suffices.
+
 Check whether authorized originals already supply the needed observation before
 proposing a new acquisition. Distinguish proposed extra measurement from the
 eight tunables and obtain any required operator authority through main. Use the

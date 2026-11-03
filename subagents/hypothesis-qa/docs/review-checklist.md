@@ -1,13 +1,15 @@
-# Reviewing useful hypothesis reasoning
+# Reviewing scientific inquiry end to end
 
-Use this guide with the [hypothesis-QA role](../AGENTS.md),
+Use this guide with the unified [inquiry-QA role](../AGENTS.md) (`hypothesis-qa`),
 [data contract](../../../docs/mas/data-contract.md),
 [knowledge contract](../../../docs/mas/knowledge.md) and
 [workflow](../../../docs/mas/workflow.md). Review the actual current candidate,
 prior claim and original evidence. Your findings are separate from author repair.
-Default integrated review covers the author's data science and explanation together;
-a split can retain that review across both contributions. Main may justify focused
-analysis QA for additional depth, without a standing full three-QA pipeline.
+Review numerical evidence, interpretation, physical explanations, rivals, claim
+history and omissions across all inquiry authors. Analyst splitting does not add
+QA. Additional specialist review uses a fresh instance of this same role only for
+main's named unresolved consequential issue and bounded evidence/question/resolution
+criterion in the workflow. Independent design QA remains separate.
 
 ## Establish what the candidate needs to accomplish
 
@@ -34,8 +36,8 @@ was observed; they do not automatically supply an explanation of why.
 ## Independently check consequential analysis
 
 Follow [analysis methods](../../../docs/mas/analysis-methods.md) and use the
-[analysis review guide](../../experiment-analysis-qa/docs/review-checklist.md) for
-focused source/method checks without activating an extra reviewer by reading it.
+retained [analysis review guide](../../experiment-analysis-qa/docs/review-checklist.md)
+as a source/method reference without activating its legacy compatibility role.
 Reproduce important selections/joins/calculations, check rendered artifacts when
 consequential, and assess preprocessing/model/sensitivity/validation choices and
 independent grouping. Feature correlation, effect interaction and causal process
@@ -141,6 +143,14 @@ pathways unresolved. Challenge the exact overclaim, motivation or comparator, no
 that honest inference limit. Missing secondary data neither erases a separately
 valid primary contrast nor automatically validates it; inspect shared quality
 and processing dependencies. Keep reviewers' findings separate from author repair.
+
+When main returns a design-discovered gap, review the actual conditional deduction
+under the [optimization/design rule](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design):
+applicable context, response forecast and its limits, competing expectations and
+what the available observation can decide. Consider both objectives; do not invent
+tradeoff weights or require confirmed microstructure/exact known boundaries for a
+useful extension test. Revised substantive meanings need linked history and affected
+review before redesign. Do not fabricate a backpass when no material gap exists.
 
 ## Protect current and historical claim meaning
 

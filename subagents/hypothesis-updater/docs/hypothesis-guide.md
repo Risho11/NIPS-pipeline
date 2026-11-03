@@ -80,7 +80,14 @@ relevance. Explain why the recommended question outranks the strongest practical
 alternative. No exhaustive parameter sweep, fixed hypothesis count, artifact
 quota or numerical score is required. A repeat can be preferable if it resolves
 a concrete uncertainty; a new coordinate is not inherently more informative.
-Main retains selection and the designer retains exact conditions.
+Main retains selection and the designer retains exact conditions. For a selected
+optimization question, provide a usable conditional forecast and applicability
+basis under the workflow's [design reasoning](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design),
+including implications/uncertainty for both objectives. Respond to concrete gaps
+returned by design through main, preserving meaning/history and obtaining unified
+inquiry review before the designer relies on revised inference. A plausible
+mechanism label alone is insufficient; exact domain bounds or mechanism proof
+are not prerequisites to a justified extension test.
 
 ## Maintain claims while improving the inquiry
 

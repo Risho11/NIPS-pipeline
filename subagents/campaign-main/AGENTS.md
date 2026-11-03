@@ -67,8 +67,10 @@ repair and validity check. An authored error is not necessary, but routine CSV
 reading, arithmetic or a figure with an applicable method alone is not a trigger.
 Record trigger,
 source pointers, duties, independent review coverage and rejoin condition in the
-inquiry/decision. Integrated QA may review both authors; add analysis QA only for
-explicitly justified focused depth. Do not rejoin until the analysis issue is
+inquiry/decision. Unified `hypothesis-qa` reviews both authors; adding an analyst
+does not add QA. Any exceptional specialist review uses a fresh instance of that
+same role for a named unresolved consequential issue, bounded evidence/question
+and resolution criterion under the workflow. Do not rejoin until the analysis issue is
 resolved within stated limits and affected independent review is complete. Adding
 agents cannot resolve data scarcity.
 
@@ -94,6 +96,15 @@ and reciprocal round/review links. Then select a reviewed question or none.
 Recommendation priority is not empirical support, and an accepted background
 account need not become the next target. Changed meaning requires a linked claim,
 not silent narrowing or substitution.
+
+Use the workflow's [optimization/design reasoning](../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
+to weigh useful conditional forecasts, current performance limits, both objectives
+and remaining opportunities before choosing a purpose label. A supported process
+relation can justify bounded optimization without confirmed microstructure. Route
+a concrete design-discovered applicability/forecast/rival/observable gap to the
+inquiry author and unified QA; review affected inference before redesign. Consider
+other questions or operator proposals when a claim has little opportunity, without
+forced novelty or an invented return.
 
 Give `experiment-designer` your exact selected meaning, intended level of inference
 and priority reason; distinct `experiment-design-qa` assesses the actual test.
