@@ -35,7 +35,9 @@ from authorized scientific outputs using the workflow's
 [source/output principles](workflow.md#source-and-output-bindings). A temporary
 scientific session writes round/knowledge outputs only beneath its assigned
 temporary root. These documents grant no project knowledge writes or new Python
-persistence behavior.
+persistence behavior. Scientific main's temporary Git use requires the workflow's
+explicit invocation binding; authors/reviewers never stage/commit or publish shared
+knowledge. Raw measurements/media do not enter that repository.
 
 For outcome-withheld initialization use only approved protocol/measurement
 facts and constraints. The evidence-discovery/history sections and their linked
@@ -153,7 +155,7 @@ A single finite value can produce SD zero without establishing precision or
 repeatability. Aggregate SD is neither a standard error nor a confidence interval.
 Do not infer counts from SD or substitute specimen count for synthesis count.
 
-Interpret support, adverse results and inconclusive evidence per selected claim
+Interpret support, adverse results and inconclusive evidence per question/claim
 and endpoint. A missing secondary endpoint alone limits dependent joint-property
 or tradeoff claims; it does not erase an independently valid primary contrast.
 It also does not certify primary validity: inspect whether shared sample/zero
@@ -274,8 +276,9 @@ second-bath residence and dispensed volume), recorded air/coupon temperature and
 humidity, stock age/batch, acquisition/processing and preparation context. Ground
 these in actual source/approved operator facts, retain unknowns and distinguish
 setpoints from measurements. Link each important variable to reasoned claims or
-an explicit unlinked reason/reconsideration cue in shared `variables.md`; fixed
-or unvaried does not mean irrelevant, and unlinked does not mean linked-but-untested.
+an explicit unlinked reason/reconsideration cue in the shared topic documents or
+linked context; fixed or unvaried does not mean irrelevant, and unlinked does not
+mean linked-but-untested.
 Do not infer a causal residence-time effect from constant-time observations.
 
 For hypothesis-grounded optimization, use the workflow's [design deduction](workflow.md#deduce-useful-optimization-and-design).
@@ -287,10 +290,10 @@ The outcome is at most one exact next request, not an executable batch of future
 controls; the source/stock/lock and report-only limits below still apply.
 
 In the target workflow, integrated inquiry or split analysis separates observations,
-interpretations and uncertainty; hypotheses retain IDs, evidence summaries and
-revision reasons; design records
+interpretations and uncertainty; topic documents retain prior meanings, evidence
+summaries, historical IDs and revision reasons; design records
 predictions, comparators and support/refutation/inconclusive outcomes; main records
-the selected hypothesis and final action. Preserve previous judgments, explain
+the selected question and final action. Preserve previous judgments, explain
 revisions and re-review affected conclusions. Main follows report/artifact paths
 and may return upstream. Run adopts exactly the feasible scientifically reviewed
 conditions; hold/stop has no executable next conditions. A report-only pilot does

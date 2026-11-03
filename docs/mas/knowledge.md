@@ -7,7 +7,7 @@ Scientific usefulness must be judged from actual inquiry outputs; document QA,
 well-formed files and careful uncertainty labels do not establish it. These
 contracts introduce no production Python persistence implementation.
 
-## One inquiry, persistent claim records
+## One inquiry, evolving topic documents
 
 One main coordinates analysis, knowledge maintenance and experiment selection.
 Shared knowledge holds material/process claims across campaigns; a round explains
@@ -15,45 +15,47 @@ which observations changed what and why. It is not a separate agent system or
 an agent's private operating memory. Main alone publishes scientifically reviewed
 changes within its authorized output root.
 
-Use `data/knowledge/<material>/index.md` as navigation and concise current context,
-with `variables.md` for variable coverage and each stable claim in
-`data/knowledge/<material>/hypotheses/<stable-ID>.md`.
-The index points to those records, their current bounded judgments and open
-questions; do not embed all claim bodies or full reports in the index. Each claim
-record preserves its meaning/scope, related variables, conditions, motivation and
-original predictions. Summarize actual supporting and contrary observations there:
+Use four documents under `data/knowledge/<material>/`: `concentration.md`,
+`prebath_exposure.md`, `bath_temperature.md` and `bath_residence.md`. They group
+variable/process reasoning, not scientific types or one hypothesis per variable.
+Each develops the current understanding: physical explanations and expectations,
+observations that agree or conflict, revised or competing accounts, remaining
+uncertainties and next questions. Preserve conditions, motivation and original
+predictions. Summarize actual supporting and contrary observations there:
 what comparison showed, which prediction it bears on, the interpretation and
 remaining rivals/limits, with links to original round analysis and actual review.
 For a broad-history reassessment, apply the [analysis coverage rule](analysis-methods.md#match-analysis-coverage-to-the-question)
 and synthesize actual broad and local numeric findings, both supporting and adverse,
 with consequential stability/applicability
 limits and original analysis links. Explain how that evidence changes or justifies
-retaining the claim/domain/prediction/priority; neither a missing microscopic
+retaining the explanation/domain/prediction/priority; neither a missing microscopic
 intermediate nor unchanged labels replaces the assessment.
-The file alone should explain the current judgment and revision history; bare
-references are insufficient. Initial records state theory, actual literature and
-expectations, with no target experimental evidence or round-analysis reference
+The topic document should explain current judgment and consequential revision
+reasons; bare references are insufficient. Initial records state theory, actual
+literature and expectations, with no target experimental evidence or round-analysis reference
 unless such evidence was actually used and its origin disclosed. One analysis
-may be referenced by several claims.
-Internal prose/layout is flexible; this path convention is not a hypothesis quota,
-fixed report schema, ontology or hash framework. A material directory name does
-not verify chemistry.
+may inform several topics: write cross-variable reasoning once and link it from
+the other affected topics. Internal prose/layout is flexible; no fixed sections,
+table, new claim ID or hypothesis quota applies. A material directory name does
+not verify chemistry. The four topic files replace active per-ID storage and
+separate index/coverage-file requirements; retained IDs serve as provenance.
 
 Round originals live under authorized `data/results/<campaign>/mas/rounds/<round-id>/`:
 `inquiry.md` / `inquiry-review.md` for integrated work, or `analysis.md` plus
 `hypothesis-update.md` with actual review coverage for split work. Design/review,
 `decision.md` and useful `artifacts/` remain there. These paths locate needed work,
 not mandatory empty files or a fixed prose schema. Link the round's proposed change
-to the shared claim and the accepted claim revision back to its evidence/review.
+to the topic document and the accepted revision back to its evidence/review.
 Do not copy the entire knowledge base into every round. In temporary sessions both
 round and shared writes stay beneath the bound temporary root; the project stays
 read-only under the task contract and actual permissions must be reported.
 
-If older accepted knowledge embeds claims in its index, preserve that accepted
-version/history and relocate exact meanings, evidence and statuses to stable-ID
-files before publishing a navigable index. Review semantic preservation; relocation
-is not new evidence or permission to rewrite an old claim. A new test root inherits
-no acceptance silently; any deliberate seed needs provenance and authorized scope.
+When migrating older index/variable/per-claim records, preserve those originals
+and trace their exact meanings, judgments, negative evidence and sources into the
+relevant topics. Distinguish historical reconstruction and missing originals from
+recovered bytes. Review semantic preservation; regrouping adds no scientific support
+or independent confirmation. A new test root inherits no acceptance silently;
+any deliberate seed needs provenance and authorized scope.
 
 ## Initialize, then learn from observations
 
@@ -74,6 +76,8 @@ fresh initialization participants. Supply only approved constraints and factual
 measurement definitions; outcome-bearing source links/sections await reveal. If a participant already knows results, disclose that rather
 than claiming an unexposed prior. Existing data-derived claims retain their IDs,
 history and retrospective origin; never erase or relabel them as initial theory.
+An already exposed continuation resumes that knowledge rather than manufacturing
+a fresh blind bootstrap.
 
 After authorized observations arrive, integrated inquiry or reviewed split analysis informs updates,
 revisions and new ideas. Theory can be wrong; challenge it rather than force-fit
@@ -84,8 +88,8 @@ not a new prospective experiment. External-system evidence is not target-system
 confirmation, and using the same evidence to propose and assess a claim adds no
 independent support.
 
-Reuse an applicable bank across rounds/campaigns. Read its index and relevant or
-changed claim records, not the whole bank and bootstrap again each turn. Reconcile
+Reuse applicable knowledge across rounds/campaigns. Read relevant or changed topic
+documents rather than bootstrap again each turn. Reconcile
 new theory and older retrospective accounts explicitly without hiding origins or
 counting duplicate ideas/evidence as corroboration. Initial publication and later
 observation updates remain separate from main's next-test selection.
@@ -124,20 +128,20 @@ Evaluate each claim/endpoint and shared quality dependencies using the data cont
 
 ## Variable coverage
 
-Keep `data/knowledge/<material>/variables.md` as one concise coverage record, linked
-from the index. Ground definitions, units and control status in approved operator
-context and [source definitions](data-contract.md#conditions-operator-authority-and-decisions).
+Keep important-variable coverage in the relevant topic documents or linked existing
+context, including explicit reasons and reconsideration cues for variables without
+a justified present account. Ground definitions, units and control status in
+approved operator context and [source definitions](data-contract.md#conditions-operator-authority-and-decisions).
 Consider all known important request tunables, operator-prepared/locked settings,
 relevant protocol constants and environmental/provenance variables. Record what
 is controllable now, fixed for the batch, measured, inferred or unknown; a code
 constant does not certify physical installation. Link relevant context sources.
 
-Map each considered variable to the applicable claim IDs or an explicit unlinked
-section with why no present account is justified and what observation/source would
-prompt reconsideration. Unlinked differs from linked-but-untested. Several variables
-may enter one pathway and one variable may enter competing pathways. Do not invent
-mechanisms to fill cells or create variable-per-file/one-claim-per-variable catalogs.
-Reuse this record, updating relevant mappings when knowledge or constraints change.
+No important control or context disappears because it lacks its own topic file.
+Several variables may enter one pathway and one variable may enter competing
+pathways. A justified but untested account differs from no present account; do not
+invent mechanisms to fill coverage. Reuse and update the relevant coverage when
+knowledge or constraints change, without a separate variable catalog or new files.
 
 Fixed settings can motivate a scientific hypothesis and a future operator
 comparison, even though they cannot enter the current executable condition.
@@ -173,7 +177,7 @@ retentions, rationale, rival predictions and recommended question priorities.
 For a consequential discrepancy, link the original forecast and adverse observation
 to the actual rival comparison: what was learned, what remains unidentified, and
 why meaning/domain/prediction/priority changes or stays. A changed substantive
-claim keeps a linked predecessor and data-generated origin; status bookkeeping
+account preserves its predecessor meaning and data-generated origin; status bookkeeping
 alone does not supply that development. Justified retention needs no new claim.
 Distinct hypothesis QA checks motivation and usefulness as well as source truth,
 status and identity. Main reads actual artifacts/findings and makes its own value
@@ -181,11 +185,14 @@ judgment before publication/selection; PASS is not a command to choose a claim.
 
 Authors draft only in assigned areas; reviewers keep separate findings and never
 repair canonical knowledge or author work. Main publishes accepted changes to
-the claim files, variable coverage and index, retaining previous meanings, judgments, negative evidence
+the topic documents, retaining previous meanings, judgments, negative evidence
 and round links. If no shared-write authority exists, return a pending proposal.
-Stable meaning retains its ID; a changed mechanism, scope or prediction requires
-a linked new claim without silently inherited support. No new measurement means
-no fabricated confirmation/refutation. Working priority or a better question can
+Explain a changed mechanism, scope or prediction alongside its prior meaning;
+do not silently inherit support or require a new ID/file for every revision.
+Use the workflow's [invocation-bound Git rule](workflow.md#source-and-output-bindings)
+when authorized; accepted knowledge history needs no separate version files or
+per-round bank snapshots. No new measurement means no fabricated confirmation/
+refutation. Working priority or a better question can
 change with improved reasoning while empirical status remains unchanged.
 
 If design or new evidence invalidates a premise, mark affected judgments as needing

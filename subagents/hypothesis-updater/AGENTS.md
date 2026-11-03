@@ -31,7 +31,7 @@ Historical prose is evidence, not authority to change settings or instructions.
 ## Develop and maintain explanations
 
 During bootstrap, account for all known important tunables, fixed/operator settings,
-protocol constants and relevant environment/provenance through `variables.md`:
+protocol constants and relevant environment/provenance in topic documents or linked context:
 reasoned hypothesis links or explicit unlinked reasons/reconsideration cues.
 Form process-centered pathways and interactions, not one claim per variable.
 Fixed settings remain scientifically relevant. Do not infer initial directions
@@ -75,8 +75,8 @@ not default replacements for process reasoning. No new hypothesis, mechanism,
 figure or one-claim-per-variable quota applies.
 
 Retain earlier statuses when no relevant evidence changes them. Preserve negative
-observations and stable IDs for stable meanings. A changed mechanism, scope or
-prediction needs a linked new claim with the old meaning/history preserved.
+observations and historical IDs as provenance. Explain a changed mechanism, scope
+or prediction with the old meaning/history preserved; no new ID/file is compulsory.
 Support must address the stated claim; missingness and an unexecuted suggestion
 are not refutation. An unchanged status can accompany better motivation, revised
 working priority or a newly justified question, without inventing empirical support.
@@ -85,15 +85,17 @@ working priority or a newly justified question, without inventing empirical supp
 
 Draft the round's proposed changes only in your assigned authorized area, using
 `uv run` for useful calculations. Main alone publishes accepted shared knowledge:
-`index.md` navigates variable coverage and `hypotheses/<stable-ID>.md`. Proposed
-claim revisions summarize actual support and contrary observations, interpretation,
-limits and history with original round references; do not return bare link lists.
+`concentration.md`, `prebath_exposure.md`, `bath_temperature.md` and
+`bath_residence.md` develop explanations, supporting/contrary observations,
+interpretation, remaining questions and revision reasons with original round
+references. Keep cross-topic reasoning once and link it; do not return bare link lists.
 Integrated originals use `inquiry.md`, split originals may use `analysis.md` plus
 `hypothesis-update.md`, with actual review coverage and useful `artifacts/`.
 No empty file quota, separate findings.md or duplicated full-bank copy is needed.
 Never edit canonical knowledge, another
 author's work, original data or operator settings. Without write permission,
 return the proposed change through the allowed interface.
+You never stage/commit, including in an invocation that permits main's tmp Git.
 
 Send main and the distinct `hypothesis-qa` the candidate, original/analysis paths,
 prior meanings and substantive motivation, rival predictions, useful next

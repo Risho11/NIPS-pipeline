@@ -346,3 +346,16 @@ See steps/PHASE_12_STEP_1_PROMPT.md. The verified persistent Writer owns only11l
 ### Phase 12 Step 2 — Deferred Durable Contract Promotion
 
 See steps/PHASE_12_STEP_2_PROMPT.md. NOT_RUN / DEFERRED until human scientific-output review and later authorization. Earlier pending DCPs remain historical and unexecuted. Ordinary explicit-file Git only; no manager/progress/fingerprint, external shared-source change, production Python, hardware or remote action.
+
+
+## Phase 13 — Variable-topic knowledge evolution and tmp Git evaluation
+
+The human approved the six-item variable-file/inquiry/design/tmp-Git plan and actual implementation plus testing. Preserve all24historical plan entries and prior scientific verdicts. Same Controller, Worktree, persistent Writer and ordinary-Git exception; no new Goal or inherited mutation ownership.
+
+### Phase 13 Step 1 — Connect variable knowledge to experiment design
+
+See steps/PHASE_13_STEP_1_PROMPT.md. Fifteen literal scientific contract files belong to the verified Writer; five planning/status files belong to Controller. Keep integrated inquiry, unified QA and distinct design QA; no new classifier/agent/framework. Four topic files evolve physical explanations, data interpretation, competing accounts and next questions. Actual unblinded approved-data continuation runs in a new isolated tmp Git repository with main-only scoped commits and report-only final design. Independent source/output QA and ordinary explicit-file repository publication precede human output review.
+
+### Phase 13 Step 2 — Deferred Durable Contract Promotion
+
+See steps/PHASE_13_STEP_2_PROMPT.md. NOT_RUN / DEFERRED pending final knowledge/design human review and later explicit authorization. No manager/progress/fingerprint, shared-source/pin change, production Python, hardware, remote action or personal-memory update.

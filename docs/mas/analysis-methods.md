@@ -31,7 +31,10 @@ the [shared knowledge guide](knowledge.md) to separate original measurements,
 actually read scientific sources and proposed inferences. Search authorized
 original curves/photos/params/plot metadata via the [data contract](data-contract.md)
 before declaring evidence absent. Read current accepted knowledge and report
-which prior prediction the latest actual result does or does not test.
+which prior prediction the latest actual result does or does not test. Develop
+the relevant variable-topic understanding with supporting and contrary findings,
+not only a favorable local contrast; separate observed patterns, proposed causes
+and prospective expectations. Link cross-variable reasoning rather than duplicate it.
 
 ## Match analysis coverage to the question
 
@@ -234,10 +237,13 @@ record. Give scientific QA original source pointers and computation context to
 check consequential claims independently; writer self-checks are not acceptance.
 
 For [optimization design](workflow.md#deduce-useful-optimization-and-design), make
-clear which supported conditional relation or forecast informs the proposed test,
-its applicability/predictive limits and consequences for both objectives. Identify
-an analysis or explanation gap that blocks the deduction through main to unified
-inquiry QA; neither a high fitted value nor a plausible mechanism label suffices.
+clear which reviewed understanding and remaining question inform the proposed
+comparison, its applicability/predictive limits and consequences for both objectives.
+A test may learn an effect/trend or manufacturing variability without a new
+hypothesis or signed improvement prediction; say how the outcomes change judgment.
+Identify an analysis or explanation gap that blocks the deduction through main to unified
+inquiry QA, even when the gap was already known; neither a high fitted value nor a
+plausible mechanism label suffices.
 Do not require a new model or full mechanism identification when existing evidence
 supports a useful bounded test.
 

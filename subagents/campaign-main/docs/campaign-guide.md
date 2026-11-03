@@ -28,9 +28,10 @@ physical directions and prerequisites; literature support elsewhere is not proof
 here. Neither source counts nor a fixed hypothesis-per-variable catalog is useful.
 
 Account for all known important tunables, fixed settings, constants and relevant
-context through `variables.md`; link reasoned claims or explain unlinked variables
-and reconsideration cues. Do not fill gaps with invented mechanisms. After the
-bank exists, reuse its index and relevant/changed claims. Reveal authorized
+context in the relevant topic documents or linked context; retain reasoned coverage
+or explain unlinked variables and reconsideration cues. Do not fill gaps with
+invented mechanisms. After the
+knowledge exists, reuse its relevant/changed topic documents. Reveal authorized
 observations to the integrated inquiry author/reviewer, then retain, revise or add
 accounts; a bounded split supplies separately authored analysis when required. Preserve old data-derived IDs and origin; do not force data
 to fit theory or relabel newly inspired ideas as initial predictions. Existing
@@ -40,8 +41,8 @@ axes. Selection/design follows reviewed knowledge; it is not bootstrap publicati
 ## Recover the real question and available contrasts
 
 In observation turns, follow the round index to actual measurements, prior prediction/design, accepted
-claims and open questions. Read the relevant stable claim files through shared
-`index.md`, not only a summary or the previous conversation. Check which proposal
+accounts and open questions. Read the relevant topic documents and linked originals,
+not only a summary or the previous conversation. Check which proposal
 was executed; a suggestion attached to source row A does not make A a test of B.
 When no prior prediction exists, label retrospective inference honestly.
 
@@ -143,20 +144,28 @@ Separate three situations:
 These are reasoning situations, not mandatory status fields. Preserve old proposed/
 inconclusive judgments when no new evidence changes them. Improved priority or
 motivation is possible without fabricated empirical support. If the selected
-meaning changes, obtain a linked revised claim and affected review before design;
+meaning changes, preserve the old meaning and revision reason with affected review before design;
 do not rename a mechanism test as an effect test after seeing an unfavorable result.
 
-Only main accepts/publishes reviewed shared changes in `hypotheses/<stable-ID>.md`
-and updates `variables.md` / `index.md` navigation. Claim files summarize actual
-supporting/contrary observations and their interpretation/limits with links to
-original round inquiry (or split records) and review. Link both ways; one analysis
-may inform several claims without duplicating its text. Preserve old meanings and adverse evidence; a new round or another
+Only main accepts/publishes reviewed shared changes in the four topic documents
+specified by the knowledge contract. Develop actual supporting/contrary observations,
+interpretation/limits and remaining questions alongside explanations, with links to
+original round inquiry (or split records) and review. Link both ways; write coupled
+reasoning once and link across topics. Preserve old meanings and adverse evidence;
+a new round or another
 PASS is not a new measurement. You can accept a background account without selecting
 it. No publication permission means a pending proposal, not an improvised write.
+If the invocation explicitly authorizes independent TEST_ROOT Git, make an initial
+knowledge/exposure commit, then commit reviewed and adopted changes with exact
+topic/round paths. Follow the workflow's [Git boundary](../../../docs/mas/workflow.md#source-and-output-bindings),
+including excluded raw/media files and disabled hooks/signing. Record the knowledge
+commit informing design in the round; do not add version files or full-bank snapshots.
+Rejected drafts are not published knowledge, and authors/reviewers never stage/commit.
 
 ## Ask design what the next observation can teach
 
-Pass the exact selected claim, intended inference level and selection reason.
+Pass the current reviewed understanding, remaining question, intended inference
+level and selection reason, with the committed knowledge version when applicable.
 Design must identify comparator, changed/fixed settings, feasible conditions and
 predicted favorable, adverse and inconclusive observations. Compare actual primary
 and dependent endpoints using the data contract; missing secondary data does not
@@ -166,8 +175,8 @@ an unmeasured comparison or establish synthesis variance.
 
 When design cannot deduce an interpretable test, require the concrete missing
 applicability, response forecast, rival or observable and why it matters. Return
-that question to inquiry author/unified QA and review the actual affected revision
-before redesign. Do not insist on a ceremonial backpass when the reviewed claim
+that question to the appropriate author/unified QA even if already known and review
+the actual affected revision before redesign. Do not insist on a ceremonial backpass when the reviewed claim
 already supports the design, or on full mechanism proof/exact known boundary.
 
 Explore, optimize and repeat describe the evidence need after this reasoning.

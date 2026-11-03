@@ -59,8 +59,10 @@ Markdown inquiry (or split analysis/update), design and final-decision records w
 a report-file quota, and a readable index linking artifacts, revisions, actual
 QA findings and unresolved evidence. No fixed figure roster, whole-report JSON echoes,
 all-report hash gate or parentage framework is required. Shared knowledge uses
-an index, `variables.md` (linked and explicitly unlinked coverage) and stable
-hypothesis files with concise evidence assessments and round references. Actual
+four variable/process-topic documents: `concentration.md`, `prebath_exposure.md`,
+`bath_temperature.md` and `bath_residence.md`, with current reasoning, supporting/
+contrary evidence, remaining questions and round references. These group inquiry;
+they require neither a new hypothesis per update nor a fixed prose layout. Actual
 operator batches have summaries and proposed next-batch fixed-setting comparisons;
 report-only candidates claim no physical completion. See the
 [records convention](workflow.md#records-are-navigable-and-revisable).
@@ -101,6 +103,10 @@ Use the workflow's [source/output bindings](workflow.md#source-and-output-bindin
 [data contract](data-contract.md) for originals and warm-start provenance, and
 [knowledge guide](knowledge.md) for shared publication and history. Read approved
 project evidence while writing only assigned temporary round/knowledge outputs.
+Only explicitly authorized scientific main may manage an independent TEST_ROOT
+Git repository under the workflow's binding; authors/reviewers do not stage or
+commit. Accepted knowledge history records the version informing each design,
+without committing raw data or creating extra bank snapshots.
 Actual permissions must be checked separately from task instructions. Concrete
 session paths, read set, authorization and budget belong in the transient dispatch.
 

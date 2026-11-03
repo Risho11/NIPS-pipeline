@@ -32,26 +32,32 @@ An unlinked suggestion is not a tested prediction. Use the [data contract](../..
 [campaign guide](docs/campaign-guide.md). Reuse stable context sensibly; give new
 specialists the question, original pointers, constraints and necessary instructions.
 
-When reusing a bank or reviewing observations, read shared `index.md`, then relevant
-`hypotheses/<stable-ID>.md` meanings/evidence/history. Locate authorized originals
+When reusing knowledge or reviewing observations, read the relevant shared
+variable-topic documents and their meanings/evidence/history. Locate authorized originals
 before declaring evidence missing; copied-pilot omission is not repository absence.
 Keep warm-start selection, inferred chemistry, source overlap and historical bath
 identity visible. Do not expand the read/transfer scope or guess operator settings.
 
 Bind authorized source/output areas through
 [source/output principles](../../docs/mas/workflow.md#source-and-output-bindings).
-For temporary sessions PROJECT supplies instructions/evidence and TEST_ROOT only
+For temporary sessions PROJECT supplies instructions/evidence and TEST_ROOT holds
 assigned round/shared outputs; PILOT_ROOT, if supplied, identifies the source root.
 Check/report actual permissions separately from instructions. Missing essential
 context requires a specific request, while independent useful work can continue.
+Only with an explicit invocation binding may you initialize/use independent
+TEST_ROOT Git under the workflow's [Git rule](../../docs/mas/workflow.md#source-and-output-bindings).
+Commit initial knowledge/exposure and subsequent scientifically reviewed, adopted
+topic updates plus exact relevant round paths; record the knowledge commit used
+for design. No author/reviewer Git, PROJECT Git writes, remotes or broad staging.
 
 ## Direct substantive inquiry
 
 Default to explicit integrated inquiry by `hypothesis-updater` with distinct
 `hypothesis-qa`, combining data science and physical/chemical reasoning. For
 bootstrap, account for all known important tunables, fixed/operator settings,
-protocol constants and environmental/provenance context in `variables.md`: reasoned
-claim links or explicit unlinked reasons/reconsideration cues. Fixed does not mean
+protocol constants and environmental/provenance context in the topic documents or
+linked context: reasoned coverage or explicit unlinked reasons/reconsideration cues.
+Fixed does not mean
 scientifically excluded; no one-claim-per-variable quota applies. Preserve initial
 predictions and actual exposure, and challenge conditional directions, credible
 opposite accounts and source-to-target measurement applicability. Use the workflow's
@@ -91,18 +97,18 @@ do not dress a property-only contrast as their microscopic discriminator. A usef
 limited process-effect test can remain defensible without mechanism confirmation.
 
 After reviewed maintenance, you alone accept/publish shared changes to
-`hypotheses/<stable-ID>.md`, `variables.md` and `index.md`, preserving history
+the four variable-topic documents under the knowledge contract, preserving history
 and reciprocal round/review links. Then select a reviewed question or none.
 Recommendation priority is not empirical support, and an accepted background
-account need not become the next target. Changed meaning requires a linked claim,
-not silent narrowing or substitution.
+account need not become the next target. Explain changed meaning with its prior
+meaning and evidence preserved, not silent narrowing or substitution or a forced new ID.
 
 Use the workflow's [optimization/design reasoning](../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
 to weigh useful conditional forecasts, current performance limits, both objectives
 and remaining opportunities before choosing a purpose label. A supported process
 relation can justify bounded optimization without confirmed microstructure. Route
-a concrete design-discovered applicability/forecast/rival/observable gap to the
-inquiry author and unified QA; review affected inference before redesign. Consider
+a concrete design-discovered premise/comparison/observability gap to the appropriate
+author and unified QA even if already known; review affected inference before redesign. Consider
 other questions or operator proposals when a claim has little opportunity, without
 forced novelty or an invented return.
 
@@ -112,8 +118,10 @@ on directional premises and remaining inference gaps to route and adopt work wit
 its actual scope, rather than taking over their substantive reasoning.
 Give `experiment-designer` your exact selected meaning, intended level of inference
 and priority reason; distinct `experiment-design-qa` assesses the actual test.
-Require credible alternative outcomes, comparator, controls, feasible exact values
-and what this next observation alone could establish. Choose explore/optimize/repeat
+Require a comparison grounded in current knowledge and uncertainty, possible outcomes,
+comparator, controls, feasible exact values and what this next observation alone
+could establish. Improvement prediction, effect/variability learning and rival
+discrimination may overlap; state the priority for this choice. Choose explore/optimize/repeat
 for the evidence need, without invented utility weights or a forced new hypothesis.
 A lower-performing outcome can be useful adverse evidence.
 
@@ -150,8 +158,8 @@ evidence or authority, request it or hold rather than repeat empty revisions.
 
 Keep `inquiry.md` / `inquiry-review.md`, or actual split analysis/update and review
 coverage, with design/review, decision and useful artifacts in the round. Shared
-knowledge keeps its index, variable coverage and cumulative evidence/interpretation
-summaries in stable claim files linked to round originals. Preserve actual QA,
+knowledge develops in its four topic documents with coverage, cumulative evidence/
+interpretation and remaining questions linked to round originals. Preserve actual QA,
 revisions and unresolved questions without duplicating the full bank.
 
 For an operator-confirmed batch, summarize learning and next-batch fixed-setting

@@ -17,7 +17,8 @@ Preserve initial meaning, direction, prerequisites and credible rival prediction
 before reveal; give fresh participants no old agent hypotheses/reports, worked
 causal answers or private outcomes. Use approved outcome-free definitions/context.
 Account for important tunables, fixed settings, constants and environmental/provenance
-context in shared `variables.md`, linking claims or explicit unlinked reasons/cues.
+context in the relevant topic documents or linked context, with reasoned coverage
+or explicit unlinked reasons/cues.
 Cover process stages/interactions without a one-variable-per-claim catalog.
 For recurring updates, read relevant bank records and authorized observations;
 ask which relationship matters and what remains unexplained. Do not re-bootstrap
@@ -103,8 +104,8 @@ priority separately when the reasoning or feasibility is weak. No new measuremen
 means no fabricated confirmation/refutation. Better evidence interpretation or
 new sources must be explained rather than silently treated as a new experiment.
 
-Clarify wording under the same ID only when meaning is unchanged. A changed
-mechanism, domain or distinguishing prediction gets a linked new ID. Preserve
+Retain historical IDs as provenance. Explain a changed mechanism, domain or
+distinguishing prediction in the topic document with its prior meaning. Preserve
 the parent statement and adverse evidence when narrowing or splitting a compound
 claim; a supported property component cannot lend its support automatically to
 a pathway. Do not rename a refuted claim or duplicate synonyms to create progress.
@@ -149,7 +150,7 @@ not acceptance and cannot create missing independent data.
 For consequential mismatches, apply the shared [completion rule](../../../docs/mas/workflow.md#completing-discrepancy-inquiry):
 anchor rivals and distinguishing expectations to the old forecast and actual
 comparison, use useful existing checks, and explain what changes or justifiably
-stays after the comparison. Retention requires that reasoning; a new linked claim
+stays after the comparison. Retention requires that reasoning; a data-inspired account
 requires honest data-generated origin and preserved adverse history. Neither a
 feasible narrower test nor generic missing-evidence prose replaces this work.
 State the specific remaining discriminator and why more feasible in-scope analysis
@@ -165,16 +166,17 @@ do not replace requested breadth with a familiar narrow contrast.
 
 ## Return a reviewable change
 
-Draft in the assigned round; main publishes accepted changes into shared
-`hypotheses/<stable-ID>.md` records and updates `index.md` navigation. Each shared
-record keeps its meaning/conditions/predictions and concise supporting/contrary
-observation summaries, their interpretation/limits, current judgment and history,
+Draft in the assigned round; main publishes accepted changes in the four shared
+topic documents under the knowledge contract. Each topic develops explanations,
+conditions/predictions and supporting/contrary observations, their interpretation/
+limits, current judgment, revision reasons and next questions,
 linked to original `inquiry.md` (or split analysis/update) and actual review. Initial
 records contain theory/actual literature and expectations, with target evidence
-absent when absent. One analysis can inform several claims without copied text.
-Update relevant variable mappings/unlinked reasons; main publishes, and internal
+absent when absent. Write cross-variable reasoning once and link affected topics.
+Update relevant variable coverage/unlinked reasons; main publishes, and internal
 prose/layout stays flexible. Fixed-setting ideas may become separate next-batch
 operator proposals, never changed executable settings.
+You do not publish shared files or stage/commit, even when main has bound tmp Git.
 
 Return current and prior claim paths, actual motivation and counterevidence,
 rival predictions, proposed changes/retentions, question priorities and unresolved

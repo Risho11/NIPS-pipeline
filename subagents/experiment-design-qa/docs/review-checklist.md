@@ -10,16 +10,17 @@ independent review calculations/artifacts; preserve the author's candidate.
 
 ## Start from selection, not attractiveness of the point
 
-Recover main's selected hypothesis and why it was selected. Compare that meaning
-with the claim the proposed experiment actually tests. A designer can explain a
-problem with the selected test, but cannot silently replace the hypothesis to
+Recover main's reviewed topic understanding, remaining question and priority.
+Compare that meaning with the question the proposed experiment actually tests.
+Check the committed knowledge version when tmp Git is bound. A designer can explain a
+problem with the selected test, but cannot silently replace the question to
 justify an attractive point. Inspect the current candidate/revision and previous
 findings, then trace the comparator and consequential evidence to originals.
 If material changes during review, clarify the revision and recheck affected
 claims/values before giving a current judgment.
 
-Ask what possible result would favor the selected claim, what would challenge
-it and what would remain inconclusive. Can a competing explanation predict the
+Ask how possible results would change current understanding or the next decision,
+and what would remain inconclusive. For rival discrimination, can a competitor predict the
 same outcomes? If so, does the design identify the limitation or falsely claim
 mechanistic discrimination? A vague promise to "learn about performance" does not
 justify a specific causal conclusion. Quality failure, missing outcome or
@@ -27,17 +28,19 @@ execution mismatch is not automatically physical refutation.
 
 ## Review the information argument
 
-Read the current shared claim and proposed round-to-knowledge interpretation,
-not only a selected ID. Constructive criticism should ask what alternative
-prediction the next observation distinguishes; acceptance is not earned just
+Read the current topic documents and proposed round-to-knowledge interpretation,
+not only a selected ID. Constructive criticism should ask how possible observations
+would change judgment; for rival discrimination, check their differing predictions.
+Acceptance is not earned just
 by feasibility checks or caveats. A tentative pathway is allowed, but support
 cannot exceed its actual observables. Main publishes any reviewed knowledge
 revision after routing affected author/QA work; reviewers never edit it.
 
 Use the shared [deduction rule](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
 to check hypothesis-grounded optimization, not only a feasible tuple. Trace the
-conditional forecast, support/applicability and useful extension, considering both
-modulus and the fitted compression pore estimate without invented utility weights.
+current understanding, remaining question, support/applicability and any claimed
+forecast, considering both modulus and the fitted compression pore estimate
+without invented utility weights.
 A supported process relation may suffice without confirmed microstructure; a
 plausible story or predicted high point alone does not. Unknown exact range may
 legitimately be tested if outcomes can change judgment prospectively.
@@ -47,15 +50,16 @@ A defensible contrast does not repair a missing directional premise. If acceptin
 only a narrower screen, distinguish that acceptance from the broader objective's
 pending work or justified unresolved disposition in the existing review.
 
-If a material applicability/forecast/rival/observability link is missing, identify
-that gap and its consequence through main for inquiry author/unified QA. Recheck
-affected inference and changed design after actual repair; do not write the claim
+If a material premise/comparison/observability link is missing, identify that gap
+and its consequence through main for the appropriate author/unified QA, even if
+already known. Recheck affected inference and changed design after actual repair;
+do not write the claim
 or demand a manufactured failure/backpass when the current deduction is adequate.
 The following questions guide judgment rather than enforce a scored report layout.
 
 | Design component | Independent question | A useful repair request |
 | --- | --- | --- |
-| Prediction | Does the observable follow from the selected scoped claim and differ meaningfully from alternatives? | Explain the discriminating outcome or return the unresolved hypothesis question through main |
+| Question/outcomes | Does the comparison answer the selected question, with justified directions where claimed and differing outcomes when rival discrimination is intended? | Explain what is learned or return the material missing premise/comparison through main, even if already known |
 | Comparator/controls | Is the comparator actually measured and comparable in material/bath/formulation/stock/processing context? | Locate the source, obtain a matched comparison, or label the missing future control and limit immediate interpretation |
 | Repeat strategy | What is independently synthesized, and why does that evidence need matter now? | Separate specimens from synthesis repeats and explain what the next observation can establish |
 | Purpose | Why explore/optimize/repeat for this uncertainty instead of a relevant alternative? | Compare informative contrasts without invented weights or a compulsory model method |
@@ -138,7 +142,7 @@ this point alone and what must await further observations.
 
 ## Null design, findings and bounded acceptance
 
-A null proposal can be correct when main selected no defensible hypothesis,
+A null proposal can be correct when main selected no justified question,
 current operator context is missing, a necessary comparison cannot be obtained,
 or no feasible condition answers the selected question. Check the specific reason
 and what evidence or decision would permit reconsideration. Main may hold with

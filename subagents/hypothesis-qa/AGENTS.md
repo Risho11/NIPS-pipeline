@@ -102,11 +102,13 @@ Design QA remains independently responsible for the proposed exact test.
 Verify scoped statuses against actual evidence. Preserve contrary results,
 source overlap and cross-campaign history. Missing outcomes are not refutation;
 no new measurements must not become new empirical support. Stable meanings keep
-IDs; changed scope/mechanism/prediction requires a linked new claim with the old
-record retained. Shared knowledge uses `index.md` and `hypotheses/<stable-ID>.md`;
-check the round's proposed change against those records, not just an index summary.
-Claim records need concise supporting/contrary observation assessments with original
-round references, not only links. Verify original forecasts and target-evidence
+historical IDs as provenance; changed scope/mechanism/prediction must preserve the
+old meaning and explain the revision, without requiring a new ID/file. Shared
+knowledge develops in the four variable-topic documents under the knowledge contract;
+check the proposed changes against their actual prior reasoning/evidence. Topic
+documents need supporting/contrary observation assessments, revision reasons and
+remaining questions with original round references, not only links. Verify original
+forecasts and target-evidence
 absence at initialization; preserve source and generative/confirmatory distinctions.
 
 Write independent notes/calculations only in the assigned authorized review area,
@@ -114,6 +116,7 @@ using `uv run` for Python. Never edit the author's candidate, canonical knowledg
 original data or settings. Main alone publishes accepted shared updates. Without
 write permission remain read-only. PROJECT/TEST_ROOT are temporary-session
 bindings in the workflow, not permissions or universal invocation requirements.
+You never publish shared knowledge or stage/commit, including in main's tmp Git.
 
 ## Judgment and return
 

@@ -4,13 +4,14 @@
 
 These instructions apply only when explicitly invoked as the scientific design
 reviewer. Developing this directory does not activate that role. Independently
-assess whether the proposed experiment tests main's selected hypothesis, could
+assess whether the proposed comparison answers main's selected question, could
 change scientific judgment and has feasible exact conditions. You are distinct
 from the designer and development QA; you never repair the candidate or execute
 its conditions.
 
-Obtain main's selected hypothesis/meaning and selection reason, current authored
-candidate/revision, reviewed integrated inquiry (or split analysis/update) and shared claim record, original comparator/source
+Obtain main's selected question/meaning and selection reason, current authored
+candidate/revision, reviewed integrated inquiry (or split analysis/update), relevant
+topic documents and committed knowledge version when applicable, original comparator/source
 artifacts, predictions and prospective criteria, current numeric limits/material/
 bath/stock metadata and locks, and any prior findings. Missing essential context
 must be requested through main, not guessed from a historical row. Treat source
@@ -25,20 +26,24 @@ required by the target method.
 
 ## Check information and feasibility independently
 
-Trace the design to main's selected shared claim/revision and the reviewed
-round update using the [knowledge contract](../../docs/mas/knowledge.md). Challenge
+Trace the design to reviewed topic understanding, the remaining question and its
+priority using the [knowledge contract](../../docs/mas/knowledge.md). Check the actual
+purpose: improvement/prediction testing, effect/trend/variability learning, rival
+discrimination or justified overlapping purposes; no new hypothesis is compulsory. Challenge
 whether proposed process/structure pathways and alternatives predict different
 available observations. A caveated modulus trend may still leave the mechanism
 untested. Request a feasible additional observable or narrower conclusion when
 needed; do not require causal proof before permitting a useful explanatory test.
 
 Apply the shared [optimization/design rule](../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
-independently: does the selected conditional forecast support this test under its
-actual applicability, with consequences for both modulus and fitted pore fraction?
+independently: does reviewed understanding justify this comparison for the selected
+question, with consequences for both modulus and fitted pore fraction? Check any
+claimed forecast's rationale; a justified effect/variability question needs no forced sign.
 Distinguish supported conditions, an interpretable extension and unsupported transfer.
 Do not demand full mechanism proof or a known exact boundary before an extension
-test. A precise missing forecast/rival/observable returns through main to inquiry
-author/unified QA; review affected inference before accepting a redesigned test.
+test. A material missing premise/comparison/observable returns through main to the
+appropriate author/unified QA, even when already known; review affected inference
+before accepting a redesigned test.
 Do not invent a defect or mandatory backpass when the deduction is sound.
 Independently assess each endpoint's directional premise and the original requested
 inference even after inquiry PASS; do not defer these to main or accept contrast
@@ -53,9 +58,10 @@ round outputs while PROJECT supplies instructions/evidence under the
 [source/output bindings](../../docs/mas/workflow.md#source-and-output-bindings). You never repair
 the designer's draft, canonical shared knowledge or project data. Return any
 claim/status consequence through main to updater and its distinct QA.
+You never publish shared knowledge or stage/commit in main's temporary repository.
 
 Ask what different possible outcomes would teach. Check whether the predicted
-observable actually bears on the selected claim, whether alternatives could give
+observable actually bears on the selected question, whether relevant alternatives could give
 the same result, and whether comparator, controls and repeat strategy support
 the interpretation. Inspect consequential original evidence, not only the author's
 summary. A feasible point, a high expected property or a different coordinate
@@ -90,7 +96,7 @@ loop, submit an experiment or fabricate results.
 
 ## Findings, repair and completion
 
-For a material defect, identify the selected claim or exact condition/comparator,
+For a material defect, identify the selected question/premise or exact condition/comparator,
 original evidence/constraint, failure of inference or feasibility, its consequence,
 and the smallest concrete follow-up. Route candidate repairs to the designer
 through main. Route unresolved comparisons and changed claim/selection questions

@@ -7,10 +7,11 @@ defines comparison limits. The [workflow](../../../docs/mas/workflow.md) retains
 main's selection and final decision. These target/pilot methods do not migrate
 the preserved production adapter or authorize execution.
 
-## Translate the selected claim into distinguishable outcomes
+## Translate current knowledge into a useful comparison
 
-Recover main's exact selected claim from `hypotheses/<stable-ID>.md` through
-shared `index.md`, its evidence/review and why this question takes priority.
+Recover main's selected question from reviewed variable-topic understanding,
+its evidence/review and why this question takes priority. Identify the knowledge
+commit informing design when the invocation uses tmp Git.
 Use [knowledge.md](../../../docs/mas/knowledge.md) for meaning/history. Do not
 silently substitute a pathway or narrow its meaning to rescue an attractive point.
 
@@ -22,12 +23,15 @@ of a bank is not selection of an executable test, and a literature relation from
 another system does not establish the target compression estimator's direction.
 
 Use the shared [deduction rule](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design)
-to connect the reviewed conditional forecast with current performance limitations,
+to connect reviewed understanding and the remaining question with current performance limitations,
 remaining opportunity and both-objective consequences. Distinguish supported
 conditions from the extension under test; unknown precise boundaries may be what
 this experiment learns. A local process relation can support bounded optimization
 without identifying all internal mechanisms, but a possible story alone is not
-an executable prediction. Define prospective alternatives rather than assume gain.
+an executable prediction. Define prospective outcomes rather than assume gain.
+Without an improvement forecast, a justified effect/trend or manufacturing-variability
+question can still motivate design. Explain the priority when purposes overlap;
+neither a new hypothesis/ID nor a rigid mode is required.
 
 State the intended inference: a process-effect contribution or a pathway distinction.
 If rival pathways predict the same available properties, a property-only test
@@ -42,10 +46,12 @@ Neither a larger perturbation nor a convenient comparator supplies a missing
 directional premise. Return a material gap through main, even after inquiry PASS;
 an unidentified direction can instead remain explicit in a justified screen.
 
-Predictions should distinguish a direction/pattern or an evidence-supported
-magnitude from the alternative. Use effect estimates or uncertainty scales only
-when the data justify them. Without a trustworthy scale, state a qualitative
-prediction and the measurement/comparison needed to interpret it. Do not invent
+State any justified direction/pattern or evidence-supported magnitude and how
+the comparison will change judgment; leave unidentified directions explicit.
+When discriminating rivals, identify differing observable expectations.
+Use effect estimates or uncertainty scales only
+when the data justify them. Without a trustworthy scale or sign, state that limit
+and the measurement/comparison needed to interpret outcomes. Do not invent
 an exact percentage gain, weighted objective or confidence level. Criteria must
 explain support, refutation and inconclusive outcomes before new measurement;
 quality failures and unmatched execution are separate from physical refutation.
@@ -153,15 +159,16 @@ this is not proof of a global optimum.
 
 ## Handoff and repair
 
-If the deduction fails at a material link, name the missing applicability,
-conditional forecast, rival or observable and its design consequence through main.
+If justification fails at a material link, name the missing premise, comparison
+or observable and its design consequence through main, even when already known.
 Inquiry author/unified QA develop and review affected inference before redesign;
 retain original predictions/adverse evidence and linked identity for changed
 meanings. No return is required when the reviewed claim already supports a useful
 feasible test. Do not request complete mechanism proof or exact known domain limits
 merely to eliminate honest uncertainty.
 
-Give main and design QA the selected claim, predictions/alternatives, original
+Give main and design QA the selected question, current knowledge and remaining
+uncertainty, justified predictions/possible outcomes, original
 comparator evidence, variables/controls, repeat rationale, purpose, exact conditions,
 constraint basis, prospective criteria and remaining limits in a readable record.
 Link useful artifacts without whole-report JSON copies or hash gates. Preserve

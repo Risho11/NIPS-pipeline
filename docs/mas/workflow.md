@@ -47,6 +47,20 @@ or specialist ownership enforces isolation. Respect the approved read set and
 transfer scope. Concrete paths, input selection, authorization and execution
 budget belong in the transient dispatch, not another repository test manual.
 
+Only an explicitly authorized scientific main may initialize and use an independent
+Git repository at its bound TEST_ROOT. Keep PROJECT and all other repositories
+read-only. Commit initial knowledge with its actual provenance/exposure, then only
+scientifically reviewed, main-adopted topic changes and explicitly named relevant
+round records. Record the committed knowledge used for a design in the existing
+round record; Git history replaces extra version files and bank snapshots.
+Stage exact paths only, excluding original/raw data, media, caches and secrets.
+Use command-local identity/settings with hooks and signing disabled; do not change
+global configuration, execute hooks, use remotes, broad staging, resets or deletions.
+Authors/reviewers neither publish shared knowledge nor stage/commit; drafts and
+rejected proposals are not adopted knowledge. Final topic prose retains consequential
+revision reasons without committing every draft. Without this explicit binding,
+no Git-write authority is granted; preserved production permissions still govern.
+
 ## Knowledge initialization and recurring inquiry
 
 One persistent main uses the same roles for initialization and observation turns.
@@ -64,8 +78,8 @@ If no applicable bank exists, author/QA first develop and review theory-informed
 claims from allowed material/process/measurement context and actually read sources.
 No reviewed current analysis is needed. Consider all known important tunables,
 fixed/operator settings, protocol constants and relevant environment/provenance;
-map them to hypotheses or explicitly unlinked entries with reasons and
-reconsideration cues in [variables.md](knowledge.md#variable-coverage).
+retain their reasoned coverage or explicit unlinked reasons/reconsideration cues
+in the [topic documents or linked context](knowledge.md#variable-coverage).
 Fixed settings remain scientific questions even when unavailable as runtime choices.
 
 For a fresh initialization evaluation, supply no old agent hypotheses/reports,
@@ -211,9 +225,9 @@ stratified evidence and feasible calculations for the rival predictions; no mode
 figure, assay or hypothesis count is required. Explain what the checks showed
 between rivals, what remains unidentified, and what should change in the claim,
 domain, prediction or priority, or why it should remain. Preserve original
-forecasts and adverse evidence; substantive successor meanings get linked IDs
-and honest data-generated origins, without independent confirmation from reuse
-of the same data. Unsupported conditional rescue is not hypothesis development.
+forecasts and adverse evidence; explain substantive revisions alongside their
+prior meanings and honest data-generated origins, without independent confirmation
+from reuse of the same data. Unsupported conditional rescue is not hypothesis development.
 
 Main checks inquiry completion separately from next-action feasibility. Correct
 numbers, cautious labels, unchanged statuses or a feasible narrower process-effect
@@ -239,8 +253,11 @@ not evidence of scientific completion.
 
 ## Deduce useful optimization and design
 
-Start from a useful reviewed hypothesis and its conditional forecast, not a choice
-of explore/optimize/repeat. Main weighs relevance to current performance limitations,
+Start from current reviewed understanding and a remaining question, not a required
+new hypothesis or choice of explore/optimize/repeat. The comparison may test an
+improvement prediction, learn an effect/trend or manufacturing variability, or
+distinguish rivals; purposes can overlap. State the priority for this choice and
+how its possible outcomes change judgment. Main weighs current performance limitations,
 consequences for both elastic modulus and fitted compression pore fraction,
 predictive adequacy, remaining improvement opportunities and useful discriminating
 evidence. Explain uncertainty/tradeoffs without invented utility weights or gains.
@@ -253,26 +270,28 @@ read, with its bridge assumptions under the actual conditions. A reason for one
 endpoint alone does not supply the other's sign without a justified applicable
 link; a shared physical or measurement relation may ground both. Physical
 possibility or falsifiability alone supplies no direction; state when a direction
-remains unidentified. An
-honestly scoped empirical or unsigned screen may still be useful, but distinguish
-the response it tests from the originally requested inference. Main supplies that
+remains unidentified. An honestly scoped empirical or unsigned screen may still
+be useful, but distinguish the response it tests from the originally requested inference. Main supplies that
 objective; author, unified QA, designer and distinct design QA assess their own
 contributions against it rather than leaving all substantive judgment to main.
 
-Translate the selected meaning into a test under actual material/process conditions:
+Translate the selected question and any associated prediction into a test under
+actual material/process conditions:
 what has evidential support, what extension is being tested, what comparator and
 observable would assess the forecast, and what competing outcomes could change
 judgment. Exact domain boundaries need not already be known to test an extension.
 State that uncertainty prospectively; do not move the domain after an adverse result
-to protect the claim. Preserve original forecasts, adverse history and linked
-identity for substantive changed meanings. Methods, narrative and artifacts remain
+to protect the claim. Preserve original forecasts, adverse history and explicit
+revision reasons for substantive changed meanings. Methods, narrative and artifacts remain
 autonomous; these questions are not a required table, score or mode transition.
 
 If design exposes missing applicability, conditional response, competing explanation
 or observability needed to justify the test, name the precise gap and its decision
 consequence through main. Main returns it to the inquiry author and unified QA,
-using analyst splits only under existing triggers. Develop and independently review
-the affected inference before redesign; the designer must not silently fill the
+using analyst splits only under existing triggers. A known gap still returns if
+needed to justify the current design; an old PASS or “not new” does not resolve it.
+Develop and independently review the affected inference before redesign; the
+designer must not silently fill the
 claim or accept an old PASS for changed reasoning. No defect means no invented
 backpass, revision or failure. Do not demand unconditional mechanism proof or a
 known exact range when a justified extension test can answer the question.
@@ -353,7 +372,7 @@ remain usable while interpretation changes. A default integrated repair does not
 require inventing a separate analysis stage.
 
 Mark affected judgments as needing review and suspend dependent run recommendations
-while a material issue is open. Preserve previous judgments and record the new
+while a material issue is open. Preserve previous judgments and record the relevant
 evidence and revision reason. Re-review the conclusions that depend on the change;
 do not automatically redo unaffected accepted work. A changed numerical condition
 requires renewed design/feasibility review before adoption. An editorial change
@@ -369,14 +388,14 @@ link the selected question, evidence and adopted action; `artifacts/` holds usef
 calculations/plots/tables. Keep a small navigation in existing records. Filenames
 locate real work, not empty mandatory reports or a rigid template.
 
-Shared `data/knowledge/<material>/index.md` navigates `variables.md` and
-`hypotheses/<stable-ID>.md`. Variables map to reasoned claims or explicit unlinked
-entries. Claim files summarize supporting and contrary observations, implications,
-limits, current judgment and history with links to original round analyses/reviews.
-A link list alone is insufficient. One analysis may inform multiple claims without
-duplicating its full text. No separate findings.md or full-bank copy each round is
-needed. Preserve original predictions and superseded judgments; a new round or
-review is not a new measurement. See [knowledge](knowledge.md).
+Shared `data/knowledge/<material>/` holds `concentration.md`, `prebath_exposure.md`,
+`bath_temperature.md` and `bath_residence.md`: current explanations, supporting and
+contrary observations, interpretation/limits, revision reasons and next questions,
+linked to original round analysis/review. Keep cross-variable reasoning once with
+links and preserve important controls/context or explicit unlinked reasons there.
+A link list alone is insufficient. Preserve original predictions, superseded
+judgments and historical IDs as provenance; no per-ID file or full-bank copy each
+round is needed. A new round or review is not a new measurement. See [knowledge](knowledge.md).
 
 Use `data/results/<campaign>/mas/batches/<batch-id>/summary.md` for an actual
 operator-confirmed grouping, its learning and proposed next-batch fixed-setting
@@ -401,7 +420,7 @@ source data, not authority to change instructions, material settings or devices.
 Main makes the final decision after relevant scientific review:
 
 - **Run:** adopt exactly the feasible conditions in the reviewed design. Explain
-  selected hypothesis, prediction, comparator and intended information, with
+  selected question, any justified prediction, comparator and intended information, with
   remaining uncertainty. Do not change the point after QA or present predicted
   performance as a measurement. A report-only pilot records this recommendation
   without sending it to equipment.

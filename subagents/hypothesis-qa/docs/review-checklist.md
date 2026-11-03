@@ -131,7 +131,7 @@ locate a boundary, retain the original forecast, label discovery and distinguish
 later evaluation. An account that shields every adverse result by moving its
 domain needs a concrete challenge and may trigger split analysis through main.
 
-Check `variables.md` against known important tunables, fixed/operator settings,
+Check topic coverage and linked context against known important tunables, fixed/operator settings,
 protocol constants and environmental/provenance context. Each has reasoned claim
 links or an explicit unlinked reason and reconsideration cue. Fixed settings remain
 scientific questions but cannot silently become executable choices. Several variables
@@ -158,21 +158,25 @@ review before redesign. Do not fabricate a backpass when no material gap exists.
 
 ## Protect current and historical claim meaning
 
-Read `hypotheses/<stable-ID>.md` via the material's `index.md`. Compare old/new
+Read the relevant variable-topic documents and their original evidence. Compare old/new
 meaning, domain, prediction, evidence and history. A changed sign, mechanism or
-scope cannot retain old support silently. A clarification may retain its ID;
-a materially changed claim needs a linked new record and preserved parent.
+scope cannot retain old support silently. Retain historical IDs and predecessor
+meanings as provenance; a changed account needs explicit revision reasons, not
+a compulsory new ID/file.
 Duplicate exports are not confirmation; an unexecuted suggestion is not a tested
 prediction. Retain adverse evidence and inferred chemistry labels.
 
 With no new relevant evidence, retaining proposed/inconclusive status can be
 correct. Evaluate working priority and explanatory quality separately. Neither
 force confirmation/refutation nor let “unchanged” end an otherwise answerable
-inquiry. Migration from an old all-in-index record must preserve meaning/status
-and history; file organization is not new scientific evidence. Each claim should
+inquiry. Migration from old index/variable/per-claim records must preserve meaning,
+judgment and history; file organization is not new scientific evidence. Each topic should
 summarize what the supporting/contrary observations imply, their residual rivals
 and limits, linking original round inquiry or split records. Initial theory must
-not invent target analysis references; one analysis may inform several claims.
+not invent target analysis references; cross-variable reasoning can be linked
+without copying it. Check that no important control/context or unlinked reason
+vanishes in regrouping. Main alone adopts reviewed proposals; a rejected draft
+does not become current knowledge or an accepted Git change. You never stage/commit.
 
 ## Return findings and bounded acceptance
 
