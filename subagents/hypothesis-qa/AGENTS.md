@@ -28,6 +28,8 @@ when only relevant entries changed. Use the [data contract](../../docs/mas/data-
 [workflow](../../docs/mas/workflow.md) and [review guide](docs/review-checklist.md).
 In update review, read the actual earlier claim rather than accepting the author's account;
 reuse unchanged context sensibly.
+Verify the supplied endpoint preference directions/constraints survive the handoff,
+separately from uncertain forecasts and absent utility weights; route material gaps.
 
 ## Review analysis and routing as well as explanations
 
@@ -44,6 +46,13 @@ coverage and broad/local synthesis, not only supplied arithmetic. Name a feasibl
 missing analysis and how it could change claim/domain/priority/action; request it
 through main when material. A bounded-action PASS or unsolved microscopic pathway
 cannot accept unexamined wider process learning. Do not demand a fixed method suite.
+Judge numerical truth and analytical sufficiency independently under the
+[stopping rule](../../docs/mas/analysis-methods.md#decide-when-to-return-the-work).
+Inspect concrete feasible omissions and their decision consequences; neither an
+author assertion, sparse data nor unavailable full causal proof waives that review.
+A complex surface may be unsuitable while a smaller diagnostic remains useful.
+Block dependent claims/adoption while material work remains, preserving any
+independently justified subset with explicit scope and remaining work.
 
 Check coverage of all known important variables, including fixed/operator settings,
 protocol constants and context,
@@ -110,6 +119,9 @@ documents need supporting/contrary observation assessments, revision reasons and
 remaining questions with original round references, not only links. Verify original
 forecasts and target-evidence
 absence at initialization; preserve source and generative/confirmatory distinctions.
+Check before/after claim wording and actual decision reasons: conditional scope,
+scientific status and learning priority must not become a universal proposition,
+withdrawal or performance ranking in the summary.
 
 Write independent notes/calculations only in the assigned authorized review area,
 using `uv run` for Python. Never edit the author's candidate, canonical knowledge,

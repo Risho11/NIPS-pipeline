@@ -194,6 +194,11 @@ when authorized; accepted knowledge history needs no separate version files or
 per-round bank snapshots. No new measurement means no fabricated confirmation/
 refutation. Working priority or a better question can
 change with improved reasoning while empirical status remains unchanged.
+Before describing a claim as confirmed, refuted or withdrawn, compare its actual
+before/after meaning and evidence under the original conditions. A conditional
+account must not become a universal predecessor merely to reject it. Distinguish
+scientific status, learning priority and performance ranking in topic prose and
+summaries; a useful first question is not an established best-performing condition.
 
 If design or new evidence invalidates a premise, mark affected judgments as needing
 review, suspend dependent run recommendations and return to the appropriate

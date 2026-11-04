@@ -45,6 +45,10 @@ accounts and open questions. Read the relevant topic documents and linked origin
 not only a summary or the previous conversation. Check which proposal
 was executed; a suggestion attached to source row A does not make A a test of B.
 When no prior prediction exists, label retrospective inference honestly.
+Read the supplied desired directions/constraints for each endpoint separately
+from uncertain forecasts and utility weights. Carry them through all dispatches;
+missing weights do not erase preferences, and a missing material preference needs
+a specific request rather than an invented goal.
 
 Ask the inquiry author what process questions the authorized evidence can usefully address.
 The latest trajectory is a starting point, not the required selection. Look for
@@ -221,13 +225,21 @@ unresolved disposition separately from that screen's acceptance.
 
 A justified end names the checks actually performed, their implications, the
 remaining discriminating evidence and why further feasible in-scope analysis would
-not change present judgment. Retention/unknown may then be legitimate; no invented
+not change present judgment. Use the [stopping rule](../../../docs/mas/analysis-methods.md#decide-when-to-return-the-work)
+to inspect concrete omitted checks and their support/validity, not only why a
+complex model or complete causal proof is unavailable. Read QA's independent
+omission assessment and compare the strongest practical alternative before adoption.
+Retention/unknown may then be legitimate; no invented
 successor or endless alternative enumeration is needed. If material work remains,
 report incomplete/hold rather than imply that caveats or budget ended the science.
 
 Keep records/figures/scripts where authorized, preserve superseded versions and
 use a readable index for navigation. Run adopts the exact reviewed condition;
 hold/stop has none. Report what was observed versus proposed and not performed.
+Compare before/after wording before saying confirmed, refuted, withdrawn or best.
+A conditional physical account is not an abandoned universal law; a changed
+learning priority is not an empirical performance ranking. Retain source/stock/
+coupon distinctions and label simulation/mock outcomes separately from measurements.
 The old read-only fixed-stage adapter and cache are not migrated by these docs;
 do not edit checkpoints to simulate reconsideration. No scientific recommendation
 executes hardware or substitutes for human physical authority.

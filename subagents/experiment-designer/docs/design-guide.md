@@ -14,6 +14,9 @@ its evidence/review and why this question takes priority. Identify the knowledge
 commit informing design when the invocation uses tmp Git.
 Use [knowledge.md](../../../docs/mas/knowledge.md) for meaning/history. Do not
 silently substitute a pathway or narrow its meaning to rescue an attractive point.
+Keep supplied endpoint preferences/constraints distinct from predicted signs and
+utility weights. A learning comparison may serve a larger improvement objective
+without completing it; route material objective gaps rather than invent them.
 
 Check whether the selected prediction was theory-informed before outcome access,
 retrospectively proposed or revised after observation; do not rewrite that origin.
@@ -61,6 +64,10 @@ source, processing version, materials, bath, stock context, quality and sampling
 unit. A source row's next-point suggestion is not a measured control. Ask main
 for analysis or hypothesis review when comparison identity or claim scope is
 unresolved. An attractive point cannot fix an unidentified comparison.
+Also inspect the actual stopping/omission rationale when a feasible smaller
+conditional or stability diagnostic could change the account or test priority.
+An unsuitable complex surface alone does not dispose of it. Return the precise
+dependent gap through main under the shared analysis stopping rule.
 
 ## Choose the contrast, controls and repeat strategy
 
@@ -175,3 +182,6 @@ Link useful artifacts without whole-report JSON copies or hash gates. Preserve
 prior judgments and revision reasons; ask main to route upstream questions rather
 than silently edit the hypothesis or accepted analysis. Re-review changed exact
 values and consequential interpretations before main adopts a run design.
+Report why the comparison is useful without converting a learning priority into
+a performance ranking, a conditional account into a universal one, or a planned/
+mock result into a measured material outcome.

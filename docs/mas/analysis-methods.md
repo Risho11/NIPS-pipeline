@@ -24,6 +24,10 @@ If no prediction was recorded, label the comparison retrospective. Distinguish
 a measured outcome, a compatible explanation, and evidence that would discriminate
 explanations. Do not choose explore/optimize/repeat or invent a new hypothesis
 before identifying the evidence need.
+Recover each endpoint's desired direction or constraint separately from its
+uncertain response forecast. Missing utility weights do not remove supplied
+preference directions. Route materially missing objective information through
+main; continue independently useful analysis without inventing a goal.
 
 For a process/property question, also ask how a process change could produce an
 intermediate process/structure change and the observed property response. Use
@@ -223,12 +227,27 @@ issue rule; an analyst does not bring an automatic extra QA.
 ## Decide when to return the work
 
 Apply the [coverage rule](#match-analysis-coverage-to-the-question) before ending.
-Continue when a feasible omitted check of available evidence could change the
-comparison, claim/domain/priority or experiment choice: resolve a duplicate source, inspect an
-exclusion, or locate a matched historical row. Do not generate figures merely
-because uncertainty remains. When available analysis cannot resolve the material
-gap, name the needed measurement, provenance or discriminating experiment and
-return it through main.
+Where co-varying inputs, broad/local disagreement or defensible analysis choices
+could change an account or next-action priority, identify a concrete feasible
+check and its possible decision consequence. Perform the consequential bounded
+work, or justify omission using actual support, identifiability and method validity
+and state which conclusions or priorities remain unresolved. Assess relevant
+sampling units, usable variation/rank, covariates, influence, weighting/context
+and model uncertainty as applicable; more covariates or a stable coefficient
+does not establish validity. Keep unknown independence and failed/missing endpoints
+explicit.
+
+Distinguish a modest conditional or stability diagnostic from a predictive
+optimization surface. An unsuitable complex surface, missing crossed treatments
+or unavailable mechanism proof does not by itself show that a smaller check
+cannot change interpretation or priority. Predictive and causal claims require
+their own validity evidence. No regression, algorithm, significant result or figure
+is mandatory: a no-model descriptive inquiry can be sufficient when concrete
+omission reasons support that use. Neither generic sparsity nor “more fitting
+cannot create measurements” supplies those reasons. Do not generate artifacts
+merely because uncertainty remains. If essential available-data work remains,
+return it through main; if further progress needs new evidence, name that need
+and its decision consequence rather than call the dependent judgment complete.
 
 The handoff should let main find accepted observations/artifacts, understand the
 strongest supported conclusion and competing explanations, and see what remains

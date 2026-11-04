@@ -359,3 +359,16 @@ See steps/PHASE_13_STEP_1_PROMPT.md. Fifteen literal scientific contract files b
 ### Phase 13 Step 2 — Deferred Durable Contract Promotion
 
 See steps/PHASE_13_STEP_2_PROMPT.md. NOT_RUN / DEFERRED pending final knowledge/design human review and later explicit authorization. No manager/progress/fingerprint, shared-source/pin change, production Python, hardware, remote action or personal-memory update.
+
+
+## Phase 14 — Decision-relevant analysis and faithful reporting
+
+The human explicitly approved repairing the shared stopping/review/reporting criteria and a new English-session test. Retain the preceding26plan entries and all prior scoped verdicts. The current Controller and verified independent persistent Writer remain in the same Worktree under MANUAL_GIT_TRANSITIONS. No new Goal, branch, Worktree, manager, production migration, hardware or remote action.
+
+### Phase 14 Step 1 — Require decision relevant analysis before completion
+
+See steps/PHASE_14_STEP_1_PROMPT.md. Fourteen scientific contracts are the literal Writer allowlist; five planning/status paths belong to Controller. Require explicit objective transfer, bounded analysis sufficiency and omission adjudication, and reporting that preserves original conditional meanings and the difference between scientific status, learning priority and performance ranking. No mandatory regression/model/figure, new scientific class or forced action/FAIL. A new user-owned English scientific session receives current contracts and outcome-free scenario, freezes initial theory before historical reveal, uses the already approved data and independent tmp Git, and actually exercises reviewed design/mock/recovery/scenario readback. Initial exposure is disclosed; no blind or production acceptance is inferred. Independent source and final source/output QA precede ordinary scoped source Git publication and human review.
+
+### Phase 14 Step 2 — Deferred Durable Contract Promotion
+
+See steps/PHASE_14_STEP_2_PROMPT.md. NOT_RUN / DEFERRED pending human output review and later explicit authorization. No prior deferred DCP is erased or marked complete.

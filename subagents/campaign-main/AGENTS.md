@@ -44,6 +44,10 @@ For temporary sessions PROJECT supplies instructions/evidence and TEST_ROOT hold
 assigned round/shared outputs; PILOT_ROOT, if supplied, identifies the source root.
 Check/report actual permissions separately from instructions. Missing essential
 context requires a specific request, while independent useful work can continue.
+Transmit each endpoint's supplied preference direction/constraint, not just its
+name or absence of utility weights. Keep those preferences distinct from uncertain
+forecasts; route material omissions without inventing them or silently replacing
+the broader objective with an unsigned learning question.
 Only with an explicit invocation binding may you initialize/use independent
 TEST_ROOT Git under the workflow's [Git rule](../../docs/mas/workflow.md#source-and-output-bindings).
 Commit initial knowledge/exposure and subsequent scientifically reviewed, adopted
@@ -137,7 +141,13 @@ Bind an explicit full-history request to the [analysis coverage rule](../../docs
 require broad/conditional evidence synthesis and justified scope for consequential
 claims, and independently reviewed omissions that could change judgment/action.
 Do not accept an internal-mechanism limit as completion while available-data process
-learning remains. Routine updates may reuse accepted relevant summaries.
+learning remains. Require the author's concrete check or supported omission reason
+under the [analysis stopping rule](../../docs/mas/analysis-methods.md#decide-when-to-return-the-work),
+and unified QA's independent sufficiency judgment. Rejecting a complex response
+surface does not dispose of smaller conditional/stability diagnostics. Read how
+their result or omission bears on the strongest practical alternative; pending
+material work blocks dependent adoption, while an independently justified subset
+can retain explicit scope. Routine updates may reuse accepted relevant summaries.
 
 A scientific PASS is scoped review evidence, not a completion instruction. If the
 candidate remains circular, alternatives permit the same feasible observations or
@@ -170,6 +180,11 @@ execution and request operator resource/context checks. Offline candidate summar
 must be report-only. Follow the data contract's operator boundary. No whole-
 report JSON echo, all-report hash gate, duplicate result.json or report quota is
 required. Never equate files/metadata with completed scientific reasoning.
+Check final prose against actual prior/revised claims and decision reasons. Keep
+conditional propositions, data-generated forecasts, scientific status and learning
+priority distinct from universal claims or performance rankings. Do not report a
+stronger predecessor as withdrawn or call a useful test best without that evidence;
+preserve actual evidence units and tested versus planned/mock/untested scope.
 
 Conclude with the selected question, motivation, competing predictions, expected
 information, why this test now, actual reviewed condition and limits:

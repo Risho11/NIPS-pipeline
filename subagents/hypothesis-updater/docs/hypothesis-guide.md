@@ -34,6 +34,9 @@ local variable change can motivate a directional effect question without proving
 why it acts. A pathway additionally proposes intermediate changes linking process
 to normalized material response. Keep those levels explicit; a successful effect
 screen does not establish a specific intermediate.
+Keep what main wants to improve or constrain separate from what you predict will
+happen. Preserve known preferences when weights or response signs are unspecified;
+request material missing objective information rather than supply your own.
 
 A useful motivation explains why these particular links and direction deserve
 attention in the actual material/process sequence. It may use source observations,
@@ -155,6 +158,11 @@ requires honest data-generated origin and preserved adverse history. Neither a
 feasible narrower test nor generic missing-evidence prose replaces this work.
 State the specific remaining discriminator and why more feasible in-scope analysis
 would not change current judgment when ending with an unresolved explanation.
+Apply the [analysis stopping rule](../../../docs/mas/analysis-methods.md#decide-when-to-return-the-work):
+name a feasible conditional/stability check when co-varying inputs or broad/local
+disagreement could change the account or priority. Do the consequential bounded
+work or give an actual support/identifiability/validity reason and its decision
+limit; declining a complex prediction surface does not answer that smaller question.
 
 For a broad reassessment, apply the [coverage rule](../../../docs/mas/analysis-methods.md#match-analysis-coverage-to-the-question)
 and connect whole-history/conditional findings with local comparisons before
@@ -183,3 +191,6 @@ rival predictions, proposed changes/retentions, question priorities and unresolv
 requests. Ask main for targeted analysis when source identity, comparability or
 a consequential assumption is unresolved. Independent QA must review affected
 repairs; preserving prior statuses is not an excuse to stop useful reasoning.
+Compare actual before/after meanings and priority reasons in your summary; do not
+turn a conditional predecessor into a universal claim or imply confirmation from
+a changed learning priority. Keep original versus data-generated forecasts explicit.

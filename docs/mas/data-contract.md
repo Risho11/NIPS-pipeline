@@ -237,6 +237,12 @@ untested or unmatched.
 
 ## Conditions, operator authority and decisions
 
+Carry the supplied desired direction or constraint for each endpoint through
+inquiry and design, separately from a predicted response. Absence of utility weights
+does not imply absence of preference directions. If a material direction/constraint is absent,
+request clarification through main while useful independent work proceeds; do
+not fill it from source defaults or silently replace the objective with learning.
+
 The eight request fields, subject to current locks and bounds, are `mixing_temp`, `bath_temp`, `pullcast_speed`, `nitrogen`,
 `coupon_to_bath_wait_time`, `nips_bath_wait_time`, `polymer_wt`, and `additive_wt`.
 Temperatures use °C, speed mm/s, times seconds, and concentrations wt% of final

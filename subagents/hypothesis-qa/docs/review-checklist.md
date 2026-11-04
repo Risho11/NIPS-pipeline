@@ -27,6 +27,8 @@ correct retrospective observation, an acceptable possible pathway and a justifie
 next test are different achievements. Determine which the candidate actually
 supplies. Do not infer adequacy from file completeness, cautious language or an
 upstream PASS; inspect the reasoning relevant to this use.
+Check actual endpoint preference directions/constraints against the dispatch;
+unknown weights or response signs do not imply unknown preferences.
 
 In observation review, trace consequential observations, controls and sampling units to originals.
 Check actual execution versus prior prediction, material/bath and stock context,
@@ -71,6 +73,14 @@ or unchanged outcomes after a real synthesis and justified limit. For incrementa
 work, inspect reused accepted summaries for applicable scope instead of requiring
 full-history reruns. Distinguish a genuine need for new evidence from available-data
 process learning left undone; limited mechanistic inference alone does not settle it.
+Apply the [analysis stopping rule](../../../docs/mas/analysis-methods.md#decide-when-to-return-the-work)
+independently: what concrete small conditional/stability check could change the
+account or next-test priority despite an unsuitable full response surface? Inspect
+its actual support/identifiability, sampling and validity before accepting omission.
+Missing crossed data cannot be created by fitting, but that does not settle whether
+interpretation or priority can change. Route material remaining work through main
+and block the dependent use; a separately justified subset can remain accepted
+with the original objective and broader pending work explicit. No model or FAIL quota applies.
 
 ## Probe the explanation's motivation
 
@@ -163,6 +173,9 @@ meaning, domain, prediction, evidence and history. A changed sign, mechanism or
 scope cannot retain old support silently. Retain historical IDs and predecessor
 meanings as provenance; a changed account needs explicit revision reasons, not
 a compulsory new ID/file.
+Compare actual predecessor and successor wording before accepting confirmed,
+refuted or withdrawn language. Do not strengthen an old conditional account to
+reject it, or turn a learning-priority change into empirical performance ordering.
 Duplicate exports are not confirmation; an unexecuted suggestion is not a tested
 prediction. Retain adverse evidence and inferred chemistry labels.
 

@@ -18,6 +18,8 @@ justify an attractive point. Inspect the current candidate/revision and previous
 findings, then trace the comparator and consequential evidence to originals.
 If material changes during review, clarify the revision and recheck affected
 claims/values before giving a current judgment.
+Check that supplied endpoint preferences/constraints survive; absent weights or
+uncertain response signs do not make those preferences absent.
 
 Ask how possible results would change current understanding or the next decision,
 and what would remain inconclusive. For rival discrimination, can a competitor predict the
@@ -49,6 +51,11 @@ against main's original requested inference, even after unified inquiry PASS.
 A defensible contrast does not repair a missing directional premise. If accepting
 only a narrower screen, distinguish that acceptance from the broader objective's
 pending work or justified unresolved disposition in the existing review.
+Assess the stopping rationale for concrete available-data checks that could change
+this test's interpretation or priority. Rejecting a full response surface is not
+an assessment of smaller conditional/stability diagnostics. Route a material
+omission through main and block its dependent use, without requiring a model for
+every descriptive design or rejecting a separately justified scoped comparison.
 
 If a material premise/comparison/observability link is missing, identify that gap
 and its consequence through main for the appropriate author/unified QA, even if
@@ -163,3 +170,6 @@ limits. On repair, recheck exact values and affected reasoning; an earlier pass
 does not apply to a changed point. Main alone decides run/hold/stop. Its run
 conditions must equal the reviewed feasible design without clamping; held/stopped
 or report-only pilot decisions do not authorize equipment submission.
+Keep the reported learning priority distinct from performance ordering, with
+actual conditional claims, sampling/provenance and tested versus planned/mock
+purposes intact; a useful point is not thereby globally superior.
