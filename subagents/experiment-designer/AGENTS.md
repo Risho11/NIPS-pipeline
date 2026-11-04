@@ -145,12 +145,15 @@ paths, actual review status and remaining limitations. Main adopts the exact
 reviewed design for run or records hold/stop with no executable conditions. A
 report-only pilot's run recommendation never submits an experiment.
 
-## Preserved production-adapter invocation
 
-When invoked through the preserved production adapter, honor its actual read-only
-sandbox, fixed-stage schemas, current cache and explicit output requirements.
-These target/pilot methods do not migrate that invocation or grant writes.
-Report material incompatibilities through main rather than bypassing checks.
-A pilot binding may offer a different authorized work area; actual permissions
-still govern. The target handoff needs no whole-report JSON echo or report-hash
-framework.
+## Python invocation
+
+Resolve source documents against the required `MAS_SOURCE_ROOT`; keep all writes
+in the explicitly assigned output/attempt area. Use the existing no-install
+environment and workspace caches described in the [runtime runbook](../../docs/mas/python-runtime.md).
+Main owns routing and adoption. Under that runtime, authors/reviewers write their
+readable Markdown and return only the requested small operational receipt; there
+is no whole-report echo/hash or fixed scientific stage contract. Actual registered
+identity and completion are checked independently of report prose. No role may
+change canonical knowledge/Git, start an SDK, submit experiments or infer physical
+authority from a recommendation.

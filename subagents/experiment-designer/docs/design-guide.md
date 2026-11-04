@@ -4,8 +4,8 @@ Use this guide as the explicitly invoked [experiment designer](../AGENTS.md).
 The shared [data contract](../../../docs/mas/data-contract.md) defines measurement,
 material and stock semantics; [analysis methods](../../../docs/mas/analysis-methods.md)
 defines comparison limits. The [workflow](../../../docs/mas/workflow.md) retains
-main's selection and final decision. These target/pilot methods do not migrate
-the preserved production adapter or authorize execution.
+main's selection and final decision. The [runtime](../../../docs/mas/python-runtime.md) carries these operational
+receipts; scientific methods never authorize physical execution.
 
 ## Translate current knowledge into a useful comparison
 
@@ -108,7 +108,7 @@ maxima as independent. Inspect the current
 [range rules](../../../src/pipeline/activeLearning_29.py) when source interpretation
 is needed; source defaults do not certify the physical bottles.
 
-The preserved [condition validator](../../../src/pipeline/mas_schema.py) rejects
+The preserved [condition validator](../../../src/pipeline/mas_contract.py) rejects
 out-of-range values, changed operator settings, additive-lock violations,
 compositions outside the stock polygon, and undiluted-stock mixing temperature
 other than 25 °C. Projection to a nearby feasible point is not approval of the
@@ -185,3 +185,12 @@ values and consequential interpretations before main adopts a run design.
 Report why the comparison is useful without converting a learning priority into
 a performance ranking, a conditional account into a universal one, or a planned/
 mock result into a measured material outcome.
+
+## Runtime handoff
+
+The [runtime runbook](../../../docs/mas/python-runtime.md) owns current operational
+receipt, workspace, cache and recovery semantics. Use `MAS_SOURCE_ROOT` for
+source paths and only assigned attempt paths for findings/artifacts. Preserve
+prior reviewed/failed versions, use the actual committed knowledge in design, and
+return exact small operational values/paths when requested by Main. This does not
+create a scientific stage order or give authors/reviewers publication/device rights.

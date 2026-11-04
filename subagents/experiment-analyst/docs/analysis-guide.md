@@ -151,3 +151,12 @@ main's decision. Return the concrete missing evidence instead of generating more
 plots to imply certainty. A limited but correct conclusion can be sufficient for
 main to request a discriminating design or hold. Unresolved consequential errors
 need repair and independent review; honest scientific uncertainty stays visible.
+
+## Runtime handoff
+
+The [runtime runbook](../../../docs/mas/python-runtime.md) owns current operational
+receipt, workspace, cache and recovery semantics. Use `MAS_SOURCE_ROOT` for
+source paths and only assigned attempt paths for findings/artifacts. Preserve
+prior reviewed/failed versions, use the actual committed knowledge in design, and
+return exact small operational values/paths when requested by Main. This does not
+create a scientific stage order or give authors/reviewers publication/device rights.

@@ -156,11 +156,21 @@ Never invent inspection, author dialogue, acceptance or session identities.
 
 ## Invocation boundary
 
-The preserved production adapter's read-only sandbox, fixed schemas/cache and
-explicit outputs still govern that invocation. These contracts do not migrate
-or bypass it. Honor actual source/output permissions. Only explicitly authorized
+Honor actual runtime source/output permissions and the explicit invocation. Only explicitly authorized
 public scientific retrieval is an exception; use public concepts without private
 experiment content, and obtain real source copies through main if tools prohibit
 retrieval. All other services/devices, SDK/hardware, submissions, source/settings
 changes and fabricated measurements remain forbidden. No browsing capability is
 established by editing this contract or its binding. Report incompatibility through main.
+
+## Python invocation
+
+Resolve source documents against the required `MAS_SOURCE_ROOT`; keep all writes
+in the explicitly assigned output/attempt area. Use the existing no-install
+environment and workspace caches described in the [runtime runbook](../../docs/mas/python-runtime.md).
+Main owns routing and adoption. Under that runtime, authors/reviewers write their
+readable Markdown and return only the requested small operational receipt; there
+is no whole-report echo/hash or fixed scientific stage contract. Actual registered
+identity and completion are checked independently of report prose. No role may
+change canonical knowledge/Git, start an SDK, submit experiments or infer physical
+authority from a recommendation.

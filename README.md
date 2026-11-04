@@ -41,13 +41,13 @@ logs/               run_loop.py session logs (gitignored)
 ## Running it
 
 ```
-pip install -r requirements.txt
-python src/pipeline/run_loop.py          # full active-learning loop — needs real hardware
-python tests/run_tests.py                # CI test suite, mocked LLM, fake-data fixtures
-python tests/test_csv.py                 # unit tests for save_to_csv edge cases
-python tests/test_guardrails.py          # degenerate-input robustness tests
-python tests/test_processing.py          # run the real pipeline on one real condition (Mac, no hardware)
-python tests/test_master.py              # run the full branch dispatcher on one condition (Mac, no hardware)
+uv sync --locked
+uv run --locked --no-sync python src/pipeline/run_loop.py          # full active-learning loop — needs real hardware
+uv run --locked --no-sync python tests/run_tests.py                # CI test suite, mocked LLM, fake-data fixtures
+uv run --locked --no-sync python tests/test_csv.py                 # unit tests for save_to_csv edge cases
+uv run --locked --no-sync python tests/test_guardrails.py          # degenerate-input robustness tests
+uv run --locked --no-sync python tests/test_processing.py          # run the real pipeline on one real condition (Mac, no hardware)
+uv run --locked --no-sync python tests/test_master.py              # run the full branch dispatcher on one condition (Mac, no hardware)
 ```
 
 `run_loop.py` has hardcoded Windows paths (`CSV_RAW_PATH`, `IMAGES_PATH`) and a
@@ -73,12 +73,15 @@ not a path fix.
 Set `POLYMER_TYPE` and `SOLVENT_TYPE` in `src/pipeline/run_loop.py` before a
 campaign, or call `run_loop.set_material_types(polymer_type="polysulfone",
 solvent_type="PolarClean")` before starting the loop. Use the actual materials;
-the defaults are `"unknown"`. These manual identities are saved with each condition
+the source settings are operator choices, not confirmation of installed materials. These manual identities are saved with each condition
 and supplied to LLM-AL for both new and resumed recommendations. `SOLVENT_TYPE`
 is the base casting solvent, separate from the cosolvent and NIPS bath solvent.
 The model cannot change these settings. Older records without identities remain
 unknown rather than inheriting the current campaign's materials.
 
-For the optional Codex hypothesis-driven `dynamic` mode, install the locked Python
-environment with `uv sync --locked` and follow [the MAS workflow](docs/mas/workflow.md).
-Its report-only entry point and offline tests do not submit robot requests.
+For optional `dynamic` MAS, use the [runtime runbook](docs/mas/python-runtime.md)
+for explicit source/output/material bindings, prepared environment, report-only
+CLI and queued reconsideration. The [scientific workflow](docs/mas/workflow.md)
+defines inquiry and independent review. The default remains `double_explore`.
+Offline tests mock models/devices; actual SDK smoke, hosted CI and physical
+qualification require their own evidence. A report-only RUN never starts a robot.

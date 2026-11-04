@@ -56,7 +56,7 @@ def isolated_sdk(workspace):
     scratch = workspace.path('.scratch')
     config = CodexConfig(cwd=str(workspace.root), codex_bin=str(bundled_codex_path()),
                          config_overrides=overrides,
-                         env={'PILOT_ROOT': str(workspace.source),
+                         env={'MAS_SOURCE_ROOT': str(workspace.source),
                               'PYTHONDONTWRITEBYTECODE': '1',
                               'TMPDIR': str(scratch), 'TMP': str(scratch), 'TEMP': str(scratch),
                               'UV_CACHE_DIR': str(scratch / 'uv-cache'),
@@ -112,11 +112,12 @@ class CampaignRuntime:
         self.context = Context.model_validate(context)
         key(self.context.campaign)
         self.sdk_factory = sdk_factory or (lambda: isolated_sdk(workspace))
+        self.last_operation_id = None
 
     def _bindings(self):
         w = self.workspace
         # Discover registered roles in the independent output root, with source
-        # role documents resolved through PILOT_ROOT; do not copy source/data.
+        # role documents resolved through MAS_SOURCE_ROOT; do not copy source/data.
         for role in ROLES:
             source = w.source / '.codex/agents' / f'{role}.toml'
             if source.is_symlink() or not source.is_file():
@@ -138,10 +139,22 @@ class CampaignRuntime:
             if file_digest(value['path']) != value['sha256']:
                 raise ValueError("Original observation changed; preserve and reconsider explicitly")
 
-    def _operation(self, observation_id, inputs, reconsideration):
+    def _operation(self, observation_id, inputs, reconsideration, revision_id=None):
         w, state = self.workspace, self.workspace.state
         active = state['operations'].get(state['active'])
         context = self.context.model_dump(mode='json')
+        if revision_id:
+            matches = [r for r in state['operations'].values() if r.get('revision_id') == revision_id]
+            if matches:
+                prior = matches[0]
+                if (context != prior['context'] or reconsideration != prior['reason']
+                        or observation_id != prior['observation_id']
+                        or (inputs is not None and self._inputs(inputs) != prior['inputs'])):
+                    raise ValueError("Revision identity reused with different context/reason/inputs")
+                if prior['status'] == 'superseded' or (prior['status'] != 'completed' and state['active'] != prior['id']):
+                    raise ValueError("Revision is superseded or no longer active")
+                self._check_inputs(prior)
+                return prior
         if active and active['status'] != 'completed':
             if reconsideration or (observation_id and observation_id != active['observation_id']):
                 raise ValueError("Finish/recover pending operation before changing the question")
@@ -188,6 +201,7 @@ class CampaignRuntime:
         identifier = uuid.uuid4().hex
         record = dict(id=identifier, campaign=self.context.campaign, kind=kind,
                       observation_id=observation_id, reason=reconsideration,
+                      revision_id=revision_id,
                       context=context, inputs=self._inputs(inputs), status='ready',
                       turns=[], turn_id=None, decision=None)
         if reconsideration and inputs is None and active:
@@ -205,7 +219,7 @@ class CampaignRuntime:
         return f'''[MAS operation {record['id']}]
 You are persistent scientific campaign Main, not a development Writer.
 Read {w.source / 'subagents/campaign-main/AGENTS.md'} and its guide,
-and approved shared workflow/knowledge/analysis contracts. PILOT_ROOT={w.source}.
+and approved shared workflow/knowledge/analysis contracts. MAS_SOURCE_ROOT={w.source}.
 Source and original data are read-only. All drafts, reviews, scripts and figures
 belong in {w.path(w.round_path(record) + '/attempt-' + str(len(record['turns'])))}.
 Use uv run --no-sync python for analysis with the prepared interpreter and bound
@@ -217,17 +231,28 @@ no agent edits them, uses Git, changes configuration, starts SDKs, services or d
 Use registered roles, integrated hypothesis-updater with independent hypothesis-qa;
 optional analyst only for an actual split trigger, designer with distinct design QA.
 Reuse sessions as useful; do not force a fixed stage loop, new hypothesis or figure.
+The optional analyst returns bounded findings/artifacts to Main/integrated author;
+it is not a direct knowledge/design adoption role and adds no extra QA stage.
 Develop readable Markdown candidates and separate reviewer findings. Each native
-author/reviewer final answer uses only the small operational receipt schema below,
+adoption author/reviewer final answer uses only the small operational receipt schema below,
 never echoes report bodies. Receipt operation_id must be {record['id']}.
-files maps topic filename to current-round proposal path; design uses files={{}}.
-report_path names its own nonempty round Markdown record. No edits after review;
-MainReply.records explicitly names any additional relevant accepted round Markdown
+Artifact references (files values, report_path and MainReply.records) must name
+nonempty Markdown in this exact current attempt. Either a workspace-relative path
+or an absolute path inside that attempt is accepted and published as a relative
+path. Never use parent traversal, earlier attempts, links or external/raw/cache files.
+files maps topic filename to proposal path; design uses files={{}}.
+report_path names its own separate authored/review Markdown record. No edits after review;
+MainReply.records explicitly names any additional relevant accepted attempt Markdown
 to preserve in Git, without dummy reports. Native author/review records and adopted
 topic proposals are also committed. Do not select inputs/raw/media/cache files.
 if revised, obtain renewed native author/reviewer completions. Reject/retain findings honestly.
 Knowledge author conditions/knowledge_commit are null. Knowledge QA returns same
 operational file mapping and author_thread_id with pass/fail, never repairs a draft.
+Participant fields author_thread_id/reviewer_thread_id are a separate namespace:
+use the actual observed native UUID or canonical /root/... participant reference.
+Never invent a binding or treat a participant reference as an artifact path.
+Main must observe current completed native participant activity before adoption;
+the host resolves actual IDs and reads each child's public latest completion.
 Design author and design QA include exact conditions and the current knowledge
 commit, plus separate Markdown records. Only run may carry conditions.
 Host validates actual native role metadata/completion, not your assertion of PASS.
@@ -243,52 +268,112 @@ Knowledge commit: {w.state['knowledge_commit']}
 Return only MainReply JSON. Use English records; preserve uncertainty and original meanings.
 '''
 
-    def _native_review(self, sdk, native, adoption, record, kind):
+    def _artifact(self, record, reference):
+        """Canonical current-attempt artifact, never a participant reference."""
         w = self.workspace
-        author, reviewer = adoption.author_thread_id, adoption.reviewer_thread_id
-        if len({author, reviewer, w.state['thread_id']}) != 3:
-            raise ValueError("Main, author and reviewer must be distinct")
-        observed = {}
+        path = Path(reference)
+        if '..' in path.parts:
+            raise ValueError("Parent traversal artifact reference forbidden")
+        relative = path.relative_to(w.root) if path.is_absolute() else path
+        target = w.proposal(record, relative.as_posix())
+        attempt = w.path(w.round_path(record) + '/attempt-' + str(len(record['turns'])))
+        if not target.is_relative_to(attempt):
+            raise ValueError("Current attempt artifact required; preserve earlier attempts")
+        return target.relative_to(w.root).as_posix()
+
+    def _participants(self, native):
+        """Only current public native activity supplies canonical-name bindings."""
+        aliases, paths, activity, legacy = {}, {}, {}, {}
         for raw in native.items:
             item = unwrap(raw)
-            if (getattr(item, 'type', None) == 'collabAgentToolCall'
-                    and item.sender_thread_id == w.state['thread_id']):
+            if getattr(item, 'type', None) == 'subAgentActivity':
+                alias, identifier = item.agent_path, item.agent_thread_id
+                parts = alias.split('/')
+                if (not alias.startswith('/root/') or any(p in ('', '.', '..') for p in parts[1:])
+                        or '\\' in alias):
+                    raise ValueError("Invalid native canonical participant path")
+                if ((alias in aliases and aliases[alias] != identifier)
+                        or (identifier in paths and paths[identifier] != alias)):
+                    raise ValueError("Ambiguous/remapped native participant alias")
+                aliases[alias], paths[identifier] = identifier, alias
+                activity[identifier] = dict(agent_path=alias, thread_id=identifier,
+                    kind=getattr(item.kind, 'value', item.kind), item_id=item.id)
+            elif (getattr(item, 'type', None) == 'collabAgentToolCall'
+                  and item.sender_thread_id == self.workspace.state['thread_id']):
                 for identifier, state in item.agents_states.items():
                     if getattr(state.status, 'value', state.status) != 'shutdown':
-                        observed[identifier] = state
-        messages = []
-        for identifier, role in [(author, 'hypothesis-updater' if kind == 'knowledge' else 'experiment-designer'),
-                                 (reviewer, 'hypothesis-qa' if kind == 'knowledge' else 'experiment-design-qa')]:
-            seen = observed.get(identifier)
-            if seen is None or not completed(seen.status) or not seen.message:
+                        legacy[identifier] = state
+        def resolve(reference):
+            if reference in aliases:
+                return aliases[reference]
+            if reference in activity or reference in legacy:
+                return reference
+            raise ValueError("Unobserved native participant reference")
+        return resolve, activity, legacy
+
+    def _native_review(self, sdk, native, adoption, record, kind):
+        w = self.workspace
+        resolve, activity, legacy = self._participants(native)
+        author, reviewer = resolve(adoption.author_thread_id), resolve(adoption.reviewer_thread_id)
+        if len({author, reviewer, w.state['thread_id']}) != 3:
+            raise ValueError("Main, author and reviewer must be distinct native IDs")
+        messages, proof = [], dict(main_thread_id=w.state['thread_id'], main_turn_id=native.id)
+        for label, identifier, reference, role in [
+            ('author', author, adoption.author_thread_id,
+             'hypothesis-updater' if kind == 'knowledge' else 'experiment-designer'),
+            ('reviewer', reviewer, adoption.reviewer_thread_id,
+             'hypothesis-qa' if kind == 'knowledge' else 'experiment-design-qa')]:
+            modern, old = activity.get(identifier), legacy.get(identifier)
+            if modern is not None and modern['kind'] != 'completed':
+                raise ValueError("Native participant work is incomplete/interrupted")
+            if old is not None and (not completed(old.status) or not old.message):
                 raise ValueError("Missing native completed author/reviewer evidence")
-            child = sdk.thread_resume(identifier).read(include_turns=True).thread
+            # _turn has loaded/confirmed the parent first. Do not override child
+            # permissions; exclude implicit response history, then read publicly.
+            child = sdk.thread_resume(identifier, include_turns=False).read(include_turns=True).thread
             if (child.id != identifier or child.agent_role != role
                     or child.parent_thread_id != w.state['thread_id'] or not child.turns
-                    or not completed(child.turns[-1].status)):
-                raise ValueError("Wrong native role, parent or completion")
-            # Only small operational completion receipts are compared, never reports.
+                    or not completed(child.turns[-1].status)
+                    or getattr(unwrap(child.status), 'type', None) == 'active'):
+                raise ValueError("Wrong native role, parent or latest completion")
             message = final_text(child.turns[-1])
-            if message != seen.message:
+            if old is not None and message != old.message:
                 raise ValueError("Native completion changed after Main observed it")
             messages.append(message)
+            proof[label] = dict(thread_id=identifier, role=child.agent_role,
+                parent_thread_id=child.parent_thread_id, turn_id=child.turns[-1].id,
+                submitted_reference=reference, activity=modern, legacy_message_matched=old is not None)
         authored = Contribution.model_validate_json(messages[0])
         reviewed = Review.model_validate_json(messages[1])
+        qa_author = resolve(reviewed.author_thread_id)
         if (authored.operation_id != record['id'] or reviewed.operation_id != record['id']
                 or authored.kind != kind or reviewed.kind != kind
-                or reviewed.author_thread_id != author or reviewed.verdict != 'pass'
-                or authored.files != reviewed.files or authored.conditions != reviewed.conditions
+                or qa_author != author or reviewed.verdict != 'pass'
+                or authored.conditions != reviewed.conditions
                 or authored.knowledge_commit != reviewed.knowledge_commit):
             raise ValueError("Review does not approve this operational proposal")
-        w.proposal(record, authored.report_path)
-        w.proposal(record, reviewed.report_path)
-        attempt = w.path(w.round_path(record) + '/attempt-' + str(len(record['turns'])))
-        for relative in [authored.report_path, reviewed.report_path, *authored.files.values()]:
-            if not w.proposal(record, relative).is_relative_to(attempt):
-                raise ValueError("New native contributions must preserve prior attempt paths")
+        def normalize(value):
+            return value.model_copy(update=dict(
+                files={topic:self._artifact(record, path) for topic,path in value.files.items()},
+                report_path=self._artifact(record, value.report_path)))
+        authored, reviewed = normalize(authored), normalize(reviewed)
+        reviewed = reviewed.model_copy(update={'author_thread_id':qa_author})
+        if authored.files != reviewed.files:
+            raise ValueError("Review file mapping differs from actual proposal")
         if authored.report_path == reviewed.report_path:
             raise ValueError("Independent review record required")
-        return authored, reviewed
+        return authored, reviewed, proof
+
+    def _confirmed_main_turn(self, history, identifier, expected_text):
+        if (history.id != self.workspace.state['thread_id'] or not history.turns
+                or history.turns[-1].id != identifier or not completed(history.turns[-1].status)
+                or getattr(unwrap(history.status), 'type', None) == 'active'):
+            raise ValueError("Main native completion/history changed or is not current")
+        turn = history.turns[-1]
+        text = final_text(turn)
+        if text != expected_text:
+            raise ValueError("Main operational response changed between stream and history")
+        return turn, text
 
     def _options(self, *, read_only=False):
         from openai_codex import ApprovalMode, Sandbox
@@ -297,19 +382,27 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
 
     def _turn(self, sdk, record, *, retry):
         w = self.workspace
+        history = None
         if w.state['thread_id']:
-            thread = sdk.thread_resume(w.state['thread_id'], **self._options())
+            # Resume by the durable identity without implicit history hydration;
+            # explicit authoritative history is still mandatory for known Main.
+            thread = sdk.thread_resume(w.state['thread_id'], include_turns=False, **self._options())
+            history = thread.read(include_turns=True).thread
         else:
+            if w.state['head'] is not None or any(r.get('turn_id') or r.get('turns')
+                                                  for r in w.state['operations'].values()):
+                raise ValueError("Missing native Main identity for recorded work")
             thread = sdk.thread_start(ephemeral=False, **self._options(),
                                       developer_instructions='Operate the explicitly bound scientific campaign only.')
             w.state['thread_id'] = thread.id
             w.save()
-        history = thread.read(include_turns=True).thread
-        if thread.id != w.state['thread_id'] or history.id != thread.id:
+            # A thread created by this call has no prior turn to recover. The
+            # backend can reject history reads until that first turn exists.
+        if thread.id != w.state['thread_id'] or (history is not None and history.id != thread.id):
             raise ValueError("Native Main identity changed")
         token = f'[MAS operation {record["id"]}]'
         candidates = []
-        for turn in history.turns:
+        for turn in (() if history is None else history.turns):
             if turn.id in record['turns']:
                 continue
             for raw in turn.items:
@@ -321,13 +414,18 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
         if len(candidates) > 1:
             raise ValueError("Ambiguous native turn recovery")
         prior = candidates[0] if candidates else None
-        if prior is None and getattr(unwrap(history.status), 'type', None) == 'active':
-            raise ValueError("Unknown running native turn; preserve and inspect")
+        running = prior is not None and getattr(prior.status, 'value', prior.status) == 'inProgress'
+        if history is not None:
+            if ((getattr(unwrap(history.status), 'type', None) == 'active' and not running)
+                    or any(getattr(t.status, 'value', t.status) == 'inProgress'
+                           and (prior is None or t.id != prior.id) for t in history.turns)):
+                raise ValueError("Unknown running native turn; preserve and inspect")
+            if prior is not None and history.turns[-1].id != prior.id:
+                raise ValueError("Pending native turn is not the latest; preserve and inspect")
         if record['turn_id'] and (prior is None or prior.id != record['turn_id']):
             raise ValueError("Persisted turn not found in native history")
-        running = prior is not None and getattr(prior.status, 'value', prior.status) == 'inProgress'
         if prior and completed(prior.status) and not retry:
-            return prior, final_text(prior)
+            return self._confirmed_main_turn(history, prior.id, final_text(prior))
         if prior and not running:
             if not retry:
                 raise RuntimeError("Failed/interrupted native turn retained; explicit retry required")
@@ -343,7 +441,10 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
         native = handle.run()
         if not completed(native.status):
             raise RuntimeError("Native Main turn incomplete; no adoption")
-        return native, native.final_response
+        # TurnResult collects item-completed notifications; hydrated history can
+        # additionally contain native sub-agent activity. Confirm the exact Main
+        # turn through its public history before resolving any participant.
+        return self._confirmed_main_turn(thread.read(include_turns=True).thread, native.id, native.final_response)
 
     def _supersede(self, sdk, record, reason):
         """Only explicit reconsideration can retire a terminal incomplete operation."""
@@ -351,7 +452,7 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
         if not reason.strip():
             raise ValueError("Reconsideration requires a substantive reason")
         if w.state['thread_id']:
-            history = sdk.thread_resume(w.state['thread_id'], **self._options()).read(include_turns=True).thread
+            history = sdk.thread_resume(w.state['thread_id'], include_turns=False, **self._options()).read(include_turns=True).thread
             if history.id != w.state['thread_id']:
                 raise ValueError("Native Main identity changed")
             if (getattr(unwrap(history.status), 'type', None) == 'active'
@@ -366,19 +467,25 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
         w.state['active'] = None
         w.save()
 
-    def run(self, *, observation_id=None, inputs=None, reconsideration=None, retry=False):
+    def run(self, *, observation_id=None, inputs=None, reconsideration=None, revision_id=None, retry=False):
         """Return Decision, or None after publication; ordinary restarts never reconsider."""
         w = self.workspace
+        if revision_id is not None:
+            key(revision_id)
+            if not reconsideration or not reconsideration.strip():
+                raise ValueError("Revision identity requires a substantive reconsideration reason")
         with w.lock(), ExitStack() as resources:
             if w.state['pending']:
                 w.recover_publication()
             sdk = None
             active = w.state['operations'].get(w.state['active'])
-            if reconsideration is not None and active and active['status'] != 'completed':
+            existing_revision = revision_id and any(r.get('revision_id') == revision_id for r in w.state['operations'].values())
+            if reconsideration is not None and active and active['status'] != 'completed' and not existing_revision:
                 manager = self.sdk_factory()
                 sdk = resources.enter_context(manager) if hasattr(manager, '__enter__') else manager
                 self._supersede(sdk, active, reconsideration)
-            record = self._operation(observation_id, inputs, reconsideration)
+            record = self._operation(observation_id, inputs, reconsideration, revision_id)
+            self.last_operation_id = record['id']
             if record['status'] == 'completed':
                 return Decision.model_validate(record['decision']) if record['decision'] else None
             self._bindings()
@@ -405,13 +512,17 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
 
     def _adopt(self, sdk, native, reply, record):
         w = self.workspace
+        reply = reply.model_copy(update={'records':[self._artifact(record, p) for p in reply.records]})
         receipt = {'operation_id': record['id'], 'main_thread_id': w.state['thread_id'],
                    'turn_id': native.id, 'adoption': reply.model_dump(mode='json')}
         files = {}
         for relative in reply.records:
             files[relative] = w.proposal(record, relative).read_text(encoding='utf-8')
         if reply.knowledge:
-            author, review = self._native_review(sdk, native, reply.knowledge, record, 'knowledge')
+            author, review, proof = self._native_review(sdk, native, reply.knowledge, record, 'knowledge')
+            reply = reply.model_copy(update={'knowledge':reply.knowledge.model_copy(update={
+                'author_thread_id':proof['author']['thread_id'], 'reviewer_thread_id':proof['reviewer']['thread_id']})})
+            receipt['native_review'] = proof
             if (not author.files or set(author.files) - set(TOPICS)
                     or author.conditions is not None or author.knowledge_commit is not None):
                 raise ValueError("Invalid knowledge publication receipt")
@@ -431,7 +542,10 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
             if decision.knowledge_commit != w.state['knowledge_commit']:
                 raise ValueError("Decision knowledge version drift")
             if decision.action == 'run':
-                author, review = self._native_review(sdk, native, reply.design, record, 'design')
+                author, review, proof = self._native_review(sdk, native, reply.design, record, 'design')
+                reply = reply.model_copy(update={'design':reply.design.model_copy(update={
+                    'author_thread_id':proof['author']['thread_id'], 'reviewer_thread_id':proof['reviewer']['thread_id']})})
+                receipt['native_review'] = proof
                 if (author.files or author.knowledge_commit != w.state['knowledge_commit']
                         or author.conditions != decision.next_params):
                     raise ValueError("Final conditions/version differ from independently reviewed design")
@@ -441,6 +555,16 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
                 receipt['author'] = author.model_dump(mode='json')
                 receipt['review'] = review.model_dump(mode='json')
             record['decision'] = decision.model_dump(mode='json')
+            relative = w.round_path(record) + '/decision.md'
+            links = '\n'.join(f'- [{Path(p).name}]({os.path.relpath(w.path(p), w.path(w.round_path(record)))})'
+                              for p in files)
+            text = (f'# Campaign decision: {decision.action}\n\n{decision.reason}\n\n'
+                    f'Knowledge commit: {decision.knowledge_commit}\n\n'
+                    f'Accepted records:\n{links or "No additional authored records were adopted."}\n')
+            w.write(relative, text)
+            files[relative] = text
+            record['report_path'] = relative
+        receipt['adoption'] = reply.model_dump(mode='json')
         files[w.round_path(record) + '/adoption.json'] = json.dumps(receipt, indent=2) + '\n'
         w.publish(record, files, knowledge=reply.knowledge is not None)
 
@@ -454,9 +578,12 @@ def main(argv=None):
     parser.add_argument('--observation-id')
     parser.add_argument('--input', action='append', default=[], metavar='LABEL=PATH')
     parser.add_argument('--reconsider')
+    parser.add_argument('--revision-id', help='Stable reconsideration identity for restart/lost-ack reuse')
     parser.add_argument('--retry', action='store_true')
     parser.add_argument('--live', action='store_true', help='Explicitly start/resume the model, never a device')
     args = parser.parse_args(argv)
+    if bool(args.reconsider) != bool(args.revision_id):
+        parser.error('--reconsider and a stable --revision-id must be supplied together')
     inputs = {}
     for binding in args.input:
         label, separator, path = binding.partition('=')
@@ -469,7 +596,7 @@ def main(argv=None):
         print('{"status":"NOT_RUN","reason":"Add --live only within an authorized invocation"}')
         return
     decision = runtime.run(observation_id=args.observation_id, inputs=inputs or None,
-                           reconsideration=args.reconsider, retry=args.retry)
+                           reconsideration=args.reconsider, revision_id=args.revision_id, retry=args.retry)
     print(decision.model_dump_json() if decision else '{"status":"knowledge_published"}')
 
 

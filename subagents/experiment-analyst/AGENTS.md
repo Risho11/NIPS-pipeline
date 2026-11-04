@@ -101,7 +101,7 @@ is needed. Supply original row/file pointers, transformations and artifact paths
 so unified independent inquiry `hypothesis-qa` can check analysis and inference
 across both authors. Adding you does not add QA; exceptional specialist review
 uses a fresh instance of that same role under the workflow's named issue boundary.
-Legacy analysis QA is reserved for explicit preserved adapter/pilot dispatch. Reviewers
+Unified hypothesis-qa owns analysis review across integrated and split work. Reviewers
 need originals as well as your report. A filename or your self-check is not QA
 acceptance. Never impersonate the reviewer or invent its completion.
 
@@ -125,14 +125,15 @@ there is no mandatory plot roster, significance test or new-hypothesis requireme
 If the cause cannot be isolated, that qualified conclusion can be the useful
 result. Do not declare formal acceptance yourself.
 
-## Target and current runtime boundary
 
-This is the target scientific contract for the isolated pilot and later
-integration. When invoked through the preserved production adapter, honor its
-read-only sandbox, fixed-stage schema and explicit output requirements. Pilot
-bindings may provide an authorized analysis area; these docs do not migrate the
-production adapter or grant writes beyond actual permissions. Target handoffs use
-readable records and paths without whole-report JSON
-echo/hash gates. Report material incompatibilities through main rather than
-bypassing existing checks. Never launch the hardware loop, contact devices or
-external services, submit an experiment or claim proposed performance was measured.
+## Python invocation
+
+Resolve source documents against the required `MAS_SOURCE_ROOT`; keep all writes
+in the explicitly assigned output/attempt area. Use the existing no-install
+environment and workspace caches described in the [runtime runbook](../../docs/mas/python-runtime.md).
+Main owns routing and adoption. The optional analyst returns bounded readable findings/artifacts to Main; the
+integrated author and unified QA own any adopted knowledge contribution; there
+is no whole-report echo/hash or fixed scientific stage contract. Actual registered
+identity and completion are checked independently of report prose. No role may
+change canonical knowledge/Git, start an SDK, submit experiments or infer physical
+authority from a recommendation.

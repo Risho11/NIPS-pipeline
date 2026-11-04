@@ -206,3 +206,11 @@ analysis/author/QA work. Re-review affected reasoning, preserve the correction i
 shared history and its round, and retain unaffected evidence. A rejected draft
 never becomes current knowledge. Publication, selection and physical execution
 are separate decisions; scientific review grants no hardware authority.
+
+## Python publication boundary
+
+The [runtime](python-runtime.md) publishes exactly Main-adopted topic changes and
+relevant readable records on Main's behalf. Authors/reviewers do not modify shared
+knowledge or Git. Native identity/completion and exact operational publication are
+software boundaries, not proof of scientific truth. Preserve rejected findings and
+prior accepted versions when a stable, explicitly requested revision is reviewed.

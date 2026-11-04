@@ -4,7 +4,7 @@ import sys
 import unittest
 from unittest.mock import Mock, patch
 
-import httpx
+import httpx2
 from openai import APIConnectionError, APITimeoutError, AuthenticationError
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src/pipeline'))
@@ -17,7 +17,7 @@ class RetryTests(unittest.TestCase):
         self.caller = self.client.with_options.return_value
         self.caller.base_url = 'https://openrouter.ai/api/v1/'
         self.create = self.caller.chat.completions.create
-        self.request = httpx.Request('POST', 'https://openrouter.ai/api/v1/chat/completions')
+        self.request = httpx2.Request('POST', 'https://openrouter.ai/api/v1/chat/completions')
         self.payload = dict(model='test-model', messages=[{'role': 'user', 'content': 'context'}], temperature=0)
 
     def invoke(self):
@@ -46,7 +46,7 @@ class RetryTests(unittest.TestCase):
                 self.assertEqual([c.args[0] for c in sleep.call_args_list], [375] * 4)
 
     def test_authentication_error_is_not_retried(self):
-        self.create.side_effect = AuthenticationError('bad key', response=httpx.Response(401, request=self.request), body=None)
+        self.create.side_effect = AuthenticationError('bad key', response=httpx2.Response(401, request=self.request), body=None)
         with patch.object(llm_retry.time, 'sleep') as sleep:
             with self.assertRaises(AuthenticationError):
                 self.invoke()

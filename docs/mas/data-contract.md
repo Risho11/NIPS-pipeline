@@ -19,14 +19,11 @@ additional review uses a fresh instance of that role for a named unresolved issu
 under the workflow, not an automatic analysis-QA stage. Report locations and revision reasons trace evidence
 without whole-report JSON echoes or report-hash gates.
 
-These documents do not implement that target. The preserved
-[Codex adapter](../../src/pipeline/codex_context.py) opens a read-only thread and
-requests four fixed schema-bound operations. Its
-[record layer](../../src/pipeline/mas_records.py) freezes inputs, caches completed
-stages and verifies report hashes. Its existing artifact generator is not the
-target question-led analysis workspace. Writing scripts/figures and reopening
-judgments require the separately scoped isolated pilot or later integration;
-this guide does not grant filesystem permissions or migrate the adapter.
+The [Python runtime](python-runtime.md) supplies a writable independent workspace,
+persistent scientific Main and native review/operational publication. The caller
+separates source, original measurements and scientific outputs. It never creates
+scientific observations or grades report claims; actual permissions and execution
+need independently recorded evidence.
 
 Shared material/process claims and their bounded evidence judgments follow
 [knowledge.md](knowledge.md); round reports explain the changes rather than
@@ -90,12 +87,13 @@ placement/tearing questions but cannot establish an unobserved cross-section.
 Compression-derived pore fraction does not measure exchange kinetics or image
 pore architecture. Keep those proposed intermediates distinct from measured data.
 
-The existing adapter's `observation_inputs` freezes campaign `llm.csv`, `agg.csv`
-and `reps.csv` when present, optional `warm_start.csv`, and `context.json` with
-constraints and original source paths. Non-LLM campaign tables can be absent;
-raw curves are not copied by that function. Inspect the actual input directory
-and request missing sources through main when a material question needs them.
-An aggregate summary does not establish that original curves were inspected.
+The dynamic caller preserves request-specific CSV input copies under the campaign's
+`.mas-inputs/<caller-id>/` and a `provenance.json` naming original paths and exact
+measurement-content identities. These are pipeline outputs outside scientific Git,
+not new measurements. Only shared report annotations are excluded from the
+measurement identity; all original scalar strings and rows remain significant.
+Originals stay authoritative; copied tables do not establish that raw curves or
+photos were inspected. Locate consequential originals through main.
 
 ## How SS processing produces the properties
 
@@ -119,10 +117,6 @@ The successful fit dictionary calls this value `Pore Fraction`;
 `MECH_PROP_SCHEMA` aggregates it as **`Pore Fraction Mean` / `Pore Fraction SD`**.
 Agents interpret these values; they do not fill the columns. A missing point in
 a generated figure does not establish a missing source measurement.
-The preserved [MAS figure reader](../../src/pipeline/mas_analysis.py) still reads
-`Changepoint Mean`, so its pore-fraction output is not a reliable substitute for
-checking the aggregate's actual `Pore Fraction Mean` column.
-
 Known specimen-export limitation: current `rep_col_order` selects `Changepoint`,
 while the successful fit dictionary uses `Pore Fraction`. Check the actual
 supplied export; an empty `Changepoint` column cannot recover aggregate pore
@@ -333,16 +327,13 @@ protocol residence from a recommendation. Constant 45-minute data cannot establi
 a time effect. An offline historical summary must be labeled report-only/candidate
 and must not invent a completed physical batch.
 
-## Preserved adapter records
+## Current operational records
 
-For compatibility only, the preserved adapter generates schemas from
-[Pydantic models](../../src/pipeline/mas_schema.py), including
-`HypothesisUpdate.hypotheses`, `ExperimentDesign.experiment` and
-`ExperimentDecision.next_params`. Python stores returned report prose, attaches
-analysis/decision text and paths to the exact current `llm.csv` condition, and
-preserves numeric columns. No measurement row is invented at initialization.
-Its run result can produce
-`data/llm_results/llm_result_<source_condition>.json` with stock metadata; hold/stop
-does not create a new executable payload. These are adapter mechanics, not
-authority to execute them or requirements to duplicate whole reports in the
-target scientific workflow.
+[Conditions and receipts](../../src/pipeline/mas_contract.py) type only execution
+and native handoff boundaries. Readable authored/reviewed Markdown, actual Git
+knowledge versions and an accepted decision Markdown record provide navigation.
+The pipeline retains shared `initial_report`, `final_report`, `LLM_suggestion`
+columns and original numeric strings; no initialization row is fabricated. A
+queued reconsideration retains previous accepted decisions and checkpoint stages.
+RUN alone is not authority to submit an experiment. The caller's existing physical
+request/journal recovery remains separate from scientific reconsideration.

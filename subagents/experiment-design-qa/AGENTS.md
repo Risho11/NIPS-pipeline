@@ -129,11 +129,15 @@ can make a fresh judgment while remaining distinct from the author. There is no
 fixed two-cycle scientific quota. If essential evidence is unavailable, name it
 and the decision consequence instead of manufacturing acceptance.
 
-## Preserved production-adapter invocation
 
-When invoked through the preserved production adapter, honor its actual
-read-only permissions, fixed-stage schema/cache and explicit transport requirements.
-These target/pilot methods do not migrate that invocation or grant write access.
-Report material incompatibilities through main rather than bypass checks. A pilot
-binding may provide a different authorized review area; actual invocation limits
-still govern. Target review needs no whole-report JSON echo or hash gate.
+## Python invocation
+
+Resolve source documents against the required `MAS_SOURCE_ROOT`; keep all writes
+in the explicitly assigned output/attempt area. Use the existing no-install
+environment and workspace caches described in the [runtime runbook](../../docs/mas/python-runtime.md).
+Main owns routing and adoption. Under that runtime, authors/reviewers write their
+readable Markdown and return only the requested small operational receipt; there
+is no whole-report echo/hash or fixed scientific stage contract. Actual registered
+identity and completion are checked independently of report prose. No role may
+change canonical knowledge/Git, start an SDK, submit experiments or infer physical
+authority from a recommendation.

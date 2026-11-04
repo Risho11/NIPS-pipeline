@@ -16,12 +16,11 @@ revised, and the existing [development execution status](../../harnessing/2026-1
 for development acceptance. Historical pilot evidence applies to its actual
 inputs/contracts; each changed inquiry needs its own useful scientific evidence.
 
-The adaptive inquiry below is the target for an isolated report-only pilot and
-later integration. The preserved production adapter has not been migrated by
-these documents. Its compatibility boundary is described below because it also
-loads this file into its main thread. Do not infer write, model-call or physical
-execution authority from a role document. Honor the actual invocation's scope,
-permissions, supplied constraints and output requirements.
+The Python [runtime](python-runtime.md) and dynamic loop consumer implement these
+operational boundaries. Main retains scientific routing; Python owns persistence,
+native review receipts and exact execution handoff. This does not authorize a
+model invocation, dataset transfer or physical experiment. Actual SDK wiring and
+sandbox enforcement remain separate validation from mocked software checks.
 
 ## Source and output bindings
 
@@ -34,10 +33,9 @@ as `/tmp/<root>`. Scientific outputs belong in
 Give authors/reviewers explicit assigned output areas; only main publishes
 accepted shared knowledge. Do not resolve a relative output against PROJECT.
 
-Existing bindings use `PILOT_ROOT`, when supplied, for source role paths: it must
-identify PROJECT, never the temporary output root. Otherwise use the invocation's
-actual project root. These names are invocation bindings, not universal runtime
-variables. Keep analysis scratch/cache files in authorized outputs and use the
+The runtime requires `MAS_SOURCE_ROOT` for scientific role/source paths; it
+identifies PROJECT, never the output CWD. There is no pilot alias or CWD fallback.
+The caller supplies the actual explicit source root and separate output root. Keep analysis scratch/cache files in authorized outputs and use the
 existing environment without installing into or copying the project environment.
 
 Project-read-only and output-only writes are task restrictions, not proof of OS
@@ -64,7 +62,7 @@ global configuration, execute hooks, use remotes, broad staging, resets or delet
 Authors/reviewers neither publish shared knowledge nor stage/commit; drafts and
 rejected proposals are not adopted knowledge. Final topic prose retains consequential
 revision reasons without committing every draft. Without this explicit binding,
-no Git-write authority is granted; preserved production permissions still govern.
+no Git-write authority is granted; actual invocation permissions still govern.
 
 ## Knowledge initialization and recurring inquiry
 
@@ -151,7 +149,7 @@ estimator. Seek credible opposing pathways and justify any transferred direction
 If a specialist cannot retrieve sources under its actual binding, main can provide
 permitted source copies or retrieve them within its own authority. Do not pretend
 a summary is a paper read, override a stricter binding or infer browsing from a
-doc/source edit. Existing production-adapter and parent sandbox/tool restrictions
+doc/source edit. Actual parent sandbox/tool restrictions
 remain; this guidance adds no browsing implementation. A useful tentative proposal
 can use a domain-appropriate physical argument without literature or new target
 data confirmation, with its assumptions and source-access limits explicit.
@@ -327,12 +325,10 @@ that same role; do not attach another reviewer merely because an analyst joined.
 Record the issue and review scope briefly in existing inquiry/decision context.
 Continued repair review is not automatically an additional specialist review.
 
-`experiment-design-qa` stays distinct for the exact proposed test. The retained
-`experiment-analysis-qa` role/files are only for explicit preserved adapter or
-compatibility-pilot dispatch, not an alternative target inquiry route. Their
-analysis methods may still be read as reference without activating that role.
-Runtime IDs/registration and actual permissions remain unchanged; source edits do
-not establish hot reload or production migration.
+`experiment-design-qa` stays distinct for the exact proposed test. The optional
+analyst uses unified `hypothesis-qa`; no separate compatibility analysis-QA role
+is registered. Runtime IDs and roles are the five current bindings; actual native
+execution and permissions need their own evidence.
 
 | Dispatch / author role | Responsibility | Independent scientific reviewer |
 | --- | --- | --- |
@@ -457,43 +453,21 @@ experiments or contact robot/device clients. In later production integration,
 authorized execution must still adopt the reviewed conditions exactly. Neither
 a scientific QA pass nor a run record independently grants execution authority.
 
-## Existing production compatibility: not the target's implementation
+## Python operational boundary
 
-[codex_context.py](../../src/pipeline/codex_context.py) currently resumes one main
-thread in `Sandbox.read_only` with approvals denied. It calls analysis,
-hypotheses, experiment_design and decision in order, returning Pydantic-validated
-schema content. Its per-stage prompt requires fresh author/reviewer sessions,
-actual collaboration identities and exact author/reviewer content equality.
-Those are existing adapter restrictions, not target scientific session rules.
-If invoked by this adapter, honor its explicit stage/schema and read-only
-permissions; do not write target artifacts, invent a review, bypass its checks or
-claim adaptive execution. Report a material incompatibility rather than simulate
-support. The adapter prompt references a workflow revision limit; this target
-workflow supplies no arbitrary two-cycle scientific limit. A caller's real bounded
-execution budget can require an honest incomplete/hold outcome, never a false pass.
+The [runtime runbook](python-runtime.md) owns the current API, CLI and loop
+integration. It replaces the retired fixed-stage implementation. Native authors
+and reviewers write separate Markdown and return small operational receipts;
+Python never interprets report prose as QA. Main adopts changes and Python
+publishes them on its behalf. Git payload identity is operational recovery, not a
+scientific report equality/hash gate.
 
-[mas_records.py](../../src/pipeline/mas_records.py) stores state under the campaign's
-`mas/state.json` and round directories. Frozen inputs can include `llm.csv`,
-`agg.csv`, `reps.csv`, optional `warm_start.csv` and `context.json`; deterministic
-figures and accepted `analysis.md`, `hypotheses.md`, `experiment_design.md` and
-`decision.md` are saved by Python. The current record layer hashes evidence and
-reports and returns cached accepted stages. Altered accepted reports/inputs can
-raise errors rather than reopen work. A restart can reuse accepted stages; it
-is not a scientific reconsideration mechanism.
-
-Current [run_loop.py](../../src/pipeline/run_loop.py) preserves hold/stop through
-its decision checkpoint. Do not delete QA markers, change checkpoint fields or
-edit frozen files to force a new decision. Same-campaign adaptive reconsideration
-and a writable question-led workspace remain pilot/integration work, not behavior
-established by this documentation. The six scientific role bindings now support
-the isolated pilot's explicitly authorized author/review work areas. They inherit
-the parent's actual permissions and do not migrate the preserved production
-invocation. The main role is an instruction contract activated by the pilot;
-it is not a newly registered SDK binding.
-
-The existing `dynamic` mode and legacy single/double/explore/double_explore modes
-remain separate routes. These docs do not authorize switching modes, launching
-`run_loop.py`, running the legacy SDK CLI, installing new agents, or changing
-production code. Mocked adapter tests establish local plumbing only. The isolated
-pilot and its real-data evaluation have separate planned steps; neither live
-scientific usefulness nor production support is established by these contracts.
+The loop retains physical request/journal IDs and shared CSV report columns.
+Ordinary restart preserves HOLD/STOP and issued requests. Queue deliberate review
+with `request_dynamic_reconsideration` and a stable revision ID/reason; never
+remove checkpoint/QA markers. The queue performs no model/device work; only an
+already authorized loop invocation consumes it. Ambiguous or acknowledged jobs
+cannot be replaced by reconsideration. Read the runbook before using this API.
+Non-MAS single/double/explore/double_explore behavior is preserved. Current
+software tests are mocked; live SDK, hosted CI, Windows and physical acceptance
+remain unperformed unless exact later evidence establishes them.

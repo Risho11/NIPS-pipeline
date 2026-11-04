@@ -1,8 +1,8 @@
 # Adaptive Python campaign runtime
 
-This foundation exposes a report-only API and CLI. The existing operational loop
-still uses its older adapter until the separate integration/cleanup step. This
-runtime never imports the operational loop or request client and never submits
+This runtime exposes a report-only API and CLI. The operational loop consumes
+this API at its separate authorized execution boundary. This module never imports
+the operational loop or request client and never submits
 experiments. Mocked tests establish software boundaries, not scientific usefulness,
 actual SDK connectivity, sandbox enforcement, Windows execution or device readiness.
 
@@ -56,7 +56,9 @@ the operator must additionally establish output separation from all protected da
 before using it. Use the API above when programmatic protected-root enforcement
 is required. Later input binding rejects input files inside output, but that is
 not a preflight check for every data root. The five role bindings are copied to the output
-root's `.codex/agents/`, while `PILOT_ROOT` resolves their documents to source.
+root's `.codex/agents/`, while required `MAS_SOURCE_ROOT` resolves their documents
+to the explicit source root. The runtime supplies it from `Workspace.source`
+(`--source` for CLI); there is no pilot alias or output-CWD fallback.
 No shared skill bodies, source tree, environment or original measurements are copied.
 
 ## Main, knowledge and native review
@@ -99,14 +101,36 @@ Native specialist final answers carry only operational `Contribution`/`Review`
 receipts: operation ID, knowledge/design kind, proposal path mapping, exact design
 conditions when relevant, knowledge commit and own Markdown report path. Review
 also carries pass/fail and author thread ID. Authored reasoning and findings stay
-in separate current-round Markdown files. The host checks actual SDK-observed
-completion, actual child role/parent metadata and final messages. A Main assertion,
+in separate current-attempt Markdown files. Artifact fields (`files` values,
+`report_path`, `MainReply.records`) accept workspace-relative paths or absolute
+paths inside the exact current attempt. Both forms are normalized to the same
+relative publication path before comparison and staging. Parent traversal, earlier
+attempts, external/source/raw/cache files, symlinks and hardlinks remain forbidden.
+Author and reviewer must name separate records even when they use different path forms.
+
+Participant fields (`author_thread_id`, `reviewer_thread_id`) are a separate
+namespace. They may use an actual SDK-observed UUID or a canonical `/root/...`
+agent reference. Only the current native `SubAgentActivity` mapping can resolve
+a canonical name to an actual ID; ambiguous/remapped names, unobserved IDs and
+self-review fail closed. Reused sessions may have interacted/completed activity
+without a new started event. The host requires current completed activity, then
+reads each child's public latest final receipt and verifies role, parent, latest
+completion, operation, kind and exact operational claims. Where older public
+`CollabAgentToolCall` completed state includes a message, the host also requires
+that message to match the actual latest small child receipt.
+
+The live SDK result collects item-completed notifications; it need not contain
+all participant activity in rehydrated history. After completion, the host publicly
+reloads Main history, confirms the same latest completed turn and small response,
+then reads child history. Persisted adoption records contain resolved actual IDs,
+submitted references and native provenance. Opaque native item IDs are recorded,
+never parsed as participant identities. A Main assertion,
 prose PASS, wrong role, self-review, incomplete review or stale operation cannot
 authorize publication. Only small operational path/condition receipts are compared;
 there is no report-body JSON echo, equality or report-hash acceptance gate.
 
 `MainReply` selects a knowledge adoption or a final decision/design adoption.
-`records` explicitly names additional relevant current-round Markdown to preserve.
+`records` explicitly names additional relevant current-attempt Markdown to preserve.
 Native author/review reports and adopted topic proposals are included automatically.
 After review, candidates must remain preserved; edits require renewed native
 completions. This is a task boundary, not a claim of per-role OS isolation.
@@ -170,18 +194,36 @@ there is no parallel report-cache acceptance system.
 
 `run()` on ordinary restart resumes pending native work on the same Main. It
 records the Main ID before work and turn ID before consuming completion. The
+just-created Main starts its first turn without reading an empty turn history;
+there is no prior turn to recover in that same call. Known Main IDs resume with
+implicit history hydration disabled, then require an explicit native history read
+before recovery/continuation. If that read fails even for a known empty session
+(including interruption after ID save but before first turn), the runtime preserves
+the ID/failure and stops; it does not infer emptiness from local missing turns or
+create a replacement Main. That cold-empty recovery boundary is a retained
+limitation pending actual public-backend verification, not a live recovery PASS. The
 operation token in native history covers interruption between turn start and
-local ID persistence. A running turn is joined even with `retry=True`. Terminal
+local ID persistence. A running turn is joined even with `retry=True`.
+Recovery/retry cannot join unknown running work or use a pending turn that is no
+longer the latest in Main history. Terminal
 failed/interrupted or rejected turns require explicit `retry=True` to request a
 new continuation, preserving prior turns/failures. Completed decisions, including
 HOLD/STOP, are reused without another model call. Input/context drift is rejected.
 
 ```python
 result = runtime.run(reconsideration="New evidence changes the question",
+                     revision_id="approved-revision-1",
                      inputs={"selected": corrected_csv})
 ```
 
 A substantive reason creates a new operation and preserves old records. An
+explicit stable `revision_id` binds that intent, context and supplied inputs;
+replaying it after a crash/lost acknowledgement returns or resumes the same
+operation rather than creating another revision. Changed reason/context/inputs
+under that ID fail. The API still permits a one-off reason without ID as a new
+intent on every call; durable callers must supply an ID. The CLI requires
+`--reconsider` and `--revision-id` together. `last_operation_id` identifies the
+actual returned/resumed operation, including cached results. An
 incomplete operation can be marked superseded only after native history establishes
 there is no running turn. Changed evidence after a terminal failure can therefore
 be reconsidered without completing an impossible old digest. A genuinely running
@@ -193,6 +235,84 @@ Workspace writers are serialized using POSIX `flock` or Windows `msvcrt.locking`
 Kernel release handles process exit; lock files are not deleted as stale. Other
 platforms fail explicitly. Paths are compared as resolved Path identities, not
 Git's raw slash spelling. Actual Windows execution remains separate validation.
+
+## Dynamic loop integration and deliberate reconsideration
+
+`run_loop.py` selects this API only for `LLM_AL_SEARCH_MODE="dynamic"`; the existing
+default remains `double_explore`. Before an authorized dynamic campaign, set
+`MAS_WORKSPACE_ROOT` to an independent absolute output root and `MAS_MATERIAL_KEY`
+to the explicit portable material key. Both default to None and missing bindings
+fail before inference/submission. Existing operator materials, installed stock
+metadata, additive lock, objective and campaign paths supply Context. No new
+operator values or material defaults are inferred. Fixed iteration/no-performance
+routes cannot be combined with dynamic MAS. Scientific roles remain report-only;
+the operator-controlled loop retains the existing request/client protocol.
+
+The caller saves a request ID before asking Main and carries the actual source
+condition (or initial-campaign focus) explicitly alongside the unchanged objective.
+It completes theory publication
+before selecting observations, then continues actual adopted knowledge publications
+until Main returns a decision; this is no fixed role order or scientific revision
+quota. A new campaign without observations requests a reviewed theory-based first
+design; warm-start inputs are revealed only after the initial knowledge commit.
+The same material bank/Main can serve later named campaigns.
+
+To avoid annotating an in-flight input, the pipeline preserves per-request CSV
+copies and original-path/measurement provenance under its campaign's
+`.mas-inputs/<caller-id>/`, outside scientific Git. These are derived input copies,
+not additional observations or knowledge-bank snapshots. They preserve original
+scalar strings/rows. Only `initial_report`, `final_report`, `LLM_suggestion`
+annotations are ignored by the original-measurement identity check; a real measured
+or operator-data change requires explicit review. Raw curves/media are not copied.
+The three shared CSV columns remain available for all modes; dynamic annotations
+link the actual accepted `decision.md` and separate author/review records, while
+numeric measurements remain unchanged. No whole report body is put in a QA schema.
+
+A pipeline checkpoint retains its caller request, accepted decision, previous
+`mas_decisions`, context/input bindings and processing/submission stages. Caller
+journal work is serialized by a separate kernel `.pipeline.lock`; Main/state/Git
+uses `.mas.lock`. A decision accepted by the runtime before a lost pipeline save
+is recovered using the same ID. `mas_failures` preserves pipeline failure facts.
+Ordinary restart reuses HOLD/STOP without model work and never replaces an issued
+physical request. Retired fixed-stage state/decisions/initial recommendations are
+rejected and preserved rather than silently migrated or deleted.
+
+Deliberate reconsideration is available through the supported caller function.
+Within the **already configured dynamic caller** (existing approved environment,
+`DATA_ROOT`/CSV/campaign paths, materials, objective, MAS output root/key all bound),
+this illustrative call only queues intent:
+
+```python
+import run_loop as pipeline
+
+pipeline.request_dynamic_reconsideration(
+    "condition-A", revision_id="approved-review-1",
+    reason="New approved evidence changes the previous held question")
+# condition_name=None selects the saved initial recommendation instead.
+```
+
+Use the actual saved source-condition name and a stable caller-selected portable
+revision ID; these example strings name no real experiment. The function requires
+an existing accepted current-runtime decision. Repeating the same ID/reason is a
+no-op, even after consumption. A conflicting reason or another pending revision
+fails. No checkpoint/QA/stage markers are removed; prior decisions remain intact.
+The queue calls no model or device. Resume the already authorized operational
+caller to consume it: callback recovery uses its existing saved parameters;
+initial recovery uses its saved initial recommendation path. Do not launch the
+hardware loop as a development check. This queue is distinct from the standalone
+runtime CLI, which changes inquiry only and never updates a pipeline checkpoint.
+
+A new inquiry can produce a new exact reviewed RUN/HOLD/STOP. Versioned execution
+JSON preserves earlier payloads when reconsideration changes the design. No model
+value is clamped in dynamic mode. Cached caller receipts are compared to the
+actual committed runtime decision, context, input binding and report location;
+a changed feasible checkpoint tuple is still rejected as unreviewed. This compares
+only small operational values, not scientific report bodies. Before dispatch,
+operator context, stock bounds,
+additive lock and exact approved parameters are rechecked. Ambiguous or acknowledged
+jobs keep their original request ID/journal and cannot be replaced through this
+function; resolve that physical lifecycle through its existing journal/operator
+procedure first. A RUN recommendation or queued revision grants no hardware right.
 
 ## Report-only CLI and validation
 
@@ -263,7 +383,7 @@ operator-material or stock defaults. Preparation parses context/bindings and pri
 Preparation is the default and creates no output/client.
 `--live` explicitly starts/resumes model work within the invocation's authority;
 it never starts hardware. Later observations use `--observation-id` and repeatable
-`--input LABEL=PATH`; `--reconsider REASON` and `--retry` expose recovery semantics.
+`--input LABEL=PATH`; `--reconsider REASON --revision-id ID` and `--retry` expose recovery semantics.
 For example, after an independently reviewed bootstrap, an authorized later
 synthetic observation invocation may add `--observation-id synthetic-event-1
 --input table=/private/tmp/mas-runtime-synthetic.csv`. That file must already exist,
@@ -284,8 +404,9 @@ Offline checks use the existing environment:
 uv run --locked --no-sync python -m unittest discover -s tests -p 'test_mas_contract.py'
 uv run --locked --no-sync python -m unittest discover -s tests -p 'test_mas_workspace.py'
 uv run --locked --no-sync python -m unittest discover -s tests -p 'test_mas_runtime.py'
+uv run --locked --no-sync python -m unittest discover -s tests -p 'test_dynamic_routing.py'
 ```
 
-They use synthetic data, actual temporary Git and SDK-shaped mocks only. This
-foundation does not yet remove the older adapter, route run_loop, replace its
-tests/CI or establish production/physical acceptance; those are the next bounded step.
+They use synthetic data, actual temporary Git and SDK-shaped mocks only. The dynamic loop integration and legacy cleanup are covered by separate caller,
+warm-start, recovery and context tests. Actual SDK wiring/sandbox, hosted CI,
+Windows and physical acceptance remain NOT_RUN until independently established.

@@ -84,9 +84,10 @@ class Workspace:
         self.write('.mas-state.json', json.dumps(self.state, indent=2, allow_nan=False) + '\n')
 
     @contextmanager
-    def lock(self):
+    def file_lock(self, relative):
+        """Serialize a caller journal independently of native Main/state access."""
         self.root.mkdir(parents=True, exist_ok=True)
-        lock_path = self.path('.mas.lock')
+        lock_path = self.path(relative)
         with lock_path.open('a+b') as stream:
             stream.seek(0)
             if os.name == 'nt':
@@ -112,10 +113,15 @@ class Workspace:
             except OSError as exc:
                 raise RuntimeError("Campaign workspace is already locked") from exc
             try:
-                self._open()
                 yield self
             finally:
                 release()
+
+    @contextmanager
+    def lock(self):
+        with self.file_lock('.mas.lock'):
+            self._open()
+            yield self
 
     def git(self, *args, check=True, input=None):
         # Never inherit GIT_DIR, GIT_WORK_TREE, external index or global hooks.

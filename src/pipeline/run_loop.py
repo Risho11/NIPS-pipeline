@@ -11,7 +11,7 @@ Usage:
     python run_loop.py
 """
 
-import json, re, threading, time, shutil, csv, os, sys, datetime, uuid
+import json, re, threading, time, shutil, csv, os, sys, datetime, uuid, hashlib
 import cv2
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -47,8 +47,9 @@ import url_29 as url                           # <<< IMPORT >>> must be in same 
 import activeLearning_29 as activeLearning     # <<< IMPORT >>> must be in same folder
 import master_processing                       # <<< IMPORT >>> dispatches curve_segmentation + image_processing branches
 import llm_context                             # <<< IMPORT >>> what branch results become CSV/report text for the LLM
-import codex_context
-from mas_schema import validate_conditions
+from mas_contract import Context, Decision, validate_conditions
+from mas_runtime import CampaignRuntime
+from mas_workspace import Workspace, file_digest, key as mas_key
 
 # Semi-batch material choices. Recorded with every condition and provided to LLM_AL as context,
 # but never selected or changed by the model.
@@ -99,7 +100,7 @@ LOCK_ADDITIVE_WT_VALUE = 0
 
 # When either is True, next_params advances through ADDITIVE_ITERATION_LIST and/or
 # POLYMER_ITERATION_LIST instead of asking the LLM
-# Sweeping is forced on regardless of these flags whenever no branches are enabled at all 
+# Sweeping is forced on regardless of these flags whenever no branches are enabled at all
 ITERATE_ADDITIVES = False
 ITERATE_POLYMER = False
 # Choose the LLM mode here (used for both new and resumed recommendations):
@@ -107,15 +108,22 @@ ITERATE_POLYMER = False
 #   "double": maximize elastic modulus and pore fraction, including validation
 #   "double_explore": same two objectives with modest exploration of promising regions
 #   "explore": maximize diversity/coverage to populate the dataset
-#   "dynamic": Codex hypothesis-driven MAS with independent stage QA
+#   "dynamic": persistent adaptive MAS with native inquiry/design QA
 # Double mode needs measured pore fractions in performance reports or the LLM CSV's
 # pore_fraction_report column, with units/scale. Missing measurements remain unknown.
 LLM_AL_SEARCH_MODE = "double_explore"
 # Historical context; also generates the first suggestion for a new campaign.
 # Set to None to start without historical context.
 LLM_AL_WARM_START_CSV = _REPO_ROOT / "data/warm_start/primospire_nmp.csv"
-REQUIRE_CODEX_MODES = codex_context.REQUIRE_CODEX_MODES
-DYNAMIC_OBJECTIVE = codex_context.DEFAULT_OBJECTIVE  # Operator-editable campaign objective.
+REQUIRE_CODEX_MODES = {"dynamic"}
+DYNAMIC_OBJECTIVE = (
+    "Improve reproducible elastic modulus and compression-estimated pore fraction "
+    "within feasible conditions and acceptable membrane quality. Describe Pareto "
+    "tradeoffs without inventing a weighted sum; use experiments to test hypotheses."
+)
+# Explicit operator bindings required only for dynamic mode; no material/output default.
+MAS_WORKSPACE_ROOT = None
+MAS_MATERIAL_KEY = None
 if LLM_AL_SEARCH_MODE not in REQUIRE_CODEX_MODES:
     llm_context.resolve_al_mode(LLM_AL_SEARCH_MODE)  # Fail early on a misspelled mode.
 # Number of recent unique points provided as diversity context when
@@ -226,9 +234,7 @@ def _save_checkpoint(condition_name, state):
     path.parent.mkdir(parents=True, exist_ok=True)
     state["condition_name"] = condition_name
     state["updated_at"] = datetime.datetime.now().isoformat(timespec="seconds")
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(state, indent=2), encoding="utf-8")
-    os.replace(temporary, path)
+    _save_json(path, state)
 
 
 def _complete_stage(condition_name, state, stage, **updates):
@@ -550,7 +556,11 @@ def _new_campaign_params():
     """Reuse this campaign's saved first suggestion before requesting a new one."""
     result_path = CSV_AGG_LLM.parent / "initial_suggestion.json"
     if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
-        decision = _dynamic_recommendation(None, CSV_AGG_LLM, initial=True)
+        with _dynamic_workspace().file_lock('.pipeline.lock'):
+            state = json.loads(result_path.read_text(encoding='utf-8')) if result_path.exists() else {}
+            if state and not state.get('mas_request'):
+                raise ValueError('Retired initial recommendation; no automatic MAS migration')
+            decision = _caller_decision(state, lambda v: _save_json(result_path, v), None, initial=True)
         if decision["action"] != "run":
             print(f"[MAS] {decision['action']}: {decision['reason']}")
             return None
@@ -634,6 +644,8 @@ def _load_resume_params_for_campaign(campaign_date):
     llm_result = JSON_RESULTS_DIR / f"llm_result_{last_condition}.json"
     if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
         state = _load_checkpoint(last_condition)
+        if (state or {}).get('mas_decision') and not state['mas_decision'].get('runtime_operation_id'):
+            raise ValueError('Retired MAS checkpoint; no automatic adoption')
         if "next_run_submitted" in (state or {}).get("completed_stages", []):
             print(f"[MAS] next experiment already submitted for {last_condition}; waiting for callback")
             return None
@@ -711,26 +723,250 @@ def _validate_dynamic_settings():
         raise ValueError("Dynamic MAS requires an enabled performance branch")
 
 
-def _dynamic_recommendation(condition_name, llm_csv, *, initial=False):
+def _dynamic_context(condition_name=None):
+    focus = 'Initial campaign recommendation' if condition_name is None else f'Current measured source condition: {condition_name}'
+    return Context(campaign=CSV_AGG_LLM.parent.name, objective=DYNAMIC_OBJECTIVE + '\nCaller focus: ' + focus,
+                   materials=_current_material_context(), stock_metadata=activeLearning.bounds.send_metadata(),
+                   locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None)
+
+
+def _dynamic_workspace():
+    if MAS_WORKSPACE_ROOT is None or MAS_MATERIAL_KEY is None:
+        raise ValueError("Dynamic MAS requires explicit MAS_WORKSPACE_ROOT and MAS_MATERIAL_KEY")
+    return Workspace(MAS_WORKSPACE_ROOT, _REPO_ROOT, MAS_MATERIAL_KEY,
+                     protected_roots=(DATA_ROOT,))
+
+
+def _save_json(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("w", encoding="utf-8") as stream:
+        json.dump(value, stream, indent=2, allow_nan=False)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, path)
+
+
+def _measurement_digest(path):
+    """Ignore only shared report annotations, preserving every measured scalar string."""
+    with Path(path).open(newline='', encoding='utf-8') as stream:
+        reader = csv.DictReader(stream)
+        columns = [c for c in reader.fieldnames if c not in {'initial_report', 'final_report', 'LLM_suggestion'}]
+        values = [columns, *[[row[c] for c in columns] for row in reader]]
+    return hashlib.sha256(json.dumps(values, ensure_ascii=False).encode('utf-8')).hexdigest()
+
+
+def _dynamic_inputs(llm_csv, initial, request):
+    paths = {"selected": llm_csv, "aggregate": CSV_AGG, "specimens": CSV_REPS}
+    if initial and LLM_AL_WARM_START_CSV is not None:
+        paths["warm_start"] = Path(LLM_AL_WARM_START_CSV)
+        if not paths["warm_start"].is_file():
+            raise FileNotFoundError("Explicit warm-start CSV is missing")
+    inputs, sources = {}, {}
+    for label, path in paths.items():
+        if not path.is_file() or not path.stat().st_size:
+            continue
+        fingerprint = _measurement_digest(path)
+        target = CSV_AGG_LLM.parent / '.mas-inputs' / mas_key(request['id']) / (label + '.csv')
+        if target.exists():
+            if _measurement_digest(target) != fingerprint:
+                raise ValueError('Pending caller observation changed; preserve and reconsider explicitly')
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            temporary = target.with_suffix('.csv.tmp')
+            with temporary.open('wb') as stream:
+                stream.write(path.read_bytes())
+                stream.flush()
+                os.fsync(stream.fileno())
+            os.replace(temporary, target)
+        inputs[label] = target
+        sources[label] = dict(path=str(path.resolve()), measurement_sha256=fingerprint)
+    if sources:
+        manifest = CSV_AGG_LLM.parent / '.mas-inputs' / mas_key(request['id']) / 'provenance.json'
+        _save_json(manifest, sources)
+        inputs['provenance'] = manifest
+    return inputs, sources
+
+
+def _dynamic_recommendation(condition_name, llm_csv, *, request, initial=False):
+    """Drive operational publications, never a fixed sequence of scientific roles."""
     _validate_dynamic_settings()
-    decision = codex_context.generate_reports_and_suggestion(
-        condition_name, llm_csv, activeLearning,
-        locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
-        al_search_mode=LLM_AL_SEARCH_MODE,
-        warm_start_csv=LLM_AL_WARM_START_CSV,
-        material_context=_current_material_context(), initial=initial,
-        objective=DYNAMIC_OBJECTIVE,
-    )
-    if decision["action"] == "run":
-        _validate_dynamic_params(decision["next_params"])
-    return decision
+    context = _dynamic_context(condition_name)
+    workspace = _dynamic_workspace()
+    runtime = CampaignRuntime(workspace, context)
+    with workspace.lock():
+        initialized = workspace.state['knowledge_commit'] is not None
+    if not initialized:
+        bootstrap = {}
+        if request['reason']:
+            bootstrap = dict(reconsideration=request['reason'],
+                             revision_id=uuid.uuid5(uuid.NAMESPACE_URL, request['id'] + ':theory').hex)
+        decision = runtime.run(**bootstrap)
+        if decision is not None:
+            return _dynamic_receipt(runtime, decision, request, context, {}, condition_name)
+    inputs, sources = _dynamic_inputs(llm_csv, initial, request)  # Only after reviewed theory publication.
+    if request['reason'] or not inputs:
+        arguments = dict(inputs=inputs, reconsideration=request['reason'] or
+                         'Initial campaign design using reviewed theory; no observations supplied',
+                         revision_id=request['id'])
+    else:
+        arguments = dict(observation_id=request['id'], inputs=inputs)
+    while True:
+        decision = runtime.run(**arguments)
+        if decision is not None:
+            return _dynamic_receipt(runtime, decision, request, context, sources, condition_name)
+        # A real adopted knowledge commit is a continuation boundary, not a
+        # scientific stage/quota. Main may revise knowledge as its question needs.
+
+
+def _dynamic_receipt(runtime, decision, request, context, sources, condition_name):
+    record = runtime.workspace.state['operations'][runtime.last_operation_id]
+    result = decision.model_dump(mode='json')
+    if decision.next_params is not None:
+        result['next_params'] = {**result['next_params'], **context.materials.model_dump()}
+    result.update(runtime_operation_id=record['id'], caller_request_id=request['id'], source_condition=condition_name,
+                  request_reason=request['reason'], context=context.model_dump(mode='json'),
+                  inputs=record['inputs'], source_inputs=sources,
+                  report_path=str(runtime.workspace.path(record['report_path'])),
+                  runtime_commit=record['commit'])
+    return result
 
 
 def _validate_dynamic_params(params):
-    clean = {key: value for key, value in params.items() if key != "stock_metadata"}
+    clean = {k: v for k, v in params.items() if k != 'stock_metadata'}
     _validate_params(clean)
-    validate_conditions(clean, activeLearning.bounds, _current_material_context(),
-                        LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None)
+    context = _dynamic_context()
+    if any(clean[k] != v for k, v in context.materials.model_dump().items()):
+        raise ValueError("Reviewed operator context changed")
+    if 'stock_metadata' in params and params['stock_metadata'] != context.stock_metadata:
+        raise ValueError("Reviewed stock metadata changed")
+    validate_conditions({k: clean[k] for k in LLM_PARAMS_KEYS}, context)
+
+
+def _verify_runtime_receipt(value):
+    """Compare small execution receipts to actual accepted runtime/Git history."""
+    if not value.get('runtime_operation_id'):
+        raise ValueError("Retired MAS decision/checkpoint; preserve for explicit review")
+    workspace = _dynamic_workspace()
+    with workspace.lock():
+        record = workspace.state['operations'].get(value['runtime_operation_id'])
+        if not record or record['status'] != 'completed' or not record['decision']:
+            raise ValueError('No completed accepted runtime decision for caller checkpoint')
+        path = workspace.round_path(record) + '/adoption.json'
+        committed = json.loads(workspace.git('show', f"{record['commit']}:{path}").stdout)
+        expected = Decision.model_validate(committed['adoption']['decision']).model_dump(mode='json')
+        if expected['next_params'] is not None:
+            expected['next_params'].update(record['context']['materials'])
+        if (any(value.get(k) != v for k, v in expected.items())
+                or value['context'] != record['context'] or value['inputs'] != record['inputs']
+                or value['runtime_commit'] != record['commit']
+                or value['report_path'] != str(workspace.path(record['report_path']))):
+            raise ValueError('Caller checkpoint differs from actual reviewed runtime execution receipt')
+
+
+def _checked_dynamic_decision(value):
+    _verify_runtime_receipt(value)
+    if value['context'] != _dynamic_context(value.get('source_condition')).model_dump(mode='json'):
+        raise ValueError("Accepted MAS context changed; explicit reconsideration required")
+    for binding in value['inputs'].values():
+        if file_digest(binding['path']) != binding['sha256']:
+            raise ValueError("Accepted observation changed; explicit reconsideration required")
+    for binding in value['source_inputs'].values():
+        if _measurement_digest(binding['path']) != binding['measurement_sha256']:
+            raise ValueError("Accepted measured inputs changed; explicit reconsideration required")
+    params = value['next_params']
+    Decision.model_validate(dict(action=value['action'], reason=value['reason'],
+        knowledge_commit=value['knowledge_commit'],
+        next_params={k: params[k] for k in LLM_PARAMS_KEYS} if params is not None else None))
+    if params is not None:
+        _validate_dynamic_params(params)
+    return value
+
+
+def _caller_decision(state, save, condition_name, *, initial=False):
+    prior = state.get('mas_decision')
+    if prior and not prior.get('runtime_operation_id'):
+        raise ValueError("Retired MAS decision/checkpoint; no automatic migration")
+    if prior and prior.get('source_condition') != condition_name:
+        raise ValueError('Caller checkpoint source condition changed')
+    if 'submission_started' in state.get('completed_stages', []) and not prior:
+        raise RuntimeError("Cannot adopt an unreviewed legacy submission as a dynamic decision")
+    if not state.get('mas_request'):
+        state['mas_request'] = dict(id=uuid.uuid4().hex, reason=None)
+        save(state)  # Persist caller identity before inference or its completion.
+    request = state['mas_request']
+    if prior and prior['caller_request_id'] == request['id']:
+        return _checked_dynamic_decision(prior)
+    decision = _dynamic_recommendation(condition_name, CSV_AGG_LLM, request=request, initial=initial)
+    history = state.setdefault('mas_decisions', [])
+    if not any(r['runtime_operation_id'] == decision['runtime_operation_id'] for r in history):
+        history.append(decision)
+    state['mas_decision'] = decision
+    if initial:
+        state['search_mode'] = 'dynamic'
+        state['next_params'] = decision['next_params']
+    save(state)
+    return decision
+
+
+def request_dynamic_reconsideration(condition_name=None, *, revision_id, reason):
+    """Queue an idempotent review, without model or device work; None selects initial.
+
+    Resume the existing operator-controlled loop to consume it. Physical jobs
+    already started/acknowledged must resolve through their original journal first.
+    """
+    _validate_dynamic_settings()
+    mas_key(revision_id)
+    if not isinstance(reason, str) or not reason.strip():
+        raise ValueError("Reconsideration requires a substantive reason")
+    with _dynamic_workspace().file_lock('.pipeline.lock'):
+        path = CSV_AGG_LLM.parent / 'initial_suggestion.json' if condition_name is None else _checkpoint_path(condition_name)
+        state = json.loads(path.read_text(encoding='utf-8'))
+        prior = state.get('mas_decision') or {}
+        if not prior.get('runtime_operation_id'):
+            raise ValueError("No current accepted runtime decision to reconsider")
+        known = [state.get('mas_request', {})] + [dict(id=d['caller_request_id'], reason=d['request_reason'])
+                                                     for d in state.get('mas_decisions', [])]
+        for request in known:
+            if request.get('id') == revision_id:
+                if request['reason'] != reason:
+                    raise ValueError("Revision identity reused with different reason")
+                return request
+        if (state.get('submission') or set(state.get('completed_stages', []))
+                & {'submission_started', 'next_run_submitted'}):
+            raise RuntimeError("Resolve the existing physical request/journal; reconsideration cannot replace it")
+        if state.get('mas_request', {}).get('id') != prior['caller_request_id']:
+            raise RuntimeError("A reconsideration is already pending")
+        state['mas_request'] = dict(id=revision_id, reason=reason)
+        _save_json(path, state)
+        return state['mas_request']
+
+
+def _attach_dynamic_location(condition_name, decision):
+    """Keep shared report columns and original scalar strings; never invent a row."""
+    with CSV_AGG_LLM.open(newline='', encoding='utf-8') as stream:
+        reader = csv.DictReader(stream)
+        columns, rows = list(reader.fieldnames), list(reader)
+    matches = [r for r in rows if r.get('name') == condition_name]
+    if len(matches) != 1:
+        raise ValueError("One existing measured condition row required for MAS location")
+    for column in ('initial_report', 'final_report', 'LLM_suggestion'):
+        if column not in columns:
+            columns.append(column)
+    row = matches[0]
+    location = 'Accepted MAS decision: ' + decision['report_path']
+    row['initial_report'] = row.get('initial_report') or location
+    if location not in (row.get('final_report') or ''):
+        row['final_report'] = (row.get('final_report') or '') + '\n' + location
+    row['LLM_suggestion'] = json.dumps({k: decision[k] for k in ('action', 'reason', 'next_params', 'knowledge_commit', 'report_path')})
+    temporary = CSV_AGG_LLM.with_suffix('.csv.tmp')
+    with temporary.open('w', newline='', encoding='utf-8') as stream:
+        writer = csv.DictWriter(stream, fieldnames=columns)
+        writer.writeheader()
+        writer.writerows(rows)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, CSV_AGG_LLM)
 
 
 def _write_dynamic_params(path, params, *, initial=False):
@@ -754,12 +990,22 @@ def _write_dynamic_params(path, params, *, initial=False):
 
 
 def _submit_dynamic_initial(params):
+    with _dynamic_workspace().file_lock('.pipeline.lock'):
+        return _submit_dynamic_initial_locked(params)
+
+
+def _submit_dynamic_initial_locked(params):
     """Use a durable request ID for the initial experiment, including restart recovery."""
     _validate_dynamic_params(params)
     path = CSV_AGG_LLM.parent / "initial_suggestion.json"
     saved = json.loads(path.read_text(encoding="utf-8"))
+    decision = _checked_dynamic_decision(saved.get('mas_decision') or {})
+    if decision['action'] != 'run' or decision['next_params'] is None:
+        raise ValueError('Initial submission requires an accepted RUN with exact reviewed conditions')
+    if saved.get('mas_request', {}).get('id') != decision['caller_request_id']:
+        raise RuntimeError('A new review is pending; do not submit the previous initial design')
     clean = {key: value for key, value in params.items() if key != "stock_metadata"}
-    if saved["next_params"] != clean:
+    if saved["next_params"] != clean or decision['next_params'] != clean:
         raise ValueError("Initial conditions changed after MAS review")
     submission = saved.get("submission", {})
     if submission.get("submitted"):
@@ -771,15 +1017,23 @@ def _submit_dynamic_initial(params):
     submission.setdefault("request_id", str(uuid.uuid4()))
     submission["journal_id"] = health["journal_id"]
     saved["submission"] = submission
-    temporary = path.with_suffix(".json.tmp")
-    temporary.write_text(json.dumps(saved, indent=2), encoding="utf-8")
-    os.replace(temporary, path)
+    _save_json(path, saved)
     url.run_test(params, request_id=submission["request_id"], journal_id=submission["journal_id"])
     submission["submitted"] = True
-    temporary.write_text(json.dumps(saved, indent=2), encoding="utf-8")
-    os.replace(temporary, path)
+    _save_json(path, saved)
 
 
+def _serialize_dynamic(function):
+    def invoke(params, protocol_log=None, resume_condition=None):
+        if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+            _validate_dynamic_settings()
+            with _dynamic_workspace().file_lock('.pipeline.lock'):
+                return function(params, protocol_log, resume_condition)
+        return function(params, protocol_log, resume_condition)
+    return invoke
+
+
+@_serialize_dynamic
 def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=None):
     # robot echoes back whatever we posted, including stock_metadata — strip it here so
     # it never reaches params.json / move_and_rename / the CSV pipeline
@@ -809,10 +1063,18 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
             "branch_results": {},
         }
         completed = state.setdefault("completed_stages", [])
+        if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES and state.get('mas_decision'):
+            if not state['mas_decision'].get('runtime_operation_id'):
+                raise ValueError('Retired MAS checkpoint; preserve for explicit review')
+            if state['mas_decision'].get('source_condition') != condition_name:
+                raise ValueError('Caller checkpoint source condition changed')
+            _verify_runtime_receipt(state['mas_decision'])
         if "next_run_submitted" in completed:
             print(f"[RESUME] next experiment already submitted for {condition_name}")
             return
-        if state.get("mas_decision", {}).get("action") in {"hold", "stop"}:
+        if (state.get("mas_decision", {}).get("action") in {"hold", "stop"}
+                and state.get('mas_request', {}).get('id') == state['mas_decision'].get('caller_request_id')):
+            _attach_dynamic_location(condition_name, state['mas_decision'])
             print(f"[MAS] preserving {state['mas_decision']['action']}: {state['mas_decision']['reason']}")
             return
         if "files_saved" not in completed:
@@ -882,16 +1144,15 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
 
         json_out = JSON_RESULTS_DIR / f"llm_result_{condition_name}.json"
         if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
-            if "submission_started" in completed and not state.get("mas_decision"):
-                raise RuntimeError("Cannot adopt an unreviewed legacy submission as a dynamic decision")
-            decision = _dynamic_recommendation(condition_name, CSV_AGG_LLM)
-            _complete_stage(condition_name, state, "decision_recorded", mas_decision={
-                key: decision[key] for key in ("action", "reason", "report_path")
-            })
+            decision = _caller_decision(state, lambda v: _save_checkpoint(condition_name, v), condition_name)
+            _attach_dynamic_location(condition_name, decision)
+            _complete_stage(condition_name, state, "decision_recorded")
             if decision["action"] != "run":
                 print(f"[MAS] {decision['action']}: {decision['reason']}")
                 return
             new_params = decision["next_params"]
+            if decision['request_reason']:
+                json_out = JSON_RESULTS_DIR / f"llm_result_{condition_name}_{decision['caller_request_id']}.json"
             _write_dynamic_params(json_out, new_params)
             new_params = dict(new_params, stock_metadata=activeLearning.bounds.send_metadata())
             _complete_stage(condition_name, state, "recommendation_saved")
@@ -959,7 +1220,10 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
             print(f"  JSON result: {json_out}")
 
         # Recheck cached recommendations too: they may predate this constraint.
-        _enforce_stock_mixing_temperature(new_params)
+        if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+            _validate_dynamic_params(new_params)
+        else:
+            _enforce_stock_mixing_temperature(new_params)
         print(f"[5/5] next params: {new_params}")
         if "submission_started" in completed and not state.get("submission_request_id"):
             raise RuntimeError(
@@ -982,6 +1246,8 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
         if condition_name:
             state = _load_checkpoint(condition_name) or {"params": params, "completed_stages": []}
             state["last_error"] = {"type": type(e).__name__, "message": str(e)}
+            if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+                state.setdefault('mas_failures', []).append(state['last_error'].copy())
             _save_checkpoint(condition_name, state)
         print(f"[ERROR] {condition_name}  {type(e).__name__}: {e}")
         print(f"Pipeline error — loop stopped: {e}")
@@ -1093,9 +1359,12 @@ if __name__ == "__main__":
 
     if first_params is not None:
         first_params["stock_metadata"] = activeLearning.bounds.send_metadata()
-        if LOCK_ADDITIVE_WT:
-            first_params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
-        _enforce_stock_mixing_temperature(first_params)
+        if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+            _validate_dynamic_params(first_params)
+        else:
+            if LOCK_ADDITIVE_WT:
+                first_params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
+            _enforce_stock_mixing_temperature(first_params)
         print(f"kicking off first experiment: {first_params}")
         if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
             _submit_dynamic_initial(first_params)

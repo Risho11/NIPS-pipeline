@@ -37,6 +37,7 @@ Literal product ownership (tracked deletions explicitly permitted where required
 - `tests/test_mas.py`
 - `tests/test_mas_agent_pilot.py`
 - `tests/test_dynamic_routing.py`
+- `tests/test_llm_retry.py`
 - `.github/workflows/ci.yml`
 - `AGENTS.md`
 - `README.md`
@@ -68,6 +69,16 @@ Literal product ownership (tracked deletions explicitly permitted where required
 - `subagents/experiment-analysis-qa/docs/review-checklist.md`
 
 ## Workflow
+Bounded validation-consumer extension: the existing required retry test imports
+retired `httpx`, while unchanged uv.lock/openai 3.41.0 uses installed `httpx2`.
+Only tests/test_llm_retry.py may align those real Request/Response fixtures with
+the locked provider; preserve all retry/authentication assertions. No dependency,
+lock, production retry/client change, module injection or substituted test is
+authorized by this extension. It requires a separate literal Controller handoff.
+Retain sufficient unchanged stable3 full results with matching dependency hashes;
+run the complete repaired retry suite and current scope/static checks. Do not
+relieve any of the eight mandatory full-suite gates or relabel the old failure.
+
 Read Phase1Step1's independently accepted src/pipeline/mas_runtime.py, mas_workspace.py and mas_contract.py, docs/mas/python-runtime.md and /private/tmp/nips-mas-python-runtime-20261104-review/step1-writer-handoff.md; the separate Controller handoff must supply its actual source commit and independent QA report. If any predecessor is absent/unaccepted, return PENDING without implementation. Replace run_loop's dynamic route with that runtime and provide an intentional, documented reconsideration path. Preserve existing measured-result processing, operator values/default mode, stock validator behavior, exact reviewed point and durable request/journal/checkpoint identity. Test initial and continuing campaigns, RUN/HOLD/STOP, same-session recovery, meaningful explicit HOLD reconsideration and ambiguous/acknowledged submissions. Do not erase QA/checkpoint markers or reissue an already submitted experiment to enable reconsideration.
 
 Remove the four old MAS modules, old fixed-report test_mas.py, old pilot script/test and compatibility-only experiment-analysis-qa binding/docs. Update imports, test fixtures, CI, all owned active docs/roles to the actual new API and the five kept registered specialist roles; keep optional analyst under unified hypothesis-qa. Preserve shared CSV columns and non-MAS routes. Keep pilot-evaluation.md only as a clearly historical evaluation boundary with working current entrypoint references; no stale runnable example. Preserve historical Harness files and removed code in Git, without a copied archive or forwarding shim. Keep root README concise and use docs/mas/python-runtime.md as the detailed owner. If a new required consumer path is unowned, return it for bounded replan rather than quietly editing.
@@ -105,6 +116,7 @@ All changed lines must map to the current contract. Exact source/test/config/doc
     "tests/test_mas.py",
     "tests/test_mas_agent_pilot.py",
     "tests/test_dynamic_routing.py",
+    "tests/test_llm_retry.py",
     ".github/workflows/ci.yml",
     "AGENTS.md",
     "README.md",

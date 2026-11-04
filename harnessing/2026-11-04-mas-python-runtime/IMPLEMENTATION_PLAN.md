@@ -50,6 +50,7 @@ Literal ownership and validation: [steps/PHASE_2_STEP_1_PROMPT.md](steps/PHASE_2
 - `tests/test_mas.py`
 - `tests/test_mas_agent_pilot.py`
 - `tests/test_dynamic_routing.py`
+- `tests/test_llm_retry.py`
 - `.github/workflows/ci.yml`
 - `AGENTS.md`
 - `README.md`
@@ -85,6 +86,12 @@ Read the independently accepted Phase1Step1 API, actual step1-writer-handoff.md,
 Remove the four old MAS modules, old fixed-report test_mas.py, old pilot script/test and compatibility-only experiment-analysis-qa binding/docs. Update imports, test fixtures, CI, all owned active docs/roles to the actual new API and the five kept registered specialist roles; keep optional analyst under unified hypothesis-qa. Preserve shared CSV columns and non-MAS routes. Keep pilot-evaluation.md only as a clearly historical evaluation boundary with working current entrypoint references; no stale runnable example. Preserve historical Harness files and removed code in Git, without a copied archive or forwarding shim. Keep root README concise and use docs/mas/python-runtime.md as the detailed owner. If a new required consumer path is unowned, return it for bounded replan rather than quietly editing.
 
 On the stable final integrated candidate, run each exact complete safe suite (not only focused cases): `uv run --locked --no-sync python -m unittest discover -s tests -p 'test_mas_runtime.py'`; same command with `test_mas_contract.py`, `test_mas_workspace.py`, `test_dynamic_routing.py`, `test_warm_start.py`, `test_network_recovery.py`, `test_llm_retry.py`, and `test_property_context.py`. Run `uv run --locked --no-sync python .github/scripts/validate_structure.py`, `uv run --locked --no-sync python .github/scripts/validate_run_loop.py`, `git diff --check`, syntax parsing and owned active Markdown links/registered TOML validation. Record every exit; stop the current batch at first failure, preserve it and repair before stable rerun. Hosted CI is NOT_RUN without a push; do not claim it from local equivalents. Test that retired contracts cannot be imported/accepted and that the real loop consumer uses the new API while device/model calls remain mocks. The existing test_network_recovery.py ephemeral 127.0.0.1 loopback HTTP fixture with its mocked run callback is explicitly permitted. No real run_loop __main__, operational server bind, remote device connection, cameras or measurements. SDK construction is confined to the explicitly bound synthetic smoke.
+
+Phase2 bounded extension after returned Writer ownership: align only the existing
+required tests/test_llm_retry.py transport fixtures with the unchanged locked
+OpenAI/httpx2 interface. No dependency/production change or weakened assertions.
+Retain sufficient unchanged stable3 evidence, complete the repaired retry suite
+and recheck scope/static identities before the already required live smoke/QA.
 
 ### Phase 3: Durable Contract Promotion
 1. STEP 1: Durable Contract Promotion

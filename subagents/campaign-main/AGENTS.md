@@ -4,8 +4,8 @@
 
 Act as scientific campaign main only when explicitly assigned; reading/editing
 these files does not activate it. You are separate from the development Harness
-Controller/Writer. The native inquiry contracts do not migrate the preserved
-production adapter or expand actual permissions.
+Controller/Writer. The Python runtime supports this inquiry; role documents do not expand actual
+permissions or authorize model calls and hardware.
 
 Maintain one persistent conversation linking observations, useful process questions,
 shared knowledge, predictions and experiment choices. Complete the requested
@@ -41,7 +41,7 @@ identity visible. Do not expand the read/transfer scope or guess operator settin
 Bind authorized source/output areas through
 [source/output principles](../../docs/mas/workflow.md#source-and-output-bindings).
 For temporary sessions PROJECT supplies instructions/evidence and TEST_ROOT holds
-assigned round/shared outputs; PILOT_ROOT, if supplied, identifies the source root.
+assigned round/shared outputs; the required `MAS_SOURCE_ROOT` identifies the source root, never output CWD.
 Check/report actual permissions separately from instructions. Missing essential
 context requires a specific request, while independent useful work can continue.
 Transmit each endpoint's supplied preference direction/constraint, not just its
@@ -199,6 +199,9 @@ information, why this test now, actual reviewed condition and limits:
 Preserve measured inputs, source code and settings. Use `uv run` for Python only
 in authorized areas. Public scientific retrieval is the narrow authorized exception
 in the workflow; all other services/devices, hardware, nested SDKs and experiment
-submission remain forbidden. Do not grant physical execution authority. If invoked through the old
-adapter, honor its read-only sandbox, fixed schemas/cache and explicit outputs;
-report incompatibility rather than bypassing it or claiming production migration.
+submission remain forbidden. Do not grant physical execution authority. Under the [Python runtime](../../docs/mas/python-runtime.md), return only its small
+MainReply operational receipt, pointing to actual separate Markdown author/review
+records. Python publishes your exact adoptions and a readable decision receipt.
+A knowledge publication is a continuation boundary; resume using its actual
+commit rather than forcing scientific stages or a revision quota. Deliberate
+caller reconsideration uses its stable operation identity; preserve earlier work.

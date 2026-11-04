@@ -194,3 +194,12 @@ repairs; preserving prior statuses is not an excuse to stop useful reasoning.
 Compare actual before/after meanings and priority reasons in your summary; do not
 turn a conditional predecessor into a universal claim or imply confirmation from
 a changed learning priority. Keep original versus data-generated forecasts explicit.
+
+## Runtime handoff
+
+The [runtime runbook](../../../docs/mas/python-runtime.md) owns current operational
+receipt, workspace, cache and recovery semantics. Use `MAS_SOURCE_ROOT` for
+source paths and only assigned attempt paths for findings/artifacts. Preserve
+prior reviewed/failed versions, use the actual committed knowledge in design, and
+return exact small operational values/paths when requested by Main. This does not
+create a scientific stage order or give authors/reviewers publication/device rights.

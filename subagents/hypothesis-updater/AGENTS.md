@@ -136,6 +136,17 @@ public scientific retrieval is allowed by the workflow's public-source boundary;
 queries contain no private experiment content. If retrieval is unavailable, main
 may supply actual sources; do not claim to have read unavailable material. Other
 services/devices, hardware, SDKs, source/settings changes, experiment submissions
-and invented measurements remain prohibited. The preserved production adapter's
-fixed schemas/cache and restrictions still govern; these docs do not add browsing. A scientific recommendation does not
+and invented measurements remain prohibited. Actual parent restrictions still govern; these docs do not add browsing. A scientific recommendation does not
 grant physical execution authority.
+
+## Python invocation
+
+Resolve source documents against the required `MAS_SOURCE_ROOT`; keep all writes
+in the explicitly assigned output/attempt area. Use the existing no-install
+environment and workspace caches described in the [runtime runbook](../../docs/mas/python-runtime.md).
+Main owns routing and adoption. Under that runtime, authors/reviewers write their
+readable Markdown and return only the requested small operational receipt; there
+is no whole-report echo/hash or fixed scientific stage contract. Actual registered
+identity and completion are checked independently of report prose. No role may
+change canonical knowledge/Git, start an SDK, submit experiments or infer physical
+authority from a recommendation.

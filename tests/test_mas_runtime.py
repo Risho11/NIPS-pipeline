@@ -8,10 +8,12 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import uuid
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src/pipeline'))
 from openai_codex._run import TurnResult
+from openai_codex import MethodNotFoundError
 from openai_codex.generated.v2_all import Thread, ThreadReadResponse, Turn
 from mas_contract import Adoption, Context, Contribution, Decision, MainReply, Review, TOPICS
 from mas_runtime import CampaignRuntime, isolated_sdk, main
@@ -29,6 +31,11 @@ class FakeThread:
         return self.data.id
 
     def read(self, *, include_turns=False):
+        self.sdk.reads.append((self.id, include_turns))
+        if include_turns and not self.data.turns:
+            self.sdk.empty_reads.append((self.id, include_turns))
+        if self.sdk.reject_empty_history and include_turns and not self.data.turns:
+            raise MethodNotFoundError(-32601, 'list_turns is not supported yet')
         return ThreadReadResponse(thread=self.data)
 
     def turn(self, prompt, *, output_schema):
@@ -83,6 +90,16 @@ class FakeCodex:
         self.w = workspace
         self.threads = {}
         self.starts, self.resumes, self.prompts, self.schemas = [], [], [], []
+        self.reads = []
+        self.empty_reads = []
+        self.modern = True
+        self.absolute_paths = True
+        self.stream_activity = False
+        self.uuid_refs = self.mixed_paths = False
+        self.remap_alias = self.duplicate_alias = self.unobserved_ref = False
+        self.interrupted_activity = self.shared_report = False
+        self.legacy_message_drift = False
+        self.reject_empty_history = False
         self.action = 'run'
         self.publish_next = False
         self.interrupt_once = self.lose_completion_once = self.failed_once = False
@@ -118,9 +135,18 @@ class FakeCodex:
         self.resumes.append((identifier, kwargs))
         return self.threads[identifier]
 
+    @staticmethod
+    def identifier(kind, role):
+        return str(uuid.uuid5(uuid.NAMESPACE_URL, 'synthetic-native:' + kind + ':' + role))
+
     def result(self, turn, text):
+        # Public collector uses item-completed events; hydrated Turn.items can
+        # additionally contain native activity not present in that live stream.
+        items = turn.items
+        if self.modern and not self.stream_activity:
+            items = [i for i in items if i.root.type != 'subAgentActivity']
         return TurnResult(id=turn.id, status=turn.status, error=None, started_at=0,
-            completed_at=1, duration_ms=1000, final_response=text, items=turn.items, usage=None)
+            completed_at=1, duration_ms=1000, final_response=text, items=items, usage=None)
 
     def reply(self):
         state = self.w.state
@@ -129,32 +155,43 @@ class FakeCodex:
         kind = 'knowledge' if knowledge else 'design'
         base = self.w.round_path(record) + '/attempt-' + str(len(record['turns']))
         if (not knowledge and self.action != 'run') or (knowledge and self.bootstrap_hold):
-            decision = Decision(action=self.bootstrap_action if self.bootstrap_hold else self.action, reason='Synthetic bounded decision',
-                                next_params=None, knowledge_commit=state['knowledge_commit'])
+            decision = Decision(action=self.bootstrap_action if self.bootstrap_hold else self.action,
+                reason='Synthetic bounded decision', next_params=None, knowledge_commit=state['knowledge_commit'])
             return MainReply(knowledge=None, design=None, decision=decision, records=[]).model_dump(mode='json'), None
         self.publish_next = False
+        def artifact(relative):
+            return str(self.w.path(relative)) if self.absolute_paths else relative
         files = {topic: f'{base}/author/{topic}' for topic in TOPICS} if knowledge else {}
         for topic, relative in files.items():
             self.w.write(relative, f'Synthetic {topic} physical reasoning and honest limits.\n')
-        report = f'{base}/author/{kind}.md'
-        review_path = f'{base}/review/{kind}.md'
+        report, review_path = f'{base}/author/{kind}.md', f'{base}/review/{kind}.md'
         self.w.write(report, 'Synthetic authored reasoning; no real measurements.\n')
         self.w.write(review_path, 'Synthetic independent review and actual limits.\n')
-        author_id, qa_id = kind + '-author', kind + '-qa'
+        author_id, qa_id = self.identifier(kind, 'author'), self.identifier(kind, 'qa')
+        author_path, qa_path = f'/root/{kind}_author', f'/root/{kind}_qa'
+        author_ref = author_id if self.uuid_refs or not self.modern else author_path
+        qa_ref = qa_id if self.uuid_refs or not self.modern else qa_path
         operation_id = 'stale' if self.stale_receipt else record['id']
-        author = Contribution(operation_id=operation_id, kind=kind, files=files,
-            conditions=None if knowledge else PARAMS,
-            knowledge_commit=None if knowledge else state['knowledge_commit'], report_path=report)
+        author = Contribution(operation_id=operation_id, kind=kind,
+            files={t:artifact(p) for t,p in files.items()}, conditions=None if knowledge else PARAMS,
+            knowledge_commit=None if knowledge else state['knowledge_commit'], report_path=artifact(report))
         review = Review(**author.model_dump(), verdict='fail' if self.reject_review else 'pass',
-                        author_thread_id=author_id).model_copy(update={'report_path': review_path})
+                        author_thread_id=author_ref).model_copy(update={'report_path':artifact(review_path)})
         author_payload, review_payload = author.model_dump(mode='json'), review.model_dump(mode='json')
+        if self.mixed_paths:
+            review_payload['files'] = files
+            review_payload['report_path'] = review_path
+        if self.shared_report:
+            review_payload['report_path'] = report
         if self.drift_conditions and not knowledge:
             review_payload['conditions']['bath_temp'] = 8
         if self.bad_boolean and not knowledge:
             review_payload['conditions']['pullcast_speed'] = True
-        native_messages = {}
-        for identifier, role, payload in [(author_id, 'hypothesis-updater' if knowledge else 'experiment-designer', author_payload),
-                                         (qa_id, 'hypothesis-qa' if knowledge else 'experiment-design-qa', review_payload)]:
+        native_messages, activities = {}, []
+        for identifier, path, role, payload in [
+            (author_id, author_path, 'hypothesis-updater' if knowledge else 'experiment-designer', author_payload),
+            (qa_id, qa_path, 'hypothesis-qa' if knowledge else 'experiment-design-qa', review_payload)]:
+            reused = identifier in self.threads
             child = self.threads.get(identifier) or self.native_thread(identifier, role, 'main')
             if identifier == qa_id and self.bad_role:
                 child.data.agent_role = 'hypothesis-updater'
@@ -164,26 +201,44 @@ class FakeCodex:
             child.data.turns.append(Turn.model_validate(dict(id=f'child-{len(child.data.turns)}', status='completed',
                 items=[dict(type='agentMessage', id='final', phase='final_answer', text=text)])))
             native_messages[identifier] = dict(status='completed', message=text)
+            initial = dict(type='subAgentActivity', id='opaque-initial-' + identifier,
+                           agentPath=path, agentThreadId=identifier, kind='interacted' if reused else 'started')
+            activities.append(initial)
+            if not (identifier == qa_id and self.incomplete_review):
+                activities.append(dict(initial, id='opaque-completion-' + identifier,
+                    kind='interrupted' if self.interrupted_activity else 'completed'))
         if self.incomplete_review:
             native_messages[qa_id]['status'] = 'running'
         if self.failed_review_turn:
             child = self.threads[qa_id]
             child.data.turns[-1].status = type(child.data.turns[-1].status)('failed')
-        adoption = Adoption(author_thread_id=author_id, reviewer_thread_id=author_id if self.same_actor else qa_id)
+        if self.remap_alias:
+            activities.append(dict(activities[0], agentThreadId=self.identifier('foreign', 'author')))
+        if self.duplicate_alias:
+            activities.append(dict(activities[0], agentPath='/root/alias_of_author'))
+        adoption = Adoption(author_thread_id='/root/unobserved' if self.unobserved_ref else author_ref,
+                            reviewer_thread_id=author_ref if self.same_actor else qa_ref)
         decision = None if knowledge else Decision(action='run', next_params=PARAMS,
             reason='Synthetic question, not an optimum', knowledge_commit=state['knowledge_commit'])
-        records = [f'{base}/inputs/raw.md'] if self.escape_record else []
+        main_record = f'{base}/main.md'
+        self.w.write(main_record, 'Synthetic Main adoption reasoning and records.\n')
+        records = [artifact(main_record)]
         if self.escape_record:
-            self.w.write(records[0], 'Must never be tracked.\n')
+            raw = f'{base}/inputs/raw.md'
+            self.w.write(raw, 'Must never be tracked.\n')
+            records = [artifact(raw)]
         reply = MainReply(knowledge=adoption if knowledge else None,
                          design=None if knowledge else adoption, decision=decision, records=records)
+        if self.legacy_message_drift:
+            native_messages[qa_id]['message'] = json.dumps(dict(review_payload, operation_id='foreign'))
         event = dict(type='collabAgentToolCall', id='observed', tool='wait', status='completed',
-                     senderThreadId='main', receiverThreadIds=list(native_messages), agentsStates=native_messages)
+            senderThreadId='main', receiverThreadIds=[] if self.modern else list(native_messages),
+            agentsStates={} if self.modern else native_messages)
+        events = [*activities, event] if self.modern else [event]
         if self.close_reviewers:
-            closed = dict(event, id='close', tool='closeAgent',
-                          agentsStates={k: dict(status='shutdown', message=v['message']) for k, v in native_messages.items()})
-            event = [event, closed]
-        return reply.model_dump(mode='json'), None if self.no_event else event
+            events.append(dict(event, id='close', tool='closeAgent',
+                agentsStates={k:dict(status='shutdown',message=v['message']) for k,v in native_messages.items()}))
+        return reply.model_dump(mode='json'), None if self.no_event else events
 
 
 class RuntimeTests(unittest.TestCase):
@@ -202,6 +257,148 @@ class RuntimeTests(unittest.TestCase):
     def bootstrap(self):
         self.assertIsNone(self.runtime.run())
         return self.w.state['knowledge_commit']
+
+    def test_modern_absolute_receipts_publish_canonical_paths_and_resolved_native_ids(self):
+        self.sdk.mixed_paths = True
+        self.bootstrap()
+        state = self.w.state
+        record = state['operations'][state['active']]
+        receipt = json.loads(self.w.git('show', f"HEAD:{self.w.round_path(record)}/adoption.json").stdout)
+        adoption = receipt['adoption']['knowledge']
+        self.assertEqual(adoption['author_thread_id'], self.sdk.identifier('knowledge','author'))
+        self.assertEqual(receipt['review']['author_thread_id'], adoption['author_thread_id'])
+        for path in [*receipt['author']['files'].values(), receipt['author']['report_path'],
+                     receipt['review']['report_path'], *receipt['adoption']['records']]:
+            self.assertFalse(Path(path).is_absolute())
+            self.assertTrue(path.startswith(self.w.round_path(record) + '/attempt-0/'))
+        self.assertEqual(receipt['native_review']['author']['thread_id'], adoption['author_thread_id'])
+
+    def test_modern_relative_receipts_reuse_observed_sessions_without_new_started_event(self):
+        self.sdk.absolute_paths = False
+        self.bootstrap()
+        self.sdk.publish_next = True
+        self.assertIsNone(self.observe())
+        turn = self.sdk.threads['main'].data.turns[-1]
+        kinds = [item.root.kind.value for item in turn.items if item.root.type=='subAgentActivity']
+        self.assertNotIn('started', kinds)
+        self.assertIn('completed', kinds)
+        self.assertEqual(self.runtime.run().action, 'run')
+
+    def test_observed_uuid_refs_and_legacy_completed_messages_remain_supported(self):
+        self.sdk.uuid_refs = True
+        self.bootstrap()
+        self.sdk.modern = False
+        self.assertEqual(self.observe().action, 'run')
+
+    def test_legacy_message_drift_cannot_be_hidden_by_public_child_completion(self):
+        self.sdk.modern = False
+        self.sdk.legacy_message_drift = True
+        with self.assertRaisesRegex(ValueError, 'changed after Main'):
+            self.runtime.run()
+        self.assertIsNone(self.w.head())
+        self.sdk.legacy_message_drift = False
+        self.assertIsNone(self.runtime.run(retry=True))
+
+    def test_native_participant_ambiguity_and_nonindependent_records_block_publication(self):
+        for flag in ('remap_alias', 'duplicate_alias', 'unobserved_ref',
+                     'interrupted_activity', 'shared_report'):
+            with self.subTest(flag=flag):
+                setattr(self.sdk, flag, True)
+                with self.assertRaises(ValueError):
+                    self.runtime.run(retry=True)
+                self.assertIsNone(self.w.head())
+                self.assertIsNone(self.w.state['knowledge_commit'])
+                setattr(self.sdk, flag, False)
+        self.assertIsNone(self.runtime.run(retry=True))
+
+    def test_modern_latest_child_and_operational_receipt_must_match(self):
+        reply = self.sdk.reply
+        for defect in ('main_uuid', 'active_child', 'later_incomplete_turn', 'wrong_kind',
+                       'wrong_author', 'wrong_knowledge', 'wrong_mapping'):
+            with self.subTest(defect=defect):
+                def corrupt():
+                    value, events = reply()
+                    qa = self.sdk.threads[self.sdk.identifier('knowledge', 'qa')].data
+                    item = qa.turns[-1].items[-1].root
+                    receipt = json.loads(item.text)
+                    if defect == 'main_uuid':
+                        value['knowledge']['author_thread_id'] = 'main'
+                        events.append(dict(type='subAgentActivity', id='opaque-self',
+                            agentPath='/root/self', agentThreadId='main', kind='completed'))
+                    elif defect == 'active_child':
+                        qa.status = type(qa.status).model_validate(dict(type='active', activeFlags=[]))
+                    elif defect == 'later_incomplete_turn':
+                        qa.turns.append(Turn.model_validate(dict(id='unknown-latest', status='interrupted', items=[])))
+                    elif defect == 'wrong_kind':
+                        receipt['kind'] = 'design'
+                    elif defect == 'wrong_author':
+                        receipt['author_thread_id'] = '/root/knowledge_qa'
+                    elif defect == 'wrong_knowledge':
+                        receipt['knowledge_commit'] = 'unobserved-knowledge'
+                    else:
+                        receipt['files'][TOPICS[0]] = receipt['files'][TOPICS[1]]
+                    item.text = json.dumps(receipt)
+                    return value, events
+                with patch.object(self.sdk, 'reply', side_effect=corrupt):
+                    with self.assertRaises(ValueError):
+                        self.runtime.run(retry=True)
+                self.assertIsNone(self.w.head())
+                qa = self.sdk.threads[self.sdk.identifier('knowledge', 'qa')].data
+                qa.status = type(qa.status).model_validate(dict(type='idle'))
+        self.assertIsNone(self.runtime.run(retry=True))
+
+    def test_artifact_normalization_keeps_attempt_escape_and_regular_file_guards(self):
+        record = dict(id='synthetic-paths', campaign='synthetic', turns=['previous'])
+        base = self.w.round_path(record)
+        good = base + '/attempt-1/report.md'
+        self.w.write(good, 'Synthetic current-attempt report.\n')
+        for reference in (good, str(self.w.path(good))):
+            self.assertEqual(self.runtime._artifact(record, reference), good)
+        bad = [str(self.input), str(self.w.source / 'README.md'),
+               base + '/attempt-1/../attempt-1/report.md']
+        for relative in (base + '/attempt-0/old.md', base + '/attempt-1/raw/report.md',
+                         base + '/attempt-1/cache/report.md'):
+            self.w.write(relative, 'Preserved excluded report.\n')
+            bad.extend((relative, str(self.w.path(relative))))
+        symlink, hardlink = self.w.root / base / 'attempt-1/symlink.md', self.w.root / base / 'attempt-1/hardlink.md'
+        symlink.symlink_to(self.input)
+        os.link(self.input, hardlink)
+        bad.extend((str(symlink), str(hardlink)))
+        for reference in bad:
+            with self.subTest(reference=reference), self.assertRaises(ValueError):
+                self.runtime._artifact(record, reference)
+        self.assertEqual(self.input.read_text(), 'name,E,F\nSYNTHETIC,1,0.5\n')
+
+    def test_parent_history_is_hydrated_before_child_reads_and_detects_stream_drift(self):
+        native_read = FakeThread.read
+        def read(thread, *, include_turns=False):
+            if thread.id != 'main':
+                self.assertIn(('main', True), self.sdk.reads)
+            result = native_read(thread, include_turns=include_turns)
+            if thread.id == 'main' and thread.data.turns:
+                result = result.model_copy(deep=True)
+                result.thread.turns[-1].items[-1].root.text = '{}'
+            return result
+        with patch.object(FakeThread, 'read', new=read):
+            with self.assertRaisesRegex(ValueError, 'between stream and history'):
+                self.runtime.run()
+        self.assertIsNone(self.w.head())
+        self.assertEqual(self.sdk.reads, [('main', True)])
+        self.assertIsNone(self.runtime.run())
+
+    def test_main_records_cannot_publish_another_attempt(self):
+        reply = self.sdk.reply
+        def wrong_record():
+            value, events = reply()
+            record = self.w.state['operations'][self.w.state['active']]
+            other = self.w.round_path(record) + '/attempt-99/main.md'
+            self.w.write(other, 'Synthetic report from another attempt.\n')
+            value['records'] = [str(self.w.path(other))]
+            return value, events
+        with patch.object(self.sdk, 'reply', side_effect=wrong_record):
+            with self.assertRaisesRegex(ValueError, 'Current attempt'):
+                self.runtime.run()
+        self.assertIsNone(self.w.head())
 
     def observe(self):
         return self.runtime.run(observation_id='synthetic1', inputs={'table': self.input})
@@ -236,6 +433,107 @@ class RuntimeTests(unittest.TestCase):
         self.sdk.close_reviewers = True
         self.bootstrap()
         self.assertEqual(self.observe().action, 'run')
+
+    def test_fresh_empty_main_skips_unsupported_history_without_weakening_native_review(self):
+        self.sdk.reject_empty_history = True
+        native_turn, native_run = FakeThread.turn, FakeHandle.run
+        def turn(thread, prompt, *, output_schema):
+            saved = json.loads(self.w.state_path.read_text())
+            self.assertEqual(saved['thread_id'], thread.id)
+            return native_turn(thread, prompt, output_schema=output_schema)
+        def run(handle):
+            saved = json.loads(self.w.state_path.read_text())
+            operation = saved['operations'][saved['active']]
+            self.assertEqual(saved['thread_id'], handle.thread.id)
+            self.assertEqual(operation['turn_id'], handle.id)
+            return native_run(handle)
+        with patch.object(FakeThread, 'turn', new=turn), patch.object(FakeHandle, 'run', new=run):
+            self.bootstrap()
+        self.assertNotIn(('main', True), self.sdk.empty_reads)
+        self.assertIn((self.sdk.identifier('knowledge', 'author'), True), self.sdk.reads)
+        self.assertIn((self.sdk.identifier('knowledge', 'qa'), True), self.sdk.reads)
+        self.assertEqual(len(self.sdk.starts), 1)
+        self.assertIsNotNone(self.w.state['knowledge_commit'])
+        # A later call must read the existing, now nonempty native Main history.
+        self.assertEqual(self.observe().action, 'run')
+        self.assertIn(('main', True), self.sdk.reads)
+        self.assertIn((self.sdk.identifier('design', 'author'), True), self.sdk.reads)
+        self.assertIn((self.sdk.identifier('design', 'qa'), True), self.sdk.reads)
+
+    def test_known_empty_main_read_failure_is_preserved_without_fresh_thread_fallback(self):
+        self.sdk.reject_empty_history = True
+        main_thread = self.sdk.native_thread('main')
+        with self.w.lock():
+            self.w.state['thread_id'] = main_thread.id
+            self.w.save()
+        for retry in (False, True):
+            with self.subTest(retry=retry), self.assertRaises(MethodNotFoundError) as error:
+                self.runtime.run(retry=retry)
+            self.assertEqual(error.exception.code, -32601)
+            self.assertEqual(self.w.state['thread_id'], 'main')
+            self.assertIsNone(self.w.state['operations'][self.w.state['active']]['turn_id'])
+        self.assertEqual(len(self.sdk.starts), 0)
+        self.assertEqual(len(self.sdk.prompts), 0)
+        self.assertEqual(len(main_thread.data.turns), 0)
+        self.assertEqual(len(self.w.state['failures']), 2)
+        self.assertTrue(all(options['include_turns'] is False for identifier, options in self.sdk.resumes
+                            if identifier == 'main'))
+
+    def test_missing_main_identity_with_durable_turn_cannot_start_replacement(self):
+        with self.w.lock():
+            record = self.runtime._operation(None, None, None)
+            record['turn_id'] = 'previous-native-turn'
+            self.w.save()
+        with self.assertRaises(ValueError):
+            self.runtime.run(retry=True)
+        self.assertEqual(len(self.sdk.starts), 0)
+        self.assertEqual(len(self.sdk.prompts), 0)
+        self.assertEqual(self.w.state['operations'][self.w.state['active']]['turn_id'], 'previous-native-turn')
+
+    def test_existing_nonempty_main_history_error_cannot_replay_uncertain_completion(self):
+        self.bootstrap()
+        self.sdk.lose_completion_once = True
+        with self.assertRaises(TimeoutError):
+            self.observe()
+        saved = json.loads(self.w.state_path.read_text())
+        active, turns = saved['active'], len(self.sdk.prompts)
+        old_read = FakeThread.read
+        def read(thread, *, include_turns=False):
+            if thread.id == 'main' and include_turns:
+                raise MethodNotFoundError(-32601, 'list_turns is not supported yet')
+            return old_read(thread, include_turns=include_turns)
+        self.cold()
+        with patch.object(FakeThread, 'read', new=read):
+            for retry in (False, True):
+                with self.subTest(retry=retry), self.assertRaises(MethodNotFoundError):
+                    self.runtime.run(retry=retry)
+        self.assertEqual(len(self.sdk.starts), 1)
+        self.assertEqual(len(self.sdk.prompts), turns)
+        self.assertEqual(self.w.state['active'], active)
+        self.assertEqual(self.w.state['operations'][active]['turn_id'], saved['operations'][active]['turn_id'])
+
+    def test_unknown_running_native_main_cannot_be_treated_as_fresh(self):
+        self.bootstrap()
+        self.sdk.threads['main'].data.status = type(self.sdk.threads['main'].data.status).model_validate(
+            dict(type='active', activeFlags=[]))
+        turns = len(self.sdk.prompts)
+        with self.assertRaisesRegex(ValueError, 'Unknown running'):
+            self.observe()
+        self.assertEqual(len(self.sdk.starts), 1)
+        self.assertEqual(len(self.sdk.prompts), turns)
+
+    def test_retry_cannot_join_unknown_work_after_a_known_completed_turn(self):
+        self.sdk.lose_completion_once = True
+        with self.assertRaises(TimeoutError):
+            self.runtime.run()
+        parent = self.sdk.threads['main'].data
+        parent.turns.append(Turn.model_validate(dict(id='foreign-running', status='inProgress',
+            items=[dict(type='userMessage', id='foreign-input', content=[dict(type='text', text='Unrelated operation')])])))
+        prompts = len(self.sdk.prompts)
+        with self.assertRaisesRegex(ValueError, 'Unknown running'):
+            self.runtime.run(retry=True)
+        self.assertEqual(len(self.sdk.prompts), prompts)
+        self.assertIsNone(self.w.head())
 
     def test_hold_stop_restart_and_explicit_reconsideration_preserve_history(self):
         self.bootstrap()
@@ -389,6 +687,28 @@ class RuntimeTests(unittest.TestCase):
         for identifier, record in original['operations'].items():
             self.assertEqual(self.w.state['operations'][identifier], record)
 
+    def test_revision_identity_survives_lost_caller_ack_without_new_reasoning(self):
+        self.bootstrap()
+        self.sdk.action = 'hold'
+        self.observe()
+        previous = json.loads(self.w.state_path.read_text())
+        first = self.runtime.run(reconsideration='New synthetic evidence warrants review', revision_id='revision-1')
+        active = self.w.state['active']
+        turns = len(self.sdk.prompts)
+        self.cold()
+        self.factory.reset_mock()
+        again = self.runtime.run(reconsideration='New synthetic evidence warrants review', revision_id='revision-1')
+        self.assertEqual(first, again)
+        self.assertEqual(self.runtime.last_operation_id, active)
+        self.assertEqual(len(self.sdk.prompts), turns)
+        self.factory.assert_not_called()
+        for identifier, record in previous['operations'].items():
+            self.assertEqual(self.w.state['operations'][identifier], record)
+        with self.assertRaises(ValueError):
+            self.runtime.run(reconsideration='Different reason', revision_id='revision-1')
+        with self.assertRaises(ValueError):
+            self.runtime.run(revision_id='revision-1')
+
     def test_analysis_uv_uses_prepared_interpreter_and_output_cache(self):
         replies = [subprocess.CompletedProcess([], 0, '[]', '')] * 2
         with self.w.lock(), patch('mas_runtime.subprocess.run', side_effect=replies):
@@ -504,9 +824,9 @@ class RuntimeTests(unittest.TestCase):
                 self.assertIsNone(self.w.head())
                 setattr(self.sdk, flag, False)
                 # A fresh repair uses actual new native completions, not a forged PASS.
-                if 'knowledge-qa' in self.sdk.threads:
-                    self.sdk.threads['knowledge-qa'].data.agent_role = 'hypothesis-qa'
-                    self.sdk.threads['knowledge-qa'].data.parent_thread_id = 'main'
+                if self.sdk.identifier('knowledge', 'qa') in self.sdk.threads:
+                    self.sdk.threads[self.sdk.identifier('knowledge', 'qa')].data.agent_role = 'hypothesis-qa'
+                    self.sdk.threads[self.sdk.identifier('knowledge', 'qa')].data.parent_thread_id = 'main'
         self.assertIsNone(self.runtime.run(retry=True))
 
     def test_exact_design_conditions_and_strict_native_types(self):
@@ -557,6 +877,22 @@ class RuntimeTests(unittest.TestCase):
             client.assert_not_called()
         self.assertFalse(self.w.root.exists())
 
+    def test_cli_reconsideration_requires_and_passes_stable_revision_identity(self):
+        path = self.base/'context.json'
+        path.write_text(json.dumps(CONTEXT))
+        arguments = ['--workspace', str(self.w.root), '--source', str(self.w.source),
+                     '--material', 'synthetic', '--context', str(path)]
+        with patch('mas_runtime.CampaignRuntime.run', return_value=None) as run:
+            for suffix in [['--reconsider', 'New evidence'], ['--revision-id', 'revision-1']]:
+                with self.subTest(suffix=suffix), self.assertRaises(SystemExit) as error:
+                    main(arguments + suffix)
+                self.assertEqual(error.exception.code, 2)
+            run.assert_not_called()
+            main(arguments + ['--live', '--reconsider', 'New evidence', '--revision-id', 'revision-1'])
+            self.assertEqual(run.call_args.kwargs['revision_id'], 'revision-1')
+            self.assertEqual(run.call_args.kwargs['reconsideration'], 'New evidence')
+        self.assertFalse(self.w.root.exists())
+
     def test_runbook_synthetic_json_and_standalone_preparation(self):
         document = (self.w.source / 'docs/mas/python-runtime.md').read_text(encoding='utf-8')
         example = re.search(r'```json\n(.*?)\n```', document, re.S)
@@ -587,6 +923,8 @@ class RuntimeTests(unittest.TestCase):
             self.assertIn('features.memories=false', config.config_overrides)
             self.assertEqual(inspect_mcp.call_count, 2)
             self.assertEqual(config.cwd, str(self.w.root))
+            self.assertEqual(config.env['MAS_SOURCE_ROOT'], str(self.w.source))
+            self.assertNotIn('PILOT_ROOT', config.env)
 
     def test_unknown_still_enabled_mcp_aborts_before_client_without_leaking_output(self):
         response = subprocess.CompletedProcess([], 0, '[{"name":"private-name","enabled":true}]', '')

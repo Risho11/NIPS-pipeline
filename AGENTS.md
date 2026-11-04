@@ -4,10 +4,11 @@
 - Preserve measured data and existing legacy search modes. Never substitute an
   inferred value for a measurement or silently change operator material settings.
 - Repository development and the experiment MAS are separate workflows.
-- The MAS agent-contract redesign uses an external-reference development Harness
-  with `STANDARD_CONTROLLER_WRITER`; see
-  `harnessing/2026-10-29-mas-agent-contract-redesign/README.md` and its requirements,
-  plan and external-source binding. Resolve shared skills through
+- Python MAS development uses the external-reference Harness
+  `harnessing/2026-11-04-mas-python-runtime/README.md` with
+  `STANDARD_CONTROLLER_WRITER`, its requirements, plan and external-source binding.
+  The earlier `harnessing/2026-10-29-mas-agent-contract-redesign/` remains historical
+  scientific-contract development evidence, not the current implementation ledger. Resolve shared skills through
   `NIPS_SHARED_AGENT_ROOT`; do not add a submodule or copy shared skill bodies.
 - The user has authorized Goal execution of the reviewed Harness plan. Product
   execution requires a verified independent persistent top-level Writer in this exact Worktree and

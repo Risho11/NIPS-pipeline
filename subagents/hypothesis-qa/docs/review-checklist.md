@@ -38,7 +38,7 @@ was observed; they do not automatically supply an explanation of why.
 ## Independently check consequential analysis
 
 Follow [analysis methods](../../../docs/mas/analysis-methods.md) and use the
-retained [analysis review guide](../../experiment-analysis-qa/docs/review-checklist.md)
+shared [analysis methods](../../../docs/mas/analysis-methods.md)
 as a source/method reference without activating its legacy compatibility role.
 Reproduce important selections/joins/calculations, check rendered artifacts when
 consequential, and assess preprocessing/model/sensitivity/validation choices and
@@ -217,3 +217,12 @@ substantive findings and remaining limits. A PASS certifies the stated reasoning
 use, not truth, exact design or physical authority. Do not fabricate a finding
 or author revision to make a dialogue appear constructive. After real repairs,
 review affected reasoning and same-cause occurrences before a fresh judgment.
+
+## Runtime handoff
+
+The [runtime runbook](../../../docs/mas/python-runtime.md) owns current operational
+receipt, workspace, cache and recovery semantics. Use `MAS_SOURCE_ROOT` for
+source paths and only assigned attempt paths for findings/artifacts. Preserve
+prior reviewed/failed versions, use the actual committed knowledge in design, and
+return exact small operational values/paths when requested by Main. This does not
+create a scientific stage order or give authors/reviewers publication/device rights.

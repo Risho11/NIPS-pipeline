@@ -59,6 +59,18 @@ class WorkspaceTests(unittest.TestCase):
         with Workspace(self.w.root, self.source, 'synthetic').lock() as cold:
             self.assertIsNone(cold.state['thread_id'])
 
+    def test_caller_lock_serializes_journal_without_rewriting_native_state(self):
+        with self.w.lock():
+            original = self.w.state_path.read_bytes()
+        with self.w.file_lock('.pipeline.lock'):
+            other = Workspace(self.w.root, self.source, 'synthetic')
+            with self.assertRaisesRegex(RuntimeError, 'locked'):
+                with other.file_lock('.pipeline.lock'):
+                    self.fail('Concurrent caller journal owner')
+            with other.lock():
+                self.assertEqual(other.state_path.read_bytes(), original)
+        self.assertEqual(self.w.state_path.read_bytes(), original)
+
     def test_git_root_is_compared_by_normalized_path_identity(self):
         original_git = self.w.git
         def normalized_git(*args, **kwargs):

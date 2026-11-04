@@ -4,9 +4,9 @@
 
 Use the [data contract](data-contract.md) for fields, units, sources and execution
 boundaries. This guide supplies shared reasoning methods; role instructions
-assign authorship, scientific QA and main's final decision. It describes the
-target inquiry and isolated analysis work, not capabilities already provided by
-the preserved read-only, fixed-stage adapter.
+assign authorship, scientific QA and main's final decision. Use the [Python runtime](python-runtime.md) for the explicit writable analysis
+workspace and existing no-install environment. Methods are question-led; no
+fixed figure generator or mandatory stage/cache is an acceptance oracle.
 
 Default integrated inquiry and a triggered split both use data science and
 physical/chemical reasoning. The integrated author performs needed calculations;

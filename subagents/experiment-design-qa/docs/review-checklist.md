@@ -87,7 +87,7 @@ operator material/bath settings, stock composition metadata, joint feasible
 polygon, additive lock and undiluted-stock condition. Source
 [range rules](../../../src/pipeline/activeLearning_29.py),
 [stock helper](../../../src/pipeline/polymer_additive_bounds.py) and
-[condition validation](../../../src/pipeline/mas_schema.py) explain existing code;
+[condition validation](../../../src/pipeline/mas_contract.py) explain existing code;
 they do not establish which bottles or bath are physically installed.
 
 Check missing/nonfinite values and units before geometry. A point may satisfy
@@ -173,3 +173,12 @@ or report-only pilot decisions do not authorize equipment submission.
 Keep the reported learning priority distinct from performance ordering, with
 actual conditional claims, sampling/provenance and tested versus planned/mock
 purposes intact; a useful point is not thereby globally superior.
+
+## Runtime handoff
+
+The [runtime runbook](../../../docs/mas/python-runtime.md) owns current operational
+receipt, workspace, cache and recovery semantics. Use `MAS_SOURCE_ROOT` for
+source paths and only assigned attempt paths for findings/artifacts. Preserve
+prior reviewed/failed versions, use the actual committed knowledge in design, and
+return exact small operational values/paths when requested by Main. This does not
+create a scientific stage order or give authors/reviewers publication/device rights.

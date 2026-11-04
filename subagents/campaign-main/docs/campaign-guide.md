@@ -240,6 +240,7 @@ Compare before/after wording before saying confirmed, refuted, withdrawn or best
 A conditional physical account is not an abandoned universal law; a changed
 learning priority is not an empirical performance ranking. Retain source/stock/
 coupon distinctions and label simulation/mock outcomes separately from measurements.
-The old read-only fixed-stage adapter and cache are not migrated by these docs;
-do not edit checkpoints to simulate reconsideration. No scientific recommendation
+Use the [runtime runbook](../../../docs/mas/python-runtime.md) for native review
+receipts, accepted Git versions and stable caller reconsideration. Never edit
+checkpoint/QA markers to simulate a new decision. No scientific recommendation
 executes hardware or substitutes for human physical authority.
