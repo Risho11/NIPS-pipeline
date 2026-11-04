@@ -1,5 +1,7 @@
 """Synthetic native SDK-shaped collaboration; never construct a real SDK client."""
 from dataclasses import dataclass
+from contextlib import redirect_stderr, redirect_stdout
+import io
 import json
 import os
 from pathlib import Path
@@ -10,6 +12,8 @@ import tempfile
 import unittest
 import uuid
 from unittest.mock import patch
+
+from jinja2 import Template, UndefinedError
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src/pipeline'))
 from openai_codex._run import TurnResult
@@ -257,6 +261,147 @@ class RuntimeTests(unittest.TestCase):
     def bootstrap(self):
         self.assertIsNone(self.runtime.run())
         return self.w.state['knowledge_commit']
+
+    def test_main_template_is_plaintext_module_relative_and_separates_observations(self):
+        self.w.state = {'knowledge_commit': None}
+        record = dict(id='synthetic-render', campaign='synthetic', turns=['prior'], kind='bootstrap',
+            reason='한글 {braces} "quotes" <&>', context=CONTEXT, inputs={'selected': {'path':'/data with spaces/한글.csv'}})
+        before = self.runtime._prompt(record)
+        previous = Path.cwd()
+        try:
+            os.chdir(self.base)
+            self.assertEqual(self.runtime._prompt(record), before)
+        finally:
+            os.chdir(previous)
+        self.assertTrue(before.endswith('\n'))
+        self.assertIn('reason: 한글 {braces} "quotes" <&>', before)
+        self.assertIn('attempt-1', before)
+        self.assertIn('BOOTSTRAP: theory/provenance only before outcomes', before)
+        self.assertNotIn('/data with spaces/', before)
+        record['kind'] = 'observation'
+        observed = self.runtime._prompt(record)
+        self.assertIn('Authorized observations (do not modify): ' + json.dumps(record['inputs']), observed)
+        self.assertNotIn('BOOTSTRAP:', observed)
+        self.assertIn('"properties"', observed)
+        self.factory.assert_not_called()
+
+    def test_actual_template_rejects_missing_render_variables(self):
+        self.w.state = {'knowledge_commit': None}
+        record = dict(id='synthetic-render', campaign='synthetic', turns=[], kind='bootstrap',
+                      reason=None, context=CONTEXT, inputs={})
+        render = Template.render
+        def missing_identifier(template, *args, **values):
+            values.pop('operation_id')
+            return render(template, *args, **values)
+        with patch.object(Template, 'render', new=missing_identifier):
+            with self.assertRaises(UndefinedError):
+                self.runtime._prompt(record)
+        self.factory.assert_not_called()
+
+    def test_progress_reports_knowledge_only_after_actual_git_publication(self):
+        output, progress = io.StringIO(), io.StringIO()
+        publish = self.w.publish
+        def publish_checked(*args, **kwargs):
+            self.assertNotIn('Knowledge published', progress.getvalue())
+            result = publish(*args, **kwargs)
+            self.assertEqual(self.w.head(), self.w.state['knowledge_commit'])
+            return result
+        with redirect_stdout(output), redirect_stderr(progress), patch.object(self.w, 'publish', side_effect=publish_checked):
+            commit = self.bootstrap()
+        self.assertEqual(output.getvalue(), '')
+        self.assertIn('Connecting SDK', progress.getvalue())
+        self.assertIn('Starting Main session', progress.getvalue())
+        self.assertIn('Knowledge published at ' + commit, progress.getvalue())
+        self.assertNotIn(self.sdk.prompts[0], progress.getvalue())
+
+    def test_progress_final_actions_and_validated_cache_do_not_claim_sdk_work(self):
+        self.bootstrap()
+        for action in ('run', 'hold', 'stop'):
+            with self.subTest(action=action):
+                self.sdk.action = action
+                progress = io.StringIO()
+                with redirect_stderr(progress):
+                    decision = self.runtime.run(reconsideration='Synthetic ' + action + ' review', revision_id='review-' + action)
+                self.assertEqual(decision.action, action)
+                record = self.w.state['operations'][self.w.state['active']]
+                self.assertEqual(record['status'], 'completed')
+                self.assertEqual(record['commit'], self.w.head())
+                self.assertIn('Resuming Main session', progress.getvalue())
+                self.assertIn('Accepted final action: ' + action.upper(), progress.getvalue())
+                calls, turns = self.factory.call_count, len(self.sdk.prompts)
+                progress = io.StringIO()
+                with redirect_stderr(progress):
+                    self.assertEqual(self.runtime.run(), decision)
+                self.assertIn('Reusing validated cached ' + action.upper(), progress.getvalue())
+                self.assertNotIn('Connecting SDK', progress.getvalue())
+                self.assertNotIn('Resuming Main', progress.getvalue())
+                self.assertEqual((self.factory.call_count, len(self.sdk.prompts)), (calls, turns))
+
+    def test_failed_adoption_and_git_publication_never_log_success_and_recovery_avoids_sdk(self):
+        self.sdk.no_event = True
+        progress = io.StringIO()
+        with redirect_stderr(progress), self.assertRaises(ValueError):
+            self.runtime.run()
+        self.assertIn('Request failed', progress.getvalue())
+        self.assertNotIn('Knowledge published', progress.getvalue())
+        self.assertNotIn('Accepted final action', progress.getvalue())
+        self.sdk.no_event = False
+        git = self.w.git
+        def fail_commit(*args, **kwargs):
+            if args[0] == 'commit':
+                raise RuntimeError('Synthetic private error detail that must not be printed')
+            return git(*args, **kwargs)
+        progress = io.StringIO()
+        with redirect_stderr(progress), patch.object(self.w, 'git', side_effect=fail_commit):
+            with self.assertRaises(RuntimeError):
+                self.runtime.run(retry=True)
+        self.assertIsNone(self.w.head())
+        self.assertIsNotNone(self.w.state['pending'])
+        self.assertIn('Request failed', progress.getvalue())
+        self.assertNotIn('Knowledge published', progress.getvalue())
+        self.assertNotIn('private error detail', progress.getvalue())
+        calls = self.factory.call_count
+        self.factory.side_effect = AssertionError('No SDK during accepted publication recovery')
+        progress = io.StringIO()
+        with redirect_stderr(progress):
+            self.assertIsNone(self.runtime.run())
+        self.assertIsNone(self.w.state['pending'])
+        self.assertIsNotNone(self.w.state['knowledge_commit'])
+        self.assertIn('Recovered knowledge publication at ' + self.w.head(), progress.getvalue())
+        self.assertNotIn('Connecting SDK', progress.getvalue())
+        self.assertEqual(self.factory.call_count, calls)
+
+    def test_cli_real_mocked_runtime_keeps_terminal_json_on_stdout_and_progress_on_stderr(self):
+        context = self.base/'context.json'
+        context.write_text(json.dumps(CONTEXT))
+        args = ['--workspace',str(self.w.root),'--source',str(self.w.source),
+                '--material','synthetic','--context',str(context),'--live']
+        def client(workspace):
+            self.sdk.w = workspace
+            return self.sdk
+        with patch('mas_runtime.isolated_sdk', side_effect=client) as factory:
+            output, progress = io.StringIO(), io.StringIO()
+            with redirect_stdout(output), redirect_stderr(progress):
+                main(args)
+            self.assertEqual(json.loads(output.getvalue()), {'status':'knowledge_published'})
+            self.assertIn('Knowledge published', progress.getvalue())
+            observed = args + ['--observation-id','synthetic-cli','--input','table=' + str(self.input)]
+            output, progress = io.StringIO(), io.StringIO()
+            with redirect_stdout(output), redirect_stderr(progress):
+                main(observed)
+            decision = json.loads(output.getvalue())
+            self.assertEqual(decision['action'], 'run')
+            self.assertEqual(decision['next_params'], PARAMS)
+            self.assertIn('Accepted final action: RUN', progress.getvalue())
+            calls, turns = factory.call_count, len(self.sdk.prompts)
+            factory.side_effect = AssertionError('Cached CLI must not connect')
+            output, progress = io.StringIO(), io.StringIO()
+            with redirect_stdout(output), redirect_stderr(progress):
+                main(observed)
+            self.assertEqual(json.loads(output.getvalue()), decision)
+            self.assertIn('Reusing validated cached RUN', progress.getvalue())
+            self.assertNotIn('Connecting SDK', progress.getvalue())
+            self.assertEqual((factory.call_count, len(self.sdk.prompts)), (calls, turns))
 
     def test_modern_absolute_receipts_publish_canonical_paths_and_resolved_native_ids(self):
         self.sdk.mixed_paths = True

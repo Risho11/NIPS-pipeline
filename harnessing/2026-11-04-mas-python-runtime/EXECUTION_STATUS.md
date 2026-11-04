@@ -1,5 +1,46 @@
 # Execution status
 
+2026-11-04 Phase4 implementation independently accepted QA1 PASS with no findings,
+report product-qa1/report.md SHA99d4b8550c6f388b080e84e9bdb567ae68c49ddad09ad2cde9a1777b0e789ca7.
+Verified persistent Writer returned QUIESCENT / OWNERSHIP_RETURNED from turn
+01a1a8bf-600d-7423-bc59-5514585565d0. Exact fifteen-path frozen candidate has
+140 complete tests, both validators, four predecessor prompt cases byte-identical,
+module-relative strict plaintext rendering, CLI stream/cache/publication regressions,
+and dependency/source/evidence preservation. Fresh runbook reader/P2 accepted NONE.
+Only Jinja2 3.1.6 and MarkupSafe 3.0.4 were added; all 75 prior installs retained.
+Native source publication is PENDING until exact staged/committed paths and bytes,
+parent/subject/index are verified in phase4-git-publication-receipt.json under
+/private/tmp/nips-mas-prompt-logging-20261104. This factual Controller status
+prepend is the only post-QA source delta; all product/planning/prompt bytes remain
+accepted/frozen. Newest Phase5 mandatory-last final QA/DCP remains PENDING.
+No new Goal, actual SDK/model/hardware/operational loop or hosted CI was run.
+
+2026-11-04 Planning QA2 PASS, reportSHA3e28857edfab58faeb13e9f737d0e4968d0d7a525362d5ce32d1846d253c1009.
+Fresh Phase4/5 reader2 exact-byte native evidence: one artifact read each, zero
+additional content reads, no material ambiguity. Original planningQA1 FAIL and
+readers remain historical. No product or environment change occurred in planning.
+Controller now binds separate eight-path Phase4 Writer ownership, necessary
+Jinja/MarkupSafe-only uv operation and immutable four-case predecessor oracle.
+Fresh full product validation/QA/publication and finalPhase5DCP remain pending.
+
+2026-11-04 Planning QA1 FAIL preserved at scratch plan-qa/report.md. Required
+protocol precedence/completion payload omissions and CLI stdout preservation
+were identified before product ownership. Controller repaired both new prompts,
+added stderr-only runtime progress/CLI stream tests and complete footer fields.
+Existing phases1-3/pins/products/environment remain unchanged. New prompt bytes
+require fresh context-free readers and fresh planning QA2; no implementation yet.
+
+2026-11-04 APPEND-ONLY PHASE4/5 CONTINUATION AUTHORIZED by human message01a1a8aa-5897-7972-b09c-81cbbddf27cc
+for Main Jinja extraction and MAS progress logs/tests. Prior Goal and Phase3DCP
+523927ff6e3bebf95762887782ea02f855508c10 remain completed history. Clean source/index,
+prior sole-path DCP parity and pinned external governor/manager verified. Current
+Writer readiness returned QUIESCENT/no ownership; no product mutation yet.
+Four-case predecessor prompt oracle captured without a client before any edit.
+Necessary bounded Jinja/MarkupSafe dependency exception is explicit; all previous
+package versions/settings/data/state must remain. Planning/readability QA pending;
+no implementation ownership until separate handoff. No new Goal/model/device call.
+
+
 2026-11-04 FINAL DCP independently accepted PASS, report step3-dcp-qa1/report.md
 SHA7ccf24aeaae7c7bb68c53666d7b0af31d8a0740f96fa704a8127749c4ba838b4. Fresh whole-integrated review finds no remaining product findings.
 

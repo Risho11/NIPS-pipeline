@@ -8,6 +8,8 @@ import subprocess
 import sys
 import uuid
 
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
+
 from mas_contract import (Context, Contribution, Decision, MainReply, Review, TOPICS,
                           validate_conditions)
 from mas_workspace import Workspace, file_digest, key
@@ -216,57 +218,14 @@ class CampaignRuntime:
         w = self.workspace
         schemas = {name: cls.model_json_schema() for name, cls in
                    [('main', MainReply), ('author', Contribution), ('reviewer', Review)]}
-        return f'''[MAS operation {record['id']}]
-You are persistent scientific campaign Main, not a development Writer.
-Read {w.source / 'subagents/campaign-main/AGENTS.md'} and its guide,
-and approved shared workflow/knowledge/analysis contracts. MAS_SOURCE_ROOT={w.source}.
-Source and original data are read-only. All drafts, reviews, scripts and figures
-belong in {w.path(w.round_path(record) + '/attempt-' + str(len(record['turns'])))}.
-Use uv run --no-sync python for analysis with the prepared interpreter and bound
-workspace-local scratch/cache environment. Never install, sync or download dependencies.
-Preserve earlier attempt files and failed findings; use this attempt's new paths.
-Canonical topics under
-{w.root / 'data/knowledge' / w.material} and .mas-state.json are host-published:
-no agent edits them, uses Git, changes configuration, starts SDKs, services or devices.
-Use registered roles, integrated hypothesis-updater with independent hypothesis-qa;
-optional analyst only for an actual split trigger, designer with distinct design QA.
-Reuse sessions as useful; do not force a fixed stage loop, new hypothesis or figure.
-The optional analyst returns bounded findings/artifacts to Main/integrated author;
-it is not a direct knowledge/design adoption role and adds no extra QA stage.
-Develop readable Markdown candidates and separate reviewer findings. Each native
-adoption author/reviewer final answer uses only the small operational receipt schema below,
-never echoes report bodies. Receipt operation_id must be {record['id']}.
-Artifact references (files values, report_path and MainReply.records) must name
-nonempty Markdown in this exact current attempt. Either a workspace-relative path
-or an absolute path inside that attempt is accepted and published as a relative
-path. Never use parent traversal, earlier attempts, links or external/raw/cache files.
-files maps topic filename to proposal path; design uses files={{}}.
-report_path names its own separate authored/review Markdown record. No edits after review;
-MainReply.records explicitly names any additional relevant accepted attempt Markdown
-to preserve in Git, without dummy reports. Native author/review records and adopted
-topic proposals are also committed. Do not select inputs/raw/media/cache files.
-if revised, obtain renewed native author/reviewer completions. Reject/retain findings honestly.
-Knowledge author conditions/knowledge_commit are null. Knowledge QA returns same
-operational file mapping and author_thread_id with pass/fail, never repairs a draft.
-Participant fields author_thread_id/reviewer_thread_id are a separate namespace:
-use the actual observed native UUID or canonical /root/... participant reference.
-Never invent a binding or treat a participant reference as an artifact path.
-Main must observe current completed native participant activity before adoption;
-the host resolves actual IDs and reads each child's public latest completion.
-Design author and design QA include exact conditions and the current knowledge
-commit, plus separate Markdown records. Only run may carry conditions.
-Host validates actual native role metadata/completion, not your assertion of PASS.
-{json.dumps(schemas)}
-Knowledge publication and final design/decision are separate operational returns:
-after host publishes, continue the question using the actual commit supplied below.
-If no justified executable design, decide hold/stop with null next_params/design.
-No recommendation authorizes execution. Keep the original objective and pending work explicit.
-Context: {json.dumps(record['context'])}
-Kind: {record['kind']}; reason: {record['reason']}
-Knowledge commit: {w.state['knowledge_commit']}
-{'BOOTSTRAP: theory/provenance only before outcomes; do not read observations, historical reports, notebooks or outcome-bearing source sections. Disclose actual exposure; no global blindness claim. Return all four topic proposals and independent review. If initialization cannot be completed, return hold/stop with null knowledge_commit and no executable conditions; this does not initialize knowledge or unlock observation access.' if record['kind'] == 'bootstrap' else 'Authorized observations (do not modify): ' + json.dumps(record['inputs'])}
-Return only MainReply JSON. Use English records; preserve uncertainty and original meanings.
-'''
+        template = Environment(loader=FileSystemLoader(Path(__file__).resolve().parent / 'prompts'),
+            autoescape=False, undefined=StrictUndefined, keep_trailing_newline=True).get_template('campaign_main.jinja')
+        return template.render(operation_id=record['id'],
+            main_instructions_path=w.source / 'subagents/campaign-main/AGENTS.md', source_root=w.source,
+            attempt_path=w.path(w.round_path(record) + '/attempt-' + str(len(record['turns']))),
+            knowledge_path=w.root / 'data/knowledge' / w.material, schemas_json=json.dumps(schemas),
+            context_json=json.dumps(record['context']), kind=record['kind'], reason=record['reason'],
+            knowledge_commit=w.state['knowledge_commit'], inputs_json=json.dumps(record['inputs']))
 
     def _artifact(self, record, reference):
         """Canonical current-attempt artifact, never a participant reference."""
@@ -386,12 +345,14 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
         if w.state['thread_id']:
             # Resume by the durable identity without implicit history hydration;
             # explicit authoritative history is still mandatory for known Main.
+            print('[MAS] Resuming Main session.', file=sys.stderr, flush=True)
             thread = sdk.thread_resume(w.state['thread_id'], include_turns=False, **self._options())
             history = thread.read(include_turns=True).thread
         else:
             if w.state['head'] is not None or any(r.get('turn_id') or r.get('turns')
                                                   for r in w.state['operations'].values()):
                 raise ValueError("Missing native Main identity for recorded work")
+            print('[MAS] Starting Main session.', file=sys.stderr, flush=True)
             thread = sdk.thread_start(ephemeral=False, **self._options(),
                                       developer_instructions='Operate the explicitly bound scientific campaign only.')
             w.state['thread_id'] = thread.id
@@ -438,6 +399,7 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
         record['turn_id'] = handle.id
         record['status'] = 'running'
         w.save()
+        print('[MAS] Waiting for Main completion.', file=sys.stderr, flush=True)
         native = handle.run()
         if not completed(native.status):
             raise RuntimeError("Native Main turn incomplete; no adoption")
@@ -476,21 +438,32 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
                 raise ValueError("Revision identity requires a substantive reconsideration reason")
         with w.lock(), ExitStack() as resources:
             if w.state['pending']:
-                w.recover_publication()
+                knowledge = w.state['pending']['knowledge']
+                try:
+                    w.recover_publication()
+                except Exception as error:
+                    print(f'[MAS] Publication recovery failed ({type(error).__name__}).', file=sys.stderr, flush=True)
+                    raise
+                print(f"[MAS] Recovered {'knowledge' if knowledge else 'decision'} publication at {w.state['head']}.",
+                      file=sys.stderr, flush=True)
             sdk = None
             active = w.state['operations'].get(w.state['active'])
             existing_revision = revision_id and any(r.get('revision_id') == revision_id for r in w.state['operations'].values())
             if reconsideration is not None and active and active['status'] != 'completed' and not existing_revision:
+                print('[MAS] Connecting SDK for reconsideration.', file=sys.stderr, flush=True)
                 manager = self.sdk_factory()
                 sdk = resources.enter_context(manager) if hasattr(manager, '__enter__') else manager
                 self._supersede(sdk, active, reconsideration)
             record = self._operation(observation_id, inputs, reconsideration, revision_id)
             self.last_operation_id = record['id']
             if record['status'] == 'completed':
+                action = record['decision']['action'].upper() if record['decision'] else 'knowledge'
+                print(f'[MAS] Reusing validated cached {action} result; no SDK connection.', file=sys.stderr, flush=True)
                 return Decision.model_validate(record['decision']) if record['decision'] else None
             self._bindings()
             try:
                 if sdk is None:
+                    print('[MAS] Connecting SDK.', file=sys.stderr, flush=True)
                     manager = self.sdk_factory()
                     sdk = resources.enter_context(manager) if hasattr(manager, '__enter__') else manager
                 native, text = self._turn(sdk, record, retry=retry)
@@ -508,6 +481,7 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
                 w.state['failures'].append(dict(operation=record['id'], turn_id=record['turn_id'],
                                                 type=type(error).__name__, message=str(error)))
                 w.save()
+                print(f'[MAS] Request failed ({type(error).__name__}); failure recorded.', file=sys.stderr, flush=True)
                 raise
 
     def _adopt(self, sdk, native, reply, record):
@@ -567,6 +541,10 @@ Return only MainReply JSON. Use English records; preserve uncertainty and origin
         receipt['adoption'] = reply.model_dump(mode='json')
         files[w.round_path(record) + '/adoption.json'] = json.dumps(receipt, indent=2) + '\n'
         w.publish(record, files, knowledge=reply.knowledge is not None)
+        if reply.knowledge:
+            print(f"[MAS] Knowledge published at {w.state['knowledge_commit']}.", file=sys.stderr, flush=True)
+        else:
+            print(f'[MAS] Accepted final action: {reply.decision.action.upper()}.', file=sys.stderr, flush=True)
 
 
 def main(argv=None):

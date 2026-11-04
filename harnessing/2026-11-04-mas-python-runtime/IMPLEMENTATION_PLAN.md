@@ -112,3 +112,22 @@ If a genuine reusable product clarification is needed, only the verified Writer 
 After the stable complete mocked tests and before final independent acceptance, execute one bounded isolated actual pinned SDK smoke with exclusively synthetic condition/measurement fixtures and mocked robot transport, from a fresh temporary workspace. It must exercise the new Python public entrypoint, bootstrap/observation boundary, native author/QA and design/QA evidence, persistent Main resume/reconsideration and stored output/Git. No private experiment rows/raw media are sent, no live device/network client is enabled, no physical command is dispatched, and scientific agents never start nested SDKs. The controller predeclares the exact command, fixture paths/content, <=1200 seconds per bounded invocation and first-failure stopping. No broad benchmark, repeated same-condition scientific evaluation or silent rerun; a real defect requires preserved failure, bounded repair/QA and an affected smoke rerun. Inaccessible actual SDK/auth/network support is NOT_RUN/blocked live evidence, never mocked PASS or automatic setup/installation. No SDK/model setting override or secret inspection. The existing Codex service is the sole authorized model destination for this necessary product-connection validation. This exception permits only Controller/Writer's explicitly bound smoke harness, not arbitrary live scripts. Any live smoke that cannot be performed must remain an explicit limitation, assessed by independent QA against production-readiness claims.
 
 Planning P2 initial findings were repaired before acceptance: exact guidance/predecessor locators, read-only Git permission, Step2 runtime/doc ownership and explicit pending live-smoke binding. Earlier raw findings remain in native reader records; no product acceptance is claimed.
+
+
+## Append-only continuation: Main Jinja template and MAS progress logging
+
+Human approval 01a1a8aa-5897-7972-b09c-81cbbddf27cc authorizes these two improvements and tests. Actual prior DCP HEAD523927ff6e3bebf95762887782ea02f855508c10/sole-path parity and clean index verified before append. STANDARD_CONTROLLER_WRITER and manualGit remain; no new Goal is inferred. Predecessor sufficiency PROCEED/VERIFIED_PREDECESSOR: current source + completed independent QA/native source publication are verified; post-app-restart synthetic SDK result a4bab069b1dc6314db26b0aad252665369b73693 is historical live input only. Existing phases1-3/prompt bytes remain historical; only appended Phase5 is newest active DCP.
+
+### Phase 4: Extract Main template and expose MAS progress
+1. STEP 1: Extract Main template and expose MAS progress
+```harness-step-json
+{"phase":4,"step":1,"expected_commit_msg":"feat extract MAS prompt and add progress logs","prompt":"steps/PHASE_4_STEP_1_PROMPT.md"}
+```
+Literal eight product paths, bounded necessary Jinja/MarkupSafe uv addition/install, exact predecessor prompt parity, cache-vs-connection/publication/decision/error logs, all eight full safe suites/two validators and preservation are in [Phase4 prompt](steps/PHASE_4_STEP_1_PROMPT.md). Current full4-case prompt oracle was captured before product changes. Source and scientific/physical routing stay unchanged. No model/device call. Fresh exact-byte runbook P2 and full-diff independent QA precede manual exact-file source publication.
+
+### Phase 5: Durable Contract Promotion
+1. STEP 1: Durable Contract Promotion
+```harness-step-json
+{"phase":5,"step":1,"expected_commit_msg":"docs Durable Contract Promotion","prompt":"steps/PHASE_5_STEP_1_PROMPT.md"}
+```
+Only after Phase4 accepted native publication: fresh independent whole-outcome QA selects normalized PROMOTED or NO_DURABLE_CHANGE. Conditional product docs/mas/python-runtime.md only, or no Writer ownership. Controller sole status receipt/native Git verification follows [Phase5 prompt](steps/PHASE_5_STEP_1_PROMPT.md). No historical DCP relabeling or personal/shared memory update.

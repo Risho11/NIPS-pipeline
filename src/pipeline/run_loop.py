@@ -556,17 +556,22 @@ def _new_campaign_params():
     """Reuse this campaign's saved first suggestion before requesting a new one."""
     result_path = CSV_AGG_LLM.parent / "initial_suggestion.json"
     if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
-        with _dynamic_workspace().file_lock('.pipeline.lock'):
-            state = json.loads(result_path.read_text(encoding='utf-8')) if result_path.exists() else {}
-            if state and not state.get('mas_request'):
-                raise ValueError('Retired initial recommendation; no automatic MAS migration')
-            decision = _caller_decision(state, lambda v: _save_json(result_path, v), None, initial=True)
-        if decision["action"] != "run":
-            print(f"[MAS] {decision['action']}: {decision['reason']}")
-            return None
-        params = decision["next_params"]
-        _write_dynamic_params(result_path, params, initial=True)
-        return params
+        print('[MAS] Requesting initial campaign decision.', flush=True)
+        try:
+            with _dynamic_workspace().file_lock('.pipeline.lock'):
+                state = json.loads(result_path.read_text(encoding='utf-8')) if result_path.exists() else {}
+                if state and not state.get('mas_request'):
+                    raise ValueError('Retired initial recommendation; no automatic MAS migration')
+                decision = _caller_decision(state, lambda v: _save_json(result_path, v), None, initial=True)
+            if decision["action"] != "run":
+                print(f"[MAS] {decision['action']}: {decision['reason']}")
+                return None
+            params = decision["next_params"]
+            _write_dynamic_params(result_path, params, initial=True)
+            return params
+        except Exception as error:
+            print(f'[MAS] Initial decision request failed ({type(error).__name__}).', flush=True)
+            raise
     if result_path.exists():
         saved = json.loads(result_path.read_text(encoding="utf-8"))
         if not isinstance(saved, dict) or not isinstance(saved.get("next_params"), dict):
@@ -896,7 +901,9 @@ def _caller_decision(state, save, condition_name, *, initial=False):
         save(state)  # Persist caller identity before inference or its completion.
     request = state['mas_request']
     if prior and prior['caller_request_id'] == request['id']:
-        return _checked_dynamic_decision(prior)
+        decision = _checked_dynamic_decision(prior)
+        print(f"[MAS] Reusing validated cached {decision['action'].upper()} decision.", flush=True)
+        return decision
     decision = _dynamic_recommendation(condition_name, CSV_AGG_LLM, request=request, initial=initial)
     history = state.setdefault('mas_decisions', [])
     if not any(r['runtime_operation_id'] == decision['runtime_operation_id'] for r in history):
@@ -906,6 +913,7 @@ def _caller_decision(state, save, condition_name, *, initial=False):
         state['search_mode'] = 'dynamic'
         state['next_params'] = decision['next_params']
     save(state)
+    print(f"[MAS] Saved {decision['action'].upper()} decision.", flush=True)
     return decision
 
 
@@ -1144,6 +1152,7 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
 
         json_out = JSON_RESULTS_DIR / f"llm_result_{condition_name}.json"
         if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+            print('[4/5] requesting MAS decision...', flush=True)
             decision = _caller_decision(state, lambda v: _save_checkpoint(condition_name, v), condition_name)
             _attach_dynamic_location(condition_name, decision)
             _complete_stage(condition_name, state, "decision_recorded")

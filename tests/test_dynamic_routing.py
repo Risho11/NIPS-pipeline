@@ -1,7 +1,8 @@
 """Real campaign/runtime/checkpoint consumers; native SDK and robot transports mocked."""
-from contextlib import ExitStack
+from contextlib import ExitStack, redirect_stderr, redirect_stdout
 import csv
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -73,6 +74,59 @@ class RoutingTests(unittest.TestCase):
 
     def queue(self, identity='revision-1', reason='New approved evidence changes the question'):
         return loop.request_dynamic_reconsideration('condition-A', revision_id=identity, reason=reason)
+
+    def test_initial_progress_distinguishes_connected_request_validated_cache_and_error(self):
+        self.csv.unlink()
+        output, progress = io.StringIO(), io.StringIO()
+        with redirect_stdout(output), redirect_stderr(progress):
+            params = loop._new_campaign_params()
+        self.assertEqual(params, {**PARAMS, **MATERIALS})
+        self.assertIn('Requesting initial campaign decision', output.getvalue())
+        self.assertIn('Saved RUN decision', output.getvalue())
+        self.assertIn('Connecting SDK', progress.getvalue())
+        calls, turns = self.factory.call_count, len(self.sdk.prompts)
+        self.factory.side_effect = AssertionError('Cache must not construct a runtime client')
+        output, progress = io.StringIO(), io.StringIO()
+        with redirect_stdout(output), redirect_stderr(progress):
+            self.assertEqual(loop._new_campaign_params(), params)
+        self.assertIn('Reusing validated cached RUN', output.getvalue())
+        self.assertNotIn('Connecting SDK', progress.getvalue())
+        self.assertEqual((self.factory.call_count, len(self.sdk.prompts)), (calls, turns))
+        path = self.csv.parent/'initial_suggestion.json'
+        state = json.loads(path.read_text())
+        state['next_params']['bath_temp'] = 8.0
+        path.write_text(json.dumps(state))
+        before = path.read_bytes()
+        output = io.StringIO()
+        with redirect_stdout(output), self.assertRaises(ValueError):
+            loop._new_campaign_params()
+        self.assertIn('Initial decision request failed (ValueError)', output.getvalue())
+        self.assertEqual(path.read_bytes(), before)
+        self.robot.assert_not_called()
+        self.health.assert_not_called()
+
+    def test_continuing_progress_shows_request_then_cached_resume_without_new_sdk(self):
+        self.health.side_effect = TimeoutError('Synthetic health interruption before submission')
+        output, progress = io.StringIO(), io.StringIO()
+        with redirect_stdout(output), redirect_stderr(progress), self.assertRaises(TimeoutError):
+            self.run_pipeline()
+        self.assertIn('[4/5] requesting MAS decision', output.getvalue())
+        self.assertIn('Saved RUN decision', output.getvalue())
+        self.assertIn('[ERROR]', output.getvalue())
+        self.assertIn('Connecting SDK', progress.getvalue())
+        calls, turns = self.factory.call_count, len(self.sdk.prompts)
+        self.factory.side_effect = AssertionError('Restart must reuse the accepted decision')
+        self.health.side_effect = None
+        output, progress = io.StringIO(), io.StringIO()
+        with redirect_stdout(output), redirect_stderr(progress):
+            self.run_pipeline()
+        self.assertIn('[4/5] requesting MAS decision', output.getvalue())
+        self.assertIn('Reusing validated cached RUN', output.getvalue())
+        self.assertNotIn('Connecting SDK', progress.getvalue())
+        self.assertEqual((self.factory.call_count, len(self.sdk.prompts)), (calls, turns))
+        self.robot.assert_called_once()
+        self.assertEqual({k:v for k,v in self.robot.call_args.args[0].items() if k!='stock_metadata'},
+                         self.state()['mas_decision']['next_params'])
 
     def test_run_uses_native_reviewed_exact_params_and_existing_submission_journal(self):
         with patch.object(loop, '_enforce_stock_mixing_temperature', side_effect=AssertionError('no dynamic clamp')):
