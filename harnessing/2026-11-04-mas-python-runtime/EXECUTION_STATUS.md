@@ -1,3 +1,77 @@
+## Final QA identity
+
+```json
+{
+  "reviewer_id": "/root/legacy_cleanup_final_qa1",
+  "qa_report_path": "/private/tmp/nips-mas-legacy-cleanup-20261105/final-qa1/report.md",
+  "qa_report_sha256": "7861ba2842f89ad147c527416eed266f4d4632acf09c59cf55ee8e4de5d0068a",
+  "verdict": "PASS",
+  "reviewed_freeze_sha256": "351e1908be4139c1a189b96832c34ae3c519449e153b5f37e0927829267d6041"
+}
+```
+
+## Phase9 final disposition — prepublication receipt
+
+Actual Phase8 ordinary source publication COMPLETE: commit 29abc708e9cbd9376a089fcd1375fd0ddfed2997,
+parent9d65bd3464fcc6421ef7e651dbcc07052d122c7f, subject `261105-17-15 fix remove obsolete MAS workspace configuration`.
+Exact13 paths (six products plus seven related Controller planning/status files),
+accepted blobs, empty index and clean worktree were verified in
+/private/tmp/nips-mas-legacy-cleanup-20261105/phase8-feature-publication-receipt.json.
+Fresh independent Phase8 QA1 PASS report 541aa5e0224582722765d7ddaa8ccb290b9ba448fd6d9a8929a720bed2841f4b accepted the exact
+candidate/proposal/evidence before publication; Writer ownership had returned.
+
+Selected normalized DCP outcome: NO_DURABLE_CHANGE; files=[].
+Reason: The accepted cleanup already removes the obsolete configuration and root
+alias in their owners, updates the runtime runbook, and preserves actual campaign
+and robot compatibility through existing guards and meaningful regressions.
+Existing simplicity and evidence-boundary guidance suffice; no additional durable
+product contract or shared guidance is needed.
+
+Consequential dispositions:
+- MAS_WORKSPACE_ROOT is removed with its obsolete predicate, fixture/guard and
+  runbook text. Workspace.root replaces the identical source alias throughout
+  actual runtime/test/runbook consumers. This is project-specific simplification,
+  completed in the owning code and documentation, not a new learned shared rule.
+- The new behavioral regression verifies repository/campaign binding across CWDs,
+  rejects foreign campaign/invalid material without SDK/robot calls, and preserves
+  ref/index. Full other production AST remains exact after only the allowed root
+  substitutions/config removal. Material-key comments/None and real operator,
+  stock, checkpoint/request/recovery/legacy-report/device behavior are retained.
+- Persisted source='.', MAS_SOURCE_ROOT, old-state rejection, old parameter/report
+  handling, non-MAS modes, robot status/time fields and manual run_loopTest remain.
+  The manual script is not proven unused and therefore outside the user-approved
+  definitely-unnecessary deletion set; preserving it leaves no required cleanup
+  incomplete. No original data/history/native state is deleted or migrated.
+- Initial network test bind PermissionErrors remain exit1; separately declared
+  identical-command escalation passes all14 using loopback mocks only. Initial
+  exclusive-copy preflight helper failure is preserved; corrected verification
+  uses existing snapshots. These host-only evidence incidents require no product
+  guidance amendment. Planning QA's interrupted broad grep is disclosed/excluded;
+  no all-data-body or whole-history zero-read audit is asserted.
+- Exact-byte isolated runbook P2 returned NONE after one original complete read;
+  original execution requested both20000-token budgets and reader confirmed
+  END_FULLTEXT. Later public recapture is capped20000characters and is qualified
+  as such. Existing readability guidance and accepted evidence suffice.
+
+Fresh COMPLETE Workspace40+Runtime68+Dynamic36+Warm9+Network14=167. Exact-input
+retained Contract6+Retry4+Property13=23;190 is inventory, not190 new tests. Both
+validators/static/AST/preservation pass. Structure validation traverses only a
+sealed92-source tracked projection, never the actual repository CODEX_HOME.
+Protected15 files, original10932 data/index entries, locked inputs and prepared
+dependency/toolchain identities are preserved; no raw-media/native-body audit.
+Native/profile/prompt values are equivalent root bindings, with no state/protocol
+change; this cleanup runs no live SDK/model/login or physical client. Historical
+actual native evidence remains historical. No new physical/scientific/platform,
+hosted-CI or cross-machine native-session qualification is claimed.
+
+No additional product file is proposed for Phase9; Writer has no mutation ownership.
+No dependency/shared/personal-memory/global or remote Git action. Fresh final
+whole-outcome QA and actual DCP publication remain PENDING as of this complete
+prepublication receipt. The previous Goal stays complete; no new Goal is created.
+Only this status file is intended for the final DCP commit, with the sole allowed
+post-QA change being the exact five-field Final QA identity prepend.
+
+
 ## Phase8 Writer returned; affected full tests and preservation complete
 
 Persistent Writer turn01a1adb1-2e36-7092-a364-3e922b0198aa completedidle
