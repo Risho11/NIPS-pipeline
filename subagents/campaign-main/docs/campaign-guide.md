@@ -69,7 +69,7 @@ Locate consequential originals via actual identities, params and plot metadata
 before requesting a new experiment to obtain evidence already present. Distinguish
 present-but-unread, inaccessible, omitted from an invocation and absent after a
 bounded search. A source listing is not visual/curve inspection. Keep source
-and output roots separate via the workflow; concrete authorized read sets and
+and output permissions explicit via the workflow; concrete authorized read sets and
 session paths belong to the dispatch, not a repository test manual.
 
 ## Give authors and reviewers a substantive problem
@@ -159,12 +159,16 @@ reasoning once and link across topics. Preserve old meanings and adverse evidenc
 a new round or another
 PASS is not a new measurement. You can accept a background account without selecting
 it. No publication permission means a pending proposal, not an improvised write.
-If the invocation explicitly authorizes independent TEST_ROOT Git, make an initial
-knowledge/exposure commit, then commit reviewed and adopted changes with exact
-topic/round paths. Follow the workflow's [Git boundary](../../../docs/mas/workflow.md#source-and-output-bindings),
-including excluded raw/media files and disabled hooks/signing. Record the knowledge
-commit informing design in the round; do not add version files or full-bank snapshots.
-Rejected drafts are not published knowledge, and authors/reviewers never stage/commit.
+With an authorized repository/campaign/material binding, adopt reviewed initial
+knowledge with actual provenance/exposure and later exact topic/round changes.
+Follow the workflow's [publication boundary](../../../docs/mas/workflow.md#source-and-output-bindings):
+agents write current-attempt drafts/derived artifacts only; Python publishes exact
+accepted paths plus a stable checkpoint through the existing repository Git.
+Never initialize Git or stage/commit. Exclude raw/media/input/cache/native/auth
+files. Record the actual knowledge commit informing design; do not add full-bank
+snapshots. Another campaign uses its own Main and may reuse only a proven bank.
+Conflicting adopted paths, unavailable history and relocation without native
+sessions require explicit resolution; never silently bootstrap a replacement Main.
 
 ## Ask design what the next observation can teach
 
@@ -200,7 +204,7 @@ values. Stop needs a bounded scientific reason and supplies no executable values
 
 Review fixed-setting ideas separately from current executable choices. At an
 operator-confirmed batch boundary, link the actual grouping/context and cumulative
-learning in `mas/batches/<batch-id>/summary.md`, and state proposed next-batch
+learning in the current attempt's `batch-summary-<batch-id>.md`, select it for host publication, and state proposed next-batch
 comparisons, predictions, controls and required human decisions. Source capacity
 is not observed depletion/completion, and 202/no-callback cannot settle execution.
 Ask for resource/prepared-setting checks before further operation. Offline historical

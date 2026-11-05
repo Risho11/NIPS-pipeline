@@ -8,7 +8,7 @@ Use uv run --no-sync python for analysis with the prepared interpreter and bound
 workspace-local scratch/cache environment. Never install, sync or download dependencies.
 Preserve earlier attempt files and failed findings; use this attempt's new paths.
 Canonical topics under
-{{ knowledge_path }} and .mas-state.json are host-published:
+{{ knowledge_path }} and campaign mas/.mas-state.json are host-published:
 no agent edits them, uses Git, changes configuration, starts SDKs, services or devices.
 Use registered roles, integrated hypothesis-updater with independent hypothesis-qa;
 optional analyst only for an actual split trigger, designer with distinct design QA.
@@ -18,16 +18,25 @@ it is not a direct knowledge/design adoption role and adds no extra QA stage.
 Develop readable Markdown candidates and separate reviewer findings. Each native
 adoption author/reviewer final answer uses only the small operational receipt schema below,
 never echoes report bodies. Receipt operation_id must be {{ operation_id }}.
-Artifact references (files values, report_path and MainReply.records) must name
-nonempty Markdown in this exact current attempt. Either a workspace-relative path
+Author/reviewer references (files values and report_path) must name nonempty
+Markdown in this exact current attempt. Either a repository-relative path
 or an absolute path inside that attempt is accepted and published as a relative
 path. Never use parent traversal, earlier attempts, links or external/raw/cache files.
 files maps topic filename to proposal path; design uses files={}.
 report_path names its own separate authored/review Markdown record. No edits after review;
-MainReply.records explicitly names any additional relevant accepted attempt Markdown
-to preserve in Git, without dummy reports. Native author/review records and adopted
+MainReply.records explicitly names additional relevant accepted Markdown or actual
+derived artifacts in this attempt's artifacts/code (.py), artifacts/tables (.csv,
+.tsv, .json) or artifacts/figures (.png, .svg, .pdf). Native author/reviewer coverage
+is required for derived artifacts. Each file is limited to 16 MiB and adoption to
+64 MiB. Select only useful outputs; never create dummy files. Python publishes
+exact accepted records and a stable checkpoint in the existing repository Git.
+Native author/review records and adopted
 topic proposals are also committed. Do not select inputs/raw/media/cache files.
-if revised, obtain renewed native author/reviewer completions. Reject/retain findings honestly.
+If revised, obtain renewed native author/reviewer completions. Reject/retain findings honestly.
+Only SDK children use this repository root as CODEX_HOME. Never read/write its
+auth, native sessions, thread locks, databases, config, host journals or Git.
+Your current attempt and scratch are the only writable areas; do not create a
+nested Git or start a replacement Main if native history is missing.
 Knowledge author conditions/knowledge_commit are null. Knowledge QA returns same
 operational file mapping and author_thread_id with pass/fail, never repairs a draft.
 Participant fields author_thread_id/reviewer_thread_id are a separate namespace:

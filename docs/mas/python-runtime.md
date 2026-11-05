@@ -10,7 +10,7 @@ actual SDK connectivity, sandbox enforcement, Windows execution or device readin
 
 The three owners are [mas_contract.py](../../src/pipeline/mas_contract.py) for small
 operational types, [mas_workspace.py](../../src/pipeline/mas_workspace.py) for files,
-independent Git and recovery, and [mas_runtime.py](../../src/pipeline/mas_runtime.py)
+existing-repository Git and recovery, and [mas_runtime.py](../../src/pipeline/mas_runtime.py)
 for persistent Main and native review validation.
 
 Main's message text lives in one plaintext
@@ -37,8 +37,7 @@ from mas_runtime import CampaignRuntime
 
 context = Context.model_validate_json(
     Path('/private/tmp/mas-runtime-synthetic-context.json').read_text(encoding='utf-8'))
-workspace = Workspace('/private/tmp/mas-runtime-synthetic-output', project, 'synthetic',
-                      protected_roots=[Path('/absolute/protected-measurement-root')])
+workspace = Workspace(project, context.campaign, 'synthetic')
 runtime = CampaignRuntime(workspace, context)
 # Construction above is read-only. Only an authorized model invocation calls:
 # result = runtime.run()  # theory bootstrap or a bounded HOLD/STOP
@@ -55,21 +54,26 @@ endpoint preferences/constraints separately from uncertain forecasts and weights
 in the supplied objective. `material_key` and campaign names are portable simple
 identifiers; they cannot contain separators or Windows reserved device names.
 
-Bind one independent output root outside source, other repositories and protected
-original-data roots. Source and observations stay read-only; put disposable test
-outputs outside the checkout too. Constructor and CLI preparation do not create
-an SDK client. `protected_roots` is an explicit API argument: supply every original
-measurement/protected root whose overlap must be rejected. There is no automatic
-discovery of those roots. The CLI has **no protected-root option** and does not
-derive them from context or `--input`. It checks source/repository separation;
-the operator must additionally establish output separation from all protected data
-before using it. Use the API above when programmatic protected-root enforcement
-is required. Later input binding rejects input files inside output, but that is
-not a preflight check for every data root. The five role bindings are copied to the output
-root's `.codex/agents/`, while required `MAS_SOURCE_ROOT` resolves their documents
-to the explicit source root. The runtime supplies it from `Workspace.source`
-(`--source` for CLI); there is no pilot alias or output-CWD fallback.
-No shared skill bodies, source tree, environment or original measurements are copied.
+Bind the existing committed repository top-level, actual campaign key and explicit
+material. No nested/output repository is created. Source and original observations
+remain read-only to scientific agents; only current-attempt outputs are writable.
+Constructor and CLI preparation create no SDK, journal or scientific output.
+Persisted input/source/report paths are repository-relative and input bytes are
+digest-bound. External inputs, root native metadata, links and traversal fail;
+do not silently copy/migrate old external state. Disposable tests use fresh
+temporary repositories and synthetic inputs, never source publication.
+Five role bindings are copied into the current attempt's `.codex/agents/`;
+`MAS_SOURCE_ROOT` resolves their substantive documents to the explicit repository.
+The runtime supplies it from `Workspace.source` (`--repo` for CLI); there is no
+pilot alias or output-CWD fallback. No environment or original measurements are copied.
+
+Across all campaign `mas/` directories, checkpoints, local journals, locks,
+`.transactions/` and `.native/` are host state and cannot be selected as inputs.
+Only the current campaign's caller-prepared `.inputs/` copies are selectable;
+other campaigns' measured tables and approved scientific round reports remain
+eligible. Literal `.git` pointers in linked worktrees and actual Git/common
+directories are excluded. These rules target owners/locations, not recursively
+reserved filenames in measurement directories.
 
 ## Main, knowledge and native review
 
@@ -100,8 +104,10 @@ ID cannot silently acquire different inputs/context. A no-ID restart may supply
 only the exact existing label/path/digest binding (including `{}` only when the
 existing binding is empty); new/different/emptied bindings require an observation
 ID or explicit reconsideration. A no-argument call reuses the previous result.
-A second named campaign supplies its new context and distinct observation ID,
-and reuses the same material bank/Main without another theory bootstrap.
+A second named campaign binds a new `Workspace(project, campaign, material)` and
+context, with its own persistent Main/checkpoint. It may reuse the same material
+bank only through the bank's accepted Git provenance, without another bootstrap.
+Its first no-observation turn explicitly requests an initial campaign design.
 The registered integrated
 author is `hypothesis-updater`, with independent `hypothesis-qa`; design uses
 `experiment-designer` and distinct `experiment-design-qa`. `experiment-analyst`
@@ -112,7 +118,7 @@ receipts: operation ID, knowledge/design kind, proposal path mapping, exact desi
 conditions when relevant, knowledge commit and own Markdown report path. Review
 also carries pass/fail and author thread ID. Authored reasoning and findings stay
 in separate current-attempt Markdown files. Artifact fields (`files` values,
-`report_path`, `MainReply.records`) accept workspace-relative paths or absolute
+`report_path`, `MainReply.records`) accept repository-relative paths or absolute
 paths inside the exact current attempt. Both forms are normalized to the same
 relative publication path before comparison and staging. Parent traversal, earlier
 attempts, external/source/raw/cache files, symlinks and hardlinks remain forbidden.
@@ -140,7 +146,16 @@ authorize publication. Only small operational path/condition receipts are compar
 there is no report-body JSON echo, equality or report-hash acceptance gate.
 
 `MainReply` selects a knowledge adoption or a final decision/design adoption.
-`records` explicitly names additional relevant current-attempt Markdown to preserve.
+`records` explicitly names additional relevant current-attempt Markdown or actual
+derived artifacts to preserve. Supported typed paths are `artifacts/code/*.py`,
+`artifacts/tables/*.{csv,tsv,json}` and `artifacts/figures/*.{png,svg,pdf}`, including
+useful subdirectories. Each file must be nonempty, content/type checked and at
+most 16 MiB; the complete adoption payload is limited to 64 MiB. Python/JSON parse,
+tables require a header/rectangular rows, and figures require matching format
+structure. Executable file modes, raw/input/media/cache/native/auth paths and
+stale attempts are rejected. Derived artifacts require native author/reviewer
+provenance and record operation/input bindings in `adoption.json`; this operational
+check does not grade figure correctness or create a required figure quota.
 Native author/review reports and adopted topic proposals are included automatically.
 After review, candidates must remain preserved; edits require renewed native
 completions. This is a task boundary, not a claim of per-role OS isolation.
@@ -168,37 +183,123 @@ RUN is not authority to call a device.
 
 ## Output history and Git
 
-The output root contains `.mas-state.json`, a persistent `.mas.lock`, untracked
-role configuration/scratch and `data/results/<campaign>/mas/rounds/<operation>/`.
-Round drafts/reviews/artifacts are writable there. Native contributions use a new
-`attempt-<number>/` area for each continuation; earlier authored/review paths remain
-preserved across retries. Only four canonical topics, actual relevant round
-Markdown and the host's `adoption.json` enter accepted Git
-history. Paths are individually staged; raw/input/media/cache/secret paths,
-escaping paths, symlinks and hard-linked outputs are rejected. Other artifacts
-remain untracked; there are no dummy-report quotas or full-bank snapshots per round.
+Campaign `data/results/<campaign>/mas/` contains tracked `.mas-state.json`, ignored
+`.mas-runtime.json`, kernel locks, `.transactions/`, `.native/` and `.inputs/`.
+Drafts/reviews/artifacts use `rounds/<operation>/attempt-<n>/`; a continuation uses
+new paths while earlier attempts remain preserved. Only four canonical topics,
+exact adopted round records/derived artifacts, host `adoption.json`/`decision.md`
+and the stable checkpoint enter MAS publication. No raw/input/media/cache/secret
+paths, links, dummy reports or full-bank snapshots.
 
-Git runs only in that independent root, with inherited `GIT_*` redirection removed,
-global/system configuration disabled and command-local Main identity, disabled
-hooks/templates and signing. No remote, branch management, broad staging, reset,
-deletion or source-repository Git operation is performed. Direct workspace commits
-use `YYMMDD-HH-MM docs adopt MAS knowledge|decision <transaction>` (UTC timestamp).
-One stored subject/token survives recovery. Publication is Main adoption carried
-out by Python, not independent author/reviewer Git authority.
+The stable checkpoint stores logical publication tokens and accepted path/blob
+frontiers, never its own commit hash. On load Python resolves tokens to unique
+reachable host publications and verifies the committed payload and current owned
+paths. An unrelated source commit may advance HEAD without invalidating accepted
+MAS content. Shared-bank changes from another campaign require explicit
+reconsideration and verified material provenance; arbitrary topic edits are not
+adopted knowledge. Campaign kernel locks and the real Git index lock serialize publishers.
 
-Unknown staged files, unpublished tracked edits, foreign commits/repositories,
-missing history or retired checkpoints fail closed without cleanup. Publication
-first persists accepted files and a pending transaction, then writes/stages only
-those paths. Failed Git work remains pending. After a lost commit acknowledgement,
-recovery checks the actual parent, subject, complete expected file paths, Git blob
-contents and regular-file modes before reusing a commit. Before committing, each
-accepted path/index entry must still be its original or accepted value; conflicting
-edits are preserved and rejected. Missing expected committed files, changed bytes,
-mode drift, partial commits or changed recovery payloads cannot advance knowledge
-or clear pending evidence. These checks bind a Git transaction to its adopted
-payload; they do not grade or hash scientific reports into author/QA receipts.
-Ordinary Git preserves adopted versions;
-there is no parallel report-cache acceptance system.
+Python uses the existing repository Git with inherited `GIT_*` redirection removed,
+global/system config disabled, command-local identity and disabled hooks/signing.
+A private index builds exact accepted files plus checkpoint, `commit-tree` creates
+one commit, and `update-ref` compares the expected parent before publication.
+Subjects use `YYMMDD-HH-MM docs adopt MAS knowledge|decision <token>` (UTC).
+Agents never run Git. Unrelated working edits are preserved. An initially busy
+staged/special index stops unchanged; no broad staging/reset/cleanup, remote or
+branch management is performed.
+
+Before private snapshots, Python freezes the accepted Git/bank/owned/checkpoint
+preimages and absence of new managed records. It selects authored bytes once with
+a no-follow descriptor identity and retains them for that native turn under ignored
+`.transactions/selection-*/`. Ordinary preparation recovery reuses that selection;
+a changed source blocks before another SDK connection. This binds mechanical
+storage identity, not what a reviewer understood or a scientific body-hash rubric.
+Main/author/reviewer roles, actual completion and review mapping remain the review
+boundary. Canonical copies reuse the selected proposal bytes. Authored files are
+KEEP targets and are never rewritten. Host `decision.md` and `adoption.json` are
+generated in memory; an unexpected existing file is not overwritten by a producer.
+When a knowledge publication continues the same operation, its next adoption may
+replace the prior host record only against that exact accepted Git preimage.
+
+A replacement first atomically moves the actual existing object into its unique
+`.transactions/<token>/target-<n>/capture`, verifies it against the frozen preimage,
+and installs a separate complete image exclusively into the absent target. New
+managed paths also use exclusive installation. A newly appeared file/link/directory
+stops installation; there is no blind replacement, truncation or delete-and-retry
+fallback. Unexpected captured links/directories remain opaque. Original permission
+bits and registered inode/link identities are preserved; the immutable snapshot is
+separate from the short registered two-link installation interval. An old open
+file descriptor can still modify a capture, so captures are checked again.
+
+A conflict or interruption can leave the original target missing, or leave both
+an old capture and a new foreign target. This is a retained partial state, not an
+unchanged working tree. The real Git index uses the same preserving finalizer
+under its exact owned `index.lock`; its capture is in `index-install/capture`.
+An interrupted index capture can therefore leave an index gap. All versions and
+transaction evidence remain; Python never restores, resets or overwrites foreign
+paths/index/ref automatically. Do not run ordinary Git repair/commit commands
+through an unresolved index gap. Coordinate with other writers and inspect the
+exact named transaction locally before deciding how to resolve it. There is no
+automatic cleanup or evidence deletion command.
+
+This filesystem path requires POSIX anchored no-follow directory operations,
+same-filesystem rename and exclusive hard-link creation, and file/directory fsync.
+A disposable capability check and parent/device validation precede capture.
+Unsupported capabilities, cross-filesystem layout, permissions or durability errors
+fail explicitly; a later failure retains any known partial state without a copying
+or overwrite fallback. Parent substitution, nonregular files and unknown links
+fail closed. Current-host tests do not qualify Windows or power-loss durability.
+Logical repository-relative path serialization remains separate from OS support.
+
+Unpublished recovery retains its recorded index identity. Only a verified clean,
+source-only descendant with unchanged owned projections may establish a new
+parent/index identity; changing index bytes under the same parent cannot. Both
+`ls-files -v` and `-f` plus a provider-disabled private index roundtrip reject
+assume-unchanged, skip-worktree and hidden fsmonitor metadata. No configured
+fsmonitor hook/daemon runs. Foreign locks and special/changed index metadata are
+preserved. A known lost CAS acknowledgement finishes only the matching publication,
+without a second accepted commit or new inference.
+
+Python verifies snapshots, the entire resulting bank/owned/checkpoint frontier,
+KEEP/capture/installed identities, parent/mode/link evidence, ref and index through
+materialization, tree/commit, CAS, index finishing and closing. A pre-ref conflict
+retains pending, the old ref/index and the installed/captured prefix. If CAS is
+already known to have succeeded but working/index evidence is dirty, the known
+publication remains and pending or an explicit incident blocks accepted results.
+There is no ref rollback, new adoption, cached decision, success progress or caller
+physical dispatch on unresolved conflict. An operator may restore the exact
+reviewed bytes/mode in a registered inode and retry ordinary recovery; the runtime
+cannot choose a foreign version or overwrite a newly appeared path. Changed inode,
+opaque capture or conflicting index ownership requires explicit operator review.
+Timestamp differences alone are not ownership authority; exact bytes, modes,
+inode/link identity and stable descriptor reads govern the known recovery state.
+
+Ignored `.transactions/active.json`, immutable intent, progress and receipt survive
+prospective local `pending=None`. Cold open checks that exact anchor before cache
+or SDK use; missing/corrupt/unsupported local evidence is preserved and rejected.
+Future state comes from the verified committed checkpoint, not mutable working
+checkpoint text. Failed closing restores pending, or cold validation records an
+incident; no old state is silently resurrected. A finalized pointer is historical
+closure evidence: later local operations and explicit accepted shared-bank updates
+use current state/provenance. A new publication succeeds it with a new token while
+all old evidence remains. A clean tracked-only clone without ignored evidence can
+recover committed cache; it does not prove the source machine finished closing.
+
+Completion reports an observed validated frontier at the final guard. Files and
+Git ref are not one portable atomic transaction; finite reads cannot exclude an
+arbitrary write after the last read, including before Python returns. Every guarded
+reuse validates again. Host-private transaction evidence is trusted operational
+storage, not hostile same-UID isolation. Raw exception messages stay in the ignored
+journal; tracked failures contain operation, turn and class only. Native histories,
+authentication and ignored active work do not clone with the checkpoint.
+
+Moving a complete repository preserves relative scientific/input/report bindings
+if the same committed provenance and input bytes remain. Cloning tracked content
+can recover accepted decisions without inference, but does not recreate ignored
+native sessions, active work or authentication. Continuing a known Main requires
+its actual native history; missing history fails without replacement/rebootstrap.
+Legacy external/retired state is preserved and explicitly rejected; no automatic
+migration or claim of multi-machine native continuation is provided.
 
 ## Restart and deliberate reconsideration
 
@@ -250,9 +351,11 @@ Git's raw slash spelling. Actual Windows execution remains separate validation.
 
 `run_loop.py` selects this API only for `LLM_AL_SEARCH_MODE="dynamic"`; the existing
 default remains `double_explore`. Before an authorized dynamic campaign, set
-`MAS_WORKSPACE_ROOT` to an independent absolute output root and `MAS_MATERIAL_KEY`
-to the explicit portable material key. Both default to None and missing bindings
-fail before inference/submission. Existing operator materials, installed stock
+`MAS_MATERIAL_KEY` to the explicit portable material key. `_REPO_ROOT` supplies the
+repository; `MAS_WORKSPACE_ROOT=None` is a retired compatibility sentinel and an
+external value fails before inference/submission. The CSV's actual campaign parent
+must lie under this repository's `data/results/`; existing `begins_...` keys are
+used directly. Existing operator materials, installed stock
 metadata, additive lock, objective and campaign paths supply Context. No new
 operator values or material defaults are inferred. Fixed iteration/no-performance
 routes cannot be combined with dynamic MAS. Scientific roles remain report-only;
@@ -265,11 +368,11 @@ before selecting observations, then continues actual adopted knowledge publicati
 until Main returns a decision; this is no fixed role order or scientific revision
 quota. A new campaign without observations requests a reviewed theory-based first
 design; warm-start inputs are revealed only after the initial knowledge commit.
-The same material bank/Main can serve later named campaigns.
+Later campaigns may reuse a proven material bank, with a separate Main/checkpoint.
 
 To avoid annotating an in-flight input, the pipeline preserves per-request CSV
 copies and original-path/measurement provenance under its campaign's
-`.mas-inputs/<caller-id>/`, outside scientific Git. These are derived input copies,
+`mas/.inputs/<caller-id>/`, outside MAS publication. These are derived input copies,
 not additional observations or knowledge-bank snapshots. They preserve original
 scalar strings/rows. Only `initial_report`, `final_report`, `LLM_suggestion`
 annotations are ignored by the original-measurement identity check; a real measured
@@ -289,7 +392,7 @@ rejected and preserved rather than silently migrated or deleted.
 
 Deliberate reconsideration is available through the supported caller function.
 Within the **already configured dynamic caller** (existing approved environment,
-`DATA_ROOT`/CSV/campaign paths, materials, objective, MAS output root/key all bound),
+`DATA_ROOT`/CSV/campaign paths, materials, objective and material key all bound),
 this illustrative call only queues intent:
 
 ```python
@@ -344,16 +447,57 @@ Use an **already prepared** project `.venv` with the locked dependencies, includ
 `openai-codex==0.163.0`, Jinja2, pandas and scipy, and an existing `uv` executable. Launch
 from the source checkout with `uv run --locked --no-sync`; do not sync/install,
 copy an environment, or allow a Python download to make an invocation work.
-The model path also requires pre-existing Codex authentication, service access
-and role/project trust appropriate to the bound workspace. Preparation does not
-check those prerequisites. This runbook neither performs login/setup nor grants
-model-call authority; unavailable prerequisites remain NOT_RUN/error.
+The model path requires authentication/service access for the bound repository
+home. Only SDK child processes receive `CODEX_HOME=<resolved repo>`; the desktop
+app and caller environment keep their existing home. Native SQLite/log locations
+are redirected to campaign `.native/`; root sessions, thread-writer-locks,
+auth/config/cache and SQLite/WAL/SHM names are root-anchored ignored and denied
+to scientific tools. Legitimate pipeline `logs/`, `.codex/agents/`, `AGENTS.md`
+and nested measured/result files remain visible/tracked as before.
+The profile also denies host-state families across campaigns, with an explicit
+read exception for this campaign's caller input copies. It denies the dynamically
+resolved default `Path.home() / '.codex'` and inherited `CODEX_HOME`/
+`CODEX_SQLITE_HOME` trees, without reading their contents. Any native home that
+contains the repository or lies inside it is unsupported and fails explicitly;
+this includes exact/ancestor/descendant arrangements around attempts, role
+configuration, scratch, native state and caller input copies. A home containing
+the prepared interpreter also fails. The sole repository-overlap exception is
+the exact selected repository-home identity, which uses the root native-family
+exclusions instead of denying source itself. Ordinary disjoint external homes
+remain denied to scientific tools. Explicit read/write grants cannot replace a
+private-home deny because overlapping homes are rejected before profile creation.
+
+The same preflight runs before repository path/Git access, so construction,
+lock/open/save/write and later entry with changed environment cannot initialize
+or read an overlapping host area. Runtime run, role binding and SDK preparation
+check before role reads/writes, native/scratch creation or SDK construction.
+Dynamic callback/input entry checks before checkpoint or input processing;
+input exclusion precedes measurement fingerprinting and input-copy/provenance
+writes. Optional missing/empty tables still skip, explicit missing warm-start
+still fails, and original measurement precision/digests remain unchanged. These
+are host-side producer checks; actual sandbox enforcement remains a separate gate.
+An empty home cannot assume the app's `~/.codex` login. If separately authorized,
+use official CLI login/browser setup for that home; never copy/read credentials
+or alter global app authentication. Runtime performs no login/install and missing
+prerequisites remain NOT_RUN/error. Preparation checks no login/service readiness.
+
+The named `mas` profile extends `:read-only`, grants write only to the current
+attempt/scratch and denies source Git/host/native paths, with approvals denied,
+network/web/apps/plugins/memory disabled. The CLI receives the filesystem table
+as one TOML value so dotted filenames remain literal. Start/resume config selects
+the same profile without legacy sandbox overrides. `project_doc_max_bytes=0`
+suppresses automatic home/project AGENTS; Main's prompt and registered role files
+explicitly supply scientific guidance. This avoids root development Writer
+instructions becoming scientific ownership. MCP discovery verifies each inherited
+server disabled by name before SDK construction. Config-only parsing is tested
+with the installed pinned CLI; actual enforcement, sessions/auth and avoidance of
+desktop locks remain separate live evidence, never inferred from configuration.
 
 Startup binds analysis to the launching interpreter (`sys.executable`/`sys.prefix`)
 and existing environment. `UV_NO_PROJECT=1`, `UV_NO_SYNC=1`, `UV_OFFLINE=1` and
 `UV_PYTHON_DOWNLOADS=never` prohibit analysis project discovery/sync/download;
-use `uv run --no-sync python ...` inside output. Runtime binds `UV_CACHE_DIR`,
-`XDG_CACHE_HOME`, `MPLCONFIGDIR` and `TMPDIR`/`TMP`/`TEMP` under output `.scratch/`,
+use `uv run --no-sync python ...` inside the current attempt. Runtime binds `UV_CACHE_DIR`,
+`XDG_CACHE_HOME`, `MPLCONFIGDIR` and `TMPDIR`/`TMP`/`TEMP` under its `.scratch/`,
 overriding inherited external write targets. Additional libraries that need other
 caches must be bound there before use. No cache belongs in the read-only source
 or original measurements. Offline scientific-import tests verify this prepared
@@ -362,8 +506,8 @@ environment path; they do not verify a live SDK sandbox.
 The following **entirely synthetic preparation example** starts no model and no
 device. The material names, percentages and objective are illustrative fixtures,
 never defaults or suggested settings for an actual experiment. Replace the source
-path, choose unused scratch filenames/output, and verify the protected-root
-separation described above before using the CLI.
+path and choose a fresh synthetic campaign in an existing disposable repository
+before using the CLI. Do not publish examples through a production checkout.
 
 Save this exact JSON as `/private/tmp/mas-runtime-synthetic-context.json`:
 
@@ -393,14 +537,21 @@ cd /absolute/path/to/NIPS-pipeline
 uv run --locked --no-sync python src/pipeline/mas_runtime.py --help
 UV_NO_CACHE=1 UV_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1 \
 uv run --locked --no-sync python src/pipeline/mas_runtime.py \
-  --workspace /private/tmp/mas-runtime-synthetic-output \
-  --source "$PWD" --material synthetic \
+  --repo "$PWD" --material synthetic \
   --context /private/tmp/mas-runtime-synthetic-context.json
 ```
 
-Required arguments are `--workspace`, `--source`, `--material`, `--context`.
-`--context` is the path to a UTF-8 **JSON file**, not inline JSON. The complete
-required keys/types are demonstrated above; `locked_additive_wt` must be an explicit
+Required arguments are `--repo`, `--material`, `--context`.
+`--context` is the path to a UTF-8 **JSON file**, not inline JSON.
+The CLI validates repository/native-home overlap and the context location before
+reading that JSON, without inventing a campaign to construct a workspace early.
+An approved context may be outside the repository; it must be a regular file
+without symbolic/hard links. Default/inherited native homes and repository
+native/Git/host metadata, including campaign journals and input-copy internals,
+cannot supply operator context. Ordinary nested measurement filenames are not
+recursively reserved. The selected context is still an operator binding, not an
+observation or permission for model/device work.
+The complete required keys/types are demonstrated above; `locked_additive_wt` must be an explicit
 number or null, `nitrogen` in later conditions is a JSON Boolean. There are no
 operator-material or stock defaults. Preparation parses context/bindings and prints
 `NOT_RUN`; it is not a dependency/auth/connectivity or all-data-root readiness check.
@@ -410,16 +561,15 @@ it never starts hardware. Later observations use `--observation-id` and repeatab
 `--input LABEL=PATH`; `--reconsider REASON --revision-id ID` and `--retry` expose recovery semantics.
 For example, after an independently reviewed bootstrap, an authorized later
 synthetic observation invocation may add `--observation-id synthetic-event-1
---input table=/private/tmp/mas-runtime-synthetic.csv`. That file must already exist,
-be approved for transfer, remain outside output and contain only the intended
+--input table=data/raw/mas-runtime-synthetic.csv`. That file must already exist
+inside the disposable bound repository, be approved for transfer and contain only intended
 synthetic inputs, for example `name,E,F` followed by `SYNTHETIC,1,0.5`. Do not pass
 observations to the first bootstrap call. Supplying inputs without a new ID means
 exact-binding restart only; it does not create a new observation implicitly.
 The existing installed pinned SDK is 0.163.0. Public start/resume/turn/read methods
 and generated native models are used without model/reasoning overrides. SDK startup
-requests workspace-write at output CWD, denied approvals, network/web/apps/plugins/
-memory disabled and verifies each inherited MCP server disabled by name before
-constructing a client. Configuration requests are not proof of live enforcement;
+selects the named attempt-only profile described above and denied approvals.
+Configuration requests are not proof of live enforcement;
 the separately authorized synthetic-only SDK smoke remains required.
 
 Offline checks use the existing environment:
@@ -431,6 +581,7 @@ uv run --locked --no-sync python -m unittest discover -s tests -p 'test_mas_runt
 uv run --locked --no-sync python -m unittest discover -s tests -p 'test_dynamic_routing.py'
 ```
 
-They use synthetic data, actual temporary Git and SDK-shaped mocks only. The dynamic loop integration and legacy cleanup are covered by separate caller,
+They use synthetic data, actual temporary Git, SDK-shaped mocks and one pinned
+CLI config-only preflight without SDK/model/login. The dynamic integration and legacy cleanup are covered by separate caller,
 warm-start, recovery and context tests. Actual SDK wiring/sandbox, hosted CI,
 Windows and physical acceptance remain NOT_RUN until independently established.

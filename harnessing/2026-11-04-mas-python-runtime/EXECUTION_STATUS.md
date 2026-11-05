@@ -1,4 +1,379 @@
+## Phase6 actual-root verification and scoped test retirement complete; publication pending
+
+The exact returned strategy3 repair1-completion product17 remains unchanged.
+Fresh complete152 tests plus37 exact-input retained tests (189 inventory), both
+safe validators/static/preservation and215 separate no-model native CLI cases
+are the accepted offline evidence, not a claim of189 newly run tests.
+
+Official local-home authentication and two separate SDK marker processes first
+established repository-root native home and same-chat recall. Actual campaign
+Main01a1ac67-2765-7170-ad68-380a7cf37256 then completed reviewed four-topic
+bootstrap before observation reveal, native distinct hypothesis author/QA,
+invented two-condition observation adoption, a preserved HOLD, and explicit
+report-only reconsideration with distinct native designer/design-QA and exact
+reviewed synthetic-B conditions. Current production-profile actual SDK23-canary
+passed; initial missing metadata/descendant enforcement failures and intermediate
+parser/fixture failures remain literal historical FAIL, not relabelled.
+
+The reconsider1 outer command failed during test-collector teardown after the
+product had completed/publicized RUN in25be36f. The separately approved60-second
+public read-only recovery completed0.722s, reading Main/designer/QA without a
+resume, start or model call. Current native identities/completions/PASS/adoption,
+exact conditions, settled pending=None and original HOLD were reconciled.
+Original outerexit1 stays FAIL. Cold interrupted/unpublished completed-peer
+recovery is NOT_QUALIFIED by this live sequence; actual product adoption did
+succeed. Two new-process caches completed1.646s/1.259s with an SDK factory that
+raises if constructed and no inference/device dispatch.
+
+The approved host retirement archived27 named synthetic scientific files,
+CAS-restored only the authorized test ref25be36f to original094af01 and restored
+original raw indexd5d0fbc25ccbba52d42e530ebe73e8cd035932ab4a4774db4131faa50e9b0b48.
+Exact23 known nonsecret fixtures were separately archived/removed. Updated
+working24/product17 hashes remain exact, original10932 tracked data/index entries
+match the baseline, index is empty and status names only these24 intended paths.
+Actual ignored native/auth/session state was preserved by exclusion, without a
+direct native-body audit or raw-measurement body audit. Earlier unauthorized
+temporary login-log inspection remains disclosed in historical evidence; this
+receipt makes no whole-history zero-native-read claim.
+
+Evidence: /private/tmp/nips-mas-repo-storage-20261104/repo-root-environment-20261105/
+repair1-observed/, repair1-final-source-closure.json, root-restored.json and
+repair1-nonsecret-canaries-retired.json. Actual model work used invented data
+only; no robot, physical experiment, operational loop, dependency/global/pin
+change or remote Git action. New-machine authentication/native-session transfer,
+Windows/hosted-CI/physical/scientific validation remain unqualified.
+
+Terminal strategy3 same-QA2 PASS / QUIESCENT, no product blocker: report
+strategy3-product-qa2/native-final-report.md SHA
+5eed99432ce282b58bba19f28d8365349f05656af8fe20f5d5095b4d14989b7f; seal
+5e391f994f46e39e920d9ba32454f4a98faef215f9d7f29a6b021a99dc70d766.
+Actual source publication is pending the bound native Git command.
+Phase7 mandatory-last independent DCP and Goal completion remain pending.
+
+
+## Repair1 completion returned; full offline/current-host calibration clear, real SDK rebinding follows
+
+Persistent Writer turn01a1acb1-ef1b-7eb3-bbd6-3f0770becfa8 returned completed/idle
+QUIESCENT/OWNERSHIP_RETURNED. Only runtime/test_runtime changed; other15 fixed.
+Bounded4-alternative grouping preserves expanded path/mode semantics, while three
+SEPARATE unmodified emitted profiles pass215 known nonsecret native cases. Original
+parser/fixture failures and default-sandbox_apply71 attempt remain literal; the
+explicitly authorized escalated records have their own preverified inputs/results.
+
+Fresh FULL Workspace40/Runtime68/Dynamic35/Warm9=152, validators/static/preservation
+PASS; retained37 by exactinputs (189 inventory, not189new). Structure remains sealed
+trackedsource projection only. Controller verifies source17/manifest/rawreceipts/
+currentb0f5/04d0 and original10932+separate12test entries. Checka490a3add8542418aa83a02cc8fb12b86230b506a149879de369aefae61c2741,
+proposal8eefcca5caffedc5be7bb5c65d2f9736ecc334b2f5b35061ce2f42cbc9647566,
+manifest022234c56b76c8f816298ffea91eab30d4a0561063c3ccadd7d827cbe55088e5
+live in strategy3-native-directory-repair1-completion/. No actualSDK/source feature
+acceptance is inferred. Real SDK canary2 remains FAIL, not replaced by CLI cases.
+
+Host23-canary preparation initialFAIL (reused three oldscratchnames) is preserved;
+NEWv2 variants have fresh exclusive names/absence guards. Preparation2 approved
+b3caedf55a9152189facaec91e8494da67ecad1a09715b4138025051bf0d51d4 pending stable
+updated24/source32/exactbinding. Controller now captures those facts, keeping the
+ORIGINAL94/d5 rollbackbase separate from UPDATED workingcode preservation. Actual
+SDK23canary, withheld observation/reconsideration/design/Main/cache, scopedcleanup,
+freshQA2, source feature commit and mandatory-last P7 remain pending. Goal ACTIVE.
+
+## Repair1 completion planning/P2 accepted; bounded two-file grant prepared
+
+Planning c02bbbda2ecd0f6331a6672875ab1b257656c6ad268dfdd09b5ea09dcb1d730a/
+checks7bea0129cfe6a2d511082a1d08b9f027b325de0ec577e3fee8af1a1de32b0758
+PASS only for completion plan. Fresh reader NONE one-read/additional0 at exact
+prompt18b119ea0a7aa93566ab6b4ea052f84b18a2cb26db98416fcff9693bf5feb8c0,
+full original46705byte response visible/untruncated; public single-command/native
+identity/hash/prefix/raw-final capture is in completion/prompt-p2-verification.json.
+Its public API stdout cap remains qualified. Persistent Writer readiness completed
+turn01a1acad-910c-70d2-925c-066577d59961/idle verifies current failedsnapshot17,
+b0f5/04d0 and original-data/test delta. Controller prepares literal same two-file
+completion grant. Prototype grouping71PASS is not actual-emitter/nativeSDK/product
+acceptance. Full gates, QA2, source publication and P7 remain required.
+
+## Repair1 incomplete return; bounded representation completion planned
+
+Writer turn01a1ac96-6ce9-7791-b88f-3c45b083583b returned QUIESCENT/OWNERSHIP_RETURNED
+with only runtime/test_runtime changed, focused3 PASS and retained37; actualnative
+parser65 prevented probe execution, so full4/validators remain NOT_RUN. Packet,
+raw failures and all fixtures are preserved; source is not accepted or publishable.
+
+Root's new no-model isolation preserved that command: single1char profile71PASS,
+single100char parser65, samealternatives450rules backtracking65, bounded4-alternative
+groups150rules71PASS. See native-profile-isolation-20261105/assessment.json; prototype
+feasibility only, no universal limits/nativeSDK/Windows guarantee. No model/data
+reveal/sourceGit/native-sensitive-body action occurred during diagnosis.
+Controller bounds same repair1 completion to equivalent grouping and separate
+per-profile native calibration, with unchanged two-file ceiling/full4/freshQA2/
+SDKcanary/protocol/updatedcode24 restoration/featurecommit/P7 requirements. Fresh
+planning/P2 and separate grant pending; Goal ACTIVE/UNACHIEVED.
+
+## Strategy3 repair1 planning/P2 accepted; two-file handoff prepared
+
+Bounded repair planning PASS3b52b1c895bbb38ba5c1ef03b3325517be21b99fbd3d5d80241c3a235aceb935
+/checks77d52604b639b4544504d6d1f15388cdcf8b2eb79c92e95dcabc6dbcb50648ff.
+Fresh reader2 NONE at promptb33f4da1c23f9ecd3124023f82718c44f6eef9850e2d74c50b605511bf878693,
+one read/additional0, original full43248byte response untruncated with both inner/
+outer20000 caps. Public-tool/native-child identity/hash/prefix proof is captured;
+API20000char capture limit stays literal. Qualified reader1 is retained, unused
+for whole-prompt acceptance. Calibration3 inherited hash mismatch is explicitly
+nonblocking planning-only feasibility; fresh emitted-profile calibration must
+bind/verify exact source+probe+config before native invocation.
+
+Persistent Writer readiness completed/idle turn01a1ac92-0d39-7c13-b3fc-92b768f024c2
+confirms test-only b0f5/current04d0 index, original10932 plus12authorizedtest entries.
+Controller now prepares separate literal runtime/test_runtime grant, other15frozen.
+No source grant from planning alone, no native PASS, source feature commit or DCP.
+
+## Strategy3 QA1 actual native FAIL; directory-enforcement repair1 planned
+
+Actual bootstrap1 completed305.276s, publishing reviewed4topics in test-only
+commitb0f5d6aff3675ffbb934f8bbb3e55e5882a1fd94 with actual independent author/QA
+and public paths under repo/sessions. No observation reveal. Host canary1 failed
+before SDK due missing next-attempt scratch parent; its original code/receipt
+remain. Separately reviewed canary2 helper replay reached actual native execution
+and FAILED13.425s: current/other .native NONSECRET descendant reads allowed,
+all11writes denied/fixturebytes unchanged. Root auth/Git/locks exclusions worked,
+but partial controls are not native PASS. No actual sensitive native body read.
+
+Fresh QA1 terminal FAIL reportdf35e5beaf2a633cfd26981fda8432665d76c9c934cfc49b0d97fea33d7f08a9
+/checks2f883bef79a3e8ee447127fd145cb5e6693144a24ad389ab3c9031b6d4e84878
+are preserved with preliminary/P2 supplements. Root direct no-model pinned CLI
+calibrations distinguish literal-vs-glob directory behavior and current-input
+exception requirements using only known nonsecret temporary files; see
+native-glob-calibration-20261105/assessment.json. One case-insensitive fixture
+preparation error and nested-sandbox help-command failure remain literal, not PASS.
+
+Controller bounds repair1 to runtime/test_runtime within original17; other15
+fixed. No product mutation grant yet. Fresh prompt readability/planning review
+precedes same persistent Writer grant on current authorized test-only HEADb0f5.
+Original source94/rawd5d0 backup stays for later restoration preserving the final
+updated code. Full4central gates/fresh QA2/realSDKcanary and remaining scientific
+protocol remain. User resumed Goal ACTIVE; it is unachieved. No hardware, outcome
+reveal, source-feature publication, accepted full MAS or DCP is claimed.
+
+## Strategy3 Writer returned; corrected offline gate clear, actual-root synthetic qualification binding follows
+
+Persistent Writer01a18af8-eef5-7783-b042-50101ec2c353 turn01a1ac58-1929-7901-bf3d-c76db56c99fe
+completed QUIESCENT/OWNERSHIP_RETURNED. Only the three granted files changed;
+other14 exact. Two root names now share existing ignore/input/context/profile
+classification. Red eight guard failures and nested positive controls are retained.
+Fresh complete Workspace40/Runtime65/Dynamic35/Warm9=149 pass; retained37 explicit
+unchanged-input tests remain inventory only (186 combined, not186 newly run).
+Both validators/static/preservation pass; structure uses sealed tracked-source
+projection only. Controller verifies exact packet/HEAD/raw index; full17 check/
+proposal/manifest and return verification are in strategy3-native-completeness/.
+No product acceptance or actual full MAS is inferred. Actual root authentication/
+basic same-chat restart already passed and stay distinct from full qualification.
+
+Host-only execution preparation review2ea9e2045fc774dc04207024500191afa2e5df50cd5c2cd00aae29d56cafab13
+approves preparation pending stable binding. Controller now captures exact24,
+raw index, refreshed32 and bounded logical-continuation/cleanup schedule before
+actual SDK. Strong scientific privacy overlay and nonsecret production-profile
+canary proof are separately described; actual native contents stay uninspected.
+No hardware, source publication, final whole-change QA or mandatory-last P7 yet.
+
+## Strategy3 planning QA2/P2 accepted; separate three-file Writer handoff prepared
+
+Planning QA2 PASS8e8013f95534a296b42029171f6faf9d21226bd664d82388d657b06db06b723d
+and checks01a2fb40393d1d576f4bc48a7ef00cafddf2a6e384bad9a82df3116aaf431d6f
+accept exact repair2 freeze. Fresh context-free reader3 returned NONE/read1/additional0
+for prompt2feb5b2678003fafdc9821ad50d06b7eec94546f4b2a49ceaecd48febff4d5de;
+received returns and prior failed/qualified readers are retained in strategy3-native-completeness/.
+Controller verifies same persistent top-level Writer01a18af8-eef5-7783-b042-50101ec2c353
+returned completed/idle read-only readiness from turn01a1ac50-f6f0-7282-8961-97b31fb0c22b.
+Current product17/HEAD/raw index unchanged; Controller now prepares separate literal
+ownership of .gitignore, mas_workspace.py and test_mas_workspace.py only. Planning
+acceptance is not product acceptance, native qualification or source publication.
+
+## Strategy3 planning QA1 FAIL retained; safe-validator binding repaired, no product grant
+
+Independent planning reviewer found a direct structure-validator invocation would
+recurse through the actual CODEX_HOME, conflicting with native/home/scratch read
+restrictions. Report2987b7fdd8bf36be5889a920581d734f78f837f9569e4a910c4859dcca13b48e/checks0a2c9947d3e06382d836f2b3fe7ade125ec343a7afe3436db8bac7d71ce959b6
+are preserved. Controller's prompt repair1 instead binds unchanged validator bytes
+to an explicit tracked-source projection with hashes/directory map and a stated
+untracked-source limit. Existing direct historical receipts remain literal; no
+new claim about what old recursive invocations read. No product scope expansion.
+Fresh P2/planning QA2 pending; Writer readiness is read-only and source17 fixed.
+
+## Root authentication/basic restart PASS; terminal QA3 native-name gap, bounded correction planned
+
+2026-11-05 human authorized actual NIPS repository-root execution and completed
+official login. Status exit0/authenticated; two actual structured SDK turns in
+separate processes preserve the same chat, recalled marker and public native
+repo/sessions path. root-preservation-after-basic.json confirms exact24 working
+files, original HEAD/raw index and no staged changes. Old temp unauthenticated
+receipts remain historical, not current root blockers. No full MAS/outcome reveal.
+
+Reserved strategy2 QA3 returns terminal FAIL (supplement report SHA0cefaae63334c818add275a5724d580d94ce2368615ef3dd626d155b69655120;
+checks5296700762b7e724ff95f9641830421a4c9167bf312a147bf1f2839fdc3c48d1).
+Two actual root native names, installation_id and .sandbox_migration, lack
+ignore/input/context/profile classification. Only native stat metadata and
+installed CLI name literals were inspected; synthetic fixtures reproduce the gap.
+No actual credential exposure/read, auto staging or publication is claimed.
+
+Controller ends strategy2 (no QA4) and bounds strategy3 to the existing native-name
+owner/anchored ignores/tests, three literal files inside the original17. Other14
+frozen; no source grant yet. Fresh planning/readability review precedes the separate
+same persistent Writer handoff. Full MAS remains held until stable corrected gates
+and a reviewed real-root synthetic scope/cleanup binding. Original Goal remains
+unachieved; blocked-tool historical state does not negate this explicit human resume.
+No hardware, native-content reads/cleanup, source commit, final acceptance or DCP.
+
+## External authentication blocked audit passed; Goal transition requested
+
+Three consecutive Goal turns now encounter the same external prerequisite: the bound temporary home is not authenticated and no human login-readiness reply has arrived. Turn2 was NO_PROGRESS_EXTERNAL_BLOCK, not a verified live-process wait. Current turn3 reran only the read-only official CLI status, again exit1/not authenticated, login_invoked=false/modelcalls0, with reviewed product17/planning7/HEAD unchanged. external-auth-audit-turn2.json and turn3.json preserve the checks. No Root-owned live authentication handle is confirmed; the original login expired and no retry was launched. Unknown human processes are not inferred or inspected.
+
+No meaningful authorized remaining work can proceed without human official authentication: code/offline evidence and preliminary QA3 are complete, while actual SDK/home/canary/native-review/restart/cache qualification, QA3 final reconciliation, source publication and mandatory-last P7 remain required. Controller requests Goal BLOCKED now, not paused or complete; the goal tool's returned state is authoritative. Do not repeat tests, status polling or login retries merely to generate activity. Resume the full unchanged objective when human readiness/external authentication changes, verify current bytes/status, then use a new bounded official-login/native grant. The earlier reviewed candidate, native preparations, failures and incident dispositions stay preserved; this sole Controller ledger prepend does not grant terminal acceptance or source publication.
+
+## Phase6 QA3 preliminary code review clear; external authentication required, no terminal verdict
+
+Fresh QA3 LAST reviewer01a1ab53-6eb9-7b90-a4ae-7e9f090cf0e0 returned completed/idle QUIESCENT / NO_MUTATION_OWNERSHIP with PRELIMINARY_PENDING_NATIVE, explicitly NO terminal verdict. Full original17/source/planning/index/proposal and147 fresh/37 retained evidence match; three independent later-receipt/finalized/capture-conflict probes passed their assertions. No remaining code/authority/available-offline-evidence blocker was identified. Report551e0c4c807605b5c1c74ed3fd1a305fcec442e5f3703aba3bc3c61765d801bd and checks31809f30acb623ea1f3936814f69e2490967b5ac944c39b2c65de5d6aa2b799e are in strategy2-product-qa3/. Actual return is preserved. This is neither terminal PASS nor Phase6 acceptance/publication, P7 DCP or Goal completion; no invented QA4 is permitted.
+
+Root code-only preparation binding6 refreshed exact32 API/code/instruction inputs, changing only copied Workspace, with no outcome reveal/model/auth copy or source Git mutation. Manifest98f9b4d3332b40761d34c667b5d08fad995a4cd5a1b4b65e98c8a330886be05b matches the frozen code. New official status recheck3 after QA3 returned exit1/not authenticated, modelcalls0, login_invoked=false, no account output or credential-file read/copy. The earlier browser login process expired; no automatic retry or new login window was launched. Human login readiness remains pending.
+
+No product owner/commands remain active. Goal is ACTIVE/UNACHIEVED, now waiting for external authentication before meaningful remaining native work. The original user-triggered Goal turn reaches this external-only boundary here; compactions/tool calls are not extra blocked Goal turns, so the three-consecutive-Goal-turn blocked threshold is not asserted. Do not rerun sufficient code/tests/QA, poll credentials or retry login merely because a continuation is triggered. Preserve the current reviewed candidate and all failures/incident dispositions.
+
+Resume only through separately bound official authentication and actual synthetic SDK/home/canary/bootstrap/native-QA/observation/design/same-Main/cache validation, first-failure stopping and no hardware. Use current prepared repair2 scripts/manifests, not earlier stale copies; no credential copying or global app-home change. Exact-candidate QA3 final reconciliation remains reserved; any new blocking finding ends strategy2 for Controller adjudication, not a QA4. Source Git publication and mandatory-last fresh Phase7 whole-outcome QA/DCP follow actual acceptance. No source commit or Goal completion is claimed while those gates are missing.
+
+## Phase6 strategy2 repair2 returned; QA3 LAST and actual native qualification pending
+
+Verified persistent Writer turn01a1ab3d-ccc9-73e2-b0fb-4a71b6534b70 completed QUIESCENT / OWNERSHIP_RETURNED. Actual native grant/return are in strategy2-repair2/. Only Workspace and Dynamic tests changed; other15, including the repaired caller barrier, remain exact. Production delta is one assignment of the verified current local transaction token after restoring scientific before-state. Strict foreign-token validation and immutable intent/history stay intact; previously poisoned/foreign archived journals are not silently migrated.
+
+- Fresh complete Workspace38/Runtime65/Dynamic35/Warm9 =147; retained Contract6/Network14/Retry4/Property13 =37. Combined184 is inventory, not184 newly run tests. Four subsequent-publication paths (direct Runtime, same-question knowledge continuation, initial/callback-first) now preserve coherent N/N over repeated cold opens/recovery with no SDK/device replay or duplicate publication. First-publication and foreign-pointer controls remain. Both validators/static/fixed-safe preservation passed.
+- Full17 candidate/check/proposal/manifest are in strategy2-repair2/. Check674e719b2e9f036f982c8111b3b25dea5a9c954855abae5bd781cf0c3bc51c86; proposal199665103619ca81add9c0a3a92e0554b02916f32c6406e7a3552522cdcb36f2; manifest1b2a886b21e36688eba817143c106cbaef2c59b45c55ac14ea9290a838385646. Preflight stdout inherited a QA1 display label; actual bindings verify QA2 and preflight-label-note.json qualifies it without overwriting history. No acceptance is inferred from Writer evidence.
+- Current P6 promptc22efca4280a40515dd1702456f55238886670c3d4d4c90fcf0ce2db51bb6d41 has fresh one-read/fork:none/additional0 NONE proof; product doc P2 stays exact. Source HEAD/raw+semantic index, declared5132 source plus two prompts,10932 tracked-data entries,77 installs and named safe evidence remain. No recursive/native/auth/.env/localignored content inventory; disclosed earlier log-hash incident stays literal.
+- Root now freezes a new candidate for fresh whole-change QA3 LAST. Terminal FAIL ends strategy2 for Controller adjudication, never QA4. Actual native remains NOT_RUN/unauthenticated/modelcalls0, with no new user readiness reply/login attempt. Copied Workspace is stale until an explicit code-only refresh/rebind; new repair2 native scripts remain UNBOUND/NOT_RUN. Source publication, mandatory-last Phase7 and Goal achievement remain pending. No physical/operational loop/Windows/hosted-CI/scientific-usefulness qualification is claimed.
+
+## Phase6 strategy2 QA2 FAIL; bounded cold-reconstruction repair2 prepared
+
+Fresh reviewer01a1ab2e-3b7e-7dd1-9bc6-bd9e8509b774 returned terminal FAIL and QUIESCENT. Report656d3dce206ef2417b9067ea88783950054ab362e5e13d3677811d809ca1aa9e; checks8a102796c18c15cfd45edfbf80c4d53bafd836c8ec51bfbda005bf90b6f45ae8 in strategy2-product-qa2/. The fixed caller correctly refuses pending. A later publication interrupted after prospective pending=None is reconstructed from before_state with the OLD local_publication token but NEW pending token. Direct Runtime recovery and repeat opens reject that saved contradiction. First-ever interrupted publication and ordinary successive-publication/cache controls pass; known commit/index/evidence remain preserved. This is recovery failure, not unsafe dispatch or observed data loss.
+
+Controller rejects the unaccepted snapshot. Same approved objective/17-path ceiling/Phase6/requirements/manual Git remain. Prepare ordinary bounded repair2 only for src/pipeline/mas_workspace.py and tests/test_dynamic_routing.py; other15, including the repaired caller guard, stay exact. Maintain verified active identity during before-state reconstruction; never relax foreign-token validation, clear pending, edit reproduction journals or replay inference. No strategy/Step reset or duplicate user approval. Fresh exact-byte amended prompt review and a later actual native Writer grant are required; this planning alone grants no mutation.
+
+Require later-publication prospective-close/repeated-open/direct Runtime and caller-first recovery tests, no replay/duplicate publication, retained original history/ref/index/failures, first-publication/succession/finalized/foreign-pointer controls. Workspace changes invalidate complete Workspace/Runtime/Dynamic/Warm gates; run all four on stable repair, assess the remaining four with exact executed-input proof. Fresh whole-change QA3 is last in strategy2; terminal FAIL ends the strategy for Controller adjudication, never QA4. The182 inventory and every old red/failed receipt stay literal.
+
+Actual native/auth remains NOT_RUN/modelcalls0 with no user readiness reply or login retry. Current copied32 include Workspace, so that code preparation becomes stale when repaired; Root alone must explicitly refresh/rebind before actual native work. Preserve all prepared/unrun script variants, safe evidence and the disclosed earlier native-log content-hash incident; no recursive/native/auth/.env/localignored content reads. No source publication, Phase7 DCP, hardware or Goal completion.
+
+## Phase6 strategy2 repair1 returned; fresh QA2/native qualification pending
+
+Persistent Writer turn01a1ab1c-6965-7783-aa0a-9f582521c67e completed QUIESCENT / OWNERSHIP_RETURNED. Actual native grant and return are preserved in strategy2-repair1/. First handoff's automatic permission review timed out without delivery; the single permitted retry succeeded and alone granted the two paths. No rejection or first-message authority is inferred.
+
+- Production repair is two lines under the existing caller receipt lock: reject non-None pending before old completed receipt/cache use. Only run_loop.py/test_dynamic_routing.py changed; other15 exact. Public initial/callback clean-pending/foreign-conflict reds are preserved. Repaired cases have zero health/device/cache-success/SDK replay, with pending/ref/foreign bytes/request identity intact; explicit recovery restores normal exact cache/idempotency.
+- Fresh complete Dynamic33 + Warm9 =42; retained Workspace38/Runtime65/Contract6/Network14/Retry4/Property13 =140. Combined182 is inventory, not182 new tests. Network's changed raw run_loop hash and unchanged compiled submission AST are explicit. Both validators/static/fixed preservation passed. A retained-proof wrapper filename collision failed exit1 after the child proof completed; original receipt and separate exit0 validation remain, not a relabeled PASS.
+- Full17 candidate/check/proposal/manifest are in strategy2-repair1/. Checkfdde6d4d1eb7621b5f1222835c332137b0e8a9a2324983664763d2d418f91ceb; proposalfb16b08dd2c18c528a891c6b05c2323f114936b9ebc478207bf4e2c608a260a0; manifest4e4dd786eb861960a9780d6f445db45b7daee71e977c856fe37cdfd6ab7d9760. These are Writer evidence, not independent acceptance. Source HEAD/raw/semantic index and prior safe evidence/data/dependency identities remain.
+- Exact product runbook/workflow/five unchanged contracts retain P2; amended Phase6 promptf2adf2cb8b3510adc42ebd02ce5bc34c1366ebd2739ba43e9a21e57816d501aa has fresh NONE/additional0 proof. Same-target authority/17 ceiling/requirements/P7 remain; new whole-change QA2 is pending. Goal ACTIVE/UNACHIEVED.
+- Actual native remains NOT_RUN/unauthenticated after recheck2, modelcalls0, no new login attempt. Root prepared new UNBOUND scripts to verify persistent Main/canary home through public Thread.path metadata, checking optional child paths only when exposed; no native file content/listing/auth copy. Root must rebind the stable candidate and valid32 copied inputs before any actual invocation. No source publication, DCP, hardware or production-readiness claim. The prior login-log hash incident and unowned local visibility disposition remain unchanged.
+
+## Phase6 strategy2 QA1 FAIL; bounded caller-consumer repair1 prepared
+
+Fresh independent reviewer01a1ab0a-5aad-7442-ac51-27a903c44995 returned terminal FAIL and QUIESCENT. Reportbfabecf555a4836eaa3aafcb03d0b8f11df2a876e4beec8c1bf3d896efaaf222; checksf2308fa399cdca0d57750c4e96d6419cd36fcadc1cbe5cc82a0e2f71c13e588e in strategy2-product-qa1/. Actual public runtime reconsideration creates a later pending publication; both initial/callback callers still reuse the older accepted RUN and reach health/device mocks, even after actual recovery rejects foreign installed decision bytes. Normal no-pending controls pass. No real client/device/model was invoked. The181 inventory remains truthful but insufficient; no old failure is relabeled.
+
+Controller rejects that snapshot. This is an existing cold-closure consumer-rule omission in an unaccepted candidate, within the same approved goal/Phase6/17-path ceiling, not a new strategy or relaxed acceptance. Prepare repair1 with exactly src/pipeline/run_loop.py and tests/test_dynamic_routing.py; other15 product bytes stay frozen. Explicitly unfreeze run_loop from the former initial seven-path grant for this repair only. The atomic Phase6 amendment requires fresh exact-byte readability review then a separate literal native Writer grant; planning alone grants none. REQUIREMENTS/plan.json/Phase7 and original approval remain unchanged. No repeated user approval or new branch/manager is needed for this implementation-drift repair.
+
+Root's ordinary Git visibility projection omitted two unowned globally ignored local entries visible with global excludes disabled: .vscode/settings.json and Onedrive. strategy2-local-visibility-disposition.json binds the exact difference without reading/hashing/traversing their contents or inferring historical content identity. Preserve them and the reviewer's failed verifier; do not change source ignores to hide them.
+
+Actual native auth remains unavailable after official status recheck2, with MAS SDK calls0. Code-copy-only preparation manifest93452b26f59845762b7905b1b9a991f8ad0c73176928951ab4bfaf53d39e2cb4 is not validation and becomes stale for any repaired copied code. No automatic login/native attempt, source publication, DCP or Goal completion. Existing fixed-safe preservation and disclosed native-log content-hash incident remain literal.
+
+## Phase6 strategy2 Writer returned; offline gates pass, native and independent acceptance pending
+
+Verified persistent Writer turn01a1aac9-19bd-7422-8cc8-4640f35dedbb completed QUIESCENT / OWNERSHIP_RETURNED; actual native return is strategy2-implementation/native-return.json under the bound temporary evidence root. Exactly seven granted paths changed from failed strategy1; ten other product paths remain exact. Source HEAD/index remain unchanged. Controller alone now owns candidate freezing, independent acceptance and any later source publication.
+
+- Full17 candidate/check/proposal/handoff are in strategy2-implementation/. Check SHA3e9a0e05bdb817c4106f21683f1c837f4370c8110130e05147079d988a62b678; proposal SHAfd6a9eafb98a359c4729b74d6f40ef5954947bcfc1d7c8e56e73be84eea341ae; manifest SHAd30a9bebe9496c7543a15240001bcb458671d530bae24bd494cf475d092f3ec9. These are Writer evidence, not product acceptance.
+- Fresh complete Workspace38, Runtime65, Dynamic32, Warm-start9 =144. Retained exact-input Contract6, Network14, Retry4, Property13 =37. Combined181 is inventory, not181 new tests. Both validators/static/fixed preservation passed; all red/partial/failure receipts remain. Final runner uses nonsecret dummy provider bindings and disables dotenv loading. Earlier legacy import dotenv lookup is not retrospectively asserted absent.
+- Fixed safe preservation binds5132 original declared source identities plus two explicit new Controller prompts,10932 tracked-data entries,77 installed versions, prior336 evidence and unchanged raw/semantic source index. No all-raw-media audit or recursive native/auth/log inventory is claimed. The disclosed repair1 login-log hash remains a content-read boundary miss; later exclusion does not undo it.
+- Exact current runbook P2 reader2 NONE/additional0 is bound in runtime-runbook-p2-native2.json; current workflow and five unchanged contracts retain exact-byte dispositions. Fresh whole-change strategy2 QA1 owns final applicability/semantics. No terminal PASS is allowed while required actual native evidence is unavailable.
+- Official CLI status recheck2 again returned exit1/not authenticated, model calls0, no login invocation/account output/credential copying. Browser readiness is still pending after the earlier1200s timeout. New strategy2 native scripts are prepared but UNBOUND/NOT_RUN; no outcomes were revealed. Source publication, mandatory-last Phase7 DCP and Goal completion remain pending. No hardware/operational loop ran.
+
+## Phase6 strategy2 planning QA1 PASS; separate bounded implementation handoff follows
+
+Fresh independent planning reviewer `/root/storage_strategy2_plan_qa1` (native01a1aac0-4a4f-7fb1-8698-57ec65b484c0) returned PASS/QUIESCENT. Report9e7a50a4e1ac2b10e9598c78928716f6fdce0cf45c2e5ad196b3ef5d8414a31f; checks29f25b3e98fadecafec71d31c24befa32c1deda4ede2ec2bd5659ea5cae31b16; reviewed freeze2e5a1c922985cd05b1e8cc078483964ebd67fd1e132ebdcd3bb2516fe16180bc0. Exact active Phase6 promptfa656d35ad3cf1d8b173468bb05aded95388dff10712a905074ec0a6efabf171 P2 NONE/single read verified. Planning only: source remains failed QA3, no product acceptance/native readiness/Git publication/Goal achievement.
+
+Controller retains same verified human Goal approval/objective/file ceiling/manual Git and now prepares a separate literal seven-path persistent Writer grant for strategy2. Other ten product paths stay frozen. Fixed safe identities only; no recursive/native/auth/log verifier. New whole-change acceptance starts strategy2 QA1 after actual implementation/full evidence/ownership return and required native disposition. Actual MAS SDK calls0, browser readiness pending after timeout; no automatic retry or physical action.
+
+## Phase6 strategy2 concrete replan drafted; independent planning QA/P2 pending
+
+Read-only discovery turn01a1aaa5-5a01-7e12-9c31-46f34ba9d994 completed QUIESCENT / NO_MUTATION_OWNERSHIP. Source17/index/planning remained frozen during discovery. Proposed design and21 completed small models (plus preserved failed index-v1) support bounded current-host primitives only. Controller reviewed the design and drafted the active Phase6 strategy2 section/requirements/plan, with explicit preimages, capture/exclusive installation, real-index preservation, partial-path semantics, pre/post-ref closure and observed verification limits. Added normal anchor succession/shared-bank/clone obligations because full cold closure was not demonstrated by discovery. All17 source product bytes remain the failed QA3 candidate. No source grant is active; fresh independent planning/P2 review is pending. Same human approval/objective/file ceiling/manual Git applies; no new user approval is inferred or required for this in-scope repair strategy. Auth/model/hardware/source publication/DCP/Goal achievement remain pending.
+
+## Phase6 QA3 FAIL ends strategy1; Controller adjudication opens bounded strategy2 discovery
+
+Fresh whole-change QA3 returned terminal FAIL and QUIESCENT. New real temporary-Git opponents prove canonical content can be silently overwritten between read-tree and payload writes, or committed/working bytes can diverge after write-tree while publication still clears pending/reports completed. Normal control passes. QA3 report SHA256 `f9af4d1505ebbe051010c1a7bc3c924c5dcfc70529b62a27bb703a8b9004b8b0`. The165 inventory is truthful but insufficient for this race family; no old FAIL is relabeled.
+
+Controller predecessor reassessment: CONTRADICTED, because the publication working-frontier preservation guarantee changes canonical identity, acceptance and evidence validity. The earlier native-path/index fixes remain evidenced. This triggers Controller-owned replan review; no automatic advancement, QA4, source publication or Goal completion.
+
+Controller adjudication: retain the same approved user objective, Phase6/Phase7 dependency order,17 product-path ceiling, requirements, source/dependency/data authority and manual Git exception. End strategy1 now. Open strategy2 as bounded READ-ONLY discovery of publication-target ownership/capture/installation and pre/post-ref finalization/recovery, followed by a concrete replan and fresh independent planning QA before any new product mutation. Merely adding another check before a blind overwrite cannot preserve an edit that arrives after that check; discovery must establish a feasible no-silent-overwrite installation and known-partial-conflict recovery contract using existing owners/no new dependencies. Working files and Git ref cannot be claimed one OS-atomic transaction; distinguish pre-ref abort from post-ref known publication/pending conflict and never return false success or clear evidence.
+
+The same verified persistent Writer may inspect only approved source/QA3/nonsecret temporary fixtures and return a design under strategy2-discovery/. No product/planning/Git publication/auth/native/log/model/hardware privileges are granted by discovery. Actual browser authentication remains pending after timeout; model calls0. Fixed preservation allowlists and the disclosed earlier log-hash incident remain in force. Source implementation is currently frozen at the failed final17 snapshot. Goal remains ACTIVE/UNACHIEVED.
+
+## Phase6 final repair2 returned; QA3 and actual native authentication pending
+
+Verified persistent Writer returned final logical-path continuation turn01a1aa87-f428-7691-9406-51a5f5e78f58 completed QUIESCENT / OWNERSHIP_RETURNED. Earlier repair2 and CLI continuation packets/turns remain preserved; post-dispatch ownership timing is explicit. No product owner or commands remain active. Final17 product hashes match the returned packet; Controller retains source Git ownership.
+
+- Final candidate/check/proposal/handoff: `/private/tmp/nips-mas-repo-storage-20261104/repair2/path-continuation/`. Check SHA256 `f9545e0b31c2936177918b9de0d4128cb4ba5430417c1f37c9a6e88e54180f99`; proposal SHA256 `a742a9a7265c408da8025d63109440f466bd052ba85b12f679727a9196ec4b99`.
+- Fresh full Workspace26, Runtime62, Dynamic31, Warm-start9 =128 tests. Retained unchanged executed-input Contract6, Network14, Retry4, Property13 =37. Combined165 inventory is not165 newly executed tests or acceptance. Full validators/static/preservation passed; actual source index remains unchanged.
+- Exact current runbook1433e509ac4b34ba5afd61b9e1009b827056f75d80bfd54e36ba4caa9c18876d has fresh single-read P2 NONE; six other unchanged artifacts retain exact-byte evidence and root-AGENTS nonblocking disposition. QA3 owns final semantics.
+- Actual native/auth/enforcement/model validation remains NOT_RUN: official fresh-home browser login timed out1200s; actual model calls0. User readiness requested, no response/new login or automatic retry. Code-copy-only preparation occurred in isolated temp Git; no outcomes were revealed.
+- Repair1 native-login-log hashing was content access, disclosed and not undone by later exclusion. Originals/fixed-allowlist correction and QA2 incident disposition remain authoritative; no blanket no-native-read claim. Later continuations used explicit safe identities, not recursive native/auth/log inventories.
+- Fresh whole-change QA3 is the last review in this strategy. If code review is clear while authentication remains unavailable, only a preliminary no-terminal-verdict state may be returned; actual native evidence and final acceptance still required. Source publication, Phase7 mandatory-last DCP and Goal completion remain pending. No physical experiment/device/operational loop was run.
+
+## Phase6 QA2 rejected repair1; bounded repair2 authorized
+
+Fresh whole-change QA2 returned terminal FAIL and QUIESCENT. The inherited native-home exclusion can be overwritten by exact attempt .codex/campaign .inputs read grants, and preflight occurs after role/input producers write or fingerprint. Actual model calls remain0; the first official login timed out at1200 seconds and browser readiness is pending, with no automatic retry.
+
+- QA2 report: `/private/tmp/nips-mas-repo-storage-20261104/product-qa2/report.md`, SHA256 `1043851fed880f1aee10c0e34c7098d969e737c937544339b79cdc04573e732e`.
+- QA2 checks: `/private/tmp/nips-mas-repo-storage-20261104/product-qa2/checks.json`, SHA256 `5ea8e89ff680cf0a06872ed99270e310447cf640f73641fc4b01b91cbf2fa992`.
+- Repair1 evidence:117 newly executed complete tests plus37 retained unchanged-input tests; combined154inventory. Evidence truth is retained; new overlap-model sufficiency failed.
+- The native login-log hashing incident is retained as a content-read boundary miss. Later exclusion does not undo it. The fixed153-evidence/5132-source/13-planning correction is the safe current verifier; historical recursive scripts must not be rerun. No further native/auth/log reads, copying or cleanup is authorized.
+- Repair2 is the final bounded repair in the current QA1/repair1/QA2/repair2/QA3 strategy. Same verified persistent Writer receives only seven literal product paths and no acceptance/source Git/native privileges. Require early common fail-closed overlap validation before producers, exact selected repository-home/disjoint-home positive controls and both inherited variables with ancestor/exact/descendant negatives. Fresh affected complete tests and whole-change QA3 remain mandatory. QA3 FAIL requires Controller adjudication, never a QA4 in this strategy. Goal remains active/unachieved; publication and Phase7 DCP are pending.
+
+## Phase6 QA1 rejected candidate; bounded repair1 authorized
+
+Controller retains the active Goal and original user approval. Fresh whole-change independent QA1 (`/root/storage_product_qa1`) returned terminal FAIL and QUIESCENT after reviewing the frozen 17-path candidate. Two reproduced P1 mechanisms: cross-campaign host/native and literal linked-worktree Git input exclusion/profile gaps; unpublished recovery silently discarding unrelated special index flags. Actual SDK inference remains NOT_RUN, held after those concrete findings; official fresh-home browser authentication preparation is independent and pending. The 147 passing tests are truthful but insufficient for these new failure models; all first-candidate/raw failed evidence remains preserved.
+
+- QA report: `/private/tmp/nips-mas-repo-storage-20261104/product-qa1/report.md`, SHA256 `6e14c9066e30be3604f262d5726c79934872d13c405547f256a6668d54a345e7`.
+- QA checks: `/private/tmp/nips-mas-repo-storage-20261104/product-qa1/checks.json`, SHA256 `23ccfc925156a6e2fe1b00786dacb4eac4a8d6e7ca3ac96123d7e7a7fc29821d`.
+- Controller retains the root-AGENTS P2 wording finding as nonblocking in its explicit preceding campaign context; no clarification-only product change is required. Six other exact-byte reader findings were NONE.
+- Repair1 stays within approved Phase6 meaning. Only the verified same persistent top-level Writer may change the five explicitly re-granted product paths. Controller status/Git remains separate; no canonical manager, source publication, native retry, installs, global auth reads/copies or hardware is authorized by the repair handoff. Required regressions cover positive scientific input/attempt access, negative native/host families and both special-index flag opponents with unchanged-valid recovery. Full validation selection must explicitly map invalidated executable inputs and preserve sufficient unaffected full results. Fresh QA2 and the separately re-bound actual synthetic SDK gate remain before publication.
+
 # Execution status
+
+2026-11-04 Planning QA2 PASS, reportSHAf57d6d922fbfe10da35dab6033ca30c7181458c5e087d465352f3f10ee82671d.
+Fresh repaired Phase7 reader2 returned NONE with exact bytes/no additional reads;
+unchanged Phase6 P2 retained. Whole seven-path planning and 17-product feasibility,
+source/data/index/version/history/pins independently verified. QA1 original failure
+and all reader/checker evidence remain preserved. No product implementation/live
+SDK/auth success is claimed. Controller now prepares separate literal 17-path
+Writer ownership; source planning is frozen during that ownership. Goal ACTIVE;
+actual complete offline/native/P2/product QA/publication and finalDCP PENDING.
+
+2026-11-04 Planning QA1 FAIL retained in plan-qa1/report.md,
+SHAa883c88edd031b6ec4869da5600765a1f6edeac95bd81a457cd8e3e6aca47b49.
+One missed existing-rule issue: final DCP receipt freeze/post-QA delta/native
+terminal proof ordering was ambiguous. Controller repair1 specifies pre-QA draft,
+exact five-field post-PASS identity block, Controller comparison and complete
+native Git proof; every other change invalidates acceptance. Raw approval-footer
+concern was nonblocking; the existing authorization is now clarified locally.
+No product/environment changes or Writer implementation ownership. Changed
+Phase7 needs fresh exact-byte reader and whole planning QA2; Phase6 bytes/P2 stay
+unchanged. All original failed/native reader evidence remains preserved.
+
+2026-11-04 NEW GOAL ACTIVE for repository-contained MAS data/checkpoints and
+SDK-only CODEX_HOME at the dynamically resolved repository root, approved by
+human01a1a9ed-d122-76e1-b1a9-8709d2c7acf5. Completed prior Phase5 actual native
+DCP094af01d1eeddec469fd801a6e8552078af7e8ed/sole-status parity, clean index/source
+and pinned governor/manager verified before append. Current source/data/version
+baseline is /private/tmp/nips-mas-repo-storage-20261104/baseline.json.
+Read-only verified Writer discovery returned QUIESCENT / NO_MUTATION_OWNERSHIP
+from turn01a1a9ef-54f7-79d3-8db2-d54ed675a0f9; its 17-path proposal is in
+writer-discovery/design.md. No product, dependency or environment edits yet.
+Fresh-home CLI status is NotLoggedIn (auth-status-probe.json); no SDK/model call
+or credential contents used. Official per-home authentication is a later explicit
+synthetic-test gate. Phase6/7 planning is drafted; fresh independent planning/P2
+QA and separate literal Writer ownership remain PENDING. Only newest Phase7 is
+active DCP; all prior plan/prompt/status/native evidence stays historical.
+No manager/progress/fingerprint, process kill, old Main migration, physical or
+hosted-CI action is authorized by this receipt.
 
 2026-11-04 Phase5 FINAL DCP independently accepted QA1 PASS, no findings,
 report final-dcp-qa1/report.md SHA3664e314e55198d7bdf570de78370b8ebe03cfbfabe30fef69e6f3f82b505a7e.

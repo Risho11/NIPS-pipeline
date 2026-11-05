@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -23,6 +24,26 @@ from mas_contract import Adoption, Context, Contribution, Decision, MainReply, R
 from mas_runtime import CampaignRuntime, isolated_sdk, main
 from mas_workspace import Workspace
 from test_mas_contract import CONTEXT, PARAMS
+from test_mas_workspace import project
+
+
+def profile_denies(filesystem, path):
+    """Flat braces/full-path globs; only literal directory rules inherit to children.
+
+    This declaration oracle follows the separately calibrated distinction. Actual
+    pinned sandbox checks remain required; glob ancestors are never treated as proof.
+    """
+    for rule, mode in filesystem.items():
+        if mode != 'deny':continue
+        prefix, brace, rest = rule.partition('{')
+        if brace:
+            choices, tail = rest.split('}', 1)
+            patterns = [prefix + choice + tail for choice in choices.split(',')]
+        else:patterns = [rule]
+        for pattern in patterns:
+            if path.full_match(pattern):return True
+            if not any(c in pattern for c in '*?[') and Path(pattern) in path.parents:return True
+    return False
 
 
 @dataclass
@@ -124,7 +145,7 @@ class FakeCodex:
 
     def native_thread(self, identifier, role=None, parent=None):
         data = Thread.model_validate(dict(id=identifier, agentRole=role, parentThreadId=parent,
-            cliVersion='0.163.0', createdAt=0, updatedAt=0, cwd=str(self.w.root),
+            cliVersion='0.163.0', createdAt=0, updatedAt=0, cwd=str(self.w.path(self.w.attempt_path(self.w.state['operations'][self.w.state['active']]))),
             ephemeral=False, modelProvider='openai', sessionId='synthetic', source='exec',
             status={'type': 'idle'}, preview='', turns=[]))
         fake = FakeThread(self, data)
@@ -133,15 +154,15 @@ class FakeCodex:
 
     def thread_start(self, **kwargs):
         self.starts.append(kwargs)
-        return self.native_thread('main')
+        return self.native_thread('main' if len(self.starts)==1 else 'main-'+str(len(self.starts)))
 
     def thread_resume(self, identifier, **kwargs):
         self.resumes.append((identifier, kwargs))
+        if 'cwd' in kwargs:self.threads[identifier].data.cwd=kwargs['cwd']
         return self.threads[identifier]
 
-    @staticmethod
-    def identifier(kind, role):
-        return str(uuid.uuid5(uuid.NAMESPACE_URL, 'synthetic-native:' + kind + ':' + role))
+    def identifier(self, kind, role):
+        return str(uuid.uuid5(uuid.NAMESPACE_URL, 'synthetic-native:' + self.w.campaign + ':' + kind + ':' + role))
 
     def result(self, turn, text):
         # Public collector uses item-completed events; hydrated Turn.items can
@@ -196,7 +217,7 @@ class FakeCodex:
             (author_id, author_path, 'hypothesis-updater' if knowledge else 'experiment-designer', author_payload),
             (qa_id, qa_path, 'hypothesis-qa' if knowledge else 'experiment-design-qa', review_payload)]:
             reused = identifier in self.threads
-            child = self.threads.get(identifier) or self.native_thread(identifier, role, 'main')
+            child = self.threads.get(identifier) or self.native_thread(identifier, role, self.w.state['thread_id'])
             if identifier == qa_id and self.bad_role:
                 child.data.agent_role = 'hypothesis-updater'
             if identifier == qa_id and self.bad_parent:
@@ -236,7 +257,7 @@ class FakeCodex:
         if self.legacy_message_drift:
             native_messages[qa_id]['message'] = json.dumps(dict(review_payload, operation_id='foreign'))
         event = dict(type='collabAgentToolCall', id='observed', tool='wait', status='completed',
-            senderThreadId='main', receiverThreadIds=[] if self.modern else list(native_messages),
+            senderThreadId=state['thread_id'], receiverThreadIds=[] if self.modern else list(native_messages),
             agentsStates={} if self.modern else native_messages)
         events = [*activities, event] if self.modern else [event]
         if self.close_reviewers:
@@ -250,13 +271,20 @@ class RuntimeTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.base = Path(self.tmp.name)
-        source = Path(__file__).resolve().parents[1]
-        self.w = Workspace(self.base / 'output', source, 'synthetic')
+        source = project(self.base / 'project with spaces 한글')
+        self.w = Workspace(source, CONTEXT['campaign'], 'synthetic')
+        self.baseline_head = self.w.head()
         self.sdk = FakeCodex(self.w)
         self.factory = unittest.mock.Mock(return_value=self.sdk)
         self.runtime = CampaignRuntime(self.w, Context.model_validate(CONTEXT), sdk_factory=self.factory)
-        self.input = self.base / 'synthetic.csv'
+        self.input = self.w.root / 'data/raw/synthetic.csv'
+        self.input.parent.mkdir(parents=True, exist_ok=True)
         self.input.write_text('name,E,F\nSYNTHETIC,1,0.5\n')
+
+    def prepare_sdk(self):
+        with self.w.lock():
+            self.runtime._operation(None, None, None)
+            self.runtime._bindings()
 
     def bootstrap(self):
         self.assertIsNone(self.runtime.run())
@@ -348,14 +376,14 @@ class RuntimeTests(unittest.TestCase):
         self.sdk.no_event = False
         git = self.w.git
         def fail_commit(*args, **kwargs):
-            if args[0] == 'commit':
+            if args[0] == 'commit-tree':
                 raise RuntimeError('Synthetic private error detail that must not be printed')
             return git(*args, **kwargs)
         progress = io.StringIO()
         with redirect_stderr(progress), patch.object(self.w, 'git', side_effect=fail_commit):
             with self.assertRaises(RuntimeError):
                 self.runtime.run(retry=True)
-        self.assertIsNone(self.w.head())
+        self.assertEqual(self.w.head(), self.baseline_head)
         self.assertIsNotNone(self.w.state['pending'])
         self.assertIn('Request failed', progress.getvalue())
         self.assertNotIn('Knowledge published', progress.getvalue())
@@ -374,7 +402,7 @@ class RuntimeTests(unittest.TestCase):
     def test_cli_real_mocked_runtime_keeps_terminal_json_on_stdout_and_progress_on_stderr(self):
         context = self.base/'context.json'
         context.write_text(json.dumps(CONTEXT))
-        args = ['--workspace',str(self.w.root),'--source',str(self.w.source),
+        args = ['--repo',str(self.w.root),
                 '--material','synthetic','--context',str(context),'--live']
         def client(workspace):
             self.sdk.w = workspace
@@ -440,7 +468,7 @@ class RuntimeTests(unittest.TestCase):
         self.sdk.legacy_message_drift = True
         with self.assertRaisesRegex(ValueError, 'changed after Main'):
             self.runtime.run()
-        self.assertIsNone(self.w.head())
+        self.assertEqual(self.w.head(), self.baseline_head)
         self.sdk.legacy_message_drift = False
         self.assertIsNone(self.runtime.run(retry=True))
 
@@ -451,7 +479,7 @@ class RuntimeTests(unittest.TestCase):
                 setattr(self.sdk, flag, True)
                 with self.assertRaises(ValueError):
                     self.runtime.run(retry=True)
-                self.assertIsNone(self.w.head())
+                self.assertEqual(self.w.head(), self.baseline_head)
                 self.assertIsNone(self.w.state['knowledge_commit'])
                 setattr(self.sdk, flag, False)
         self.assertIsNone(self.runtime.run(retry=True))
@@ -487,7 +515,7 @@ class RuntimeTests(unittest.TestCase):
                 with patch.object(self.sdk, 'reply', side_effect=corrupt):
                     with self.assertRaises(ValueError):
                         self.runtime.run(retry=True)
-                self.assertIsNone(self.w.head())
+                self.assertEqual(self.w.head(), self.baseline_head)
                 qa = self.sdk.threads[self.sdk.identifier('knowledge', 'qa')].data
                 qa.status = type(qa.status).model_validate(dict(type='idle'))
         self.assertIsNone(self.runtime.run(retry=True))
@@ -527,7 +555,7 @@ class RuntimeTests(unittest.TestCase):
         with patch.object(FakeThread, 'read', new=read):
             with self.assertRaisesRegex(ValueError, 'between stream and history'):
                 self.runtime.run()
-        self.assertIsNone(self.w.head())
+        self.assertEqual(self.w.head(), self.baseline_head)
         self.assertEqual(self.sdk.reads, [('main', True)])
         self.assertIsNone(self.runtime.run())
 
@@ -543,13 +571,13 @@ class RuntimeTests(unittest.TestCase):
         with patch.object(self.sdk, 'reply', side_effect=wrong_record):
             with self.assertRaisesRegex(ValueError, 'Current attempt'):
                 self.runtime.run()
-        self.assertIsNone(self.w.head())
+        self.assertEqual(self.w.head(), self.baseline_head)
 
     def observe(self):
         return self.runtime.run(observation_id='synthetic1', inputs={'table': self.input})
 
     def cold(self):
-        self.w = Workspace(self.w.root, self.w.source, 'synthetic')
+        self.w = Workspace(self.w.root, self.w.campaign, 'synthetic')
         self.sdk.w = self.w
         self.runtime = CampaignRuntime(self.w, CONTEXT, sdk_factory=self.factory)
 
@@ -567,7 +595,8 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(decision.action, 'run')
         self.assertEqual(decision.next_params.model_dump(), PARAMS)
         self.assertEqual(decision.knowledge_commit, commit)
-        self.assertIn(str(self.input), self.sdk.prompts[-1])
+        self.assertIn(self.w.relative(self.input), self.sdk.prompts[-1])
+        self.assertNotIn(str(self.input), self.sdk.prompts[-1])
         self.assertEqual(self.input.read_bytes(), initial)
         native_files = self.w.git('ls-files').stdout.decode()
         self.assertIn('/review/design.md', native_files)
@@ -607,8 +636,9 @@ class RuntimeTests(unittest.TestCase):
 
     def test_known_empty_main_read_failure_is_preserved_without_fresh_thread_fallback(self):
         self.sdk.reject_empty_history = True
-        main_thread = self.sdk.native_thread('main')
         with self.w.lock():
+            self.runtime._operation(None, None, None)
+            main_thread = self.sdk.native_thread('main')
             self.w.state['thread_id'] = main_thread.id
             self.w.save()
         for retry in (False, True):
@@ -678,7 +708,7 @@ class RuntimeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Unknown running'):
             self.runtime.run(retry=True)
         self.assertEqual(len(self.sdk.prompts), prompts)
-        self.assertIsNone(self.w.head())
+        self.assertEqual(self.w.head(), self.baseline_head)
 
     def test_hold_stop_restart_and_explicit_reconsideration_preserve_history(self):
         self.bootstrap()
@@ -718,11 +748,18 @@ class RuntimeTests(unittest.TestCase):
         self.sdk.publish_next = True
         self.assertIsNone(self.observe())
         adopted = self.w.state['knowledge_commit']
+        operation = self.w.state['active']
+        path = self.w.round_path(self.w.state['operations'][operation])+'/adoption.json'
+        original = self.w.git('show',adopted+':'+path).stdout
         self.cold()
         decision = self.runtime.run()
         self.assertEqual(decision.knowledge_commit, adopted)
         self.assertEqual(len(self.sdk.starts), 1)
         self.assertIn(adopted, self.sdk.prompts[-1])
+        self.assertEqual(self.w.state['active'],operation)
+        tx=json.loads(self.w.path(self.w._transaction_path({'token':self.w.state['local_publication']},'transaction.json')).read_text())
+        self.assertEqual(tx['prepared'][path]['action'],'REPLACE')
+        self.assertEqual((self.w.root/tx['prepared'][path]['slot']/'capture').read_bytes(),original)
 
     def test_lost_knowledge_commit_ack_does_not_replay_adoption_or_native_turn(self):
         self.bootstrap()
@@ -730,7 +767,7 @@ class RuntimeTests(unittest.TestCase):
         native_git = self.w.git
         def lose_ack(*args, **kwargs):
             result = native_git(*args, **kwargs)
-            if args[0] == 'commit':
+            if args[0] == 'update-ref':
                 raise RuntimeError('synthetic lost publication ack')
             return result
         with patch.object(self.w, 'git', side_effect=lose_ack):
@@ -741,7 +778,7 @@ class RuntimeTests(unittest.TestCase):
         decision = self.runtime.run()
         self.assertEqual(decision.knowledge_commit, adopted)
         self.assertEqual(len(self.sdk.threads['main'].data.turns), 3)
-        self.assertEqual(self.w.git('rev-list', '--count', 'HEAD').stdout.strip(), b'3')
+        self.assertEqual(self.w.git('rev-list', '--count', self.baseline_head+'..HEAD').stdout.strip(), b'3')
 
     def test_ordinary_restart_cannot_silently_use_changed_completed_inputs(self):
         self.bootstrap()
@@ -758,7 +795,7 @@ class RuntimeTests(unittest.TestCase):
         self.bootstrap()
         previous = self.observe()
         active = self.w.state['active']
-        changed = self.base / 'new.csv'
+        changed = self.w.root / 'data/raw/new.csv'
         changed.write_text('name,E,F\nSYNTHETIC-new,2,0.3\n')
         self.factory.reset_mock()
         with self.assertRaises(ValueError):
@@ -786,7 +823,7 @@ class RuntimeTests(unittest.TestCase):
                 fixture.cold()
                 self.assertEqual(fixture.runtime.run(inputs=binding), result)
                 self.assertEqual(fixture.runtime.run(), result)
-                new = fixture.base / 'new.csv'
+                new = fixture.w.root / 'data/raw/new.csv'
                 new.write_text('name,E,F\nSYNTHETIC-new,3,0.4\n')
                 invalid = [{'new': new}, {'table': new}]
                 if binding:
@@ -807,30 +844,31 @@ class RuntimeTests(unittest.TestCase):
                 for identifier, record in original['operations'].items():
                     self.assertEqual(fixture.w.state['operations'][identifier], record)
 
-    def test_second_named_campaign_reuses_bank_and_main_with_explicit_input_identity(self):
+    def test_second_named_campaign_reuses_approved_bank_but_has_its_own_main(self):
         bank = self.bootstrap()
         self.observe()
-        original = json.loads(self.w.state_path.read_text())
+        original = self.w.state_path.read_bytes()
         context = Context.model_validate(dict(CONTEXT, campaign='synthetic-second'))
-        second = CampaignRuntime(self.w, context, sdk_factory=self.factory)
-        new = self.base / 'second.csv'
+        with self.assertRaisesRegex(ValueError, 'binding'):
+            CampaignRuntime(self.w, context, sdk_factory=self.factory)
+        workspace = Workspace(self.w.root, context.campaign, self.w.material)
+        self.sdk.w = workspace
+        second = CampaignRuntime(workspace, context, sdk_factory=self.factory)
+        new = self.w.root / 'data/raw/second.csv'
         new.write_text('name,E,F\nSYNTHETIC-second,2,0.6\n')
-        with self.assertRaises(ValueError):
-            second.run(inputs={'table': new})
         decision = second.run(observation_id='second1', inputs={'table': new})
         self.assertEqual(decision.knowledge_commit, bank)
-        self.assertEqual(self.w.state['thread_id'], original['thread_id'])
-        self.assertEqual(len(self.sdk.starts), 1)
-        active = self.w.state['operations'][self.w.state['active']]
-        self.assertEqual(active['campaign'], 'synthetic-second')
+        self.assertNotEqual(workspace.state['thread_id'], self.w.state['thread_id'])
+        self.assertEqual(len(self.sdk.starts), 2)
+        active = workspace.state['operations'][workspace.state['active']]
+        self.assertEqual(active['campaign'], context.campaign)
         self.assertEqual(active['kind'], 'observation')
-        self.assertEqual(active['inputs']['table']['path'], str(new))
-        self.assertIn('data/results/synthetic-second/mas/rounds/', self.w.git('ls-files').stdout.decode())
+        self.assertEqual(active['inputs']['table']['path'], workspace.relative(new))
+        self.assertIn('data/results/synthetic-second/mas/rounds/', workspace.git('ls-files').stdout.decode())
         self.factory.reset_mock()
         self.assertEqual(second.run(inputs={'table': new}), decision)
         self.factory.assert_not_called()
-        for identifier, record in original['operations'].items():
-            self.assertEqual(self.w.state['operations'][identifier], record)
+        self.assertEqual(self.w.state_path.read_bytes(), original)
 
     def test_revision_identity_survives_lost_caller_ack_without_new_reasoning(self):
         self.bootstrap()
@@ -854,7 +892,196 @@ class RuntimeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.runtime.run(revision_id='revision-1')
 
+    def test_pinned_cli_parses_repo_home_profile_without_sdk_or_model(self):
+        self.prepare_sdk()
+        home=self.base/'nonsecret user home'
+        with (self.w.lock(), patch('pathlib.Path.home',return_value=home), patch.dict(os.environ,
+                CODEX_HOME=str(self.base/'nonsecret external home'),CODEX_SQLITE_HOME=str(self.base/'nonsecret sqlite home')),
+                patch('openai_codex.Codex') as client):
+            isolated_sdk(self.w)  # Actual pinned `mcp list` only; constructor stays mocked.
+        client.assert_called_once()
+        config = client.call_args.args[0]
+        self.assertEqual(config.env['CODEX_HOME'], str(self.w.root))
+        self.assertIn('default_permissions="mas"', config.config_overrides)
+        self.assertTrue(Path(config.cwd).is_relative_to(self.w.path(self.w.area)))
+
+    def test_attempt_profile_denies_native_thread_locks_databases_and_auth(self):
+        self.prepare_sdk()
+        from mas_runtime import _attempt_config
+        record = self.w.state['operations'][self.w.state['active']]
+        config = _attempt_config(self.w, record)
+        filesystem = config['permissions']['mas']['filesystem']
+        self.assertEqual(filesystem[str(self.w.path(self.w.attempt_path(record)))], 'write')
+        self.assertNotEqual(filesystem.get(str(self.w.root)), 'write')
+        for name in ('thread-writer-locks', 'auth.json*', 'state_*.sqlite*', 'logs_*.sqlite*'):
+            with self.subTest(name=name):
+                self.assertEqual(filesystem.get(str(self.w.root/name)), 'deny')
+        self.assertEqual(config['project_doc_max_bytes'], 0)
+        self.assertNotIn('sandbox_mode', config)
+        for name in ('thread-writer-locks/private.json', 'state_5.sqlite-wal', 'auth.json.lock'):
+            path = self.w.root/name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text('Synthetic native metadata; no secret.')
+            with self.subTest(input=name), self.assertRaises(ValueError):
+                self.w.input_path(path)
+        ordinary = self.w.root/'data/raw/thread-writer-locks/measurement.sqlite'
+        ordinary.parent.mkdir(parents=True,exist_ok=True);ordinary.write_text('Synthetic measurement.')
+        self.assertEqual(self.w.input_path(ordinary), ordinary)
+
+    def test_profile_covers_other_campaign_host_state_and_external_native_homes(self):
+        self.prepare_sdk()
+        from mas_runtime import _attempt_config
+        record=self.w.state['operations'][self.w.state['active']]
+        home=self.base/'nonsecret user home';external=self.base/'external native home'
+        sqlite=self.base/'nonsecret sqlite home'
+        with patch('pathlib.Path.home',return_value=home),patch.dict(os.environ,CODEX_HOME=str(external),CODEX_SQLITE_HOME=str(sqlite)):
+            filesystem=_attempt_config(self.w,record)['permissions']['mas']['filesystem']
+            for path in (home/'.codex',external,sqlite):
+                with self.subTest(native_home=str(path)):self.assertEqual(filesystem.get(str(path)),'deny')
+            for suffix in ('.native/sqlite/state_5.sqlite','.mas-runtime.json','.transactions/token/0','.inputs/request/provenance.json'):
+                path=self.w.root/'data/results/other/mas'/suffix
+                with self.subTest(cross_campaign=suffix):self.assertTrue(profile_denies(filesystem,path))
+            canary=external/'state_5.sqlite';canary.parent.mkdir(parents=True);canary.write_text('SYNTHETIC_NONSECRET_CANARY')
+            with self.assertRaises(ValueError):self.w.input_path(canary)
+            self.assertEqual(filesystem[str(self.w.path(self.w.attempt_path(record)))],'write')
+            self.assertEqual(filesystem[str(self.w.path(self.w.area+'/.inputs'))],'read')
+            self.assertEqual([p for p,mode in filesystem.items() if mode=='write'],[str(self.w.path(self.w.attempt_path(record)))])
+
+    def test_host_directory_rules_match_full_descendant_paths(self):
+        self.prepare_sdk()
+        from mas_runtime import _attempt_config
+        record=self.w.state['operations'][self.w.state['active']]
+        filesystem=_attempt_config(self.w,record)['permissions']['mas']['filesystem']
+        for campaign in (self.w.campaign,'other','future-campaign'):
+            for suffix in ('.native/known.txt','.native/deeper/known.txt',
+                           '.transactions/known.txt','.transactions/token/deeper/known.txt',
+                           '.mas-runtime.json','.mas-state.json','.mas.lock','.pipeline.lock'):
+                with self.subTest(campaign=campaign,suffix=suffix):
+                    self.assertTrue(profile_denies(filesystem,self.w.root/f'data/results/{campaign}/mas'/suffix))
+        for suffix in ('auth.json.synthetic/known.txt','state_5.sqlite.synthetic/deeper/known.txt',
+                       'logs_5.sqlite.synthetic/deeper/known.txt','.codex-global-state.json.synthetic/known.txt'):
+            with self.subTest(root_native=suffix):self.assertTrue(profile_denies(filesystem,self.w.root/suffix))
+        for relative in ('data/raw/.native/known.txt','data/raw/.transactions/deep/known.txt',
+                         'data/results/other/mas/rounds/reviewed/analysis.md','src/pipeline/mas_contract.py'):
+            with self.subTest(scientific=relative):self.assertFalse(profile_denies(filesystem,self.w.root/relative))
+        attempt=self.w.path(self.w.attempt_path(record))
+        self.assertEqual(filesystem[str(attempt)],'write')
+        self.assertEqual(filesystem[str(attempt/'.codex')],'read')
+        self.assertFalse(profile_denies(filesystem,attempt/'artifacts/code/analysis.py'))
+
+    def test_input_complement_preserves_only_validated_current_campaign(self):
+        self.prepare_sdk()
+        from mas_runtime import _attempt_config
+        record=self.w.state['operations'][self.w.state['active']]
+        for current in ('c','cam-p_a','X'*100):
+            workspace=Workspace(self.w.root,current,'synthetic')
+            filesystem=_attempt_config(workspace,{**record,'campaign':current})['permissions']['mas']['filesystem']
+            opponents={current,'c','cam','cam-p_','cam-p_ab','other','cam-p_b','cam_p_a','cam-pa','-','_',
+                       'future-campaign','X'*99,'X'*99+'Y','Y'+'X'*99}
+            opponents.update(current[:i] for i in range(1,len(current)))
+            opponents.update(current[:i]+('Y' if c!='Y' else 'X')+current[i+1:] for i,c in enumerate(current))
+            if len(current)<100:opponents.add(current+'Z')
+            for candidate in opponents:
+                for suffix in ('','.known.txt','/direct.txt','/deeper/known.txt'):
+                    path=workspace.root/f'data/results/{candidate}/mas/.inputs{suffix}'
+                    # A similarly prefixed sibling is ordinary scientific data.
+                    expected=candidate!=current and suffix!='.known.txt'
+                    with self.subTest(current=current,candidate=candidate,suffix=suffix):
+                        self.assertEqual(profile_denies(filesystem,path),expected)
+            self.assertEqual(filesystem[str(workspace.path(workspace.area+'/.inputs'))],'read')
+
+    def test_complement_rules_keep_native_groups_bounded_and_flat(self):
+        self.prepare_sdk()
+        from mas_runtime import _attempt_config
+        record=self.w.state['operations'][self.w.state['active']]
+        for current in ('c','cam-p_a','X'*100):
+            workspace=Workspace(self.w.root,current,'synthetic')
+            filesystem=_attempt_config(workspace,{**record,'campaign':current})['permissions']['mas']['filesystem']
+            rules=[rule for rule,mode in filesystem.items() if mode=='deny' and '/mas/.inputs' in rule]
+            self.assertTrue(rules)
+            # Bound both the native expression and rule count; do not trade the
+            # monolithic regex for the known failing one-alternative expansion.
+            self.assertLessEqual(len(rules),len(current)+2)
+            for rule in rules:
+                with self.subTest(current=current,rule=rule):
+                    self.assertEqual(rule.count('{'),1);self.assertEqual(rule.count('}'),1)
+                    choices=rule.split('{',1)[1].split('}',1)[0].split(',')
+                    self.assertLessEqual(len(choices),4)
+                    self.assertTrue(all(choices))
+
+    def test_native_home_ancestor_overlap_fails_without_broadening_permissions(self):
+        self.prepare_sdk()
+        from mas_runtime import _attempt_config
+        record=self.w.state['operations'][self.w.state['active']]
+        attempt=self.w.path(self.w.attempt_path(record))
+        for ancestor in (self.w.root.parent,attempt.parent):
+            with self.subTest(ancestor=str(ancestor)),patch.dict(os.environ,CODEX_HOME=str(ancestor)),self.assertRaisesRegex(ValueError,'overlap'):
+                _attempt_config(self.w,record)
+        external=self.base/'native with prepared interpreter'
+        with (patch.dict(os.environ,CODEX_HOME=str(external)),patch('sys.prefix',str(external/'env')),
+                self.assertRaisesRegex(ValueError,'overlap')):
+            _attempt_config(self.w,record)
+
+    def test_native_home_cannot_be_replaced_by_exact_role_or_input_read_grants(self):
+        from mas_runtime import _attempt_config
+        with self.w.lock():record=self.runtime._operation(None,None,None)
+        attempt=self.w.path(self.w.attempt_path(record))
+        for variable in ('CODEX_HOME','CODEX_SQLITE_HOME'):
+            for home in (attempt/'.codex',self.w.path(self.w.area+'/.inputs')):
+                environment={'CODEX_HOME':str(self.base/'external-home'),'CODEX_SQLITE_HOME':str(self.base/'external-sqlite'),variable:str(home)}
+                with self.subTest(variable=variable,home=str(home)),patch('pathlib.Path.home',return_value=self.base/'user-home'),patch.dict(os.environ,environment):
+                    try:config=_attempt_config(self.w,record)
+                    except ValueError:rejected=True;mode=None
+                    else:rejected=False;mode=config['permissions']['mas']['filesystem'].get(str(home))
+                    print('SYNTHETIC_EXACT_HOME_OVERLAP',json.dumps(dict(variable=variable,rejected=rejected,requested_mode=mode)))
+                    self.assertTrue(rejected)
+
+    def test_native_preflight_precedes_runtime_producers_after_environment_change(self):
+        from mas_runtime import _attempt_config,_analysis_env
+        with self.w.lock():record=self.runtime._operation(None,None,None)
+        attempt=self.w.path(self.w.attempt_path(record));area=self.w.path(self.w.area)
+        canary=self.w.root/'nested-native/canary.txt';canary.parent.mkdir();canary.write_bytes(b'SYNTHETIC_NONSECRET_CANARY')
+        journal=self.w.state_path.read_bytes();source=(self.w.root/'AGENTS.md').read_bytes()
+        index=Path(self.w.git('rev-parse','--path-format=absolute','--git-path','index').stdout.decode().strip())
+        raw=index.read_bytes();head=self.w.head()
+        calls=[self.runtime._bindings,lambda:_attempt_config(self.w,record),lambda:_analysis_env(self.w,record),
+               lambda:isolated_sdk(self.w),self.runtime.run]
+        homes=[attempt.parent,attempt,attempt/'.codex',attempt/'.codex/agents',attempt/'.scratch',attempt/'.scratch/nested',
+               area,area/'.native',area/'.native/sqlite',area/'.inputs',area/'.inputs/request',area/'.mas-runtime.json',canary.parent]
+        for variable in ('CODEX_HOME','CODEX_SQLITE_HOME'):
+            for home in homes:
+                environment={'CODEX_HOME':str(self.base/'external-home'),'CODEX_SQLITE_HOME':str(self.base/'external-sqlite'),variable:str(home)}
+                with (patch('pathlib.Path.home',return_value=self.base/'user-home'),patch.dict(os.environ,environment),
+                      patch('mas_runtime.subprocess.run',side_effect=AssertionError('Subprocess before preflight')) as process,
+                      patch('openai_codex.Codex') as client):
+                    for number,call in enumerate(calls):
+                        with self.subTest(variable=variable,home=str(home),producer=number),self.assertRaisesRegex(ValueError,'overlap'):
+                            call()
+                    process.assert_not_called();client.assert_not_called()
+        self.factory.assert_not_called()
+        self.assertFalse((attempt/'.codex').exists());self.assertFalse((attempt/'.scratch').exists());self.assertFalse((area/'.native').exists())
+        self.assertEqual(self.w.state_path.read_bytes(),journal);self.assertEqual((self.w.root/'AGENTS.md').read_bytes(),source)
+        self.assertEqual(index.read_bytes(),raw);self.assertEqual(self.w.head(),head)
+        self.assertEqual(canary.read_bytes(),b'SYNTHETIC_NONSECRET_CANARY')
+
+    def test_exact_repository_and_disjoint_native_homes_keep_valid_runtime_paths(self):
+        from mas_runtime import _attempt_config
+        for selected in (False,True):
+            environment={'CODEX_HOME':str(self.w.root if selected else self.base/'external-home'),
+                         'CODEX_SQLITE_HOME':str(self.w.root if selected else self.base/'external-sqlite')}
+            with patch('pathlib.Path.home',return_value=self.base/'user-home'),patch.dict(os.environ,environment):
+                with self.w.lock():
+                    record=self.runtime._operation(None,None,None)
+                    config=_attempt_config(self.w,record)
+                    self.runtime._bindings()
+                filesystem=config['permissions']['mas']['filesystem']
+                self.assertEqual(filesystem[str(self.w.path(self.w.attempt_path(record)))],'write')
+                for home in self.w.native_homes():self.assertEqual(filesystem[str(home)],'deny')
+        self.assertIsNone(self.runtime.run())
+        self.factory.assert_called_once()
+
     def test_analysis_uv_uses_prepared_interpreter_and_output_cache(self):
+        self.prepare_sdk()
         replies = [subprocess.CompletedProcess([], 0, '[]', '')] * 2
         with self.w.lock(), patch('mas_runtime.subprocess.run', side_effect=replies):
             with patch('openai_codex.Codex') as client:
@@ -884,7 +1111,7 @@ class RuntimeTests(unittest.TestCase):
         self.assertNotEqual(opposite.returncode, 0)
         self.assertIn(str(outside), opposite.stderr)
         self.assertEqual(list(outside.iterdir()), [])
-        print('SYNTHETIC_ANALYSIS_ENV_CHECK', json.dumps(dict(argv=command, cwd=str(self.w.root),
+        print('SYNTHETIC_ANALYSIS_ENV_CHECK', json.dumps(dict(argv=command, cwd=str(self.w.path(self.w.attempt_path(self.w.state['operations'][self.w.state['active']]))),
             bound_environment=config.env, positive=dict(exit=result.returncode, stdout=result.stdout,
                                                         stderr=result.stderr),
             opposite_cache=str(outside), negative=dict(exit=opposite.returncode, stdout=opposite.stdout,
@@ -918,6 +1145,85 @@ class RuntimeTests(unittest.TestCase):
         self.assertIsNone(self.runtime.run(retry=True))
         self.assertEqual(len(self.sdk.threads['main'].data.turns), 2)
         self.assertTrue(self.w.state['failures'])
+
+    def test_raw_failure_diagnostic_stays_local_after_retry_publication(self):
+        sentinel = 'SYNTHETIC_PRIVATE_DIAGNOSTIC_7615'
+        def fail(handle):
+            raise TimeoutError(sentinel)
+        with patch.object(FakeHandle, 'run', new=fail), self.assertRaisesRegex(TimeoutError, sentinel):
+            self.runtime.run()
+        failure = self.w.state['failures'][0].copy()
+        self.assertEqual(failure['message'], sentinel)
+        self.assertEqual(failure['turn_id'], 'turn-0')
+        self.cold()
+        self.assertIsNone(self.runtime.run(retry=True))
+        self.assertEqual(self.w.state['failures'][0], failure)
+        self.assertIn(sentinel, self.w.state_path.read_text())
+        checkpoint = json.loads(self.w.path(self.w.checkpoint).read_text())
+        self.assertEqual(checkpoint['failures'][0], {k:failure[k] for k in ('operation','turn_id','type')})
+        paths = self.w.git('diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD').stdout.decode().splitlines()
+        self.assertIn(self.w.checkpoint, paths)
+        for path in paths:
+            self.assertNotIn(sentinel.encode(), self.w.git('show', 'HEAD:' + path).stdout, path)
+
+    def test_actual_derived_artifacts_publish_with_native_and_input_provenance(self):
+        self.bootstrap()
+        original = self.sdk.reply
+        selected = {}
+        def reply():
+            value, events = original()
+            record = self.w.state['operations'][self.w.state['active']]
+            base = self.w.attempt_path(record) + '/artifacts/'
+            for name, data in {'code/analysis.py':b'print("Synthetic analysis")\n',
+                               'tables/result.csv':b'input,value\nSYNTHETIC,1\n',
+                               'figures/result.svg':b'<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0L1 1"/></svg>'}.items():
+                selected[base + name] = data
+                self.w.write(base + name, data)
+            value['records'].extend(selected)
+            return value, events
+        with patch.object(self.sdk, 'reply', side_effect=reply):
+            self.assertEqual(self.observe().action, 'run')
+        record = self.w.state['operations'][self.w.state['active']]
+        receipt = json.loads(self.w.git('show','HEAD:'+self.w.round_path(record)+'/adoption.json').stdout)
+        manifest = {a['path']:a for a in receipt['artifacts']}
+        for path, data in selected.items():
+            self.assertEqual(self.w.git('show','HEAD:'+path).stdout,data)
+            self.assertEqual(manifest[path]['operation_id'],record['id'])
+            self.assertEqual(manifest[path]['inputs'],record['inputs'])
+            self.assertEqual(manifest[path]['native_review'],receipt['native_review'])
+            self.assertTrue(all(not Path(v['path']).is_absolute() for v in manifest[path]['inputs'].values()))
+
+    def test_derived_artifact_without_native_review_cannot_publish_hold(self):
+        self.bootstrap();self.sdk.action='hold'
+        head=self.w.head();original=self.sdk.reply
+        def reply():
+            value,events=original()
+            record=self.w.state['operations'][self.w.state['active']]
+            path=self.w.attempt_path(record)+'/artifacts/tables/result.json'
+            self.w.write(path,'{"synthetic":1}')
+            value['records']=[path]
+            return value,events
+        with patch.object(self.sdk,'reply',side_effect=reply),self.assertRaisesRegex(ValueError,'native author/reviewer'):
+            self.observe()
+        self.assertEqual(self.w.head(),head)
+
+    def test_relocated_checkpoint_cache_works_but_missing_native_history_never_replaces_main(self):
+        self.bootstrap();self.sdk.action='hold';decision=self.observe()
+        original_thread=self.w.state['thread_id']
+        relocated=self.base/'relocated project 한글'
+        shutil.copytree(self.w.root,relocated)
+        (relocated/self.w.area/'.mas-runtime.json').unlink()
+        workspace=Workspace(relocated,'synthetic','synthetic')
+        absent=FakeCodex(workspace)
+        with patch('mas_runtime.isolated_sdk',return_value=absent) as factory:
+            runtime=CampaignRuntime(workspace,CONTEXT)
+            self.assertEqual(runtime.run(),decision)
+            factory.assert_not_called()
+            with self.assertRaises(KeyError):
+                runtime.run(observation_id='new-relocated-observation',inputs={'selected':'data/raw/synthetic.csv'})
+        self.assertEqual(absent.starts,[])
+        self.assertEqual(workspace.state['thread_id'],original_thread)
+        self.assertEqual(workspace.state['failures'][-1]['type'],'KeyError')
 
     def test_retry_during_running_turn_can_still_recover_after_another_interruption(self):
         self.sdk.interrupt_once = True
@@ -966,7 +1272,7 @@ class RuntimeTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     self.runtime.run(retry=True)
                 self.assertIsNone(self.w.state['knowledge_commit'])
-                self.assertIsNone(self.w.head())
+                self.assertEqual(self.w.head(), self.baseline_head)
                 setattr(self.sdk, flag, False)
                 # A fresh repair uses actual new native completions, not a forged PASS.
                 if self.sdk.identifier('knowledge', 'qa') in self.sdk.threads:
@@ -1004,6 +1310,7 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(self.w.head(), head)
 
     def test_cli_import_help_and_mcp_failure_do_not_start_a_client(self):
+        self.prepare_sdk()
         with patch('openai_codex.Codex') as client:
             with self.assertRaises(SystemExit) as exited:
                 main(['--help'])
@@ -1017,15 +1324,67 @@ class RuntimeTests(unittest.TestCase):
         context = self.base / 'context.json'
         context.write_text(json.dumps(CONTEXT))
         with patch('openai_codex.Codex') as client:
-            main(['--workspace', str(self.w.root), '--source', str(self.w.source),
+            main(['--repo', str(self.w.root),
                   '--material', 'synthetic', '--context', str(context)])
             client.assert_not_called()
-        self.assertFalse(self.w.root.exists())
+        self.assertFalse(self.w.state_path.exists())
+
+    def test_cli_overlap_preflight_precedes_operator_context_read(self):
+        context=self.base/'approved-context.json';context.write_text(json.dumps(CONTEXT))
+        inside=self.w.root/'nested-native/context.json';inside.parent.mkdir();inside.write_text(json.dumps(CONTEXT))
+        original=Path.read_text
+        for variable in ('CODEX_HOME','CODEX_SQLITE_HOME'):
+            for home,path in ((self.w.root.parent,context),(inside.parent,inside)):
+                environment={'CODEX_HOME':str(self.base/'external-home'),'CODEX_SQLITE_HOME':str(self.base/'external-sqlite'),variable:str(home)}
+                with (self.subTest(variable=variable,home=str(home)),patch('pathlib.Path.home',return_value=self.base/'user-home'),
+                      patch.dict(os.environ,environment),patch.object(Path,'read_text',autospec=True,side_effect=original) as read,
+                      patch('openai_codex.Codex') as client):
+                    with self.assertRaisesRegex(ValueError,'overlap'):
+                        main(['--repo',str(self.w.root),'--material','synthetic','--context',str(path)])
+                    print('SYNTHETIC_CLI_READ_ORDER',json.dumps(dict(variable=variable,context_reads=read.call_count)))
+                    read.assert_not_called();client.assert_not_called()
+        self.assertFalse(self.w.state_path.exists())
+
+    def test_cli_context_excludes_native_homes_and_host_metadata_before_read(self):
+        home=self.base/'user-home';external=self.base/'external-home';sqlite=self.base/'external-sqlite'
+        paths=[home/'.codex/context.json',external/'context.json',sqlite/'context.json',
+               self.w.root/'auth.json',self.w.root/'state_5.sqlite',self.w.root/'.codex/context.json',
+               self.w.root/self.w.area/'.mas-runtime.json',self.w.root/self.w.area/'.inputs/provenance.json',
+               self.w.root/self.w.area/'.native/sqlite/context.json',self.w.root/self.w.area/'.transactions/token/0']
+        for path in paths:path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(CONTEXT))
+        alias=self.base/'context-alias.json';alias.symlink_to(paths[1])
+        linked=self.base/'context-linked.json';os.link(paths[1],linked)
+        paths.extend([alias,linked])
+        original=Path.read_text
+        for path in paths:
+            with (self.subTest(context=str(path)),patch('pathlib.Path.home',return_value=home),
+                  patch.dict(os.environ,CODEX_HOME=str(external),CODEX_SQLITE_HOME=str(sqlite)),
+                  patch.object(Path,'read_text',autospec=True,side_effect=original) as read,
+                  patch('openai_codex.Codex') as client):
+                with self.assertRaisesRegex(ValueError,'native|host|metadata|unlinked'):
+                    main(['--repo',str(self.w.root),'--material','synthetic','--context',str(path)])
+                read.assert_not_called();client.assert_not_called()
+        for path in paths:self.assertEqual(json.loads(path.read_text()),CONTEXT)
+
+    def test_cli_preserves_approved_external_and_nested_context_bindings(self):
+        original=Path.read_text
+        for path in (self.base/'approved-context.json',self.w.root/'data/raw/auth.json'):
+            path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(CONTEXT))
+            with (patch('pathlib.Path.home',return_value=self.base/'user-home'),patch.dict(os.environ,
+                  CODEX_HOME=str(self.base/'external-home'),CODEX_SQLITE_HOME=str(self.base/'external-sqlite')),
+                  patch.object(Path,'read_text',autospec=True,side_effect=original) as read,
+                  patch('openai_codex.Codex') as client,patch('mas_runtime.CampaignRuntime.run') as run,
+                  redirect_stdout(io.StringIO()) as output):
+                main(['--repo',str(self.w.root),'--material','synthetic','--context',str(path)])
+                read.assert_called_once_with(path,encoding='utf-8')
+                self.assertEqual(json.loads(output.getvalue())['status'],'NOT_RUN')
+                client.assert_not_called();run.assert_not_called()
+        self.assertFalse(self.w.state_path.exists())
 
     def test_cli_reconsideration_requires_and_passes_stable_revision_identity(self):
         path = self.base/'context.json'
         path.write_text(json.dumps(CONTEXT))
-        arguments = ['--workspace', str(self.w.root), '--source', str(self.w.source),
+        arguments = ['--repo', str(self.w.root),
                      '--material', 'synthetic', '--context', str(path)]
         with patch('mas_runtime.CampaignRuntime.run', return_value=None) as run:
             for suffix in [['--reconsider', 'New evidence'], ['--revision-id', 'revision-1']]:
@@ -1036,7 +1395,7 @@ class RuntimeTests(unittest.TestCase):
             main(arguments + ['--live', '--reconsider', 'New evidence', '--revision-id', 'revision-1'])
             self.assertEqual(run.call_args.kwargs['revision_id'], 'revision-1')
             self.assertEqual(run.call_args.kwargs['reconsideration'], 'New evidence')
-        self.assertFalse(self.w.root.exists())
+        self.assertFalse(self.w.state_path.exists())
 
     def test_runbook_synthetic_json_and_standalone_preparation(self):
         document = (self.w.source / 'docs/mas/python-runtime.md').read_text(encoding='utf-8')
@@ -1049,14 +1408,14 @@ class RuntimeTests(unittest.TestCase):
         path = self.base / 'runbook-context.json'
         path.write_text(example.group(1), encoding='utf-8')
         result = subprocess.run(['uv', 'run', '--locked', '--no-sync', 'python',
-            str(self.w.source / 'src/pipeline/mas_runtime.py'), '--workspace', str(self.w.root),
-            '--source', str(self.w.source), '--material', 'synthetic', '--context', str(path)],
-            cwd=self.w.source, capture_output=True, text=True)
+            str(self.w.source / 'src/pipeline/mas_runtime.py'), '--repo', str(self.w.root), '--material', 'synthetic', '--context', str(path)],
+            cwd=self.w.source, env={**os.environ,'UV_PROJECT_ENVIRONMENT':sys.prefix}, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)['status'], 'NOT_RUN')
-        self.assertFalse(self.w.root.exists())
+        self.assertFalse(self.w.state_path.exists())
 
     def test_effective_mcp_is_disabled_by_name_and_policies_have_no_model_override(self):
+        self.prepare_sdk()
         replies = [subprocess.CompletedProcess([], 0, '[{"name":"inherited.server","enabled":true}]', ''),
                    subprocess.CompletedProcess([], 0, '[{"name":"inherited.server","enabled":false}]', '')]
         with self.w.lock(), patch('mas_runtime.subprocess.run', side_effect=replies) as inspect_mcp:
@@ -1064,14 +1423,17 @@ class RuntimeTests(unittest.TestCase):
                 isolated_sdk(self.w)
             config = client.call_args.args[0]
             self.assertIn('"inherited.server"={enabled=false}', config.config_overrides[-1])
-            self.assertIn('sandbox_workspace_write.network_access=false', config.config_overrides)
+            self.assertIn('permissions.mas.network.enabled=false', config.config_overrides)
+            self.assertNotIn('sandbox_mode="workspace-write"', config.config_overrides)
+            self.assertEqual(config.env['CODEX_HOME'], str(self.w.root))
             self.assertIn('features.memories=false', config.config_overrides)
             self.assertEqual(inspect_mcp.call_count, 2)
-            self.assertEqual(config.cwd, str(self.w.root))
+            self.assertEqual(config.cwd, str(self.w.path(self.w.attempt_path(self.w.state['operations'][self.w.state['active']]))))
             self.assertEqual(config.env['MAS_SOURCE_ROOT'], str(self.w.source))
             self.assertNotIn('PILOT_ROOT', config.env)
 
     def test_unknown_still_enabled_mcp_aborts_before_client_without_leaking_output(self):
+        self.prepare_sdk()
         response = subprocess.CompletedProcess([], 0, '[{"name":"private-name","enabled":true}]', '')
         with self.w.lock(), patch('mas_runtime.subprocess.run', return_value=response):
             with patch('openai_codex.Codex') as client:
@@ -1079,6 +1441,71 @@ class RuntimeTests(unittest.TestCase):
                     isolated_sdk(self.w)
                 client.assert_not_called()
                 self.assertNotIn('private-name', str(error.exception))
+
+    def test_publication_conflicts_block_success_and_sdk_until_exact_resolution(self):
+        for phase in ('write-tree','update-ref'):
+            with self.subTest(phase=phase):
+                self.w=Workspace(project(self.base/('race-'+phase)),CONTEXT['campaign'],'synthetic')
+                self.sdk=FakeCodex(self.w);self.factory=unittest.mock.Mock(return_value=self.sdk)
+                runtime=CampaignRuntime(self.w,Context.model_validate(CONTEXT),sdk_factory=self.factory)
+                native=self.w.git;once=[True];target=self.w.root/'data/knowledge/synthetic'/TOPICS[0]
+                def intercepted(*args,**kwargs):
+                    value=native(*args,**kwargs)
+                    if args[0]==phase and once[0]:once[0]=False;target.write_bytes(b'FOREIGN_RUNTIME_EDIT\n')
+                    return value
+                progress=io.StringIO()
+                with redirect_stderr(progress),patch.object(self.w,'git',side_effect=intercepted),self.assertRaises(ValueError):runtime.run()
+                self.assertNotIn('Knowledge published',progress.getvalue());self.assertNotIn('Accepted final action',progress.getvalue())
+                self.assertIsNotNone(self.w.state['pending']);calls=self.factory.call_count;turns=len(self.sdk.prompts)
+                self.factory.side_effect=AssertionError('Unresolved publication must precede SDK construction')
+                with redirect_stderr(io.StringIO()),self.assertRaises(ValueError):runtime.run()
+                self.assertEqual(self.factory.call_count,calls);self.assertEqual(len(self.sdk.prompts),turns)
+                self.assertEqual(target.read_bytes(),b'FOREIGN_RUNTIME_EDIT\n')
+                with self.w.lock():
+                    entry=self.w.state['pending']['prepared']['data/knowledge/synthetic/'+TOPICS[0]]
+                    target.write_bytes(self.w.path(entry['snapshot']).read_bytes())
+                with redirect_stderr(io.StringIO()):self.assertIsNone(runtime.run())
+                self.assertEqual(self.factory.call_count,calls);self.assertEqual(len(self.sdk.prompts),turns)
+                self.assertIsNone(self.w.state['pending']);self.w._verify_frontier()
+
+    def test_host_decision_collision_is_not_written_before_publication(self):
+        self.bootstrap();before=self.w.head();self.sdk.action='hold';targets=[]
+        def collision():
+            record=self.w.state['operations'][self.w.state['active']]
+            target=self.w.path(self.w.round_path(record)+'/decision.md');target.write_bytes(b'FOREIGN_HOST_RECORD\n');targets.append(target)
+        self.sdk.hook=collision;progress=io.StringIO()
+        with redirect_stderr(progress),self.assertRaisesRegex(ValueError,'host-generated'):self.observe()
+        self.assertEqual(len(targets),1);self.assertEqual(targets[0].read_bytes(),b'FOREIGN_HOST_RECORD\n')
+        self.assertEqual(self.w.head(),before);self.assertIsNone(self.w.state['pending'])
+        self.assertNotIn('Accepted final action',progress.getvalue())
+
+    def test_once_selected_sources_survive_preparation_retry_without_rewriting(self):
+        native=self.w.publish;selected={};once=[True]
+        def interrupted(record,files,**kwargs):
+            observations=kwargs['observations'];self.assertTrue(observations)
+            for path in observations:
+                selected.setdefault(path,(files[path],self.w.path(path).stat().st_ino))
+            canonical='data/knowledge/synthetic/'+TOPICS[0]
+            matches=[p for p in observations if p.endswith('/author/'+TOPICS[0])]
+            self.assertEqual(len(matches),1);self.assertIs(files[canonical],files[matches[0]])
+            if once[0]:
+                once[0]=False;self.w.path(next(iter(observations))).write_bytes(b'FOREIGN_SELECTED_SOURCE\n')
+            write=self.w.write
+            def no_rewrite(path,data):
+                self.assertNotIn(path,observations,'Already authored files must remain KEEP')
+                return write(path,data)
+            with patch.object(self.w,'write',side_effect=no_rewrite):return native(record,files,**kwargs)
+        with patch.object(self.w,'publish',side_effect=interrupted),redirect_stderr(io.StringIO()),self.assertRaises(ValueError):self.runtime.run()
+        turns=len(self.sdk.prompts);calls=self.factory.call_count;self.factory.side_effect=AssertionError('Selection conflict before SDK')
+        with redirect_stderr(io.StringIO()),self.assertRaisesRegex(ValueError,'Selected authored'):self.runtime.run(retry=True)
+        self.assertEqual(self.factory.call_count,calls);self.assertEqual(len(self.sdk.prompts),turns)
+        for path,(data,ino) in selected.items():
+            self.assertEqual(self.w.path(path).stat().st_ino,ino);self.w.path(path).write_bytes(data)
+        self.factory.side_effect=None
+        with patch.object(self.w,'publish',side_effect=interrupted),redirect_stderr(io.StringIO()):self.assertIsNone(self.runtime.run())
+        self.assertEqual(len(self.sdk.prompts),turns)
+        for path,(data,ino) in selected.items():
+            self.assertEqual(self.w.path(path).read_bytes(),data);self.assertEqual(self.w.path(path).stat().st_ino,ino)
 
 
 if __name__ == '__main__':

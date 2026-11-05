@@ -23,5 +23,18 @@
 - Dynamic experiment turns use `docs/mas/workflow.md` and
   `docs/mas/data-contract.md`. Its explicit delegation instructions apply only to
   those turns, not to every code-development task.
+- An authorized MAS invocation uses this existing repository: shared material
+  topics live at `data/knowledge/<material>/`, and campaign work/state at
+  `data/results/<actual-campaign-key>/mas/`. Scientific agents write only their
+  current `rounds/<operation>/attempt-<n>/` and scratch; source, original data,
+  canonical topics, Git, checkpoints and native/auth state are host-owned.
+  Python alone publishes exact reviewed adoptions and a stable checkpoint through
+  a private Git index and compare-and-swap; never initialize a nested/output Git.
+  This bounded runtime publication does not grant development Writer ownership.
+- Only SDK children use this root as `CODEX_HOME`; the desktop app keeps its own
+  home. Runtime suppresses automatic AGENTS discovery and explicitly supplies
+  scientific role owners. Do not edit/read native authentication or session files
+  as scientific evidence. Home/profile/auth behavior needs separate live evidence;
+  cloning tracked checkpoints does not recreate native sessions or grant login.
 - Do not run the hardware loop, contact the robot, or launch a physical experiment
   as part of development validation. Use mocked clients and temporary data.

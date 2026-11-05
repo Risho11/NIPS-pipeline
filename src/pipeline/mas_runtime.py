@@ -12,7 +12,7 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 from mas_contract import (Context, Contribution, Decision, MainReply, Review, TOPICS,
                           validate_conditions)
-from mas_workspace import Workspace, file_digest, key
+from mas_workspace import Workspace, file_digest, key, NATIVE_NAMES, NATIVE_GLOBS, HOST_NAMES, MAX_ADOPTION
 
 ROLES = ('hypothesis-updater', 'hypothesis-qa', 'experiment-designer',
          'experiment-design-qa', 'experiment-analyst')
@@ -42,32 +42,35 @@ def isolated_sdk(workspace):
     These configuration requests require the separately authorized live smoke to
     establish actual sandbox enforcement; task instructions are not OS isolation.
     """
+    workspace.native_homes()
     from codex_cli_bin import bundled_codex_path
     from openai_codex import Codex, CodexConfig, __version__
     if __version__ != '0.163.0':
         raise RuntimeError("Pinned openai-codex 0.163.0 required")
+    record = workspace.state['operations'][workspace.state['active']]
+    attempt = workspace.path(workspace.attempt_path(record))
+    scratch = attempt / '.scratch'
+    native = workspace.path(workspace.area + '/.native')
+    native.mkdir(parents=True, exist_ok=True)
+    scratch.mkdir(parents=True, exist_ok=True)
     overrides = (
-        'project_root_markers=[]', 'sandbox_mode="workspace-write"',
-        'sandbox_workspace_write.writable_roots=[]',
-        'sandbox_workspace_write.exclude_slash_tmp=true',
-        'sandbox_workspace_write.exclude_tmpdir_env_var=true',
-        'sandbox_workspace_write.network_access=false', 'web_search="disabled"',
-        'features.apps=false', 'features.plugins=false', 'features.memories=false',
-        'agents.enabled=true',
+        'project_root_markers=[]', 'project_doc_max_bytes=0',
+        'default_permissions="mas"', 'permissions.mas.extends=":read-only"',
+        'permissions.mas.network.enabled=false',
+        'web_search="disabled"', 'features.apps=false', 'features.plugins=false',
+        'features.memories=false', 'agents.enabled=true', 'check_for_update_on_startup=false',
+        'sqlite_home=' + json.dumps(str(native / 'sqlite')),
+        'log_dir=' + json.dumps(str(native / 'log')),
     )
-    scratch = workspace.path('.scratch')
-    config = CodexConfig(cwd=str(workspace.root), codex_bin=str(bundled_codex_path()),
+    filesystem = _attempt_config(workspace, record)['permissions']['mas']['filesystem']
+    # The CLI override key parser splits dots even inside quoted path keys.
+    # Supply one TOML table value so filename dots remain literal path bytes.
+    table = ','.join(json.dumps(p) + '=' + json.dumps(mode) for p, mode in filesystem.items())
+    overrides += ('permissions.mas.filesystem={' + table + '}',)
+    config = CodexConfig(cwd=str(attempt), codex_bin=str(bundled_codex_path()),
                          config_overrides=overrides,
-                         env={'MAS_SOURCE_ROOT': str(workspace.source),
-                              'PYTHONDONTWRITEBYTECODE': '1',
-                              'TMPDIR': str(scratch), 'TMP': str(scratch), 'TEMP': str(scratch),
-                              'UV_CACHE_DIR': str(scratch / 'uv-cache'),
-                              'UV_OFFLINE': '1', 'UV_NO_SYNC': '1', 'UV_NO_PROJECT': '1',
-                              'UV_PYTHON_DOWNLOADS': 'never', 'UV_PYTHON': sys.executable,
-                              'VIRTUAL_ENV': sys.prefix, 'UV_PROJECT_ENVIRONMENT': sys.prefix,
-                              'XDG_CACHE_HOME': str(scratch / 'cache'),
-                              'MPLCONFIGDIR': str(scratch / 'matplotlib')})
-    scratch.mkdir(exist_ok=True)
+                         env={**_analysis_env(workspace, record), 'CODEX_HOME':str(workspace.root),
+                              'CODEX_SQLITE_HOME':str(native / 'sqlite'), 'MAS_SOURCE_ROOT':str(workspace.source)})
 
     def mcp_states():
         command = [config.codex_bin]
@@ -102,6 +105,59 @@ def isolated_sdk(workspace):
     return Codex(config)
 
 
+def _analysis_env(workspace, record):
+    scratch = workspace.path(workspace.attempt_path(record)) / '.scratch'
+    scratch.mkdir(parents=True, exist_ok=True)
+    return dict(PYTHONDONTWRITEBYTECODE='1', TMPDIR=str(scratch), TMP=str(scratch), TEMP=str(scratch),
+        UV_CACHE_DIR=str(scratch/'uv-cache'), UV_OFFLINE='1', UV_NO_SYNC='1', UV_NO_PROJECT='1',
+        UV_PYTHON_DOWNLOADS='never', UV_PYTHON=sys.executable, VIRTUAL_ENV=sys.prefix,
+        UV_PROJECT_ENVIRONMENT=sys.prefix, XDG_CACHE_HOME=str(scratch/'cache'), MPLCONFIGDIR=str(scratch/'matplotlib'))
+
+
+def _other_campaign_globs(campaign):
+    """Bounded flat unions of longer names, mismatches and nonempty prefixes.
+
+    Validated ASCII keys contain no glob syntax. At most 2*n alternatives exclude
+    exactly this name without enumerating existing (or future) campaigns. Groups
+    of at most four keep the pinned native resolver's regex/rule sizes bounded.
+    """
+    campaign = key(campaign)
+    alternatives = [campaign + '?*']
+    for i, char in enumerate(campaign):
+        prefix = campaign[:i]
+        alternatives.append(prefix + '[!' + char + ']*')
+        if prefix:alternatives.append(prefix)
+    return ['{' + ','.join(alternatives[i:i+4]) + '}' for i in range(0,len(alternatives),4)]
+
+
+def _attempt_config(workspace, record):
+    attempt = workspace.path(workspace.attempt_path(record))
+    homes = workspace.native_homes()
+    attempt.mkdir(parents=True, exist_ok=True)
+    denied = [workspace.root/'data/results/*/mas'/name for name in HOST_NAMES]
+    # Native wildcard directory rules do not inherit to descendants. Keep their
+    # roots denied and explicitly cover every host-owned descendant as well.
+    denied += [path/'**' for path in denied]
+    # A matching recursive deny beats even a literal read exception. Exclude the
+    # current campaign from both rules rather than trying to override that deny.
+    for pattern in _other_campaign_globs(workspace.campaign):
+        other_inputs = workspace.root/'data/results'/pattern/'mas/.inputs'
+        denied += [other_inputs, other_inputs/'**']
+    denied += [workspace.root/name for name in NATIVE_NAMES | NATIVE_GLOBS]
+    denied += [workspace.root/name/'**' for name in NATIVE_GLOBS]
+    denied += [workspace.root/'.git', workspace.root/'.agents']
+    denied += [workspace.git_dir, workspace.common_dir]
+    denied += homes
+    filesystem = {str(p):'deny' for p in denied}
+    # Only this campaign's caller-prepared observation copies are readable.
+    filesystem[str(workspace.path(workspace.area + '/.inputs'))] = 'read'
+    filesystem[str(attempt)] = 'write'
+    filesystem[str(attempt/'.codex')] = 'read'
+    return dict(default_permissions='mas', project_root_markers=[], project_doc_max_bytes=0,
+        permissions={'mas':dict(extends=':read-only', filesystem=filesystem, network={'enabled':False})},
+        shell_environment_policy={'set':_analysis_env(workspace, record)})
+
+
 class CampaignRuntime:
     """One native Main turn per run(); None means reviewed knowledge was published.
 
@@ -113,32 +169,35 @@ class CampaignRuntime:
         self.workspace = workspace
         self.context = Context.model_validate(context)
         key(self.context.campaign)
+        if self.context.campaign != workspace.campaign:
+            raise ValueError("Context/campaign workspace binding differs")
         self.sdk_factory = sdk_factory or (lambda: isolated_sdk(workspace))
         self.last_operation_id = None
 
     def _bindings(self):
         w = self.workspace
-        # Discover registered roles in the independent output root, with source
+        w.native_homes()
+        # Discover registered roles in the current attempt, with source
         # role documents resolved through MAS_SOURCE_ROOT; do not copy source/data.
         for role in ROLES:
             source = w.source / '.codex/agents' / f'{role}.toml'
             if source.is_symlink() or not source.is_file():
                 raise ValueError("Missing regular source role binding")
-            w.write(f'.codex/agents/{role}.toml', source.read_text(encoding='utf-8'))
+            record = w.state['operations'][w.state['active']]
+            w.write(w.attempt_path(record) + f'/.codex/agents/{role}.toml', source.read_text(encoding='utf-8'))
 
     def _inputs(self, inputs):
         result = {}
         for label, source in (inputs or {}).items():
             key(label)
             p = Path(source)
-            if p.is_symlink() or not p.is_file() or p.resolve().is_relative_to(self.workspace.root):
-                raise ValueError("Original inputs must be regular files outside output root")
-            result[label] = {'path': str(p.resolve()), 'sha256': file_digest(p)}
+            p = self.workspace.input_path(p)
+            result[label] = {'path': self.workspace.relative(p), 'sha256': file_digest(p)}
         return result
 
     def _check_inputs(self, record):
         for value in record['inputs'].values():
-            if file_digest(value['path']) != value['sha256']:
+            if file_digest(self.workspace.input_path(value['path'])) != value['sha256']:
                 raise ValueError("Original observation changed; preserve and reconsider explicitly")
 
     def _operation(self, observation_id, inputs, reconsideration, revision_id=None):
@@ -185,7 +244,9 @@ class CampaignRuntime:
                         raise ValueError("Supplied observation binding changed; identity or reconsideration required")
                     self._check_inputs(active)
                     return active
-                raise ValueError("New context requires explicit reconsideration")
+                if active:
+                    raise ValueError("New context requires explicit reconsideration")
+                reconsideration = 'New campaign using approved shared knowledge'
             if observation_id and not reconsideration:
                 matches = [r for r in state['operations'].values()
                            if r['observation_id'] == observation_id and r['kind'] == 'observation']
@@ -234,7 +295,7 @@ class CampaignRuntime:
         if '..' in path.parts:
             raise ValueError("Parent traversal artifact reference forbidden")
         relative = path.relative_to(w.root) if path.is_absolute() else path
-        target = w.proposal(record, relative.as_posix())
+        target = w.artifact(record, relative.as_posix())[0]
         attempt = w.path(w.round_path(record) + '/attempt-' + str(len(record['turns'])))
         if not target.is_relative_to(attempt):
             raise ValueError("Current attempt artifact required; preserve earlier attempts")
@@ -335,9 +396,10 @@ class CampaignRuntime:
         return turn, text
 
     def _options(self, *, read_only=False):
-        from openai_codex import ApprovalMode, Sandbox
-        return dict(cwd=str(self.workspace.root), approval_mode=ApprovalMode.deny_all,
-                    sandbox=Sandbox.read_only if read_only else Sandbox.workspace_write)
+        from openai_codex import ApprovalMode
+        record = self.workspace.state['operations'][self.workspace.state['active']]
+        return dict(cwd=str(self.workspace.path(self.workspace.attempt_path(record))),
+                    approval_mode=ApprovalMode.deny_all, config=_attempt_config(self.workspace, record))
 
     def _turn(self, sdk, record, *, retry):
         w = self.workspace
@@ -393,6 +455,8 @@ class CampaignRuntime:
             record['turns'].append(prior.id)
             record['turn_id'] = None
             w.save()
+            self._bindings()
+            thread = sdk.thread_resume(w.state['thread_id'], include_turns=False, **self._options())
         handle = thread.turn(self._prompt(record), output_schema=MainReply.model_json_schema())
         if running and handle.id != prior.id:
             raise ValueError("SDK did not join the pending native turn")
@@ -432,11 +496,12 @@ class CampaignRuntime:
     def run(self, *, observation_id=None, inputs=None, reconsideration=None, revision_id=None, retry=False):
         """Return Decision, or None after publication; ordinary restarts never reconsider."""
         w = self.workspace
+        w.native_homes()
         if revision_id is not None:
             key(revision_id)
             if not reconsideration or not reconsideration.strip():
                 raise ValueError("Revision identity requires a substantive reconsideration reason")
-        with w.lock(), ExitStack() as resources:
+        with w.lock(reconcile=bool(reconsideration)), ExitStack() as resources:
             if w.state['pending']:
                 knowledge = w.state['pending']['knowledge']
                 try:
@@ -456,6 +521,7 @@ class CampaignRuntime:
                 self._supersede(sdk, active, reconsideration)
             record = self._operation(observation_id, inputs, reconsideration, revision_id)
             self.last_operation_id = record['id']
+            w.check_selection(record)
             if record['status'] == 'completed':
                 action = record['decision']['action'].upper() if record['decision'] else 'knowledge'
                 print(f'[MAS] Reusing validated cached {action} result; no SDK connection.', file=sys.stderr, flush=True)
@@ -490,8 +556,19 @@ class CampaignRuntime:
         receipt = {'operation_id': record['id'], 'main_thread_id': w.state['thread_id'],
                    'turn_id': native.id, 'adoption': reply.model_dump(mode='json')}
         files = {}
+        observations, selected = {}, {}
+        def take(relative):
+            if relative not in selected:
+                data, identity = w.select_publication(record,native.id,relative)
+                selected[relative], observations[relative] = data, identity
+            return selected[relative]
+        artifacts = []
         for relative in reply.records:
-            files[relative] = w.proposal(record, relative).read_text(encoding='utf-8')
+            files[relative] = take(relative)
+            _, kind = w.artifact(record, relative, data=files[relative])
+            artifacts.append(dict(path=relative, kind=kind, operation_id=record['id'], inputs=record['inputs']))
+        if sum(len(v) for v in files.values()) > MAX_ADOPTION:
+            raise ValueError('Adoption exceeds 64 MiB')
         if reply.knowledge:
             author, review, proof = self._native_review(sdk, native, reply.knowledge, record, 'knowledge')
             reply = reply.model_copy(update={'knowledge':reply.knowledge.model_copy(update={
@@ -503,10 +580,10 @@ class CampaignRuntime:
             if record['kind'] == 'bootstrap' and set(author.files) != set(TOPICS):
                 raise ValueError("Initial theory review must cover all four topics")
             for topic, proposed in author.files.items():
-                files[f'data/knowledge/{w.material}/{topic}'] = w.proposal(record, proposed).read_text(encoding='utf-8')
-                files[proposed] = w.proposal(record, proposed).read_text(encoding='utf-8')
+                files[f'data/knowledge/{w.material}/{topic}'] = take(proposed)
+                files[proposed] = files[f'data/knowledge/{w.material}/{topic}']
             for relative in (author.report_path, review.report_path):
-                files[relative] = w.proposal(record, relative).read_text(encoding='utf-8')
+                files[relative] = take(relative)
             receipt['author'] = author.model_dump(mode='json')
             receipt['review'] = review.model_dump(mode='json')
         else:
@@ -525,7 +602,7 @@ class CampaignRuntime:
                     raise ValueError("Final conditions/version differ from independently reviewed design")
                 validate_conditions(decision.next_params, self.context)
                 for relative in (author.report_path, review.report_path):
-                    files[relative] = w.proposal(record, relative).read_text(encoding='utf-8')
+                    files[relative] = take(relative)
                 receipt['author'] = author.model_dump(mode='json')
                 receipt['review'] = review.model_dump(mode='json')
             record['decision'] = decision.model_dump(mode='json')
@@ -535,12 +612,16 @@ class CampaignRuntime:
             text = (f'# Campaign decision: {decision.action}\n\n{decision.reason}\n\n'
                     f'Knowledge commit: {decision.knowledge_commit}\n\n'
                     f'Accepted records:\n{links or "No additional authored records were adopted."}\n')
-            w.write(relative, text)
             files[relative] = text
             record['report_path'] = relative
         receipt['adoption'] = reply.model_dump(mode='json')
+        for artifact in artifacts:
+            artifact['native_review'] = receipt.get('native_review')
+            if artifact['kind'] != 'markdown' and not artifact['native_review']:
+                raise ValueError('Derived artifacts require native author/reviewer provenance')
+        receipt['artifacts'] = artifacts
         files[w.round_path(record) + '/adoption.json'] = json.dumps(receipt, indent=2) + '\n'
-        w.publish(record, files, knowledge=reply.knowledge is not None)
+        w.publish(record, files, knowledge=reply.knowledge is not None, observations=observations)
         if reply.knowledge:
             print(f"[MAS] Knowledge published at {w.state['knowledge_commit']}.", file=sys.stderr, flush=True)
         else:
@@ -549,8 +630,7 @@ class CampaignRuntime:
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description='Report-only adaptive MAS; never submit a device request')
-    parser.add_argument('--workspace', type=Path, required=True)
-    parser.add_argument('--source', type=Path, required=True)
+    parser.add_argument('--repo', type=Path, required=True)
     parser.add_argument('--material', required=True)
     parser.add_argument('--context', type=Path, required=True)
     parser.add_argument('--observation-id')
@@ -568,8 +648,9 @@ def main(argv=None):
         if not separator or label in inputs:
             parser.error('Unique LABEL=PATH input bindings required')
         inputs[label] = Path(path)
-    runtime = CampaignRuntime(Workspace(args.workspace, args.source, args.material),
-                              Context.model_validate_json(args.context.read_text(encoding='utf-8')))
+    context_path = Workspace.operator_context_path(args.repo, args.context)
+    context = Context.model_validate_json(context_path.read_text(encoding='utf-8'))
+    runtime = CampaignRuntime(Workspace(args.repo, context.campaign, args.material), context)
     if not args.live:
         print('{"status":"NOT_RUN","reason":"Add --live only within an authorized invocation"}')
         return

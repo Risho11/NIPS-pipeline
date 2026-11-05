@@ -95,3 +95,35 @@ V4_NIPS_curve_processing%20-%202026-06-09.ipynb
 # Pipeline plots — keep real runs, ignore pseudo-runs (test/dev)
 data/plots/pseudo-runs/
 tests/all_conditions_run.log
+
+# MAS-only CODEX_HOME is this root; keep project .codex/agents and AGENTS tracked.
+/auth.json*
+/config.toml
+/history.jsonl
+/session_index.jsonl
+/models_cache.json
+/version.json
+/installation_id
+/.sandbox_migration
+/.codex-global-state.json*
+/sessions/
+/archived_sessions/
+/shell_snapshots/
+/thread-writer-locks/
+/log/
+/sqlite/
+/state_*.sqlite*
+/logs_*.sqlite*
+/tmp/
+/skills/
+/plugins/
+/packages/
+/vendor_imports/
+data/results/*/mas/.mas-runtime.json
+data/results/*/mas/.mas.lock
+data/results/*/mas/.pipeline.lock
+data/results/*/mas/.transactions/
+data/results/*/mas/.native/
+data/results/*/mas/.inputs/
+data/results/*/mas/rounds/*/attempt-*/.scratch/
+data/results/*/mas/rounds/*/attempt-*/.codex/

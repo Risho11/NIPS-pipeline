@@ -19,9 +19,9 @@ additional review uses a fresh instance of that role for a named unresolved issu
 under the workflow, not an automatic analysis-QA stage. Report locations and revision reasons trace evidence
 without whole-report JSON echoes or report-hash gates.
 
-The [Python runtime](python-runtime.md) supplies a writable independent workspace,
-persistent scientific Main and native review/operational publication. The caller
-separates source, original measurements and scientific outputs. It never creates
+The [Python runtime](python-runtime.md) binds the existing repository, a campaign
+and a material, with one persistent scientific Main and native review/publication.
+The caller separates original measurements from current-attempt outputs. It never creates
 scientific observations or grades report claims; actual permissions and execution
 need independently recorded evidence.
 
@@ -30,11 +30,12 @@ Shared material/process claims and their bounded evidence judgments follow
 duplicating canonical knowledge. Bind instruction/evidence sources separately
 from authorized scientific outputs using the workflow's
 [source/output principles](workflow.md#source-and-output-bindings). A temporary
-scientific session writes round/knowledge outputs only beneath its assigned
-temporary root. These documents grant no project knowledge writes or new Python
-persistence behavior. Scientific main's temporary Git use requires the workflow's
-explicit invocation binding; authors/reviewers never stage/commit or publish shared
-knowledge. Raw measurements/media do not enter that repository.
+scientific agent writes only its assigned current attempt under
+`data/results/<campaign>/mas/rounds/<operation>/attempt-<n>/`. Python publishes
+reviewed topics at `data/knowledge/<material>/` and exact adopted records plus the
+campaign `.mas-state.json` in the existing Git. Inputs/source/report bindings are
+repository-relative and digest-bound. Raw measurements/media are excluded from
+MAS publication; no agent stages/commits or edits canonical topics/native state.
 
 For outcome-withheld initialization use only approved protocol/measurement
 facts and constraints. The evidence-discovery/history sections and their linked
@@ -88,7 +89,7 @@ Compression-derived pore fraction does not measure exchange kinetics or image
 pore architecture. Keep those proposed intermediates distinct from measured data.
 
 The dynamic caller preserves request-specific CSV input copies under the campaign's
-`.mas-inputs/<caller-id>/` and a `provenance.json` naming original paths and exact
+`mas/.inputs/<caller-id>/` and a `provenance.json` naming repository-relative original paths and exact
 measurement-content identities. These are pipeline outputs outside scientific Git,
 not new measurements. Only shared report annotations are excluded from the
 measurement identity; all original scalar strings and rows remain significant.
@@ -318,7 +319,7 @@ resources, normal batch completion or scientific optimization completion. Report
 unresolved execution and request human resource/prepared-setting checks before
 the next operation; never retry or alter physical state through this workflow.
 
-Main's `data/results/<campaign>/mas/batches/<batch-id>/summary.md` links the confirmed
+Main's current-attempt `batch-summary-<batch-id>.md` links the confirmed
 grouping/context, available observations and cumulative learning, unresolved
 execution and proposed next-batch comparisons. State a fixed-setting proposal's
 scientific reason, competing prediction, controls and required operator decision;

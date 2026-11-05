@@ -80,8 +80,12 @@ The model cannot change these settings. Older records without identities remain
 unknown rather than inheriting the current campaign's materials.
 
 For optional `dynamic` MAS, use the [runtime runbook](docs/mas/python-runtime.md)
-for explicit source/output/material bindings, prepared environment, report-only
+for repository/campaign/material bindings, prepared environment, report-only
 CLI and queued reconsideration. The [scientific workflow](docs/mas/workflow.md)
 defines inquiry and independent review. The default remains `double_explore`.
 Offline tests mock models/devices; actual SDK smoke, hosted CI and physical
 qualification require their own evidence. A report-only RUN never starts a robot.
+Shared topics live in `data/knowledge/<material>/`; each campaign's work and
+checkpoint live in `data/results/<actual-campaign-key>/mas/`. The host publishes
+reviewed records in the existing repository Git. Only SDK children use the
+repository root as `CODEX_HOME`; scientific agents write their current attempt.

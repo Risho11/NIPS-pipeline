@@ -12,7 +12,7 @@ worked methods. Use the shared [data contract](data-contract.md) and
 
 These contracts guide inquiry; they do not certify its execution or usefulness.
 Use actual native round/knowledge records for what was observed, reviewed or
-revised, and the existing [development execution status](../../harnessing/2026-10-29-mas-agent-contract-redesign/EXECUTION_STATUS.md)
+revised, and the current [development execution status](../../harnessing/2026-11-04-mas-python-runtime/EXECUTION_STATUS.md)
 for development acceptance. Historical pilot evidence applies to its actual
 inputs/contracts; each changed inquiry needs its own useful scientific evidence.
 
@@ -24,19 +24,19 @@ sandbox enforcement remain separate validation from mocked software checks.
 
 ## Source and output bindings
 
-Bind the actual project as the instruction/evidence source and the authorized
-output root separately for each invocation. For temporary scientific sessions,
-PROJECT names the read-only project source and TEST_ROOT a temporary root such
-as `/tmp/<root>`. Scientific outputs belong in
-`TEST_ROOT/data/results/<campaign>/mas/rounds/<round-id>/` and
-`TEST_ROOT/data/knowledge/<material>/`; no generic `work/` subtree is needed.
-Give authors/reviewers explicit assigned output areas; only main publishes
-accepted shared knowledge. Do not resolve a relative output against PROJECT.
+Bind one existing project repository, the actual campaign key and material for
+each invocation. Drafts/reviews/derived outputs belong in
+`data/results/<campaign>/mas/rounds/<operation>/attempt-<n>/`; shared topics live
+in `data/knowledge/<material>/`. Existing pipeline keys already start with
+`begins_`; do not prefix them again. Give participants exact current-attempt
+paths. Main adopts reviewed work; Python alone publishes canonical topics/state.
+Development tests use fresh temporary repositories and synthetic data.
 
 The runtime requires `MAS_SOURCE_ROOT` for scientific role/source paths; it
-identifies PROJECT, never the output CWD. There is no pilot alias or CWD fallback.
-The caller supplies the actual explicit source root and separate output root. Keep analysis scratch/cache files in authorized outputs and use the
-existing environment without installing into or copying the project environment.
+identifies the explicit repository, never an inferred output CWD. There is no
+pilot alias or CWD fallback. Persist input/source/report paths relative to that
+repository and retain their content identities. Keep scratch/cache in the current
+attempt's `.scratch/`; use the prepared environment without installing or copying it.
 
 Project-read-only and output-only writes are task restrictions, not proof of OS
 enforcement. Check and report actual CWD, inherited permissions and writable roots;
@@ -50,19 +50,32 @@ utility weights. Missing weights do not make known preference directions unknown
 Route materially missing objective information; useful bounded learning may
 proceed within its justified scope while the larger aim remains explicitly open.
 
-Only an explicitly authorized scientific main may initialize and use an independent
-Git repository at its bound TEST_ROOT. Keep PROJECT and all other repositories
-read-only. Commit initial knowledge with its actual provenance/exposure, then only
-scientifically reviewed, main-adopted topic changes and explicitly named relevant
-round records. Record the committed knowledge used for a design in the existing
-round record; Git history replaces extra version files and bank snapshots.
-Stage exact paths only, excluding original/raw data, media, caches and secrets.
-Use command-local identity/settings with hooks and signing disabled; do not change
-global configuration, execute hooks, use remotes, broad staging, resets or deletions.
-Authors/reviewers neither publish shared knowledge nor stage/commit; drafts and
-rejected proposals are not adopted knowledge. Final topic prose retains consequential
-revision reasons without committing every draft. Without this explicit binding,
-no Git-write authority is granted; actual invocation permissions still govern.
+An authorized runtime uses the existing repository Git; never initialize another
+Git or give agents staging/commit authority. Python publishes exact adopted topics,
+relevant records/derived artifacts and a tracked campaign checkpoint with a private
+index and ref compare-and-swap. Unrelated staged work stops publication unchanged;
+unrelated working edits/source commits are preserved when accepted MAS paths
+remain unchanged. No broad staging/reset/cleanup/remotes or global settings.
+Record the actual knowledge commit informing design. Publication tokens avoid a
+checkpoint embedding its own commit hash. The ignored local journal retains
+pending transactions and diagnostic messages; tracked failure metadata contains
+only operation/turn/type. Publication captures existing replacements before exclusive
+installation; authored records stay in place. A conflict may leave an original
+path or the real index missing while its object remains in transaction evidence.
+Pre-ref conflicts and known-published dirty closure retain pending/incident; there
+is no automatic restore/rollback, accepted cache or physical dispatch. Closing
+reports an observed validated frontier, with revalidation at reuse; payload files
+and Git ref are not one atomic transaction. Capability and operator recovery
+limits are specified in the runbook. Conflicting provenance fails without cleanup.
+See the [runtime recovery boundary](python-runtime.md#output-history-and-git).
+
+Only SDK children use the repository root as `CODEX_HOME`. Automatic AGENTS
+discovery is disabled, and scientific role documents are explicitly supplied.
+The named permissions profile writes only the current attempt/scratch and denies
+source Git, host journals/checkpoints and root native/auth/session/database paths.
+Do not combine it with legacy sandbox arguments. Agents never inspect native
+state as evidence. Actual enforcement/login/app-lock behavior needs live evidence;
+tracked checkpoints alone cannot recreate missing native sessions after a clone.
 
 ## Knowledge initialization and recurring inquiry
 
@@ -389,9 +402,9 @@ with no scientific effect does not require restarting the inquiry.
 ## Records are navigable and revisable
 
 Retain original round reasoning under
-`data/results/<campaign>/mas/rounds/<round-id>/`: integrated work uses `inquiry.md`
+`data/results/<campaign>/mas/rounds/<operation>/attempt-<n>/`: integrated work uses `inquiry.md`
 and `inquiry-review.md`; split work may use `analysis.md` and
-`hypothesis-update.md` with actual review coverage. Design/review and `decision.md`
+`hypothesis-update.md` with actual review coverage. Design/review and the host's round-level `decision.md`
 link the selected question, evidence and adopted action; `artifacts/` holds useful
 calculations/plots/tables. Keep a small navigation in existing records. Filenames
 locate real work, not empty mandatory reports or a rigid template.
@@ -405,15 +418,15 @@ A link list alone is insufficient. Preserve original predictions, superseded
 judgments and historical IDs as provenance; no per-ID file or full-bank copy each
 round is needed. A new round or review is not a new measurement. See [knowledge](knowledge.md).
 
-Use `data/results/<campaign>/mas/batches/<batch-id>/summary.md` for an actual
+Use a current-attempt `batch-summary-<batch-id>.md` for an actual
 operator-confirmed grouping, its learning and proposed next-batch fixed-setting
 comparisons. Include only confirmed completion/context; an offline historical
 exercise may make a clearly labeled report-only candidate summary. Follow the
 [operator boundary](data-contract.md#operator-batches-and-recommendations): capacity,
 request acceptance and absent callbacks are not verified batch completion.
 
-In temporary sessions all scientific outputs stay beneath the authorized temporary
-root. Actual permission enforcement is distinct from task instructions. Preserve
+Scientific outputs stay within the bound current attempt; Main explicitly selects
+accepted summaries/records for host publication. Actual permission enforcement is distinct from task instructions. Preserve
 old records, actual pending reviews and unresolved evidence rather than inventing
 completed work to fill a slot.
 

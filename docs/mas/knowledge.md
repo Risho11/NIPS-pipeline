@@ -5,7 +5,8 @@ Use the [workflow](workflow.md) for inquiry and
 [data contract](data-contract.md) for original evidence and measurement meaning.
 Scientific usefulness must be judged from actual inquiry outputs; document QA,
 well-formed files and careful uncertainty labels do not establish it. These
-contracts introduce no production Python persistence implementation.
+contracts are enforced operationally by the [Python runtime](python-runtime.md);
+software receipts do not establish scientific truth.
 
 ## One inquiry, evolving topic documents
 
@@ -13,7 +14,7 @@ One main coordinates analysis, knowledge maintenance and experiment selection.
 Shared knowledge holds material/process claims across campaigns; a round explains
 which observations changed what and why. It is not a separate agent system or
 an agent's private operating memory. Main alone publishes scientifically reviewed
-changes within its authorized output root.
+changes through Python's exact-path publication in the bound repository.
 
 Use four documents under `data/knowledge/<material>/`: `concentration.md`,
 `prebath_exposure.md`, `bath_temperature.md` and `bath_residence.md`. They group
@@ -40,15 +41,18 @@ table, new claim ID or hypothesis quota applies. A material directory name does
 not verify chemistry. The four topic files replace active per-ID storage and
 separate index/coverage-file requirements; retained IDs serve as provenance.
 
-Round originals live under authorized `data/results/<campaign>/mas/rounds/<round-id>/`:
+Round originals live under authorized `data/results/<campaign>/mas/rounds/<operation>/attempt-<n>/`:
 `inquiry.md` / `inquiry-review.md` for integrated work, or `analysis.md` plus
 `hypothesis-update.md` with actual review coverage for split work. Design/review,
 `decision.md` and useful `artifacts/` remain there. These paths locate needed work,
 not mandatory empty files or a fixed prose schema. Link the round's proposed change
 to the topic document and the accepted revision back to its evidence/review.
-Do not copy the entire knowledge base into every round. In temporary sessions both
-round and shared writes stay beneath the bound temporary root; the project stays
-read-only under the task contract and actual permissions must be reported.
+Do not copy the entire knowledge base into every round. Agents write current
+attempt drafts/artifacts only; Python publishes the four canonical topics and
+reviewed round records in the existing repository. A campaign/material owns one
+Main and tracked checkpoint; another campaign has its own Main and may reuse the
+shared bank only through its accepted Git provenance. Concurrent bank changes
+require explicit reconsideration. Actual permissions must be checked separately.
 
 When migrating older index/variable/per-claim records, preserve those originals
 and trace their exact meanings, judgments, negative evidence and sources into the

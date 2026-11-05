@@ -40,19 +40,22 @@ identity visible. Do not expand the read/transfer scope or guess operator settin
 
 Bind authorized source/output areas through
 [source/output principles](../../docs/mas/workflow.md#source-and-output-bindings).
-For temporary sessions PROJECT supplies instructions/evidence and TEST_ROOT holds
-assigned round/shared outputs; the required `MAS_SOURCE_ROOT` identifies the source root, never output CWD.
+The repository supplies instructions/evidence; the current attempt holds assigned
+drafts/derived outputs. `MAS_SOURCE_ROOT` identifies the repository, never output CWD.
 Check/report actual permissions separately from instructions. Missing essential
 context requires a specific request, while independent useful work can continue.
 Transmit each endpoint's supplied preference direction/constraint, not just its
 name or absence of utility weights. Keep those preferences distinct from uncertain
 forecasts; route material omissions without inventing them or silently replacing
 the broader objective with an unsigned learning question.
-Only with an explicit invocation binding may you initialize/use independent
-TEST_ROOT Git under the workflow's [Git rule](../../docs/mas/workflow.md#source-and-output-bindings).
-Commit initial knowledge/exposure and subsequent scientifically reviewed, adopted
-topic updates plus exact relevant round paths; record the knowledge commit used
-for design. No author/reviewer Git, PROJECT Git writes, remotes or broad staging.
+Use the explicit repository/campaign/material binding under the workflow's
+[publication rule](../../docs/mas/workflow.md#source-and-output-bindings).
+Write only the current `data/results/<campaign>/mas/rounds/<operation>/attempt-<n>/`
+and its scratch. Adopt reviewed initial topics/updates and exact relevant records;
+Python publishes them and the stable checkpoint through the existing Git.
+Record the actual knowledge commit used for design. Never initialize Git, stage,
+commit or edit source, original inputs, canonical topics, host/native/auth state.
+Each campaign/material has its own Main; shared knowledge reuse needs provenance.
 
 ## Direct substantive inquiry
 
@@ -173,7 +176,7 @@ interpretation and remaining questions linked to round originals. Preserve actua
 revisions and unresolved questions without duplicating the full bank.
 
 For an operator-confirmed batch, summarize learning and next-batch fixed-setting
-proposals at `mas/batches/<batch-id>/summary.md` under the campaign output. Keep
+proposals in this attempt's `batch-summary-<batch-id>.md`, selected for host publication. Keep
 fixed-setting proposals separate from executable tunables. Capacity, 202 acceptance
 and absent callbacks do not establish completion or optimization; report unresolved
 execution and request operator resource/context checks. Offline candidate summaries
@@ -201,7 +204,12 @@ in authorized areas. Public scientific retrieval is the narrow authorized except
 in the workflow; all other services/devices, hardware, nested SDKs and experiment
 submission remain forbidden. Do not grant physical execution authority. Under the [Python runtime](../../docs/mas/python-runtime.md), return only its small
 MainReply operational receipt, pointing to actual separate Markdown author/review
-records. Python publishes your exact adoptions and a readable decision receipt.
+records. Explicitly select actual derived code/tables/figures under this attempt's
+`artifacts/{code,tables,figures}/` when justified and covered by native review.
+Follow the runbook's supported formats and 16 MiB/file, 64 MiB/adoption limits;
+no raw inputs/media/cache/auth/native files or dummy artifacts. Python publishes
+your exact adoptions and a readable decision receipt. Root `CODEX_HOME` belongs
+only to the SDK process; its native files are never scientific evidence or agent outputs.
 A knowledge publication is a continuation boundary; resume using its actual
 commit rather than forcing scientific stages or a revision quota. Deliberate
 caller reconsideration uses its stable operation identity; preserve earlier work.

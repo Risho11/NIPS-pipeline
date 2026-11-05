@@ -33,7 +33,7 @@ for routing and decision guidance.
 Use [shared knowledge](knowledge.md) to separate canonical material/process
 claims and bounded history from each round's evidence update and decision.
 Updater drafts; independent QA reviews; main alone accepts/publishes shared
-changes within the authorized output root. Locate authorized original curves,
+changes through the host in the bound repository. Locate authorized original curves,
 photos, params and plots before declaring evidence missing. Keep measurements,
 actually read literature and proposed inference distinct; unmeasured morphology
 does not become observed merely because a property direction agrees.
@@ -71,7 +71,7 @@ conditions. A report-only run recommendation grants no physical execution author
 
 Use the [runtime runbook](python-runtime.md) for the report-only API/CLI and actual
 loop binding/reconsideration. Three small owners separate operational types,
-independent Git/workspace recovery and persistent native Main/review. Five
+existing-repository publication/recovery and persistent native Main/review. Five
 specialists are registered; Main is the persistent parent, not a sixth binding.
 Legacy fixed-stage modules/pilot and the separate analysis-QA role are retired.
 
@@ -84,11 +84,14 @@ Windows, hosted CI and physical/scientific usefulness need their own evidence.
 Use the workflow's [source/output bindings](workflow.md#source-and-output-bindings),
 [data contract](data-contract.md) for originals and warm-start provenance, and
 [knowledge guide](knowledge.md) for shared publication and history. Read approved
-project evidence while writing only assigned temporary round/knowledge outputs.
-Only explicitly authorized scientific main may manage an independent TEST_ROOT
-Git repository under the workflow's binding; authors/reviewers do not stage or
-commit. Accepted knowledge history records the version informing each design,
-without committing raw data or creating extra bank snapshots.
+project evidence while writing only the current campaign operation's
+`data/results/<campaign>/mas/rounds/<operation>/attempt-<n>/`. Shared topics are
+`data/knowledge/<material>/`; Python publishes exact Main-adopted records and a
+tracked campaign checkpoint through the existing repository Git. Scientific
+agents never initialize Git, stage, commit or edit canonical topics/state.
+Each campaign/material has its own persistent Main and checkpoint; another
+campaign may reuse only the proven shared material bank. Native SDK state/auth
+is local and ignored, separate from tracked scientific provenance.
 Actual permissions must be checked separately from task instructions. Concrete
 session paths, read set, authorization and budget belong in the transient dispatch.
 

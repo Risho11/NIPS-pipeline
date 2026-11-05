@@ -131,3 +131,92 @@ Literal eight product paths, bounded necessary Jinja/MarkupSafe uv addition/inst
 {"phase":5,"step":1,"expected_commit_msg":"docs Durable Contract Promotion","prompt":"steps/PHASE_5_STEP_1_PROMPT.md"}
 ```
 Only after Phase4 accepted native publication: fresh independent whole-outcome QA selects normalized PROMOTED or NO_DURABLE_CHANGE. Conditional product docs/mas/python-runtime.md only, or no Writer ownership. Controller sole status receipt/native Git verification follows [Phase5 prompt](steps/PHASE_5_STEP_1_PROMPT.md). No historical DCP relabeling or personal/shared memory update.
+
+
+## Append-only continuation: Repository-contained MAS results and project-local Codex state
+
+Human message01a1a9ed-d122-76e1-b1a9-8709d2c7acf5 approves the discussed data layout, SDK CODEX_HOME at dynamically resolved repository root, tests and a new Goal. Actual completed Phase5 HEAD094af01d1eeddec469fd801a6e8552078af7e8ed/sole-status native Git parity and clean index were verified before append. Preserve phases1-5/old prompts/history; only appended Phase7 is the newest active DCP. Same verified Controller and independent persistent Writer, ordinary explicit-file Git, pinned external skills; no manager/progress/fingerprint. Product mutation requires a new literal Writer grant after fresh independent planning/P2 acceptance. Source measurements, operator settings, legacy modes and prior SDK evidence remain preserved.
+
+### Phase 6: Integrate MAS storage and project-local SDK state
+1. STEP 1: Integrate MAS storage and project-local SDK state
+```harness-step-json
+{"phase":6,"step":1,"expected_commit_msg":"feat integrate MAS storage into project repository","prompt":"steps/PHASE_6_STEP_1_PROMPT.md"}
+```
+Exact product scope and acceptance are in [Phase6 prompt](steps/PHASE_6_STEP_1_PROMPT.md). Replace the independent-output assumption with data/knowledge/<material>, existing data/results/begins_<campaign>/mas rounds/state and narrowly scoped existing-repository publication. Stable campaign checkpoints are versioned without self-referential hashes; transient journals/locks are excluded. Preserve unrelated changes and source/data integrity, native collaboration/review/bootstrap/reveal and exact physical submission guards. Derive source/input paths portably; do not silently migrate old external/native state. Give only the SDK child repository-root CODEX_HOME; protect source/host/native state while agents write their attempt. Preserve actual derived artifacts and truthful progress/CLI channels. Require fresh meaningful regression/full8suite/two-validator/static/preservation evidence. After stable offline results and returned Writer ownership, bind actual synthetic SDK/auth validation in a new temporary repo, then fresh complete independent product/P2 QA and exact-file native publication. Credentials are not copied or exposed; browser authentication may require human action. First failure stops the bound invocation and remains non-PASS until addressed under explicit scope.
+
+### Phase 7: Durable Contract Promotion
+1. STEP 1: Durable Contract Promotion
+```harness-step-json
+{"phase":7,"step":1,"expected_commit_msg":"docs Durable Contract Promotion","prompt":"steps/PHASE_7_STEP_1_PROMPT.md"}
+```
+Only after accepted Phase6 native publication and actual validation disposition: fresh independent whole-outcome QA judges the final normalized PROMOTED or NO_DURABLE_CHANGE. Conditional product ownership is docs/mas/python-runtime.md only for a genuine promoted clarification; otherwise no Writer product ownership. Controller owns the factual status receipt and exact staged/committed byte/path/parent verification. See [Phase7 prompt](steps/PHASE_7_STEP_1_PROMPT.md). No new shared/personal-memory action or physical/hosted-CI claim. Mark the Goal complete only when every required objective gate is actually satisfied.
+
+Phase7 final receipt ordering: Controller drafts and freezes the exact outcome/receipt before fresh QA. After terminal PASS only the exact five-field QA-identity prepend in the atomic prompt is permitted, Controller-verified against the real report/freeze. All other changes invalidate acceptance. Exact staged/committed path/blob/parent/subject/index and command exits provide actual terminal publication proof before Goal completion.
+
+
+## Phase6 Controller replan: strategy2 publication preservation
+
+Strategy1 ended at terminal QA3 FAIL (report f9af4d1505ebbe051010c1a7bc3c924c5dcfc70529b62a27bb703a8b9004b8b0). The original goal,17-path ceiling, Phase6 expected commit/requirements and mandatory-last Phase7 remain. Active strategy2 is the final section of [Phase6 prompt](steps/PHASE_6_STEP_1_PROMPT.md), superseding blind target/index replacement and single entry-frontier checking. Discovery/21 small-model cases are feasibility only; full cold closure/normal successor/shared-bank/clone handling must be implemented/tested. Fresh independent planning/P2 review precedes a separate seven-path persistent Writer grant. New whole-change review numbering starts at strategy2 QA1; there is no strategy1 QA4. Actual authentication/native gate remains pending and no source publication/Goal completion is authorized by planning.
+
+Strategy2 QA1 then rejected the cached caller's missing pending-publication gate.
+Bounded repair1 uses only src/pipeline/run_loop.py and tests/test_dynamic_routing.py,
+inside the original17; the other15 remain fixed. This explicitly supersedes the
+former initial seven-path grant's run_loop freeze for this repair only. Preserve
+Workspace/Runtime recovery; reject unresolved pending under receipt verification
+before cached success or dispatch. Require public initial/callback regressions,
+normal/resolved controls, affected complete suites and fresh whole-change QA2.
+The final Phase6 amendment governs the literal later handoff; it is not itself
+a grant. Original user approval/requirements/Step identity and Phase7 are unchanged.
+
+Strategy2 QA2 rejected later-publication cold reconstruction: restoring the old
+scientific before-state also restores its old local transaction token, then pairs
+it with the new pending intent. Bounded repair2 assigns only mas_workspace.py and
+test_dynamic_routing.py inside the original17; all other15, including the fixed
+caller guard, stay exact. Preserve strict pointer validation and known publication;
+reconstruct the verified current identity coherently, with repeated cold-open and
+direct Runtime/caller-first recovery regressions. Complete Workspace/Runtime/
+Dynamic/Warm are invalidated; assess other four suites explicitly. The final
+Phase6 amendment requires fresh prompt readability and a subsequent literal
+grant. Fresh whole-change QA3 is last in strategy2; FAIL requires Controller
+adjudication, not QA4. No new objective, strategy, Step, schema, authority or
+acceptance relaxation; native/auth/publication/mandatory-last Phase7 stay pending.
+
+
+## Phase6 Controller adjudication: strategy3 native-name completeness
+
+Strategy2 terminal QA3 FAIL is retained in strategy2-product-qa3-root-native-supplement/.
+Basic actual-root login/model/same-thread restart passed; full MAS remains unrun.
+Latest human root-test scope supersedes temp-only location. The final Phase6 prompt
+now bounds a three-file persistent Writer repair for two actual native names,
+root-only ignore/input/context/profile regressions with nested-data controls,
+four invalidated full suites, retained-input assessment and fresh planning/P2/QA.
+No new Step, objective, product ceiling or Git strategy. Actual root native files
+remain unread/unhashed/unchanged. Controller binds synthetic-only real-root MAS
+and scoped Git cleanup before execution; source publication and Phase7 stay pending.
+
+Planning QA1 FAIL retained (report2987b7fdd8bf36be5889a920581d734f78f837f9569e4a910c4859dcca13b48e).
+Repair1 binds unchanged structure-validator execution to an explicit Git-tracked
+Python-source/directory projection; direct recursive CODEX_HOME invocation is
+forbidden. Unchanged run-loop validator reads only its explicit source. Three-file
+product scope and other gates stay unchanged; fresh prompt/P2 and planning QA2
+precede any Writer mutation grant.
+
+
+Strategy3 QA1 actual native FAIL requires bounded repair1 in mas_runtime.py and
+test_mas_runtime.py only; other15 fixed. Wildcard native-directory roots did not
+protect descendants. Root no-model pinned native calibration confirms recursive
+coverage is required and a matching recursive input deny cannot be overridden;
+current-campaign complement patterns preserve the input exception. Fresh P2/
+planning review precedes separate two-file grant on the authorized test-only
+bootstrap HEADb0f5; original feature base94/rawindex remain for later scoped
+restoration preserving the updated code. Full four suites/freshQA2/realSDKcanary
+and remaining protocol must pass; no scientific result reveal occurred yet.
+
+
+Repair1 first return is incomplete: focused3 PASS, actual emitted-profile native
+parser65 before probe, fullfour/validators NOT_RUN. Root isolation confirms a
+100-character single-profile representation issue; bounded4-alternative groups
+pass71 prototype cases, unlike one long union or450 separate rules. Same repair1
+completion keeps two-file scope and requires fresh P2/planning then a separate
+handoff. Actual calibration uses three separate unmodified emitted profiles,
+followed by all required full gates; no old failure or prototype is acceptance.

@@ -121,7 +121,8 @@ DYNAMIC_OBJECTIVE = (
     "within feasible conditions and acceptable membrane quality. Describe Pareto "
     "tradeoffs without inventing a weighted sum; use experiments to test hypotheses."
 )
-# Explicit operator bindings required only for dynamic mode; no material/output default.
+# Explicit material binding; dynamic storage is the existing repository/campaign.
+# An old external output binding is rejected rather than migrated.
 MAS_WORKSPACE_ROOT = None
 MAS_MATERIAL_KEY = None
 if LLM_AL_SEARCH_MODE not in REQUIRE_CODEX_MODES:
@@ -736,10 +737,12 @@ def _dynamic_context(condition_name=None):
 
 
 def _dynamic_workspace():
-    if MAS_WORKSPACE_ROOT is None or MAS_MATERIAL_KEY is None:
-        raise ValueError("Dynamic MAS requires explicit MAS_WORKSPACE_ROOT and MAS_MATERIAL_KEY")
-    return Workspace(MAS_WORKSPACE_ROOT, _REPO_ROOT, MAS_MATERIAL_KEY,
-                     protected_roots=(DATA_ROOT,))
+    if MAS_MATERIAL_KEY is None or (MAS_WORKSPACE_ROOT is not None and Path(MAS_WORKSPACE_ROOT).resolve() != _REPO_ROOT.resolve()):
+        raise ValueError('Dynamic MAS requires MAS_MATERIAL_KEY and repository-contained storage; legacy output rejected')
+    campaign = CSV_AGG_LLM.parent
+    if campaign.resolve() != (_REPO_ROOT / 'data/results' / campaign.name).resolve():
+        raise ValueError('Dynamic campaign must be bound under repository data/results')
+    return Workspace(_REPO_ROOT, campaign.name, MAS_MATERIAL_KEY)
 
 
 def _save_json(path, value):
@@ -762,6 +765,8 @@ def _measurement_digest(path):
 
 
 def _dynamic_inputs(llm_csv, initial, request):
+    workspace = _dynamic_workspace()
+    workspace.native_homes()
     paths = {"selected": llm_csv, "aggregate": CSV_AGG, "specimens": CSV_REPS}
     if initial and LLM_AL_WARM_START_CSV is not None:
         paths["warm_start"] = Path(LLM_AL_WARM_START_CSV)
@@ -771,8 +776,9 @@ def _dynamic_inputs(llm_csv, initial, request):
     for label, path in paths.items():
         if not path.is_file() or not path.stat().st_size:
             continue
+        workspace.input_path(path)
         fingerprint = _measurement_digest(path)
-        target = CSV_AGG_LLM.parent / '.mas-inputs' / mas_key(request['id']) / (label + '.csv')
+        target = workspace.path(workspace.area + '/.inputs/' + mas_key(request['id']) + '/' + label + '.csv')
         if target.exists():
             if _measurement_digest(target) != fingerprint:
                 raise ValueError('Pending caller observation changed; preserve and reconsider explicitly')
@@ -785,9 +791,9 @@ def _dynamic_inputs(llm_csv, initial, request):
                 os.fsync(stream.fileno())
             os.replace(temporary, target)
         inputs[label] = target
-        sources[label] = dict(path=str(path.resolve()), measurement_sha256=fingerprint)
+        sources[label] = dict(path=workspace.relative(path), measurement_sha256=fingerprint)
     if sources:
-        manifest = CSV_AGG_LLM.parent / '.mas-inputs' / mas_key(request['id']) / 'provenance.json'
+        manifest = workspace.path(workspace.area + '/.inputs/' + mas_key(request['id']) + '/provenance.json')
         _save_json(manifest, sources)
         inputs['provenance'] = manifest
     return inputs, sources
@@ -832,7 +838,7 @@ def _dynamic_receipt(runtime, decision, request, context, sources, condition_nam
     result.update(runtime_operation_id=record['id'], caller_request_id=request['id'], source_condition=condition_name,
                   request_reason=request['reason'], context=context.model_dump(mode='json'),
                   inputs=record['inputs'], source_inputs=sources,
-                  report_path=str(runtime.workspace.path(record['report_path'])),
+                  report_path=record['report_path'],
                   runtime_commit=record['commit'])
     return result
 
@@ -854,6 +860,8 @@ def _verify_runtime_receipt(value):
         raise ValueError("Retired MAS decision/checkpoint; preserve for explicit review")
     workspace = _dynamic_workspace()
     with workspace.lock():
+        if workspace.state['pending'] is not None:
+            raise ValueError('Unresolved pending publication; recover before using a caller receipt')
         record = workspace.state['operations'].get(value['runtime_operation_id'])
         if not record or record['status'] != 'completed' or not record['decision']:
             raise ValueError('No completed accepted runtime decision for caller checkpoint')
@@ -865,7 +873,7 @@ def _verify_runtime_receipt(value):
         if (any(value.get(k) != v for k, v in expected.items())
                 or value['context'] != record['context'] or value['inputs'] != record['inputs']
                 or value['runtime_commit'] != record['commit']
-                or value['report_path'] != str(workspace.path(record['report_path']))):
+                or value['report_path'] != record['report_path']):
             raise ValueError('Caller checkpoint differs from actual reviewed runtime execution receipt')
 
 
@@ -874,10 +882,10 @@ def _checked_dynamic_decision(value):
     if value['context'] != _dynamic_context(value.get('source_condition')).model_dump(mode='json'):
         raise ValueError("Accepted MAS context changed; explicit reconsideration required")
     for binding in value['inputs'].values():
-        if file_digest(binding['path']) != binding['sha256']:
+        if file_digest(_dynamic_workspace().input_path(binding['path'])) != binding['sha256']:
             raise ValueError("Accepted observation changed; explicit reconsideration required")
     for binding in value['source_inputs'].values():
-        if _measurement_digest(binding['path']) != binding['measurement_sha256']:
+        if _measurement_digest(_dynamic_workspace().input_path(binding['path'])) != binding['measurement_sha256']:
             raise ValueError("Accepted measured inputs changed; explicit reconsideration required")
     params = value['next_params']
     Decision.model_validate(dict(action=value['action'], reason=value['reason'],
@@ -1043,6 +1051,8 @@ def _serialize_dynamic(function):
 
 @_serialize_dynamic
 def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=None):
+    if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
+        _dynamic_workspace().native_homes()
     # robot echoes back whatever we posted, including stock_metadata — strip it here so
     # it never reaches params.json / move_and_rename / the CSV pipeline
     params = {k: v for k, v in params.items() if k != "stock_metadata"}
