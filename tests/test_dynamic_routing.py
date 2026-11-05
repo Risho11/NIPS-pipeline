@@ -50,7 +50,7 @@ class RoutingTests(unittest.TestCase):
             LOCK_ADDITIVE_WT=True, LOCK_ADDITIVE_WT_VALUE=0, LLM_AL_WARM_START_CSV=None,
             CSV_AGG_LLM=self.csv, CSV_REPS=self.csv.parent/'reps.csv', CSV_AGG=self.csv.parent/'agg.csv',
             JSON_RESULTS_DIR=self.root/'out', DATA_ROOT=self.root,
-            _REPO_ROOT=self.root, MAS_WORKSPACE_ROOT=None, MAS_MATERIAL_KEY='synthetic'))
+            _REPO_ROOT=self.root, MAS_MATERIAL_KEY='synthetic'))
         self.stack.enter_context(patch.object(loop, '_current_material_context', return_value=MATERIALS))
         self.stack.enter_context(patch.object(loop, '_checkpoint_path', return_value=self.checkpoint))
         self.stack.enter_context(patch.object(loop.master_processing, 'BRANCH_CONFIG',
@@ -573,14 +573,32 @@ class RoutingTests(unittest.TestCase):
     def test_missing_binding_fixed_sweep_and_disabled_performance_fail_before_models(self):
         with patch.object(loop, 'MAS_MATERIAL_KEY', None), self.assertRaisesRegex(ValueError, 'MAS_MATERIAL_KEY'):
             self.run_pipeline()
-        with patch.object(loop, 'MAS_WORKSPACE_ROOT', self.base/'retired-output'), self.assertRaisesRegex(ValueError, 'legacy output'):
-            self.run_pipeline()
         with patch.object(loop, 'ITERATE_ADDITIVES', True), self.assertRaisesRegex(ValueError, 'fixed iteration'):
             self.run_pipeline()
         with patch.object(loop.master_processing, 'BRANCH_CONFIG', {}), self.assertRaisesRegex(ValueError, 'performance'):
             self.run_pipeline()
         self.factory.assert_not_called()
         self.robot.assert_not_called()
+
+    def test_dynamic_repository_and_campaign_binding_is_independent_of_cwd(self):
+        previous=Path.cwd();head=self.sdk.w.head()
+        index=Path(self.sdk.w.git('rev-parse','--path-format=absolute','--git-path','index').stdout.decode().strip())
+        before=index.read_bytes()
+        try:
+            for cwd in (self.root,self.base):
+                os.chdir(cwd)
+                workspace=loop._dynamic_workspace()
+                self.assertEqual(workspace.root,self.root.resolve())
+                self.assertEqual(workspace.campaign,self.csv.parent.name)
+                self.assertEqual(workspace.material,'synthetic')
+                self.assertEqual(workspace.area,f'data/results/{self.csv.parent.name}/mas')
+            with patch.object(loop,'CSV_AGG_LLM',self.base/'foreign-campaign/llm.csv'),self.assertRaisesRegex(ValueError,'campaign'):
+                loop._dynamic_workspace()
+            with patch.object(loop,'MAS_MATERIAL_KEY','../invalid'),self.assertRaisesRegex(ValueError,'identifier'):
+                loop._dynamic_workspace()
+        finally:os.chdir(previous)
+        self.assertEqual(self.sdk.w.head(),head);self.assertEqual(index.read_bytes(),before)
+        self.factory.assert_not_called();self.robot.assert_not_called()
 
     def test_all_non_mas_modes_still_use_legacy_generator(self):
         for mode in ('single','double','explore','double_explore'):

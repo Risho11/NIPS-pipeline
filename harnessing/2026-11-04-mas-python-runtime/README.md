@@ -24,3 +24,11 @@ Human approval 01a1a9ed-d122-76e1-b1a9-8709d2c7acf5 authorizes integration into 
 Phase6 explicitly replaces the earlier independent-output/source-Git prohibition for host publication only. Use the existing source repository's Git for accepted MAS knowledge, campaign rounds/artifacts and stable campaign checkpoints. Raw measurements/code/operator settings remain protected. Scientific agents write only their current attempt, never source, canonical knowledge, host state or Git. CODEX_HOME is the dynamically resolved repository root only for the MAS SDK child; app/global settings remain untouched. No legacy external output/native Main is silently migrated.
 
 No dependency install/upgrade, hardware/operational loop, remote Git, shared pin or personal-memory action. After complete safe mocked gates, a separately bound <=1200-second-per-invocation actual synthetic SDK validation in a fresh temporary repository may exercise project-local CODEX_HOME, native collaboration, publication and same-Main restart. Official CLI login preparation may require human browser authentication for that new home; no credential inspection/copying or global auth/config change. This preparation is not permission for unattended login from the operational runtime. Source repository/native app conversations and measured/private data are not live-test fixtures. Auth/network/SDK failures remain literal non-PASS evidence; no silent retry or readiness claim.
+
+## Phase8/9 bounded legacy cleanup
+
+The latest human request authorizes removal of definitely unnecessary MAS legacy
+with tests, retaining campaign resume and robot compatibility. Continue the same
+manual Controller/Writer ownership on current9d65bd3; the approved comment-only
+run_loop diff is pre-existing work. Phases1-7 stay completed history; newestPhase9
+is mandatory-last. No new Goal or SDK/hardware/dependency/global action.

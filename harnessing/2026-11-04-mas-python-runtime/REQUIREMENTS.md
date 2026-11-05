@@ -54,3 +54,12 @@ Validation: all eight complete existing safe unittest suites, both repository va
 ### Phase6 strategy2 clarification after QA3
 
 Keep the original publication-race/preservation requirement. Unexpected working content must be retained before replacement; current-attempt authored files are not rewritten. Captured conflicts can leave named partial paths, including an index gap, requiring operator reconciliation; no silent cleanup/restore/rollback or false completed cache. Pre-ref abort and known-published dirty closure differ. Final success reports an observed validated frontier, with later changes detected at guarded reuse, without claiming portable multi-file/Git atomicity. Normal successive publications, accepted shared-bank changes and provenance-checked clean clone/cache remain required; ignored native work/auth still do not clone. Only the existing17 product paths/no new dependency/public schema/role/physical authority are permitted. See the active Phase6 prompt strategy2 section; fresh planning QA/P2 and a literal Writer grant remain required.
+
+## Phase8/9 bounded configuration cleanup
+
+Remove only MAS_WORKSPACE_ROOT and Workspace.source duplication with their exact
+callers/tests/runbook. Repository storage and MAS_SOURCE_ROOT remain explicit;
+persisted source='.', real campaign resume/old-state guards, native review,
+non-MAS modes, old parameter/report handling and robot payloads remain unchanged.
+Keep the old manual run_loopTest script because its usage is not established.
+Six literal product owners and validation are in the Phase8 prompt. No new Goal.

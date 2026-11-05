@@ -121,9 +121,11 @@ DYNAMIC_OBJECTIVE = (
     "within feasible conditions and acceptable membrane quality. Describe Pareto "
     "tradeoffs without inventing a weighted sum; use experiments to test hypotheses."
 )
-# Explicit material binding; dynamic storage is the existing repository/campaign.
-# An old external output binding is rejected rather than migrated.
-MAS_WORKSPACE_ROOT = None
+# Operator-selected key for shared data/knowledge/<key>/ across campaigns.
+# Keep the key stable within a campaign; actual material context is supplied separately.
+# Examples only, not defaults: "polysulfone_polarclean", "primospire_nmp".
+# Select a key for the material in use; do not adopt an example automatically.
+# Use 1-100 ASCII letters/digits, "_" or "-"; avoid Windows reserved names.
 MAS_MATERIAL_KEY = None
 if LLM_AL_SEARCH_MODE not in REQUIRE_CODEX_MODES:
     llm_context.resolve_al_mode(LLM_AL_SEARCH_MODE)  # Fail early on a misspelled mode.
@@ -737,8 +739,8 @@ def _dynamic_context(condition_name=None):
 
 
 def _dynamic_workspace():
-    if MAS_MATERIAL_KEY is None or (MAS_WORKSPACE_ROOT is not None and Path(MAS_WORKSPACE_ROOT).resolve() != _REPO_ROOT.resolve()):
-        raise ValueError('Dynamic MAS requires MAS_MATERIAL_KEY and repository-contained storage; legacy output rejected')
+    if MAS_MATERIAL_KEY is None:
+        raise ValueError('Dynamic MAS requires MAS_MATERIAL_KEY')
     campaign = CSV_AGG_LLM.parent
     if campaign.resolve() != (_REPO_ROOT / 'data/results' / campaign.name).resolve():
         raise ValueError('Dynamic campaign must be bound under repository data/results')

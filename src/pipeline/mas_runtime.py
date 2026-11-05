@@ -70,7 +70,7 @@ def isolated_sdk(workspace):
     config = CodexConfig(cwd=str(attempt), codex_bin=str(bundled_codex_path()),
                          config_overrides=overrides,
                          env={**_analysis_env(workspace, record), 'CODEX_HOME':str(workspace.root),
-                              'CODEX_SQLITE_HOME':str(native / 'sqlite'), 'MAS_SOURCE_ROOT':str(workspace.source)})
+                              'CODEX_SQLITE_HOME':str(native / 'sqlite'), 'MAS_SOURCE_ROOT':str(workspace.root)})
 
     def mcp_states():
         command = [config.codex_bin]
@@ -180,7 +180,7 @@ class CampaignRuntime:
         # Discover registered roles in the current attempt, with source
         # role documents resolved through MAS_SOURCE_ROOT; do not copy source/data.
         for role in ROLES:
-            source = w.source / '.codex/agents' / f'{role}.toml'
+            source = w.root / '.codex/agents' / f'{role}.toml'
             if source.is_symlink() or not source.is_file():
                 raise ValueError("Missing regular source role binding")
             record = w.state['operations'][w.state['active']]
@@ -282,7 +282,7 @@ class CampaignRuntime:
         template = Environment(loader=FileSystemLoader(Path(__file__).resolve().parent / 'prompts'),
             autoescape=False, undefined=StrictUndefined, keep_trailing_newline=True).get_template('campaign_main.jinja')
         return template.render(operation_id=record['id'],
-            main_instructions_path=w.source / 'subagents/campaign-main/AGENTS.md', source_root=w.source,
+            main_instructions_path=w.root / 'subagents/campaign-main/AGENTS.md', source_root=w.root,
             attempt_path=w.path(w.round_path(record) + '/attempt-' + str(len(record['turns']))),
             knowledge_path=w.root / 'data/knowledge' / w.material, schemas_json=json.dumps(schemas),
             context_json=json.dumps(record['context']), kind=record['kind'], reason=record['reason'],

@@ -59,7 +59,7 @@ class Workspace:
         root = Path(root)
         if root.is_symlink() or not root.is_dir():
             raise ValueError('Existing regular project repository required')
-        self.root = self.source = root.resolve()
+        self.root = root.resolve()
         self.campaign, self.material = key(campaign), key(material)
         self.area = f'data/results/{self.campaign}/mas'
         self.state_path = self.path(self.area + '/.mas-runtime.json')

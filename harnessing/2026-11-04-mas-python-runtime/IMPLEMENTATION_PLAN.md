@@ -220,3 +220,24 @@ pass71 prototype cases, unlike one long union or450 separate rules. Same repair1
 completion keeps two-file scope and requires fresh P2/planning then a separate
 handoff. Actual calibration uses three separate unmodified emitted profiles,
 followed by all required full gates; no old failure or prototype is acceptance.
+
+### Phase 8: Remove obsolete MAS workspace configuration
+1. STEP 1: Remove obsolete MAS workspace configuration
+```harness-step-json
+{"phase":8,"step":1,"expected_commit_msg":"fix remove obsolete MAS workspace configuration","prompt":"steps/PHASE_8_STEP_1_PROMPT.md"}
+```
+
+Exact six-file ownership, retained compatibility, affected complete tests and
+publication are in the Phase8 prompt. Existing material-key comments are approved
+pre-existing work. Controller plans/status/Git, verified persistent Writer product,
+fresh independent QA/P2; no new Goal/live/model/hardware/dependency action.
+
+### Phase 9: Durable Contract Promotion
+1. STEP 1: Durable Contract Promotion
+```harness-step-json
+{"phase":9,"step":1,"expected_commit_msg":"docs Durable Contract Promotion","prompt":"steps/PHASE_9_STEP_1_PROMPT.md"}
+```
+
+After actual accepted Phase8 commit, fresh final whole-outcome QA reviews the
+normalized disposition and entire factual final receipt before exact publication.
+Phases1-7 and their prior receipts remain immutable completed history.

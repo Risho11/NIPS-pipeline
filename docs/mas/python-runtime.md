@@ -64,7 +64,7 @@ do not silently copy/migrate old external state. Disposable tests use fresh
 temporary repositories and synthetic inputs, never source publication.
 Five role bindings are copied into the current attempt's `.codex/agents/`;
 `MAS_SOURCE_ROOT` resolves their substantive documents to the explicit repository.
-The runtime supplies it from `Workspace.source` (`--repo` for CLI); there is no
+The runtime supplies it from `Workspace.root` (`--repo` for CLI); there is no
 pilot alias or output-CWD fallback. No environment or original measurements are copied.
 
 Across all campaign `mas/` directories, checkpoints, local journals, locks,
@@ -352,8 +352,7 @@ Git's raw slash spelling. Actual Windows execution remains separate validation.
 `run_loop.py` selects this API only for `LLM_AL_SEARCH_MODE="dynamic"`; the existing
 default remains `double_explore`. Before an authorized dynamic campaign, set
 `MAS_MATERIAL_KEY` to the explicit portable material key. `_REPO_ROOT` supplies the
-repository; `MAS_WORKSPACE_ROOT=None` is a retired compatibility sentinel and an
-external value fails before inference/submission. The CSV's actual campaign parent
+repository directly. The CSV's actual campaign parent
 must lie under this repository's `data/results/`; existing `begins_...` keys are
 used directly. Existing operator materials, installed stock
 metadata, additive lock, objective and campaign paths supply Context. No new

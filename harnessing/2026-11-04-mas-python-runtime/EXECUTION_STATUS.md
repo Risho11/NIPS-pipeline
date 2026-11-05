@@ -1,3 +1,51 @@
+## Phase8 Writer returned; affected full tests and preservation complete
+
+Persistent Writer turn01a1adb1-2e36-7092-a364-3e922b0198aa completedidle
+QUIESCENT/OWNERSHIP_RETURNED. Exact six-file cleanup removes obsolete root setting
+and duplicate Workspace.source; material-key comments/value, modes/operator/stock
+settings, persisted source='.', MAS_SOURCE_ROOT, old-state/recovery/request guards
+and robot compatibility remain. Manual run_loopTest remains SHA-protected.
+Fresh FULL Workspace40+Runtime68+Dynamic36+Warm9+Network14=167; retained exact-input
+Contract6+Retry4+Property13=23 (190 inventory, not190new). New CWD/campaign/material
+regression, two validators (structure only sealed92-sourceprojection), static, AST
+equivalence/protected source/index/original10932data-index checks PASS.
+Initial Network loopbackbind exit1/3 PermissionErrors retained; same exact command
+with separately declared escalation passes14. Initial preflight exclusive-copy
+helper failure is retained; corrected helper verifies existing supplied snapshots.
+No SDK/model/login/hardware/loop/global/dependency action or new live qualification.
+Exact runbook P2 NONE/read1/38041bytes at bdeaf98356e48eaa14a8c61a95ea99d79d78eb527bb8b34422a2469025a242ef.
+Controller verifies explicit manifest/current6/protected15/rawindex/data-index and
+strict proposal; current native settings/instruction inputs remain equivalent.
+Evidence root /private/tmp/nips-mas-legacy-cleanup-20261105/. Fresh independent
+product QA, ordinary source publication and mandatory-last Phase9 remain pending.
+No new Goal; prior Goal stays complete.
+
+## Phase8 planning/P2 accepted; literal six-file Writer grant prepared
+
+Fresh planning QA1 PASS report44bb7352e21fd063a6816e62e366134dbb73957efe9a5ad299448e7bd4efe27f
+/checks48fa75d1350d78bde54b9cda30328159b4dbd8283278ff8351826624326d5e22.
+Exact independent P2 bothNONE, one successful full read each; initial uv cache
+failure occurred before reads and is retained. Public reader evidence72cf707f
+is in plan-qa1/. QA interrupted broad tracked grep at exit130/no output is
+disclosed and excluded from supporting evidence, no data-body audit claimed.
+Persistent Writer read-only preflight completed01a1ada8-db0c-7372-a6a0-afa7f493367e
+confirms actual latest human/same root/HEAD/index/six owners; no scope extension.
+Controller now issues separate Phase8 literal six-file ownership under exact
+current planning/source freeze. Full affected mocks/static/compat preservation,
+product QA/P2, ordinary Git and final Phase9 remain pending. No new Goal/live work.
+
+## Phase8/9 scoped cleanup authorized; planning and Writer grant pending
+
+Latest human authorizes definitely unnecessary legacy cleanup with tests and
+retains real campaign resume/robot compatibility. CurrentHEAD9d65bd3 priorPhase7
+publication remains completed. Current sole pre-existing product diff is approved
+run_loop setting comments; material-key comments/value must survive. Controller
+prepares six-file removal of obsolete root setting and duplicate source attribute,
+with affected full mocks/static/preservation, fresh independent QA/P2 and final
+Phase9. Persistent Writer is read-only preflight; no mutation grant/acceptance yet.
+Baseline: /private/tmp/nips-mas-legacy-cleanup-20261105/baseline.json. PriorGoal
+remains complete; no new Goal/live SDK/hardware/global/dependency/shared action.
+
 ## Final QA identity
 
 ```json

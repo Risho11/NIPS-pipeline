@@ -527,7 +527,7 @@ class RuntimeTests(unittest.TestCase):
         self.w.write(good, 'Synthetic current-attempt report.\n')
         for reference in (good, str(self.w.path(good))):
             self.assertEqual(self.runtime._artifact(record, reference), good)
-        bad = [str(self.input), str(self.w.source / 'README.md'),
+        bad = [str(self.input), str(self.w.root / 'README.md'),
                base + '/attempt-1/../attempt-1/report.md']
         for relative in (base + '/attempt-0/old.md', base + '/attempt-1/raw/report.md',
                          base + '/attempt-1/cache/report.md'):
@@ -1398,7 +1398,7 @@ class RuntimeTests(unittest.TestCase):
         self.assertFalse(self.w.state_path.exists())
 
     def test_runbook_synthetic_json_and_standalone_preparation(self):
-        document = (self.w.source / 'docs/mas/python-runtime.md').read_text(encoding='utf-8')
+        document = (self.w.root / 'docs/mas/python-runtime.md').read_text(encoding='utf-8')
         example = re.search(r'```json\n(.*?)\n```', document, re.S)
         self.assertIsNotNone(example)
         context = Context.model_validate_json(example.group(1))
@@ -1408,8 +1408,8 @@ class RuntimeTests(unittest.TestCase):
         path = self.base / 'runbook-context.json'
         path.write_text(example.group(1), encoding='utf-8')
         result = subprocess.run(['uv', 'run', '--locked', '--no-sync', 'python',
-            str(self.w.source / 'src/pipeline/mas_runtime.py'), '--repo', str(self.w.root), '--material', 'synthetic', '--context', str(path)],
-            cwd=self.w.source, env={**os.environ,'UV_PROJECT_ENVIRONMENT':sys.prefix}, capture_output=True, text=True)
+            str(self.w.root / 'src/pipeline/mas_runtime.py'), '--repo', str(self.w.root), '--material', 'synthetic', '--context', str(path)],
+            cwd=self.w.root, env={**os.environ,'UV_PROJECT_ENVIRONMENT':sys.prefix}, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)['status'], 'NOT_RUN')
         self.assertFalse(self.w.state_path.exists())
@@ -1429,7 +1429,7 @@ class RuntimeTests(unittest.TestCase):
             self.assertIn('features.memories=false', config.config_overrides)
             self.assertEqual(inspect_mcp.call_count, 2)
             self.assertEqual(config.cwd, str(self.w.path(self.w.attempt_path(self.w.state['operations'][self.w.state['active']]))))
-            self.assertEqual(config.env['MAS_SOURCE_ROOT'], str(self.w.source))
+            self.assertEqual(config.env['MAS_SOURCE_ROOT'], str(self.w.root))
             self.assertNotIn('PILOT_ROOT', config.env)
 
     def test_unknown_still_enabled_mcp_aborts_before_client_without_leaking_output(self):
