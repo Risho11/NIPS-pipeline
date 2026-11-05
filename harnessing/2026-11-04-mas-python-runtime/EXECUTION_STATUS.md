@@ -1,3 +1,82 @@
+## Final QA identity
+
+```json
+{
+  "reviewer_id": "/root/storage_phase7_final_qa1",
+  "qa_report_path": "/private/tmp/nips-mas-repo-storage-20261104/phase7-final-qa1/report.md",
+  "qa_report_sha256": "f7d89d4de7db1d557550a33bd99f8e8481c3caf1823e3cd0296c7ff861ae09d6",
+  "verdict": "PASS",
+  "reviewed_freeze_sha256": "6e9f8ccb2ecbec9ab398aca1839365f5a171c1d000afea1641d818e9bcb0efa6"
+}
+```
+
+## Phase7 final disposition — prepublication receipt
+
+Actual Phase6 source publication is COMPLETE: native ordinary commit
+790d5dc9775cc78d158996021f40b141c7ba0777, parent094af01d1eeddec469fd801a6e8552078af7e8ed,
+subject `261105-13-06 feat integrate MAS storage into project repository`.
+The Controller verified exact24 paths, all accepted blobs, empty index and clean
+working status in phase6-feature-publication-receipt.json under
+/private/tmp/nips-mas-repo-storage-20261104/. No branch/remote/PR/push/merge was used.
+Terminal strategy3 QA2 PASS5eed99432ce282b58bba19f28d8365349f05656af8fe20f5d5095b4d14989b7f
+accepted current17 products and actual native/cleanup evidence before publication.
+
+Selected normalized DCP outcome: NO_DURABLE_CHANGE; files=[].
+Reason: The accepted Phase6 owner code, meaningful regression tests, AGENTS and
+runtime/workflow runbooks already contain the repository-specific storage,
+home-isolation and recovery contracts. Native path-enforcement corrections are
+implemented and tested in those owners. Host-only collector/calibration evidence
+does not require an additional product contract or copied shared guidance.
+
+Consequential findings and actual durable dispositions:
+- Working-frontier/index/CAS races, pending RUN barriers and later-publication
+  recovery: project-specific defects corrected in mas_workspace.py, mas_runtime.py,
+  run_loop.py and their tests; the runtime/workflow runbooks explain retained
+  conflicts, guarded cache reuse and the absence of a multi-file atomic promise.
+  Existing owners suffice; no additional shared rule or product-doc amendment.
+- Root installation_id/.sandbox_migration enumeration, wildcard descendants and
+  bounded complement representation: project-specific permission regressions,
+  corrected in existing native-name/ignore/runtime owners and meaningful direct,
+  deep, current/opponent/future/key-boundary tests. Actual23 SDK controls and215
+  separate emitted-profile native cases support the exact host scope. Existing
+  actual-enforcement guidance was missed by the old declaration oracle; it is
+  now checked directly. No platform-independent sandbox claim is promoted.
+- Test-collector resume/read teardown: original outer FAIL preserved; separate
+  approved public3-read capture verified completed product adoption without new
+  inference. This is task-local host-helper evidence, not an established product
+  defect or reusable scientific workflow. Cold interrupted completed-v2-peer
+  recovery remains NOT_QUALIFIED; no additional live recovery claim is made.
+- Authentication, ignored native metadata and prior temporary login-log access:
+  existing no-secret/native-inspection rules apply. Current bound validation
+  used official login/public SDK records/known nonsecret probes; it did not use
+  native bodies as evidence. Preserve the earlier disclosed violation as history,
+  never claim a whole-history zero-read audit. Do not duplicate an existing rule.
+- P2 readability and evidence sufficiency: exact completion prompt and seven
+  unchanged product-contract readings remain bound to accepted bytes; full
+  validation evidence is retained only for exact executable/dependency inputs.
+  Root-AGENTS optional path wording retains QA2's nonblocking retain disposition.
+  Existing canonical QA/P2 and validation-timing rules suffice.
+
+Final acceptance boundary: all eight safe suite inventories covered,152 freshly
+executed complete tests plus37 exact-input retained tests; both validators/static
+and preservation pass. Actual repository-home login/same-chat recall, native
+bootstrap/independent hypothesis QA, withheld invented observations, preserved
+HOLD, explicit report-only reconsideration with designer/design-QA, exact local
+publication, two new-process no-SDK caches and scoped test retirement are verified.
+The original failed command, parser/fixture failures and prior QA failures remain
+literal non-PASS. No physical/scientific usefulness, robot execution, Windows,
+hosted CI, hostile-writer/power-loss atomicity, cross-machine native transfer or
+cold interrupted completed-peer qualification is inferred.
+
+No additional product file is changed for Phase7; Writer has no mutation ownership.
+No personal-memory/shared-guidance/dependency/global configuration action is
+authorized or performed. Fresh independent final whole-outcome QA and actual
+ordinary DCP publication are PENDING as of this prepublication receipt. The Goal
+remains ACTIVE until both and terminal Git verification finish. The reviewed
+freeze, normalized proposal and actual final Git receipt live in the same
+task-local review root; the sole intended DCP source path is this status file.
+
+
 ## Phase6 actual-root verification and scoped test retirement complete; publication pending
 
 The exact returned strategy3 repair1-completion product17 remains unchanged.
