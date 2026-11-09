@@ -4,32 +4,72 @@ import json
 import math
 import re
 from decimal import Decimal
+from numbers import Integral, Real
 
 
 def format_prompt_numbers(text):
     """Round standalone numeric values in prompt prose, preserving embedded IDs."""
     def rounded(match):
-        value = Decimal(match.group())
+        if match.group('timestamp'):
+            return match.group()
+        value = Decimal(match.group('number'))
         result = format(value, '.2f').rstrip('0').rstrip('.')
         return '0' if result == '-0' else result
 
     return re.sub(
-        r'(?<![\w./-])[+-]?(?:\d+\.\d*|\.\d+|\d+[eE][+-]?\d+)(?:[eE][+-]?\d+)?(?![\d./-])',
+        r'(?P<timestamp>\b(?:\d{4}-\d{2}-\d{2}[T ])?\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)'
+        r'|(?P<number>(?<![\w./-])[+-]?(?:\d+\.\d*|\.\d+|\d+[eE][+-]?\d+)(?:[eE][+-]?\d+)?(?![\d./-]))',
         rounded, text,
     )
 
 
-def round_prompt_values(value):
+def round_prompt_values(value, *, preserve_provenance=False):
     """Make a rounded prompt copy without changing source data or booleans."""
-    if isinstance(value, float):
-        return round(value, 2)
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, Integral):
+        return int(value)
+    if isinstance(value, (Real, Decimal)):
+        numeric = float(value)
+        return round(numeric, 2) if math.isfinite(numeric) else None
     if isinstance(value, dict):
-        return {key: round_prompt_values(item) for key, item in value.items()}
-    if isinstance(value, list):
-        return [round_prompt_values(item) for item in value]
+        return {key: item if preserve_provenance and key in {'identity', 'experiment_timing'}
+                else round_prompt_values(item, preserve_provenance=preserve_provenance)
+                for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [round_prompt_values(item, preserve_provenance=preserve_provenance) for item in value]
     if isinstance(value, str):
         return format_prompt_numbers(value)
     return value
+
+
+def format_prompt_context(value):
+    """Final two-decimal formatting for plain text, JSON, or text containing JSON.
+
+    Observation provenance stays verbatim. Source objects and stored CSVs are not
+    modified. JSON blocks can follow material-context prose in campaign prompts.
+    """
+    if value is None:
+        return ''
+    if not isinstance(value, str):
+        return json.dumps(round_prompt_values(value, preserve_provenance=True), allow_nan=False)
+    decoder = json.JSONDecoder()
+    output, cursor = [], 0
+    for candidate in re.finditer(r'[\[{]', value):
+        start = candidate.start()
+        if start < cursor:
+            continue
+        try:
+            payload, end = decoder.raw_decode(value, start)
+        except ValueError:
+            continue
+        if not isinstance(payload, (dict, list)):
+            continue
+        output.append(format_prompt_numbers(value[cursor:start]))
+        output.append(json.dumps(round_prompt_values(payload, preserve_provenance=True), allow_nan=False))
+        cursor = end
+    output.append(format_prompt_numbers(value[cursor:]))
+    return ''.join(output)
 
 
 PROPERTY_CONTEXT_NOTE = (
@@ -93,7 +133,10 @@ def build_performance_observations(history):
     """
     observations = []
     for _, row in history.iterrows():
-        measurements = json.loads(format_property_measurements(row) or '{}')
+        measurements = {
+            key: value for key, value in json.loads(format_property_measurements(row) or '{}').items()
+            if not key.startswith(('Pore Fraction Unsubtracted ', 'Toe Region ', 'Toe Subtracted '))
+        }
         parameters = {key: _value(row.get(key)) for key in PARAMETER_FIELDS}
         # Older report-only exports may have parameters only in this explicit field.
         formatted = row.get('formatted_parameters')
@@ -158,6 +201,8 @@ def build_performance_observations(history):
         'timing_conventions': 'sample_time is the recorded experiment date/time; inspect '
             'time_source for provenance or a processing-time fallback. Missing timing is '
             'unknown. Do not infer a timezone. Timing is context, not an objective.',
-        'measurement_conventions': PROPERTY_CONTEXT_NOTE,
+        'measurement_conventions': PROPERTY_CONTEXT_NOTE + ' Experimental measurements and '
+            'conditions are rounded to at most two decimal places in this prompt; '
+            'a rounded zero may represent a small nonzero value. Provenance is preserved.',
         'observations': observations,
     }, allow_nan=False)

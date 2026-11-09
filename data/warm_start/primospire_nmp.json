@@ -1,22 +1,50 @@
 {
-  "rows": 29,
-  "last_campaign": "2026-09-10-exploration-mode",
+  "historical_bath_context": {
+    "policy": "Preserve notebook-selected bath values; no export-only corrections."
+  },
+  "rows": 74,
+  "last_campaign": "2026-10-30",
   "excluded_negative_strain_rows": 0,
-  "complete_parameter_rows": 29,
-  "modulus_rows": 21,
-  "paired_objective_rows": 21,
+  "additional_export_filters": false,
+  "complete_parameter_rows": 74,
+  "modulus_rows": 72,
+  "paired_objective_rows": 72,
   "campaigns": [
-    "2026-09-10-exploration-mode"
+    "2026-09-10-exploration-mode",
+    "2026-09-30",
+    "2026-10-30"
   ],
-  "selection": "Primospire/NMP notebook defaults: campaign 2026-09-10-exploration-mode only; recorded polymer_type=Primospire and solvent_type=NMP; thickness >= 70 um; at least one selected property present; mean and every recorded replicate strain at 50 bar finite and within [0, 1]; missing/out-of-range strains exclude the whole condition; no polymer concentration filter. Prefer postDiscard aggregates and newest processing record per condition, ordered by sample time.",
+  "selection": "Exact selected rows from primospire_nmp_campaign_trends.ipynb; no additional export filters.",
+  "notebook_selection": {
+    "notebook": "EVALUATE/primospire_nmp_campaign_trends.ipynb",
+    "settings": {
+      "PROPERTIES": [
+        "Thickness",
+        "Elastic Modulus",
+        "Yield Strength",
+        "Pore Fraction",
+        "Creep Strain",
+        "Strain at 50 bar"
+      ],
+      "CAMPAIGNS": [
+        "2026-09-10-exploration-mode",
+        "2026-09-30",
+        "2026-10-30"
+      ],
+      "START": null,
+      "END": null,
+      "SAMPLE_START_DATE": null,
+      "SAMPLE_END_DATE": null,
+      "CHEMISTRY_FILTER": "Primospire / NMP",
+      "MIN_THICKNESS": 70,
+      "MAX_CV": 0.15,
+      "MAX_DISCARDS": null,
+      "DAY_ROLLOVER_HOUR": 9
+    }
+  },
   "limitations": [
     "Pore fraction is a compression-fit estimate.",
     "Independent synthesis validation status is unknown.",
     "Notebook filters exclude thin/failed samples: exploration coverage is incomplete."
-  ],
-  "historical_bath_context": {
-    "source": "operator-confirmed 2026-10-23",
-    "manifest": "data/warm_start/historical_zero_bath_conditions.json",
-    "policy": "Explicit historical conditions use 0 wt%; nonzero records and unlisted conditions are preserved."
-  }
+  ]
 }

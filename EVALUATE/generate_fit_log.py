@@ -37,6 +37,9 @@ ROOT        = FILE_DIR.parent  # project root — this script lives in EVALUATE/
 PLOTS_DIR   = ROOT / "data" / "plots"
 RESULTS_DIR = ROOT / "data" / "results"
 RAW_ROOT    = ROOT / "data" / "raw"
+TOE_RESULT_ORIGINS = {'corrected', 'unsubtracted', 'masked', 'masked_unsubtracted',
+                      'conditional', 'conditional_unsubtracted',
+                      'masked_conditional', 'masked_conditional_unsubtracted'}
 # Lives under docs/ so GitHub Pages can serve it straight off main (Settings > Pages > docs/).
 OUTPUT      = ROOT / "docs" / "fit_evaluation_log.html"
 PASS_THRESHOLD = 70
@@ -91,14 +94,32 @@ def strip_rep(name: str) -> str:
     return name.split(" | rep")[0].split(" | sample")[0].strip()
 
 
+def published_toe_results(filename):
+    manifest = ROOT / 'data' / 'toe_reprocessing' / 'active.json'
+    if manifest.exists():
+        origin = json.loads(manifest.read_text()).get('origin')
+        if origin in TOE_RESULT_ORIGINS:
+            path = manifest.parent / origin / filename
+            if path.exists():
+                return [path]
+    return []
+
+
 def load_csvs(extra_csv_paths=None):
     frames = []
-    main_csvs = sorted(RESULTS_DIR.glob("begins_*/reps.csv"))
+    published = published_toe_results('reps.csv')
+    main_csvs = sorted(RESULTS_DIR.glob("begins_*/reps.csv")) + published
     for p in main_csvs + list(extra_csv_paths or []):
         p = Path(p)
         if p.exists() and p.stat().st_size > 0:
             try:
-                frames.append(pd.read_csv(p))
+                frame = pd.read_csv(p)
+                if p in published:
+                    # A completed mode is authoritative for its conditions, including
+                    # replicates whose failure identity changed after reprocessing.
+                    conditions = set(frame['name'].map(strip_rep))
+                    frames = [f.loc[~f['name'].map(strip_rep).isin(conditions)] for f in frames]
+                frames.append(frame)
             except Exception:
                 pass
     if not frames:
@@ -116,7 +137,7 @@ def load_csvs(extra_csv_paths=None):
 def load_agg_cvs(agg_csv_paths=None):
     """Return dict: condition_name -> (pre_cv, post_cv) from agg CSVs."""
     frames = []
-    main_aggs = sorted(RESULTS_DIR.glob("begins_*/agg.csv"))
+    main_aggs = sorted(RESULTS_DIR.glob("begins_*/agg.csv")) + published_toe_results('agg.csv')
     for p in main_aggs + list(agg_csv_paths or []):
         p = Path(p)
         if p.exists() and p.stat().st_size > 0:
@@ -177,6 +198,17 @@ def copy_asset(path: Path, assets_dir: Path, cond_safe: str, used_assets: set = 
     return f"assets/fit/{cond_safe}/{path.name}"
 
 
+def strain_view_image(path, assets_dir, cond_safe, used_assets, alt):
+    """Link both independently rendered strain origins when available."""
+    uri = copy_asset(path, assets_dir, cond_safe, used_assets)
+    original = path.with_name('Unsubtracted_' + path.name)
+    attrs = ''
+    if original.exists():
+        raw_uri = copy_asset(original, assets_dir, cond_safe, used_assets)
+        attrs = f' data-corrected="{uri}" data-unsubtracted="{raw_uri}"'
+    return f'<img src="{uri}"{attrs} alt="{alt}">'
+
+
 _RUN_SUFFIX_RE = re.compile(r"^_run(\d+)$")
 
 
@@ -216,7 +248,7 @@ def _best_condition_dir(parent_dir: Path, condition_name: str):
     return best
 
 
-def find_plots(condition_name: str):
+def find_plots(condition_name: str, plot_prefix=None):
     """
     Return (seg_paths, comp_paths, avg_fit_paths, run_folder_name).
     comp_paths includes raw_average_curves.png if present.
@@ -291,6 +323,19 @@ def find_plots(condition_name: str):
     test_cands = [c for c in candidates if c.parent.name.startswith("test-")]
     real_cands = [c for c in candidates if not c.parent.name.startswith("test-")]
     comp_search_order = test_cands + real_cands
+    if plot_prefix is None:
+        manifest = ROOT / 'data' / 'toe_reprocessing' / 'active.json'
+        if manifest.exists():
+            state = json.loads(manifest.read_text())
+            plot_prefix = state.get('plot_prefix', 'test-toe')
+    if plot_prefix:
+        selected = [c for c in comp_search_order
+                    if re.fullmatch(re.escape(plot_prefix) + r'-\d{4}-\d{2}-\d{2}', c.parent.name)]
+        if selected:
+            # Do not borrow a successful old fit when the selected mode failed.
+            comp_search_order = selected
+        else:
+            comp_search_order = [c for c in comp_search_order if not c.parent.name.startswith('test-toe-')]
 
     # seg_run from real runs first (naming), seg images from test runs first (freshness)
     seg_run = None
@@ -441,6 +486,10 @@ body.scrolled h1 { font-size: 1.05rem; }
 .rep-deriv img:hover { box-shadow: 0 0 0 2px #90a4ae; }
 body.show-derivs .rep-row-has-deriv { grid-template-columns: minmax(220px, 30%) 1fr 1fr; }
 body.show-derivs .rep-row-has-deriv .rep-deriv { display: flex; }
+.preprocessing-plots { display: none; padding: 12px; border-top: 1px solid #ddd; }
+.preprocessing-plots img { display: block; width: 100%; height: auto; cursor: pointer; }
+.preprocessing-plots figure { margin: 12px 0; }
+body.show-preprocessing .preprocessing-plots { display: block; }
 @media (max-width: 750px) {
     .rep-row { grid-template-columns: 1fr; }
     .rep-left { border-right: none; border-bottom: 1px solid #e8e8e8; }
@@ -590,6 +639,14 @@ body.show-derivs .rep-row-has-deriv .rep-deriv { display: flex; }
 .breakdown-table td.comp[data-note] { cursor: help; }
 """
 
+CSS += """
+#plot-viewer { width: 94vw; max-width: 1600px; max-height: 94vh; box-sizing: border-box;
+  padding: 46px 12px 12px; background: #111; color: white; border: 1px solid #555; }
+#plot-viewer::backdrop { background: rgba(0,0,0,.8); }
+#plot-viewer img { display: block; max-width: 100%; max-height: 80vh; object-fit: contain; margin: auto; }
+#plot-viewer-close { position: absolute; top: 10px; right: 12px; cursor: pointer; }
+"""
+
 JS = """
 // navbar starts full-size; once the page scrolls (so it's actually pinned via
 // position:sticky) it shrinks -- .scrolled flips --navbar-h, which both the
@@ -599,11 +656,19 @@ window.addEventListener('scroll', () => {
   document.body.classList.toggle('scrolled', window.scrollY > 4);
 }, { passive: true });
 
-document.querySelectorAll('img[data-fullsrc], .rep-right img, .comp-group img').forEach(img => {
+const plotViewer = document.getElementById('plot-viewer');
+const plotViewerImage = document.getElementById('plot-viewer-image');
+document.getElementById('plot-viewer-close').addEventListener('click', () => plotViewer.close());
+plotViewer.addEventListener('click', event => {
+  if (event.target === plotViewer) plotViewer.close();
+});
+plotViewer.addEventListener('close', () => plotViewerImage.removeAttribute('src'));
+document.querySelectorAll('img[data-fullsrc], .rep-right img, .rep-deriv img, .comp-group img').forEach(img => {
   img.addEventListener('click', () => {
-    const w = window.open('', '_blank');
-    w.document.write('<body style="margin:0;background:#111"><img src="'
-      + img.src + '" style="max-width:100%;height:auto;display:block;margin:auto"></body>');
+    // Stay inside the report: IDE previews can block or redirect popup windows.
+    plotViewerImage.src = img.src;
+    plotViewerImage.alt = img.alt;
+    plotViewer.showModal();
   });
 });
 document.querySelectorAll('.card-header').forEach(header => {
@@ -677,6 +742,15 @@ document.querySelectorAll('#filter-bar input[type=checkbox]').forEach(cb => {
 runSelect.addEventListener('change', applyFilters);
 document.getElementById('search-bar').addEventListener('input', applyFilters);
 document.getElementById('filter-toe').addEventListener('change', applyFilters);
+document.getElementById('toggle-preprocessing').addEventListener('change', function() {
+  document.body.classList.toggle('show-preprocessing', this.checked);
+});
+document.getElementById('toggle-unsubtracted').addEventListener('change', function() {
+  const key = this.checked ? 'unsubtracted' : 'corrected';
+  document.querySelectorAll('img[data-corrected]').forEach(img => {
+    img.src = img.dataset[key];
+  });
+});
 document.getElementById('toggle-derivs').addEventListener('change', function() {
   const show = this.checked;
   document.querySelectorAll('.rep-row-has-deriv').forEach(row => {
@@ -895,7 +969,7 @@ def _epoch_ms(dt_val):
 
 def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
                    deriv_images, run_folder, assets_dir, used_assets, pre_cv=None, post_cv=None,
-                   sort_date=None, proc_date=None):
+                   sort_date=None, proc_date=None, preprocessing_images=None):
     group_df = group_df.sort_values("Trial").reset_index(drop=True)
     cond_safe = _safe_key(cond_name)
 
@@ -959,8 +1033,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         img_html = '<span class="no-img">No plot found</span>'
         if i < len(seg_images):
             try:
-                uri = copy_asset(seg_images[i], assets_dir, cond_safe, used_assets)
-                img_html = f'<img src="{uri}" alt="rep-{i+1}">'
+                img_html = strain_view_image(seg_images[i], assets_dir, cond_safe, used_assets, f'rep-{i+1}')
             except Exception:
                 pass
 
@@ -968,8 +1041,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         deriv_path = deriv_images[i] if i < len(deriv_images) else None
         if deriv_path is not None:
             try:
-                uri = copy_asset(deriv_path, assets_dir, cond_safe, used_assets)
-                deriv_col = f'<div class="rep-deriv"><img src="{uri}" alt="deriv-{i+1}"></div>'
+                deriv_col = '<div class="rep-deriv">' + strain_view_image(deriv_path, assets_dir, cond_safe, used_assets, f'deriv-{i+1}') + '</div>'
             except Exception:
                 pass
 
@@ -994,6 +1066,15 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         except Exception:
             pass
     comp_row = f'<div class="comp-row">{comp_html}</div>' if comp_html else ""
+    preprocessing_html = ''
+    for path in preprocessing_images or []:
+        uri = copy_asset(path, assets_dir, cond_safe, used_assets)
+        preprocessing_html += (
+            f'<figure><figcaption>{path.parent.name}: zero reference, alignment, and subtraction</figcaption>'
+            f'<img data-fullsrc="{uri}" src="{uri}" loading="lazy" alt="{path.stem}"></figure>'
+        )
+    if preprocessing_html:
+        preprocessing_html = '<div class="preprocessing-plots">' + preprocessing_html + '</div>'
 
     # ── CV summary line ───────────────────────────────────────────────────────
     cv_parts = []
@@ -1010,7 +1091,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         inner = ""
         for img_path, eval_data, deriv_path in avg_fit_images:
             try:
-                uri = copy_asset(img_path, assets_dir, cond_safe, used_assets)
+                fit_image = strain_view_image(img_path, assets_dir, cond_safe, used_assets, img_path.stem)
                 stem = img_path.stem
                 suffix = stem.replace("average_fit_", "")
                 if eval_data is not None:
@@ -1028,14 +1109,13 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
                 deriv_col = ""
                 if deriv_path is not None:
                     try:
-                        d_uri = copy_asset(deriv_path, assets_dir, cond_safe, used_assets)
-                        deriv_col = f'<div class="rep-deriv"><img src="{d_uri}" alt="deriv-{stem}"></div>'
+                        deriv_col = '<div class="rep-deriv">' + strain_view_image(deriv_path, assets_dir, cond_safe, used_assets, f'deriv-{stem}') + '</div>'
                     except Exception:
                         pass
                 inner += f"""
       <div class="rep-row{' rep-row-has-deriv' if deriv_col else ''}">
         <div class="rep-left" style="background:#f7f9fa">{left_html}</div>
-        <div class="rep-right"><img src="{uri}" alt="{stem}"></div>
+        <div class="rep-right">{fit_image}</div>
         {deriv_col}
       </div>"""
             except Exception:
@@ -1069,6 +1149,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
   </div>
   <div class="card-body">
     {rep_rows_html}
+    {preprocessing_html}
     {comp_row}
     {cv_summary}
     {avg_fits_html}
@@ -1078,7 +1159,8 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
 
 # ── main ──────────────────────────────────────────────────────────────────────
 
-def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
+def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None,
+             plot_prefix=None, condition_filter=None):
     """
     Regenerate fit_evaluation_log.html from scratch.
     extra_csv_paths: additional reps CSVs to merge (e.g. from test_processing.py).
@@ -1109,6 +1191,8 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
     used_assets = set()
 
     df = load_csvs(extra_csv_paths)
+    if condition_filter is not None and not df.empty:
+        df = df[df['condition'].isin(condition_filter)].copy()
     if df.empty:
         print("[fit log] No data found — skipping HTML generation.")
         return
@@ -1135,12 +1219,16 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
     cards_html = ""
     for cond in cond_order:
         group = df[df["condition"] == cond]
-        seg_imgs, comp_imgs, avg_fit_imgs, deriv_imgs, run_folder = find_plots(cond)
+        seg_imgs, comp_imgs, avg_fit_imgs, deriv_imgs, run_folder = find_plots(cond, plot_prefix=plot_prefix)
+        preproc_imgs = []
+        if seg_imgs:
+            preproc_imgs = sorted(seg_imgs[0].parent.parent.glob('rep-*/Pre-Processing_rep-*.png'))
         pre_cv, post_cv = cv_map.get(cond, (None, None))
         cards_html += condition_card(
             cond, group, seg_imgs, comp_imgs, avg_fit_imgs, deriv_imgs, run_folder, assets_dir,
             used_assets, pre_cv=pre_cv, post_cv=post_cv, sort_date=_cond_sort_key(cond),
             proc_date=_csv_max_by_cond.get(cond),
+            preprocessing_images=preproc_imgs,
         )
 
     # prune assets nothing in this run referenced (stale conditions, renamed/removed images)
@@ -1186,6 +1274,8 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
   <label><input type="checkbox" data-status="preproc" checked> <span class="dot" style="background:#78909c"></span> pre-proc failure</label>
   <label><input type="checkbox" id="filter-toe"> toe region only</label>
   <label><input type="checkbox" id="toggle-derivs"> show derivatives</label>
+  <label><input type="checkbox" id="toggle-unsubtracted"> show unsubtracted curves</label>
+  <label><input type="checkbox" id="toggle-preprocessing"> show zero / pre/post subtraction plots</label>
   <input id="search-bar" type="search" placeholder="Search conditions…">
   <select id="run-select"><option value="">All dates</option></select>
   <button id="sort-toggle" title="Off: ordered by real campaign date. On: ordered by when each row was last (re)processed.">Newest Processed First</button>
@@ -1195,6 +1285,10 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None):
 </div>
 {cards_html}
 <div id="bd-tooltip"></div>
+<dialog id="plot-viewer" aria-label="Enlarged plot">
+  <button type="button" id="plot-viewer-close" autofocus>Close</button>
+  <img id="plot-viewer-image" alt="">
+</dialog>
 <script>{JS}</script>
 </body>
 </html>"""
@@ -1207,6 +1301,6 @@ if __name__ == "__main__":
     _test_reps = ROOT / "tests" / "csv_tests" / "test_reps.csv"
     _test_agg  = ROOT / "tests" / "csv_tests" / "test_agg.csv"
     generate(
-        extra_csv_paths=[_test_reps] if _test_reps.exists() else [],
-        agg_csv_paths=[_test_agg]   if _test_agg.exists()  else [],
+        extra_csv_paths=[_test_reps] if _test_reps.exists() and not published_toe_results('reps.csv') else [],
+        agg_csv_paths=[_test_agg] if _test_agg.exists() and not published_toe_results('agg.csv') else [],
     )

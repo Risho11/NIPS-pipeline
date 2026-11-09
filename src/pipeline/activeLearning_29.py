@@ -17,6 +17,7 @@ from pathlib import Path
 import polymer_additive_bounds as bounds
 import system_prompt
 from llm_retry import create_chat_completion
+from property_context import format_prompt_context
 
 # ignore warnings
 import warnings
@@ -204,6 +205,12 @@ def _llm_al(prompt_template, performance_observations, ranges, quality_observati
             Model, Temperature, sleep, pore_fraction_observations=None):
     if ranges is None:
         ranges = current_ranges(locked_additive_wt=locked_additive_wt)
+    # Enforce precision here too: direct calls can bypass the history formatter.
+    performance_observations = format_prompt_context(performance_observations)
+    pore_fraction_observations = format_prompt_context(pore_fraction_observations)
+    quality_observations = format_prompt_context(quality_observations)
+    diversity_context = format_prompt_context(diversity_context)
+    ranges = format_prompt_context(ranges)
     text = f'\nPrior Experimental Observations (properties, image analysis, and timing grouped by experiment): {performance_observations}'
     if pore_fraction_observations:
         text += f'\n\nPrior Pore Fraction Observations: {pore_fraction_observations}'

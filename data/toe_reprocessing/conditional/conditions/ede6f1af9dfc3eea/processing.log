@@ -1,0 +1,145 @@
+==============================================================================================================
+Condition: 16p5-0add-19deg-cosolv-none-bathSolv-none-0wt-175s-N2-1450s_run3 | pairs: 4
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 51.26021147831879
+Toe end strain (zero point): 0.0000
+PW + Double: 0.34547496999793614
+Drop Chosen! 0.033492706159503616 | Piecewise Calculation: 0.3187006455118264
+  elastic_r2                          26/30  NRMSE-score=0.870 (RMSE=3.45, range=26.56)
+  plateau_r2_start                    15/15  R²(first 40%)=0.974
+  densification_r2                    14/15  R²=0.952
+  yield_accuracy                      25/25  elastic tail undershoots data by 2.5% of elastic range
+  junction_continuity                 13/15  gap=1.8%
+  plateau_r2_full_penalty              0/0  R²(full)=0.965
+  elastic_modulus_penalty              0/0  E=363.6 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 40% of remaining stress — ok | GAM slope stable in early plateau (drop=40%) — ok
+  changepoint_curvature_penalty       -3/0  d2_norm=0.00, linear_stretch=27%
+  slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.45 — good separation
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=-1.503 vs second-half R²=0.794 (gap=2.297)
+Score: 90/100 → PASS
+Elastic Modulus: 363.64 bar
+Pore Fraction: 0.3104
+Good Fit: True
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 51.70881940201826
+Toe end strain (zero point): 0.0000
+PW + Double: 0.4073847717800026
+Drop Chosen! 0.11076983339064869 | Piecewise Calculation: 0.368715200392427
+  elastic_r2                          29/30  NRMSE-score=0.958 (RMSE=1.25, range=29.68)
+  plateau_r2_start                    14/15  R²(first 40%)=0.962
+  densification_r2                    14/15  R²=0.964
+  yield_accuracy                      25/25  elastic tail undershoots data by 0.5% of elastic range
+  junction_continuity                 13/15  gap=1.9%
+  plateau_r2_full_penalty              0/0  R²(full)=0.958
+  elastic_modulus_penalty              0/0  E=246.9 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 34% of remaining stress — ok | GAM slope stable in early plateau (drop=30%) — ok
+  changepoint_curvature_penalty        0/0  d2_norm=1.63, linear_stretch=33%
+  slope_ratio_penalty                 -7/0  plateau/elastic slope ratio=0.64 — nearly parallel (-7 pts)
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=0.774 vs second-half R²=0.974 (gap=0.200)
+Score: 88/100 → PASS
+Elastic Modulus: 246.87 bar
+Pore Fraction: 0.3487
+Good Fit: True
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 52.6470437000693
+Toe end strain (zero point): 0.0892
+PW + Double: 0.09059922225751184
+Piecewise Chosen! 0.09300371850112307 | Drop Calculation: 0.19036895995023667
+  elastic_r2                          27/30  NRMSE-score=0.917 (RMSE=0.40, range=4.82)
+  plateau_r2_start                    15/15  R²(first 40%)=0.972
+  densification_r2                    14/15  R²=0.903
+  yield_accuracy                      25/25  elastic tail undershoots data by 6.6% of elastic range
+  junction_continuity                  0/15  gap=75.8%
+  plateau_r2_full_penalty              0/0  R²(full)=0.984
+  elastic_modulus_penalty              0/0  E=42.1 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 64% of remaining stress — ok | GAM slope stable in early plateau (drop=32%) — ok
+  changepoint_curvature_penalty        0/0  d2_norm=4.26, linear_stretch=10%
+  catastrophic_slope_vs_modulus        0/0  slope ratio=4.72 — plateau slope ≥95% of elastic
+  CATASTROPHIC HALVING: 81 → 40
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=0.549 vs second-half R²=0.715 (gap=0.166)
+Score: 40/100 → FAIL
+PW + Double: 0.18002305759969753
+Piecewise Chosen! 0.18007891724796996 | Drop Calculation: 0.1884471878996846
+  elastic_r2                          29/30  NRMSE-score=0.961 (RMSE=0.94, range=24.00)
+  plateau_r2_start                    15/15  R²(first 40%)=0.973
+  densification_r2                    11/15  R²=0.766
+  yield_accuracy                      25/25  elastic tail undershoots data by 0.4% of elastic range
+  junction_continuity                 15/15  gap=0.4%
+  plateau_r2_full_penalty              0/0  R²(full)=0.905
+  elastic_modulus_penalty              0/0  E=270.7 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 44% of remaining stress — ok | GAM slope stable in early plateau (drop=30%) — ok
+  changepoint_curvature_penalty       -4/0  d2_norm=0.03, linear_stretch=37%
+  slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.57 — good separation
+Score: 91/100 → PASS
+  toe-mask retry: masked strain < 0.0930, good=True
+Elastic Modulus: 270.74 bar
+Pore Fraction: 0.4163
+Good Fit: True
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 51.386954751904625
+Toe end strain (zero point): 0.0000
+PW + Double: 0.07898110475760746
+Piecewise Chosen! 0.07796221092207253 | Drop Calculation: 0.16451268627808352
+  elastic_r2                          28/30  NRMSE-score=0.923 (RMSE=0.48, range=6.20)
+  plateau_r2_start                    14/15  R²(first 40%)=0.957
+  densification_r2                    14/15  R²=0.906
+  yield_accuracy                      25/25  elastic tail undershoots data by 6.4% of elastic range
+  junction_continuity                  0/15  gap=63.0%
+  plateau_r2_full_penalty              0/0  R²(full)=0.986
+  elastic_modulus_penalty              0/0  E=73.0 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 60% of remaining stress — ok | GAM slope stable in early plateau (drop=36%) — ok
+  changepoint_curvature_penalty        0/0  d2_norm=2.95, linear_stretch=13%
+  catastrophic_slope_vs_modulus        0/0  slope ratio=2.60 — plateau slope ≥95% of elastic
+  CATASTROPHIC HALVING: 81 → 40
+Score: 40/100 → FAIL
+PW + Double: 0.15949220720847934
+Piecewise Chosen! 0.1600183422202689 | Drop Calculation: 0.16294172193412254
+  elastic_r2                          29/30  NRMSE-score=0.958 (RMSE=0.99, range=23.35)
+  plateau_r2_start                    15/15  R²(first 40%)=0.967
+  densification_r2                    11/15  R²=0.752
+  yield_accuracy                      25/25  elastic tail undershoots data by 0.2% of elastic range
+  junction_continuity                 14/15  gap=0.9%
+  plateau_r2_full_penalty              0/0  R²(full)=0.900
+  elastic_modulus_penalty              0/0  E=285.9 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 42% of remaining stress — ok | GAM slope stable in early plateau (drop=19%) — ok
+  changepoint_curvature_penalty        0/0  d2_norm=1.56, linear_stretch=23%
+  slope_ratio_penalty                  0/0  plateau/elastic slope ratio=0.51 — good separation
+Score: 94/100 → PASS
+  toe-mask retry: masked strain < 0.0780, good=True
+Elastic Modulus: 285.95 bar
+Pore Fraction: 0.4051
+Good Fit: True
+CV (16p5-0add-19deg-cosolv-none-bathSolv-none-0wt-175s-N2-1450s_run3): 0.22511149486774384
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 43.8671575034294
+Toe end strain (zero point): 0.0000
+PW + Double: 0.031009241546436916
+Piecewise Chosen! 0.03624739945415941 | Drop Calculation: 0.12750270572466343
+  elastic_r2                          28/30  NRMSE-score=0.941 (RMSE=0.35, range=5.96)
+  plateau_r2_start                    14/15  R²(first 40%)=0.966
+  densification_r2                    15/15  R²=0.968
+  yield_accuracy                      25/25  elastic tail undershoots data by 4.3% of elastic range
+  junction_continuity                  0/15  gap=65.7%
+  plateau_r2_full_penalty              0/0  R²(full)=0.978
+  elastic_modulus_penalty              0/0  E=145.4 bar ok
+  bp1_accuracy_penalty                -5/0  plateau spans 53% of remaining stress — ok | GAM slope drops 44% in early plateau — bp1 suspect
+  changepoint_curvature_penalty        0/0  d2_norm=3.58, linear_stretch=17%
+  catastrophic_slope_vs_modulus        0/0  slope ratio=1.29 — plateau slope ≥95% of elastic
+  CATASTROPHIC HALVING: 77 → 38
+Score: 38/100 → FAIL
+Elastic Modulus: 145.37 bar
+Pore Fraction: 0.4542
+Good Fit: False

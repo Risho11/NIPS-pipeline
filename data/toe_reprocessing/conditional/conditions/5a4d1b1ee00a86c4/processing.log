@@ -1,0 +1,76 @@
+==============================================================================================================
+Condition: 21-2add-50degMix-15deg-60s-NoN2-1800s | pairs: 4
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 61.85501696688132
+Toe end strain (zero point): 0.0698
+PW + Double: 0.06567736069284728
+Piecewise Chosen! 0.03983138307876704 | Drop Calculation: 0.2742374783807979
+  elastic_r2                          26/30  NRMSE-score=0.864 (RMSE=0.09, range=0.63)
+  plateau_r2_start                    14/15  R²(first 40%)=0.922
+  densification_r2                    14/15  R²=0.909
+  yield_accuracy                      24/25  elastic tail undershoots data by 10.9% of elastic range
+  junction_continuity                  0/15  gap=85.3%
+  plateau_r2_full_penalty              0/0  R²(full)=0.648
+  elastic_modulus_penalty              0/0  E=14.0 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 18% of remaining stress — ok | GAM slope stable in early plateau (drop=-356%) — ok
+  changepoint_curvature_penalty       -2/0  d2_norm=0.00, linear_stretch=23%
+  catastrophic_slope_vs_modulus        0/0  slope ratio=8.17 — plateau slope ≥95% of elastic
+  CATASTROPHIC HALVING: 76 → 38
+Score: 38/100 → FAIL
+PW + Double: 0.11452032137192816
+Piecewise Chosen! 0.052760341810336155 | Drop Calculation: 0.27339063942311004
+  elastic_r2                          26/30  NRMSE-score=0.857 (RMSE=0.12, range=0.86)
+  plateau_r2_start                    12/15  R²(first 40%)=0.825
+  densification_r2                    14/15  R²=0.928
+  yield_accuracy                      24/25  elastic tail undershoots data by 14.3% of elastic range
+  junction_continuity                  0/15  gap=77.7%
+  plateau_r2_full_penalty              0/0  R²(full)=0.784
+  elastic_modulus_penalty              0/0  E=47.2 bar ok
+  bp1_accuracy_penalty                 0/0  plateau spans 23% of remaining stress — ok | GAM slope stable in early plateau (drop=-220%) — ok
+  changepoint_curvature_penalty       -1/0  d2_norm=0.27, linear_stretch=20%
+  catastrophic_slope_vs_modulus        0/0  slope ratio=3.05 — plateau slope ≥95% of elastic
+  CATASTROPHIC HALVING: 75 → 38
+  DATA FLAGS (no score impact — route to goodData_eval):
+    elastic_half_consistency: first-half R²=-0.252 vs second-half R²=0.185 (gap=0.437)
+Score: 38/100 → FAIL
+  toe-mask retry: masked strain < 0.0398, good=False
+Elastic Modulus: 47.19 bar
+Pore Fraction: 0.2454
+Good Fit: False
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 55.20320957538573
+Toe end strain (zero point): 0.0000
+PW + Double: 0.14672407388776132
+Piecewise Chosen! 0.11248410994299322 | Drop Calculation: 0.1752046411125799
+  FIND_CHANGEPOINT_FIT FAILED: fit region too small - plateau = 0 pts, densification=796 pts - score forced to 0
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 53.67344418981615
+Toe end strain (zero point): 0.0836
+PW + Double: 0.08006393141348829
+Piecewise Chosen! 0.08195094133772457 | Drop Calculation: 0.1501308659290893
+  FIND_CHANGEPOINT_FIT FAILED: fit region too small - plateau = 0 pts, densification=537 pts - score forced to 0
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 58.847743425350885
+Toe end strain (zero point): 0.0000
+PW + Double: 0.19548920366140837
+Piecewise Chosen! 0.16292825519950357 | Drop Calculation: 0.28745778944084055
+  FIND_CHANGEPOINT_FIT FAILED: fit region too small - plateau = 0 pts, densification=667 pts - score forced to 0
+CV (21-2add-50degMix-15deg-60s-NoN2-1800s) [preDiscard]: 0.4436715034589858
+CV (21-2add-50degMix-15deg-60s-NoN2-1800s) [postDiscard]: nan
+
+
+------------ NEW REP ---------------
+Average Standard Deviation: 43.87505283964766
+Toe end strain (zero point): 0.0683
+PW + Double: 0.18793349374032045
+Piecewise Chosen! 0.1787050003436295 | Drop Calculation: 0.2872411391185235
+  FIND_CHANGEPOINT_FIT FAILED: fit region too small - plateau = 0 pts, densification=781 pts - score forced to 0
+  All fits failed for 21-2add-50degMix-15deg-60s-NoN2-1800s — postDiscard row built from all-discarded reps

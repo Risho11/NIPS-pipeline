@@ -1,5 +1,34 @@
-Warm-start history for Polysulfone / PolarClean
-=============================================
+Warm-start datasets synchronized with the analysis notebooks
+===========================================================
+
+The two canonical exports use exactly the selected rows and full-precision numeric
+data in the corresponding notebook's `campaign_detailed` dataframe:
+
+| Notebook | Warm-start CSV | Current saved selection |
+| --- | --- | ---: |
+| `EVALUATE/campaign_trends.ipynb` | `polysulfone_polarclean.csv` | 119 samples |
+| `EVALUATE/primospire_nmp_campaign_trends.ipynb` | `primospire_nmp.csv` | 74 samples |
+
+Rerunning the main trend-plot cell in either notebook refreshes its warm-start
+CSV and JSON, even when `SAVE_OUTPUTS = False`. It exports the actual selected
+dataframe, including campaign/date/chemistry filters, CV and discard limits,
+replicate-strain checks, stock ages, and manual exclusions. The exporter applies
+no additional date caps, quality filters, deduplication, or bath corrections.
+Only AL report/provenance fields are enriched; measurements are not rounded.
+AL request formatting applies the separate two-decimal prompt-only rule.
+
+Standalone regeneration reads the notebooks' **saved** settings and runs only
+their configuration and loading/filtering cells, without plots, model fitting,
+API calls, or changes to source result CSVs:
+
+```console
+python EVALUATE/export_warm_start.py
+python EVALUATE/export_primospire_warm_start.py
+```
+
+The JSON sidecars record the notebook, selected campaigns, filters, exclusions,
+and current counts. Counts above reflect the current saved settings and may
+change after editing filters or adding data.
 
 Historical bath correction (operator confirmed 2026-10-23): all recorded historical
 NIPS baths contained **0 wt% solvent**. Warm-start exports and historical campaign
@@ -8,16 +37,15 @@ CSV rows now explicitly record `nips_bath_solvent=none` and
 This is separate from the current **10 wt% PolarClean** bath used for future runs.
 The fixed condition list in `historical_zero_bath_conditions.json` limits the
 backfill to confirmed history; future/unlisted conditions do not default to zero,
-and explicit nonzero records are preserved. The exporter reapplies this context
-when rebuilding a warm-start CSV. To restore the same context after regenerating
+and explicit nonzero records are preserved. The exporter preserves the notebook's
+selected bath values without export-only changes. To restore this context after regenerating
 historical result CSVs, run `python EVALUATE/backfill_historical_bath_context.py`.
 This does not recompute fits, change measurements, or regenerate LLM suggestions.
 
-`polysulfone_polarclean.csv` contains 66 conditions from the exported notebook
-selection through campaign `2026-08-22-exploration-mode`.
-All 66 have the eight synthesis parameters; 63 have both elastic modulus and
-pore fraction. The three with missing objectives remain useful parameter history.
-The companion JSON records counts, campaign provenance, filters, and limitations.
+The current Polysulfone selection includes the August 21/22, September 21/25,
+and October 15 source campaigns and the notebook's manual sample exclusion.
+The Primospire selection includes September 10, September 30, and October 30.
+Unknown property measurements remain unknown when the notebook retains the row.
 
 In `src/pipeline/run_loop.py`, set:
 
@@ -80,9 +108,9 @@ Limitations:
 - Notebook filters require thickness >= 70 micrometers and polymer 13–17 wt%,
   and exclude other inferred chemistries. Exploration coverage therefore omits
   excluded experiments; this is a selected history, not every attempted experiment.
-- One source folder is named `begins_1999`; its retained condition has an actual
-  specimen timestamp on August 19, 2026. Source names and timestamps are preserved.
-- Historical LLM suggestions are excluded. Reports are rebuilt locally from the
+- Source names and timestamps are preserved. Notebook effective-date rules also
+  apply to exported stock ages and date-filter membership.
+- Historical LLM suggestions are not used as observations. Reports are rebuilt locally from the
   aggregate measurements and context, with missing values explicitly unknown.
 
 Regenerate with the current notebook-default filters:
@@ -116,8 +144,7 @@ structured proposal context. The export preserves reports and marks that campaig
 with `proposal_context_version`; historical chemistry inference stays separate
 from the newer recorded polymer/solvent identities. Original CSVs are unchanged.
 
-`run_loop.py` now selects this dated snapshot and `CONTINUE_CAMPAIGN = None`.
-Restarting the pipeline will use the current date for a new campaign and generate
-its first proposal from this history. No pipeline or experiment was launched by
-creating this export. The generic exporter above still targets the original filename;
-this dated snapshot is a separate merge of the two sources named in its JSON.
+This dated snapshot is archival and is not refreshed by notebook synchronization.
+Use the two canonical filenames above for notebook-matched warm starts. The
+pipeline uses whichever path is configured in `LLM_AL_WARM_START_CSV`; select the
+file matching the campaign chemistry and restart the process after changing it.

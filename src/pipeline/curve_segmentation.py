@@ -34,6 +34,105 @@ LVDT_COL = "S:LVDT (in)"
 EXTENDED_CONTEXT    = False  # include _membrane_outcome_string() in result string
 PROMOTE_POSTDISCARD = True  # True=LLM sees postDiscard; False=LLM sees preDiscard
 USE_FIT_COUNT       = True  # True=n_fit counts Good Fit flag; False=counts _rep_is_usable()
+_fit_settings_path = Path(__file__).resolve().parents[2] / 'data' / 'toe_reprocessing' / 'settings.json'
+_fit_settings = json.loads(_fit_settings_path.read_text()) if _fit_settings_path.exists() else {}
+SUBTRACT_TOE = _fit_settings.get('subtract_toe', True)
+MASK_TOE_BEFORE_FIT = _fit_settings.get('fit_mode', 'legacy') == 'masked'
+SHIFT_ONLY_MASKED_TOE = _fit_settings.get('toe_shift_policy', 'masked_only') == 'masked_only'
+
+
+def toe_shift(detected_toe, masked_cutoff=None):
+    """Only a committed mask authorizes shifting under the masked-only policy."""
+    if not SUBTRACT_TOE:
+        return 0.0
+    value = masked_cutoff if SHIFT_ONLY_MASKED_TOE else detected_toe
+    return float(value) if value is not None and np.isfinite(value) and value > 0 else 0.0
+
+
+def mask_detected_toe(data, toe):
+    """Exclude the detected toe without changing strain coordinates or the toe offset."""
+    if toe is None or not np.isfinite(toe):
+        raise ValueError('Toe detection did not produce a finite cutoff')
+    masked = data.loc[data['strain'] >= float(toe)].copy().reset_index(drop=True)
+    if len(masked) < 10 or masked['strain'].nunique() < 3:
+        raise ValueError('Fewer than 10 usable points remain after masking the detected toe')
+    return masked
+
+
+def style_strain_axes(ax):
+    """Keep a small zero margin, but clip data to nonnegative strain/stress."""
+    from matplotlib.patches import Rectangle
+    legend = ax.get_legend()
+    if legend is not None:
+        legend.set_zorder(max([1000] + [a.get_zorder() + 1 for a in ax.get_children() if a is not legend]))
+        legend.get_frame().set_alpha(1)
+        legend.get_frame().set_facecolor('white')
+    right = max(float(ax.get_xlim()[1]), np.finfo(float).eps)
+    ax.set_xlim(-.04 * right, right)
+    if ax.get_ylabel().strip().lower().startswith('stress'):
+        top = max(float(ax.get_ylim()[1]), np.finfo(float).eps)
+        ax.set_ylim(-.04 * top, top)
+        bottom = 0.0
+    else:
+        # Derivatives can legitimately be negative; only strain is clipped there.
+        bottom, top = ax.get_ylim()
+    clip = Rectangle((0, bottom), right, top - bottom, transform=ax.transData)
+    for artist in [*ax.lines, *ax.collections, *ax.patches]:
+        artist.set_clip_on(True)
+        reference = artist.get_gid()
+        if reference in ('stress-reference-horizontal', 'stress-reference-vertical'):
+            # Guides reach the axes; only measured curves/points use the physical clip.
+            boundary = artist.get_transform().inverted().transform(
+                ax.transData.transform([ax.get_xlim()[0], ax.get_ylim()[0]]))
+            if reference == 'stress-reference-horizontal':
+                artist.set_xdata([boundary[0], artist.get_xdata()[-1]])
+            else:
+                artist.set_ydata([boundary[1], artist.get_ydata()[-1]])
+            artist.set_clip_path(ax.patch)
+            continue
+        artist.set_clip_path(clip)
+
+
+def save_strain_views(fig, path, toe, *, toe_masked=True):
+    """Save both strain origins from the same fit; never refit or edit a raster."""
+    from matplotlib.transforms import Affine2D
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    for ax in fig.axes:
+        ax.set_xlabel('Strain (toe included)')
+        style_strain_axes(ax)
+    fig.savefig(path.with_name('Unsubtracted_' + path.name), dpi=150, bbox_inches='tight')
+    shift = toe_shift(toe, toe if toe_masked else None)
+    if SUBTRACT_TOE:
+        for ax in fig.axes:
+            toe_patches = [patch for patch in ax.patches if patch.get_label() == 'Toe (masked)']
+            if toe_patches and shift > 0:
+                legend = ax.get_legend()
+                fontsize = legend.get_texts()[0].get_fontsize() if legend and legend.get_texts() else 11
+                for patch in toe_patches:
+                    patch.remove()
+                if legend:
+                    ax.legend(loc='upper left', fontsize=fontsize)
+            for artist in [*ax.lines, *ax.patches]:
+                artist.set_transform(Affine2D().translate(-shift, 0) + artist.get_transform())
+            for artist in ax.collections:
+                # Scatter offsets carry data coordinates; hlines use path coordinates.
+                if isinstance(artist, _mpl.collections.PathCollection):
+                    artist.set_offset_transform(Affine2D().translate(-shift, 0) + artist.get_offset_transform())
+                else:
+                    artist.set_transform(Affine2D().translate(-shift, 0) + artist.get_transform())
+            ax.set_xlim(0, max(float(ax.get_xlim()[1]) - shift, np.finfo(float).eps))
+            ax.set_xlabel('Strain')
+            style_strain_axes(ax)
+            # Reference-strain labels were created before translating the artists.
+            legend = ax.get_legend()
+            if legend:
+                import re
+                for label in legend.get_texts():
+                    label.set_text(re.sub(r'(= )(-?\d+\.\d+)',
+                                         lambda m: m[1] + f'{float(m[2]) - shift:.3f}',
+                                         label.get_text()))
+    fig.savefig(path, dpi=150, bbox_inches='tight')
 
 # Single source of truth for per-condition mech/env columns in the aggregate & LLM CSVs.
 # "sd": whether an SD column is computed alongside the Mean column.
@@ -53,6 +152,7 @@ MECH_PROP_SCHEMA = {
     "Elastic Modulus":   {"sd": True,  "llm": True,  "always": False},
     "Yield Strength":    {"sd": True,  "llm": True, "always": False},
     "Pore Fraction":       {"sd": True,  "llm": True, "always": False},
+    "Pore Fraction Unsubtracted": {"sd": True, "llm": False, "always": False},
     "Slope Plateau":     {"sd": True,  "llm": True, "always": False},
     "Slope Densification": {"sd": True, "llm": True, "always": False},
     "Creep Strain":      {"sd": True,  "llm": True, "always": False},
@@ -1133,9 +1233,11 @@ def plot_average_curve(processed_curves, valid_curves, cutoff_load_displacement=
         title = f"{condition_name} — {label} — NO VALID CURVES" if label else condition_name + " — NO VALID CURVES"
         plt.title(title, fontsize=14)
 
-    plt.xlabel('Strain', fontsize=16)
+    plt.xlabel('Strain' if stress_nc else 'Displacement (um)', fontsize=16)
     plt.ylabel('Stress (bar)', fontsize=16)
     plt.legend(fontsize=10)
+    if stress_nc:
+        style_strain_axes(plt.gca())
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
     plt.tight_layout()
@@ -1313,6 +1415,28 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             plt.close()
             continue
         toe_end_strain = goodData_eval(data, predictions)
+        if MASK_TOE_BEFORE_FIT:
+            try:
+                data = mask_detected_toe(data, toe_end_strain)
+                gam = LinearGAM(s(0))
+                gam.fit(data[['strain']], data['stress (bar)'])
+                predictions = gam.predict(data[['strain']])
+            except Exception as exc:
+                print(f'  Toe-masked fit failed: {exc}')
+                mechanicalProperties.append({
+                    'name': data_name, 'Trial': trial, 'Thickness': thickness[i],
+                    'Pore Fraction': np.nan, 'Pore Fraction Unsubtracted': np.nan,
+                    'Toe Region': toe_end_strain, 'Toe Subtracted': False,
+                    'Toe Masked': False, 'Toe Mask Cutoff': 0., 'Toe Shift': 0.,
+                    'Toe Shift Policy': 'masked_only' if SHIFT_ONLY_MASKED_TOE else 'all_detected',
+                    'Creep Strain': creep_strain,
+                    'Toe Fit Mode': 'masked', 'Good Fit': False, 'Good Fit Score': 0,
+                    'Good Fit Breakdown': json.dumps({'_score_final': {
+                        'pts': 0, 'max': 100, 'note': f'Toe-masked fit failed: {exc}'}}),
+                    'Average Standard Deviation': avg_standard_deviation,
+                })
+                plt.close()
+                continue
         # replace values in predictions that are greater than the predictions[-1] with predictions[-1] but make a copy of the predictions for the plot
         predictions_for_plot = predictions.copy()
         _cap = creep_level if creep_level is not None else predictions[-1]
@@ -1326,6 +1450,8 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             loading_region = data_original[data_original['Set Point ()'] <= 1].copy()
         else:
             loading_region = data_original.copy()
+        if MASK_TOE_BEFORE_FIT:
+            loading_region = loading_region[loading_region['strain'] >= toe_end_strain].copy()
 
         def strain_at_stress_from_gam(target_stress):
             if loading_region.empty:
@@ -1429,7 +1555,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                 "Toe Region": toe_end_strain,
             })
             continue
-        toe_shaded_end = None
+        toe_shaded_end = toe_end_strain if MASK_TOE_BEFORE_FIT else None
         if True:
             if elastic_fit_failed:
                 good = False
@@ -1457,11 +1583,12 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                     fit_breakdown = {'_score_final': (0, 100, f'goodFit_eval error: {e}')}
 
             # ── toe-mask retry: if slope inversion detected, mask data before bp1 and refit ──
-            if (not skip_preproc
+            if (not MASK_TOE_BEFORE_FIT
+                    and not skip_preproc
                     and not elastic_fit_failed
                     and 'catastrophic_slope_vs_modulus' in fit_breakdown):
-                toe_shaded_end = breakpoint1
-                _data_m = data[data['strain'] >= toe_shaded_end].copy().reset_index(drop=True)
+                _retry_cutoff = breakpoint1
+                _data_m = data[data['strain'] >= _retry_cutoff].copy().reset_index(drop=True)
                 if len(_data_m) >= 10:
                     try:
                         _gam_m = LinearGAM(s(0))
@@ -1497,6 +1624,8 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                                     creep_level=creep_level, pass_threshold=70,
                                 )
                                 # commit retry results
+                                data               = _data_m
+                                gam                = _gam_m
                                 breakpoint1        = _bp1_m
                                 elasticRegion      = _elR_m
                                 modelElastic       = _mE_m
@@ -1513,6 +1642,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                                 slopeDensification = _slDens_m
                                 modelPlateau       = _mPl_m
                                 good, fit_breakdown = _good_m, _bd_m
+                                toe_shaded_end     = _retry_cutoff
                                 toe_end_strain     = toe_shaded_end
                                 # recompute strain-at-stress from masked GAM
                                 _lr_m = loading_region[loading_region['strain'] >= toe_shaded_end][['strain']].dropna().copy()
@@ -1535,7 +1665,9 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                         print(f"  toe-mask retry failed: {_e_retry} — keeping first-pass result")
 
             print(f"Elastic Modulus: {elasticModulus:.2f} bar")
-            print(f"Pore Fraction: {changepoint:.4f}")
+            applied_toe_shift = toe_shift(toe_end_strain, toe_shaded_end)
+            toe_was_masked = toe_shaded_end is not None and toe_shaded_end > 0
+            print(f"Pore Fraction: {changepoint - applied_toe_shift:.4f}")
 
             '''
             wait why the heck is the dictionary only appended when its like not 0... anyway
@@ -1552,7 +1684,14 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
                     "Thickness": thickness[i],
                     "Elastic Modulus":elasticModulus, 
                     "Yield Strength":yieldStrength[0], 
-                    "Pore Fraction":changepoint, 
+                    "Pore Fraction": changepoint - applied_toe_shift,
+                    "Pore Fraction Unsubtracted": changepoint,
+                    "Toe Subtracted": applied_toe_shift > 0,
+                    "Toe Masked": toe_was_masked,
+                    "Toe Mask Cutoff": float(toe_shaded_end) if toe_was_masked else 0.0,
+                    "Toe Shift": applied_toe_shift,
+                    "Toe Shift Policy": 'masked_only' if SHIFT_ONLY_MASKED_TOE else 'all_detected',
+                    "Toe Fit Mode": 'masked' if MASK_TOE_BEFORE_FIT else 'legacy',
                     "Slope Plateau":slopePlateau, 
                     "Slope Densification":slopeDensification,
                     "Creep Strain":creep_strain,
@@ -1589,9 +1728,11 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             _xlim, _ylim = _ax.get_xlim(), _ax.get_ylim()
             for stress_val, strain_val, color in _ref_points:
                 if strain_val is not None and not np.isnan(strain_val):
-                    plt.plot([_xlim[0], strain_val], [stress_val, stress_val], color=color, linestyle=':', linewidth=1, alpha=0.9)
-                    plt.plot([strain_val, strain_val], [_ylim[0], stress_val], color=color, linestyle=':', linewidth=1, alpha=0.9,
+                    _horizontal, = plt.plot([_xlim[0], strain_val], [stress_val, stress_val], color=color, linestyle=':', linewidth=1, alpha=0.9)
+                    _horizontal.set_gid('stress-reference-horizontal')
+                    _vertical, = plt.plot([strain_val, strain_val], [_ylim[0], stress_val], color=color, linestyle=':', linewidth=1, alpha=0.9,
                              label=f'{stress_val} bar | ε = {strain_val:.3f}')
+                    _vertical.set_gid('stress-reference-vertical')
             _ax.set_xlim(_xlim)
             _ax.set_ylim(_ylim)
 
@@ -1599,9 +1740,9 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             #print(dict)
 
         
-        if toe_shaded_end is not None:
-            plt.axvspan(plt.gca().get_xlim()[0], toe_shaded_end,
-                        alpha=0.3, color='grey', zorder=0, label='Toe (masked)')
+        if toe_shaded_end is not None and toe_shaded_end > 0:
+            plt.axvspan(0, toe_shaded_end,
+                        alpha=.3, color='grey', zorder=0, label='Toe (masked)')
         plt.title(data_name, fontsize=14)
         plt.xlabel('Strain', fontsize=20)
         plt.ylabel('Stress (bar)', fontsize=20)
@@ -1610,7 +1751,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
         plt.yticks(fontsize=16)
         if SAVE_PLOTS and save_path is not None:
             Path(save_path).parent.mkdir(parents=True, exist_ok=True)
-            plt.savefig(save_path, dpi=150, bbox_inches='tight')
+            save_strain_views(plt.gcf(), save_path, toe_end_strain, toe_masked=toe_was_masked)
         plt.close()
 
         # ── derivative plots ──────────────────────────────────────────────────
@@ -1639,7 +1780,7 @@ def interpretData(data_list, thickness_info = True, thickness_list = None, creep
             ax1.legend(fontsize=8); ax2.legend(fontsize=8)
             fig_d.suptitle(data_name, fontsize=11)
             fig_d.tight_layout()
-            fig_d.savefig(_deriv_path, dpi=150, bbox_inches='tight')
+            save_strain_views(fig_d, _deriv_path, toe_end_strain, toe_masked=toe_was_masked)
             plt.close(fig_d)
 
         print(f"Good Fit: {good}")
@@ -1944,7 +2085,10 @@ def process_zero_sample_pairs_pipeline(
         # actual source identity so report generation never guesses from the name.
         condition_save_dir.mkdir(parents=True, exist_ok=True)
         (condition_save_dir / "plot_source.json").write_text(
-            json.dumps({"condition_name": condition_name}), encoding="utf-8"
+            json.dumps({'condition_name': condition_name,
+                        'fit_mode': 'masked' if MASK_TOE_BEFORE_FIT else 'legacy',
+                        'toe_shift_policy': 'masked_only' if SHIFT_ONLY_MASKED_TOE else 'all_detected',
+                        'subtract_toe': SUBTRACT_TOE}), encoding="utf-8"
         )
 
         print("=" * 110)
@@ -2067,7 +2211,7 @@ def process_zero_sample_pairs_pipeline(
                 )
             except Exception as e:
                 print(f"  interpretData crashed for rep {replicate}: {e} — recording as Good Fit=False")
-                interpreted = [{"name": condition_name, "Trial": str(replicate),
+                interpreted = [{"name": display_name, "Trial": f"sample {pair['sample_specimen']}",
                                 "Thickness": np.nan, "Elastic Modulus": np.nan,
                                 "Yield Strength": np.nan, "Changepoint": np.nan,
                                 "Slope Plateau": np.nan, "Slope Densification": np.nan,
@@ -2156,6 +2300,7 @@ def process_zero_sample_pairs_pipeline(
                 ax.set_xlabel('Strain', fontsize=13)
                 ax.set_ylabel('Stress (bar)', fontsize=13)
                 ax.legend(fontsize=9)
+                style_strain_axes(ax)
             fig.tight_layout()
             _avg_save_dir.mkdir(parents=True, exist_ok=True)
             fig.savefig(_avg_save_dir / "raw_average_curves.png", dpi=150, bbox_inches='tight')
@@ -2185,7 +2330,7 @@ def process_zero_sample_pairs_pipeline(
             prop["CV"] = pre_cv
 
         avg_condition_properties = {"name": condition_name, "Trial": "average"}
-        numeric_keys = ["Thickness", "Elastic Modulus", "Yield Strength", "Changepoint",
+        numeric_keys = ["Thickness", "Elastic Modulus", "Yield Strength", "Pore Fraction", "Pore Fraction Unsubtracted",
                 "Slope Plateau", "Slope Densification", "Creep Strain",
                 "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
                 "Strain at 500 bar", "Average Standard Deviation", "CV"]
@@ -2249,9 +2394,10 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
             row_out["date"] = condition_date
             condition = trial["name"].split(" ")[0]
             # Search up to 2 levels deep under data_root for {condition}/params.json
-            matches = sorted(data_root.glob(f"*/{condition}/params.json")) + \
-                      sorted(data_root.glob(f"**/{condition}/params.json"))
-            params_path = matches[0] if matches else data_root / "data" / "raw" / condition / "params.json"
+            params_path = data_root / "data" / "raw" / condition / "params.json"
+            if not params_path.exists():
+                matches = sorted(data_root.glob(f"*/{condition}/params.json"))
+                params_path = matches[0] if matches else params_path
             try:
                 with open(params_path, "r", encoding="utf-8") as f:
                     params = json.load(f)
@@ -2278,7 +2424,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
         output_path = Path(output_path) if output_path is not None else data_root / "output2.csv"
         aggregate_path = Path(aggregate_path) if aggregate_path is not None else data_root / "LLM_output.csv"
         rep_col_order = ["date", "name", "Trial", "Thickness", "Elastic Modulus",
-                         "Yield Strength", "Changepoint", "Slope Plateau", "Slope Densification",
+                         "Yield Strength", "Changepoint", "Pore Fraction", "Pore Fraction Unsubtracted", "Toe Subtracted", "Toe Fit Mode", "Toe Masked", "Toe Mask Cutoff", "Toe Shift", "Toe Shift Policy", "Slope Plateau", "Slope Densification",
                          "Creep Strain", "Toe Region", "Strain at 50 bar", "Strain at 80 bar", "Strain at 150 bar",
                          "Strain at 500 bar", "Good Fit", "Good Fit Score", "Good Fit Breakdown", "Average Standard Deviation", "CV",
                          "mixing_temp", "bath_temp", "polymer_wt", "additive_wt",
@@ -2325,6 +2471,9 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
 
             def _build_agg_row(name, props_iter, cv_val, all_props=None):
                 agg_row = {"name": name, "date": date_val}
+                agg_row['Toe Subtracted'] = any(bool(p.get('Toe Subtracted', False)) for p in props_iter)
+                agg_row['Toe Shift Policy'] = 'masked_only' if SHIFT_ONLY_MASKED_TOE else 'all_detected'
+                agg_row['Toe Fit Mode'] = 'masked' if MASK_TOE_BEFORE_FIT else 'legacy'
                 agg_row.update(params_row)
                 for k in mech_cols:
                     if k == "CV":
@@ -2410,7 +2559,7 @@ def save_to_csv(output, data_root=None, output_path=None, aggregate_path=None):
         condition_cols = ["mixing_temp", "bath_temp", "polymer_wt", "additive_wt",
                           "pullcast_speed", "nitrogen", "coupon_to_bath_wait_time", "nips_bath_wait_time",
                           "polymer_type", "solvent_type", "cosolvent_type", "nips_bath_solvent", "nips_bath_solvent_wt_percent"]
-        col_order = (["date", "name"] + condition_cols + ["formatted_parameters", "initial_report"]
+        col_order = (["date", "name", "Toe Subtracted", "Toe Fit Mode", "Toe Shift Policy"] + condition_cols + ["formatted_parameters", "initial_report"]
                      + interleaved + ["Discarded Fit Quality Mean", "Discarded Fit Reasons"]
                      + ["formatted_parameters_withProp", "final_report"])
 

@@ -1,4 +1,4 @@
-date,name,mixing_temp,bath_temp,weight_percent,volume,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion,nips_bath_solvent,nips_bath_solvent_wt_percent,bath_context_source
+date,name,mixing_temp,bath_temp,weight_percent,volume,pullcast_speed,nitrogen,coupon_to_bath_wait_time,nips_bath_wait_time,formatted_parameters,initial_report,Air Temp Mean,Humidity Mean,Thickness Mean,Thickness SD,Elastic Modulus Mean,Elastic Modulus SD,Yield Strength Mean,Yield Strength SD,Pore Fraction Mean,Pore Fraction SD,Slope Plateau Mean,Slope Plateau SD,Slope Densification Mean,Slope Densification SD,Creep Strain Mean,Creep Strain SD,Strain at 50 bar Mean,Strain at 50 bar SD,Strain at 80 bar Mean,Strain at 80 bar SD,Strain at 150 bar Mean,Strain at 150 bar SD,Strain at 500 bar Mean,Strain at 500 bar SD,CV Mean,formatted_parameters_withProp,final_report,quality_report,LLM_suggestion,nips_bath_solvent,nips_bath_solvent_wt_percent,bath_context_source,Toe Subtracted,Pore Fraction Unsubtracted Mean,Pore Fraction Unsubtracted SD,Toe Fit Mode,Coupon Temp Mean,Coupon Humidity Mean,Discarded Fit Quality Mean,Discarded Fit Reasons,Toe Shift Policy
 "2026-08-10
 16:03:51",21-0add-5deg-300s-N2-1800s_run2,60,5,,,1,True,300,1800,mixing_temp=60; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=300; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -25,11 +25,10 @@ The cast membrane was subsequently immersed in the non-solvent coagulation bath,
 | Bath Temperature | 5°C |
 | Bath Immersion Time | 1800 s |
 | Ambient Temperature | Not recorded |
-| Ambient Humidity | Not recorded |",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=60; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=300; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
-MEMBRANE DETECTION: 3/4 replicates detected a membrane.
-FIT DETECTION: 0/3 of detected membranes passed quality checks.
-OUTCOME: PARTIAL_COVERAGE_NO_FIT
-INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated Membrane Synthesis via NIPS
+| Ambient Humidity | Not recorded |",,,-89.69684171801724,102.26636054687258,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=60; bath_temp=5; polymer_wt=21; additive_wt=0; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=300; nips_bath_wait_time=1800
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": -89.69684171801724, ""Thickness SD"": 102.26636054687258, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": null, ""Strain at 50 bar SD"": null, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Reasons': '4 failed due to insufficient data to fit'","# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Solution Preparation & Casting
 
@@ -98,7 +97,7 @@ INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quali
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent,False,,,legacy,,,,4 failed due to insufficient data to fit,masked_only
 "2026-08-10
 18:20:38",21-2add-60degMix-15deg-30s-NoN2-1800s,60,15,,,5,False,30,1800,mixing_temp=60; bath_temp=15; pullcast_speed=5; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
@@ -115,11 +114,10 @@ Following casting, the membrane coupon was allowed to rest under **ambient condi
 The cast membrane was subsequently immersed into the non-solvent coagulation bath, maintained at a temperature of **15°C**. The membrane remained in the bath for **1800 seconds (30 minutes)** to allow complete phase inversion.
 
 ---
-**Note:** Ambient temperature and relative humidity values were unavailable (not recorded) for this experiment, which may limit the ability to fully assess the influence of atmospheric conditions on membrane formation during the pre-immersion period.",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=60; bath_temp=15; pullcast_speed=5; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
-MEMBRANE DETECTION: 1/4 replicates detected a membrane.
-FIT DETECTION: 0/1 of detected membranes passed quality checks.
-OUTCOME: PARTIAL_SINGLE_BAD_FIT
-INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
+**Note:** Ambient temperature and relative humidity values were unavailable (not recorded) for this experiment, which may limit the ability to fully assess the influence of atmospheric conditions on membrane formation during the pre-immersion period.",,,-62.82172428195064,14.730030811486694,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=60; bath_temp=15; polymer_wt=21.0; additive_wt=2.0; pullcast_speed=5; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": -62.821724281950644, ""Thickness SD"": 14.730030811486694, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": null, ""Strain at 50 bar SD"": null, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Reasons': '4 failed due to insufficient data to fit'","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 The polymer solution was prepared and mixed at a heating temperature of **60°C**.
@@ -180,7 +178,7 @@ INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measureme
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent,False,,,legacy,,,,4 failed due to insufficient data to fit,masked_only
 "2026-08-10
 20:29:57",21-2add-50degMix-15deg-60s-NoN2-1800s,50,15,,,10,False,60,1800,mixing_temp=50; bath_temp=15; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -208,11 +206,10 @@ The cast coupon was immersed in a NIPS bath maintained at **15°C** and allowed 
 ## Notes
 - No dry nitrogen blow was applied during the pre-immersion waiting period, meaning the film was exposed to ambient humidity conditions.
 - Ambient temperature and relative humidity were not logged during this run, which may limit reproducibility analysis.
-- Polymer concentration and additive concentration were **not specified** for this experiment.",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=50; bath_temp=15; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
-MEMBRANE DETECTION: 1/4 replicates detected a membrane.
-FIT DETECTION: 0/1 of detected membranes passed quality checks.
-OUTCOME: PARTIAL_SINGLE_BAD_FIT
-INTERPRETATION: Only 1/4 replicate detected a membrane AND that single measurement failed the fit quality check. No usable mechanical data whatsoever. The membrane that formed (if any) was spatially isolated and mechanically degenerate. These parameters likely produce an inconsistent, very thin, or structurally collapsed film. A major parameter change is needed.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated Membrane Synthesis via NIPS
+- Polymer concentration and additive concentration were **not specified** for this experiment.",,,175.86094194329354,5.197447377518247,,,,,,,,,,,,,0.177058726524807,0.0666861551293136,,,,,,,,"mixing_temp=50; bath_temp=15; polymer_wt=21.0; additive_wt=2.0; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 175.86094194329354, ""Thickness SD"": 5.197447377518247, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": 0.17705872652480703, ""Strain at 50 bar SD"": 0.06668615512931364, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '9.5/100', 'Discarded Fit Reasons': '3 failed due to insufficient data to fit; 1 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Overview
 Polysulfone membranes were fabricated using non-solvent-induced phase separation (NIPS) via an automated robotic casting system. The solvent used was PolarClean.
@@ -289,7 +286,7 @@ The triangular constraint: at polymer_wt=21.0, additive_wt can range 0–4.0 ✓
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent,False,,,legacy,,,9.5,"3 failed due to insufficient data to fit; 1 failed due to plateau slope >= elastic modulus, no real transition",masked_only
 "2026-08-10
 22:41:21",21-2add-70degMix-5deg-30s-NoN2-1800s,70,5,,,3,False,30,1800,mixing_temp=70; bath_temp=5; pullcast_speed=3; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
@@ -317,11 +314,10 @@ The cast membrane was subsequently immersed into the non-solvent bath, which was
 | Pre-Immersion Wait Time | 30 s |
 | Ambient Temp / Humidity | Not recorded |
 | NIPS Bath Temperature | 5°C |
-| NIPS Bath Immersion Time | 1800 s |",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=70; bath_temp=5; pullcast_speed=3; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
-MEMBRANE DETECTION: 3/4 replicates detected a membrane.
-FIT DETECTION: 0/3 of detected membranes passed quality checks.
-OUTCOME: PARTIAL_COVERAGE_NO_FIT
-INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quality check. The membrane that did form was structurally unacceptable — likely a very thin skin layer, a collapsed asymmetric structure, or a degenerate sponge with no defined elastic/plateau/densification regime. These parameters sit near a phase boundary where only poor structures form. A major parameter change is needed — consider adjusting polymer concentration, evaporation time, or bath temperature significantly.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
+| NIPS Bath Immersion Time | 1800 s |",,,153.26231763349554,2.5642284167238327,,,,,,,,,,,,,0.0958106726000644,0.0113417945805823,,,,,,,,"mixing_temp=70; bath_temp=5; polymer_wt=21.0; additive_wt=2.0; pullcast_speed=3; nitrogen=False; coupon_to_bath_wait_time=30; nips_bath_wait_time=1800
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 153.26231763349554, ""Thickness SD"": 2.5642284167238327, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": 0.0958106726000644, ""Strain at 50 bar SD"": 0.011341794580582315, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '14.0/100', 'Discarded Fit Reasons': '2 failed due to insufficient data to fit; 2 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Solution Preparation
 The polymer solution was prepared and mixed at a heating temperature of **70°C**.
@@ -400,7 +396,7 @@ INTERPRETATION: 3/4 replicates detected a membrane but none passed the fit quali
   ""polymer_wt"": 21.0,
   ""additive_wt"": 4.0
 }
-```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent,False,,,legacy,,,14.0,"2 failed due to insufficient data to fit; 2 failed due to plateau slope >= elastic modulus, no real transition",masked_only
 "2026-08-11
 00:03:49",21-4add-75degMix-5deg-120s-N2-1800s,75,5,,,1,True,120,1800,mixing_temp=75; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
@@ -427,11 +423,10 @@ The cast film was subsequently immersed in a NIPS bath maintained at **5°C** fo
 
 ## Notes
 - The dry nitrogen blow during the pre-immersion period was intended to minimize atmospheric humidity exposure and control the evaporation conditions at the film surface prior to phase separation.
-- Ambient temperature and humidity data were unavailable for this experiment and should be recorded in future runs for improved reproducibility.",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=75; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
-MEMBRANE DETECTION: 4/4 replicates detected a membrane.
-FIT DETECTION: 0/4 of detected membranes passed quality checks.
-OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
+- Ambient temperature and humidity data were unavailable for this experiment and should be recorded in future runs for improved reproducibility.",,,213.55981303974136,27.4317622850334,,,,,,,,,,,,,0.4003133988524356,0.3671211844193833,,,,,,,,"mixing_temp=75; bath_temp=5; polymer_wt=21.0; additive_wt=4.0; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 213.55981303974139, ""Thickness SD"": 27.431762285033393, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": 0.40031339885243566, ""Strain at 50 bar SD"": 0.36712118441938335, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '34.2/100', 'Discarded Fit Reasons': '4 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Overview
 Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
@@ -505,7 +500,7 @@ The triangular constraint: at `polymer_wt = 21.0`, `additive_wt` can range from 
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent,False,,,legacy,,,34.25,"4 failed due to plateau slope >= elastic modulus, no real transition",masked_only
 "2026-08-11
 02:16:48",21-2add-60degMix-5deg-120s-N2-1800s,60,5,,,3,True,120,1800,mixing_temp=60; bath_temp=5; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated Membrane Synthesis via NIPS
 
@@ -529,11 +524,10 @@ The cast membrane was subsequently immersed into the non-solvent coagulation bat
 | Bath Temperature | 5°C |
 | Bath Immersion Time | 1800 s |
 | Ambient Temperature | Not recorded |
-| Ambient Humidity | Not recorded |",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=60; bath_temp=5; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
-MEMBRANE DETECTION: 4/4 replicates detected a membrane.
-FIT DETECTION: 0/4 of detected membranes passed quality checks.
-OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated Membrane Synthesis via NIPS
+| Ambient Humidity | Not recorded |",,,155.66864287491234,2.414615237438027,,,,,,,,,,,,,0.1178506798347879,0.012124211685606,,,,,,,,"mixing_temp=60; bath_temp=5; polymer_wt=21.0; additive_wt=2.0; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=120; nips_bath_wait_time=1800
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 155.66864287491234, ""Thickness SD"": 2.414615237438027, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": 0.11785067983478792, ""Strain at 50 bar SD"": 0.012124211685606085, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '21.8/100', 'Discarded Fit Reasons': '2 failed due to yield point (bp1) likely misplaced; 2 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated Membrane Synthesis via NIPS
 
 ## Solution Preparation & Casting
 The polymer solution was prepared and mixed at a heating temperature of **60°C**. The solution was blade-cast onto the substrate at a casting speed of **3 mm/s**.
@@ -613,7 +607,7 @@ All 6 prior experiments have failed to produce membranes with acceptable mechani
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent,False,,,legacy,,,21.75,"2 failed due to yield point (bp1) likely misplaced; 2 failed due to plateau slope >= elastic modulus, no real transition",masked_only
 "2026-08-11
 04:26:35",21-2add-60degMix-15deg-60s-N2-1800s,60,15,,,3,True,60,1800,mixing_temp=60; bath_temp=15; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"# Experimental Report: Automated NIPS Membrane Synthesis
 
@@ -640,11 +634,10 @@ The coupon was subsequently immersed into the NIPS bath, which was maintained at
 
 ## Notes
 - Polymer concentration (polysulfone) and additive concentration (PVP) were **not specified** for this experiment.
-- The absence of ambient temperature and humidity data may limit reproducibility assessment for future comparisons.",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=60; bath_temp=15; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
-MEMBRANE DETECTION: 4/4 replicates detected a membrane.
-FIT DETECTION: 0/4 of detected membranes passed quality checks.
-OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","# Experimental Report: Automated NIPS Membrane Synthesis
+- The absence of ambient temperature and humidity data may limit reproducibility assessment for future comparisons.",,,155.06420943550089,4.004936585267604,,,,,,,,,,,,,0.1005361314099628,0.0059588685236157,,,,,,,,"mixing_temp=60; bath_temp=15; polymer_wt=21.0; additive_wt=2.0; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 155.06420943550089, ""Thickness SD"": 4.004936585267604, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": 0.10053613140996281, ""Strain at 50 bar SD"": 0.005958868523615702, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '15.2/100', 'Discarded Fit Reasons': '2 failed due to insufficient data to fit; 2 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated NIPS Membrane Synthesis
 
 ## Overview
 Polysulfone membranes were fabricated via non-solvent-induced phase separation (NIPS) using an automated robotic casting system. The solvent used was PolarClean.
@@ -713,7 +706,7 @@ The most glaring issue is that **polymer concentration has not been explicitly s
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent,False,,,legacy,,,15.25,"2 failed due to insufficient data to fit; 2 failed due to plateau slope >= elastic modulus, no real transition",masked_only
 "2026-08-11
 06:44:18",21-2add-80degMix-5deg-60s-N2-1800s,80,5,,,1,True,60,1800,mixing_temp=80; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"Here is a short experimental report based on the provided parameters:
 
@@ -727,11 +720,10 @@ The cast membrane was subsequently immersed in a NIPS coagulation bath maintaine
 
 ---
 
-Let me know if you'd like to add polymer concentration, additive content, or any other details!",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=80; bath_temp=5; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
-MEMBRANE DETECTION: 4/4 replicates detected a membrane.
-FIT DETECTION: 0/4 of detected membranes passed quality checks.
-OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","Here is a short experimental report based on the provided parameters:
+Let me know if you'd like to add polymer concentration, additive content, or any other details!",,,157.5873735380616,2.325217985058563,,,,,,,,,,,,,0.0910279289386253,0.0165922484796039,,,,,,,,"mixing_temp=80; bath_temp=5; polymer_wt=21.0; additive_wt=2.0; pullcast_speed=1; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 157.5873735380616, ""Thickness SD"": 2.325217985058563, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": 0.09102792893862538, ""Strain at 50 bar SD"": 0.016592248479603958, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '29.8/100', 'Discarded Fit Reasons': '2 failed due to plateau slope >= elastic modulus, no real transition; 1 failed due to poor plateau fit (early); 1 failed due to insufficient data to fit'","Here is a short experimental report based on the provided parameters:
 
 ---
 
@@ -788,7 +780,7 @@ The most critical untested lever is **polymer concentration**. None of the repor
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent,False,,,legacy,,,29.75,"2 failed due to plateau slope >= elastic modulus, no real transition; 1 failed due to poor plateau fit (early); 1 failed due to insufficient data to fit",masked_only
 "2026-08-11
 09:26:09",21-2add-70degMix-25deg-60s-N2-1800s,70,25,,,3,True,60,1800,mixing_temp=70; bath_temp=25; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0,"Here is a short experimental report based on the provided parameters:
 
@@ -808,11 +800,10 @@ The cast membrane was subsequently immersed into the NIPS coagulation bath, whic
 
 ---
 
-Let me know if you'd like any modifications to the tone, length, or detail level!",,,,,,,,,,,,,,,,,,,,,,,,,,"mixing_temp=70; bath_temp=25; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800; Air Temp Mean=nan; Humidity Mean=nan
-MEMBRANE DETECTION: 4/4 replicates detected a membrane.
-FIT DETECTION: 0/4 of detected membranes passed quality checks.
-OUTCOME: NO_FIT
-INTERPRETATION: A membrane was detected in all 4/4 replicates but zero fits passed quality checks. This strongly indicates the current parameters produce a structurally degenerate membrane — likely a fully collapsed asymmetric structure, a pure sponge morphology with no well-defined mechanical phases, or an extremely brittle/weak skin layer that fails before exhibiting a normal elastic-plateau-densification response. These parameters are mechanically unacceptable. A major shift in parameter space is required — significantly change at least one of: evaporation time, polymer concentration, or bath temperature.; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0","Here is a short experimental report based on the provided parameters:
+Let me know if you'd like any modifications to the tone, length, or detail level!",,,177.24078251127295,21.95706946236041,,,,,,,,,,,,,0.2556231362696946,0.12977723078443,,,,,,,,"mixing_temp=70; bath_temp=25; polymer_wt=21.0; additive_wt=2.0; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1800
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 177.24078251127295, ""Thickness SD"": 21.95706946236041, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": 0.25562313626969463, ""Strain at 50 bar SD"": 0.12977723078443004, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '31.0/100', 'Discarded Fit Reasons': '3 failed due to plateau slope >= elastic modulus, no real transition; 1 failed due to insufficient data to fit'","Here is a short experimental report based on the provided parameters:
 
 ---
 
@@ -884,4 +875,4 @@ The triangular constraint: at polymer_wt=21.0, additive_wt can range from 0 to 4
   ""polymer_wt"": 21.0,
   ""additive_wt"": 2.0
 }
-```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent
+```",none,0.0,operator-confirmed 2026-10-23: historical NIPS baths contained 0 wt% solvent,False,,,legacy,,,31.0,"3 failed due to plateau slope >= elastic modulus, no real transition; 1 failed due to insufficient data to fit",masked_only

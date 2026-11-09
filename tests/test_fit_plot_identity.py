@@ -14,6 +14,49 @@ spec.loader.exec_module(report)
 
 
 class PlotIdentityTests(unittest.TestCase):
+    def test_fit_modes_do_not_borrow_each_others_plots(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for prefix in ('test-toe', 'test-toe-masked'):
+                rep = root / 'plots/pseudo-runs' / (prefix + '-2026-11-06') / 'condition/rep-1'
+                rep.mkdir(parents=True)
+                (rep / 'Pre-Processing_rep-1.png').write_bytes(b'diagnostic')
+                if prefix == 'test-toe':
+                    (rep / 'Segmentation_rep-1.png').write_bytes(b'legacy fit')
+            with patch.object(report, 'PLOTS_DIR', root / 'plots'), patch.object(report, 'ROOT', root):
+                legacy = report.find_plots('condition', plot_prefix='test-toe')[0]
+                masked = report.find_plots('condition', plot_prefix='test-toe-masked')[0]
+                self.assertEqual(legacy[0].name, 'Segmentation_rep-1.png')
+                self.assertEqual(masked[0].name, 'Pre-Processing_rep-1.png')
+                self.assertIn('test-toe-masked-2026-11-06', str(masked[0]))
+
+    def test_html_includes_optional_subtraction_diagnostics(self):
+        import pandas as pd
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            rep = root / 'plots/pseudo-runs/test-toe-masked-2026-11-06/condition/rep-1'
+            rep.mkdir(parents=True)
+            for name in ('Segmentation_rep-1.png', 'Unsubtracted_Segmentation_rep-1.png', 'Pre-Processing_rep-1.png'):
+                (rep / name).write_bytes(b'plot')
+            frame = pd.DataFrame([{'name': 'condition | rep 1', 'condition': 'condition',
+                                   'Trial': 'sample 1', 'date': '2026-11-06 12:00:00',
+                                   'Good Fit': True, 'Good Fit Score': 90, 'Toe Region': .1}])
+            output = root / 'docs/log.html'
+            with patch.object(report, 'PLOTS_DIR', root / 'plots'), patch.object(report, 'ROOT', root), \
+                    patch.object(report, 'load_csvs', return_value=frame), \
+                    patch.object(report, 'load_agg_cvs', return_value={}):
+                report.generate(output_path=output, plot_prefix='test-toe-masked')
+            html = output.read_text(encoding='utf-8')
+            self.assertIn('id="toggle-preprocessing"', html)
+            self.assertIn('class="preprocessing-plots"', html)
+            self.assertIn('data-unsubtracted=', html)
+            self.assertIn('<dialog id="plot-viewer"', html)
+            self.assertIn('plotViewer.showModal()', html)
+            self.assertIn('plotViewerImage.src = img.src', html)
+            self.assertNotIn('window.open(', html)
+            self.assertNotIn('document.write(', html)
+            self.assertTrue((output.parent / 'assets/fit/condition/Pre-Processing_rep-1.png').exists())
+
     def test_separate_experiments_and_verified_reprocessing(self):
         with tempfile.TemporaryDirectory() as tmp:
             parent = Path(tmp)

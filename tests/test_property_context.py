@@ -13,7 +13,7 @@ import pandas as pd
 
 PIPELINE = Path(__file__).resolve().parents[1] / 'src' / 'pipeline'
 sys.path.insert(0, str(PIPELINE))
-from property_context import build_performance_observations, format_property_measurements
+from property_context import build_performance_observations, format_property_measurements, format_prompt_context
 
 
 def load_context():
@@ -29,6 +29,76 @@ def load_context():
 
 
 class PropertyContextTests(unittest.TestCase):
+    def test_mixed_prompt_context_preserves_provenance_and_rounds_values(self):
+        identity = {'condition': '17.123456-polymer', 'sample_time': '2026-11-06T12:00:00.123456',
+                    'source_csv': 'data/17.123456/source.csv'}
+        payload = {'observations': [{'identity': identity,
+                   'experiment_timing': {'sample_time': identity['sample_time']},
+                   'measurements': {'Pore Fraction Mean': .56789}}]}
+        text = 'Operator context: {"bath": 10.123456}\nHistory: ' + json.dumps(payload)
+        result = format_prompt_context(text)
+        self.assertIn('"bath": 10.12', result)
+        parsed = json.loads(result.split('History: ')[1])
+        self.assertEqual(parsed['observations'][0]['identity'], identity)
+        self.assertEqual(parsed['observations'][0]['measurements']['Pore Fraction Mean'], .57)
+        self.assertEqual(format_prompt_context('At 2026-11-06T12:00:00.123456, E=123.456789'),
+                         'At 2026-11-06T12:00:00.123456, E=123.46')
+        self.assertEqual(payload['observations'][0]['measurements']['Pore Fraction Mean'], .56789)
+
+    def test_final_api_boundary_rounds_both_al_functions_and_history_sources(self):
+        tree = ast.parse((PIPELINE / 'activeLearning_29.py').read_text(encoding='utf-8'))
+        functions = [n for n in tree.body if isinstance(n, ast.FunctionDef)
+                     and n.name in {'_llm_al', 'LLM_AL', 'LLM_AL_modulus_pore_fraction'}]
+        api = Mock(return_value=SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content='offline'))]))
+        namespace = {'format_prompt_context': format_prompt_context, 'client': None,
+                     'create_chat_completion': api, 'time': SimpleNamespace(sleep=lambda _: None),
+                     'build_search_strategy_instructions': lambda *a, **k: 'strategy',
+                     'system_prompt': SimpleNamespace(ACTIVE_LEARNING_PROMPT_TEMPLATE='Bounds: {ranges}',
+                         ACTIVE_LEARNING_MODULUS_PORE_FRACTION_PROMPT_TEMPLATE='Bounds: {ranges}')}
+        exec('from __future__ import annotations\n' + '\n'.join(ast.unparse(n) for n in functions), namespace)
+        for source in ('warm_start', 'current_campaign'):
+            payload = {'observations': [{'identity': {'condition': '17.123456-run', 'source': source},
+                                        'measurements': {'Pore Fraction Mean': .56789,
+                                                         'Elastic Modulus Mean': 123.45678}}]}
+            for function in ('LLM_AL', 'LLM_AL_modulus_pore_fraction'):
+                kwargs = {'ranges': {'polymer_wt': (13.123456, 17.987654)},
+                          'quality_observations': 'score=87.654321',
+                          'diversity_context': {'coverage': .123456}, 'sleep': 0}
+                if function == 'LLM_AL_modulus_pore_fraction':
+                    kwargs['pore_fraction_observations'] = '0.567890 dimensionless'
+                namespace[function](json.dumps(payload), **kwargs)
+                messages = api.call_args.kwargs['messages']
+                text = messages[1]['content'][0]['text']
+                decoded, _ = json.JSONDecoder().raw_decode(text[text.index('{'):])
+                observation = decoded['observations'][0]
+                self.assertEqual(observation['identity'], payload['observations'][0]['identity'])
+                self.assertEqual(observation['measurements']['Pore Fraction Mean'], .57)
+                self.assertEqual(observation['measurements']['Elastic Modulus Mean'], 123.46)
+                self.assertIn('score=87.65', text)
+                self.assertIn('"coverage": 0.12', text)
+                self.assertIn('[13.12, 17.99]', messages[0]['content'])
+                self.assertNotIn('123.45678', text)
+                self.assertEqual(kwargs['diversity_context']['coverage'], .123456)
+
+    def test_toe_diagnostics_do_not_reach_proposal_models(self):
+        for source in ('warm_start', 'current_campaign'):
+            history = pd.DataFrame([{
+                'name': 'sample', '_observation_source': source,
+                'Pore Fraction Mean': .45, 'Pore Fraction SD': .02,
+                'Pore Fraction Unsubtracted Mean': .55, 'Pore Fraction Unsubtracted SD': .03,
+                'Toe Region': .1, 'Toe Region Mean': .1, 'Toe Region SD': .01,
+                'Toe Subtracted': True, 'Toe Subtracted Mean': 1,
+            }])
+            for mode in ('explore', 'double', 'double_explore'):
+                self.context._suggest_from_history(history, self.al, '', None, mode, None, None)
+                model = self.al.LLM_AL if mode == 'explore' else self.al.LLM_AL_modulus_pore_fraction
+                payload = model.call_args.args[0]
+                self.assertIn('"Pore Fraction Mean": 0.45', payload)
+                self.assertIn('"Pore Fraction SD": 0.02', payload)
+                self.assertNotIn('Unsubtracted', payload)
+                self.assertNotIn('Toe Region', payload)
+                self.assertNotIn('Toe Subtracted', payload)
+
     def test_prompt_rounding_for_both_sources_preserves_raw_measurements(self):
         history = pd.DataFrame([
             {'name': '17.123-polymer', '_observation_source': source,
@@ -174,15 +244,20 @@ class PropertyContextTests(unittest.TestCase):
         self.assertEqual(legacy['legacy_report'], 'modulus 100')
         self.assertEqual(legacy['legacy_pore_fraction_report'], '0.7 dimensionless')
 
-    def test_processing_schema_sends_every_property(self):
+    def test_processing_schema_sends_only_llm_properties(self):
         tree = ast.parse((PIPELINE / 'curve_segmentation.py').read_text(encoding='utf-8'))
         schema = next(ast.literal_eval(node.value) for node in tree.body
                       if isinstance(node, ast.Assign)
                       and any(isinstance(t, ast.Name) and t.id == 'MECH_PROP_SCHEMA' for t in node.targets))
-        self.assertTrue(all(spec['llm'] for spec in schema.values()))
+        self.assertEqual({key for key, spec in schema.items() if not spec['llm']},
+                         {'Pore Fraction Unsubtracted'})
         row = {f'{key} Mean': 1.0 for key in schema}
         row.update({f'{key} SD': .1 for key, spec in schema.items() if spec['sd']})
-        self.assertEqual(json.loads(format_property_measurements(row, schema)), row)
+        allowed = [key for key, spec in schema.items() if spec['llm']]
+        result = json.loads(format_property_measurements(row, allowed))
+        self.assertNotIn('Pore Fraction Unsubtracted Mean', result)
+        self.assertEqual(result, {key: value for key, value in row.items()
+                                  if not key.startswith('Pore Fraction Unsubtracted ')})
 
     def test_joined_observations_and_balanced_routing(self):
         history = pd.DataFrame([

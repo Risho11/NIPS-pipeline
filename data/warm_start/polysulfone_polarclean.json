@@ -1,31 +1,71 @@
 {
-  "rows": 66,
-  "last_campaign": "2026-08-22-exploration-mode",
-  "excluded_negative_strain_rows": 1,
-  "complete_parameter_rows": 66,
-  "modulus_rows": 63,
-  "paired_objective_rows": 63,
+  "historical_bath_context": {
+    "policy": "Preserve notebook-selected bath values; no export-only corrections."
+  },
+  "rows": 119,
+  "last_campaign": "2026-10-15",
+  "excluded_negative_strain_rows": 0,
+  "additional_export_filters": false,
+  "complete_parameter_rows": 119,
+  "modulus_rows": 119,
+  "paired_objective_rows": 119,
   "campaigns": [
-    "1999",
-    "2026-08-14",
-    "2026-08-15",
-    "2026-08-17",
-    "2026-08-18",
-    "2026-08-19",
-    "2026-08-20-exploration-mode",
     "2026-08-21-exploration-mode",
-    "2026-08-22-exploration-mode"
+    "2026-08-22-exploration-mode",
+    "2026-09-21",
+    "2026-09-25",
+    "2026-10-15"
   ],
-  "selection": "Notebook defaults: through 2026-08-22-exploration-mode inclusive; inferred Polysulfone/PolarClean; thickness >= 70 um; polymer >= 13 wt%; at least one property present; negative strain at 50 bar excluded.",
+  "selection": "Exact selected rows from campaign_trends.ipynb; no additional export filters.",
+  "notebook_selection": {
+    "notebook": "EVALUATE/campaign_trends.ipynb",
+    "settings": {
+      "PROPERTIES": [
+        "Thickness",
+        "Elastic Modulus",
+        "Yield Strength",
+        "Pore Fraction",
+        "Creep Strain",
+        "Strain at 50 bar"
+      ],
+      "CAMPAIGNS": [
+        "1999",
+        "2026-08-10",
+        "2026-08-11",
+        "2026-08-12",
+        "2026-08-14",
+        "2026-08-15",
+        "2026-08-17",
+        "2026-08-18",
+        "2026-08-19",
+        "2026-08-20-exploration-mode",
+        "2026-08-21-exploration-mode",
+        "2026-08-22-exploration-mode",
+        "2026-09-21",
+        "2026-09-25",
+        "2026-10-15"
+      ],
+      "START": null,
+      "END": null,
+      "LAST_CAMPAIGN": "2026-10-15",
+      "ANALYSIS_START_DATE": "2026-08-21",
+      "CHEMISTRY_FILTER": "Polysulfone / PolarClean (inferred)",
+      "MAX_CV": 0.15,
+      "MAX_DISCARDS": 1,
+      "EXCLUDED_SAMPLES": [
+        {
+          "campaign": "2026-09-25",
+          "condition": "17-0add-12deg-cosolv-none-bathSolv-none-0wt-150s-N2-1800s_run2",
+          "reason": "Manual review: suspect elastic fit; replicate 3 modulus is about 2280 bar."
+        }
+      ],
+      "DAY_ROLLOVER_HOUR": 9
+    }
+  },
   "limitations": [
     "Chemistry is inferred, not verified.",
     "Pore fraction is a compression-fit estimate.",
     "Independent synthesis validation status is unknown.",
     "Notebook filters exclude thin/failed samples: exploration coverage is incomplete."
-  ],
-  "historical_bath_context": {
-    "source": "operator-confirmed 2026-10-23",
-    "manifest": "data/warm_start/historical_zero_bath_conditions.json",
-    "policy": "Explicit historical conditions use 0 wt%; nonzero records and unlisted conditions are preserved."
-  }
+  ]
 }
