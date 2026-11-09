@@ -1189,6 +1189,15 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None,
     assets_dir = out.parent / "assets" / "fit"
     assets_dir.mkdir(parents=True, exist_ok=True)
     used_assets = set()
+    # Source reprocessing PNGs are git-ignored. Persist their published identities
+    # so a clean CI checkout can reuse the committed images instead of old fits.
+    plot_index_path = out.with_name(out.stem + '_plots.json')
+    plot_index = json.loads(plot_index_path.read_text()) if plot_index_path.exists() else {}
+    active_manifest = ROOT / 'data' / 'toe_reprocessing' / 'active.json'
+    active_prefix = plot_prefix
+    if active_prefix is None and active_manifest.exists():
+        active_prefix = json.loads(active_manifest.read_text()).get('plot_prefix')
+    published_index = {}
 
     df = load_csvs(extra_csv_paths)
     if condition_filter is not None and not df.empty:
@@ -1223,6 +1232,33 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None,
         preproc_imgs = []
         if seg_imgs:
             preproc_imgs = sorted(seg_imgs[0].parent.parent.glob('rep-*/Pre-Processing_rep-*.png'))
+        cached = plot_index.get(cond)
+        has_active_source = any(
+            re.fullmatch(re.escape(active_prefix) + r'-\d{4}-\d{2}-\d{2}', p.parent.parent.parent.name)
+            for p in seg_imgs
+        ) if active_prefix else False
+        if cached and cached.get('prefix') == active_prefix and not has_active_source:
+            def asset(name):
+                return assets_dir / _safe_key(cond) / name if name else None
+            required = [asset(n) for n in cached['seg'] + cached['comp'] + cached['preproc']]
+            required += [asset(n) for n in cached['deriv'] if n]
+            required += [asset(a[0]) for a in cached['avg']]
+            if not all(p.is_file() for p in required):
+                raise FileNotFoundError('Published fit assets missing for ' + cond)
+            seg_imgs = [asset(n) for n in cached['seg']]
+            comp_imgs = [asset(n) for n in cached['comp']]
+            preproc_imgs = [asset(n) for n in cached['preproc']]
+            deriv_imgs = [asset(n) for n in cached['deriv']]
+            avg_fit_imgs = [(asset(n), ev, asset(d)) for n, ev, d in cached['avg']]
+            run_folder = cached['run']
+            has_active_source = True
+        if has_active_source:
+            published_index[cond] = dict(
+                prefix=active_prefix, run=run_folder,
+                seg=[p.name for p in seg_imgs], comp=[p.name for p in comp_imgs],
+                preproc=[p.name for p in preproc_imgs],
+                deriv=[p.name if p else None for p in deriv_imgs],
+                avg=[(p.name, ev, d.name if d else None) for p, ev, d in avg_fit_imgs])
         pre_cv, post_cv = cv_map.get(cond, (None, None))
         cards_html += condition_card(
             cond, group, seg_imgs, comp_imgs, avg_fit_imgs, deriv_imgs, run_folder, assets_dir,
@@ -1230,6 +1266,8 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None,
             proc_date=_csv_max_by_cond.get(cond),
             preprocessing_images=preproc_imgs,
         )
+
+    plot_index_path.write_text(json.dumps(published_index, indent=2), encoding='utf-8')
 
     # prune assets nothing in this run referenced (stale conditions, renamed/removed images)
     for stale in assets_dir.rglob("*"):
