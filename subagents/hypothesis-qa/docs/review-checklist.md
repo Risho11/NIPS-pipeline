@@ -1,0 +1,228 @@
+# Reviewing scientific inquiry end to end
+
+Use this guide with the unified [inquiry-QA role](../AGENTS.md) (`hypothesis-qa`),
+[data contract](../../../docs/mas/data-contract.md),
+[knowledge contract](../../../docs/mas/knowledge.md) and
+[workflow](../../../docs/mas/workflow.md). Review the actual current candidate,
+prior claim and original evidence. Your findings are separate from author repair.
+Review numerical evidence, interpretation, physical explanations, rivals, claim
+history and omissions across all inquiry authors. Analyst splitting does not add
+QA. Additional specialist review uses a fresh instance of this same role only for
+main's named unresolved consequential issue and bounded evidence/question/resolution
+criterion in the workflow. Independent design QA remains separate.
+
+## Establish what the candidate needs to accomplish
+
+Identify initial-bank bootstrap versus observational update. Initial theory review
+needs no current-data analysis: examine allowed sources/physical reasoning,
+conditional predictions, important-variable coverage and actual exposure before
+reveal. Fresh participants receive no old agent hypotheses/reports, worked causal
+answers or private outcomes; use approved factual definitions/context. Disclose
+exposure instead of asserting temporal independence. In update
+review, compare revealed evidence with preserved predictions and honestly label
+new data-generated ideas; historical reveal is not a prospective experiment.
+
+Recover main's process question and the decision the update should inform. A
+correct retrospective observation, an acceptable possible pathway and a justified
+next test are different achievements. Determine which the candidate actually
+supplies. Do not infer adequacy from file completeness, cautious language or an
+upstream PASS; inspect the reasoning relevant to this use.
+Check actual endpoint preference directions/constraints against the dispatch;
+unknown weights or response signs do not imply unknown preferences.
+
+In observation review, trace consequential observations, controls and sampling units to originals.
+Check actual execution versus prior prediction, material/bath and stock context,
+processing selection and warm-start provenance. Source checks establish what
+was observed; they do not automatically supply an explanation of why.
+
+## Independently check consequential analysis
+
+Follow [analysis methods](../../../docs/mas/analysis-methods.md) and use the
+shared [analysis methods](../../../docs/mas/analysis-methods.md)
+as a source/method reference without activating its legacy compatibility role.
+Reproduce important selections/joins/calculations, check rendered artifacts when
+consequential, and assess preprocessing/model/sensitivity/validation choices and
+independent grouping. Feature correlation, effect interaction and causal process
+claims are different. In-sample explanations, linear SHAP or PCA do not prove
+nonlinear mechanisms or new-batch prediction. Both non-objective responses and
+raw curves/params/photos can matter; inspect actual available definitions/sources
+before calling evidence missing or prescribing new assays.
+
+When defensible choices still change the next variable/region/action, a missing/
+invalid analysis/model/evaluation method blocks the next action, or actual evidence
+selection/moving explanations shield a claim, report the specific trigger through
+main. A method trigger needs the identified gap/invalidity, blocked action, concrete
+construction/repair and validity check. Routine CSV reading, arithmetic or a figure
+with an applicable method alone does not qualify; an actual method gap can qualify
+without an authored error. Review the resulting
+bounded resolution and affected inference before rejoin; do not manufacture a
+fault or accept separation alone as a review. Data scarcity remains a limit.
+
+For an explicit full-history inquiry, independently apply the shared
+[coverage rule](../../../docs/mas/analysis-methods.md#match-analysis-coverage-to-the-question).
+Inspect which supplied records/distinct conditions, repeats and contexts actually
+inform consequential claims, and reconcile broad/conditional findings with local
+ones. Check material exclusions, missing/selected outcomes and stability, not only
+the calculations the author chose to show. Identify a feasible omitted analysis,
+its evidence basis and the judgment/action it could alter; perform a targeted
+independent check when useful, then route necessary author work through main.
+A correct narrow report cannot pass as whole-inquiry completion with that gap.
+
+Do not require a model/plot suite, novelty or microscopic proof. Accept no-model
+or unchanged outcomes after a real synthesis and justified limit. For incremental
+work, inspect reused accepted summaries for applicable scope instead of requiring
+full-history reruns. Distinguish a genuine need for new evidence from available-data
+process learning left undone; limited mechanistic inference alone does not settle it.
+Apply the [analysis stopping rule](../../../docs/mas/analysis-methods.md#decide-when-to-return-the-work)
+independently: what concrete small conditional/stability check could change the
+account or next-test priority despite an unsuitable full response surface? Inspect
+its actual support/identifiability, sampling and validity before accepting omission.
+Missing crossed data cannot be created by fitting, but that does not settle whether
+interpretation or priority can change. Route material remaining work through main
+and block the dependent use; a separately justified subset can remain accepted
+with the original objective and broader pending work explicit. No model or FAIL quota applies.
+
+## Probe the explanation's motivation
+
+Ask why the named process could change the stated intermediate in this material,
+why that direction is expected and how the state could survive later operations.
+Look for a physical argument with explicit assumptions, relevant comparison or
+applicable scientific source actually read. Literature and direct intermediate
+measurements are not mandatory before a proposal; retrospective compatibility
+alone is still weaker than a motivated directional account.
+
+Actively confront the expected direction with a credible opposite pathway or
+applicable scientific source, not just the author's selected account. Check what
+the source's strength/modulus actually measures, its loading regime, normalization,
+conditioning and material applicability. A morphology label does not fix this
+compression estimator's sign. External support may motivate a conditional proposal
+without confirming it in the target system. No compulsory source count or fixed
+answer applies; report absent access honestly and honor public-query privacy and
+actual tool restrictions in the workflow.
+
+A useful adversarial question is whether the same prose could explain the
+opposite property result just by replacing “stiffer” with “softer.” If so, request
+the missing directional rationale, a more specific observable or an honestly
+narrower process-effect question. This is a reasoning probe, not a rule that every
+hypothesis needs a new assay or a universal sign. Check dimensional/material
+meaning: geometry or greater mass alone is not a normalized-modulus mechanism.
+
+## Compare credible rivals and feasible predictions
+
+Examine the strongest relevant competitor rather than a straw rival. Compare
+predictions for the same proposed intervention and actual measurement. Ask which
+outcome would favor each, which would challenge it and what remains ambiguous.
+Joint contributions and contextual effects can coexist; do not force exclusive
+mechanisms or invented thresholds.
+
+Before declaring discrimination unavailable, ask which potentially relevant
+measured responses or provenance already exist beyond the optimization targets
+and whether they permit a narrower testable prediction. Return a focused question
+to analysis if needed, checking shared processing, fitting regions and endpoint
+counts. Extra descriptors do not independently establish microstructure or require
+a feature/plot roster, refit or new assay. If accounts still predict the same
+available outcomes, retain the pathway limit; a justified process-effect screen
+can remain useful without mechanism proof.
+
+Review why this question deserves attention over practical alternatives exposed
+by analysis. Existing authorized contrasts may be more informative than another
+latest-point story. No exhaustive variable inventory or numerical utility is
+required each turn; initial important-variable accounting is required. If the update merely retains all statuses, ask what useful reasoning
+it adds now or what specific analysis could resolve the priority. Lack of a new
+measurement forbids invented status changes, not improved question selection.
+
+## Check conditional accounts and coverage constructively
+
+Ask which processes compete, why their directions are plausible and under what
+conditions one could dominate. Nonlinear/coupled or regime accounts need motivated
+domains and distinguishing predictions; they do not require invented boundaries,
+an optimum for each variable or complete microscopic identification. If observations
+locate a boundary, retain the original forecast, label discovery and distinguish
+later evaluation. An account that shields every adverse result by moving its
+domain needs a concrete challenge and may trigger split analysis through main.
+
+Check topic coverage and linked context against known important tunables, fixed/operator settings,
+protocol constants and environmental/provenance context. Each has reasoned claim
+links or an explicit unlinked reason and reconsideration cue. Fixed settings remain
+scientific questions but cannot silently become executable choices. Several variables
+may share a pathway; linked-but-untested is distinct from unlinked. Do not invent
+mechanisms or a variable/hypothesis quota to fill the record.
+
+A property contrast may usefully test a process effect while leaving internal
+pathways unresolved. Challenge the exact overclaim, motivation or comparator, not
+that honest inference limit. Missing secondary data neither erases a separately
+valid primary contrast nor automatically validates it; inspect shared quality
+and processing dependencies. Keep reviewers' findings separate from author repair.
+
+When main returns a design-discovered gap, review the actual conditional deduction
+under the [optimization/design rule](../../../docs/mas/workflow.md#deduce-useful-optimization-and-design):
+applicable context, response forecast and its limits, competing expectations and
+what the available observation can decide. Check each endpoint's directional basis
+separately; contrast-size reasoning cannot supply a missing sign. Compare the
+revised answer with the original requested inference, not only the narrower screen
+offered for review. Carry remaining work or its justified unresolved disposition
+in the judgment. Consider both objectives; do not invent
+tradeoff weights or require confirmed microstructure/exact known boundaries for a
+useful extension test. Revised substantive meanings need linked history and affected
+review before redesign. Do not fabricate a backpass when no material gap exists.
+
+## Protect current and historical claim meaning
+
+Read the relevant variable-topic documents and their original evidence. Compare old/new
+meaning, domain, prediction, evidence and history. A changed sign, mechanism or
+scope cannot retain old support silently. Retain historical IDs and predecessor
+meanings as provenance; a changed account needs explicit revision reasons, not
+a compulsory new ID/file.
+Compare actual predecessor and successor wording before accepting confirmed,
+refuted or withdrawn language. Do not strengthen an old conditional account to
+reject it, or turn a learning-priority change into empirical performance ordering.
+Duplicate exports are not confirmation; an unexecuted suggestion is not a tested
+prediction. Retain adverse evidence and inferred chemistry labels.
+
+With no new relevant evidence, retaining proposed/inconclusive status can be
+correct. Evaluate working priority and explanatory quality separately. Neither
+force confirmation/refutation nor let “unchanged” end an otherwise answerable
+inquiry. Migration from old index/variable/per-claim records must preserve meaning,
+judgment and history; file organization is not new scientific evidence. Each topic should
+summarize what the supporting/contrary observations imply, their residual rivals
+and limits, linking original round inquiry or split records. Initial theory must
+not invent target analysis references; cross-variable reasoning can be linked
+without copying it. Check that no important control/context or unlinked reason
+vanishes in regrouping. Main alone adopts reviewed proposals; a rejected draft
+does not become current knowledge or an accepted Git change. You never stage/commit.
+
+## Return findings and bounded acceptance
+
+Name the specific inferential failure and its decision consequence, plus a
+concrete analysis question, comparison or claim repair. Route source/comparison
+issues and hypothesis/priority issues to the integrated author through main, with
+bounded split duties when the routing criteria are met.
+Keep your original notes; never rewrite the authored candidate or canonical record.
+A material weakness in the claimed selection basis blocks that use even if
+all numbers and caution labels are correct. Background accounts can remain
+parked with their limits; they need not be deleted or manufactured into active tests.
+
+Before accepting inquiry completion, independently apply the workflow's
+[discrepancy completion rule](../../../docs/mas/workflow.md#completing-discrepancy-inquiry)
+to actual sources and calculations. Did the motivated rival comparison address
+the consequential mismatch and justify development or retention? Challenge an
+unchanged/unknown conclusion without the rule's specific stopping rationale;
+accept justified limits without demanding novelty or complete mechanism proof.
+Qualify any narrower action judgment separately when requested explanation work
+remains incomplete. Return missing comparison or reasoning through main rather
+than fabricating criticism or repairing the author yourself.
+
+Give a current pass/fail judgment, actual checked source/candidate paths,
+substantive findings and remaining limits. A PASS certifies the stated reasoning
+use, not truth, exact design or physical authority. Do not fabricate a finding
+or author revision to make a dialogue appear constructive. After real repairs,
+review affected reasoning and same-cause occurrences before a fresh judgment.
+
+## Runtime handoff
+
+The [runtime runbook](../../../docs/mas/python-runtime.md) owns current operational
+receipt, workspace, cache and recovery semantics. Use `MAS_SOURCE_ROOT` for
+source paths and only assigned attempt paths for findings/artifacts. Preserve
+prior reviewed/failed versions, use the actual committed knowledge in design, and
+return exact small operational values/paths when requested by Main. This does not
+create a scientific stage order or give authors/reviewers publication/device rights.

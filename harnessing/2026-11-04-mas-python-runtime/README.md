@@ -1,0 +1,34 @@
+# Adaptive MAS Python runtime development
+
+This is a new implementation Harness under MANUAL_GIT_TRANSITIONS, not an extension that declares old deferred DCP checkpoints complete. The old documentation Harness and preservation commit remain historical evidence. Production integration and MAS legacy cleanup are now explicitly authorized.
+
+Use `NIPS_SHARED_AGENT_ROOT` and the pinned EXTERNAL_SOURCE.json, with no submodule or copied shared skills. Existing standard Controller/Writer topology and ordinary explicit-file Git exception remain in force. The canonical manager is inactive; create no progress.json or simulated transaction fingerprint. Controller owns this workspace's planning/status; the verified independent persistent top-level Writer owns only a current literal product handoff. Fresh read-only harness-qa accepts each exact candidate before native Git publication. One mutation owner at a time; no generic subagent can replace Writer. New subagents may provide independently scoped QA/readability under the external skills.
+
+Read REQUIREMENTS.md, IMPLEMENTATION_PLAN.md and the applicable atomic prompt. Controller appends actual evidence in EXECUTION_STATUS.md. Preserve current branch/worktree, measurements, operator settings, existing non-MAS search modes and device journal semantics. Do not contact hardware, launch the operational loop, install dependencies, change shared guidance/pins, write personal memory or push/merge. Development uses `uv run --locked --no-sync` with the existing environment and temporary mocks. Hosted CI and physical qualification remain separate, unexecuted evidence unless actually run under later authority.
+
+Final DCP is mandatory-last and independently reviewed. Ordinary Git publication must name and verify exact staged paths and bytes; never broad-stage. Final DCP selects PROMOTED with an actually changed exact product contract path and no dcp_reason, or independently accepted NO_DURABLE_CHANGE with files=[] and a nonblank reason. Ordinary no-change is not DCP. Historical pending DCPs are preserved as historical, never relabeled executed by this Harness.
+
+## Bounded actual SDK connection verification
+
+After the stable complete mocked tests and before final independent acceptance, execute one bounded isolated actual pinned SDK smoke with exclusively synthetic condition/measurement fixtures and mocked robot transport, from a fresh temporary workspace. It must exercise the new Python public entrypoint, bootstrap/observation boundary, native author/QA and design/QA evidence, persistent Main resume/reconsideration and stored output/Git. No private experiment rows/raw media are sent, no live device/network client is enabled, no physical command is dispatched, and scientific agents never start nested SDKs. The controller predeclares the exact command, fixture paths/content, <=1200 seconds per bounded invocation and first-failure stopping. No broad benchmark, repeated same-condition scientific evaluation or silent rerun; a real defect requires preserved failure, bounded repair/QA and an affected smoke rerun. Inaccessible actual SDK/auth/network support is NOT_RUN/blocked live evidence, never mocked PASS or automatic setup/installation. No SDK/model setting override or secret inspection. The existing Codex service is the sole authorized model destination for this necessary product-connection validation. This exception permits only Controller/Writer's explicitly bound smoke harness, not arbitrary live scripts. Any live smoke that cannot be performed must remain an explicit limitation, assessed by independent QA against production-readiness claims.
+
+## Scoped Phase4/5 continuation
+
+The later human request authorizes one Main Jinja template and MAS progress logs with tests; phases1-3 and their final DCP remain completed history. Phase4 alone overrides the earlier no-new-dependency/install restriction only for required Jinja2>=3.1,<4 and its newly locked MarkupSafe, managed by uv with every pre-existing lock/install version and environment extra preserved. No global/pin/other package update. Runtime agents never install. This continuation has no live SDK/model or hardware invocation; byte-identical predecessor prompt comparison plus affected mocked/full validation supports the unchanged native protocol. Prior actual SDK evidence is historical, not a newly run live check. Only newest Phase5 DCP is active. Ordinary exact-file Git, independent Writer/QA and final DCP remain mandatory; no canonical manager/progress/fingerprint or new Goal.
+
+
+## Phase6/7 repository-contained continuation
+
+Human approval 01a1a9ed-d122-76e1-b1a9-8709d2c7acf5 authorizes integration into the existing NIPS-pipeline/data tree, project-root MAS SDK CODEX_HOME, tests and a new Goal. Continue the same verified Controller/Writer and branch from completed Phase5 HEAD094af01d1eeddec469fd801a6e8552078af7e8ed. Preserve phases1-5 and all prior evidence; only newest Phase7 DCP is active. Manual explicit-file Git remains; no canonical manager/progress/fingerprint.
+
+Phase6 explicitly replaces the earlier independent-output/source-Git prohibition for host publication only. Use the existing source repository's Git for accepted MAS knowledge, campaign rounds/artifacts and stable campaign checkpoints. Raw measurements/code/operator settings remain protected. Scientific agents write only their current attempt, never source, canonical knowledge, host state or Git. CODEX_HOME is the dynamically resolved repository root only for the MAS SDK child; app/global settings remain untouched. No legacy external output/native Main is silently migrated.
+
+No dependency install/upgrade, hardware/operational loop, remote Git, shared pin or personal-memory action. After complete safe mocked gates, a separately bound <=1200-second-per-invocation actual synthetic SDK validation in a fresh temporary repository may exercise project-local CODEX_HOME, native collaboration, publication and same-Main restart. Official CLI login preparation may require human browser authentication for that new home; no credential inspection/copying or global auth/config change. This preparation is not permission for unattended login from the operational runtime. Source repository/native app conversations and measured/private data are not live-test fixtures. Auth/network/SDK failures remain literal non-PASS evidence; no silent retry or readiness claim.
+
+## Phase8/9 bounded legacy cleanup
+
+The latest human request authorizes removal of definitely unnecessary MAS legacy
+with tests, retaining campaign resume and robot compatibility. Continue the same
+manual Controller/Writer ownership on current9d65bd3; the approved comment-only
+run_loop diff is pre-existing work. Phases1-7 stay completed history; newestPhase9
+is mandatory-last. No new Goal or SDK/hardware/dependency/global action.
