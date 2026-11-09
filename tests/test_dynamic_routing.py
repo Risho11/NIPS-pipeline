@@ -354,7 +354,8 @@ class RoutingTests(unittest.TestCase):
         self.robot.assert_not_called()
 
     def test_invalid_native_design_never_clamps_or_submits(self):
-        with patch('test_mas_runtime.PARAMS', dict(PARAMS, polymer_wt=17, mixing_temp=80)):
+        stock_concentration = loop.activeLearning.bounds.polymer_stock_concentration()
+        with patch('test_mas_runtime.PARAMS', dict(PARAMS, polymer_wt=stock_concentration, mixing_temp=80)):
             with self.assertRaisesRegex(ValueError, 'Undiluted'):
                 self.run_pipeline()
         self.robot.assert_not_called()
