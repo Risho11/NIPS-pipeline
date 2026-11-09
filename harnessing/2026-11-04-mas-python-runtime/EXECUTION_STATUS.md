@@ -1,3 +1,19 @@
+## 2026-11-09 post-rebase stock fixture repair
+
+The authorized Writer changed only `tests/test_dynamic_routing.py` and returned
+ownership. The rejection test now reads the active undiluted stock concentration
+through the existing bounds API. The original 17 wt% fixture reproduced the
+failure against the configured 21 wt% stock. The corrected full Dynamic Routing
+suite passed 36 tests with exit 0, and fresh independent QA accepted the exact
+file at SHA-256 `037aac637e806316311ad169a915a2693f4e855098070f858ec14379569c2c78`.
+The controller verified the one-path source commit `3d662fc1` and its parent.
+
+Final disposition `NO_DURABLE_CHANGE`, with `files=[]`. The test exercises the
+existing rejection and no-submission contract with the active stock settings.
+The production contract and operator configuration require no promotion.
+Validation covered local mocks. Hosted CI, Windows and physical validation
+remain separate.
+
 ## Final QA identity
 
 ```json
