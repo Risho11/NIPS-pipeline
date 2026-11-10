@@ -58,6 +58,9 @@ class CameraStream:
                     frame = np.zeros((self.height, self.width, 3), dtype=np.uint8)
                     cv2.putText(frame, f"Camera {self.index} unavailable", (20, 60),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+
+                if self.index in (0, 1):
+                    frame = cv2.rotate(frame, cv2.ROTATE_180)
                 ok, encoded = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 80])
                 if ok:
                     with self.condition:

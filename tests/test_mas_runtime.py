@@ -41,7 +41,14 @@ def profile_denies(filesystem, path):
             patterns = [prefix + choice + tail for choice in choices.split(',')]
         else:patterns = [rule]
         for pattern in patterns:
-            if path.full_match(pattern):return True
+            pattern_path = Path(pattern)
+            if pattern_path.name == '**':
+                prefix = pattern_path.parent
+                prefix_size = len(prefix.parts)
+                if len(path.parts) > prefix_size and Path(*path.parts[:prefix_size]).match(str(prefix)):
+                    return True
+            elif path.match(pattern):
+                return True
             if not any(c in pattern for c in '*?[') and Path(pattern) in path.parents:return True
     return False
 
