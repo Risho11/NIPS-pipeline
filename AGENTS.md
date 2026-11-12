@@ -18,22 +18,29 @@
 - Preserve pre-existing uncommitted implementation. Report actual validation
   results and remaining limitations; plans and mocked tests do not establish
   live SDK, sandbox, provider or physical readiness.
-- Dynamic experiment turns use `docs/mas/workflow.md` and
-  `docs/mas/data-contract.md`. Its explicit delegation instructions apply only to
-  those turns, not to every code-development task.
-- An authorized MAS invocation uses this existing repository: shared material
-  topics live at `data/knowledge/<material>/`, and campaign work/state at
-  `data/results/<actual-campaign-key>/mas/`. Scientific agents write only their
-  current `rounds/<operation>/attempt-<n>/` and scratch; source, original data,
-  canonical topics, Git, checkpoints and native/auth state are host-owned.
-  Python alone publishes exact reviewed adoptions and a stable checkpoint through
-  a private Git index and compare-and-swap; never initialize a nested/output Git.
-  This bounded runtime publication does not authorize scientific agents to edit
-  development source.
-- Only SDK children use this root as `CODEX_HOME`; the desktop app keeps its own
-  home. Runtime suppresses automatic AGENTS discovery and explicitly supplies
-  scientific role owners. Do not edit/read native authentication or session files
-  as scientific evidence. Home/profile/auth behavior needs separate live evidence;
-  cloning tracked checkpoints does not recreate native sessions or grant login.
+- For a `dynamic` campaign, Codex CLI reads the campaign's configured warm-start
+  CSV and its companion metadata when available before drafting its first
+  recommendation guidance. Read saved campaign results for later updates.
+  Keep measured observations, inferred chemistry, selection limits and current
+  operator settings explicit.
+- Keep applicable hypotheses and evidence in `data/knowledge/<material>/`.
+  Use the campaign's `mas/rounds/<operation>/attempt-<n>/inquiry.md` for the
+  comparisons, remaining uncertainty and next question, and `decision.md` for
+  the provisional experiment choice and its reasoning. Use the scientific
+  reasoning and data guidance in `docs/mas/workflow.md` and
+  `docs/mas/data-contract.md` as reference. The SDK publication and submission
+  procedures described there are historical.
+- Keep `data/results/<actual-campaign-key>/dynamic_prompt.jinja` aligned with
+  those records. Put the relevant hypotheses, supporting and contrary evidence,
+  evidence limits, provisional choice and next question directly in the Jinja
+  body so OpenRouter can use them. Update the template when the applicable
+  judgment changes. Save it as UTF-8 by replacing it from a temporary file in
+  the same directory. When its content changes, commit just the template to
+  record its revision. Python reads the saved template for each recommendation.
+- The campaign supervisor owns template updates and their commits. Delegated
+  scientific agents write only in their current attempt and scratch space.
+  Use the existing repository for version history.
+- Preserve original measurements and operator settings. Do not edit or use
+  native authentication or session files as scientific evidence.
 - Do not run the hardware loop, contact the robot, or launch a physical experiment
   as part of development validation. Use mocked clients and temporary data.

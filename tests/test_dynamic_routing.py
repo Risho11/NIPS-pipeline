@@ -1,8 +1,10 @@
 """Offline routing tests using real prompt assembly and mocked model/device transports."""
 from contextlib import ExitStack
+from hashlib import sha256
 import json
 import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 from types import SimpleNamespace
@@ -69,6 +71,18 @@ class DynamicRoutingTests(unittest.TestCase):
         self.assertEqual(self.provider.call_args.kwargs["stage"], "next-experiment-recommendation")
         return self.provider.call_args.kwargs["messages"]
 
+    def git(self, *args):
+        return subprocess.check_output(
+            ["git", "-C", str(self.root), *args], stderr=subprocess.PIPE, text=True,
+        ).strip()
+
+    def assert_prompt_record(self, record, source, commit=None):
+        self.assertEqual(record, {
+            "system_prompt": self.recommendation_messages()[0]["content"],
+            "template_sha256": sha256(source).hexdigest(),
+            "template_commit": commit,
+        })
+
     def prepare_measured_condition(self):
         pd.DataFrame([self.row]).to_csv(self.csv, index=False)
         params = dict(self.response, **loop._current_material_context())
@@ -80,15 +94,32 @@ class DynamicRoutingTests(unittest.TestCase):
 
     def test_new_recommendation_reads_each_saved_template_with_same_observations(self):
         pd.DataFrame([self.row]).to_csv(self.csv, index=False)
+        self.git("init", "-q")
+        self.prompt.write_bytes("가설 하나 {{ ranges }}\n근거".encode("utf-8"))
+        self.git("add", "--", self.prompt.relative_to(self.root).as_posix())
+        self.git("-c", "user.name=Offline Test", "-c", "user.email=offline@example.invalid",
+                 "-c", "commit.gpgSign=false", "commit", "-qm", "Record campaign prompt")
+        commit = self.git("rev-parse", "HEAD")
         requests = []
-        for guidance in ("가설 하나", "가설 둘"):
-            self.prompt.write_text(guidance + " {{ ranges }}", encoding="utf-8")
+        for guidance, expected_commit in (("가설 하나", commit), ("가설 둘", None)):
+            source = (guidance + " {{ ranges }}\r\n근거").encode("utf-8")
+            self.prompt.write_bytes(source)
             loop.llm_context.generate_reports_and_suggestion(
                 self.condition, self.csv, loop.activeLearning, al_search_mode="dynamic",
                 locked_additive_wt=0, material_context=loop._current_material_context(),
             )
             requests.append(self.recommendation_messages())
-        self.assertEqual(self.provider.call_count, 2)
+            row = pd.read_csv(self.csv).iloc[0]
+            self.assertEqual(row["LLM_suggestion"], json.dumps(self.response))
+            self.assert_prompt_record(json.loads(row["dynamic_prompt_record"]), source, expected_commit)
+        self.git("add", "--", self.prompt.relative_to(self.root).as_posix())
+        loop.llm_context.generate_reports_and_suggestion(
+            self.condition, self.csv, loop.activeLearning, al_search_mode="dynamic",
+            locked_additive_wt=0, material_context=loop._current_material_context(),
+        )
+        row = pd.read_csv(self.csv).iloc[0]
+        self.assert_prompt_record(json.loads(row["dynamic_prompt_record"]), source)
+        self.assertEqual(self.provider.call_count, 3)
         first, second = requests
         self.assertIn('The "additive_wt" is locked at 0', first[0]["content"])
         self.assertIn(loop.activeLearning.system_prompt.RECOMMENDATION_OUTPUT_INSTRUCTIONS, first[0]["content"])
@@ -106,14 +137,29 @@ class DynamicRoutingTests(unittest.TestCase):
             self.assertEqual(stored[key], self.row[key])
         self.robot.assert_not_called()
 
+    def test_dynamic_recommendation_requires_its_own_condition_row(self):
+        pd.DataFrame([self.row]).to_csv(self.csv, index=False)
+        original = self.csv.read_bytes()
+        with self.assertRaisesRegex(ValueError, "missing condition"):
+            loop.llm_context.generate_reports_and_suggestion(
+                "missing", self.csv, loop.activeLearning, al_search_mode="dynamic",
+            )
+        self.assertEqual(self.csv.read_bytes(), original)
+        self.provider.assert_not_called()
+
     def test_warm_start_reads_campaign_template_and_reuses_saved_initial_conditions(self):
-        self.prompt.write_text("Campaign template", encoding="utf-8")
+        source = b"Campaign template"
+        self.prompt.write_bytes(source)
         original = self.warm.read_bytes()
         params = loop._new_campaign_params()
         self.assertIn("Campaign template", self.recommendation_messages()[0]["content"])
         self.assertEqual(params["nips_bath_solvent_wt_percent"], 10.5)
+        record_path = self.campaign / "initial_suggestion.json"
+        record = json.loads(record_path.read_text(encoding="utf-8"))["dynamic_prompt_record"]
+        self.assert_prompt_record(record, source)
         self.prompt.unlink()
         self.assertEqual(loop._new_campaign_params(), params)
+        self.assertEqual(json.loads(record_path.read_text(encoding="utf-8"))["dynamic_prompt_record"], record)
         self.provider.assert_called_once()
         self.assertEqual(self.warm.read_bytes(), original)
         self.robot.assert_not_called()
@@ -143,6 +189,7 @@ class DynamicRoutingTests(unittest.TestCase):
         with self.assertRaisesRegex(TimeoutError, "lost acknowledgement"):
             loop._submit_dynamic_initial(params)
         first = self.robot.call_args
+        self.assertNotIn("dynamic_prompt_record", first.args[0])
         self.prompt.unlink()
         resumed = loop._new_campaign_params()
         resumed["stock_metadata"] = params["stock_metadata"]
@@ -204,10 +251,13 @@ class DynamicRoutingTests(unittest.TestCase):
 
     def test_campaign_resume_renders_template_if_recommendation_is_missing(self):
         self.prepare_measured_condition()
-        self.prompt.write_text("Guidance for the resumed campaign", encoding="utf-8")
+        source = b"Guidance for the resumed campaign"
+        self.prompt.write_bytes(source)
         params = loop._load_resume_params_for_campaign("test")
         self.assertIn("Guidance for the resumed campaign", self.recommendation_messages()[0]["content"])
         self.assertEqual(params["bath_temp"], 15)
+        row = pd.read_csv(self.csv).iloc[0]
+        self.assert_prompt_record(json.loads(row["dynamic_prompt_record"]), source)
         self.robot.assert_not_called()
 
     def test_retired_sdk_checkpoint_requires_review_without_overwriting(self):

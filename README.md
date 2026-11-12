@@ -104,6 +104,20 @@ then replace the template. When its content changes, commit only
 `dynamic_prompt.jinja` to preserve revision history. The loop reads the saved
 file independently of that commit.
 
+For campaign preparation, read the configured warm-start CSV and its companion
+metadata when available. Use the material knowledge, current inquiry and
+provisional decision to write the evidence and next question into the Jinja
+body. OpenRouter receives that body and the structured observation history.
+
+Each successful `dynamic` recommendation records `system_prompt` (the exact
+system message), `template_sha256` (the UTF-8 template's raw bytes) and
+`template_commit` (the latest commit affecting that path at the checked-out
+revision, when its content matches after normalizing CRLF to LF). The commit is
+null when no match can be verified. The record is stored under `dynamic_prompt_record` in
+`initial_suggestion.json` for the first recommendation and in the source
+condition's `llm.csv` row for later recommendations. A regenerated recommendation
+updates that row's suggestion and prompt record together.
+
 The default remains `double_explore`. Review any existing SDK MAS decision
 or submission checkpoint before transitioning an old `dynamic` campaign.
 [Historical SDK workflow and records](docs/mas/README.md) remain available.

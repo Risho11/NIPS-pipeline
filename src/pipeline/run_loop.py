@@ -574,6 +574,7 @@ def _new_campaign_params():
         return _enforce_stock_mixing_temperature(dict(INITIAL_PARAMS))
     else:
         print(f"Generating first experiment from warm-start history: {LLM_AL_WARM_START_CSV}")
+        prompt_record = {} if LLM_AL_SEARCH_MODE == "dynamic" else None
         suggestion = llm_context.generate_warm_start_suggestion(
             LLM_AL_WARM_START_CSV, activeLearning,
             locked_additive_wt=LOCK_ADDITIVE_WT_VALUE if LOCK_ADDITIVE_WT else None,
@@ -581,6 +582,7 @@ def _new_campaign_params():
             material_context=_current_material_context(),
             exploration_history_points=LLM_AL_EXPLORATION_HISTORY_POINTS,
             campaign_dir=result_path.parent,
+            prompt_record=prompt_record,
         )
         params = _extract_next_params(suggestion)
         saved = {
@@ -588,6 +590,8 @@ def _new_campaign_params():
             "search_mode": LLM_AL_SEARCH_MODE,
             "suggestion": suggestion,
         }
+        if prompt_record:
+            saved["dynamic_prompt_record"] = prompt_record
     if LOCK_ADDITIVE_WT:
         params["additive_wt"] = LOCK_ADDITIVE_WT_VALUE
     params["polymer_wt"], params["additive_wt"] = activeLearning.bounds.test_target(

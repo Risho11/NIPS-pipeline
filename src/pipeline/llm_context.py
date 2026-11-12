@@ -425,17 +425,19 @@ def generate_reports_and_suggestion(
     active, so LLM_AL's system prompt says additive_wt is locked instead of quoting the full
     triangle -- otherwise the LLM keeps proposing nonzero additive_wt that gets silently
     overridden downstream, and never learns why (see activeLearning_29.current_ranges)."""
-    objective_mode, search_strategy = resolve_al_mode(al_search_mode)
+    objective_mode, _ = resolve_al_mode(al_search_mode)
     agg_llm_path = Path(agg_llm_path)
     if not agg_llm_path.exists() or agg_llm_path.stat().st_size == 0:
         raise ValueError(f"LLM CSV doesn't exist or is empty: {agg_llm_path}")
     llm_df = pd.read_csv(agg_llm_path)
     if llm_df.empty:
         raise ValueError(f"LLM CSV has no data rows: {agg_llm_path}")
-    for col in ["initial_report", "final_report", "LLM_suggestion"]:
+    for col in ["initial_report", "final_report", "LLM_suggestion", "dynamic_prompt_record"]:
         if col in llm_df.columns:
             llm_df[col] = llm_df[col].astype(object)
     mask = llm_df["name"] == condition_name
+    if objective_mode == "dynamic" and not mask.any():
+        raise ValueError(f"Cannot record a dynamic recommendation for missing condition {condition_name!r}")
     idx = llm_df[mask].index[-1] if mask.any() else llm_df.index[-1]
     fmt_params = llm_df.at[idx, "formatted_parameters"]
     initial_report = activeLearning.Generate_report(fmt_params)
@@ -464,13 +466,20 @@ def generate_reports_and_suggestion(
         history_df = history_df.drop_duplicates("name", keep="last")
     # Image analysis travels with the measurements in each history row.
     quality_observations = ""
+    prompt_record = {} if objective_mode == "dynamic" else None
     params_suggestion = _suggest_from_history(
         history_df, activeLearning, quality_observations, locked_additive_wt,
         al_search_mode, exploration_history_points, material_context,
-        campaign_dir=agg_llm_path.parent,
+        campaign_dir=agg_llm_path.parent, prompt_record=prompt_record,
     )
     llm_df.at[idx, "LLM_suggestion"] = params_suggestion
+    if prompt_record is not None:
+        llm_df.at[idx, "dynamic_prompt_record"] = json.dumps(prompt_record, ensure_ascii=False)
+    elif "dynamic_prompt_record" in llm_df.columns:
+        llm_df.at[idx, "dynamic_prompt_record"] = None
     llm_df.to_csv(agg_llm_path, index=False)
+    if prompt_record is not None:
+        return params_suggestion
     return llm_df["LLM_suggestion"].dropna().iloc[-1]
 
 
@@ -486,7 +495,7 @@ def _historical_quality(history):
 def generate_warm_start_suggestion(
     warm_start_csv, activeLearning, locked_additive_wt=None,
     al_search_mode="single", exploration_history_points=None, material_context=None,
-    *, campaign_dir=None,
+    *, campaign_dir=None, prompt_record=None,
 ):
     """Suggest a first experiment without creating or modifying campaign rows."""
     history = pd.read_csv(warm_start_csv)
@@ -500,14 +509,14 @@ def generate_warm_start_suggestion(
     return _suggest_from_history(
         history, activeLearning, "", locked_additive_wt,
         al_search_mode, exploration_history_points, material_context,
-        campaign_dir=campaign_dir,
+        campaign_dir=campaign_dir, prompt_record=prompt_record,
     )
 
 
 def _suggest_from_history(
     history_df, activeLearning, quality_observations, locked_additive_wt,
     al_search_mode, exploration_history_points, material_context,
-    *, campaign_dir=None,
+    *, campaign_dir=None, prompt_record=None,
 ):
     objective_mode, search_strategy = resolve_al_mode(al_search_mode)
     performance_observations = build_performance_observations(history_df)
@@ -538,6 +547,7 @@ def _suggest_from_history(
         if campaign_dir is None:
             raise ValueError("Dynamic recommendations require a campaign directory")
         options["prompt_path"] = Path(campaign_dir) / "dynamic_prompt.jinja"
+        options["prompt_record"] = prompt_record
     if objective_mode == "double":
         suggest = activeLearning.LLM_AL_modulus_pore_fraction
         # Pore-fraction measurements (and legacy fallback) are in each structured observation.

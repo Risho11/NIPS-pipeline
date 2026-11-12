@@ -170,14 +170,39 @@ def _encode_image(path):
 #-----------#
 
 
+def _matching_template_commit(path, source):
+    """Find the commit for the template bytes read by this request."""
+    import subprocess
+
+    def git(directory, *args):
+        return subprocess.check_output(
+            ["git", "-C", str(directory), *args], stderr=subprocess.DEVNULL, timeout=3,
+        )
+
+    try:
+        path = Path(path).resolve()
+        root = Path(os.fsdecode(git(path.parent, "rev-parse", "--show-toplevel").rstrip(b"\r\n")))
+        relative = path.relative_to(root).as_posix()
+        commit = git(root, "log", "-1", "--format=%H", "HEAD", "--", relative).decode("ascii").strip()
+        if commit:
+            committed = git(root, "show", f"{commit}:{relative}")
+            # A Windows checkout may expand Git's LF line endings to CRLF.
+            if committed.replace(b"\r\n", b"\n") == source.replace(b"\r\n", b"\n"):
+                return commit
+    except (OSError, ValueError, subprocess.SubprocessError):
+        pass
+    return None
+
+
 def LLM_AL(performance_observations, ranges=None, quality_observations=None, image_paths=None,
            locked_additive_wt=None, search_mode="optimize", diversity_context=None,
-           Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5, *, prompt_path=None):
+           Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5, *,
+           prompt_path=None, prompt_record=None):
     return _llm_al(
         system_prompt.ACTIVE_LEARNING_PROMPT_TEMPLATE,
         performance_observations, ranges, quality_observations, image_paths,
         locked_additive_wt, search_mode, diversity_context, Model, Temperature, sleep,
-        prompt_path=prompt_path,
+        prompt_path=prompt_path, prompt_record=prompt_record,
     )
 
 
@@ -203,7 +228,8 @@ def LLM_AL_modulus_pore_fraction(
 
 def _llm_al(prompt_template, performance_observations, ranges, quality_observations,
             image_paths, locked_additive_wt, search_mode, diversity_context,
-            Model, Temperature, sleep, pore_fraction_observations=None, *, prompt_path=None):
+            Model, Temperature, sleep, pore_fraction_observations=None, *,
+            prompt_path=None, prompt_record=None):
     if ranges is None:
         ranges = current_ranges(locked_additive_wt=locked_additive_wt)
     # Enforce precision here too: direct calls can bypass the history formatter.
@@ -235,9 +261,11 @@ def _llm_al(prompt_template, performance_observations, ranges, quality_observati
     else:
         from jinja2 import Environment, StrictUndefined, TemplateError
 
-        source = Path(prompt_path).read_text(encoding="utf-8")
+        source = Path(prompt_path).read_bytes()
         try:
-            guidance = Environment(undefined=StrictUndefined).from_string(source).render(ranges=ranges)
+            guidance = Environment(undefined=StrictUndefined).from_string(
+                source.decode("utf-8"),
+            ).render(ranges=ranges)
         except TemplateError as error:
             raise ValueError(f"Cannot render {prompt_path}: {error}") from error
         if not guidance.strip():
@@ -246,6 +274,14 @@ def _llm_al(prompt_template, performance_observations, ranges, quality_observati
             guidance + f"\n\nUse these parameter ranges: {ranges}\n\n"
             + system_prompt.RECOMMENDATION_OUTPUT_INSTRUCTIONS
         )
+        if prompt_record is not None:
+            from hashlib import sha256
+
+            prompt_record.update(
+                system_prompt=system_content,
+                template_sha256=sha256(source).hexdigest(),
+                template_commit=_matching_template_commit(prompt_path, source),
+            )
     response = create_chat_completion(client, stage="next-experiment-recommendation",
         model=Model,
         messages=[
