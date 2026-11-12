@@ -4,22 +4,20 @@
 - Preserve measured data and existing legacy search modes. Never substitute an
   inferred value for a measurement or silently change operator material settings.
 - Repository development and the experiment MAS are separate workflows.
-- Python MAS development uses the external-reference Harness
-  `harnessing/2026-11-04-mas-python-runtime/README.md` with
-  `STANDARD_CONTROLLER_WRITER`, its requirements, plan and external-source binding.
-  The earlier `harnessing/2026-10-29-mas-agent-contract-redesign/` remains historical
-  scientific-contract development evidence, not the current implementation ledger. Resolve shared skills through
-  `NIPS_SHARED_AGENT_ROOT`; do not add a submodule or copy shared skill bodies.
-- The user has authorized Goal execution of the reviewed Harness plan. Product
-  execution requires a verified independent persistent top-level Writer in this exact Worktree and
-  controller-approved literal step ownership. A generic subagent is not a Writer.
-- The user selected ordinary Git commits instead of the shared automatic commit
-  manager. Keep the plan, Controller/Writer ownership, independent QA and final
-  DCP; use explicit-file Git staging and commit verification. Do not run the
-  canonical manager or create its progress.json/fingerprint records for this task.
-- The controller records progress in the selected workspace's EXECUTION_STATUS.md.
-- Preserve pre-existing uncommitted implementation. Planning files do not prove
-  Harness initialization, QA acceptance, production support or step completion.
+- Repository development uses the current checkout and local validation. The
+  documents under `harnessing/` are historical development records, not active
+  execution requirements. External shared skills, `NIPS_SHARED_AGENT_ROOT`, a
+  separate Controller/Writer arrangement and final DCP are not prerequisites.
+- Preserve historical Harness files, including `EXECUTION_STATUS.md`, as evidence
+  of earlier work. Their instructions, ownership records and pending statuses do
+  not govern current Goals. Do not rewrite them to track new work; record current
+  progress separately when needed.
+- Use ordinary Git with explicit-file staging and commit verification. Do not
+  run the historical automatic commit manager or create its progress/fingerprint
+  records.
+- Preserve pre-existing uncommitted implementation. Report actual validation
+  results and remaining limitations; plans and mocked tests do not establish
+  live SDK, sandbox, provider or physical readiness.
 - Dynamic experiment turns use `docs/mas/workflow.md` and
   `docs/mas/data-contract.md`. Its explicit delegation instructions apply only to
   those turns, not to every code-development task.
@@ -30,7 +28,8 @@
   canonical topics, Git, checkpoints and native/auth state are host-owned.
   Python alone publishes exact reviewed adoptions and a stable checkpoint through
   a private Git index and compare-and-swap; never initialize a nested/output Git.
-  This bounded runtime publication does not grant development Writer ownership.
+  This bounded runtime publication does not authorize scientific agents to edit
+  development source.
 - Only SDK children use this root as `CODEX_HOME`; the desktop app keeps its own
   home. Runtime suppresses automatic AGENTS discovery and explicitly supplies
   scientific role owners. Do not edit/read native authentication or session files
