@@ -1,12 +1,16 @@
 # Experiment MAS
 
+This section preserves the previous scientific workflow and SDK integration
+as historical reference. See [Dynamic active learning](../../README.md#dynamic-active-learning)
+for the current `run_loop` mode and Codex CLI prompt editing.
+
 Start here for the scientific agent contracts and shared material/process
 knowledge. The revised contracts have received independent development review;
 actual MAS testing, observed-defect repair and re-evaluation are now requested.
 **Human review will address final scientific outputs before DCP. Revised-contract
 live results remain NOT_RUN until actual run evidence is recorded.** The earlier
 SDK case below is historical evidence, not validation of these revisions.
-The current Python integration is described below; live and physical validation remain separate.
+The previous Python integration is described below; live and physical validation remain separate.
 
 ## Scientific inquiry
 
@@ -97,7 +101,7 @@ session paths, read set, authorization and budget belong in the transient dispat
 
 ## Development and execution authority
 
-The current [Python implementation Harness](../../harnessing/2026-11-04-mas-python-runtime/README.md)
+The historical [Python implementation Harness](../../harnessing/2026-11-04-mas-python-runtime/README.md)
 uses the external pinned shared source, STANDARD_CONTROLLER_WRITER and ordinary
 explicit-file Git. The [earlier Harness](../../harnessing/2026-10-29-mas-agent-contract-redesign/README.md)
 retains historical scientific-contract work. Scientific roles do not inherit

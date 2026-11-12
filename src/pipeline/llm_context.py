@@ -389,7 +389,9 @@ def resolve_al_mode(mode):
         return "double", "balanced"
     if normalized in {"explore", "exploration", "exploratory", "diversity"}:
         return "single", "explore"
-    raise ValueError(f"Invalid AL mode {mode!r}; choose 'single', 'double', 'double_explore', or 'explore'.")
+    if normalized == "dynamic":
+        return "dynamic", None
+    raise ValueError(f"Invalid AL mode {mode!r}; choose 'single', 'double', 'double_explore', 'explore', or 'dynamic'.")
 
 
 def generate_reports_and_suggestion(
@@ -412,7 +414,8 @@ def generate_reports_and_suggestion(
 
     al_search_mode: 'single' maximizes modulus; 'double' maximizes modulus and pore
     fraction; 'double_explore' adds modest exploration to those two objectives;
-    'explore' prioritizes coverage. Legacy 'optimize' means 'single'.
+    'explore' prioritizes coverage. 'dynamic' uses the campaign's Jinja template.
+    Legacy 'optimize' means 'single'.
     Double mode uses numeric pore fractions in structured observations; report-only
     legacy rows retain a labeled fallback. Absent measurements remain unknown.
     warm_start_csv: optional exported history merged only into LLM context. Current
@@ -464,6 +467,7 @@ def generate_reports_and_suggestion(
     params_suggestion = _suggest_from_history(
         history_df, activeLearning, quality_observations, locked_additive_wt,
         al_search_mode, exploration_history_points, material_context,
+        campaign_dir=agg_llm_path.parent,
     )
     llm_df.at[idx, "LLM_suggestion"] = params_suggestion
     llm_df.to_csv(agg_llm_path, index=False)
@@ -482,6 +486,7 @@ def _historical_quality(history):
 def generate_warm_start_suggestion(
     warm_start_csv, activeLearning, locked_additive_wt=None,
     al_search_mode="single", exploration_history_points=None, material_context=None,
+    *, campaign_dir=None,
 ):
     """Suggest a first experiment without creating or modifying campaign rows."""
     history = pd.read_csv(warm_start_csv)
@@ -495,12 +500,14 @@ def generate_warm_start_suggestion(
     return _suggest_from_history(
         history, activeLearning, "", locked_additive_wt,
         al_search_mode, exploration_history_points, material_context,
+        campaign_dir=campaign_dir,
     )
 
 
 def _suggest_from_history(
     history_df, activeLearning, quality_observations, locked_additive_wt,
     al_search_mode, exploration_history_points, material_context,
+    *, campaign_dir=None,
 ):
     objective_mode, search_strategy = resolve_al_mode(al_search_mode)
     performance_observations = build_performance_observations(history_df)
@@ -520,12 +527,17 @@ def _suggest_from_history(
             + performance_observations
         )
     diversity_context = ""
-    if search_strategy in {"explore", "balanced"}:
+    if search_strategy in {"explore", "balanced"} or objective_mode == "dynamic":
         diversity_context = build_diversity_context(history_df, max_points=exploration_history_points)
     # ranges omitted on purpose -- LLM_AL computes it fresh from polymer_additive_bounds.py on
     # every call now, not a value cached at activeLearning_29 import time (see LLM_AL/
     # current_ranges' docstrings for why that caching was actively harmful).
     suggest = activeLearning.LLM_AL
+    options = {}
+    if objective_mode == "dynamic":
+        if campaign_dir is None:
+            raise ValueError("Dynamic recommendations require a campaign directory")
+        options["prompt_path"] = Path(campaign_dir) / "dynamic_prompt.jinja"
     if objective_mode == "double":
         suggest = activeLearning.LLM_AL_modulus_pore_fraction
         # Pore-fraction measurements (and legacy fallback) are in each structured observation.
@@ -534,6 +546,7 @@ def _suggest_from_history(
         locked_additive_wt=locked_additive_wt,
         search_mode=search_strategy,
         diversity_context=diversity_context,
+        **options,
     )
     print(f"LLM suggestion: {params_suggestion}")
 

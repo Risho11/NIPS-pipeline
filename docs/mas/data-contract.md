@@ -330,7 +330,7 @@ and must not invent a completed physical batch.
 
 ## Current operational records
 
-[Conditions and receipts](../../src/pipeline/mas_contract.py) type only execution
+The historical `src/pipeline/mas_contract.py` types only execution
 and native handoff boundaries. Readable authored/reviewed Markdown, actual Git
 knowledge versions and an accepted decision Markdown record provide navigation.
 The pipeline retains shared `initial_report`, `final_report`, `LLM_suggestion`

@@ -79,13 +79,31 @@ is the base casting solvent, separate from the cosolvent and NIPS bath solvent.
 The model cannot change these settings. Older records without identities remain
 unknown rather than inheriting the current campaign's materials.
 
-For optional `dynamic` MAS, use the [runtime runbook](docs/mas/python-runtime.md)
-for repository/campaign/material bindings, prepared environment, report-only
-CLI and queued reconsideration. The [scientific workflow](docs/mas/workflow.md)
-defines inquiry and independent review. The default remains `double_explore`.
-Offline tests mock models/devices; actual SDK smoke, hosted CI and physical
-qualification require their own evidence. A report-only RUN never starts a robot.
-Shared topics live in `data/knowledge/<material>/`; each campaign's work and
-checkpoint live in `data/results/<actual-campaign-key>/mas/`. The host publishes
-reviewed records in the existing repository Git. Only SDK children use the
-repository root as `CODEX_HOME`; scientific agents write their current attempt.
+### Dynamic active learning
+
+Set `LLM_AL_SEARCH_MODE = "dynamic"` in `src/pipeline/run_loop.py` and create
+`data/results/begins_YYYY-MM-DD/dynamic_prompt.jinja` in the selected campaign
+folder before it requests a recommendation. Write the campaign's objective,
+current hypotheses and search guidance as UTF-8 text. For example:
+
+```jinja
+Seek reproducible improvements in elastic modulus and pore fraction. Use the
+measured observations and their units, and treat missing measurements as unknown.
+Prefer an informative experiment that can distinguish the current explanations.
+```
+
+The template can reference `{{ ranges }}`. Python adds the current parameter
+ranges and response format and sends the observations with the existing
+OpenRouter request. Each new recommendation reads the file again. A missing,
+empty or invalid template stops that recommendation. A saved recommendation
+is reused on retry through the existing checkpoint.
+
+Codex CLI can read saved campaign results and update the template while the
+loop runs. Write the new content to a temporary file in the campaign directory,
+then replace the template. When its content changes, commit only
+`dynamic_prompt.jinja` to preserve revision history. The loop reads the saved
+file independently of that commit.
+
+The default remains `double_explore`. Review any existing SDK MAS decision
+or submission checkpoint before transitioning an old `dynamic` campaign.
+[Historical SDK workflow and records](docs/mas/README.md) remain available.

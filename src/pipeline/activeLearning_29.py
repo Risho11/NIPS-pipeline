@@ -172,11 +172,12 @@ def _encode_image(path):
 
 def LLM_AL(performance_observations, ranges=None, quality_observations=None, image_paths=None,
            locked_additive_wt=None, search_mode="optimize", diversity_context=None,
-           Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5):
+           Model="anthropic/claude-sonnet-4.6", Temperature=0.0, sleep=0.5, *, prompt_path=None):
     return _llm_al(
         system_prompt.ACTIVE_LEARNING_PROMPT_TEMPLATE,
         performance_observations, ranges, quality_observations, image_paths,
         locked_additive_wt, search_mode, diversity_context, Model, Temperature, sleep,
+        prompt_path=prompt_path,
     )
 
 
@@ -202,7 +203,7 @@ def LLM_AL_modulus_pore_fraction(
 
 def _llm_al(prompt_template, performance_observations, ranges, quality_observations,
             image_paths, locked_additive_wt, search_mode, diversity_context,
-            Model, Temperature, sleep, pore_fraction_observations=None):
+            Model, Temperature, sleep, pore_fraction_observations=None, *, prompt_path=None):
     if ranges is None:
         ranges = current_ranges(locked_additive_wt=locked_additive_wt)
     # Enforce precision here too: direct calls can bypass the history formatter.
@@ -228,12 +229,27 @@ def _llm_al(prompt_template, performance_observations, ranges, quality_observati
                     "image_url": {"url": f"data:image/png;base64,{_encode_image(p)}"},
                 })
 
-    strategy = build_search_strategy_instructions(search_mode, diversity_context=diversity_context)
+    if prompt_path is None:
+        strategy = build_search_strategy_instructions(search_mode, diversity_context=diversity_context)
+        system_content = prompt_template.format(ranges=ranges) + "\n\n" + strategy
+    else:
+        from jinja2 import Environment, StrictUndefined, TemplateError
+
+        source = Path(prompt_path).read_text(encoding="utf-8")
+        try:
+            guidance = Environment(undefined=StrictUndefined).from_string(source).render(ranges=ranges)
+        except TemplateError as error:
+            raise ValueError(f"Cannot render {prompt_path}: {error}") from error
+        if not guidance.strip():
+            raise ValueError(f"Dynamic prompt is empty: {prompt_path}")
+        system_content = (
+            guidance + f"\n\nUse these parameter ranges: {ranges}\n\n"
+            + system_prompt.RECOMMENDATION_OUTPUT_INSTRUCTIONS
+        )
     response = create_chat_completion(client, stage="next-experiment-recommendation",
         model=Model,
         messages=[
-            {"role": "system", "content":
-                prompt_template.format(ranges=ranges) + "\n\n" + strategy},
+            {"role": "system", "content": system_content},
             {"role": "user", "content": user_content}
         ],
         temperature=Temperature

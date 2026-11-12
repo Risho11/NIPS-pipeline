@@ -81,6 +81,15 @@ ACTIVE_LEARNING_PROMPT_TEMPLATE = (
     "or omit any key."
 )
 
+RECOMMENDATION_OUTPUT_INSTRUCTIONS = (
+    "Return a single JSON object (a ```json code fence is fine) with exactly these keys: "
+    "mixing_temp, bath_temp, pullcast_speed, nitrogen, coupon_to_bath_wait_time, "
+    "nips_bath_wait_time, polymer_wt, additive_wt. Do not add a wrapping key or omit any key. "
+    "Cosolvent identity and NIPS-bath solvent identity/concentration are manually controlled "
+    "semi-batch context and are not yours to change."
+)
+
+
 ACTIVE_LEARNING_MODULUS_PORE_FRACTION_PROMPT_TEMPLATE = (
     "Recommend the next experiment for automated membrane synthesis via "
     "non-solvent-induced phase separation (NIPS). Stay within the current parameter/stock system. "
@@ -94,12 +103,7 @@ ACTIVE_LEARNING_MODULUS_PORE_FRACTION_PROMPT_TEMPLATE = (
     "two-objective improvement when either measurement is missing. With incomplete evidence, "
     "favor a feasible informative experiment. Account for uncertainty, CV, and membrane quality. "
     + OPTIMIZATION_VALIDATION_INSTRUCTIONS +
-    "Use these parameter ranges: {ranges} "
-    "Return a single JSON object (a ```json code fence is fine) with exactly these keys: "
-    "mixing_temp, bath_temp, pullcast_speed, nitrogen, coupon_to_bath_wait_time, "
-    "nips_bath_wait_time, polymer_wt, additive_wt. Do not add a wrapping key or omit any key. "
-    "Cosolvent identity and NIPS-bath solvent identity/concentration are manually controlled "
-    "semi-batch context and are not yours to change."
+    "Use these parameter ranges: {ranges} " + RECOMMENDATION_OUTPUT_INSTRUCTIONS
 )
 
 
