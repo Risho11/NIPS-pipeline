@@ -87,7 +87,7 @@ class RequestJournal:
             print(f'[robot] request_id={request_id} stage={status}', flush=True)
 
 
-def make_handler(journal, run):
+def make_handler(journal, run, health_details=None):
     class RequestHandler(BaseHTTPRequestHandler):
         def _reply(self, code, body):
             payload = json.dumps(body).encode()
@@ -102,14 +102,28 @@ def make_handler(journal, run):
                 print('[robot] reply lost; retry with the same request ID.', flush=True)
 
         def do_GET(self):
-            if self.path != '/health':
-                self._reply(404, {'error': 'Unknown endpoint'})
-                return
             if journal.failed:
                 self._reply(503, {'error': 'Journal persistence failed; inspect robot logs.'})
                 return
-            self._reply(200, {'service': 'membrane-robot', 'idempotency_version': 1,
-                              'journal_id': journal.data['journal_id']})
+            if self.path == '/health':
+                self._reply(200, {**(health_details or {}), 'service': 'membrane-robot',
+                                  'idempotency_version': 1, 'request_status_version': 1,
+                                  'journal_id': journal.data['journal_id']})
+            elif self.path.startswith('/requests/'):
+                request_id = self.path[len('/requests/'):]
+                try:
+                    uuid.UUID(request_id)
+                except ValueError:
+                    self._reply(400, {'error': 'Invalid request ID'})
+                    return
+                with journal.lock:
+                    record = journal.data['requests'].get(request_id)
+                    self._reply(200 if record else 404,
+                                {'request_id': request_id, 'journal_id': journal.data['journal_id'],
+                                 'status': record['status'], 'digest': record['digest']} if record else
+                                {'error': 'Unknown request ID'})
+            else:
+                self._reply(404, {'error': 'Unknown endpoint'})
 
         def do_POST(self):
             if self.path != '/run':

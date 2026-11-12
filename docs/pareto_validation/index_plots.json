@@ -1,0 +1,687 @@
+{
+  "18-0add-12deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-11-02",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png",
+      "Segmentation_rep-4.png"
+    ],
+    "comp": [
+      "Comparison_CV_postDiscard.png",
+      "Comparison_CV_preDiscard.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      "Derivatives_rep-4.png"
+    ],
+    "avg": [
+      [
+        "average_fit_postDiscard.png",
+        {
+          "name": "18-0add-12deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s | postDiscard",
+          "Trial": "18-0add-12deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s | postDiscard",
+          "Thickness": null,
+          "Elastic Modulus": 521.1816222269855,
+          "Yield Strength": 62.617551784980805,
+          "Pore Fraction": 0.3145264857764417,
+          "Pore Fraction Unsubtracted": 0.3145264857764417,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 275.06141517271976,
+          "Slope Densification": 511.0555987240965,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.13436353361390335,
+          "Strain at 80 bar": 0.2198140424828932,
+          "Strain at 150 bar": 0.3990838461673906,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 98.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 28, \"max\": 30, \"note\": \"NRMSE-score=0.944 (RMSE=3.43, range=61.73)\"}, \"plateau_r2_start\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.979\"}, \"densification_r2\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2=0.985\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 0.8% of elastic range\"}, \"junction_continuity\": {\"pts\": 15, \"max\": 15, \"note\": \"gap=0.0%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.989\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=521.2 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau spans 47% of remaining stress \\u2014 ok | GAM slope stable in early plateau (drop=14%) \\u2014 ok\"}, \"changepoint_curvature_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"d2_norm=2.75, linear_stretch=53%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.53 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 98, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 43.92126955217804,
+          "Toe Region": 0.061548318249898974
+        },
+        "Derivatives_average_fit_postDiscard.png"
+      ],
+      [
+        "average_fit_preDiscard.png",
+        {
+          "name": "18-0add-12deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s | preDiscard",
+          "Trial": "18-0add-12deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s | preDiscard",
+          "Thickness": null,
+          "Elastic Modulus": 500.62618872191416,
+          "Yield Strength": 63.73198866192551,
+          "Pore Fraction": 0.4006693064155778,
+          "Pore Fraction Unsubtracted": 0.4006693064155778,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 361.68396831766324,
+          "Slope Densification": 510.49369762470036,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.13902027137933476,
+          "Strain at 80 bar": 0.22375213527501953,
+          "Strain at 150 bar": 0.40295012174267386,
+          "Strain at 500 bar": null,
+          "Good Fit": 0.0,
+          "Good Fit Score": 38.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 28, \"max\": 30, \"note\": \"NRMSE-score=0.944 (RMSE=3.55, range=62.84)\"}, \"plateau_r2_start\": {\"pts\": 11, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.744\"}, \"densification_r2\": {\"pts\": 0, \"max\": 15, \"note\": \"R\\u00b2=-1.761\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 1.2% of elastic range\"}, \"junction_continuity\": {\"pts\": 14, \"max\": 15, \"note\": \"gap=0.6%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.930\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=500.6 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": -20, \"max\": 0, \"note\": \"plateau spans 94% of remaining stress \\u2014 elastic peak likely wrong | GAM slope stable in early plateau (drop=11%) \\u2014 ok\"}, \"changepoint_curvature_penalty\": {\"pts\": -10, \"max\": 0, \"note\": \"d2_norm=0.00, linear_stretch=100%\"}, \"slope_ratio_penalty\": {\"pts\": -10, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.72 \\u2014 nearly parallel (-10 pts)\"}, \"_score_final\": {\"pts\": 38, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 43.92126955217804,
+          "Toe Region": 0.06750448716303503
+        },
+        "Derivatives_average_fit_preDiscard.png"
+      ]
+    ]
+  },
+  "14p5-0add-10deg-cosolv-none-bathSolv-PolarClean-10wt-200s-N2-1500s": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-10-23",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png",
+      "Segmentation_rep-4.png"
+    ],
+    "comp": [
+      "Comparison_CV.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      "Derivatives_rep-4.png"
+    ],
+    "avg": [
+      [
+        "average_fit_average.png",
+        {
+          "name": "14p5-0add-10deg-cosolv-none-bathSolv-PolarClean-10wt-200s-N2-1500s | average",
+          "Trial": "14p5-0add-10deg-cosolv-none-bathSolv-PolarClean-10wt-200s-N2-1500s | average",
+          "Thickness": null,
+          "Elastic Modulus": 133.98576905910755,
+          "Yield Strength": 20.083021223056264,
+          "Pore Fraction": 0.6330023934546467,
+          "Pore Fraction Unsubtracted": 0.6330023934546467,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 66.85405009379396,
+          "Slope Densification": 1237.3833584049455,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.5344487801923857,
+          "Strain at 80 bar": 0.6383950277423635,
+          "Strain at 150 bar": 0.7099633357004251,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 95.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 29, \"max\": 30, \"note\": \"NRMSE-score=0.979 (RMSE=0.39, range=18.48)\"}, \"plateau_r2_start\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.990\"}, \"densification_r2\": {\"pts\": 13, \"max\": 15, \"note\": \"R\\u00b2=0.879\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 0.5% of elastic range\"}, \"junction_continuity\": {\"pts\": 13, \"max\": 15, \"note\": \"gap=2.3%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.633\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=134.0 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau spans 24% of remaining stress \\u2014 ok | GAM slope stable in early plateau (drop=35%) \\u2014 ok\"}, \"changepoint_curvature_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"d2_norm=1.64, linear_stretch=23%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.50 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 95, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 43.88693570182415,
+          "Toe Region": 0.0
+        },
+        "Derivatives_average_fit_average.png"
+      ]
+    ]
+  },
+  "15-0add-9deg-cosolv-none-bathSolv-none-0wt-250s-N2-1600s_run2": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-10-19",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png",
+      "Segmentation_rep-4.png"
+    ],
+    "comp": [
+      "Comparison_CV.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      "Derivatives_rep-4.png"
+    ],
+    "avg": [
+      [
+        "average_fit_average.png",
+        {
+          "name": "15-0add-9deg-cosolv-none-bathSolv-none-0wt-250s-N2-1600s_run2 | average",
+          "Trial": "run2 | average",
+          "Thickness": null,
+          "Elastic Modulus": 214.400899163196,
+          "Yield Strength": 29.80950846274493,
+          "Pore Fraction": 0.6594741005508074,
+          "Pore Fraction Unsubtracted": 0.6594741005508074,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 59.59174866449293,
+          "Slope Densification": 1016.118036685747,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.4694943540953945,
+          "Strain at 80 bar": 0.6612783324955026,
+          "Strain at 150 bar": 0.7435506423954754,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 87.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 29, \"max\": 30, \"note\": \"NRMSE-score=0.968 (RMSE=0.89, range=27.76)\"}, \"plateau_r2_start\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.965\"}, \"densification_r2\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2=0.935\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 0.1% of elastic range\"}, \"junction_continuity\": {\"pts\": 10, \"max\": 15, \"note\": \"gap=5.1%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.815\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=214.4 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": -5, \"max\": 0, \"note\": \"plateau spans 25% of remaining stress \\u2014 ok | GAM slope drops 60% in early plateau \\u2014 bp1 suspect\"}, \"changepoint_curvature_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"d2_norm=2.30, linear_stretch=27%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.28 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 87, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 43.842569646092244,
+          "Toe Region": 0.0
+        },
+        "Derivatives_average_fit_average.png"
+      ]
+    ]
+  },
+  "14p5-0add-10deg-cosolv-none-bathSolv-none-0wt-200s-N2-1500s_run3": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-10-19",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png",
+      "Segmentation_rep-4.png"
+    ],
+    "comp": [
+      "Comparison_CV.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      "Derivatives_rep-4.png"
+    ],
+    "avg": [
+      [
+        "average_fit_average.png",
+        {
+          "name": "14p5-0add-10deg-cosolv-none-bathSolv-none-0wt-200s-N2-1500s_run3 | average",
+          "Trial": "run3 | average",
+          "Thickness": null,
+          "Elastic Modulus": 265.4174766930813,
+          "Yield Strength": 24.491946146494563,
+          "Pore Fraction": 0.6598122001464592,
+          "Pore Fraction Unsubtracted": 0.6598122001464592,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 79.33507535023959,
+          "Slope Densification": 1283.7455266374245,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.38996733154780466,
+          "Strain at 80 bar": 0.6464993025648686,
+          "Strain at 150 bar": 0.7202115690396192,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 84.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 29, \"max\": 30, \"note\": \"NRMSE-score=0.969 (RMSE=0.68, range=22.21)\"}, \"plateau_r2_start\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.964\"}, \"densification_r2\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2=0.927\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail overshoots data by 0.0% of elastic range\"}, \"junction_continuity\": {\"pts\": 7, \"max\": 15, \"note\": \"gap=7.5%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.922\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=265.4 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": -5, \"max\": 0, \"note\": \"plateau spans 35% of remaining stress \\u2014 ok | GAM slope drops 52% in early plateau \\u2014 bp1 suspect\"}, \"changepoint_curvature_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"d2_norm=5.67, linear_stretch=23%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.30 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 84, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 43.871647762582825,
+          "Toe Region": 0.0
+        },
+        "Derivatives_average_fit_average.png"
+      ]
+    ]
+  },
+  "17-0add-13deg-cosolv-none-bathSolv-none-0wt-100s-N2-1800s_run5": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-10-15",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png",
+      "Segmentation_rep-4.png"
+    ],
+    "comp": [
+      "Comparison_CV_postDiscard.png",
+      "Comparison_CV_preDiscard.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      "Derivatives_rep-4.png"
+    ],
+    "avg": [
+      [
+        "average_fit_postDiscard.png",
+        {
+          "name": "17-0add-13deg-cosolv-none-bathSolv-none-0wt-100s-N2-1800s_run5 | postDiscard",
+          "Trial": "run5 | postDiscard",
+          "Thickness": null,
+          "Elastic Modulus": 88.8720498175199,
+          "Yield Strength": 5.45174958004835,
+          "Pore Fraction": 0.5700175584293349,
+          "Pore Fraction Unsubtracted": 0.5700175584293349,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 212.59626205294836,
+          "Slope Densification": 525.1286384804179,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.23939335087809555,
+          "Strain at 80 bar": 0.414450249408665,
+          "Strain at 150 bar": 0.6221685162813334,
+          "Strain at 500 bar": null,
+          "Good Fit": 0.0,
+          "Good Fit Score": 38.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 28, \"max\": 30, \"note\": \"NRMSE-score=0.918 (RMSE=0.45, range=5.46)\"}, \"plateau_r2_start\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.958\"}, \"densification_r2\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2=0.961\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 7.0% of elastic range\"}, \"junction_continuity\": {\"pts\": 0, \"max\": 15, \"note\": \"gap=97.4%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.979\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=88.9 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": -5, \"max\": 0, \"note\": \"plateau spans 75% of remaining stress \\u2014 ok | GAM slope drops 50% in early plateau \\u2014 bp1 suspect\"}, \"changepoint_curvature_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"d2_norm=6.66, linear_stretch=37%\"}, \"catastrophic_slope_vs_modulus\": {\"pts\": 0, \"max\": 0, \"note\": \"slope ratio=2.39 \\u2014 plateau slope \\u226595% of elastic\"}, \"_score_final\": {\"pts\": 38, \"max\": 100, \"note\": \"after catastrophic halving\"}}",
+          "Average Standard Deviation": 43.85236707074539,
+          "Toe Region": 0.05185488498603156
+        },
+        "Derivatives_average_fit_postDiscard.png"
+      ],
+      [
+        "average_fit_preDiscard.png",
+        {
+          "name": "17-0add-13deg-cosolv-none-bathSolv-none-0wt-100s-N2-1800s_run5 | preDiscard",
+          "Trial": "run5 | preDiscard",
+          "Thickness": null,
+          "Elastic Modulus": 89.11447673639293,
+          "Yield Strength": 4.488258643545319,
+          "Pore Fraction": 0.5887561139560303,
+          "Pore Fraction Unsubtracted": 0.5887561139560303,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 211.44601012247657,
+          "Slope Densification": 487.2816454731187,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.23281031579633799,
+          "Strain at 80 bar": 0.41256311302194393,
+          "Strain at 150 bar": 0.6331670911983915,
+          "Strain at 500 bar": null,
+          "Good Fit": 0.0,
+          "Good Fit Score": 28.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 28, \"max\": 30, \"note\": \"NRMSE-score=0.925 (RMSE=0.28, range=3.81)\"}, \"plateau_r2_start\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.958\"}, \"densification_r2\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2=0.924\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 4.4% of elastic range\"}, \"junction_continuity\": {\"pts\": 0, \"max\": 15, \"note\": \"gap=117.5%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.974\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=89.1 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": -25, \"max\": 0, \"note\": \"plateau spans 78% of remaining stress \\u2014 elastic peak likely wrong | GAM slope drops 53% in early plateau \\u2014 bp1 suspect\"}, \"changepoint_curvature_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"d2_norm=11.20, linear_stretch=33%\"}, \"catastrophic_slope_vs_modulus\": {\"pts\": 0, \"max\": 0, \"note\": \"slope ratio=2.37 \\u2014 plateau slope \\u226595% of elastic\"}, \"_score_final\": {\"pts\": 28, \"max\": 100, \"note\": \"after catastrophic halving\"}}",
+          "Average Standard Deviation": 43.85236707074539,
+          "Toe Region": 0.03650356978052745
+        },
+        "Derivatives_average_fit_preDiscard.png"
+      ]
+    ]
+  },
+  "18-0add-15deg-cosolv-none-bathSolv-none-0wt-600s-NoN2-1350s_run4": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-10-09",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png",
+      "Segmentation_rep-4.png"
+    ],
+    "comp": [
+      "Comparison_CV.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      "Derivatives_rep-4.png"
+    ],
+    "avg": [
+      [
+        "average_fit_average.png",
+        {
+          "name": "18-0add-15deg-cosolv-none-bathSolv-none-0wt-600s-NoN2-1350s_run4 | average",
+          "Trial": "run4 | average",
+          "Thickness": null,
+          "Elastic Modulus": 418.6218254955725,
+          "Yield Strength": 46.458869344915,
+          "Pore Fraction": 0.3807126821602781,
+          "Pore Fraction Unsubtracted": 0.3807126821602781,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 179.9048418495089,
+          "Slope Densification": 573.733343408406,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.1383305507414488,
+          "Strain at 80 bar": 0.30190229071324226,
+          "Strain at 150 bar": 0.4778095066315774,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 98.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 29, \"max\": 30, \"note\": \"NRMSE-score=0.979 (RMSE=0.93, range=44.14)\"}, \"plateau_r2_start\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.988\"}, \"densification_r2\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2=0.963\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 0.2% of elastic range\"}, \"junction_continuity\": {\"pts\": 15, \"max\": 15, \"note\": \"gap=0.1%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.962\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=418.6 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau spans 44% of remaining stress \\u2014 ok | GAM slope stable in early plateau (drop=31%) \\u2014 ok\"}, \"changepoint_curvature_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"d2_norm=1.00, linear_stretch=30%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.43 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 98, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 43.84695304370718,
+          "Toe Region": 0.0
+        },
+        "Derivatives_average_fit_average.png"
+      ]
+    ]
+  },
+  "17-0add-16deg-cosolv-none-bathSolv-none-0wt-120s-N2-1800s": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-09-25",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png",
+      "Segmentation_rep-4.png"
+    ],
+    "comp": [
+      "Comparison_CV.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      "Derivatives_rep-4.png"
+    ],
+    "avg": [
+      [
+        "average_fit_average.png",
+        {
+          "name": "17-0add-16deg-cosolv-none-bathSolv-none-0wt-120s-N2-1800s | average",
+          "Trial": "17-0add-16deg-cosolv-none-bathSolv-none-0wt-120s-N2-1800s | average",
+          "Thickness": null,
+          "Elastic Modulus": 282.55824605171915,
+          "Yield Strength": 28.36870434523292,
+          "Pore Fraction": 0.5402793723001246,
+          "Pore Fraction Unsubtracted": 0.5402793723001246,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 95.82221943669202,
+          "Slope Densification": 655.9402351329302,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.32806510241598846,
+          "Strain at 80 bar": 0.511468417977163,
+          "Strain at 150 bar": 0.6576345791668363,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 87.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 29, \"max\": 30, \"note\": \"NRMSE-score=0.972 (RMSE=0.73, range=26.00)\"}, \"plateau_r2_start\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.985\"}, \"densification_r2\": {\"pts\": 14, \"max\": 15, \"note\": \"R\\u00b2=0.915\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail overshoots data by 1.1% of elastic range\"}, \"junction_continuity\": {\"pts\": 13, \"max\": 15, \"note\": \"gap=2.1%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.846\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=282.6 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": -5, \"max\": 0, \"note\": \"plateau spans 34% of remaining stress \\u2014 ok | GAM slope drops 52% in early plateau \\u2014 bp1 suspect\"}, \"changepoint_curvature_penalty\": {\"pts\": -4, \"max\": 0, \"note\": \"d2_norm=0.11, linear_stretch=40%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.34 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 87, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 43.84345031815842,
+          "Toe Region": 0.0
+        },
+        "Derivatives_average_fit_average.png"
+      ]
+    ]
+  },
+  "18p5-0add-5deg-cosolv-none-bathSolv-none-0wt-105s-N2-1800s": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-09-16",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png"
+    ],
+    "comp": [
+      "Comparison_CV_postDiscard.png",
+      "Comparison_CV_preDiscard.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      null
+    ],
+    "avg": [
+      [
+        "average_fit_postDiscard.png",
+        {
+          "name": "18p5-0add-5deg-cosolv-none-bathSolv-none-0wt-105s-N2-1800s | postDiscard",
+          "Trial": "18p5-0add-5deg-cosolv-none-bathSolv-none-0wt-105s-N2-1800s | postDiscard",
+          "Thickness": null,
+          "Elastic Modulus": 648.5029977380364,
+          "Yield Strength": 48.53087975459199,
+          "Pore Fraction": 0.35468922396819086,
+          "Pore Fraction Unsubtracted": 0.35468922396819086,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 194.45060385865705,
+          "Slope Densification": 540.9884203934304,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.10660950407267364,
+          "Strain at 80 bar": 0.26070343644062877,
+          "Strain at 150 bar": 0.4479460320270088,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 97.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 28, \"max\": 30, \"note\": \"NRMSE-score=0.938 (RMSE=2.85, range=46.10)\"}, \"plateau_r2_start\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.974\"}, \"densification_r2\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2=0.974\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 1.5% of elastic range\"}, \"junction_continuity\": {\"pts\": 15, \"max\": 15, \"note\": \"gap=0.3%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.985\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=648.5 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau spans 48% of remaining stress \\u2014 ok | GAM slope stable in early plateau (drop=37%) \\u2014 ok\"}, \"changepoint_curvature_penalty\": {\"pts\": -1, \"max\": 0, \"note\": \"d2_norm=0.71, linear_stretch=40%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.30 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 97, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 44.16255951929536,
+          "Toe Region": 0.0301092007154902
+        },
+        "Derivatives_average_fit_postDiscard.png"
+      ],
+      [
+        "average_fit_preDiscard.png",
+        {
+          "name": "18p5-0add-5deg-cosolv-none-bathSolv-none-0wt-105s-N2-1800s | preDiscard",
+          "Trial": "18p5-0add-5deg-cosolv-none-bathSolv-none-0wt-105s-N2-1800s | preDiscard",
+          "Thickness": null,
+          "Elastic Modulus": 603.1623893044969,
+          "Yield Strength": 49.7522236201486,
+          "Pore Fraction": 0.3566669546918127,
+          "Pore Fraction Unsubtracted": 0.3566669546918127,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 205.93273575101094,
+          "Slope Densification": 552.8333033120279,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.106714109563531,
+          "Strain at 80 bar": 0.2511964316692916,
+          "Strain at 150 bar": 0.44152168484377996,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 93.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 29, \"max\": 30, \"note\": \"NRMSE-score=0.954 (RMSE=2.12, range=46.15)\"}, \"plateau_r2_start\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.977\"}, \"densification_r2\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2=0.974\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 0.5% of elastic range\"}, \"junction_continuity\": {\"pts\": 15, \"max\": 15, \"note\": \"gap=0.4%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.987\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=603.2 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": -5, \"max\": 0, \"note\": \"plateau spans 51% of remaining stress \\u2014 ok | GAM slope drops 47% in early plateau \\u2014 bp1 suspect\"}, \"changepoint_curvature_penalty\": {\"pts\": -1, \"max\": 0, \"note\": \"d2_norm=0.75, linear_stretch=40%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.34 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 93, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 44.1390988660539,
+          "Toe Region": 0.028072927014988223
+        },
+        "Derivatives_average_fit_preDiscard.png"
+      ]
+    ]
+  },
+  "17p5-0add-10deg-cosolv-none-bathSolv-none-0wt-15s-N2-1800s": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-09-11",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png",
+      "Segmentation_rep-4.png"
+    ],
+    "comp": [
+      "Comparison_CV.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      "Derivatives_rep-4.png"
+    ],
+    "avg": [
+      [
+        "average_fit_average.png",
+        {
+          "name": "17p5-0add-10deg-cosolv-none-bathSolv-none-0wt-15s-N2-1800s | average",
+          "Trial": "17p5-0add-10deg-cosolv-none-bathSolv-none-0wt-15s-N2-1800s | average",
+          "Thickness": null,
+          "Elastic Modulus": 729.0719297439949,
+          "Yield Strength": 34.54680406258572,
+          "Pore Fraction": 0.2883568452442357,
+          "Pore Fraction Unsubtracted": 0.2883568452442357,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 234.67059094451196,
+          "Slope Densification": 659.2373089234063,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.10365051485921752,
+          "Strain at 80 bar": 0.23867818612159936,
+          "Strain at 150 bar": 0.37163236837834,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 91.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 29, \"max\": 30, \"note\": \"NRMSE-score=0.960 (RMSE=1.36, range=33.82)\"}, \"plateau_r2_start\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.980\"}, \"densification_r2\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2=0.984\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail undershoots data by 1.0% of elastic range\"}, \"junction_continuity\": {\"pts\": 12, \"max\": 15, \"note\": \"gap=3.2%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.992\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=729.1 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": -5, \"max\": 0, \"note\": \"plateau spans 48% of remaining stress \\u2014 ok | GAM slope drops 49% in early plateau \\u2014 bp1 suspect\"}, \"changepoint_curvature_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"d2_norm=2.49, linear_stretch=40%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.32 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 91, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 43.89161123081747,
+          "Toe Region": 0.0
+        },
+        "Derivatives_average_fit_average.png"
+      ]
+    ]
+  },
+  "19-0add-5deg-cosolv-none-bathSolv-none-0wt-0s-N2-1500s": {
+    "prefix": "test-toe-conditional",
+    "run": "run-2026-09-10",
+    "seg": [
+      "Segmentation_rep-1.png",
+      "Segmentation_rep-2.png",
+      "Segmentation_rep-3.png",
+      "Segmentation_rep-4.png"
+    ],
+    "comp": [
+      "Comparison_CV.png",
+      "raw_average_curves.png"
+    ],
+    "preproc": [
+      "Pre-Processing_rep-1.png",
+      "Pre-Processing_rep-2.png",
+      "Pre-Processing_rep-3.png",
+      "Pre-Processing_rep-4.png"
+    ],
+    "deriv": [
+      "Derivatives_rep-1.png",
+      "Derivatives_rep-2.png",
+      "Derivatives_rep-3.png",
+      "Derivatives_rep-4.png"
+    ],
+    "avg": [
+      [
+        "average_fit_average.png",
+        {
+          "name": "19-0add-5deg-cosolv-none-bathSolv-none-0wt-0s-N2-1500s | average",
+          "Trial": "19-0add-5deg-cosolv-none-bathSolv-none-0wt-0s-N2-1500s | average",
+          "Thickness": null,
+          "Elastic Modulus": 713.9415496477973,
+          "Yield Strength": 45.21966795369106,
+          "Pore Fraction": 0.356060250800103,
+          "Pore Fraction Unsubtracted": 0.356060250800103,
+          "Toe Subtracted": 0.0,
+          "Toe Masked": 0.0,
+          "Toe Mask Cutoff": 0.0,
+          "Toe Shift": 0.0,
+          "Toe Shift Policy": "masked_only",
+          "Toe Fit Mode": "legacy",
+          "Slope Plateau": 213.45639762693014,
+          "Slope Densification": 493.6869928320727,
+          "Creep Strain": null,
+          "Strain at 50 bar": 0.09019691062163049,
+          "Strain at 80 bar": 0.23251461877176768,
+          "Strain at 150 bar": 0.4425553895367871,
+          "Strain at 500 bar": null,
+          "Good Fit": 1.0,
+          "Good Fit Score": 98.0,
+          "Good Fit Breakdown": "{\"elastic_r2\": {\"pts\": 29, \"max\": 30, \"note\": \"NRMSE-score=0.957 (RMSE=1.80, range=42.22)\"}, \"plateau_r2_start\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2(first 40%)=0.986\"}, \"densification_r2\": {\"pts\": 15, \"max\": 15, \"note\": \"R\\u00b2=0.982\"}, \"yield_accuracy\": {\"pts\": 25, \"max\": 25, \"note\": \"elastic tail overshoots data by 0.0% of elastic range\"}, \"junction_continuity\": {\"pts\": 15, \"max\": 15, \"note\": \"gap=0.5%\"}, \"plateau_r2_full_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"R\\u00b2(full)=0.995\"}, \"elastic_modulus_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"E=713.9 bar ok\"}, \"bp1_accuracy_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau spans 57% of remaining stress \\u2014 ok | GAM slope stable in early plateau (drop=35%) \\u2014 ok\"}, \"changepoint_curvature_penalty\": {\"pts\": -1, \"max\": 0, \"note\": \"d2_norm=0.89, linear_stretch=50%\"}, \"slope_ratio_penalty\": {\"pts\": 0, \"max\": 0, \"note\": \"plateau/elastic slope ratio=0.30 \\u2014 good separation\"}, \"_score_final\": {\"pts\": 98, \"max\": 100, \"note\": \"no catastrophic applied\"}}",
+          "Average Standard Deviation": 43.93234923058296,
+          "Toe Region": 0.0
+        },
+        "Derivatives_average_fit_average.png"
+      ]
+    ]
+  }
+}

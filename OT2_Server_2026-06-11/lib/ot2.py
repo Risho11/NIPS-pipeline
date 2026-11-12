@@ -71,6 +71,7 @@ conf = {
         }
 
 class OT2:
+    SUPPORTED_STOCK_MODES = ('two_bottle', 'four_bottle', 'polymer_solvent')
     def __init__(self, dict_of_labware = dict_labware, 
                  #position: Position, 
                  heater:bool = False, tip_index = 0, heater_well_index = 0): # maybe add option to customise the pipette later
@@ -424,7 +425,12 @@ class OT2:
         mode = params.get("stock_mode")
         if mode is None:
             mode = "two_bottle" if "polymer_stock_wt_percent" in params else "four_bottle"
-        if mode == "four_bottle":
+        if mode == "polymer_solvent":
+            value = params['polymer_stock_wt_percent']
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not np.isfinite(value) or not 0 < value <= 100:
+                raise ValueError('Invalid polymer stock concentration')
+            self.polymer_stock_wt_percent = value
+        elif mode == "four_bottle":
             self.polymer_stock_pwt = params["polymer_stock_pwt"]
             self.solvents_cswt = params["solvents_cswt"]
             self.all_mix_pwt = params["all_mix_pwt"]
@@ -439,14 +445,18 @@ class OT2:
 
     # return values
     def get_stock_weight_percent(self):
-        if self.stock_mode == "two_bottle":
+        if self.stock_mode in ("two_bottle", "polymer_solvent"):
             return self.polymer_stock_wt_percent
         return self.polymer_stock_pwt
     def get_additive_percent(self):
+        if self.stock_mode == "polymer_solvent":
+            return 0.0
         if self.stock_mode == "two_bottle":
             return self.additive_stock_additive_wt_percent
         return self.solvents_cswt
     def get_additive_polymer_percent(self):
+        if self.stock_mode == "polymer_solvent":
+            return 0.0
         if self.stock_mode == "two_bottle":
             return self.additive_stock_polymer_wt_percent
         return self.all_mix_pwt
@@ -466,7 +476,9 @@ class OT2:
 
     def prepare_membrane_solution(self, total_vol, target_polymer_wt_percent, target_additive_wt_percent, mixing_temp):
         target_recipe = calc.TargetRecipe(total_vol, target_polymer_wt_percent, target_additive_wt_percent)
-        if self.stock_mode == "two_bottle":
+        if self.stock_mode == "polymer_solvent":
+            stock = calc.PolymerSolventStockParameters(self.polymer_stock_wt_percent)
+        elif self.stock_mode == "two_bottle":
             stock = calc.LegacyStockParameters(
                 polymer_stock_wt_percent=self.polymer_stock_wt_percent,
                 additive_stock_polymer_wt_percent=self.additive_stock_polymer_wt_percent,
@@ -483,7 +495,12 @@ class OT2:
         calc.print_result(target_recipe, result)
 
         # Add solvents to the mixing well before polymer-containing solutions.
-        if self.stock_mode == "two_bottle":
+        if self.stock_mode == "polymer_solvent":
+            sources = [
+                ('solvent', 'pure solvent', solvent_slot_no, solvent_well_no, result.solvent_uL, False),
+                ('polymer_stock', 'polymer stock', solution_slot_no, solution_well_no, result.polymer_stock_uL, True),
+            ]
+        elif self.stock_mode == "two_bottle":
             sources = [
                 ("solvent", "pure solvent", solvent_slot_no, solvent_well_no,
                  result.solvent_uL, False),

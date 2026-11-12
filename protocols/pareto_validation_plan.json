@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "sample_repeats": 3,
+  "membrane_tests_per_sample": 2,
+  "zero_tests_per_sample": 2,
+  "compression_test_locations": [
+    "coupon test 2",
+    "coupon test 4"
+  ],
+  "location_basis": "Casting-start side; blade X=215 to 110, coupon yaw -90 to +91; fixed-probe coupon poses X=170.",
+  "batches": [
+    {
+      "batch_id": "psf-water",
+      "material_context": {
+        "polymer_type": "Polysulfone",
+        "solvent_type": "PolarClean",
+        "cosolvent_type": "none",
+        "nips_bath_solvent": "none",
+        "nips_bath_solvent_wt_percent": 0.0
+      },
+      "conditions": [
+        {
+          "validation_id": "V1",
+          "source_condition": "17-0add-13deg-cosolv-none-bathSolv-none-0wt-100s-N2-1800s_run5",
+          "source_campaign": "2026-10-15",
+          "source_params": "data/raw/17-0add-13deg-cosolv-none-bathSolv-none-0wt-100s-N2-1800s_run5/params.json",
+          "source_params_sha256": "9eea23cdae0592f2d446537944a6fd582967d516b0032966e2b7268c964a79c8",
+          "selection_reason": "Repeat-supported modulus anchor",
+          "parameters": {
+            "mixing_temp": 25,
+            "bath_temp": 13,
+            "pullcast_speed": 15.0,
+            "nitrogen": true,
+            "coupon_to_bath_wait_time": 100,
+            "nips_bath_wait_time": 1800,
+            "polymer_wt": 17.0,
+            "additive_wt": 0.0,
+            "polymer_type": "Polysulfone",
+            "solvent_type": "PolarClean",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "none",
+            "nips_bath_solvent_wt_percent": 0.0
+          }
+        },
+        {
+          "validation_id": "V2",
+          "source_condition": "17-0add-16deg-cosolv-none-bathSolv-none-0wt-120s-N2-1800s",
+          "source_campaign": "2026-09-25",
+          "source_params": "data/raw/17-0add-16deg-cosolv-none-bathSolv-none-0wt-120s-N2-1800s/params.json",
+          "source_params_sha256": "9e6cce9fd59f17f6c1e7a8d44fc1b3acbde4487497123634699e93efa5dedbce",
+          "selection_reason": "Promising candidate adding tradeoff coverage",
+          "parameters": {
+            "mixing_temp": 25,
+            "bath_temp": 16,
+            "pullcast_speed": 15.0,
+            "nitrogen": true,
+            "coupon_to_bath_wait_time": 120,
+            "nips_bath_wait_time": 1800,
+            "polymer_wt": 17.0,
+            "additive_wt": 0.0,
+            "polymer_type": "Polysulfone",
+            "solvent_type": "PolarClean",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "none",
+            "nips_bath_solvent_wt_percent": 0.0
+          }
+        },
+        {
+          "validation_id": "V4",
+          "source_condition": "15-0add-9deg-cosolv-none-bathSolv-none-0wt-250s-N2-1600s_run2",
+          "source_campaign": "2026-10-15",
+          "source_params": "data/raw/15-0add-9deg-cosolv-none-bathSolv-none-0wt-250s-N2-1600s_run2/params.json",
+          "source_params_sha256": "c91c141d96678c6526fb2e86c9f2d241a3d0e54847e8346c79de0d41767d34c0",
+          "selection_reason": "Repeat-supported balanced candidate",
+          "parameters": {
+            "mixing_temp": 40,
+            "bath_temp": 9,
+            "pullcast_speed": 6,
+            "nitrogen": true,
+            "coupon_to_bath_wait_time": 250,
+            "nips_bath_wait_time": 1600,
+            "polymer_wt": 15.0,
+            "additive_wt": 0.0,
+            "polymer_type": "Polysulfone",
+            "solvent_type": "PolarClean",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "none",
+            "nips_bath_solvent_wt_percent": 0.0
+          }
+        },
+        {
+          "validation_id": "V5",
+          "source_condition": "14p5-0add-10deg-cosolv-none-bathSolv-none-0wt-200s-N2-1500s_run3",
+          "source_campaign": "2026-10-15",
+          "source_params": "data/raw/14p5-0add-10deg-cosolv-none-bathSolv-none-0wt-200s-N2-1500s_run3/params.json",
+          "source_params_sha256": "2269826fd612a2d603029d2204e1feb2d5cf917dddbb29bec31f3fd1d4ff2bc0",
+          "selection_reason": "Repeat-supported pore-fraction anchor; matched process contrast in bath-solvent content",
+          "parameters": {
+            "mixing_temp": 45,
+            "bath_temp": 10,
+            "pullcast_speed": 7,
+            "nitrogen": true,
+            "coupon_to_bath_wait_time": 200,
+            "nips_bath_wait_time": 1500,
+            "polymer_wt": 14.5,
+            "additive_wt": 0,
+            "polymer_type": "Polysulfone",
+            "solvent_type": "PolarClean",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "none",
+            "nips_bath_solvent_wt_percent": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "batch_id": "psf-bath-10wt",
+      "material_context": {
+        "polymer_type": "Polysulfone",
+        "solvent_type": "PolarClean",
+        "cosolvent_type": "none",
+        "nips_bath_solvent": "PolarClean",
+        "nips_bath_solvent_wt_percent": 10.0
+      },
+      "conditions": [
+        {
+          "validation_id": "V3",
+          "source_condition": "14p5-0add-10deg-cosolv-none-bathSolv-PolarClean-10wt-200s-N2-1500s",
+          "source_campaign": "2026-10-15",
+          "source_params": "data/raw/14p5-0add-10deg-cosolv-none-bathSolv-PolarClean-10wt-200s-N2-1500s/params.json",
+          "source_params_sha256": "9a7caafd1493bdeac15bddebd00307ec7535808d28dbd620161078a412a9f226",
+          "selection_reason": "Promising limited-repeat validation opportunity; matched process contrast in bath-solvent content",
+          "parameters": {
+            "mixing_temp": 45,
+            "bath_temp": 10,
+            "pullcast_speed": 7,
+            "nitrogen": true,
+            "coupon_to_bath_wait_time": 200,
+            "nips_bath_wait_time": 1500,
+            "polymer_wt": 14.5,
+            "additive_wt": 0.0,
+            "polymer_type": "Polysulfone",
+            "solvent_type": "PolarClean",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "PolarClean",
+            "nips_bath_solvent_wt_percent": 10.0
+          }
+        }
+      ]
+    },
+    {
+      "batch_id": "primospire-water",
+      "material_context": {
+        "polymer_type": "Primospire",
+        "solvent_type": "NMP",
+        "cosolvent_type": "none",
+        "nips_bath_solvent": "none",
+        "nips_bath_solvent_wt_percent": 0.0
+      },
+      "conditions": [
+        {
+          "validation_id": "V1",
+          "source_condition": "18-0add-12deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s",
+          "source_campaign": "2026-10-30",
+          "source_params": "data/raw/18-0add-12deg-cosolv-none-bathSolv-none-0wt-90s-N2-1800s/params.json",
+          "source_params_sha256": "7acd3cb4c46ec187aa68656d6848eb7bc8301fba2a358773edad5b0bf354986c",
+          "selection_reason": "Promising candidate adding tradeoff coverage",
+          "parameters": {
+            "mixing_temp": 65,
+            "bath_temp": 12,
+            "pullcast_speed": 10,
+            "nitrogen": true,
+            "coupon_to_bath_wait_time": 90,
+            "nips_bath_wait_time": 1800,
+            "polymer_wt": 18.0,
+            "additive_wt": 0.0,
+            "polymer_type": "Primospire",
+            "solvent_type": "NMP",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "none",
+            "nips_bath_solvent_wt_percent": 0.0
+          }
+        },
+        {
+          "validation_id": "V2",
+          "source_condition": "17p5-0add-10deg-cosolv-none-bathSolv-none-0wt-15s-N2-1800s",
+          "source_campaign": "2026-09-10-exploration-mode",
+          "source_params": "data/raw/17p5-0add-10deg-cosolv-none-bathSolv-none-0wt-15s-N2-1800s/params.json",
+          "source_params_sha256": "95e53f6ea0e052cd72753e8f92ed5fce7983d4c458a9b3e3620b26b1a3f61d9f",
+          "selection_reason": "Repeat-supported balanced candidate",
+          "parameters": {
+            "mixing_temp": 65,
+            "bath_temp": 10,
+            "pullcast_speed": 6,
+            "nitrogen": true,
+            "coupon_to_bath_wait_time": 15,
+            "nips_bath_wait_time": 1800,
+            "polymer_wt": 17.5,
+            "additive_wt": 0.0,
+            "polymer_type": "Primospire",
+            "solvent_type": "NMP",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "none",
+            "nips_bath_solvent_wt_percent": 0.0
+          }
+        },
+        {
+          "validation_id": "V3",
+          "source_condition": "19-0add-5deg-cosolv-none-bathSolv-none-0wt-0s-N2-1500s",
+          "source_campaign": "2026-09-10-exploration-mode",
+          "source_params": "data/raw/19-0add-5deg-cosolv-none-bathSolv-none-0wt-0s-N2-1500s/params.json",
+          "source_params_sha256": "ae1fcc975e0c440c6c50964857e2dfd133fb25252c8643ca4bc964c2dfe6c1c9",
+          "selection_reason": "Repeat-supported modulus anchor",
+          "parameters": {
+            "mixing_temp": 60,
+            "bath_temp": 5,
+            "pullcast_speed": 3,
+            "nitrogen": true,
+            "coupon_to_bath_wait_time": 0,
+            "nips_bath_wait_time": 1500,
+            "polymer_wt": 19.0,
+            "additive_wt": 0.0,
+            "polymer_type": "Primospire",
+            "solvent_type": "NMP",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "none",
+            "nips_bath_solvent_wt_percent": 0.0
+          }
+        },
+        {
+          "validation_id": "V4",
+          "source_condition": "18p5-0add-5deg-cosolv-none-bathSolv-none-0wt-105s-N2-1800s",
+          "source_campaign": "2026-09-10-exploration-mode",
+          "source_params": "data/raw/18p5-0add-5deg-cosolv-none-bathSolv-none-0wt-105s-N2-1800s/params.json",
+          "source_params_sha256": "46a29625f341ca2b677e6de7d5f99bbaa63aeafb862bc09b63796062bacbd763",
+          "selection_reason": "Promising limited-repeat validation opportunity",
+          "parameters": {
+            "mixing_temp": 65,
+            "bath_temp": 5,
+            "pullcast_speed": 11,
+            "nitrogen": true,
+            "coupon_to_bath_wait_time": 105,
+            "nips_bath_wait_time": 1800,
+            "polymer_wt": 18.5,
+            "additive_wt": 0.0,
+            "polymer_type": "Primospire",
+            "solvent_type": "NMP",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "none",
+            "nips_bath_solvent_wt_percent": 0.0
+          }
+        },
+        {
+          "validation_id": "V5",
+          "source_condition": "18-0add-15deg-cosolv-none-bathSolv-none-0wt-600s-NoN2-1350s_run4",
+          "source_campaign": "2026-09-30",
+          "source_params": "data/raw/18-0add-15deg-cosolv-none-bathSolv-none-0wt-600s-NoN2-1350s_run4/params.json",
+          "source_params_sha256": "a2934e76d3ffb94ce83e06832edb18098ebb29d7013ed6cc76be555f9bdcb6b0",
+          "selection_reason": "Repeat-supported pore-fraction anchor",
+          "parameters": {
+            "mixing_temp": 80,
+            "bath_temp": 15,
+            "pullcast_speed": 15,
+            "nitrogen": false,
+            "coupon_to_bath_wait_time": 600,
+            "nips_bath_wait_time": 1350,
+            "polymer_wt": 18.0,
+            "additive_wt": 0.0,
+            "polymer_type": "Primospire",
+            "solvent_type": "NMP",
+            "cosolvent_type": "none",
+            "nips_bath_solvent": "none",
+            "nips_bath_solvent_wt_percent": 0.0
+          }
+        }
+      ]
+    }
+  ]
+}
