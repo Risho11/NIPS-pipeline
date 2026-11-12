@@ -221,6 +221,10 @@ class OT2:
         else:
             z = self.var["positional"]["bot_margin_general"] + bot_adj
 
+        # change the z coordinate while aspirating the solution and solvent
+        if slot_no in (6, 9):
+            z -= 5
+
         self.pipette.aspirate(vol, rate=asp_rate, location=well.bottom(z=z))
         
         if (not for_mixing and lift_after_aspirate):
