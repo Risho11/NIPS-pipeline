@@ -15,6 +15,7 @@ import url as url
 from http.server import HTTPServer
 from pathlib import Path
 from request_server import RequestJournal, make_handler
+from compression_plan import resolve_test_locations, CAPABILITIES
 
 import threading
 
@@ -191,7 +192,7 @@ def load_parameters():
 # ==================================================
 
 # simulation zero tests if compression tester is not working
-def simulate_zero_and_place_coupon():
+def simulate_zero_and_place_coupon(locations=None):
     # acquire locks
     armLock.acquire()
     compressionTesterLock.acquire()
@@ -203,7 +204,7 @@ def simulate_zero_and_place_coupon():
     # take coupon to compression tester
     xArm.prep_coupon_test()
     # move coupon to the test points, and then run the zero tests (3 tests where the membrane will be)
-    for test in tests:
+    for test in (tests if locations is None else locations):
         xArm.put_down(test)
         xArm.pick_up(test)
 
@@ -219,7 +220,7 @@ def simulate_zero_and_place_coupon():
     armLock.release()
 
 # perform zero tests on coupon
-def zero_and_place_coupon():
+def zero_and_place_coupon(locations=None):
     if globals()["opentrons_stand_status"] != "empty":
         print("Opentrons coupon platform should be empty before grabbing a new coupon. Unsure what to do, exiting.")
         sys.exit()
@@ -235,7 +236,7 @@ def zero_and_place_coupon():
             xArm.put_down("coupon angled tester", pitch = False)
 
             # run compression test
-            run_compression_tests()
+            run_compression_tests(locations)
 
             # move coupon to opentrons
             xArm.pick_up("coupon angled tester")         
@@ -250,7 +251,7 @@ def zero_and_place_coupon():
         armLock.release()
 
 # do the compression tests
-def run_compression_tests():
+def run_compression_tests(locations=None):
     # assume coupon is on tester coupon stand
     # assume armLock is already acquired 
 
@@ -262,7 +263,7 @@ def run_compression_tests():
             safe = True
             recent = True
 
-            for test in tests:
+            for test in (tests if locations is None else locations):
                 if safe and recent:
                     xArm.put_down(test)
                     armLock.release() # nothing here needs a deadline anymore so we're free to release the arm
@@ -334,6 +335,9 @@ def run_test(param = None):
             parameters = json.load(file)
     else:
         parameters = param
+    # One immutable row is shared by this sample's blank and membrane phases.
+    # Missing field preserves the historical four-location protocol.
+    run_locations = resolve_test_locations(parameters.get("compression_test_locations"))
     load_parameters()
     
     # check for errors
@@ -376,10 +380,10 @@ def run_test(param = None):
 
     # Background task 2: take a clean coupon, run the three zero tests on it, then place it into the opentrons
     if simulate_compression_tests:
-        place_coupon_process = threading.Thread(target = simulate_zero_and_place_coupon)
+        place_coupon_process = threading.Thread(target = simulate_zero_and_place_coupon, args=(run_locations,))
         print("Simulating zero tests.")
     else:
-        place_coupon_process = threading.Thread(target = zero_and_place_coupon)
+        place_coupon_process = threading.Thread(target = zero_and_place_coupon, args=(run_locations,))
     place_coupon_process.start()
     print("Beginning zero tests on coupons.")
     
@@ -536,7 +540,7 @@ def run_test(param = None):
         xArm.prep_coupon_test()
             
         print("Simulating compression tests.")
-        for test in tests:
+        for test in run_locations:
             xArm.put_down(test)
             xArm.pick_up(test)
 
@@ -546,7 +550,7 @@ def run_test(param = None):
             
     # perform real compression tests
     else:                
-        run_compression_tests()
+        run_compression_tests(run_locations)
 
     # ====================================================================================================
     # SECTION: Final Picture
@@ -613,7 +617,8 @@ def run_test(param = None):
 # set up server, class definition at top of the document
 if __name__ == '__main__':
     journal = RequestJournal(Path(__file__).resolve().with_name("request_journal.json"))
-    server = HTTPServer(("169.254.46.48", 8000), make_handler(journal, run_test))
+    server = HTTPServer(("169.254.46.48", 8000), make_handler(journal, run_test,
+                        health_details={**CAPABILITIES, 'stock_modes': list(OT2.SUPPORTED_STOCK_MODES)}))
     print("Ready to begin experiments.")
     server.serve_forever()
 

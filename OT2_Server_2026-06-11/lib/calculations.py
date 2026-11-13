@@ -1,5 +1,24 @@
 """Mass-balance calculations for both supported membrane stock layouts."""
 from dataclasses import dataclass
+import math
+
+
+@dataclass
+class PolymerSolventStockParameters:
+    polymer_stock_wt_percent: float
+    # Retain the existing calculator's density assumptions; these are not new measurements.
+    polymer_stock_density: float = 1.10
+    solvent_density: float = 1.028
+
+
+@dataclass
+class PolymerSolventMixingResult:
+    polymer_stock_uL: float
+    solvent_uL: float
+    total_volume_uL: float
+    final_polymer_wt_percent: float
+    final_additive_wt_percent: float
+    final_solvent_wt_percent: float
 
 
 @dataclass
@@ -91,9 +110,32 @@ def check_final_composition(vp, vc, va, vs, stocks):
 
 
 def calculate_mix(recipe, stocks, round_to_uL=True, min_volume_tolerance_uL=1e-6):
+    if isinstance(stocks, PolymerSolventStockParameters):
+        return _calculate_mix_polymer_solvent(recipe, stocks, round_to_uL)
     if isinstance(stocks, LegacyStockParameters):
         return _calculate_mix_legacy(recipe, stocks, round_to_uL, min_volume_tolerance_uL)
     return _calculate_mix_four_bottle(recipe, stocks, round_to_uL, min_volume_tolerance_uL)
+
+
+def _calculate_mix_polymer_solvent(recipe, stocks, round_to_uL):
+    values = [recipe.total_volume_uL, recipe.target_polymer_wt_percent,
+              recipe.target_additive_wt_percent, stocks.polymer_stock_wt_percent,
+              stocks.polymer_stock_density, stocks.solvent_density]
+    if not all(math.isfinite(value) for value in values):
+        raise ValueError('Recipe and stock values must be finite')
+    if recipe.target_additive_wt_percent != 0:
+        raise ValueError('Polymer/solvent-only mode has no additive source')
+    target, stock = recipe.target_polymer_wt_percent / 100, stocks.polymer_stock_wt_percent / 100
+    volume, rho_p, rho_s = recipe.total_volume_uL, stocks.polymer_stock_density, stocks.solvent_density
+    if volume <= 0 or not 0 < stock <= 1 or not 0 <= target <= stock or min(rho_p, rho_s) <= 0:
+        raise ValueError('Invalid or infeasible polymer/solvent recipe')
+    vp = volume * target * rho_s / ((stock - target) * rho_p + target * rho_s)
+    if round_to_uL:
+        vp = round(vp)
+    vs = volume - vp
+    total_mass = vp * rho_p + vs * rho_s
+    final_polymer = 100 * stock * vp * rho_p / total_mass
+    return PolymerSolventMixingResult(vp, vs, volume, final_polymer, 0., 100 - final_polymer)
 
 
 def _calculate_mix_legacy(recipe, stocks, round_to_uL=True, min_volume_tolerance_uL=1e-6):
@@ -196,7 +238,9 @@ def calculate_batch(recipe, stocks, round_to_uL=True):
 def print_result(recipe, result):
     print("Target: {:.4g} wt% polymer, {:.4g} wt% additive, {:.2f} uL".format(
         recipe.target_polymer_wt_percent, recipe.target_additive_wt_percent, recipe.total_volume_uL))
-    if isinstance(result, LegacyMixingResult):
+    if isinstance(result, PolymerSolventMixingResult):
+        print('Volumes (uL): polymer={:.2f}, solvent={:.2f}'.format(result.polymer_stock_uL, result.solvent_uL))
+    elif isinstance(result, LegacyMixingResult):
         print("Volumes (uL): polymer={:.2f}, polymer-additive={:.2f}, solvent={:.2f}".format(
             result.normal_polymer_stock_uL, result.polymer_additive_stock_uL, result.solvent_uL))
     else:
