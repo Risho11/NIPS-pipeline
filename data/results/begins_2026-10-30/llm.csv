@@ -5950,3 +5950,921 @@ I'll target **polymer_wt = 19.5, bath_temp = 5°C, pullcast_speed = 7 mm/s, coup
   ""additive_wt"": 0
 }
 ```",False,0.3730669889982041,0.0374484336930112,legacy,masked_only
+"2026-11-12
+15:48:15",19p5-0add-5deg-cosolv-none-bathSolv-none-0wt-60s-N2-1600s_run2,60,5,19.5,0.0,7,True,60,1600,Primospire,NMP,none,none,0.0,"mixing_temp=60; bath_temp=5; polymer_wt=19.5; additive_wt=0; pullcast_speed=7; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1600; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.98 [room air temperature during casting]; Humidity Mean=19.3 [room air humidity during casting]; Coupon Temp Mean=25.58 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=11.65 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A Primospire polymer solution was prepared at a concentration of **19.5 wt%** in **N-methyl-2-pyrrolidone (NMP)** as the base casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0 wt%). The polymer solution was mixed and heated at **60 °C** prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the coupon stage at a casting speed of **7 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **25.98 °C** and a mean relative humidity of **19.3%**.
+
+## Pre-Immersion Drying Step
+
+Following blade casting, the film was subjected to a **dry nitrogen (N₂) purge** for a duration of **60 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture exposure at the film surface during the evaporation interval. During this period, the coupon-stage temperature was measured at a mean of **25.58 °C**, with a mean relative humidity at the coupon stage of **11.65%**, confirming effective humidity suppression relative to ambient conditions.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the 60-second nitrogen purge, the cast film was immersed into a **pure water NIPS bath** (no co-solvent added; 0.0 wt% solvent) maintained at **5 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1600 seconds** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 19.5 wt% |
+| Additive concentration | 0 wt% |
+| Mixing temperature | 60 °C |
+| Casting speed | 7 mm/s |
+| Pre-immersion treatment | Dry N₂ purge |
+| Pre-immersion wait time | 60 s |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 5 °C |
+| NIPS immersion time | 1600 s |
+| Ambient air temperature | 25.98 °C |
+| Ambient relative humidity | 19.3% |
+| Coupon-stage temperature (during N₂) | 25.58 °C |
+| Coupon-stage humidity (during N₂) | 11.65% |",25.98,19.3,25.58,11.65,99.59478556758656,54.04694803752355,797.6772433979904,0.0,66.07665557911525,0.0,0.1135300774756561,0.0,253.61057325968952,0.0,316.7265622284327,0.0,0.098739885302962,0.0,0.3304331233851801,0.2593195668748905,0.2928233589138762,0.0,,,,,,33.5,"1 failed due to yield point (bp1) likely misplaced; 1 failed due to insufficient data to fit; 1 failed due to plateau slope >= elastic modulus, no real transition","mixing_temp=60; bath_temp=5; polymer_wt=19.5; additive_wt=0; pullcast_speed=7; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1600; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.98 [room air temperature during casting]; Humidity Mean=19.3 [room air humidity during casting]; Coupon Temp Mean=25.58 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=11.65 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 25.98, ""Humidity Mean"": 19.3, ""Coupon Temp Mean"": 25.58, ""Coupon Humidity Mean"": 11.65, ""Thickness Mean"": 99.59478556758657, ""Thickness SD"": 54.04694803752355, ""Elastic Modulus Mean"": 797.6772433979904, ""Elastic Modulus SD"": 0.0, ""Yield Strength Mean"": 66.07665557911525, ""Yield Strength SD"": 0.0, ""Pore Fraction Mean"": 0.11353007747565616, ""Pore Fraction SD"": 0.0, ""Slope Plateau Mean"": 253.61057325968952, ""Slope Plateau SD"": 0.0, ""Slope Densification Mean"": 316.7265622284327, ""Slope Densification SD"": 0.0, ""Creep Strain Mean"": 0.09873988530296207, ""Creep Strain SD"": 0.0, ""Strain at 50 bar Mean"": 0.3304331233851801, ""Strain at 50 bar SD"": 0.2593195668748905, ""Strain at 80 bar Mean"": 0.29282335891387623, ""Strain at 80 bar SD"": 0.0, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '33.5/100', 'Discarded Fit Reasons': '1 failed due to yield point (bp1) likely misplaced; 1 failed due to insufficient data to fit; 1 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A Primospire polymer solution was prepared at a concentration of **19.5 wt%** in **N-methyl-2-pyrrolidone (NMP)** as the base casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0 wt%). The polymer solution was mixed and heated at **60 °C** prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the coupon stage at a casting speed of **7 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **25.98 °C** and a mean relative humidity of **19.3%**.
+
+## Pre-Immersion Drying Step
+
+Following blade casting, the film was subjected to a **dry nitrogen (N₂) purge** for a duration of **60 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture exposure at the film surface during the evaporation interval. During this period, the coupon-stage temperature was measured at a mean of **25.58 °C**, with a mean relative humidity at the coupon stage of **11.65%**, confirming effective humidity suppression relative to ambient conditions.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the 60-second nitrogen purge, the cast film was immersed into a **pure water NIPS bath** (no co-solvent added; 0.0 wt% solvent) maintained at **5 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1600 seconds** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 19.5 wt% |
+| Additive concentration | 0 wt% |
+| Mixing temperature | 60 °C |
+| Casting speed | 7 mm/s |
+| Pre-immersion treatment | Dry N₂ purge |
+| Pre-immersion wait time | 60 s |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 5 °C |
+| NIPS immersion time | 1600 s |
+| Ambient air temperature | 25.98 °C |
+| Ambient relative humidity | 19.3% |
+| Coupon-stage temperature (during N₂) | 25.58 °C |
+| Coupon-stage humidity (during N₂) | 11.65% |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 25.98, ""Humidity Mean"": 19.3, ""Coupon Temp Mean"": 25.58, ""Coupon Humidity Mean"": 11.65, ""Thickness Mean"": 99.59478556758657, ""Thickness SD"": 54.04694803752355, ""Elastic Modulus Mean"": 797.6772433979904, ""Elastic Modulus SD"": 0.0, ""Yield Strength Mean"": 66.07665557911525, ""Yield Strength SD"": 0.0, ""Pore Fraction Mean"": 0.11353007747565616, ""Pore Fraction SD"": 0.0, ""Slope Plateau Mean"": 253.61057325968952, ""Slope Plateau SD"": 0.0, ""Slope Densification Mean"": 316.7265622284327, ""Slope Densification SD"": 0.0, ""Creep Strain Mean"": 0.09873988530296207, ""Creep Strain SD"": 0.0, ""Strain at 50 bar Mean"": 0.3304331233851801, ""Strain at 50 bar SD"": 0.2593195668748905, ""Strain at 80 bar Mean"": 0.29282335891387623, ""Strain at 80 bar SD"": 0.0, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '33.5/100', 'Discarded Fit Reasons': '1 failed due to yield point (bp1) likely misplaced; 1 failed due to insufficient data to fit; 1 failed due to plateau slope >= elastic modulus, no real transition'","- **Presence:** Membrane is visible — a pale white/grey coupon is present within the aperture.
+
+- **Vertical Coverage:** Significant gap at the top edge; the membrane does not reach the top of the aperture. The bottom edge appears marginally covered but the top deficit is a clear vertical coverage defect.
+
+- **Uniformity:** The membrane appears relatively uniform in opacity/color across its visible surface area.
+
+- **Defects:** The membrane material shows a distinct longitudinal crease/fold running along its length — this is a genuine wrinkle within the membrane sheet itself, not a lighting artifact.
+
+- **Summary:** The coupon exhibits a critical vertical coverage gap at the top of the aperture and a visible longitudinal wrinkle within the membrane material.",2026-11-12 13:07:56,specimen_filename,"I'll analyze the data systematically to identify the Pareto frontier and recommend the next experiment.
+
+## Data Analysis
+
+### Pareto-Front Candidates (both objectives measured, quality acceptable)
+
+Filtering for experiments with both Elastic Modulus and Pore Fraction measured:
+
+| Condition | Modulus (bar) | Pore Fraction | Quality Notes |
+|---|---|---|---|
+| 19p5-25deg-130s-NoN2-1550s_run4 | 776 | 0.23 | minor wrinkle |
+| 17p5-5deg-550s-N2-1450s | 913 | 0.27 | top gap (placement) |
+| 17p5-18deg-75s-N2-1800s_run1 | 937 | 0.27 | minor wrinkle |
+| 17p5-20deg-90s-N2-1250s_run2 | 961 | 0.27 | clean |
+| 17p5-19deg-90s-N2-1800s | 860 | 0.27 | wrinkle |
+| 19-10deg-90s-N2-1800s | 1016 | 0.26 | bottom gap, wrinkles |
+| 18-12deg-90s-N2-1800s_run3 | 676 | 0.27 | top gap, wrinkles |
+| 17p5-13deg-90s-N2-1800s | 715 | 0.28 | wrinkles |
+| 19-5deg-0s-N2-1500s_run4 | 890 | 0.29 | minor wrinkles |
+| 18-0add-15deg-600s-NoN2-1350s (run3) | 385 | 0.41 | minor wrinkles |
+| 17p5-19deg-90s-N2-1800s_run4 | 330 | 0.44 | clean image |
+| 17p5-15deg-200s-NoN2-1800s | 341 | 0.38 | clean |
+| 17p5-15deg-400s-NoN2-1800s | 400 | 0.40 | minor fold |
+
+### Pareto Front Assessment
+
+The two-objective Pareto front (maximize both modulus AND pore fraction) is sparse and uncertain:
+
+- **High modulus / low pore fraction**: ~900–1016 bar at PF ~0.26–0.29 (e.g., 17p5-20deg-90s run2 at 961/0.27; 19-10deg-90s at 1016/0.26)
+- **Moderate modulus / higher pore fraction**: ~385–520 bar at PF ~0.37–0.44 (e.g., 18-15deg-600s-NoN2 runs at ~385–470 bar / 0.37–0.41; 17p5-19deg run4 at 330/0.44)
+- **The gap**: No experiment has simultaneously high modulus (>600 bar) AND high pore fraction (>0.35). This is the key unexplored region.
+
+### Key Observations
+
+1. **High pore fraction** (0.37–0.44) is achieved with: lower bath temps (5–15°C), no nitrogen, longer wait times, lower polymer wt (17–18%), and conditions like 18wt%/15°C/600s/NoN2 or 17.5wt%/15°C/200–400s/NoN2.
+
+2. **High modulus** (>700 bar) is achieved with: 17–19.5 wt% polymer, bath temps 10–20°C, N2, moderate wait times.
+
+3. **The 17p5-19deg-90s-N2-1800s_run4** (PF=0.44, modulus=331) is a single-specimen result with SD=0 (only 1 fit retained), very high CV, and a severely misloaded coupon (run6 showed 64 bar modulus). This is unreliable.
+
+4. **18-15deg-600s-NoN2-1350s** runs (runs 1–5) show PF ~0.36–0.41 with modulus ~340–470 bar. This is a reproducible high-pore-fraction region but with low modulus.
+
+5. **The 17p5-15deg-200s-NoN2-1800s** (PF=0.38, modulus=341) and **17p5-15deg-400s-NoN2-1800s** (PF=0.40, modulus=400) suggest that NoN2 + bath_temp=15 + polymer_wt=17.5 gives high pore fraction. The modulus is low (~340–400 bar).
+
+### Strategy
+
+The Pareto frontier has a clear gap: no experiment achieves both modulus >600 bar AND pore fraction >0.35. The high-pore-fraction region (NoN2, bath_temp ~15°C, polymer_wt ~17.5–18) consistently gives low modulus. The high-modulus region (N2, bath_temp ~18–20°C, polymer_wt ~17.5) gives low pore fraction (~0.26–0.30).
+
+**Hypothesis to test**: Can we get higher pore fraction while maintaining moderate-to-high modulus by using an intermediate bath temperature (~12–13°C) with N2 and polymer_wt ~17.5, with a moderate wait time? The 17p5-13deg-90s-N2-1800s experiment gave modulus=715, PF=0.28 — good modulus but still low PF. 
+
+Alternatively, can we push pore fraction higher in the N2 regime by using a slightly warmer bath (15°C) with polymer_wt=17.5 and N2, with a short wait time? The 17p5-15deg-60s-N2-1800s runs gave PF=0.24–0.27 with modulus ~489–572 — not better.
+
+**Better approach**: The NoN2 + longer wait time + bath_temp ~15°C gives high PF. What if we increase polymer_wt slightly (to ~18.5–19 wt%) in this regime? Higher polymer concentration should increase modulus while the NoN2/longer-wait mechanism still promotes higher pore fraction. This is an **unexplored combination**: polymer_wt ~18.5–19, bath_temp ~15°C, NoN2, moderate wait time (~150–200s), N2=false.
+
+The closest tested: 18-15deg-300s-NoN2-1800s (modulus=499, PF=0.33) — decent but not a Pareto improvement. 18.5-15deg-200s-NoN2-1800s gave modulus=734, PF=0.30 — higher modulus but PF dropped.
+
+Let me reconsider. The 18.5wt%/15°C/200s/NoN2 gave 734 bar / 0.30 PF (single fit, SD=0). That's interesting — higher polymer wt with NoN2 and moderate wait. What about polymer_wt=18.5, bath_temp=15, NoN2, but with a shorter wait (~75–100s) to see if PF can be pushed higher while keeping modulus elevated?
+
+Actually, looking more carefully: **17p5-15deg-100s-NoN2-1800s** gave PF=0.37, modulus=521 — this is a promising point. And **17p5-15deg-200s-NoN2-1800s** gave PF=0.38, modulus=341. So shorter wait → higher modulus, longer wait → higher PF in this regime.
+
+The **18.5wt%/15°C/NoN2** regime at ~200s gave 734/0.30. What about 18.5wt% with a longer wait (~300–400s) to push PF higher while the higher polymer wt maintains modulus? This is unexplored.
+
+**Recommended experiment**: polymer_wt=18.5, bath_temp=15, nitrogen=false, coupon_to_bath_wait_time=300s, mixing_temp=65, pullcast_speed=10, nips_bath_wait_time=1800. This explores whether higher polymer concentration can maintain modulus while the longer NoN2 wait time pushes pore fraction higher — targeting a potential Pareto improvement over the 18.5/200s/NoN2 point (734/0.30) by trading some modulus for higher PF, or over the 17.5/200s/NoN2 point (341/0.38) by gaining modulus.
+
+```json
+{
+  ""mixing_temp"": 65,
+  ""bath_temp"": 15,
+  ""pullcast_speed"": 10,
+  ""nitrogen"": false,
+  ""coupon_to_bath_wait_time"": 300,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 18.5,
+  ""additive_wt"": 0
+}
+```",True,0.2680694228015627,0.0,legacy,masked_only
+"2026-11-12
+18:58:25",18p5-0add-15deg-cosolv-none-bathSolv-none-0wt-300s-NoN2-1800s,65,15,18.5,0.0,10,False,300,1800,Primospire,NMP,none,none,0.0,"mixing_temp=65; bath_temp=15; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=300; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Materials
+
+A polymer dope solution was prepared using **Primospire** as the membrane-forming polymer at a concentration of **18.5 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0.0 wt%). The non-solvent precipitation bath consisted of **pure water** (no solvent additive; 0.0 wt% solvent content).
+
+## Dope Preparation
+
+The polymer solution was mixed and heated at **65 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer dope was blade-cast onto the substrate using the automated robotic system at a casting speed of **10 mm/s**. Following casting, the coupon was held in **ambient (open-air) conditions** — without nitrogen purge — for a **300-second (5-minute)** evaporation/wait period prior to immersion in the precipitation bath. Environmental conditions (ambient air temperature, relative humidity, and coupon-stage temperature and humidity) were **not recorded** during this campaign.
+
+## Phase Inversion (NIPS)
+
+After the evaporation period, the cast film was immersed into the non-solvent bath, which consisted of **pure water** maintained at **15 °C**. The membrane was allowed to precipitate and solidify in the bath for **1800 seconds (30 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 18.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 65 °C |
+| Casting speed | 10 mm/s |
+| Pre-immersion wait time | 300 s (ambient, no N₂) |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 15 °C |
+| NIPS bath immersion time | 1800 s |",,,,,-93.88389584218382,83.11593467763045,,,,,,,,,,,,,,,,,,,,,,,4 failed due to insufficient data to fit,"mixing_temp=65; bath_temp=15; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=10; nitrogen=False; coupon_to_bath_wait_time=300; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": -93.88389584218382, ""Thickness SD"": 83.11593467763045, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": null, ""Strain at 50 bar SD"": null, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Reasons': '4 failed due to insufficient data to fit'","# Experimental Report: Automated NIPS Membrane Synthesis
+
+## Materials
+
+A polymer dope solution was prepared using **Primospire** as the membrane-forming polymer at a concentration of **18.5 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0.0 wt%). The non-solvent precipitation bath consisted of **pure water** (no solvent additive; 0.0 wt% solvent content).
+
+## Dope Preparation
+
+The polymer solution was mixed and heated at **65 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer dope was blade-cast onto the substrate using the automated robotic system at a casting speed of **10 mm/s**. Following casting, the coupon was held in **ambient (open-air) conditions** — without nitrogen purge — for a **300-second (5-minute)** evaporation/wait period prior to immersion in the precipitation bath. Environmental conditions (ambient air temperature, relative humidity, and coupon-stage temperature and humidity) were **not recorded** during this campaign.
+
+## Phase Inversion (NIPS)
+
+After the evaporation period, the cast film was immersed into the non-solvent bath, which consisted of **pure water** maintained at **15 °C**. The membrane was allowed to precipitate and solidify in the bath for **1800 seconds (30 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 18.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 65 °C |
+| Casting speed | 10 mm/s |
+| Pre-immersion wait time | 300 s (ambient, no N₂) |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 15 °C |
+| NIPS bath immersion time | 1800 s |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": -93.88389584218382, ""Thickness SD"": 83.11593467763045, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": null, ""Strain at 50 bar SD"": null, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Reasons': '4 failed due to insufficient data to fit'","- **Presence:** Membrane is visible — a pale white/grey coupon is present within the aperture.
+
+- **Vertical Coverage:** The membrane spans the full top-to-bottom extent of the aperture with no gaps at the top or bottom edges. ✓
+
+- **Uniformity:** Mostly uniform in the right portion; the left-center region shows a distinct raised, glossy, dome-shaped area with altered opacity, indicating non-uniform thickness or pooling.
+
+- **Defects:** A prominent raised blister/bubble is present within the membrane material itself on the left-center, with a clearly defined outline and specular highlight — this is a trapped air bubble or delamination within the membrane, not a lighting artifact.
+
+- **Summary:** Membrane has adequate vertical coverage but contains a significant trapped air bubble/blister defect in the left-center region.",2026-11-12 16:11:51,specimen_filename,"## Analysis
+
+### Pareto Front Assessment
+
+Let me identify the non-dominated candidates (both objectives measured, quality acceptable):
+
+| Condition | Modulus (bar) | Pore Fraction | Quality Notes |
+|---|---|---|---|
+| 19-0add-5deg-0s-N2-1500s (run1) | 767.83 | 0.34 | Good |
+| 20-0add-5deg-150s-N2-1650s (run1) | 755.94 | 0.34 | Good |
+| 17p5-0add-5deg-550s-N2-1450s | 912.84 | 0.27 | Top gap defect |
+| 17p5-0add-19deg-90s-N2-1800s (run1) | 860.49 | 0.27 | Wrinkle |
+| 17p5-0add-18deg-75s-N2-1800s (run1) | 936.59 | 0.27 | Minor wrinkle |
+| 17p5-0add-20deg-90s-N2-1250s (run2) | 960.52 | 0.27 | Good |
+| 19-0add-5deg-0s-N2-1500s (run4) | 890.19 | 0.29 | Minor wrinkles |
+| 19-0add-5deg-0s-N2-1500s (run3) | 614.09 | 0.32 | Wrinkles |
+| 18-0add-15deg-600s-NoN2-1350s (run3) | 385.22 | 0.41 | Minor wrinkles |
+| 18-0add-15deg-600s-NoN2-1350s (run5) | 468.62 | 0.39 | Wrinkles |
+| 17p5-0add-19deg-90s-N2-1800s (run4) | 330.99 | 0.44 | Good quality |
+| 17p5-0add-15deg-200s-NoN2-1800s | 340.70 | 0.38 | Good quality |
+| 17p5-0add-15deg-400s-NoN2-1800s | 400.47 | 0.40 | Minor fold |
+
+**Approximate Pareto front** (non-dominated in modulus × pore fraction):
+- High modulus / lower pore fraction: ~960 bar / 0.27 (run2 of 17p5-20deg-90s-N2-1250s)
+- Balanced: ~767 bar / 0.34 (19wt-5deg-0s-N2-1500s run1), ~614 bar / 0.32 (run3)
+- High pore fraction / lower modulus: ~330 bar / 0.44 (17p5-19deg-90s-N2-1800s run4)
+
+The key gap in the Pareto front is the **intermediate region**: ~500–700 bar modulus combined with pore fraction ≥ 0.36–0.40. No confirmed, clean experiment occupies this space.
+
+### Validation Status Check
+
+- **17p5-0add-20deg-90s-N2-1250s (run2)**: 960 bar / 0.27 — very high modulus but low pore fraction; run3 gave only 385 bar / 0.33 — large discrepancy, high CV, not reproducible. This candidate is **not confirmed**.
+- **17p5-0add-19deg-90s-N2-1800s (run1)**: 860 bar / 0.27 — run2 gave 553 bar / 0.29, run3 gave 519 bar / 0.36, run4 gave 331 bar / 0.44 — highly variable, not confirmed.
+- **19-0add-5deg-0s-N2-1500s (run1)**: 768 bar / 0.34 — run3 gave 614 bar / 0.32, run4 gave 890 bar / 0.29 — variable, not confirmed.
+
+### Strategy
+
+The Pareto front has a clear gap: **moderate-to-high modulus (600–800 bar) with moderate-to-high pore fraction (0.35–0.42)**. The 18-0add-15deg-600s-NoN2-1350s series achieves high pore fraction (0.37–0.41) but low modulus (~340–470 bar). The 19wt-5deg series achieves moderate pore fraction (0.29–0.34) with moderate-high modulus.
+
+A promising unexplored region: **polymer_wt ~18–18.5, bath_temp ~5–8°C, moderate wait time ~60–120s, N2=true**. Cold bath promotes rapid phase separation (higher pore fraction tendency), while higher polymer concentration supports modulus. The 18wt-5deg region has been explored with high pullcast speeds and long waits but not with the clean conditions (mixing_temp=65, bath_temp=5–7, wait ~75–90s, N2=true, pullcast ~10) that have worked well for 17–17.5wt.
+
+Specifically: **polymer_wt=18.5, bath_temp=7°C, coupon_to_bath_wait_time=75s, N2=true, mixing_temp=65, pullcast_speed=10, nips_bath_wait_time=1800** is a new point. Bath temp 7°C is between the 5°C and 8°C explored points, with 18.5wt (higher than the 17–17.5wt cold-bath experiments). This could yield higher modulus from the polymer concentration while the cold bath promotes porosity. This combination has not been tried.
+
+```json
+{
+  ""mixing_temp"": 65,
+  ""bath_temp"": 7,
+  ""pullcast_speed"": 10,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 75,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 18.5,
+  ""additive_wt"": 0
+}
+```
+
+**Rationale:** This experiment targets the Pareto gap between high-modulus/low-pore-fraction and low-modulus/high-pore-fraction regimes. Using polymer_wt=18.5 (higher than the 17–17.5wt cold-bath experiments) should support higher elastic modulus via increased polymer density, while bath_temp=7°C (colder than the 8–10°C explored range for 17–18wt) promotes faster phase separation and potentially higher pore fraction. The mixing_temp=65, pullcast_speed=10, wait=75s, N2=true conditions mirror the clean-membrane protocol that has produced reliable results. Bath temp 7°C is a new point between the sampled 5°C and 8°C values, providing useful interpolation data. If successful, this could demonstrate simultaneous improvement in both objectives relative to the current 18.5wt experiments (which used bath_temp=5–14°C with mixed results).",False,,,legacy,masked_only
+"2026-11-12
+22:36:20",18p5-0add-7deg-cosolv-none-bathSolv-none-0wt-75s-N2-1800s,65,7,18.5,0.0,10,True,75,1800,Primospire,NMP,none,none,0.0,"mixing_temp=65; bath_temp=7; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=75; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.94 [room air temperature during casting]; Humidity Mean=17.12 [room air humidity during casting]; Coupon Temp Mean=25.57 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=10.71 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A casting solution was prepared using **Primospire** as the polymer at a concentration of **18.5 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary solvent. No cosolvent or additive was incorporated (additive loading: 0.0 wt%). The solution was mixed and heated at **65 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **10 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **25.94 °C** and a mean relative humidity of **17.12%**.
+
+## Pre-Immersion Conditioning
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a duration of **75 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the pre-immersion period. Under these conditions, the coupon-stage temperature was measured at a mean of **25.57 °C** and the local relative humidity at the coupon stage was reduced to a mean of **10.71%**, confirming effective humidity suppression by the nitrogen flow.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion conditioning period, the cast film was immersed into a **pure deionized water** NIPS bath (no co-solvent added; bath solvent concentration: 0.0 wt%) maintained at **7 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1800 seconds (30 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 18.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 65 °C |
+| Casting speed | 10 mm/s |
+| Pre-immersion conditioning | N₂ purge, 75 s |
+| NIPS bath composition | Pure water (0.0 wt% solvent) |
+| NIPS bath temperature | 7 °C |
+| NIPS immersion time | 1800 s |
+| Ambient air temperature | 25.94 °C |
+| Ambient relative humidity | 17.12% |
+| Coupon-stage temperature (N₂ window) | 25.57 °C |
+| Coupon-stage humidity (N₂ window) | 10.71% |",25.94,17.12,25.57,10.71,144.49603061813758,4.711835399292774,421.3446763405802,0.0,65.42792314101301,0.0,0.3334706138801623,0.0,210.08877604582625,0.0,352.7896615547397,0.0,0.1131387394619959,0.0,0.2067077757499062,0.0999575423083708,0.2503024216729762,0.0,,,,,,28.666666666666668,"1 failed due to poor plateau fit (early); 1 failed due to plateau/elastic slopes too similar; 1 failed due to plateau slope >= elastic modulus, no real transition","mixing_temp=65; bath_temp=7; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=75; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.94 [room air temperature during casting]; Humidity Mean=17.12 [room air humidity during casting]; Coupon Temp Mean=25.57 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=10.71 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 25.94, ""Humidity Mean"": 17.12, ""Coupon Temp Mean"": 25.57, ""Coupon Humidity Mean"": 10.71, ""Thickness Mean"": 144.49603061813758, ""Thickness SD"": 4.711835399292774, ""Elastic Modulus Mean"": 421.34467634058024, ""Elastic Modulus SD"": 0.0, ""Yield Strength Mean"": 65.42792314101301, ""Yield Strength SD"": 0.0, ""Pore Fraction Mean"": 0.3334706138801623, ""Pore Fraction SD"": 0.0, ""Slope Plateau Mean"": 210.08877604582625, ""Slope Plateau SD"": 0.0, ""Slope Densification Mean"": 352.7896615547397, ""Slope Densification SD"": 0.0, ""Creep Strain Mean"": 0.11313873946199593, ""Creep Strain SD"": 0.0, ""Strain at 50 bar Mean"": 0.2067077757499062, ""Strain at 50 bar SD"": 0.09995754230837085, ""Strain at 80 bar Mean"": 0.2503024216729762, ""Strain at 80 bar SD"": 0.0, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '28.7/100', 'Discarded Fit Reasons': '1 failed due to poor plateau fit (early); 1 failed due to plateau/elastic slopes too similar; 1 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A casting solution was prepared using **Primospire** as the polymer at a concentration of **18.5 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary solvent. No cosolvent or additive was incorporated (additive loading: 0.0 wt%). The solution was mixed and heated at **65 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **10 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **25.94 °C** and a mean relative humidity of **17.12%**.
+
+## Pre-Immersion Conditioning
+
+Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a duration of **75 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the pre-immersion period. Under these conditions, the coupon-stage temperature was measured at a mean of **25.57 °C** and the local relative humidity at the coupon stage was reduced to a mean of **10.71%**, confirming effective humidity suppression by the nitrogen flow.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion conditioning period, the cast film was immersed into a **pure deionized water** NIPS bath (no co-solvent added; bath solvent concentration: 0.0 wt%) maintained at **7 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1800 seconds (30 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 18.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 65 °C |
+| Casting speed | 10 mm/s |
+| Pre-immersion conditioning | N₂ purge, 75 s |
+| NIPS bath composition | Pure water (0.0 wt% solvent) |
+| NIPS bath temperature | 7 °C |
+| NIPS immersion time | 1800 s |
+| Ambient air temperature | 25.94 °C |
+| Ambient relative humidity | 17.12% |
+| Coupon-stage temperature (N₂ window) | 25.57 °C |
+| Coupon-stage humidity (N₂ window) | 10.71% |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 25.94, ""Humidity Mean"": 17.12, ""Coupon Temp Mean"": 25.57, ""Coupon Humidity Mean"": 10.71, ""Thickness Mean"": 144.49603061813758, ""Thickness SD"": 4.711835399292774, ""Elastic Modulus Mean"": 421.34467634058024, ""Elastic Modulus SD"": 0.0, ""Yield Strength Mean"": 65.42792314101301, ""Yield Strength SD"": 0.0, ""Pore Fraction Mean"": 0.3334706138801623, ""Pore Fraction SD"": 0.0, ""Slope Plateau Mean"": 210.08877604582625, ""Slope Plateau SD"": 0.0, ""Slope Densification Mean"": 352.7896615547397, ""Slope Densification SD"": 0.0, ""Creep Strain Mean"": 0.11313873946199593, ""Creep Strain SD"": 0.0, ""Strain at 50 bar Mean"": 0.2067077757499062, ""Strain at 50 bar SD"": 0.09995754230837085, ""Strain at 80 bar Mean"": 0.2503024216729762, ""Strain at 80 bar SD"": 0.0, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '28.7/100', 'Discarded Fit Reasons': '1 failed due to poor plateau fit (early); 1 failed due to plateau/elastic slopes too similar; 1 failed due to plateau slope >= elastic modulus, no real transition'","- **Presence:** Membrane is visible as a pale white sheet within the aperture.
+
+- **Vertical Coverage:** The membrane does not reach the bottom edge of the aperture — a clear gap is present at the lower portion, exposing the metal backing. The top edge appears adequately covered.
+
+- **Uniformity:** The membrane surface is predominantly uniform in color/opacity where present, though some mild variation is visible.
+
+- **Defects:** Multiple distinct raised ridges and curved fold lines are visible within the membrane material itself, indicating real wrinkles or folds in the membrane sheet.
+
+- **Summary:** This coupon exhibits significant defects including bottom-edge vertical coverage gap and multiple wrinkles/folds within the membrane material.",2026-11-12 19:50:00,specimen_filename,"## Analysis
+
+### Pareto Front Assessment
+
+Let me identify the non-dominated candidates from experiments with **both** Elastic Modulus and Pore Fraction measured (excluding null/missing values and flagging quality concerns):
+
+**Key candidates with both objectives measured (good quality membranes):**
+
+| Condition | Modulus (bar) | Pore Fraction | Quality notes |
+|---|---|---|---|
+| 17p5-550s-N2 (run1) | 912.84 | 0.27 | Top-edge gap; high SD (186 bar) |
+| 19-0s-N2-1500s (run1) | 767.83 | 0.34 | Good quality |
+| 20-150s-N2-1650s (run1) | 755.94 | 0.34 | Good quality, some fit issues |
+| 19-0s-N2-1500s_run3 | 614.09 | 0.32 | Good quality |
+| 19-0s-N2-1500s_run4 | 890.19 | 0.29 | Good quality, high SD (251 bar) |
+| 17p5-19deg-90s-N2-1800s | 860.49 | 0.27 | Wrinkle |
+| 17p5-18deg-75s-N2-1800s_run6 | 699.80 | 0.26 | **Clean membrane** |
+| 18-15deg-600s-NoN2-1350s_run3 | 385.22 | 0.41 | Minor wrinkles |
+| 17p5-19deg-90s-N2-run4 | 330.99 | 0.44 | Clean membrane! |
+| 17p5-15deg-200s-NoN2-1800s | 340.70 | 0.38 | Clean membrane |
+| 17p5-15deg-100s-NoN2-1800s | 520.58 | 0.37 | Wrinkle |
+| 19-5deg-0s-N2-1500s (run1) | 767.83 | 0.34 | Good |
+| 19-10deg-240s-NoN2-1600s_run2 | 312.52 | 0.38 | Minor wrinkles |
+
+**Approximate Pareto front** (neither dominated):
+- High modulus / lower pore fraction: ~860–912 bar / 0.27
+- Balanced: ~767 bar / 0.34 (19wt%, 5°C bath, 0s wait, N2)
+- High pore fraction / lower modulus: ~330–385 bar / 0.41–0.44
+
+The **19wt%, 5°C bath, 0s wait, N2, 1500s** condition (run1: 767 bar / 0.34) is a strong Pareto candidate. It has been run 5 times (runs 1–5), with runs 2 and 3 having missing modulus data, run 4 giving 890 bar / 0.29, and run 5 giving 737 bar / 0.30. The original run1 (767 bar / 0.34) has not been cleanly reproduced — run4 shows higher modulus but lower pore fraction, and run5 shows similar modulus but lower pore fraction. The pore fraction of 0.34 from run1 has not been confirmed in any subsequent run.
+
+**The 17p5-19deg-90s-N2-1800s_run4** (330.99 bar / 0.44, clean membrane) is intriguing for high pore fraction but has very low modulus and only 1 specimen retained — unreliable.
+
+### Validation Status Check
+
+The **19wt%, 5°C bath, 0s wait, N2, 1500s** condition is a Pareto-front candidate with the best combination of high modulus AND high pore fraction seen in clean membranes. However, the pore fraction of 0.34 from run1 has not been reproduced — subsequent runs show 0.29–0.32. This suggests the run1 pore fraction may be an outlier or that there's genuine variability. The modulus is more consistently high (~614–890 bar range across runs with data).
+
+**The 20wt%, 5°C bath, 150s wait, N2, 1650s** condition (run1: 755 bar / 0.34, run2: 673 bar / 0.28, run3: missing) also shows promise but run2 shows lower pore fraction.
+
+### Exploration Opportunity
+
+Given the dense sampling around polymer_wt=17–17.5 and bath_temp=10–20°C, there is an **under-sampled region** combining:
+- Higher polymer_wt (19–20 wt%) with moderate bath temperatures (10–15°C) and N2
+- This region could potentially combine the higher modulus seen at higher polymer concentrations with moderate pore fractions
+
+The condition **19wt%, 5°C, 0s, N2, 1500s** is the strongest Pareto candidate but needs validation of the pore fraction. However, runs 2–5 already constitute multiple attempts, and the pore fraction has consistently come in at 0.29–0.32 (not 0.34). The run1 value of 0.34 appears to be an outlier. The true mean is likely ~0.30–0.32 with modulus ~700–800 bar — still a good Pareto point.
+
+**New exploration target:** polymer_wt=19.5, bath_temp=10°C, moderate wait time, N2. This is under-sampled (19.5wt% has only been tried at bath_temp=5°C and 25°C). A 10°C bath with 19.5wt% could yield higher modulus (from higher polymer concentration) while the moderate bath temperature may preserve reasonable pore fraction compared to the very cold 5°C bath.
+
+This is distinct from existing experiments and explores a promising gap: higher polymer concentration (19.5 wt%) + intermediate bath temperature (10°C) + N2 + moderate wait time. The mixing_temp=65°C is consistent with the recent campaign's successful protocol.
+
+```json
+{
+  ""mixing_temp"": 65,
+  ""bath_temp"": 10,
+  ""pullcast_speed"": 10,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 75,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 19.5,
+  ""additive_wt"": 0.0
+}
+```
+
+**Rationale:**
+- **polymer_wt = 19.5**: Under-sampled at bath_temp=10°C. Higher polymer concentration tends to increase elastic modulus. The 19wt% at 5°C bath gave ~767 bar / 0.34 (run1) and ~614–890 bar in subsequent runs. Moving to 19.5wt% at a slightly warmer bath (10°C) explores whether we can maintain or improve modulus while the warmer bath may support slightly higher pore fraction than the 5°C bath.
+- **bath_temp = 10°C**: Intermediate between the 5°C (high modulus, lower pore fraction) and 15–20°C (lower modulus, higher pore fraction) regimes. This is a gap for 19.5wt% polymer.
+- **coupon_to_bath_wait_time = 75s**: Consistent with the recent campaign's successful protocol for this mixing_temp/pullcast_speed combination; avoids the 0s extreme that has caused wrinkle issues.
+- **N2 = true, pullcast_speed = 10, nips_bath_wait_time = 1800**: Standard conditions that have produced reliable membranes in the recent campaign.
+- **Expected benefit**: This experiment probes whether 19.5wt% + 10°C bath can push the Pareto frontier — potentially achieving modulus >700 bar with pore fraction ≥0.30, which would be a Pareto improvement over the 19wt%/5°C cluster (higher modulus at similar or better pore fraction) or clarify the tradeoff at this polymer concentration.",False,0.3334706138801623,0.0,legacy,masked_only
+"2026-11-13
+01:24:44",19p5-0add-10deg-cosolv-none-bathSolv-none-0wt-75s-N2-1800s,65,10,19.5,0.0,10,True,75,1800,Primospire,NMP,none,none,0.0,"mixing_temp=65; bath_temp=10; polymer_wt=19.5; additive_wt=0.0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=75; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Materials
+
+The membrane was fabricated using **Primospire** as the polymer dissolved in **N-methyl-2-pyrrolidone (NMP)** as the base casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0.0 wt%). The polymer concentration in the final casting solution was **19.5 wt%**. The non-solvent bath consisted of **pure water** (no solvent additive; 0.0 wt% solvent).
+
+## Solution Preparation
+
+The polymer solution was prepared by mixing and heating at **65 °C** until fully dissolved and homogenized.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **10 mm/s**. Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a duration of **75 seconds** prior to immersion in the non-solvent bath. This nitrogen blow was applied to minimize ambient humidity exposure at the film surface during the pre-immersion period. Ambient room temperature and humidity during casting were not recorded (N/A), and coupon-stage temperature and humidity measurements at the end of the wait period were likewise unavailable (N/A).
+
+## Phase Inversion (NIPS)
+
+The cast film was immersed into a **pure water bath** maintained at **10 °C**. The membrane was allowed to undergo phase separation in the bath for **1800 seconds (30 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 19.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 65 °C |
+| Casting speed | 10 mm/s |
+| Pre-immersion wait time | 75 s (N₂ purge) |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 10 °C |
+| NIPS immersion time | 1800 s |",,,,,148.3067811068149,0.911402592499106,,,,,,,,,,,,,0.1098352746305424,0.0280200283239735,,,,,,,,50.5,4 failed due to yield point (bp1) likely misplaced,"mixing_temp=65; bath_temp=10; polymer_wt=19.5; additive_wt=0.0; pullcast_speed=10; nitrogen=True; coupon_to_bath_wait_time=75; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=nan [room air temperature during casting]; Humidity Mean=nan [room air humidity during casting]; Coupon Temp Mean=nan [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=nan [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 148.3067811068149, ""Thickness SD"": 0.9114025924991059, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": 0.1098352746305424, ""Strain at 50 bar SD"": 0.028020028323973507, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '50.5/100', 'Discarded Fit Reasons': '4 failed due to yield point (bp1) likely misplaced'","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Materials
+
+The membrane was fabricated using **Primospire** as the polymer dissolved in **N-methyl-2-pyrrolidone (NMP)** as the base casting solvent. No cosolvent or additive was incorporated into the formulation (additive concentration: 0.0 wt%). The polymer concentration in the final casting solution was **19.5 wt%**. The non-solvent bath consisted of **pure water** (no solvent additive; 0.0 wt% solvent).
+
+## Solution Preparation
+
+The polymer solution was prepared by mixing and heating at **65 °C** until fully dissolved and homogenized.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **10 mm/s**. Following casting, the coupon was subjected to a **dry nitrogen (N₂) purge** for a duration of **75 seconds** prior to immersion in the non-solvent bath. This nitrogen blow was applied to minimize ambient humidity exposure at the film surface during the pre-immersion period. Ambient room temperature and humidity during casting were not recorded (N/A), and coupon-stage temperature and humidity measurements at the end of the wait period were likewise unavailable (N/A).
+
+## Phase Inversion (NIPS)
+
+The cast film was immersed into a **pure water bath** maintained at **10 °C**. The membrane was allowed to undergo phase separation in the bath for **1800 seconds (30 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 19.5 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 65 °C |
+| Casting speed | 10 mm/s |
+| Pre-immersion wait time | 75 s (N₂ purge) |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 10 °C |
+| NIPS immersion time | 1800 s |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": null, ""Humidity Mean"": null, ""Coupon Temp Mean"": null, ""Coupon Humidity Mean"": null, ""Thickness Mean"": 148.3067811068149, ""Thickness SD"": 0.9114025924991059, ""Elastic Modulus Mean"": null, ""Elastic Modulus SD"": null, ""Yield Strength Mean"": null, ""Yield Strength SD"": null, ""Pore Fraction Mean"": null, ""Pore Fraction SD"": null, ""Slope Plateau Mean"": null, ""Slope Plateau SD"": null, ""Slope Densification Mean"": null, ""Slope Densification SD"": null, ""Creep Strain Mean"": null, ""Creep Strain SD"": null, ""Strain at 50 bar Mean"": 0.1098352746305424, ""Strain at 50 bar SD"": 0.028020028323973507, ""Strain at 80 bar Mean"": null, ""Strain at 80 bar SD"": null, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Quality Mean': '50.5/100', 'Discarded Fit Reasons': '4 failed due to yield point (bp1) likely misplaced'","- **Presence:** Membrane is visible — a pale white/grey coupon is seated within the aperture.
+
+- **Vertical Coverage:** The membrane does not reach the top edge of the aperture; a clear gap is visible between the membrane's upper boundary and the top of the opening. Bottom edge appears to meet the aperture adequately. **Top gap is a defect.**
+
+- **Uniformity:** The membrane body appears largely uniform in opacity and color, with no significant patchiness or dark spots across the central area.
+
+- **Defects:** A subtle undulation/fold line is visible near the lower-left region of the membrane material itself, suggesting a minor wrinkle. No trapped air bubbles detected.
+
+- **Summary:** Membrane shows an incomplete top vertical coverage gap and a minor wrinkle near the lower edge, both warranting attention.",2026-11-12 22:37:45,specimen_filename,"## Analysis
+
+### Pareto Front Assessment
+
+Filtering to experiments with both Elastic Modulus and Pore Fraction measured (and reasonable quality):
+
+| Condition | Modulus (bar) | Pore Fraction | Notes |
+|---|---|---|---|
+| 19p5-0add-5deg-0s-N2-1500s | 634.56 | 0.33 | good quality |
+| 19-0add-5deg-0s-N2-1500s (run1) | 767.83 | 0.34 | good quality |
+| 20-0add-5deg-150s-N2-1650s (run1) | 755.94 | 0.34 | good quality |
+| 17p5-0add-5deg-550s-N2-1450s | 912.84 | 0.27 | top gap defect |
+| 17p5-0add-18deg-75s-N2-1800s (run1) | 936.59 | 0.27 | single specimen only |
+| 17p5-0add-19deg-90s-N2-1800s (run1) | 860.49 | 0.27 | wrinkle defect |
+| 17p5-0add-18deg-75s-N2-1800s (run6) | 699.80 | 0.26 | clean membrane |
+| 18-0add-15deg-600s-NoN2-1350s (run3) | 385.22 | 0.41 | minor wrinkles |
+| 18-0add-15deg-600s-NoN2-1350s (run4) | 429.97 | 0.37 | minor wrinkles |
+| 17p5-0add-19deg-90s-N2-1800s (run3) | 519.03 | 0.36 | wrinkles |
+| 17p5-0add-15deg-400s-NoN2-1800s | 400.47 | 0.40 | minor fold |
+| 17p5-0add-15deg-200s-NoN2-1800s | 340.70 | 0.38 | clean membrane ✓ |
+| 19-0add-10deg-240s-NoN2-1600s (run2) | 312.52 | 0.38 | minor wrinkles |
+| 17p5-0add-17deg-75s-NoN2-1800s (run1) | 499.77 | 0.33 | clean ✓ |
+| 17p5-0add-17deg-75s-NoN2-1800s (run3) | 424.09 | 0.35 | minor wrinkle |
+| 19-0add-5deg-0s-N2-1500s (run3) | 614.09 | 0.32 | wrinkles |
+| 19-0add-5deg-0s-N2-1500s (run4) | 890.19 | 0.29 | minor wrinkles |
+| 18-0add-12deg-90s-N2-1800s (run1) | 580.71 | 0.28 | clean ✓ |
+
+**Approximate Pareto front** (non-dominated in modulus × pore fraction):
+- High pore fraction end: 18-0add-15deg-600s-NoN2-1350s (run3): ~385 bar, 0.41 — but high CV, wrinkles
+- Mid-range: 17p5-0add-15deg-200s-NoN2-1800s: ~341 bar, 0.38 — clean membrane
+- Balanced: 17p5-0add-17deg-75s-NoN2-1800s (run1): ~500 bar, 0.33 — clean
+- High modulus end: 19-0add-5deg-0s-N2-1500s (run1): ~768 bar, 0.34 — good quality
+
+The **19-0add-5deg-0s-N2-1500s** condition (polymer_wt=19, bath_temp=5, pullcast_speed=3, mixing_temp=60, coupon_to_bath_wait_time=0, nips_bath_wait_time=1500, nitrogen=true) stands out as a strong Pareto candidate: it achieves both high modulus (~768 bar) AND relatively high pore fraction (0.34) — a rare combination. It has only one independent synthesis run with full measurements (run1 from 2026-09-10). Run2 (2026-11-09) had all fits discarded. Run3 (2026-11-09) had good measurements (614 bar, 0.32) but wrinkles. Run4 (2026-11-10) had good measurements (890 bar, 0.29) but minor wrinkles. Run5 (2026-11-11) had top gap and wrinkles.
+
+The high variability across runs (614–890 bar modulus, 0.29–0.34 pore fraction) and inconsistent membrane quality suggest this condition is not yet reproducibly confirmed. However, the original run1 had clean membrane quality and strong performance on both objectives.
+
+### Validation Policy Check
+
+The condition **19-0add-5deg-0s-N2-1500s** (polymer_wt=19, bath_temp=5, pullcast_speed=3, mixing_temp=60, coupon_to_bath_wait_time=0, nips_bath_wait_time=1500, nitrogen=true) is a strong Pareto-front candidate with:
+- High modulus (767.83 bar in run1, 614 in run3, 890 in run4)
+- Relatively high pore fraction (0.34 in run1, 0.32 in run3, 0.29 in run4)
+- But high run-to-run variability and inconsistent membrane quality
+
+This condition has not been independently reproduced with both clean membrane quality AND full measurements. The validation policy requires a repeat when a Pareto-front candidate has high CV or uncertain reproducibility. A clean repeat of this condition would clarify whether the run1 performance (768 bar, 0.34 pore fraction) is reproducible.
+
+**Recommendation: Validate 19-0add-5deg-0s-N2-1500s** with an independent repeat synthesis.
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 3,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 0,
+  ""nips_bath_wait_time"": 1500,
+  ""polymer_wt"": 19.0,
+  ""additive_wt"": 0
+}
+```",False,,,legacy,masked_only
+"2026-11-13
+04:06:07",19-0add-5deg-cosolv-none-bathSolv-none-0wt-0s-N2-1500s_run6,60,5,19.0,0.0,3,True,0,1500,Primospire,NMP,none,none,0.0,"mixing_temp=60; bath_temp=5; polymer_wt=19.0; additive_wt=0.0; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=0; nips_bath_wait_time=1500; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=26.19 [room air temperature during casting]; Humidity Mean=15.85 [room air humidity during casting]; Coupon Temp Mean=25.58 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=15.83 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A casting solution was prepared using **Primospire** as the polymer at a concentration of **19.0 wt%**, dissolved in **NMP (N-methyl-2-pyrrolidone)** as the primary solvent. No cosolvent or additive was incorporated (additive loading: 0.0 wt%). The solution was mixed and heated at **60 °C** prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **3 mm/s**. Immediately following casting (wait time: **0 s**), the coupon was subjected to a **dry nitrogen purge** to minimize atmospheric moisture exposure prior to bath immersion. During this conditioning window, the coupon-stage temperature and relative humidity were measured at **25.58 °C** and **15.83%**, respectively. The ambient laboratory conditions at the time of casting were **26.19 °C** and **15.85% RH**, indicating a low-humidity casting environment.
+
+## Phase Inversion (NIPS)
+
+The cast film was immediately immersed into a **pure water NIPS bath** (no co-solvent; 0.0 wt% solvent content) maintained at **5 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1500 seconds (25 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 19.0 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 60 °C |
+| Cast speed | 3 mm/s |
+| Pre-immersion wait time | 0 s |
+| Nitrogen purge | Yes |
+| Coupon temp (during N₂) | 25.58 °C |
+| Coupon humidity (during N₂) | 15.83% RH |
+| Ambient temperature | 26.19 °C |
+| Ambient humidity | 15.85% RH |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 5 °C |
+| NIPS immersion time | 1500 s |",26.19,15.85,25.58,15.83,123.16191285602898,2.8027302947140864,468.926036343847,81.08248210423126,56.700009270467575,4.978110862490299,0.3894219023135143,0.0159101725572723,186.00682397332005,10.241044574735522,325.300296506364,20.26277082589695,0.1341307770871546,0.0085002235389295,0.1415129872115331,0.0537992430928127,0.2544543082768831,0.0223100515416242,,,,,0.1172995924886928,32.0,"1 failed due to plateau slope >= elastic modulus, no real transition","mixing_temp=60; bath_temp=5; polymer_wt=19.0; additive_wt=0.0; pullcast_speed=3; nitrogen=True; coupon_to_bath_wait_time=0; nips_bath_wait_time=1500; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=26.19 [room air temperature during casting]; Humidity Mean=15.85 [room air humidity during casting]; Coupon Temp Mean=25.58 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=15.83 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.19, ""Humidity Mean"": 15.85, ""Coupon Temp Mean"": 25.58, ""Coupon Humidity Mean"": 15.83, ""Thickness Mean"": 123.16191285602898, ""Thickness SD"": 2.8027302947140864, ""Elastic Modulus Mean"": 468.926036343847, ""Elastic Modulus SD"": 81.08248210423126, ""Yield Strength Mean"": 56.700009270467575, ""Yield Strength SD"": 4.978110862490299, ""Pore Fraction Mean"": 0.3894219023135143, ""Pore Fraction SD"": 0.0159101725572723, ""Slope Plateau Mean"": 186.00682397332005, ""Slope Plateau SD"": 10.241044574735522, ""Slope Densification Mean"": 325.300296506364, ""Slope Densification SD"": 20.26277082589695, ""Creep Strain Mean"": 0.1341307770871546, ""Creep Strain SD"": 0.00850022353892959, ""Strain at 50 bar Mean"": 0.14151298721153313, ""Strain at 50 bar SD"": 0.05379924309281275, ""Strain at 80 bar Mean"": 0.25445430827688315, ""Strain at 80 bar SD"": 0.022310051541624215, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.11729959248869286}, 'Discarded Fit Quality Mean': '32.0/100', 'Discarded Fit Reasons': '1 failed due to plateau slope >= elastic modulus, no real transition'","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A casting solution was prepared using **Primospire** as the polymer at a concentration of **19.0 wt%**, dissolved in **NMP (N-methyl-2-pyrrolidone)** as the primary solvent. No cosolvent or additive was incorporated (additive loading: 0.0 wt%). The solution was mixed and heated at **60 °C** prior to casting.
+
+## Membrane Casting
+
+The polymer solution was blade-cast onto the substrate at a casting speed of **3 mm/s**. Immediately following casting (wait time: **0 s**), the coupon was subjected to a **dry nitrogen purge** to minimize atmospheric moisture exposure prior to bath immersion. During this conditioning window, the coupon-stage temperature and relative humidity were measured at **25.58 °C** and **15.83%**, respectively. The ambient laboratory conditions at the time of casting were **26.19 °C** and **15.85% RH**, indicating a low-humidity casting environment.
+
+## Phase Inversion (NIPS)
+
+The cast film was immediately immersed into a **pure water NIPS bath** (no co-solvent; 0.0 wt% solvent content) maintained at **5 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1500 seconds (25 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent | None |
+| Polymer concentration | 19.0 wt% |
+| Additive concentration | 0.0 wt% |
+| Mixing temperature | 60 °C |
+| Cast speed | 3 mm/s |
+| Pre-immersion wait time | 0 s |
+| Nitrogen purge | Yes |
+| Coupon temp (during N₂) | 25.58 °C |
+| Coupon humidity (during N₂) | 15.83% RH |
+| Ambient temperature | 26.19 °C |
+| Ambient humidity | 15.85% RH |
+| NIPS bath composition | Pure water |
+| NIPS bath temperature | 5 °C |
+| NIPS immersion time | 1500 s |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 26.19, ""Humidity Mean"": 15.85, ""Coupon Temp Mean"": 25.58, ""Coupon Humidity Mean"": 15.83, ""Thickness Mean"": 123.16191285602898, ""Thickness SD"": 2.8027302947140864, ""Elastic Modulus Mean"": 468.926036343847, ""Elastic Modulus SD"": 81.08248210423126, ""Yield Strength Mean"": 56.700009270467575, ""Yield Strength SD"": 4.978110862490299, ""Pore Fraction Mean"": 0.3894219023135143, ""Pore Fraction SD"": 0.0159101725572723, ""Slope Plateau Mean"": 186.00682397332005, ""Slope Plateau SD"": 10.241044574735522, ""Slope Densification Mean"": 325.300296506364, ""Slope Densification SD"": 20.26277082589695, ""Creep Strain Mean"": 0.1341307770871546, ""Creep Strain SD"": 0.00850022353892959, ""Strain at 50 bar Mean"": 0.14151298721153313, ""Strain at 50 bar SD"": 0.05379924309281275, ""Strain at 80 bar Mean"": 0.25445430827688315, ""Strain at 80 bar SD"": 0.022310051541624215, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.11729959248869286}, 'Discarded Fit Quality Mean': '32.0/100', 'Discarded Fit Reasons': '1 failed due to plateau slope >= elastic modulus, no real transition'","- **Presence:** Membrane is visible — a pale white/light-blue coupon is seated within the aperture.
+
+- **Vertical Coverage:** The membrane reaches the bottom aperture edge adequately; at the top edge, a small gap/recess is visible where the membrane does not fully contact the upper rim — minor top-edge coverage concern.
+
+- **Uniformity:** Color and opacity are largely consistent across the membrane face; one very small dark speck near center, otherwise no significant patchiness or thickness variation.
+
+- **Defects:** No wrinkles or trapped air bubbles detected within the membrane material itself; the bright arc at the top is a specular rim reflection, not a membrane defect.
+
+- **Summary:** Membrane is present and largely uniform, with a minor top-edge vertical coverage gap warranting attention.",2026-11-13 01:25:57,specimen_filename,"## Analysis
+
+### Pareto Front Assessment
+
+Reviewing all experiments with both Elastic Modulus and Pore Fraction measured (non-null):
+
+| Condition | Modulus (bar) | Pore Fraction | Quality |
+|---|---|---|---|
+| 17p5-0add-5deg-550s-N2-1450s | 912.84 | 0.27 | Top gap (coverage defect) |
+| 17p5-0add-19deg-90s-N2-1800s (run1) | 860.49 | 0.27 | Wrinkle |
+| 19-0add-5deg-0s-N2-1500s (run4) | 890.19 | 0.29 | Minor wrinkles |
+| 17p5-0add-20deg-90s-N2-1250s (run2) | 960.52 | 0.27 | Clean |
+| 17p5-0add-18deg-75s-N2-1800s (run1) | 936.59 | 0.27 | Minor undulations |
+| 17p5-0add-18deg-75s-N2-1800s (run6) | 699.80 | 0.26 | Clean |
+| 18-0add-15deg-600s-NoN2-1350s (run3) | 385.22 | 0.41 | Minor wrinkles |
+| 18-0add-15deg-600s-NoN2-1350s (run5) | 468.62 | 0.39 | Wrinkles |
+| 17p5-0add-19deg-90s-N2-1800s (run4) | 330.99 | 0.44 | Clean! |
+| 19-0add-5deg-0s-N2-1500s (run6) | 468.93 | 0.39 | Minor top gap |
+| 17p5-0add-15deg-200s-NoN2-1800s | 340.70 | 0.38 | Clean |
+| 17p5-0add-15deg-400s-NoN2-1800s | 400.47 | 0.40 | Minor fold |
+| 17p5-0add-15deg-100s-NoN2-1800s | 520.58 | 0.37 | Wrinkle |
+
+**Approximate Pareto front** (non-dominated in modulus × pore fraction):
+- High modulus / lower pore fraction: ~960 bar / 0.27 (run2 of 17p5-20deg-90s)
+- Balanced: ~700 bar / 0.30–0.33 (several candidates)
+- High pore fraction / lower modulus: ~330–400 bar / 0.39–0.44
+
+The **high-pore-fraction end** is particularly interesting: `17p5-0add-19deg-90s-N2-1800s_run4` achieved Pore Fraction = 0.44 with Modulus = 331 bar (clean membrane, good image quality). This is the highest pore fraction observed with a clean membrane. However, it is based on a single specimen with only 1 retained fit (SD = 0), making it uncertain.
+
+The **high-modulus end**: `17p5-0add-20deg-90s-N2-1250s_run2` achieved 960 bar / 0.27 but with very high SD (387 bar). Run3 of the same condition gave only 385 bar / 0.33. These two runs are highly inconsistent — the condition is not validated.
+
+### Validation Policy Check
+
+**`17p5-0add-19deg-90s-N2-1800s_run4`** (bath_temp=19, polymer_wt=17.5, coupon_to_bath_wait_time=90, nips_bath_wait_time=1800, mixing_temp=65, pullcast_speed=10, N2=true):
+- Run1: 860 bar / 0.27 (wrinkle)
+- Run2: 554 bar / 0.29 (wrinkles)
+- Run3: 519 bar / 0.36 (wrinkles)
+- Run4: 331 bar / 0.44 (clean!) — single retained fit, SD=0
+- Run5: 552 bar / 0.32 (coverage gap + wrinkle)
+- Run6: 64 bar / 0.44 (severely misloaded — invalid)
+
+The pore fraction = 0.44 from run4 is a single-fit result with SD=0, and run6 also shows 0.44 but is clearly a failed/misloaded specimen. The modulus of 331 bar from run4 is dramatically lower than other runs. This is likely a measurement artifact from a poorly loaded or unusual specimen rather than a true Pareto improvement. The condition shows extreme variability across runs.
+
+**`17p5-0add-20deg-90s-N2-1250s`** (bath_temp=20, polymer_wt=17.5, coupon_to_bath_wait_time=90, nips_bath_wait_time=1250, mixing_temp=50, pullcast_speed=7, N2=true):
+- Run1: 673 bar / 0.29 (clean)
+- Run2: 961 bar / 0.27 (clean, but SD=387 bar — very high)
+- Run3: 385 bar / 0.33 (clean)
+- Run5: 530 bar / 0.35 (wrinkle)
+
+This condition has 4 runs with high variability. Not validated as a reliable high-modulus candidate.
+
+### Strategy
+
+Given the high variability across the dataset and the lack of confirmed Pareto-front candidates, the most informative next step is to **explore a region that could genuinely improve both objectives simultaneously** — specifically, conditions that might yield moderate-to-high modulus (>600 bar) AND moderate-to-high pore fraction (>0.33).
+
+Looking at the data pattern:
+- **Lower bath temperatures** (5°C) with **higher polymer concentrations** (19–20 wt%) tend to give higher modulus but lower pore fraction
+- **Higher bath temperatures** (15–20°C) with **lower polymer concentrations** (17–17.5 wt%) and **longer wait times** or **no N2** tend to give higher pore fraction but lower modulus
+- The **18 wt% / bath 15°C / NoN2 / long wait** region (18-0add-15deg-600s-NoN2-1350s) shows pore fractions of 0.36–0.41 with moduli of 340–470 bar — interesting but modulus is low
+
+An **under-explored region** that could potentially combine moderate-high modulus with higher pore fraction: **polymer_wt ~18–18.5, bath_temp ~10–12°C, moderate wait time ~75–90s, N2=true, mixing_temp=65**. The 18-0add-12deg-90s-N2-1800s condition showed 581 bar / 0.28 (run1, clean) — decent modulus but low pore fraction. 
+
+A genuinely under-sampled region: **polymer_wt ~18, bath_temp ~20°C, moderate wait, N2=true**. Bath temp 20°C with 18 wt% has not been tried. Higher bath temp tends to increase pore fraction; 18 wt% should maintain reasonable modulus vs 17 wt%.
+
+Another gap: **pullcast_speed** has been almost exclusively at 10 mm/s in recent experiments. Lower pullcast speed (e.g., 5–6 mm/s) with a promising condition could reduce wrinkling and improve membrane quality.
+
+**Recommendation**: Try **polymer_wt=18.0, bath_temp=20°C, mixing_temp=65, pullcast_speed=6, coupon_to_bath_wait_time=75, nips_bath_wait_time=1800, N2=true**. 
+
+Rationale:
+- bath_temp=20°C is under-sampled at 18 wt% (only 17.5 wt% has been tried at bath_temp=20)
+- Higher bath temp should promote higher pore fraction vs bath_temp=10–15°C
+- 18 wt% polymer should maintain better modulus than 17–17.5 wt%
+- pullcast_speed=6 (vs the dominant 10) may reduce wrinkling tendency
+- This is a genuinely new point in the design space
+
+```json
+{
+  ""mixing_temp"": 65,
+  ""bath_temp"": 20,
+  ""pullcast_speed"": 6,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 75,
+  ""nips_bath_wait_time"": 1800,
+  ""polymer_wt"": 18.0,
+  ""additive_wt"": 0.0
+}
+```",False,0.3894219023135143,0.0159101725572723,legacy,masked_only
+"2026-11-13
+06:52:22",18-0add-20deg-cosolv-none-bathSolv-none-0wt-75s-N2-1800s,65,20,18.0,0.0,6,True,75,1800,Primospire,NMP,none,none,0.0,"mixing_temp=65; bath_temp=20; polymer_wt=18.0; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=75; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.99 [room air temperature during casting]; Humidity Mean=16.03 [room air humidity during casting]; Coupon Temp Mean=25.48 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=10.35 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A casting solution was prepared using **Primospire** as the base polymer at a concentration of **18.0 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary solvent. No cosolvent or additive was incorporated in this formulation (additive loading: 0.0 wt%). The polymer solution was mixed and heated at **65 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Film Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.0 °C** and a mean relative humidity of **16.0%**.
+
+## Pre-Immersion Conditioning
+
+Following casting, the film was subjected to a **dry nitrogen purge** for a hold period of **75 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the evaporation interval. Under these conditions, the coupon-stage temperature was measured at **25.5 °C** and the local relative humidity at the coupon surface was reduced to **10.4%**, confirming effective humidity suppression relative to ambient levels.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion hold, the cast film was immersed into a **pure deionized water** NIPS bath (no co-solvent added; 0.0 wt% solvent content) maintained at **20 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1800 seconds (30 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent/Additive | None |
+| Polymer Concentration | 18.0 wt% |
+| Mixing Temperature | 65 °C |
+| Cast Speed | 6 mm/s |
+| Pre-Immersion Hold | 75 s (N₂ purge) |
+| Ambient Temperature | 26.0 °C |
+| Ambient Humidity | 16.0% RH |
+| Coupon-Stage Temperature (during N₂) | 25.5 °C |
+| Coupon-Stage Humidity (during N₂) | 10.4% RH |
+| NIPS Bath Composition | Pure water |
+| NIPS Bath Temperature | 20 °C |
+| NIPS Immersion Time | 1800 s (30 min) |",25.99,16.03,25.48,10.35,67.1829069203776,67.6869016756828,333.17087691385257,8.94817664858462,47.64189455280156,0.4841652957975526,0.2706929334495544,0.002815556520769,163.88429852738173,1.126594687588124,435.8674899562975,59.06688756909298,0.1060881462225236,0.001438160940846,0.2636302051851498,0.0308128237098157,0.4295629331206637,0.0334274374331671,,,,,0.1326970450373533,,2 failed due to insufficient data to fit,"mixing_temp=65; bath_temp=20; polymer_wt=18.0; additive_wt=0.0; pullcast_speed=6; nitrogen=True; coupon_to_bath_wait_time=75; nips_bath_wait_time=1800; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.99 [room air temperature during casting]; Humidity Mean=16.03 [room air humidity during casting]; Coupon Temp Mean=25.48 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=10.35 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 25.99, ""Humidity Mean"": 16.03, ""Coupon Temp Mean"": 25.48, ""Coupon Humidity Mean"": 10.35, ""Thickness Mean"": 67.1829069203776, ""Thickness SD"": 67.6869016756828, ""Elastic Modulus Mean"": 333.17087691385257, ""Elastic Modulus SD"": 8.94817664858462, ""Yield Strength Mean"": 47.64189455280156, ""Yield Strength SD"": 0.48416529579755263, ""Pore Fraction Mean"": 0.2706929334495544, ""Pore Fraction SD"": 0.002815556520769036, ""Slope Plateau Mean"": 163.88429852738173, ""Slope Plateau SD"": 1.126594687588124, ""Slope Densification Mean"": 435.8674899562975, ""Slope Densification SD"": 59.066887569092984, ""Creep Strain Mean"": 0.10608814622252366, ""Creep Strain SD"": 0.0014381609408460894, ""Strain at 50 bar Mean"": 0.2636302051851498, ""Strain at 50 bar SD"": 0.03081282370981575, ""Strain at 80 bar Mean"": 0.42956293312066374, ""Strain at 80 bar SD"": 0.03342743743316712, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.1326970450373533}, 'Discarded Fit Reasons': '2 failed due to insufficient data to fit'","# Experimental Report: Automated NIPS Membrane Fabrication
+
+## Polymer Solution Preparation
+
+A casting solution was prepared using **Primospire** as the base polymer at a concentration of **18.0 wt%**, dissolved in **N-methyl-2-pyrrolidone (NMP)** as the primary solvent. No cosolvent or additive was incorporated in this formulation (additive loading: 0.0 wt%). The polymer solution was mixed and heated at **65 °C** to ensure complete dissolution and homogeneity prior to casting.
+
+## Film Casting
+
+The polymer solution was blade-cast onto the substrate at a controlled casting speed of **6 mm/s**. Ambient conditions in the laboratory during casting were recorded at a mean air temperature of **26.0 °C** and a mean relative humidity of **16.0%**.
+
+## Pre-Immersion Conditioning
+
+Following casting, the film was subjected to a **dry nitrogen purge** for a hold period of **75 seconds** prior to bath immersion. This laminar nitrogen blow was applied to minimize moisture uptake from the ambient environment during the evaporation interval. Under these conditions, the coupon-stage temperature was measured at **25.5 °C** and the local relative humidity at the coupon surface was reduced to **10.4%**, confirming effective humidity suppression relative to ambient levels.
+
+## Non-Solvent Induced Phase Separation (NIPS)
+
+After the pre-immersion hold, the cast film was immersed into a **pure deionized water** NIPS bath (no co-solvent added; 0.0 wt% solvent content) maintained at **20 °C**. The membrane was allowed to phase-separate and solidify in the bath for **1800 seconds (30 minutes)** before retrieval.
+
+## Summary Table
+
+| Parameter | Value |
+|---|---|
+| Polymer | Primospire |
+| Solvent | NMP |
+| Cosolvent/Additive | None |
+| Polymer Concentration | 18.0 wt% |
+| Mixing Temperature | 65 °C |
+| Cast Speed | 6 mm/s |
+| Pre-Immersion Hold | 75 s (N₂ purge) |
+| Ambient Temperature | 26.0 °C |
+| Ambient Humidity | 16.0% RH |
+| Coupon-Stage Temperature (during N₂) | 25.5 °C |
+| Coupon-Stage Humidity (during N₂) | 10.4% RH |
+| NIPS Bath Composition | Pure water |
+| NIPS Bath Temperature | 20 °C |
+| NIPS Immersion Time | 1800 s (30 min) |
+
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 25.99, ""Humidity Mean"": 16.03, ""Coupon Temp Mean"": 25.48, ""Coupon Humidity Mean"": 10.35, ""Thickness Mean"": 67.1829069203776, ""Thickness SD"": 67.6869016756828, ""Elastic Modulus Mean"": 333.17087691385257, ""Elastic Modulus SD"": 8.94817664858462, ""Yield Strength Mean"": 47.64189455280156, ""Yield Strength SD"": 0.48416529579755263, ""Pore Fraction Mean"": 0.2706929334495544, ""Pore Fraction SD"": 0.002815556520769036, ""Slope Plateau Mean"": 163.88429852738173, ""Slope Plateau SD"": 1.126594687588124, ""Slope Densification Mean"": 435.8674899562975, ""Slope Densification SD"": 59.066887569092984, ""Creep Strain Mean"": 0.10608814622252366, ""Creep Strain SD"": 0.0014381609408460894, ""Strain at 50 bar Mean"": 0.2636302051851498, ""Strain at 50 bar SD"": 0.03081282370981575, ""Strain at 80 bar Mean"": 0.42956293312066374, ""Strain at 80 bar SD"": 0.03342743743316712, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": 0.1326970450373533}, 'Discarded Fit Reasons': '2 failed due to insufficient data to fit'","- **Presence:** Membrane is visible as a pale/white sheet occupying roughly the left-center portion of the aperture.
+
+- **Vertical Coverage:** The membrane does not span the full vertical extent — a gap is visible at the top edge where the membrane falls short of the upper aperture boundary.
+
+- **Uniformity:** The membrane region appears relatively uniform in opacity/color with no obvious patchiness or dark spots within the white material itself.
+
+- **Defects:** No wrinkles or trapped air bubbles are discernible within the membrane material; linear marks visible on the right side are on the exposed metal backing, not the membrane.
+
+- **Summary:** The membrane coupon is present but exhibits a notable vertical coverage deficiency at the top edge of the aperture.",2026-11-13 04:07:30,specimen_filename,"## Analysis
+
+### Pareto Front Assessment
+
+Let me identify the non-dominated candidates from experiments with **both** Elastic Modulus and Pore Fraction measured:
+
+| Condition | Modulus (bar) | Pore Fraction | Quality |
+|---|---|---|---|
+| 17p5-550s-5deg | 912.84 | 0.27 | Top gap defect |
+| 19-0s-5deg (run1) | 767.83 | 0.34 | Good |
+| 20-150s-5deg (run1) | 755.94 | 0.34 | Good |
+| 17p5-19deg-90s (run1) | 860.49 | 0.27 | Wrinkle |
+| 18-15deg-600s-NoN2 (run3) | 385.22 | 0.41 | Minor wrinkle |
+| 17p5-19deg-90s-run4 | 330.99 | 0.44 | Good quality! |
+| 19-0s-5deg-run4 | 890.19 | 0.29 | Minor wrinkles |
+| 19-0s-5deg-run3 | 614.09 | 0.32 | Wrinkles |
+
+**Approximate Pareto front** (non-dominated in modulus × pore fraction):
+- High modulus / lower pore fraction: ~860–912 bar / 0.27
+- Balanced: ~767 bar / 0.34 (19wt%, 5°C bath, 0s wait)
+- High pore fraction / lower modulus: ~330–385 bar / 0.41–0.44
+
+The **19wt%, 5°C bath, 0s wait, N2, 1500s** condition (run1: 767 bar / 0.34) is a strong balanced Pareto candidate. It has 3 independent repeats with modulus measurements (run1, run3, run4). Run1 and run3 are reasonably consistent (~614–768 bar, 0.32–0.34 PF), but run4 shows a large jump to 890 bar / 0.29 with high CV (0.22) and high SD (250 bar). This variability warrants caution.
+
+**The 17p5-19deg-90s-run4** (330 bar / 0.44) is intriguing for high pore fraction but has only 1 specimen with a single retained fit (SD=0), making it unreliable.
+
+### Validation vs. Exploration Decision
+
+The **19wt%, 5°C, 0s wait, N2, 1500s** condition has 3 independent synthesis repeats with modulus data (runs 1, 3, 4), showing:
+- Run 1: 767 bar / 0.34 PF
+- Run 3: 614 bar / 0.32 PF  
+- Run 4: 890 bar / 0.29 PF (high SD, high CV, wrinkles)
+
+The spread is large (614–890 bar) and run 4 has quality concerns. This condition is partially validated but uncertain. However, the policy says ""once performance is reproducible, resume searching instead of repeating indefinitely."" Three runs exist; the mean is roughly 757 bar / 0.32 PF — a solid balanced point. Further repeats here have diminishing returns.
+
+### Exploration Target
+
+The data shows a clear pattern: **lower bath temperature (5°C) with moderate-to-high polymer concentration (19–20 wt%) and N2** tends to give higher modulus. **Higher bath temperature (15–19°C) with lower polymer (17–17.5 wt%) and no-N2 with longer wait** tends to give higher pore fraction.
+
+An **under-explored region** that could push the Pareto frontier: **moderate polymer (18.5–19 wt%), cold bath (5°C), N2, short wait (~30–60s), moderate pullcast speed (~5–8 mm/s)**. This combines the modulus-favoring cold bath with a polymer concentration that might preserve more pore fraction than 20 wt%.
+
+Specifically, **18.5 wt%, 5°C bath, 60s wait, N2, mixing_temp 60°C, pullcast 5 mm/s, 1600s NIPS** is not in the history. This is distinct from the 18.5wt% experiments which used bath temps of 5°C with 105s wait (runs 1&2, both had defects/bubbles) or 7°C/12°C/14°C. A 5°C bath with 60s wait and slower pullcast speed (5 mm/s vs 11 mm/s) could reduce wrinkling while maintaining the cold-bath modulus advantage.
+
+**Expected benefit**: Cold bath (5°C) should favor higher modulus via faster phase separation; 18.5 wt% is intermediate between the high-modulus 19–20 wt% and the high-pore-fraction 17–17.5 wt% region; 60s wait allows slight surface skinning without excessive evaporation; slower pullcast (5 mm/s) may reduce wrinkling seen at 11 mm/s for this polymer weight. This could yield a Pareto improvement over the 19wt%/5°C point by potentially maintaining modulus while recovering some pore fraction.
+
+```json
+{
+  ""mixing_temp"": 60,
+  ""bath_temp"": 5,
+  ""pullcast_speed"": 5,
+  ""nitrogen"": true,
+  ""coupon_to_bath_wait_time"": 60,
+  ""nips_bath_wait_time"": 1600,
+  ""polymer_wt"": 18.5,
+  ""additive_wt"": 0.0
+}
+```",True,0.459424416179627,0.0699534107241145,legacy,masked_only
+"2026-11-13
+09:39:46",18p5-0add-5deg-cosolv-none-bathSolv-none-0wt-60s-N2-1600s,60,5,18.5,0.0,5,True,60,1600,Primospire,NMP,none,none,0.0,"mixing_temp=60; bath_temp=5; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=5; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1600; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.81 [room air temperature during casting]; Humidity Mean=16.25 [room air humidity during casting]; Coupon Temp Mean=25.37 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=10.85 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]",,25.81,16.25,25.37,10.85,30.626226431430563,48.57498251209108,108.70701175438852,0.0,26.519052167726496,0.0,0.577807812866389,0.0,95.41745505022055,0.0,382.4265697907952,0.0,0.0622291872055146,0.0,0.4856697826774561,0.0,0.6715329258971148,0.0,,,,,,,3 failed due to insufficient data to fit,"mixing_temp=60; bath_temp=5; polymer_wt=18.5; additive_wt=0.0; pullcast_speed=5; nitrogen=True; coupon_to_bath_wait_time=60; nips_bath_wait_time=1600; polymer_type=Primospire; solvent_type=NMP; cosolvent_type=none; nips_bath_solvent=none; nips_bath_solvent_wt_percent=0.0; Air Temp Mean=25.81 [room air temperature during casting]; Humidity Mean=16.25 [room air humidity during casting]; Coupon Temp Mean=25.37 [coupon-stage temperature measured at the end of the wait period; during N2 it is the temperature during the N2 blow window, otherwise it is the no-N2 wait condition]; Coupon Humidity Mean=10.85 [coupon-stage humidity measured at the end of the wait period; during N2 it is the humidity during the N2 blow window, otherwise it is the no-N2 wait condition]
+
+Numeric property measurements below take precedence over narrative reports. Null means unknown, not zero. SD is intra-sample standard deviation, not uncertainty across independent synthesis repeats. Modulus, yield strength and compression slopes are in bar; thickness is in micrometers; pore fraction, strains and CV are dimensionless; temperatures are in degrees C and humidity is in percent. Pore fraction is a compression-curve changepoint estimate, not independent porosimetry.
+{""Air Temp Mean"": 25.81, ""Humidity Mean"": 16.25, ""Coupon Temp Mean"": 25.37, ""Coupon Humidity Mean"": 10.85, ""Thickness Mean"": 30.626226431430563, ""Thickness SD"": 48.574982512091076, ""Elastic Modulus Mean"": 108.70701175438852, ""Elastic Modulus SD"": 0.0, ""Yield Strength Mean"": 26.519052167726496, ""Yield Strength SD"": 0.0, ""Pore Fraction Mean"": 0.577807812866389, ""Pore Fraction SD"": 0.0, ""Slope Plateau Mean"": 95.41745505022057, ""Slope Plateau SD"": 0.0, ""Slope Densification Mean"": 382.42656979079516, ""Slope Densification SD"": 0.0, ""Creep Strain Mean"": 0.062229187205514624, ""Creep Strain SD"": 0.0, ""Strain at 50 bar Mean"": 0.4856697826774561, ""Strain at 50 bar SD"": 0.0, ""Strain at 80 bar Mean"": 0.6715329258971148, ""Strain at 80 bar SD"": 0.0, ""Strain at 150 bar Mean"": null, ""Strain at 150 bar SD"": null, ""Strain at 500 bar Mean"": null, ""Strain at 500 bar SD"": null, ""CV Mean"": null}, 'Discarded Fit Reasons': '3 failed due to insufficient data to fit'",,,,,,True,0.6362540914865243,0.0,legacy,masked_only
