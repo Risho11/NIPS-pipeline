@@ -172,6 +172,43 @@ def specimen_order(path):
     return (datetime.datetime.strptime(match[2] + match[3], '%m%d%Y%H%M%S'), int(match[1]))
 
 
+def export_reproduce(results):
+    """Select one post-discard aggregate per fabrication, without fitting or devices.
+
+    Like promote_condition with PROMOTE_POSTDISCARD=True, prefer postDiscard,
+    then preDiscard, then the unsuffixed row. Preserve missing values and all
+    aggregate report/property columns; no LLM suggestions are generated.
+    """
+    results = Path(results)
+    with (results / 'agg.csv').open(newline='', encoding='utf-8-sig') as handle:
+        reader = csv.DictReader(handle)
+        fields = [field for field in (reader.fieldnames or []) if field != 'LLM_suggestion']
+        if 'name' not in fields:
+            raise ValueError('Aggregate CSV has no name column')
+        selected = {}
+        for row in reader:
+            name = row['name']
+            if not name:
+                raise ValueError('Aggregate row has no sample name')
+            base, priority = name, 0
+            for suffix, rank in [('_preDiscard', 1), ('_postDiscard', 2)]:
+                if name.endswith(suffix):
+                    base, priority = name[:-len(suffix)], rank
+                    break
+            if base not in selected or priority >= selected[base][0]:
+                selected[base] = (priority, {field: base if field == 'name' else row[field]
+                                             for field in fields})
+    target = results / 'reproduce.csv'
+    temporary = target.with_suffix('.csv.tmp')
+    with temporary.open('w', newline='', encoding='utf-8') as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(row for _, row in selected.values())
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, target)
+
+
 def process_sample(condition_name, data_root, results):
     # Mechanical processing only; no LLM, material rewrite, or next-experiment suggestion.
     import matplotlib
@@ -194,6 +231,7 @@ def process_sample(condition_name, data_root, results):
             condition_filter=condition_name)
         curves.save_to_csv(output, data_root=data_root, output_path=results / 'reps.csv',
                            aggregate_path=results / 'agg.csv')
+        export_reproduce(results)
     finally:
         curves._prefix, curves.SAVE_ROOT = previous
 
@@ -426,6 +464,7 @@ def main(argv=None):
                         help='Casting-start bottom pair; fixed to 2 4 for this plan')
     parser.add_argument('--execute', action='store_true')
     parser.add_argument('--process-only', action='store_true', help='Process saved batch samples without network or hardware')
+    parser.add_argument('--export-only', action='store_true', help='Refresh reproduce.csv from agg.csv without fitting or devices')
     parser.add_argument('--collect-only', action='store_true', help='Keep raw data; defer mechanical processing')
     parser.add_argument('--csv-raw-path', type=Path, default=Path(r'C:\Users\opentrons\Documents\Newton Reports\With LVDT\Unnamed'))
     parser.add_argument('--server-ip', default='169.254.230.148')
@@ -438,6 +477,15 @@ def main(argv=None):
     batches = [batch for batch in plan['batches'] if args.batch is None or batch['batch_id'] == args.batch]
     if not batches:
         parser.error('Unknown batch')
+    if args.export_only:
+        if (args.execute or args.process_only or not args.batch or not args.campaign or
+                not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}', args.campaign)):
+            parser.error('--export-only needs --batch and --campaign, without --execute or --process-only')
+        results = ROOT / 'data' / 'results' / f'begins_{args.campaign}' / args.batch
+        with campaign_lock(ROOT / 'data' / 'results' / '.pareto_validation.lock'):
+            export_reproduce(results)
+        print(f'Exported {results / "reproduce.csv"}; no fitting or device access.')
+        return
     if args.process_only:
         if args.execute or not args.batch or not args.campaign or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}', args.campaign):
             parser.error('--process-only needs --batch and --campaign, without --execute')
@@ -451,6 +499,7 @@ def main(argv=None):
                 process_sample(job['name'], ROOT, results)
                 job['mechanical_processed'] = True
                 save_json(path, state)
+            export_reproduce(results)
         return
     for batch in batches:
         print(f'{batch["batch_id"]}: {len(batch["conditions"])} conditions, '

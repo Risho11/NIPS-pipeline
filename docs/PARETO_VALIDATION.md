@@ -137,6 +137,19 @@ State and new mechanical CSVs are written to
 pairs through the existing mechanical pipeline. It does not call an LLM or run
 the vision-quality branch. Mechanical fitting errors stop the batch with raw
 data retained; failed fits are not replaced with inferred values.
+After each processed sample, `reproduce.csv` selects one aggregate row per
+fabrication using the same post-discard preference as `llm.csv`. It removes the
+discard suffix from sample names, retains aggregate property/report columns,
+and omits `LLM_suggestion`. All-failed samples remain present with unavailable
+properties blank; `agg.csv` keeps both pre/post-discard versions.
+
+Refresh this summary from existing aggregates without fitting or device access:
+
+```bash
+uv run --locked --no-sync python src/pipeline/run_pareto_validation.py \
+  --export-only --batch psf-water --campaign pareto-validation-2026-11-12
+```
+
 Fit plots are retained under `data/plots/run-<campaign>-<batch>/`, with separate
 sample identities and processing reruns preserved.
 

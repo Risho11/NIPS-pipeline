@@ -3,6 +3,7 @@
 import ast
 from contextlib import redirect_stdout
 import copy
+import csv
 import importlib.util
 import io
 import json
@@ -24,6 +25,45 @@ spec.loader.exec_module(compression)
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_reproduce_selects_postdiscard_and_preserves_failed_samples(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            aggregate = root / 'agg.csv'
+            aggregate.write_text('name,Elastic Modulus Mean,Discarded Fit Reasons,LLM_suggestion\n'
+                                 'sample_postDiscard,20,one rejected,unused\n'
+                                 'sample_preDiscard,100,,unused\n'
+                                 'normal,30,,unused\n'
+                                 'failed_preDiscard,999,,unused\n'
+                                 'failed_postDiscard,,all failed,unused\n'
+                                 'legacy_preDiscard,40,,unused\n')
+            original = aggregate.read_bytes()
+            runner.export_reproduce(root)
+            first = (root / 'reproduce.csv').read_bytes()
+            runner.export_reproduce(root)
+            self.assertEqual((root / 'reproduce.csv').read_bytes(), first)
+            self.assertEqual(aggregate.read_bytes(), original)
+            with (root / 'reproduce.csv').open(newline='') as handle:
+                reader = csv.DictReader(handle)
+                self.assertNotIn('LLM_suggestion', reader.fieldnames)
+                rows = list(reader)
+            self.assertEqual([r['name'] for r in rows], ['sample', 'normal', 'failed', 'legacy'])
+            self.assertEqual([r['Elastic Modulus Mean'] for r in rows], ['20', '30', '', '40'])
+            self.assertEqual(rows[2]['Discarded Fit Reasons'], 'all failed')
+
+    def test_export_only_never_opens_campaign_or_contacts_robot(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(runner, 'ROOT', Path(tmp)), \
+             patch.object(runner, 'Campaign') as campaign, \
+             patch.object(runner.robot, 'check_health') as health, \
+             patch.object(runner.robot, 'run_test') as submit, \
+             patch.object(runner, 'process_sample') as process, redirect_stdout(io.StringIO()):
+            results = Path(tmp) / 'data/results/begins_example/psf-water'
+            results.mkdir(parents=True)
+            (results / 'agg.csv').write_text('name,Elastic Modulus Mean\nsample,42\n')
+            runner.main(['--export-only', '--batch', 'psf-water', '--campaign', 'example'])
+            self.assertTrue((results / 'reproduce.csv').exists())
+            for mocked in [campaign, health, submit, process]:
+                mocked.assert_not_called()
+
     def setUp(self):
         self.plan = runner.load_plan(runner.PLAN)
         self.batch = self.plan['batches'][0]
@@ -140,7 +180,7 @@ class ProtocolTests(unittest.TestCase):
             baseline = runner.csv_snapshot(root)
             fresh = root / 'fresh.csv'
             fresh.write_text('new')
-            self.assertEqual(runner.new_csv_files(root, baseline), [fresh])
+            self.assertEqual(runner.new_csv_files(root, baseline), [fresh.resolve()])
             old.write_text('modified old')
             with self.assertRaisesRegex(RuntimeError, 'Pre-existing'):
                 runner.new_csv_files(root, baseline)
