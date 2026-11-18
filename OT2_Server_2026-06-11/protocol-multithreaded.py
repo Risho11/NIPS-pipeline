@@ -127,12 +127,21 @@ else:
 
 # server definition
 # log capture defintion
+_log_directory = Path(__file__).resolve().parent / 'logs'
+_log_directory.mkdir(exist_ok=True)
+_log_path = _log_directory / f'protocol-{datetime.datetime.now().strftime("%Y%m%d-%H%M%S")}.log'
+_log_file = _log_path.open('a', encoding='utf-8', buffering=1)
+_log_lock = threading.Lock()
+
 class _LogCapture:
     def __init__(self, stream):
         self._stream = stream
         self.lines = []
     def write(self, msg):
         self._stream.write(msg)
+        with _log_lock:
+            _log_file.write(msg)
+            _log_file.flush()
         if msg.strip():
             ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             self.lines.append(f"[{ts}] {msg.rstrip()}")
@@ -145,6 +154,7 @@ class _LogCapture:
 _capture = _LogCapture(sys.__stdout__)
 sys.stdout = _capture
 sys.stderr = _LogCapture(sys.__stderr__)
+print(f'Protocol stdout/stderr log: {_log_path}', flush=True)
 
 
 # ==================================================

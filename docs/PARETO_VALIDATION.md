@@ -1,5 +1,12 @@
 # Pareto validation protocol
 
+The historical plan uses points 2 and 4. The runner and updated OT2 helper also
+accept `--test-locations 1 3` for both zero and membrane tests. Location choices
+are checkpoint-bound; do not change an existing checkpoint hash to bypass a
+conflict. The November 16 PSf campaign has an explicitly recorded transition
+after its first nine completed samples; see
+[its current instructions](POLYSULFONE_REPRODUCIBILITY.md#current-compression-locations-november-17-update).
+
 The frozen [plan](../protocols/pareto_validation_plan.json) contains the approved
 five PSf and five Primospire conditions, with original `params.json` hashes and
 exact recorded settings. It does not rerank candidates or use active learning.
@@ -12,8 +19,8 @@ uv run --locked --no-sync python src/pipeline/run_pareto_validation.py
 ```
 
 Each condition gets **three independently fabricated samples**. Each sample gets
-two blank-coupon zero tests and two membrane tests, using **coupon test 2 then
-coupon test 4** in both phases. The total is 30 samples, 60 membrane tests, and
+two blank-coupon zero tests and two membrane tests, using the historical pair **coupon test 2 then
+coupon test 4** in both phases unless explicitly overridden by `--test-locations 1 3`. The total is 30 samples, 60 membrane tests, and
 60 zero tests. The two locations are within-sample measurements, not independent
 synthesis repeats. All three synthesis repeats of a condition run consecutively
 before advancing to the next condition. For `psf-water`, the order is
@@ -21,15 +28,17 @@ V1 ×3 → V2 ×3 → V4 ×3 → V5 ×3.
 
 ## Bottom-location mapping
 
-Bottom means the **start of blade casting**, as specified by the operator.
-In `OT2_Server_2026-06-11/lib/arm.py`, casting moves X=215 to X=110. The coupon
-pickup at the casting station has yaw −90°, and the flattened coupon at the
-tester has yaw +91°. Thus the casting direction is approximately +X in the
-tester frame. The probe stays fixed while the coupon moves: the larger coupon
-pose X=170 places the casting-start side under it. These are tests **2 and 4**,
-at Y=355 and Y=365. Tests 1 and 3 use X=160 and correspond to the other side.
-No calibrated coordinates were changed. This mapping was traced from source
-motions; it has not been verified by moving the physical apparatus.
+The operator clarified on November 17 that the physical bottom locations are
+**tests 1 and 3**. Their calibrated coupon poses use X=160, at Y=355 and Y=365.
+Tests 2 and 4 use X=170. The previous inference from casting motion and coupon
+rotation that identified 2 and 4 as bottom was incorrect; the operator's physical
+identification takes precedence. No calibrated coordinates were changed.
+
+The frozen plan retains its historical pair 2 and 4 as evidence of the original
+setup. Use `--test-locations 1 3` for bottom testing going forward, with the
+updated helper and an explicitly prepared checkpoint. Both zero and membrane
+phases use the selected pair. Legacy requests without a location list continue
+to use all four points.
 
 ## Deploy the robot-side support
 
@@ -162,6 +171,14 @@ uv run --locked --no-sync python src/pipeline/run_pareto_validation.py --process
 `--process-only` uses saved measurements and does not access the robot or camera.
 
 ## Resume and limits
+
+The OT2 protocol saves runtime stdout/stderr (including background-thread
+tracebacks) in `logs/protocol-<timestamp>.log` next to the deployed script.
+Successful health/request polls are quiet; HTTP errors are still printed.
+Top-level request failures also retain `error_traceback` in the robot request
+journal. These diagnostics take effect after restarting the deployed protocol.
+`robot.json` is saved at protocol milestones, not continuously: counters may lag
+the physical state after a failure, so confirm the apparatus before recovery.
 
 Restart with the **same command, campaign key, setup, and paths**. The runner saves
 each request UUID, robot journal identity, payload, and pre-run CSV boundary

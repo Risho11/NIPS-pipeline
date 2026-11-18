@@ -76,7 +76,7 @@ def load_plan(path):
         plan.get('membrane_tests_per_sample'), plan.get('zero_tests_per_sample')) != (1, 3, 2, 2):
         raise ValueError('Expected the reviewed three-repeat / two-location plan')
     if plan.get('compression_test_locations') != ['coupon test 2', 'coupon test 4']:
-        raise ValueError('Expected the bottom pair at the casting-start side: tests 2 and 4')
+        raise ValueError('Expected historical frozen-plan locations: tests 2 and 4; use --test-locations 1 3 for the operator-confirmed bottom pair')
     seen = set()
     for batch in plan['batches']:
         for condition in batch['conditions']:
@@ -98,10 +98,16 @@ def load_plan(path):
     return plan
 
 
-def jobs_for_batch(batch):
+def jobs_for_batch(batch, extend_psf_water=False):
     # Finish all independent synthesis repeats of one condition before advancing.
-    return [dict(condition=condition, repeat=repeat) for condition in batch['conditions']
+    jobs = [dict(condition=condition, repeat=repeat) for condition in batch['conditions']
             for repeat in range(1, 4)]
+    if extend_psf_water:
+        if [c['validation_id'] for c in batch['conditions']] != ['V1', 'V2', 'V4', 'V5']:
+            raise ValueError('Expected the original PSf water condition order')
+        jobs.extend(dict(condition=condition, repeat=repeat)
+                    for condition in batch['conditions'][:3] for repeat in (4, 5))
+    return jobs
 
 
 def validate_setup(batch, setup):
@@ -243,6 +249,7 @@ class Campaign:
         self.state_path = self.results / 'validation_state.json'
         self.lock = threading.RLock()
         self.camera = None
+        self.jobs = jobs_for_batch(batch, getattr(args, 'extend_psf_water', False))
         binding = dict(plan=plan, sample_order='condition_then_repeat', batch=batch['batch_id'], setup=setup,
                        locations=args.test_locations, csv_raw_path=str(Path(args.csv_raw_path).resolve()),
                        robot_url=args.robot_url, server_ip=args.server_ip, server_port=args.server_port,
@@ -253,6 +260,17 @@ class Campaign:
                 raise ValueError('Saved campaign configuration changed; preserve and inspect its state')
         else:
             self.state = dict(binding_sha256=digest(binding), jobs=[], current=None)
+        saved_names = [job['name'] for job in self.state['jobs']]
+        if saved_names != [self.sample_name(job) for job in self.jobs[:len(saved_names)]]:
+            raise ValueError('Saved jobs do not match this schedule. Reuse --extend-psf-water if used previously.')
+        if getattr(args, 'extend_psf_water', False) and (
+            len(saved_names) < 9 or any(job['status'] != 'completed' for job in self.state['jobs'][:9])
+        ):
+            raise ValueError('The PSf water extension requires the nine completed baseline jobs')
+
+    def sample_name(self, specification):
+        condition = specification['condition']
+        return f'{self.args.campaign}_{self.batch["batch_id"]}_{condition["validation_id"]}_rep{specification["repeat"]}'
 
     def save(self):
         save_json(self.state_path, self.state)
@@ -266,7 +284,7 @@ class Campaign:
                 save_json(directory / 'validation_source.json', specification['condition'])
             return job
         condition = specification['condition']
-        sample_name = f'{self.args.campaign}_{self.batch["batch_id"]}_{condition["validation_id"]}_rep{specification["repeat"]}'
+        sample_name = self.sample_name(specification)
         directory = ROOT / 'data' / 'raw' / sample_name
         if directory.exists():
             raise RuntimeError(f'Untracked sample folder exists: {directory}; refusing overwrite')
@@ -279,6 +297,7 @@ class Campaign:
                    baseline=csv_snapshot(self.args.csv_raw_path), snapshots=[], status='prepared')
         self.state['jobs'].append(job)
         self.state['current'] = index
+        self.state['completed'] = False
         self.save()  # Bind the ID, immutable payload and file boundary before any POST.
         directory.mkdir(parents=True, exist_ok=False)
         save_json(directory / 'validation_source.json', condition)
@@ -390,14 +409,14 @@ class Campaign:
             raise RuntimeError('Deploy updated ot2.py and calculations.py for polymer/solvent-only stocks first')
         self.state['journal_id'] = health['journal_id']
         self.save()
-        for index, specification in enumerate(jobs_for_batch(self.batch)):
+        for index, specification in enumerate(self.jobs):
             with self.lock:
                 job = self.prepare_job(specification, index)
                 if job['status'] == 'completed':
                     continue
                 self.state['current'] = index
                 self.save()
-            print(f'{index + 1}/{len(jobs_for_batch(self.batch))}: {job["name"]}', flush=True)
+            print(f'{index + 1}/{len(self.jobs)}: {job["name"]}', flush=True)
             if job['status'] != 'collected':
                 # A restart reuses the same durable ID and original file boundary.
                 if not job.get('callback'):
@@ -461,8 +480,10 @@ def main(argv=None):
     parser.add_argument('--campaign', help='New unique campaign key; reuse unchanged to resume')
     parser.add_argument('--setup', type=Path)
     parser.add_argument('--test-locations', nargs=2, type=int, default=[2, 4],
-                        help='Casting-start bottom pair; fixed to 2 4 for this plan')
+                        help='Ordered pair: 2 4 (historical default) or 1 3 (operator-confirmed bottom); saved campaigns bind this choice')
     parser.add_argument('--execute', action='store_true')
+    parser.add_argument('--extend-psf-water', action='store_true',
+                        help='Append V1, V2 and V4 repeats 4 and 5 to the November 16 PSf water schedule')
     parser.add_argument('--process-only', action='store_true', help='Process saved batch samples without network or hardware')
     parser.add_argument('--export-only', action='store_true', help='Refresh reproduce.csv from agg.csv without fitting or devices')
     parser.add_argument('--collect-only', action='store_true', help='Keep raw data; defer mechanical processing')
@@ -473,6 +494,13 @@ def main(argv=None):
     parser.add_argument('--camera-index', type=int, default=2)
     parser.add_argument('--sample-timeout', type=float, default=4 * 60 * 60)
     args = parser.parse_args(argv)
+    if args.test_locations not in ([2, 4], [1, 3]):
+        parser.error('--test-locations must be 2 4 or 1 3')
+    if args.extend_psf_water and (
+        args.batch != 'psf-water' or args.campaign != 'psf-reproducibility-2026-11-16'
+        or args.export_only or args.process_only
+    ):
+        parser.error('--extend-psf-water requires the November 16 PSf water campaign and a preview or execution')
     plan = load_plan(args.plan)
     batches = [batch for batch in plan['batches'] if args.batch is None or batch['batch_id'] == args.batch]
     if not batches:
@@ -502,9 +530,11 @@ def main(argv=None):
             export_reproduce(results)
         return
     for batch in batches:
+        jobs = jobs_for_batch(batch, args.extend_psf_water)
+        print(f'Compression locations for future samples: {args.test_locations} (blank and membrane phases)')
         print(f'{batch["batch_id"]}: {len(batch["conditions"])} conditions, '
-              f'{3 * len(batch["conditions"])} independent samples; {batch["material_context"]}')
-        for job in jobs_for_batch(batch):
+              f'{len(jobs)} independent samples; {batch["material_context"]}')
+        for job in jobs:
             print(f'  {job["condition"]["validation_id"]} repeat {job["repeat"]}: {job["condition"]["parameters"]}')
     if not args.execute:
         print('Preview only: no device, network, camera, or experiment-state access.')
@@ -512,8 +542,6 @@ def main(argv=None):
     if (not args.batch or not args.setup or not args.campaign or
             not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}', args.campaign)):
         parser.error('--execute requires --batch, --setup and a simple unique --campaign key')
-    if args.test_locations != [2, 4]:
-        parser.error('This reviewed plan uses the casting-start bottom pair: --test-locations 2 4')
     if not args.csv_raw_path.is_dir() or not math.isfinite(args.sample_timeout) or args.sample_timeout <= 0:
         parser.error('Newton CSV directory must exist and sample timeout must be positive')
     batch = batches[0]

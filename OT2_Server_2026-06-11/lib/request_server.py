@@ -79,6 +79,9 @@ class RequestJournal:
             run(parameters)
         except BaseException:
             status = 'failed'
+            error_traceback = traceback.format_exc()
+            with self.lock:
+                self.data['requests'][request_id]['error_traceback'] = error_traceback
             traceback.print_exc()
         finally:
             with self.lock:
@@ -89,6 +92,13 @@ class RequestJournal:
 
 def make_handler(journal, run, health_details=None):
     class RequestHandler(BaseHTTPRequestHandler):
+        def log_request(self, code='-', size='-'):
+            # Successful two-second polls obscure motion errors on the terminal.
+            if (str(code) == '200' and self.command == 'GET'
+                    and (self.path == '/health' or self.path.startswith('/requests/'))):
+                return
+            super().log_request(code, size)
+
         def _reply(self, code, body):
             payload = json.dumps(body).encode()
             self.send_response(code)
