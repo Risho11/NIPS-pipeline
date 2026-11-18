@@ -336,6 +336,22 @@ class ProtocolTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, 'identity changed'):
                     campaign.wait_for_completion(job)
 
+    def test_status_poll_timeout_retries_same_request(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(runner, 'ROOT', Path(tmp)):
+            campaign = self.make_campaign(tmp)
+            job = campaign.prepare_job(runner.jobs_for_batch(self.batch)[0], 0)
+            campaign.state['journal_id'] = str(uuid.uuid4())
+            campaign.receive_callback({'parameters': job['payload']})
+            status = dict(journal_id=campaign.state['journal_id'],
+                          digest=runner.digest(job['payload']), status='completed')
+            responses = [runner.urllib.error.URLError(TimeoutError('Connection timed out')),
+                         io.BytesIO(json.dumps(status).encode())]
+            with patch.object(runner.urllib.request, 'urlopen', side_effect=responses) as poll, \
+                 patch.object(runner.time, 'sleep'), redirect_stdout(io.StringIO()):
+                campaign.wait_for_completion(job)
+            destination = f'{campaign.args.robot_url}/requests/{job["request_id"]}'
+            self.assertEqual([call.args[0] for call in poll.call_args_list], [destination, destination])
+
     def test_existing_pairing_accepts_two_zero_and_two_membrane_files(self):
         # Exercise the actual chronological pairing helper, without fitting fake curves.
         import matplotlib

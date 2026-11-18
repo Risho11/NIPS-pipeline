@@ -199,7 +199,8 @@ takes the last eight files or fills a missing curve from a previous experiment.
 Ctrl+C stops the Mini PC service; it is **not a robot emergency stop** and does
 not cancel an accepted physical job. An interrupted robot job needs inspection
 before recovery. A sample times out after four hours by default; change
-`--sample-timeout` in seconds if needed. Restoring connectivity and reusing the
+`--sample-timeout` in seconds if needed. If a status poll loses its connection,
+the runner retries the same request ID within that timeout. Restoring connectivity and reusing the
 same checkpoint cannot automatically repair a physical crash or redo a failed job.
 
 Validation performed here uses mocked hardware and temporary data, including

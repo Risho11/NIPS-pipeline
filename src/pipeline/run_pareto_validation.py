@@ -18,6 +18,7 @@ import re
 import shutil
 import threading
 import time
+import urllib.error
 import urllib.request
 import uuid
 
@@ -357,9 +358,22 @@ class Campaign:
 
     def wait_for_completion(self, job):
         deadline = time.monotonic() + self.args.sample_timeout
-        while time.monotonic() < deadline:
-            with urllib.request.urlopen(f'{self.args.robot_url}/requests/{job["request_id"]}', timeout=30) as response:
-                status = json.load(response)
+        destination = f'{self.args.robot_url}/requests/{job["request_id"]}'
+        last_network_error = None
+        while (remaining := deadline - time.monotonic()) > 0:
+            try:
+                with urllib.request.urlopen(destination, timeout=min(30, remaining)) as response:
+                    status = json.load(response)
+            except urllib.error.HTTPError as error:
+                raise RuntimeError(f'Robot status endpoint returned HTTP {error.code} at {destination}; '
+                                   'inspect robot state and preserve the checkpoint.') from error
+            except robot.NETWORK_ERRORS as error:
+                last_network_error = error
+                print(f'[robot] Status poll failed for {job["request_id"]}: {error}. '
+                      'Retrying the same request status within the sample timeout.', flush=True)
+                time.sleep(max(0, min(2, deadline - time.monotonic())))
+                continue
+            last_network_error = None
             if status.get('journal_id') != self.state['journal_id'] or status.get('digest') != digest(job['payload']):
                 raise RuntimeError('Robot journal or request payload identity changed')
             if status['status'] == 'failed':
@@ -370,8 +384,11 @@ class Campaign:
                 if not callback:
                     raise RuntimeError('Robot completed without a recorded callback; inspect before recovery')
                 return
-            time.sleep(2)
-        raise TimeoutError('Sample timeout; restore connectivity and resume the same state/ID')
+            time.sleep(max(0, min(2, deadline - time.monotonic())))
+        message = f'Sample timeout waiting for {destination}; inspect robot state and resume the same state/ID'
+        if last_network_error is not None:
+            message += f'. Last status poll error: {last_network_error}'
+        raise TimeoutError(message) from last_network_error
 
     def collect(self, job):
         files = new_csv_files(self.args.csv_raw_path, job['baseline'])
