@@ -50,6 +50,7 @@ import llm_context                             # <<< IMPORT >>> what branch resu
 from mas_contract import Context, Decision, validate_conditions
 from mas_runtime import CampaignRuntime
 from mas_workspace import Workspace, file_digest, key as mas_key
+from camera_recording import control_recording, recording_port
 
 # Semi-batch material choices. Recorded with every condition and provided to LLM_AL as context,
 # but never selected or changed by the model.
@@ -418,7 +419,7 @@ def _fmt_num(v):
     return str(f).replace(".", "p")
 
 
-def move_and_rename(params):
+def _condition_base_name(params):
     s = f"{_fmt_num(params['polymer_wt'])}-{_fmt_num(params['additive_wt'])}add-"
     if params["additive_wt"] != 0:
         s += f"{_fmt_num(params['mixing_temp'])}degMix-"
@@ -438,22 +439,31 @@ def move_and_rename(params):
         s += "No"
     s += "N2-"
     s += f"{_fmt_num(params['nips_bath_wait_time'])}s"
-    base = DATA_ROOT / "data/raw" / s  # <<< FOLDER NAME >>>
+    return s
+
+
+def _next_condition_directory(params):
+    base = DATA_ROOT / "data/raw" / _condition_base_name(params)
     directory = base
     if directory.exists():
         run = 2
         while (base.parent / f"{base.name}_run{run}").exists():
             run += 1
         directory = base.parent / f"{base.name}_run{run}"
-        s = directory.name
-        print(f"Condition already tested. New folder: {s}")
+    return directory
+
+
+def move_and_rename(params):
+    directory = _next_condition_directory(params)
+    if directory.name != _condition_base_name(params):
+        print(f"Condition already tested. New folder: {directory.name}")
     directory.mkdir(parents=True, exist_ok=False)
     for f in get_last_set_img():
         shutil.copy(f, directory)
     for f in get_last_set_csv():
         shutil.copy(f, directory)
     (directory / "params.json").write_text(json.dumps(params))
-    return s
+    return directory.name
 
 
 def _extract_next_params(raw_text):
@@ -1007,6 +1017,48 @@ def _write_dynamic_params(path, params, *, initial=False):
     os.replace(temporary, path)
 
 
+_recording_lock = threading.Lock()
+_active_recording = None
+
+
+def _submit_recorded_test(params, **submission):
+    global _active_recording
+    if not recording_port():
+        return url.run_test(params, **submission)
+    owner = submission.get('request_id') or str(uuid.uuid4())
+    try:
+        with _recording_lock:
+            if _active_recording is None:
+                try:
+                    sample_name = _next_condition_directory(params).name
+                except (KeyError, ValueError, OSError) as error:
+                    print(f'[CAMERA] Could not determine sample name: {error}', flush=True)
+                    sample_name = None
+                _active_recording = (owner, {k: v for k, v in params.items() if k != 'stock_metadata'})
+                control_recording('start', owner, sample_name=sample_name)
+        result = url.run_test(params, **submission)
+        if json.loads(result)['status'] == 'completed':
+            _stop_experiment_recording(owner=owner)
+        return result
+    except BaseException:
+        _stop_experiment_recording(owner=owner)
+        raise
+
+
+def _stop_experiment_recording(*, owner=None, params=None):
+    global _active_recording
+    with _recording_lock:
+        if _active_recording is None:
+            return
+        active_owner, active_params = _active_recording
+        if owner is not None and owner != active_owner:
+            return
+        if params is not None and active_params != {k: v for k, v in params.items() if k != 'stock_metadata'}:
+            return
+        control_recording('stop', active_owner)
+        _active_recording = None
+
+
 def _submit_dynamic_initial(params):
     with _dynamic_workspace().file_lock('.pipeline.lock'):
         return _submit_dynamic_initial_locked(params)
@@ -1036,7 +1088,7 @@ def _submit_dynamic_initial_locked(params):
     submission["journal_id"] = health["journal_id"]
     saved["submission"] = submission
     _save_json(path, saved)
-    url.run_test(params, request_id=submission["request_id"], journal_id=submission["journal_id"])
+    _submit_recorded_test(params, request_id=submission["request_id"], journal_id=submission["journal_id"])
     submission["submitted"] = True
     _save_json(path, saved)
 
@@ -1258,8 +1310,8 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
         state.setdefault("submission_request_id", str(uuid.uuid4()))
         state["submission_journal_id"] = health["journal_id"]
         _complete_stage(condition_name, state, "submission_started")
-        url.run_test(new_params, request_id=state["submission_request_id"],
-                     journal_id=state["submission_journal_id"])
+        _submit_recorded_test(new_params, request_id=state["submission_request_id"],
+                              journal_id=state["submission_journal_id"])
         _complete_stage(condition_name, state, "next_run_submitted")
         print(f"[DONE] {condition_name}  elapsed={time.time()-_t0:.1f}s")
 
@@ -1273,6 +1325,11 @@ def _run_pipeline_and_trigger_next(params, protocol_log=None, resume_condition=N
         print(f"[ERROR] {condition_name}  {type(e).__name__}: {e}")
         print(f"Pipeline error — loop stopped: {e}")
         raise
+
+def _process_completed_experiment(params, protocol_log):
+    _stop_experiment_recording(params=params)
+    _run_pipeline_and_trigger_next(params, protocol_log)
+
 
 class LoopHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
@@ -1329,7 +1386,7 @@ class LoopHandler(BaseHTTPRequestHandler):
             self.wfile.write(b"true")
             # respond immediately, run pipeline + AL + next trigger in background
             threading.Thread(
-                target=_run_pipeline_and_trigger_next,
+                target=_process_completed_experiment,
                 args=(params, protocol_log),
                 daemon=True,
             ).start()
@@ -1390,7 +1447,7 @@ if __name__ == "__main__":
         if LLM_AL_SEARCH_MODE in REQUIRE_CODEX_MODES:
             _submit_dynamic_initial(first_params)
         else:
-            url.run_test(first_params)
+            _submit_recorded_test(first_params)
     print("server ready — experiment loop or saved MAS hold/stop active. Ctrl+C to stop.")
 
     try:
@@ -1398,4 +1455,5 @@ if __name__ == "__main__":
             time.sleep(1)
     except KeyboardInterrupt:
         print("\nstopping server...")
+        _stop_experiment_recording()
         server.shutdown()

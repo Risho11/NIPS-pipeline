@@ -22,6 +22,7 @@ import urllib.request
 import uuid
 
 import url_29 as robot
+from camera_recording import control_recording
 
 ROOT = Path(__file__).resolve().parents[2]
 PLAN = ROOT / 'protocols' / 'pareto_validation_plan.json'
@@ -419,9 +420,13 @@ class Campaign:
             print(f'{index + 1}/{len(self.jobs)}: {job["name"]}', flush=True)
             if job['status'] != 'collected':
                 # A restart reuses the same durable ID and original file boundary.
-                if not job.get('callback'):
-                    robot.run_test(job['payload'], request_id=job['request_id'], journal_id=self.state['journal_id'])
-                self.wait_for_completion(job)
+                try:
+                    if not job.get('callback'):
+                        control_recording('start', job['request_id'], sample_name=job['name'])
+                        robot.run_test(job['payload'], request_id=job['request_id'], journal_id=self.state['journal_id'])
+                    self.wait_for_completion(job)
+                finally:
+                    control_recording('stop', job['request_id'])
                 with self.lock:
                     self.collect(job)
             if not self.args.collect_only and not job.get('mechanical_processed'):
