@@ -1,5 +1,55 @@
 # Polysulfone reproducibility run
 
+## Current compression locations (November 17 update)
+
+The first nine completed water samples used points **2 and 4**. At the operator's
+request and physical clarification that **1 and 3 are the bottom**, the campaign
+checkpoint now binds future samples to **1 and 3**, for
+both blank-coupon and membrane phases. Completed payloads and measurements retain
+their original locations. The interrupted V5 repeat 1 request and metadata are
+archived under the campaign's recovery records and `data/raw/`; its OT2 journal
+entry is preserved. Do not interpret measurements from the two pairs as the same
+spatial sampling.
+
+The remaining launch examples below require **`--test-locations 1 3`** when
+resuming this campaign. Stop/reset the interrupted physical job and restart the
+OT2 protocol after deploying `lib/compression_plan.py`; an already running
+protocol retains its previously imported helper. No calibration coordinates change.
+
+```bash
+uv run --locked --no-sync python src/pipeline/run_pareto_validation.py \
+  --execute --batch psf-water --campaign psf-reproducibility-2026-11-16 \
+  --setup protocols/pareto_validation_setup.local.json --test-locations 1 3
+```
+
+Add `--extend-psf-water` if continuing the additional-repeat schedule described
+below. The historical frozen plan and default CLI pair remain 2 and 4; the
+explicit override records the operator-selected change for future jobs.
+
+## November 16 water-bath continuation
+
+The saved checkpoint has three completed membranes each for V1, V2, and V4.
+The interrupted V5 repeat 1 is archived. The continuation creates a fresh
+request ID, finishes V5 repeats 1–3, and then runs repeats 4 and 5 for V1, V2,
+and V4. That leaves five membranes each for V1, V2, and V4 and three for V5.
+
+Preview the 18-position schedule offline. During execution, the nine completed
+jobs are skipped using the checkpoint.
+
+```bash
+uv run --locked --no-sync python src/pipeline/run_pareto_validation.py --batch psf-water --campaign psf-reproducibility-2026-11-16 --extend-psf-water --test-locations 1 3
+```
+
+With the water bath and stock verified against the existing setup declaration,
+use the following command to start or resume the continuation. Reuse the same
+command after an interruption.
+
+```bash
+uv run --locked --no-sync python src/pipeline/run_pareto_validation.py --execute --batch psf-water --campaign psf-reproducibility-2026-11-16 --extend-psf-water --setup protocols/pareto_validation_setup.local.json --test-locations 1 3
+```
+
+## Original run procedure
+
 Use the existing Python runner and frozen Pareto validation plan, without active
 learning. Run the commands below in Git Bash from the repository root. They use
 campaign `psf-reproducibility-2026-11-16` and do not change the legacy
@@ -23,12 +73,12 @@ Start physical fabrication explicitly:
 ```bash
 uv run --locked --no-sync python src/pipeline/run_pareto_validation.py \
   --execute --batch psf-water --campaign psf-reproducibility-2026-11-16 \
-  --setup protocols/pareto_validation_setup.local.json
+  --setup protocols/pareto_validation_setup.local.json --test-locations 1 3
 ```
 
 This runs V1 three times, then V2 three times, V4 three times, and V5 three times:
 12 independent fabrications, 24 membrane compression tests, and 24 zero tests.
-Each sample uses coupon locations 2 and 4. Exact historical recipes are retained,
+Future samples use coupon locations 1 and 3. Exact historical recipes are retained,
 including mixing temperature, casting speed, exposure, and immersion time.
 
 After the water batch finishes, prepare the separate **10 wt% PolarClean bath**
@@ -37,7 +87,7 @@ and launch the remaining polysulfone condition:
 ```bash
 uv run --locked --no-sync python src/pipeline/run_pareto_validation.py \
   --execute --batch psf-bath-10wt --campaign psf-reproducibility-2026-11-16 \
-  --setup protocols/pareto_validation_setup.local.json
+  --setup protocols/pareto_validation_setup.local.json --test-locations 1 3
 ```
 
 This adds three V3 fabrications, six membrane tests, and six zero tests. The

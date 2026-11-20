@@ -7,8 +7,8 @@ import json
 BASE_URL = "http://169.254.230.148:8000" # url of the http server running on the mini pc
 
 # GET methods, since we just need the server to do the action and then send us a response
-def get_compressiontester_status():
-    with urllib.request.urlopen(f"{BASE_URL}/compressiontester/status") as response:
+def get_compressiontester_status(timeout=60):
+    with urllib.request.urlopen(f"{BASE_URL}/compressiontester/status", timeout=timeout) as response:
         return json.loads(response.read())
 
 def take_snapshot(timeout=60):

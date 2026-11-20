@@ -25,6 +25,30 @@ spec.loader.exec_module(compression)
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_robot_failure_traceback_is_persisted_and_poll_logs_are_quiet(self):
+        spec = importlib.util.spec_from_file_location('request_diagnostics', ROOT / 'OT2_Server_2026-06-11/lib/request_server.py')
+        requests = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(requests)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'journal.json'
+            journal = requests.RequestJournal(path)
+            request_id = str(uuid.uuid4())
+            journal.data['requests'][request_id] = dict(status='accepted', digest='saved')
+            with patch.object(requests.traceback, 'print_exc'), redirect_stdout(io.StringIO()):
+                journal._execute(request_id, {}, Mock(side_effect=RuntimeError('transfer failed')))
+            saved = json.loads(path.read_text())['requests'][request_id]
+            self.assertEqual(saved['status'], 'failed')
+            self.assertIn('RuntimeError: transfer failed', saved['error_traceback'])
+            handler = object.__new__(requests.make_handler(journal, Mock()))
+            handler.command = 'GET'
+            handler.path = '/requests/' + request_id
+            handler.requestline = 'GET ' + handler.path + ' HTTP/1.1'
+            handler.log_message = Mock()
+            handler.log_request(200)
+            handler.log_message.assert_not_called()
+            handler.log_request(409)
+            handler.log_message.assert_called_once()
+
     def test_reproduce_selects_postdiscard_and_preserves_failed_samples(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -99,12 +123,13 @@ class ProtocolTests(unittest.TestCase):
 
     def test_legacy_four_locations_and_bottom_only_validation(self):
         self.assertEqual(compression.resolve_test_locations(), compression.LEGACY_LOCATIONS)
-        self.assertEqual(compression.resolve_test_locations(['coupon test 2', 'coupon test 4']), compression.BOTTOM_LOCATIONS)
-        for bad in [[], ['coupon test 1', 'coupon test 2'], ['coupon test 2'] * 2]:
+        self.assertEqual(compression.resolve_test_locations(['coupon test 2', 'coupon test 4']), compression.OPPOSITE_LOCATIONS)
+        self.assertEqual(compression.resolve_test_locations(['coupon test 1', 'coupon test 3']), compression.BOTTOM_LOCATIONS)
+        for bad in [[], ['coupon test 1', 'coupon test 2'], ['coupon test 2'] * 2, ['coupon test 3', 'coupon test 1']]:
             with self.assertRaises(ValueError):
                 compression.resolve_test_locations(bad)
 
-    def test_bottom_pair_tracks_casting_direction_and_coupon_rotation(self):
+    def test_operator_bottom_pair_uses_existing_calibrated_coordinates(self):
         # Read calibrated constants with AST; importing arm.py would contact an SDK.
         tree = ast.parse((ROOT / 'OT2_Server_2026-06-11/lib/arm.py').read_text(encoding='utf-8'))
         node = next(n for n in tree.body if isinstance(n, ast.Assign) and any(
@@ -116,8 +141,9 @@ class ProtocolTests(unittest.TestCase):
                            positions['opentrons']['pullcast end pulldown'][0])
         self.assertEqual(positions['opentrons']['coupon angled'][5], -90)
         self.assertEqual(positions['tester']['coupon flat'][5], 91)
-        self.assertEqual([positions['tester'][name][0] for name in compression.BOTTOM_LOCATIONS], [170, 170])
-        self.assertEqual([positions['tester'][f'coupon test {i}'][0] for i in [1, 3]], [160, 160])
+        self.assertEqual(compression.BOTTOM_LOCATIONS, ('coupon test 1', 'coupon test 3'))
+        self.assertEqual([positions['tester'][name][0] for name in compression.BOTTOM_LOCATIONS], [160, 160])
+        self.assertEqual([positions['tester'][name][0] for name in compression.OPPOSITE_LOCATIONS], [170, 170])
 
     def test_real_compression_function_uses_two_locations_per_phase(self):
         tree = ast.parse((ROOT / 'OT2_Server_2026-06-11/protocol-multithreaded.py').read_text(encoding='utf-8'))
@@ -133,6 +159,11 @@ class ProtocolTests(unittest.TestCase):
             namespace['run_compression_tests'](compression.BOTTOM_LOCATIONS)  # membrane phase
         self.assertEqual(arduino.run_test.call_count, 4)
         self.assertEqual([call.args[0] for call in arm.put_down.call_args_list], list(compression.BOTTOM_LOCATIONS) * 2)
+        arm.reset_mock()
+        with redirect_stdout(io.StringIO()):
+            namespace['run_compression_tests'](compression.OPPOSITE_LOCATIONS)
+            namespace['run_compression_tests'](compression.OPPOSITE_LOCATIONS)
+        self.assertEqual([call.args[0] for call in arm.put_down.call_args_list], list(compression.OPPOSITE_LOCATIONS) * 2)
         # Verify run_test threads receive this sample's immutable location tuple.
         source = ast.unparse(next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == 'run_test'))
         self.assertIn('args=(run_locations,)', source)
@@ -163,14 +194,25 @@ class ProtocolTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'skips heated mixing'):
             runner.validate_setup(batch, setup)
 
-    def make_campaign(self, tmp, collect_only=False):
+    def make_campaign(self, tmp, collect_only=False, test_locations=None):
         raw = Path(tmp) / 'newton'
         raw.mkdir(exist_ok=True)
-        args = types.SimpleNamespace(campaign='test-pareto', test_locations=[2, 4],
+        args = types.SimpleNamespace(campaign='test-pareto', test_locations=test_locations or [2, 4],
                                      csv_raw_path=raw, robot_url='http://mock-robot',
                                      server_ip='127.0.0.1', server_port=8000, camera_index=2,
                                      collect_only=collect_only, sample_timeout=30)
         return runner.Campaign(self.plan, self.batch, self.setup_metadata(), args)
+
+    def test_opposite_pair_payload_and_resume_binding(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(runner, 'ROOT', Path(tmp)):
+            campaign = self.make_campaign(tmp, test_locations=[1, 3])
+            specification = runner.jobs_for_batch(self.batch)[0]
+            job = campaign.prepare_job(specification, 0)
+            self.assertEqual(job['payload']['compression_test_locations'], ['coupon test 1', 'coupon test 3'])
+            resumed = self.make_campaign(tmp, test_locations=[1, 3])
+            self.assertEqual(resumed.prepare_job(specification, 0), job)
+            with self.assertRaisesRegex(ValueError, 'configuration changed'):
+                self.make_campaign(tmp, test_locations=[2, 4])
 
     def test_file_boundary_rejects_changed_old_files(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -269,7 +311,8 @@ class ProtocolTests(unittest.TestCase):
             handler._reply = Mock()
             handler.path = '/health'
             handler.do_GET()
-            self.assertEqual(handler._reply.call_args.args[1]['compression_row_pairs'], [['coupon test 2', 'coupon test 4']])
+            self.assertEqual(handler._reply.call_args.args[1]['compression_row_pairs'],
+                             [['coupon test 2', 'coupon test 4'], ['coupon test 1', 'coupon test 3']])
             handler.path = '/requests/' + request_id
             handler.do_GET()
             self.assertEqual(handler._reply.call_args.args[1]['status'], 'completed')
@@ -292,6 +335,22 @@ class ProtocolTests(unittest.TestCase):
                 status['digest'] = 'changed'
                 with self.assertRaisesRegex(RuntimeError, 'identity changed'):
                     campaign.wait_for_completion(job)
+
+    def test_status_poll_timeout_retries_same_request(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(runner, 'ROOT', Path(tmp)):
+            campaign = self.make_campaign(tmp)
+            job = campaign.prepare_job(runner.jobs_for_batch(self.batch)[0], 0)
+            campaign.state['journal_id'] = str(uuid.uuid4())
+            campaign.receive_callback({'parameters': job['payload']})
+            status = dict(journal_id=campaign.state['journal_id'],
+                          digest=runner.digest(job['payload']), status='completed')
+            responses = [runner.urllib.error.URLError(TimeoutError('Connection timed out')),
+                         io.BytesIO(json.dumps(status).encode())]
+            with patch.object(runner.urllib.request, 'urlopen', side_effect=responses) as poll, \
+                 patch.object(runner.time, 'sleep'), redirect_stdout(io.StringIO()):
+                campaign.wait_for_completion(job)
+            destination = f'{campaign.args.robot_url}/requests/{job["request_id"]}'
+            self.assertEqual([call.args[0] for call in poll.call_args_list], [destination, destination])
 
     def test_existing_pairing_accepts_two_zero_and_two_membrane_files(self):
         # Exercise the actual chronological pairing helper, without fitting fake curves.
