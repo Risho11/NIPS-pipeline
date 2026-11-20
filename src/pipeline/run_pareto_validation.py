@@ -43,6 +43,15 @@ def save_json(path, value):
         json.dump(value, handle, indent=2, allow_nan=False)
         handle.flush()
         os.fsync(handle.fileno())
+    # A Windows reader can briefly block replacement of either file.
+    for delay in (0.05, 0.1, 0.2, 0.4, 0.8):
+        try:
+            os.replace(temporary, path)
+            return
+        except OSError as error:
+            if getattr(error, 'winerror', None) not in (5, 32):
+                raise
+            time.sleep(delay)
     os.replace(temporary, path)
 
 
@@ -432,8 +441,9 @@ class Campaign:
                 job = self.prepare_job(specification, index)
                 if job['status'] == 'completed':
                     continue
-                self.state['current'] = index
-                self.save()
+                if self.state['current'] != index:
+                    self.state['current'] = index
+                    self.save()
             print(f'{index + 1}/{len(self.jobs)}: {job["name"]}', flush=True)
             if job['status'] != 'collected':
                 # A restart reuses the same durable ID and original file boundary.

@@ -12,7 +12,7 @@ import sys
 import tempfile
 import types
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import DEFAULT, Mock, patch
 import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,6 +25,42 @@ spec.loader.exec_module(compression)
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_save_json_retries_windows_replacement_denials(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'validation_state.json'
+            runner.save_json(path, {'current': 0})
+            denied = PermissionError('replacement denied')
+            denied.winerror = 5
+            sharing = PermissionError('sharing violation')
+            sharing.winerror = 32
+            with patch.object(runner.os, 'replace', wraps=runner.os.replace,
+                              side_effect=[denied, sharing, DEFAULT]) as replacement, \
+                 patch.object(runner.time, 'sleep') as sleep:
+                runner.save_json(path, {'current': 1})
+
+            temporary = path.with_suffix('.json.tmp')
+            self.assertEqual([call.args for call in replacement.call_args_list], [(temporary, path)] * 3)
+            self.assertEqual([call.args for call in sleep.call_args_list], [(0.05,), (0.1,)])
+            self.assertEqual(json.loads(path.read_text()), {'current': 1})
+            self.assertFalse(temporary.exists())
+
+    def test_failed_json_replacement_keeps_previous_checkpoint(self):
+        for winerror, attempts in [(5, 6), (None, 1)]:
+            with self.subTest(winerror=winerror), tempfile.TemporaryDirectory() as tmp:
+                path = Path(tmp) / 'validation_state.json'
+                runner.save_json(path, {'current': 0})
+                blocked = PermissionError('replacement denied')
+                if winerror is not None:
+                    blocked.winerror = winerror
+                with patch.object(runner.os, 'replace', side_effect=blocked) as replace, \
+                     patch.object(runner.time, 'sleep') as sleep, self.assertRaises(PermissionError):
+                    runner.save_json(path, {'current': 1})
+
+                self.assertEqual(replace.call_count, attempts)
+                self.assertEqual(sleep.call_count, attempts - 1)
+                self.assertEqual(json.loads(path.read_text()), {'current': 0})
+                self.assertEqual(json.loads(path.with_suffix('.json.tmp').read_text()), {'current': 1})
+
     def test_robot_failure_traceback_is_persisted_and_poll_logs_are_quiet(self):
         spec = importlib.util.spec_from_file_location('request_diagnostics', ROOT / 'OT2_Server_2026-06-11/lib/request_server.py')
         requests = importlib.util.module_from_spec(spec)
@@ -245,6 +281,8 @@ class ProtocolTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp, patch.object(runner, 'ROOT', Path(tmp)), \
              patch.object(runner.robot, 'check_health') as health, \
              patch.object(runner.robot, 'run_test') as submit, \
+             patch.object(runner, 'control_recording'), \
+             patch.object(runner, 'save_json', wraps=runner.save_json) as save_json, \
              patch.object(runner.Campaign, 'wait_for_completion'), \
              patch.object(runner, 'process_sample') as process, redirect_stdout(io.StringIO()):
             campaign = self.make_campaign(tmp)
@@ -255,6 +293,11 @@ class ProtocolTests(unittest.TestCase):
                 self.assertEqual(payload['validation_request_id'], request_id)
                 saved = json.loads(campaign.state_path.read_text())
                 self.assertEqual(saved['jobs'][-1]['request_id'], request_id)
+                if submit.call_count == 1:
+                    # The journal binding and the prepared job each require one save.
+                    writes = [call.args[0] for call in save_json.call_args_list]
+                    self.assertEqual(writes.count(campaign.state_path), 2)
+                self.assertEqual(saved['jobs'][saved['current']]['request_id'], request_id)
                 job = campaign.current_job()
                 number = len(campaign.state['jobs']) * 10
                 for i in range(4):
