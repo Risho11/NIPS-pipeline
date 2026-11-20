@@ -323,14 +323,13 @@ def main():
     parser.add_argument('--height', type=int, default=1080)
     parser.add_argument('--fps', type=float, default=15)
     parser.add_argument('--record-dir', type=Path,
-                        help='Save each camera grid MP4 in a dated subdirectory.')
+                        default=Path(__file__).resolve().parents[2] / 'recordings',
+                        help='Save each camera grid MP4 in a dated subdirectory (default: repository recordings/).')
     parser.add_argument('--record-on-demand', action='store_true',
                         help=argparse.SUPPRESS)
     parser.add_argument('--reserved-camera', type=int,
                         help='Keep this camera available for pipeline snapshots.')
     args = parser.parse_args()
-    if args.record_on_demand and args.record_dir is None:
-        parser.error('--record-on-demand requires --record-dir')
     app = create_app(args.cameras, args.width, args.height, args.fps, args.record_dir,
                      args.reserved_camera)
     cameras = app.extensions['camera_streams']

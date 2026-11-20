@@ -35,7 +35,7 @@ running together on this setup; no changes to `run_loop.py` are needed.
 On the pipeline PC, start the camera server in a separate terminal:
 
 ```powershell
-uv run python src/pipeline/camera_stream.py --record-dir recordings
+uv run python src/pipeline/camera_stream.py
 ```
 
 Run `run_loop.py` or `run_pareto_validation.py` as usual. Both use local port
@@ -46,6 +46,8 @@ Run `run_loop.py` or `run_pareto_validation.py` as usual. Both use local port
 $env:NIPS_CAMERA_RECORDING_PORT = '5001'
 ```
 
+The camera server saves to the repository's `recordings/` directory by default.
+Use `--record-dir` to choose another location.
 The camera server waits for a recording request, even while viewers are
 watching the stream. Each experiment starts one grid MP4 before submission.
 The run loop stops recording on the matching completion
