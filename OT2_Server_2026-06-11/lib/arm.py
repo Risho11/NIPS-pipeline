@@ -107,42 +107,42 @@ items = {
 # use "$NAME waypoint" to specify a specific position to take just before or after going to the position of $NAME
 positions = {
     "opentrons": {
-        "knife stand waypoint": [32, -365, 240, 180, 20, -90],
-        "knife stand": [32, -365, 220, 180, 20, -90],
+        "knife stand waypoint": [35+2, -365, 240, 180, 20, -90],
+        "knife stand": [35+2, -365, 220, 180, 20, -90],
         
-        "knife bath waypoint": [32, -430, 240, 180, 0, -90],
-        "knife bath": [32, -460, 218, 180, 20, -90],
-        "knife brush waypoint": [32, -420, 240, 180, 0, -90],
-        "knife brush": [32, -438, 227, 180, 20, -90],
+        "knife bath waypoint": [35, -430, 240, 180, 0, -90],
+        "knife bath": [35, -460, 218, 180, 20, -90],
+        "knife brush waypoint": [35, -420, 240, 180, 0, -90],
+        "knife brush": [35, -438, 227, 180, 20, -90],
         "knife dry waypoint": [35, -380, 240, 180, 0, -90],
         "knife dry": [35, -395, 223, 180, 20, -90],
 
-        "pullcast start waypoint": [215, -540+3, 240, 180, 20, 0],
-        "pullcast start": [215, -540+3, 224, 180, 20, 0],
-        "pullcast start pulldown": [215, -540+3, 223.5, 180, 20, 0],
-        "pullcast end pulldown": [110, -540+3, 223, 180, 20, 0],
-        "pullcast end waypoint": [110, -540+3, 240, 180, 20, 0],
+        "pullcast start waypoint": [215, -540+8, 240, 180, 20, 0],
+        "pullcast start": [215, -540+8, 224, 180, 20, 0],
+        "pullcast start pulldown": [215, -540+8, 223.5, 180, 20, 0],
+        "pullcast end pulldown": [110, -540+8, 223, 180, 20, 0],
+        "pullcast end waypoint": [110, -540+8, 240, 180, 20, 0],
         
-        "coupon angled waypoint": [300, -468, 300, 180, 45, -90],
-        "coupon angled": [300, -468, 248, 180, 45, -90],
+        "coupon angled waypoint": [300+6, -468-1, 302-3, 180, 45, -90],
+        "coupon angled": [300+6, -468-1, 250-3, 180, 45, -90],
         
-        "cap waypoint": [300, -394, 240, 180, 0, -90],
-        "cap hover": [300, -449, 255, 180, 30, -90],
-        "cap": [300, -489-2, 265, 180, 45, -90],
-        "coupon bath cap": [265, -230, 119, 180, 45, -90],
+        "cap waypoint": [300+2, -394-13, 242, 180, 0, -90],
+        "cap hover": [300+2, -449-13, 257, 180, 30, -90],
+        "cap": [300+2, -489, 268, 180, 40, -90],
+        "coupon bath cap": [265, -230, 121, 180, 45, -90],
         
-        "coupon bath waypoint": [262, -232, 240, 180, 45, -90],
-        "coupon bath": [262, -232, 113, 180, 45, -90], # slight offset to correct positioning issue
+        "coupon bath waypoint": [262+6, -225-8, 242, 180, 45, -90],
+        "coupon bath": [262+6, -225-8, 117, 180, 45, -90], # slight offset to correct positioning issue
         
-        "cap stand waypoint": [70, -304, 300, 180, 65, 0],
-        "cap stand": [0, -304, 208, 180, 45, 0],
-        "cap bath waypoint": [264, -230, 240, 180, 45, -90],
-        "cap bath": [264, -242, 135, 180, 40, -90]
+        "cap stand waypoint": [70+9, -304+8, 302-2, 180, 65, 0],
+        "cap stand": [0+9, -304+8, 210-2, 180, 45, 0],
+        "cap bath waypoint": [262+6, -230-10, 242, 180, 45, -90],
+        "cap bath": [262+6, -242-10, 137, 180, 40, -90]
     },
     "middle": {
-        "coupon bath waypoint": [262, -232, 240, 180, 45, -90],
+        "coupon bath waypoint": [262+6, -225-8, 242, 180, 45, -90],
         #"coupon bath cap": [270, -230, 119, 180, 45, -90],
-        "coupon bath": [262, -232, 115, 180, 45, -90],
+        "coupon bath": [262+6, -225-8, 117, 180, 45, -90],
         
         #"cap stand waypoint": [70, -308, 300, 180, 65, 0],
         #"cap stand": [0, -308, 200, 180, 45, 0],
@@ -151,28 +151,28 @@ positions = {
         
         "ring rack waypoint": [370, 0, 240, 180, 30, 0],
         "ring rack": [370, 0, 170, 180, 30, 0],
-        "ring bath waypoint": [262, -362, 240, 180, 90, -90],
-        "ring bath": [262, -362, 137, 180, 90, -90],
+        "ring bath waypoint": [269+3, -341-13, 242+3, 180, 90, -90],
+        "ring bath": [269+3, -341-13, 139+3, 180, 90, -90],
         #"coupon rack waypoint": [222, -3, 230, 180, 45, 0],
         #"coupon rack": [222, -3, 137, 180, 45, 0],
-        "coupon rack waypoint": [222, -2, 230, 180, 45, 0],
-        "coupon rack": [182, -2, 175, 180, 90, 0],
-        "coupon rack back": [182 - 30, -3, 175 + 30, 180, 90, 0],
+        "coupon rack waypoint": [222, -2+6, 230, 180, 45, 0],
+        "coupon rack": [182, -2+6, 175, 180, 90, 0],
+        "coupon rack back": [152, -3+6, 175 + 30, 180, 90, 0],
         
-        "camera open waypoint": [393, 70, 250, 180, 45, 90],
-        "camera open": [393, 70, 147, 180, 45, 90],
-        "camera closed": [395 - 178, 70, 147, 180, 45, 90],
-        "camera closed waypoint": [395 - 178, 70, 180, 180, 45, 90],
+        "camera open waypoint": [393, 70+10, 250+5, 180, 45, 90],
+        "camera open": [393, 70+10, 147+5, 180, 45, 90],
+        "camera closed": [395 - 178, 70+10, 147+5, 180, 45, 90],
+        "camera closed waypoint": [395 - 178, 70+10, 180+5, 180, 45, 90],
         
-        "coupon camera": [400 - 142, 88, 147, 180, 45, 90],
-        "coupon camera waypoint": [400 - 142, 88, 150 + 150, 180, 45, 90]
+        "coupon camera": [254, 94-10, 147, 180, 45, 90],
+        "coupon camera waypoint": [254, 94-10, 150 + 150, 180, 45, 90],
     },
     "tester": {
-        "coupon camera": [400 - 142, 88, 147, 180, 45, 90],
-        "coupon camera waypoint": [400 - 142, 88, 150 + 150, 180, 45, 90],
-        
-        "coupon angled waypoint": [380, 329, 350, 180, 45, 91],
-        "coupon angled": [380, 329, 314, 182, 45, 91],
+        "coupon camera": [254, 94, 147, 180, 45, 90],
+        "coupon camera waypoint": [254, 94, 150 + 150, 180, 45, 90],
+            
+        "coupon angled waypoint": [371, 333+3, 350, 180, 45, 91],
+        "coupon angled": [371, 333+3, 314, 182, 45, 91],
         "coupon flat waypoint": [380, 259, 270, 180, 0, 91],
         "coupon flat": [380, 259, 224, 180, 0, 91],
 
@@ -192,40 +192,40 @@ positions = {
         
         #"discard waypoint": [40, 250, 350, 180, 45, 90],
         #"discard": [40, 250, 136, 180, 45, 90],
-        "discard waypoint": [20, 250, 350, 180, 45, 90], # new discard bath location
-        "discard": [20, 250, 117+120, 180, 45, 90],
+        "discard waypoint": [20, 250-5, 350, 180, 45, 90], # new discard bath location
+        "discard": [20, 250-5, 117+120, 180, 45, 90],
         
-        "2nd bath waypoint": [280, 240, 300, 180, 45, 89], # leave in bath
-        "2nd bath": [286, 247, 113, 180, 45, 89],
+        "2nd bath waypoint": [280+4, 240+1, 300, 180, 45, 89], # leave in bath
+        "2nd bath": [286+4, 247+1, 113, 180, 45, 89],
         "hover bath waypoint": [270, 225, 310, 180, 45, 90], # arm holds coupon in bath
         "hover bath": [270, 225, 170, 180, 45, 90],
         
-        "squeegee stand waypoint 1": [230, 165, 250, 180, 0, 90],
-        "squeegee stand waypoint 2": [230, 165, 185, 180, 0, 90],
-        "squeegee stand waypoint": [224, 288, 185, 180, 0, 90],
-        "squeegee stand": [224, 288, 163, 180, 0, 90],
+        "squeegee stand waypoint 1": [230-7, 165+3, 250, 180, 0, 90],
+        "squeegee stand waypoint 2": [230-7, 16+35, 185-10, 180, 0, 90],
+        "squeegee stand waypoint": [224-7, 288+3, 185, 180, 0, 90],
+        "squeegee stand": [224-7, 288+3, 163, 180, 0, 90],
         
-        "squeegee 1 waypoint 1": [270, 200, 254, 180, 0, 90],
-        "squeegee 1 waypoint 2": [270, 400, 254, 180, 0, 90],
-        "squeegee 1 waypoint 3": [242, 420, 261, 180, 0, 90],
-        "squeegee 1 start": [242, 420, 259, 180, 10, 90],
-        "squeegee 1 end": [242, 180, 251, 180, 10, 90],
+        "squeegee 1 waypoint 1": [270-3, 200, 254, 180, 0, 90],
+        "squeegee 1 waypoint 2": [270-3, 400, 254, 180, 0, 90],
+        "squeegee 1 waypoint 3": [242-3, 420, 261, 180, 0, 90],
+        "squeegee 1 start": [242-3, 420, 259, 180, 10, 90],
+        "squeegee 1 end": [242-3, 180, 251, 180, 10, 90],
         
-        "squeegee 2 waypoint 1": [60, 200, 245, 180, 0, 90],
-        "squeegee 2 waypoint 2": [60, 400, 245, 180, 0, 90],
-        "squeegee 2 waypoint 3": [100, 420, 261, 180, 0, 90],
-        "squeegee 2 start": [95, 420, 257, 180, 10, 90],
-        "squeegee 2 end": [95, 180, 249, 180, 10, 90],
+        "squeegee 2 waypoint 1": [60-5, 200, 245, 180, 0, 90],
+        "squeegee 2 waypoint 2": [60-5, 400, 245, 180, 0, 90],
+        "squeegee 2 waypoint 3": [100-5, 420, 261, 180, 0, 90],
+        "squeegee 2 start": [95-5, 420, 257, 180, 10, 90],
+        "squeegee 2 end": [95-5, 180, 249, 180, 10, 90],
         
         "squeegee middle waypoint 1": [160, 180, 254, 180, 0, 90],
         "squeegee middle waypoint 2": [160, 280, 254, 180, 0, 90],
-        "squeegee middle start": [160, 310, 254, 180, 10, 90],
-        "squeegee middle end": [160, 180, 249, 180, 10, 90],
+        "squeegee middle start": [160, 310+10, 254, 180, 10, 90],
+        "squeegee middle end": [160, 180+10, 249, 180, 10, 90],
         
         #"squeegee pin waypoint": [60, 195, 230, 180, 0, 90],
         #"squeegee pin": [60, 330, 230, 180, 0, 90],
-        "squeegee pin waypoint": [60, 328, 227, 180, 0, 90],
-        "squeegee pin": [130, 328, 227, 180, 0, 90],
+        "squeegee pin waypoint": [60-5, 331, 227-5, 180, 0, 90],
+        "squeegee pin": [130-5, 331, 227-5, 180, 0, 90],
     }
 }
 
