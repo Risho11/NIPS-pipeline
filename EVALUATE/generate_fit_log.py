@@ -2,7 +2,7 @@
 """
 generate_fit_log.py — build fit_evaluation_log.html
 
-Reads results_reps.csv (plus any extra CSVs from test runs), finds the
+Reads reps.csv from campaigns and their reproducibility batches, finds the
 corresponding segmentation plots, and writes a side-by-side HTML log.
 
 Layout per condition:
@@ -105,10 +105,17 @@ def published_toe_results(filename):
     return []
 
 
+def campaign_result_files(filename):
+    """Read both the legacy campaign layout and the validation runner's per-batch layout."""
+    campaigns = sorted(RESULTS_DIR.glob(f"begins_*/{filename}"))
+    batches = sorted(RESULTS_DIR.glob(f"begins_*/*/{filename}"))
+    return campaigns + batches
+
+
 def load_csvs(extra_csv_paths=None):
     frames = []
     published = published_toe_results('reps.csv')
-    main_csvs = sorted(RESULTS_DIR.glob("begins_*/reps.csv")) + published
+    main_csvs = campaign_result_files("reps.csv") + published
     for p in main_csvs + list(extra_csv_paths or []):
         p = Path(p)
         if p.exists() and p.stat().st_size > 0:
@@ -137,7 +144,7 @@ def load_csvs(extra_csv_paths=None):
 def load_agg_cvs(agg_csv_paths=None):
     """Return dict: condition_name -> (pre_cv, post_cv) from agg CSVs."""
     frames = []
-    main_aggs = sorted(RESULTS_DIR.glob("begins_*/agg.csv")) + published_toe_results('agg.csv')
+    main_aggs = campaign_result_files("agg.csv") + published_toe_results('agg.csv')
     for p in main_aggs + list(agg_csv_paths or []):
         p = Path(p)
         if p.exists() and p.stat().st_size > 0:
@@ -883,7 +890,9 @@ def build_rep_breakdown(rep_data, rep_index):
 
     # Score badge
     if is_preproc:
-        badge = '<span class="score-badge" style="color:#9e9e9e">— pre-processing failure</span>'
+        flag = rep_data.get("saved_flag")
+        verdict = "pass" if flag is True else "fail" if flag is False else "unrecorded"
+        badge = f'<span class="score-badge" style="color:#616161">Score unrecorded · archived fit flag {verdict}</span>'
     elif score is None or (isinstance(score, float) and pd.isna(score)):
         badge = '<span class="score-badge" style="color:#9e9e9e">—</span>'
     else:
@@ -971,6 +980,10 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
                    deriv_images, run_folder, assets_dir, used_assets, pre_cv=None, post_cv=None,
                    sort_date=None, proc_date=None, preprocessing_images=None):
     group_df = group_df.sort_values("Trial").reset_index(drop=True)
+    # Preserve existing supervisor flag keys, but display and pair by recorded replicate.
+    group_df["_flag_index"] = group_df.index
+    group_df["_rep"] = pd.to_numeric(group_df["name"].str.extract(r"\|\s*rep\s+(\d+)\s*$", expand=False))
+    group_df = group_df.sort_values("_rep", kind="stable")
     cond_safe = _safe_key(cond_name)
 
     # avg evaluation comes from JSON sidecars, not CSV rows — use all rows as reps
@@ -981,13 +994,17 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
         score = row.get("Good Fit Score")
         is_preproc = score is None or (isinstance(score, float) and pd.isna(score))
         toe = row.get("Toe Region")
+        saved = row.get("Good Fit")
+        saved_flag = None if pd.isna(saved) else str(saved).strip().lower() in {"true", "1", "1.0"}
         reps_data.append({
             "score": score,
-            "pass": bool(row.get("Good Fit", False)),
+            "pass": saved_flag is True,
+            "saved_flag": saved_flag,
             "breakdown": parse_breakdown(row.get("Good Fit Breakdown")),
             "is_preproc_failure": is_preproc,
             "toe_region": toe,
-            "sv_key": f"{cond_safe}_{idx}",
+            "sv_key": f"{cond_safe}_{row['_flag_index']}",
+            "number": int(row["_rep"]) if pd.notna(row["_rep"]) else None,
         })
 
     n_pass  = sum(r["pass"] for r in reps_data)
@@ -1028,26 +1045,32 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
 
     # ── rep rows ─────────────────────────────────────────────────────────────
     rep_rows_html = ""
+    def by_replicate(paths):
+        return {int(m[1]): p for p in paths if p and (m := re.search(r"_rep-(\d+)\.png$", p.name))}
+
+    segmentation_by_rep = by_replicate(seg_images)
+    derivatives_by_rep = by_replicate(deriv_images)
     for i, rep_data in enumerate(reps_data):
+        number = rep_data["number"]
         breakdown_html = build_rep_breakdown(rep_data, i)
         img_html = '<span class="no-img">No plot found</span>'
-        if i < len(seg_images):
+        if number in segmentation_by_rep:
             try:
-                img_html = strain_view_image(seg_images[i], assets_dir, cond_safe, used_assets, f'rep-{i+1}')
+                img_html = strain_view_image(segmentation_by_rep[number], assets_dir, cond_safe, used_assets, f'rep-{number}')
             except Exception:
                 pass
 
         deriv_col = ""
-        deriv_path = deriv_images[i] if i < len(deriv_images) else None
+        deriv_path = derivatives_by_rep.get(number)
         if deriv_path is not None:
             try:
-                deriv_col = '<div class="rep-deriv">' + strain_view_image(deriv_path, assets_dir, cond_safe, used_assets, f'deriv-{i+1}') + '</div>'
+                deriv_col = '<div class="rep-deriv">' + strain_view_image(deriv_path, assets_dir, cond_safe, used_assets, f'deriv-{number}') + '</div>'
             except Exception:
                 pass
 
         rep_rows_html += f"""
   <div class="rep-row{' rep-row-has-deriv' if deriv_col else ''}">
-    <div class="rep-left">{breakdown_html}</div>
+    <div class="rep-left"><strong>{'Replicate '+str(number) if number is not None else 'Replicate unverified'} · Original fit evaluation</strong>{breakdown_html}</div>
     <div class="rep-right">{img_html}</div>
     {deriv_col}
   </div>"""
@@ -1140,7 +1163,7 @@ def condition_card(cond_name, group_df, seg_images, comp_images, avg_fit_images,
     proc_epoch_ms = _epoch_ms(proc_date)
 
     return f"""
-<div class="card" data-status="{status}" data-run="{run_tag}" data-has-toe="{'1' if has_toe else '0'}" data-name="{cond_name.lower()}" data-sortdate="{sort_epoch_ms}" data-procdate="{proc_epoch_ms}">
+<div class="card" id="condition-{cond_safe}" data-status="{status}" data-run="{run_tag}" data-has-toe="{'1' if has_toe else '0'}" data-name="{cond_name.lower()}" data-sortdate="{sort_epoch_ms}" data-procdate="{proc_epoch_ms}">
   <div class="card-header" style="background:{hdr_color}">
     <span class="toggle-icon">▾</span>
     <span>{cond_name}</span>
@@ -1302,7 +1325,7 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None,
   <div class="legend-item"><div class="dot" style="background:#e65100"></div>mixed</div>
   <div class="legend-item"><div class="dot" style="background:#b71c1c"></div>all fail</div>
   <div class="legend-item"><div class="dot" style="background:#78909c"></div>pre-processing failure</div>
-  <div class="legend-item" style="color:#cfd8dc;font-size:11px">newest first &nbsp;·&nbsp; to update plots: run <code style="background:#37474f;padding:1px 4px;border-radius:2px">python tests/test_processing.py</code> then <code style="background:#37474f;padding:1px 4px;border-radius:2px">python generate_fit_log.py</code></div>
+  <div class="legend-item" style="color:#cfd8dc;font-size:11px">Newest measurements first. Select a run to review one batch.</div>
 </div>
 <div id="filter-bar">
   <span style="opacity:.7;font-weight:600">Filter:</span>
@@ -1315,7 +1338,7 @@ def generate(extra_csv_paths=None, output_path=None, agg_csv_paths=None,
   <label><input type="checkbox" id="toggle-unsubtracted"> show unsubtracted curves</label>
   <label><input type="checkbox" id="toggle-preprocessing"> show zero / pre/post subtraction plots</label>
   <input id="search-bar" type="search" placeholder="Search conditions…">
-  <select id="run-select"><option value="">All dates</option></select>
+  <select id="run-select"><option value="">All runs</option></select>
   <button id="sort-toggle" title="Off: ordered by real campaign date. On: ordered by when each row was last (re)processed.">Newest Processed First</button>
   <span id="filter-count"></span>
   <button id="export-flags" title="Download supervisor flags as supervisor_flags.json — overwrite the repo copy and commit to sync across devices">Export Flags</button>
