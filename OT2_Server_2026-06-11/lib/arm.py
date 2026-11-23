@@ -200,10 +200,10 @@ positions = {
         "hover bath waypoint": [270, 225, 310, 180, 45, 90], # arm holds coupon in bath
         "hover bath": [270, 225, 170, 180, 45, 90],
         
-        "squeegee stand waypoint 1": [230-7, 165+3, 250, 180, 0, 90],
-        "squeegee stand waypoint 2": [230-7, 16+35, 185-10, 180, 0, 90],
-        "squeegee stand waypoint": [224-7, 288+3, 185, 180, 0, 90],
-        "squeegee stand": [224-7, 288+3, 163, 180, 0, 90],
+        "squeegee stand waypoint 1": [230-9, 165+3, 250, 180, 0, 90],
+        "squeegee stand waypoint 2": [230-9, 165+3, 185-10, 180, 0, 90],
+        "squeegee stand waypoint": [224-9, 288+3, 185, 180, 0, 90],
+        "squeegee stand": [224-9, 288+3, 163, 180, 0, 90],
         
         "squeegee 1 waypoint 1": [270-3, 200, 254, 180, 0, 90],
         "squeegee 1 waypoint 2": [270-3, 400, 254, 180, 0, 90],
