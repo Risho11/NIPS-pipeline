@@ -185,10 +185,10 @@ positions = {
         #"coupon test 2": [170, 360, 223.5, 180, 1, 90],
         #"coupon test 3": [180, 360, 223.5, 180, 1, 90],
         #"coupon test 4": [150, 360, 223.5, 180, 1, 90], # only used for testing the flatness of the coupon, membrane tests only use 3 points
-        "coupon test 1": [160, 355, 223.5, 180, 1, 91],
-        "coupon test 2": [170, 355, 223.5, 180, 1, 91],
-        "coupon test 3": [160, 365, 223.5, 180, 1, 91],
-        "coupon test 4": [170, 365, 223.5, 180, 1, 91],
+        "coupon test 1": [160, 355-5, 223.5, 180, 1, 91],
+        "coupon test 2": [170, 355-5, 223.5, 180, 1, 91],
+        "coupon test 3": [160, 365-5, 223.5, 180, 1, 91],
+        "coupon test 4": [170, 365-5, 223.5, 180, 1, 91],
         
         #"discard waypoint": [40, 250, 350, 180, 45, 90],
         #"discard": [40, 250, 136, 180, 45, 90],
@@ -397,10 +397,12 @@ class Arm():
         self.go_to_position("tester", "coupon flat waypoint")
         self.go_to_position("tester", "coupon flat")
         self.close_gripper()
+        self.go_to_position("tester", "coupon flat waypoint")
         self.go_to_position("tester", "coupon test 1 waypoint")
         
     def unprep_coupon_test(self):
         self.go_to_position("tester", "coupon test 1 waypoint")
+        self.go_to_position("tester", "coupon flat waypoint")
         self.go_to_position_offset("tester", "coupon flat", [0, 0, 0, 0, 0, 0])
         self.open_gripper()
         self.go_to_position("tester", "coupon flat waypoint")
