@@ -5,13 +5,16 @@ name: Regenerate evaluation logs
 # own, so pushing new campaign data alone left the hosted page stale until someone remembered to
 # run the generator scripts locally and push the result. This closes that gap.
 #
-# Trigger is scoped to data/results/** so the bot's own docs/-only commit below never matches
-# the path filter and re-triggers itself -- no actor/loop guard needed.
+# Results include both campaign-level CSVs and nested reproducibility batches.
+# Refresh when run plots arrive separately or the fit log generator changes.
+# The bot's own docs/-only commit does not match these paths.
 on:
   push:
     branches: [main]
     paths:
       - "data/results/**"
+      - "data/plots/run-*/**"
+      - "EVALUATE/generate_fit_log.py"
 
 permissions:
   contents: write
@@ -24,17 +27,15 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.11"
+      - uses: astral-sh/setup-uv@v7
 
-      - name: Install dependencies
-        run: pip install pandas
+      - name: Check fit log generation
+        run: uv run --no-project --python 3.11 --with 'pandas>=2.2,<3' python -m unittest discover -s tests -p 'test_fit*.py'
 
       - name: Regenerate fit + quality evaluation logs
         run: |
-          python EVALUATE/generate_fit_log.py
-          python EVALUATE/generate_quality_log.py
+          uv run --no-project --python 3.11 --with 'pandas>=2.2,<3' python EVALUATE/generate_fit_log.py
+          uv run --no-project --python 3.11 --with 'pandas>=2.2,<3' python EVALUATE/generate_quality_log.py
 
       - name: Commit and push if changed
         run: |

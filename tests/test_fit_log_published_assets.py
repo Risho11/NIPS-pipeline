@@ -15,6 +15,49 @@ spec.loader.exec_module(log)
 
 
 class PublishedAssetsTest(unittest.TestCase):
+    def test_new_batch_appears_with_recorded_replicates_on_next_build(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            results = root / 'data/results'
+            original = results / 'begins_original'
+            original.mkdir(parents=True)
+            original_row = {'name': 'historical | rep 1', 'Trial': 'sample 1', 'date': '2026-11-10',
+                            'Good Fit': True, 'Good Fit Score': 82}
+            pd.DataFrame([original_row]).to_csv(original / 'reps.csv', index=False)
+            plots = root / 'data/plots'
+            page = root / 'docs/fit_evaluation_log.html'
+            with patch.multiple(log, ROOT=root, RESULTS_DIR=results, PLOTS_DIR=plots, RAW_ROOT=root / 'data/raw'):
+                log.generate(output_path=page)
+                self.assertIn('1 condition(s)', page.read_text(encoding='utf8'))
+
+                batch = results / 'begins_recasts' / 'psf-water'
+                batch.mkdir(parents=True)
+                pd.DataFrame([
+                    {'name': 'film | rep 1', 'Trial': 'sample 9', 'date': '2026-11-16', 'Good Fit': False, 'Good Fit Score': 0},
+                    {'name': 'film | rep 3', 'Trial': 'sample 10', 'date': '2026-11-16', 'Good Fit': True, 'Good Fit Score': 92},
+                ]).to_csv(batch / 'reps.csv', index=False)
+                pd.DataFrame([{'name': 'film', 'date': '2026-11-16', 'CV Mean': 0.12}]).to_csv(
+                    batch / 'agg.csv', index=False)
+                image = plots / 'run-recasts-psf-water/film/rep-3/Segmentation_rep-3.png'
+                image.parent.mkdir(parents=True)
+                image.write_bytes(b'recorded replicate 3 figure')
+                log.generate(output_path=page)
+
+            html = page.read_text(encoding='utf8')
+            self.assertEqual(html.count('<div class="card"'), 2)
+            self.assertLess(html.index('id="condition-film"'), html.index('id="condition-historical"'))
+            self.assertIn('data-status="mixed" data-run="run-recasts-psf-water"', html)
+            self.assertIn('Pre CV: 0.1200', html)
+            card = html.split('id="condition-film"', 1)[1].split('id="condition-historical"', 1)[0]
+            first, third = card.split('Replicate 3 · Original fit evaluation')
+            self.assertIn('Replicate 1 · Original fit evaluation', first)
+            self.assertIn('>0/100', first)
+            self.assertIn('No plot found', first)
+            self.assertIn('>92/100', third)
+            asset = 'assets/fit/film/Segmentation_rep-3.png'
+            self.assertIn(f'src="{asset}"', third)
+            self.assertEqual((page.parent / asset).read_bytes(), image.read_bytes())
+
     def test_ci_reuses_active_images(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / 'fit_evaluation_log.html'
