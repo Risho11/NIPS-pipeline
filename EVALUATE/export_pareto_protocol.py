@@ -13,15 +13,21 @@ FIELDS = ['mixing_temp', 'bath_temp', 'pullcast_speed', 'nitrogen',
 MATERIALS = FIELDS[8:]
 
 
+def read_frozen_conditions(chemistry, *, root=ROOT):
+    """Return the five originally approved CSV records for one chemistry, in file order."""
+    source = Path(root) / 'docs' / 'pareto_validation' / f'{chemistry}_selected_conditions.csv'
+    with source.open(newline='', encoding='utf-8') as handle:
+        rows = list(csv.DictReader(handle))
+    if ({row['validation_id'] for row in rows} != {'V1', 'V2', 'V3', 'V4', 'V5'}
+            or len(rows) != 5 or len({row['condition'] for row in rows}) != 5):
+        raise ValueError(f'Expected five distinct reviewed conditions labelled V1 through V5 in {source}')
+    return rows
+
+
 def export():
     batches = {}
     for chemistry in ['psf', 'primospire']:
-        source = ROOT / 'docs' / 'pareto_validation' / f'{chemistry}_selected_conditions.csv'
-        with source.open(newline='', encoding='utf-8') as handle:
-            selections = list(csv.DictReader(handle))
-        if len(selections) != 5 or len({row['condition'] for row in selections}) != 5:
-            raise ValueError(f'Expected five distinct reviewed conditions in {source}')
-        for row in selections:
+        for row in read_frozen_conditions(chemistry, root=ROOT):
             original = ROOT / 'data' / 'raw' / row['condition'] / 'params.json'
             recorded = json.loads(original.read_text(encoding='utf-8'))
             # Require original metadata; never infer chemistry from concentrations.

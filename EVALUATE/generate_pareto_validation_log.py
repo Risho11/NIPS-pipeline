@@ -1,64 +1,26 @@
-"""Build a separate fit log for the exact selections saved in both notebooks.
+"""Build the fit log from the V1–V5 records used for the frozen validation plan.
 
 Run: uv run python EVALUATE/generate_pareto_validation_log.py
 No notebook cells, warm-start exports, or hardware commands are executed.
 """
 
 import html
-from html.parser import HTMLParser
 import json
 import re
 from pathlib import Path
 import shutil
 
 import generate_fit_log as fit
+from export_pareto_protocol import read_frozen_conditions
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / 'docs' / 'pareto_validation' / 'index.html'
-NOTEBOOKS = [('PSf / PolarClean', 'campaign_trends.ipynb'),
-             ('Primospire / NMP', 'primospire_nmp_campaign_trends.ipynb')]
-
-
-class SelectionTable(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.rows = []
-        self.row = []
-        self.value = None
-
-    def handle_starttag(self, tag, attrs):
-        if tag == 'tr':
-            self.row = []
-        if tag in ('td', 'th'):
-            self.value = ''
-
-    def handle_data(self, data):
-        if self.value is not None:
-            self.value += data
-
-    def handle_endtag(self, tag):
-        if tag in ('td', 'th') and self.value is not None:
-            self.row.append(self.value.strip())
-            self.value = None
-        if tag == 'tr' and self.row:
-            self.rows.append(self.row)
 
 
 def read_selections():
     selections = []
-    for chemistry, name in NOTEBOOKS:
-        notebook = json.loads((ROOT / 'EVALUATE' / name).read_text(encoding='utf-8'))
-        cell = next(c for c in notebook['cells'] if ''.join(c['source']).startswith(
-            'from pareto_validation import'))
-        table = next((o['data']['text/html'] for o in cell.get('outputs', [])
-                      if 'text/html' in o.get('data', {})), None)
-        if table is None:
-            raise ValueError(f'Run the validation subsection in {name} first.')
-        parser = SelectionTable()
-        parser.feed(''.join(table) if isinstance(table, list) else table)
-        headers, *rows = parser.rows
-        for row in rows:
-            selections.append(dict(zip(headers, row), chemistry=chemistry))
+    for slug, chemistry in [('psf', 'PSf / PolarClean'), ('primospire', 'Primospire / NMP')]:
+        selections.extend(dict(row, chemistry=chemistry) for row in read_frozen_conditions(slug, root=ROOT))
     conditions = [row['condition'] for row in selections]
     if not conditions or len(set(conditions)) != len(conditions):
         raise ValueError('Expected nonempty, distinct selected conditions.')
@@ -87,7 +49,7 @@ def generate():
     document = OUTPUT.read_text(encoding='utf-8')
     rendered = re.findall(r'<div class="card"[^>]*data-name="([^"]+)"', document)
     if len(rendered) != len(selected) or set(rendered) != {name.lower() for name in selected}:
-        raise ValueError('Rendered fit cards do not match the notebook selections.')
+        raise ValueError('Rendered fit cards do not match the frozen validation selections.')
     document = document.replace('Fit Evaluation Log', 'Pareto Validation Fit Log')
     document = document.replace('href="index.html"', 'href="../index.html"')
     document = document.replace('href="fit_evaluation_log.html"', 'href="../fit_evaluation_log.html"')
@@ -103,13 +65,15 @@ def generate():
                ('Elastic Modulus Mean', 'Source sample modulus (bar)'),
                ('Pore Fraction Mean', 'Source sample pore fraction')]
     summary = '<section style="padding:20px;overflow-x:auto"><h2>Selected validation points</h2>'
-    summary += ('<p>Exact saved selections from both notebooks. Three independent synthesis repeats '
+    summary += ('<p>The original validation plan specifies three independent synthesis repeats '
                 'per condition; two compression tests at the bottom two locations per sample '
                 '(coupon tests 2 and 4, the casting-start side), plus two matched blank-coupon zero tests. '
                 'The fits below are historical measurements, not new validation results. '
-                'Pore fraction is a compression-fit estimate. Chemistry provenance follows the notebooks.</p>')
-    summary += ('<p><strong>Revised selection:</strong> V1–V5 now refer to the reproducibility-aware '
-                'selection. Each chemistry includes three repeat-supported anchors, one promising '
+                'Pore fraction is a compression-fit estimate. Source conditions and nomination-time '
+                'statistics are recorded in the <a href="psf_selected_conditions.csv">PSf</a> and '
+                '<a href="primospire_selected_conditions.csv">Primospire</a> selection tables.</p>')
+    summary += ('<p>V1–V5 follow the archived selection for each chemistry. '
+                'Each chemistry includes three repeat-supported anchors, one promising '
                 'limited-repeat candidate, and one candidate adding tradeoff coverage. Anchor flags '
                 'require at least three usable paired samples and CV ≤25% for both responses; '
                 'these are prioritization criteria, not proof of reproducibility. Recipes with '

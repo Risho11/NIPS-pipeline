@@ -10,6 +10,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from grouped_pareto import collapsed_table_html
 
+from notebook_selection import load_notebook_selection
+
 ROOT = Path(__file__).resolve().parents[1]
 DESCRIPTION = '''### Pareto front of similar-condition groups, with between-sample error bars
 
@@ -20,23 +22,23 @@ Each point is the arithmetic mean of the recorded sample means within one group.
 The 2×5 layout, ten parameter panels, color maps, axis labels and black dashed frontier follow the existing Pareto plots. Colors show the mean recorded parameter among the contributing samples; minimum, maximum and available count are retained in the table. They are descriptive group summaries, not a new recipe. Mixing temperature, bath residence time, additive content and stock age are **not matched** by these similarity rules and may vary within a group. Chemistry identities and solvent identities are not additional matching keys; interpret groups within this notebook's chemistry scope. Error bars therefore describe variability among similar conditions, not necessarily exact-recipe reproducibility or a confidence interval. Dominance is computed on group means while maximizing both responses; overlapping SD bars do not establish statistically significant superiority. Pore fraction remains a compression-fit estimate.
 '''
 
-RECIPE_DESCRIPTION = '''### Typical measured performance by recipe — ten parameter panels
+RECIPE_DESCRIPTION = '''### Typical measured performance by recipe
 
-This is the **recipe-level historical-median view** from the earlier typical-performance plot, now in the same 2×5 parameter layout. It includes every assessed eligible recipe, **including recipes with one usable sample**, rather than only the five selected validation conditions. Recipe eligibility starts with this notebook's filters; historical statistics then use all available matching recorded recipes, including poor repeats outside those filters. Matching requires exact recorded process settings and no known chemistry conflicts; incomplete chemistry permits matching only within the same named recipe family. Original raw settings take precedence. Only paired finite observations with positive modulus and pore fraction in [0,1] enter the medians.
+The panels show the median elastic modulus and median pore fraction across screened films with matching recorded process settings. Known chemistry fields must agree. When chemistry records are incomplete, only films in the same named recipe family can match. Raw casting settings take precedence. A recipe with a single retained film contributes its measured pair.
 
-Each point is the recipe's median elastic modulus and median pore fraction across its usable historical samples. These two medians need not come from one physical sample. The black dashed front maximizes both medians; **no SD error bars are shown in this median view**. Frontier labels show recipe ID, usable n and parameter value; the table identifies every recipe. Colors use the recorded parameter of the actual eligible representative sample nearest the recipe medians, matching the earlier typical-performance view. Stock age and ambient humidity therefore describe that representative sample, not every historical repeat. No unseen outcomes are predicted or filled in.
+Each point is a pair of recipe medians. Its two coordinates can come from different films. The dashed line connects non-dominated median pairs. Colors describe the actual retained film closest to its recipe medians, so stock age and room humidity refer to that film. The table identifies the contributing films. The adjacent similar-condition plot groups films within process tolerances and shows the mean and between-film SD for groups with at least two films.
 
-Compare this with the adjacent similar-condition-group plot: it uses group **means ±1 between-sample SD**, merges nearby conditions within tolerances and requires at least two samples. Counts differ because the two views use different matching and sample-inclusion rules. Neither view by itself certifies that a recipe has been validated.
+The screened Pareto exports are saved in the `screened/` subfolder. The historical recipe medians used by the downstream reproducibility analysis remain at their original paths.
 '''
 
 
-def recipe_source(chemistry, output):
+def recipe_source(chemistry):
     return f'''from pareto_candidate_selection import assess_candidates
 from grouped_pareto import prepare_recipe_pareto, plot_recipe_pareto
 from grouped_pareto import collapsed_table_html
 from IPython.display import HTML
 
-typical_recipe_summary = prepare_recipe_pareto(assess_candidates(campaign_detailed))
+typical_recipe_summary = prepare_recipe_pareto(assess_candidates(campaign_detailed, history=campaign_detailed))
 figure_typical_recipes, axes_typical_recipes = plot_recipe_pareto(
     typical_recipe_summary, PARETO_PARAMETERS, {chemistry!r}, property_label
 )
@@ -45,7 +47,7 @@ display(HTML(collapsed_table_html(typical_recipe_summary, 'Show recipe summary t
 print(f'{{len(typical_recipe_summary)}} recipes, including '
       f"{{int((typical_recipe_summary['paired_samples'] == 1).sum())}} with one usable sample.")
 if SAVE_OUTPUTS:
-    typical_output = repo_root / 'EVALUATE' / {output!r}
+    typical_output = SCREENED_PARETO_OUTPUT
     typical_output.mkdir(parents=True, exist_ok=True)
     figure_typical_recipes.savefig(typical_output / 'typical_recipe_pareto.png',
                                    dpi=180, bbox_inches='tight')
@@ -53,7 +55,7 @@ if SAVE_OUTPUTS:
 '''
 
 
-def source(chemistry, output):
+def source(chemistry):
     return f'''import grouped_pareto
 importlib.reload(grouped_pareto)
 from grouped_pareto import summarize_grouped_pareto, plot_grouped_pareto
@@ -70,7 +72,7 @@ print(f'{{len(grouped_pareto_summary)}} groups; '
       f"{{int(grouped_pareto_summary['n_paired'].sum())}} paired sample observations; "
       'error bars = ±1 between-sample SD.')
 if SAVE_OUTPUTS:
-    grouped_output = repo_root / 'EVALUATE' / {output!r}
+    grouped_output = SCREENED_PARETO_OUTPUT
     grouped_output.mkdir(parents=True, exist_ok=True)
     figure_grouped_pareto.savefig(grouped_output / 'similar_condition_pareto.png',
                                   dpi=180, bbox_inches='tight')
@@ -79,17 +81,16 @@ if SAVE_OUTPUTS:
 
 
 def refresh():
-    for name, chemistry, output in [
-        ('campaign_trends.ipynb', 'PSf / PolarClean', 'campaign_trends_output'),
-        ('primospire_nmp_campaign_trends.ipynb', 'Primospire / NMP', 'primospire_nmp_campaign_trends_output'),
+    for name, chemistry in [
+        ('campaign_trends.ipynb', 'PSf / PolarClean'),
+        ('primospire_nmp_campaign_trends.ipynb', 'Primospire / NMP'),
     ]:
         path = ROOT / 'EVALUATE' / name
         notebook = json.loads(path.read_text(encoding='utf-8'))
         namespace = {'display': lambda *args: None}
-        for index in [1, 3, 5, 6]:
+        for index in [1, 3]:
             exec(compile(''.join(notebook['cells'][index]['source']), name, 'exec'), namespace)
-        detailed = namespace['campaign'].sort_values('sample_time').reset_index(drop=True).copy()
-        detailed['iteration'] = detailed.index + 1
+        detailed, _ = load_notebook_selection(name, quiet=True)
         namespace['campaign_detailed'] = detailed
         repeat = next(c for c in notebook['cells'] if ''.join(c['source']).startswith('import campaign_repeatability'))
         exec(compile(''.join(repeat['source']), name, 'exec'), namespace)
@@ -99,7 +100,7 @@ def refresh():
                 namespace['PARETO_PARAMETERS'] = ast.literal_eval(node.value)
         tables = []
         namespace['display'] = tables.append
-        code = source(chemistry, output)
+        code = source(chemistry)
         exec(compile(code, name, 'exec'), namespace)
         figure = namespace['figure_grouped_pareto']
         table = namespace['grouped_pareto_summary']
@@ -107,7 +108,7 @@ def refresh():
         assert (table['n_paired'] >= 2).all()
         buffer = io.BytesIO()
         figure.savefig(buffer, format='png', dpi=100, bbox_inches='tight')
-        directory = ROOT / 'EVALUATE' / output
+        directory = namespace['SCREENED_PARETO_OUTPUT']
         directory.mkdir(parents=True, exist_ok=True)
         (directory / 'similar_condition_pareto.png').write_bytes(buffer.getvalue())
         table.to_csv(directory / 'similar_condition_pareto.csv', index=False)
@@ -123,7 +124,7 @@ def refresh():
         else:
             notebook['cells'][existing:existing + 2] = cells
         tables.clear()
-        recipe_code = recipe_source(chemistry, output)
+        recipe_code = recipe_source(chemistry)
         exec(compile(recipe_code, name, 'exec'), namespace)
         recipe_table = namespace['typical_recipe_summary']
         recipe_figure = namespace['figure_typical_recipes']

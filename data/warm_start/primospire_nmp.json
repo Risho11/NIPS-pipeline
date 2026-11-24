@@ -2,13 +2,13 @@
   "historical_bath_context": {
     "policy": "Preserve notebook-selected bath values; no export-only corrections."
   },
-  "rows": 78,
+  "rows": 67,
   "last_campaign": "2026-10-30",
   "excluded_negative_strain_rows": 0,
   "additional_export_filters": false,
-  "complete_parameter_rows": 78,
-  "modulus_rows": 75,
-  "paired_objective_rows": 75,
+  "complete_parameter_rows": 67,
+  "modulus_rows": 67,
+  "paired_objective_rows": 67,
   "campaigns": [
     "2026-09-10-exploration-mode",
     "2026-09-30",
@@ -40,6 +40,12 @@
       "MAX_CV": 0.15,
       "MAX_DISCARDS": null,
       "DAY_ROLLOVER_HOUR": 9
+    },
+    "position_review": {
+      "register": "EVALUATE/campaign_position_review.csv",
+      "minimum_paired_positions": 2,
+      "retained_positions": 205,
+      "film_statistics": "Equal-position mean and sample SD (ddof=1) of finite reviewed fits."
     }
   },
   "limitations": [

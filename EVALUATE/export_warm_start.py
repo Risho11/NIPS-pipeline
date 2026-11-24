@@ -28,6 +28,8 @@ def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='
     data['name'] = data['condition']
     data['chemistry'] = data.get('chemistry', 'Polysulfone / PolarClean (inferred)')
     data['validation_status'] = 'unknown; aggregate SD is intra-sample, not independent synthesis validation'
+    if 'screened_position_count' in data:
+        data['validation_status'] = 'within-film sample SD across reviewed positions; independent recast status unknown'
     data['pore_fraction_method'] = 'compression-curve changepoint estimate; dimensionless, not independent porosimetry'
     if 'Toe Subtracted' in data:
         corrected = data['Toe Subtracted'].astype(str).str.lower().eq('true')
@@ -60,7 +62,7 @@ def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='
             f'campaign={row["campaign"]}; sample_time={row["sample_time"]}. {params}. '
             f'{properties}. Modulus and yield strength units: bar; thickness: micrometers; '
             'pore fraction and strains: dimensionless. '
-            f'CV Mean={value(row, "CV Mean")}; '
+            f'Archived casting QC: CV Mean={value(row, "CV Mean")}; '
             f'Discarded Fit Quality Mean={value(row, "Discarded Fit Quality Mean")}; '
             f'Discarded Fit Reasons={value(row, "Discarded Fit Reasons")}. '
             f'{row["validation_status"]}. Pore fraction method: {row["pore_fraction_method"]}. '
@@ -104,6 +106,13 @@ def export_notebook_warm_start(frame, notebook_name, *, root=ROOT, settings=None
     output = Path(root) / 'data' / 'warm_start' / NOTEBOOK_OUTPUTS[notebook_name]
     metadata = {'notebook': 'EVALUATE/' + notebook_name,
                 'settings': selection_settings(settings or {})}
+    if 'screened_position_count' in frame:
+        metadata['position_review'] = {
+            'register': 'EVALUATE/campaign_position_review.csv',
+            'minimum_paired_positions': 2,
+            'retained_positions': int(frame['screened_position_count'].sum()),
+            'film_statistics': 'Equal-position mean and sample SD (ddof=1) of finite reviewed fits.',
+        }
     return export_warm_start(
         frame, output,
         selection_description=f'Exact selected rows from {notebook_name}; no additional export filters.',
