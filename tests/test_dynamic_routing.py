@@ -64,7 +64,14 @@ class RoutingTests(unittest.TestCase):
             self.sdk.w = workspace
             return CampaignRuntime(workspace, context, sdk_factory=lambda: self.sdk)
         self.factory = self.stack.enter_context(patch.object(loop, 'CampaignRuntime', side_effect=runtime))
-        self.robot = self.stack.enter_context(patch.object(loop.url, 'run_test'))
+        self.stack.enter_context(patch.object(loop, 'recording_port', return_value='5000'))
+        self.stack.enter_context(patch.object(loop, 'control_recording'))
+        self.stack.enter_context(patch.object(loop, '_active_recording', None))
+
+        def acknowledge(params, *, request_id, journal_id):
+            return json.dumps({'request_id': request_id, 'status': 'accepted', 'duplicate': False})
+
+        self.robot = self.stack.enter_context(patch.object(loop.url, 'run_test', wraps=acknowledge))
         self.health = self.stack.enter_context(patch.object(loop.url, 'check_health', return_value={'journal_id':'journal'}))
 
     def state(self):
