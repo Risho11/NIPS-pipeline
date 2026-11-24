@@ -1,5 +1,41 @@
 # Polysulfone reproducibility run
 
+## Five membranes in the 10 wt% PolarClean bath (November 23)
+
+The operator requested five independent V3 membranes, using the unchanged recipe:
+14.5 wt% polysulfone in PolarClean, 45 C mixing, 10 C bath, casting speed 7,
+nitrogen, 200 s exposure and 1500 s immersion. The bath is 10 wt% PolarClean
+and 90 wt% water. Compression points are 1 and 3 for both blank and membrane
+phases. This is five fabrications, ten zero tests and ten membrane tests.
+The original frozen three-repeat plan is retained. Like `--extend-psf-water`,
+`--extend-psf-bath` appends repeats 4 and 5 after the original three jobs.
+Existing sample IDs and measurements are preserved; resume with the same flag.
+The earlier `--sample-repeats 5` remains a compatible alias, and checkpoints
+created with it can resume with `--extend-psf-bath`.
+
+Preview without devices:
+
+```bash
+uv run --locked --no-sync python src/pipeline/run_pareto_validation.py \
+  --batch psf-bath-10wt --extend-psf-bath --test-locations 1 3
+```
+
+After preparing the physical bath, checking the existing 17 wt% stock declaration,
+and confirming OT2 is ready:
+
+```bash
+uv run --locked --no-sync python src/pipeline/run_pareto_validation.py \
+  --execute --batch psf-bath-10wt --campaign psf-reproducibility-2026-11-16 \
+  --setup protocols/pareto_validation_setup.local.json \
+  --test-locations 1 3 --extend-psf-bath
+```
+
+Samples are V3 rep1 through rep5. Results, `reproduce.csv` and checkpoint are
+separate from the water batch, under
+`data/results/begins_psf-reproducibility-2026-11-16/psf-bath-10wt/`.
+Do not use `--extend-psf-water` for this batch. The setup declaration does not
+verify installed materials or establish physical readiness.
+
 ## Current compression locations (November 17 update)
 
 The first nine completed water samples used points **2 and 4**. At the operator's

@@ -109,7 +109,9 @@ def load_plan(path):
     return plan
 
 
-def jobs_for_batch(batch, extend_psf_water=False):
+def jobs_for_batch(batch, extend_psf_water=False, extend_psf_bath=False):
+    if extend_psf_bath and (batch['batch_id'] != 'psf-bath-10wt' or extend_psf_water):
+        raise ValueError('The PSf bath extension requires psf-bath-10wt only')
     # Finish all independent synthesis repeats of one condition before advancing.
     jobs = [dict(condition=condition, repeat=repeat) for condition in batch['conditions']
             for repeat in range(1, 4)]
@@ -118,6 +120,9 @@ def jobs_for_batch(batch, extend_psf_water=False):
             raise ValueError('Expected the original PSf water condition order')
         jobs.extend(dict(condition=condition, repeat=repeat)
                     for condition in batch['conditions'][:3] for repeat in (4, 5))
+    if extend_psf_bath:
+        jobs.extend(dict(condition=condition, repeat=repeat)
+                    for condition in batch['conditions'] for repeat in (4, 5))
     return jobs
 
 
@@ -260,20 +265,26 @@ class Campaign:
         self.state_path = self.results / 'validation_state.json'
         self.lock = threading.RLock()
         self.camera = None
-        self.jobs = jobs_for_batch(batch, getattr(args, 'extend_psf_water', False))
+        extend_bath = getattr(args, 'extend_psf_bath', False) or getattr(args, 'sample_repeats', 3) == 5
+        self.jobs = jobs_for_batch(batch, getattr(args, 'extend_psf_water', False), extend_bath)
         binding = dict(plan=plan, sample_order='condition_then_repeat', batch=batch['batch_id'], setup=setup,
                        locations=args.test_locations, csv_raw_path=str(Path(args.csv_raw_path).resolve()),
                        robot_url=args.robot_url, server_ip=args.server_ip, server_port=args.server_port,
                        camera_index=args.camera_index, collect_only=args.collect_only)
         if self.state_path.exists():
             self.state = json.loads(self.state_path.read_text(encoding='utf-8'))
-            if self.state['binding_sha256'] != digest(binding):
+            # Accept the earlier five-repeat CLI binding only for the identical
+            # bath extension. Do not alter saved request IDs or payloads.
+            allowed_bindings = {digest(binding)}
+            if extend_bath:
+                allowed_bindings.add(digest(dict(binding, sample_repeats=5)))
+            if self.state['binding_sha256'] not in allowed_bindings:
                 raise ValueError('Saved campaign configuration changed; preserve and inspect its state')
         else:
             self.state = dict(binding_sha256=digest(binding), jobs=[], current=None)
         saved_names = [job['name'] for job in self.state['jobs']]
         if saved_names != [self.sample_name(job) for job in self.jobs[:len(saved_names)]]:
-            raise ValueError('Saved jobs do not match this schedule. Reuse --extend-psf-water if used previously.')
+            raise ValueError('Saved jobs do not match this schedule. Reuse the --extend-psf-water or --extend-psf-bath flag used previously.')
         if getattr(args, 'extend_psf_water', False) and (
             len(saved_names) < 9 or any(job['status'] != 'completed' for job in self.state['jobs'][:9])
         ):
@@ -514,6 +525,10 @@ def main(argv=None):
     parser.add_argument('--test-locations', nargs=2, type=int, default=[2, 4],
                         help='Ordered pair: 2 4 (historical default) or 1 3 (operator-confirmed bottom); saved campaigns bind this choice')
     parser.add_argument('--execute', action='store_true')
+    parser.add_argument('--sample-repeats', type=int, choices=[3, 5], default=3,
+                        help='Compatibility option: 5 is an alias for --extend-psf-bath')
+    parser.add_argument('--extend-psf-bath', action='store_true',
+                        help='Append V3 repeats 4 and 5 to the original three-repeat PSf 10 wt%% bath schedule')
     parser.add_argument('--extend-psf-water', action='store_true',
                         help='Append V1, V2 and V4 repeats 4 and 5 to the November 16 PSf water schedule')
     parser.add_argument('--process-only', action='store_true', help='Process saved batch samples without network or hardware')
@@ -526,8 +541,11 @@ def main(argv=None):
     parser.add_argument('--camera-index', type=int, default=2)
     parser.add_argument('--sample-timeout', type=float, default=4 * 60 * 60)
     args = parser.parse_args(argv)
+    args.extend_psf_bath = args.extend_psf_bath or args.sample_repeats == 5
     if args.test_locations not in ([2, 4], [1, 3]):
         parser.error('--test-locations must be 2 4 or 1 3')
+    if args.extend_psf_bath and (args.batch != 'psf-bath-10wt' or args.extend_psf_water):
+        parser.error('--extend-psf-bath requires --batch psf-bath-10wt, without --extend-psf-water')
     if args.extend_psf_water and (
         args.batch != 'psf-water' or args.campaign != 'psf-reproducibility-2026-11-16'
         or args.export_only or args.process_only
@@ -562,7 +580,7 @@ def main(argv=None):
             export_reproduce(results)
         return
     for batch in batches:
-        jobs = jobs_for_batch(batch, args.extend_psf_water)
+        jobs = jobs_for_batch(batch, args.extend_psf_water, args.extend_psf_bath)
         print(f'Compression locations for future samples: {args.test_locations} (blank and membrane phases)')
         print(f'{batch["batch_id"]}: {len(batch["conditions"])} conditions, '
               f'{len(jobs)} independent samples; {batch["material_context"]}')

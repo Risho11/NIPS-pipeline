@@ -25,6 +25,67 @@ spec.loader.exec_module(compression)
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_five_bath_membranes_keep_exact_recipe_and_preview_offline(self):
+        plan = runner.load_plan(runner.PLAN)
+        batch = next(b for b in plan['batches'] if b['batch_id'] == 'psf-bath-10wt')
+        jobs = runner.jobs_for_batch(batch, extend_psf_bath=True)
+        self.assertEqual(jobs[:3], runner.jobs_for_batch(batch))
+        self.assertEqual([j['repeat'] for j in jobs], [1, 2, 3, 4, 5])
+        self.assertTrue(all(j['condition'] is batch['conditions'][0] for j in jobs))
+        with patch.object(runner.robot, 'check_health') as health, \
+             patch.object(runner, 'Campaign') as campaign, redirect_stdout(io.StringIO()) as output:
+            runner.main(['--batch', 'psf-bath-10wt', '--extend-psf-bath', '--test-locations', '1', '3'])
+        self.assertIn('5 independent samples', output.getvalue())
+        health.assert_not_called()
+        campaign.assert_not_called()
+        with self.assertRaises(ValueError):
+            runner.jobs_for_batch(plan['batches'][0], extend_psf_bath=True)
+
+    def test_bath_extension_preserves_three_saved_jobs_and_appends_repeats(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(runner, 'ROOT', Path(tmp)):
+            template = self.make_campaign(tmp)
+            args = template.args
+            args.test_locations = [1, 3]
+            batch = next(b for b in self.plan['batches'] if b['batch_id'] == 'psf-bath-10wt')
+            campaign = runner.Campaign(self.plan, batch, template.setup, args)
+            for index in range(3):
+                job = campaign.prepare_job(campaign.jobs[index], index)
+                job['status'] = 'completed'
+            campaign.save()
+            original_jobs = copy.deepcopy(campaign.state['jobs'])
+            args.extend_psf_bath = True
+            resumed = runner.Campaign(self.plan, batch, template.setup, args)
+            self.assertEqual(len(resumed.jobs), 5)
+            self.assertEqual(resumed.state['jobs'], original_jobs)
+            fourth = resumed.prepare_job(resumed.jobs[3], 3)
+            self.assertEqual(fourth['payload']['validation_repeat'], 4)
+            self.assertEqual(resumed.state['jobs'][:3], original_jobs)
+            self.assertEqual(runner.Campaign(self.plan, batch, template.setup, args).state['jobs'][3], fourth)
+            args.extend_psf_bath = False
+            with self.assertRaisesRegex(ValueError, 'schedule'):
+                runner.Campaign(self.plan, batch, template.setup, args)
+
+    def test_legacy_five_repeat_bath_binding_resumes_with_extension(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(runner, 'ROOT', Path(tmp)):
+            template = self.make_campaign(tmp)
+            args = template.args
+            args.extend_psf_bath = True
+            batch = next(b for b in self.plan['batches'] if b['batch_id'] == 'psf-bath-10wt')
+            campaign = runner.Campaign(self.plan, batch, template.setup, args)
+            first = campaign.prepare_job(campaign.jobs[0], 0)
+            legacy_binding = dict(plan=self.plan, sample_order='condition_then_repeat', batch=batch['batch_id'],
+                                  setup=template.setup, locations=args.test_locations,
+                                  csv_raw_path=str(args.csv_raw_path.resolve()), robot_url=args.robot_url,
+                                  server_ip=args.server_ip, server_port=args.server_port,
+                                  camera_index=args.camera_index, collect_only=args.collect_only, sample_repeats=5)
+            campaign.state['binding_sha256'] = runner.digest(legacy_binding)
+            campaign.save()
+            resumed = runner.Campaign(self.plan, batch, template.setup, args)
+            self.assertEqual(resumed.prepare_job(resumed.jobs[0], 0), first)
+            args.extend_psf_bath = False
+            args.sample_repeats = 5
+            self.assertEqual(len(runner.Campaign(self.plan, batch, template.setup, args).jobs), 5)
+
     def test_save_json_retries_windows_replacement_denials(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'validation_state.json'
