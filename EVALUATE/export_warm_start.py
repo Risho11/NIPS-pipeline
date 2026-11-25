@@ -30,6 +30,9 @@ def export_warm_start(frame, output_path=DEFAULT_OUTPUT, selection_description='
     data['validation_status'] = 'unknown; aggregate SD is intra-sample, not independent synthesis validation'
     if 'screened_position_count' in data:
         data['validation_status'] = 'within-film sample SD across reviewed positions; independent recast status unknown'
+    if 'good_fit_position_count' in data:
+        data['validation_status'] = ('within-film sample SD across reviewed punches with archived '
+                                     'Good Fit=True; independent recast status unknown')
     data['pore_fraction_method'] = 'compression-curve changepoint estimate; dimensionless, not independent porosimetry'
     if 'Toe Subtracted' in data:
         corrected = data['Toe Subtracted'].astype(str).str.lower().eq('true')
@@ -103,16 +106,21 @@ def export_notebook_warm_start(frame, notebook_name, *, root=ROOT, settings=None
     from notebook_selection import NOTEBOOK_OUTPUTS, selection_settings
     if notebook_name not in NOTEBOOK_OUTPUTS:
         raise ValueError(f'Unsupported analysis notebook: {notebook_name}')
+    if not {'screened_position_count', 'good_fit_position_count'}.issubset(frame):
+        raise ValueError('Rerun the notebook position screen before exporting canonical warm-start data.')
+    counts = frame['good_fit_position_count']
+    if not (counts.ge(2) & counts.eq(frame['screened_position_count'])).fillna(False).all():
+        raise ValueError('Each exported film must have at least two reviewed positions with Good Fit=True.')
     output = Path(root) / 'data' / 'warm_start' / NOTEBOOK_OUTPUTS[notebook_name]
     metadata = {'notebook': 'EVALUATE/' + notebook_name,
                 'settings': selection_settings(settings or {})}
-    if 'screened_position_count' in frame:
-        metadata['position_review'] = {
-            'register': 'EVALUATE/campaign_position_review.csv',
-            'minimum_paired_positions': 2,
-            'retained_positions': int(frame['screened_position_count'].sum()),
-            'film_statistics': 'Equal-position mean and sample SD (ddof=1) of finite reviewed fits.',
-        }
+    metadata['position_review'] = {
+        'register': 'EVALUATE/campaign_position_review.csv',
+        'whole_curve_gate': 'Original reps.csv Good Fit=True on the matched name and Trial.',
+        'minimum_paired_positions': 2,
+        'retained_positions': int(counts.sum()),
+        'film_statistics': 'Equal-position mean and sample SD (ddof=1) of the retained finite measurements.',
+    }
     return export_warm_start(
         frame, output,
         selection_description=f'Exact selected rows from {notebook_name}; no additional export filters.',

@@ -2,13 +2,13 @@
   "historical_bath_context": {
     "policy": "Preserve notebook-selected bath values; no export-only corrections."
   },
-  "rows": 67,
+  "rows": 60,
   "last_campaign": "2026-10-30",
   "excluded_negative_strain_rows": 0,
   "additional_export_filters": false,
-  "complete_parameter_rows": 67,
-  "modulus_rows": 67,
-  "paired_objective_rows": 67,
+  "complete_parameter_rows": 60,
+  "modulus_rows": 60,
+  "paired_objective_rows": 60,
   "campaigns": [
     "2026-09-10-exploration-mode",
     "2026-09-30",
@@ -43,9 +43,10 @@
     },
     "position_review": {
       "register": "EVALUATE/campaign_position_review.csv",
+      "whole_curve_gate": "Original reps.csv Good Fit=True on the matched name and Trial.",
       "minimum_paired_positions": 2,
-      "retained_positions": 205,
-      "film_statistics": "Equal-position mean and sample SD (ddof=1) of finite reviewed fits."
+      "retained_positions": 180,
+      "film_statistics": "Equal-position mean and sample SD (ddof=1) of the retained finite measurements."
     }
   },
   "limitations": [

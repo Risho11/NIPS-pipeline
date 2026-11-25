@@ -94,7 +94,10 @@ def apply_position_screen(aggregate, root):
     properties = [prop for prop in available_properties(aggregate) if prop in COMPRESSION_PROPERTIES]
     positions = []
     for relative, group in refs.groupby("fit_csv", sort=False):
-        fits = pd.read_csv(root / relative, usecols=lambda col: col in ["name", "Trial", *properties])
+        fits = pd.read_csv(root / relative, usecols=lambda col: col in ["name", "Trial", "Good Fit", *properties],
+                           dtype={"Good Fit": "string"})
+        if "Good Fit" not in fits:
+            raise ValueError(f"Missing archived Good Fit column in {relative}")
         fits = fits.rename(columns={"name": "fit_name", "Trial": "trial"})
         measured = group.merge(fits, on=["fit_name", "trial"], how="left",
                                validate="one_to_one", indicator=True)
@@ -102,6 +105,16 @@ def apply_position_screen(aggregate, root):
             raise ValueError(f"A reviewed position has no matching measured fit in {relative}")
         positions.append(measured)
     positions = pd.concat(positions, ignore_index=True)
+    passed = positions["Good Fit"].str.strip().str.casefold().eq("true").fillna(False)
+    passing = positions.loc[passed].groupby("record_id").size()
+    reviewed = positions.groupby("record_id").size()
+    log["reviewed_position_count"] = log.record_id.map(reviewed).astype("Int64")
+    passing = passing.reindex(reviewed.index, fill_value=0)
+    log["good_fit_position_count"] = log.record_id.map(passing).astype("Int64")
+    insufficient = log.screening_outcome.eq("Retained") & log.good_fit_position_count.lt(2)
+    log.loc[insufficient, "screening_outcome"] = "Fewer than two positions with archived Good Fit"
+    selected = selected.loc[selected.record_id.isin(passing[passing.ge(2)].index)].copy()
+    positions = positions.loc[passed & positions.record_id.isin(selected.record_id)].copy()
     values = positions.reindex(columns=properties).apply(pd.to_numeric, errors="coerce")
     values = values.where(np.isfinite(values))
     if (values[OBJECTIVES].isna().any().any() or not values["Elastic Modulus"].gt(0).all()
@@ -116,6 +129,7 @@ def apply_position_screen(aggregate, root):
     metrics = pd.concat([groups.mean().add_suffix(" Mean"), groups.std(ddof=1).add_suffix(" SD"),
                          groups.count().add_suffix(" N")], axis=1)
     metrics["screened_position_count"] = groups.size()
+    metrics["good_fit_position_count"] = groups.size()
     selected = selected.drop(columns=[col for col in metrics if col in selected]).join(
         metrics, on="record_id", validate="one_to_one")
     # These generated reports quote older aggregate measurements. The original text

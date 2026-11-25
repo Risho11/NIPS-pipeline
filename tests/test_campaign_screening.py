@@ -31,6 +31,7 @@ class CampaignScreeningTests(unittest.TestCase):
         self.fits = pd.DataFrame({
             "name": ["recast | rep 1", "recast | rep 2", "recast | rep 3"],
             "Trial": ["sample 5", "sample 6", "sample 7"],
+            "Good Fit": [True, True, True],
             "Elastic Modulus": [10., 1000., 30.], "Pore Fraction": [.2, .99, .6],
             "Thickness": [100., 300., np.nan]})
         self.fits.to_csv(self.root / "reps.csv", index=False)
@@ -65,6 +66,29 @@ class CampaignScreeningTests(unittest.TestCase):
         self.fits.to_csv(self.root / "reps.csv", index=False)
         with self.assertRaisesRegex(ValueError, "changed since"):
             apply_position_screen(self.aggregate, self.root)
+
+    def test_only_explicit_true_flags_count_toward_the_two_position_minimum(self):
+        for flag in ["False", None, "unknown", "1"]:
+            with self.subTest(flag=flag):
+                self.fits["Good Fit"] = ["True", "True", flag]
+                self.fits.to_csv(self.root / "reps.csv", index=False)
+                films, log = apply_position_screen(self.aggregate, self.root)
+                self.assertTrue(films.empty)
+                self.assertEqual(log.iloc[0].good_fit_position_count, 1)
+                self.assertEqual(log.iloc[0].screening_outcome,
+                                 "Fewer than two positions with archived Good Fit")
+
+    def test_failed_reviewed_position_does_not_contribute_to_either_mean(self):
+        site = self.review.iloc[0].copy()
+        site[SITE] = ["P2", 2, "reps.csv", "recast | rep 2", "sample 6", 1000., .99]
+        pd.concat([self.review, site.to_frame().T]).to_csv(self.root / REGISTER, index=False)
+        self.fits.loc[1, "Good Fit"] = False
+        self.fits.to_csv(self.root / "reps.csv", index=False)
+        films, log = apply_position_screen(self.aggregate, self.root)
+        self.assertEqual(log.iloc[0].reviewed_position_count, 3)
+        self.assertEqual(films.iloc[0].good_fit_position_count, 2)
+        self.assertEqual(films.iloc[0]["Elastic Modulus Mean"], 20.)
+        self.assertAlmostEqual(films.iloc[0]["Pore Fraction Mean"], .4)
 
     def test_trajectory_numbers_only_screened_search_films(self):
         films = pd.DataFrame({"campaign": "A", "condition": ["single", "explore", "repeat", "dual"],
