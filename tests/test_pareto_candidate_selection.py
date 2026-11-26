@@ -1,5 +1,8 @@
 """Selection must retain repeat failures and distinguish chemistry/settings."""
 
+import hashlib
+import json
+import shutil
 import sys
 import tempfile
 import unittest
@@ -9,12 +12,46 @@ from unittest.mock import patch
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'EVALUATE'))
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'EVALUATE'))
+import export_pareto_protocol
+import generate_pareto_validation_log
 from pareto_candidate_selection import assess_candidates, choose_candidates, matching_settings
 from pareto_reproduction import FIELDS
 
 
 class CandidateSelectionTests(unittest.TestCase):
+    def test_downstream_log_and_protocol_use_the_original_points_without_notebooks(self):
+        plan = json.loads((ROOT / 'protocols/pareto_validation_plan.json').read_text(encoding='utf-8'))
+        expected = {}
+        labels = {'psf': 'PSf / PolarClean', 'primospire': 'Primospire / NMP'}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            archive = root / 'docs/pareto_validation'
+            archive.mkdir(parents=True)
+            for chemistry in labels:
+                name = f'{chemistry}_selected_conditions.csv'
+                shutil.copyfile(ROOT / 'docs/pareto_validation' / name, archive / name)
+            for batch in plan['batches']:
+                chemistry = labels[batch['batch_id'].split('-')[0]]
+                for row in batch['conditions']:
+                    expected[chemistry, row['validation_id']] = (row['source_campaign'], row['source_condition'])
+                    path = Path(row['source_params'])
+                    (root / path).parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(ROOT / path, root / path)
+                    # Replay hashes the exact local bytes, including the checkout's line endings.
+                    row['source_params_sha256'] = hashlib.sha256((root / path).read_bytes()).hexdigest()
+            with patch.object(generate_pareto_validation_log, 'ROOT', root):
+                result = generate_pareto_validation_log.read_selections()
+            self.assertEqual({(r['chemistry'], r['validation_id']): (r['campaign'], r['condition'])
+                              for r in result}, expected)
+            with patch.object(export_pareto_protocol, 'ROOT', root):
+                export_pareto_protocol.export()
+            self.assertEqual(json.loads((root / 'protocols/pareto_validation_plan.json').read_text(encoding='utf-8')), plan)
+            template = Path('protocols/pareto_validation_setup.template.json')
+            self.assertEqual(json.loads((root / template).read_text(encoding='utf-8')),
+                             json.loads((ROOT / template).read_text(encoding='utf-8')))
+
     def test_matching_does_not_merge_different_or_unknown_chemistries(self):
         settings = {key: 1. for key in FIELDS}
         self.assertTrue(matching_settings(settings, settings, 'a', 'b'))
@@ -40,6 +77,12 @@ class CandidateSelectionTests(unittest.TestCase):
             with patch('pareto_candidate_selection.DEFAULT_RAW_ROOT', root), \
                  patch('pareto_candidate_selection.recorded_settings', return_value=settings):
                 assessed = assess_candidates(history.iloc[:2], history)
+                screened = history.iloc[:2].assign(screened_position_count=[2, 3])
+                with patch('pareto_candidate_selection.load_campaign_data',
+                           side_effect=AssertionError('Reviewed cohorts must not reload raw outcomes')):
+                    reviewed = assess_candidates(screened).iloc[0]
+        self.assertEqual(reviewed.historical_samples, 2)
+        self.assertEqual(reviewed['Elastic Modulus median'], 105.)
         self.assertEqual(len(assessed), 1)
         row = assessed.iloc[0]
         self.assertEqual(row.historical_samples, 4)

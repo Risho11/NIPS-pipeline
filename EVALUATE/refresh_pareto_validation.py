@@ -1,4 +1,4 @@
-"""Refresh only validation outputs using notebook settings, without warm-start writes.
+"""Refresh the retrospective notebook rankings and their screened analysis exports.
 
 uv run --with ipython python EVALUATE/refresh_pareto_validation.py
 """
@@ -16,53 +16,52 @@ import matplotlib.pyplot as plt
 
 from pareto_candidate_selection import assess_candidates, choose_candidates
 
+from notebook_selection import load_notebook_selection
+
 ROOT = Path(__file__).resolve().parents[1]
-DESCRIPTION = '''### Reproducibility-aware selection for further validation
+DESCRIPTION = '''### Retrospective ranking of screened films
 
-Five **distinct recorded recipes** balance repeat evidence, promising modulus/pore fraction, and coverage of their tradeoff. Candidates start with this notebook's unchanged quality/date/chemistry filters. Historical repeats are then searched across all campaigns, including poor outcomes excluded from these plots. Exact recorded process settings must match; known chemistry conflicts never match. Missing chemistry permits matching only within the same named recipe family. Raw `params.json` takes precedence. Conditions with missing process settings cannot establish an exact match. Stock age and ambient conditions may differ.
+This retrospective ranking proposes up to five recipes from the screened films. Labels C1–C5 identify candidates in this analysis. The historical validation experiments retain their original V identifiers. Only screened films with matching recorded process settings contribute to repeat counts, medians, lower quartiles and between-film CVs. The representative film is the measured pair closest to the two recipe medians.
 
-Separate raw sample records count as historical sample evidence, not compression locations. A usable pair requires finite, positive modulus and pore fraction within [0, 1]. Missing/invalid pairs count against the usable fraction; finite poor outcomes remain in the statistics. Each recipe is summarized using its paired-sample medians, lower quartiles and between-sample CVs. These are measured descriptive statistics; medians can combine different samples and are not an invented experimental observation. The displayed source sample is an actual eligible measurement nearest its recipe's median responses, rather than its best run.
+Every retained film has a paired objective measurement. The paired fraction in this table is therefore conditional on passing screening and equals one. It cannot estimate how often an attempted casting produced usable data. The between-film CV describes dispersion among retained repeats. With one film the CV is unavailable.
 
-**Selection rule:** recipes with <75% usable paired coverage or observed between-sample CV >50% for either response are retained in the assessment but excluded from selection. Up to three anchors have at least three usable paired samples and CV <=25% for both responses: highest median modulus, highest median pore fraction among remaining recipes, then highest balanced utility. These are prioritization rules, not validated reproducibility tolerances. One slot favors promising conditions with only one or two usable samples. Remaining slots balance utility and distance from already selected recipe medians. Labels V1–V5 follow increasing historical median pore fraction.
+The ranking excludes recipes with an observed CV above 50% for either objective. Up to three anchors have at least three measured films and CV at most 25% for both responses. The anchors prioritize median modulus, then median pore fraction, then joint utility. One slot favors a promising recipe with one or two films. Remaining slots balance utility and distance from the selected recipes. These cutoffs are prioritization choices.
 
-**Utility:** median and lower-quartile responses are normalized by each objective's candidate-median range. Performance = half the sum of normalized medians plus half the sum of lower-quartile scores clipped to [0,1]. Multiply by sample evidence (1 for >=3 usable pairs, 0.85 for two, 0.65 for one), paired fraction, and 1/(1 + largest between-sample CV as a fraction). Unknown CV receives a scoring penalty of 0.50, not a substituted measurement. Coverage slots multiply utility by (1 + distance to the nearest selected median in normalized objective space). The heuristic expresses an explicit tradeoff, not an optimized or statistically certified experimental design.
-
-The left panel shows **actual source measurements** against the original single-sample Pareto front; selected recipes need not lie on that front. The right panel shows typical historical performance and usable paired-sample counts. Reasons, measured medians, CVs and historical counts appear in the table. Historical chemistry labels retain the notebook's provenance limitations.
-
-Plan: **three independently synthesized samples per selected condition, two compression tests per sample at the bottom two locations**. No hardware is operated here. The separate Mini PC runner is implemented in src/pipeline/run_pareto_validation.py; see docs/PARETO_VALIDATION.md. It uses coupon tests 2 and 4 on the casting-start side, with two matched blank-coupon zero tests per sample.
+For utility, the median and lower quartile of each objective are scaled by the range of candidate medians. The score weights the median and clipped lower-quartile sums equally, then discounts for small sample counts and the largest between-film CV. An unknown CV receives a scoring penalty of 0.50. The left panel shows the actual representative films against the screened single-film Pareto front. The right panel shows recipe medians and retained film counts.
 '''
 
 
-def validation_source(chemistry, output):
+def validation_source(chemistry):
     return f'''from pareto_validation import select_validation_points, plot_validation_points
 
-VALIDATION_POINT_COUNT = 5
-validation_points, validation_front, validation_conditions = select_validation_points(
-    campaign_detailed, count=VALIDATION_POINT_COUNT
+CANDIDATE_COUNT = 5
+candidate_points, candidate_front, screened_candidates = select_validation_points(
+    campaign_detailed, count=CANDIDATE_COUNT, history=campaign_detailed, id_prefix='C'
 )
-figure_validation, axes_validation = plot_validation_points(
-    validation_points, validation_front, validation_conditions, {chemistry!r}
+figure_screened_candidates, axes_screened_candidates = plot_validation_points(
+    candidate_points, candidate_front, screened_candidates, {chemistry!r}
 )
 plt.show()
-validation_columns = ['validation_id', 'selection_reason', 'campaign', 'condition', 'iteration',
+candidate_columns = ['validation_id', 'selection_reason', 'campaign', 'condition', 'iteration',
                       'historical_samples', 'paired_samples', 'paired_fraction', 'repeat_supported',
                       'chemistry_recorded', 'Elastic Modulus median', 'Pore Fraction median',
                       'Elastic Modulus between CV %', 'Pore Fraction between CV %',
                       'Elastic Modulus Mean', 'Elastic Modulus SD',
                       'Pore Fraction Mean', 'Pore Fraction SD']
-validation_columns += [column for column in PARETO_PARAMETERS if column not in validation_columns]
-validation_columns += ['sample_repeats', 'compression_tests_per_sample']
-display(validation_conditions.reindex(columns=validation_columns))
-print(f'{{len(validation_conditions)}} conditions; {{3 * len(validation_conditions)}} independent samples; '
-      f'{{6 * len(validation_conditions)}} compression tests total.')
+candidate_columns += [column for column in PARETO_PARAMETERS if column not in candidate_columns]
+candidate_columns += ['sample_repeats', 'compression_tests_per_sample']
+candidate_table = screened_candidates.reindex(columns=candidate_columns).rename(columns={{'validation_id': 'candidate_id'}})
+candidate_table.attrs = {{}}
+display(candidate_table)
+print(f'{{len(screened_candidates)}} retrospective candidate recipes.')
 if SAVE_OUTPUTS:
-    validation_output = repo_root / 'EVALUATE' / {output!r}
-    validation_output.mkdir(parents=True, exist_ok=True)
-    figure_validation.savefig(validation_output / 'pareto_validation_selection.png',
+    candidate_output = SCREENED_PARETO_OUTPUT
+    candidate_output.mkdir(parents=True, exist_ok=True)
+    figure_screened_candidates.savefig(candidate_output / 'candidate_ranking.png',
                               dpi=180, bbox_inches='tight')
-    validation_conditions.to_csv(validation_output / 'pareto_validation_conditions.csv', index=False)
-    validation_conditions.attrs['candidate_assessment'].to_csv(
-        validation_output / 'pareto_validation_candidate_assessment.csv', index=False)
+    screened_candidates.rename(columns={{'validation_id': 'candidate_id'}}).to_csv(candidate_output / 'candidate_ranking.csv', index=False)
+    screened_candidates.attrs['candidate_assessment'].to_csv(
+        candidate_output / 'candidate_assessment.csv', index=False)
 '''
 
 
@@ -73,13 +72,12 @@ def refresh(preview=False):
         namespace = {'display': lambda *args: None}
         # These setup/filter cells only read measured data. Deliberately skip the
         # trend-plot cell, which also exports warm-start files.
-        for index in [1, 3, 5, 6]:
+        for index in [1, 3]:
             exec(compile(''.join(notebook['cells'][index]['source']), f'{name}:{index}', 'exec'), namespace)
-        detailed = namespace['campaign'].sort_values('sample_time').reset_index(drop=True).copy()
-        detailed['iteration'] = detailed.index + 1
+        detailed, _ = load_notebook_selection(name, quiet=True)
         namespace['campaign_detailed'] = detailed
-        candidates = assess_candidates(detailed)
-        chosen, candidates = choose_candidates(candidates)
+        candidates = assess_candidates(detailed, history=detailed)
+        chosen, candidates = choose_candidates(candidates, id_prefix='C')
         columns = ['condition', 'historical_samples', 'paired_samples', 'repeat_supported',
                    'Elastic Modulus median', 'Pore Fraction median',
                    'Elastic Modulus between CV %', 'Pore Fraction between CV %', 'selection_utility']
@@ -88,35 +86,32 @@ def refresh(preview=False):
         if preview:
             continue
         chemistry = 'PSf / PolarClean' if name == 'campaign_trends.ipynb' else 'Primospire / NMP'
-        output = 'campaign_trends_output' if name == 'campaign_trends.ipynb' else 'primospire_nmp_campaign_trends_output'
-        section = next(c for c in notebook['cells'] if c['cell_type'] == 'markdown' and (
-            ''.join(c['source']).startswith('### Proposed validation conditions') or
-            ''.join(c['source']).startswith('### Reproducibility-aware selection')))
+        section = next(c for c in notebook['cells'] if c['cell_type'] == 'markdown' and
+                       ''.join(c['source']).startswith('### Retrospective ranking of screened films'))
         section['source'] = DESCRIPTION.splitlines(keepends=True)
         cell = next(c for c in notebook['cells'] if ''.join(c['source']).startswith('PARETO_X ='))
         for node in ast.parse(''.join(cell['source'])).body:
             if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == 'PARETO_PARAMETERS' for t in node.targets):
                 exec(compile(ast.Module(body=[node], type_ignores=[]), name, 'exec'), namespace)
         cell = next(c for c in notebook['cells'] if ''.join(c['source']).startswith('from pareto_validation import'))
-        cell['source'] = validation_source(chemistry, output).splitlines(keepends=True)
+        cell['source'] = validation_source(chemistry).splitlines(keepends=True)
         tables = []
         namespace['display'] = tables.append
         exec(compile(''.join(cell['source']), name, 'exec'), namespace)
-        chosen = namespace['validation_conditions']
+        chosen = namespace['screened_candidates']
         assert len(chosen) == 5 and chosen['condition'].is_unique
-        output_dir = ROOT / 'docs' / 'pareto_validation'
+        output_dir = namespace['SCREENED_PARETO_OUTPUT']
         output_dir.mkdir(parents=True, exist_ok=True)
-        prefix = 'psf' if name == 'campaign_trends.ipynb' else 'primospire'
         # Preserve full precision separately from the notebook HTML display.
-        chosen.to_csv(output_dir / f'{prefix}_selected_conditions.csv', index=False)
-        chosen.attrs['candidate_assessment'].to_csv(output_dir / f'{prefix}_candidate_assessment.csv', index=False)
+        chosen.rename(columns={'validation_id': 'candidate_id'}).to_csv(output_dir / 'candidate_ranking.csv', index=False)
+        chosen.attrs['candidate_assessment'].to_csv(output_dir / 'candidate_assessment.csv', index=False)
         png = io.BytesIO()
-        namespace['figure_validation'].savefig(png, format='png', dpi=120, bbox_inches='tight')
-        (output_dir / f'{prefix}_selection.png').write_bytes(png.getvalue())
+        namespace['figure_screened_candidates'].savefig(png, format='png', dpi=120, bbox_inches='tight')
+        (output_dir / 'candidate_ranking.png').write_bytes(png.getvalue())
         cell['outputs'] = [
             dict(output_type='display_data', metadata={}, data={'image/png': base64.b64encode(png.getvalue()).decode('ascii')}),
             dict(output_type='display_data', metadata={}, data={'text/html': tables[0].to_html(index=False), 'text/plain': tables[0].to_string(index=False)}),
-            dict(output_type='stream', name='stdout', text=f'{len(chosen)} conditions; {3*len(chosen)} independent samples; {6*len(chosen)} compression tests total.\n'),
+            dict(output_type='stream', name='stdout', text=f'{len(chosen)} retrospective candidate recipes.\n'),
         ]
         path.write_text(json.dumps(notebook, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
         plt.close('all')

@@ -193,11 +193,13 @@ class ClientTests(unittest.TestCase):
 
     def test_checkpoint_resume_reuses_saved_id_and_blocks_legacy_unknown(self):
         tree = ast.parse((ROOT / 'src/pipeline/run_loop.py').read_text(encoding='utf-8'))
-        fn = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == '_run_pipeline_and_trigger_next')
+        functions = {node.name: node for node in tree.body if isinstance(node, ast.FunctionDef)}
+        fn = functions['_run_pipeline_and_trigger_next']
         body = next(n for n in fn.body if isinstance(n, ast.Try)).body
         start = next(i for i, n in enumerate(body) if isinstance(n, ast.If) and 'submission_started' in ast.unparse(n.test))
         end = next(i for i, n in enumerate(body) if isinstance(n, ast.Expr) and '"next_run_submitted"' in ast.unparse(n).replace("'", '"'))
-        code = compile(ast.Module(body=body[start:end + 1], type_ignores=[]), '<checkpoint submission>', 'exec')
+        submission = [functions['_submit_recorded_test'], *body[start:end + 1]]
+        code = compile(ast.Module(body=submission, type_ignores=[]), '<checkpoint submission>', 'exec')
         state = {'completed_stages': []}
         api = Mock()
         api.check_health.return_value = {'journal_id': str(uuid.uuid4())}
@@ -207,7 +209,7 @@ class ClientTests(unittest.TestCase):
                 data['completed_stages'].append(stage)
             snapshots.append(json.loads(json.dumps(data)))
         env = dict(state=state, completed=state['completed_stages'], url=api, uuid=uuid,
-                   condition_name='test', new_params={}, _complete_stage=complete)
+                   condition_name='test', new_params={}, _complete_stage=complete, recording_port=lambda: None)
         api.check_health.side_effect = RuntimeError('offline')
         with self.assertRaisesRegex(RuntimeError, 'offline'):
             exec(code, env)
@@ -220,11 +222,16 @@ class ClientTests(unittest.TestCase):
         first_id = snapshots[0]['submission_request_id']
         api.run_test.side_effect = None
         exec(code, env)
-        self.assertEqual(api.run_test.call_args.kwargs['request_id'], first_id)
+        self.assertEqual(api.run_test.call_count, 2)
+        for submission_call in api.run_test.call_args_list:
+            self.assertEqual(submission_call.kwargs, {
+                'request_id': first_id, 'journal_id': api.check_health.return_value['journal_id'],
+            })
         self.assertIn('next_run_submitted', state['completed_stages'])
         state.pop('submission_request_id')
         with self.assertRaisesRegex(RuntimeError, 'unknown outcome'):
             exec(code, env)
+        self.assertEqual(api.run_test.call_count, 2)
 
 
 class QualityTests(unittest.TestCase):

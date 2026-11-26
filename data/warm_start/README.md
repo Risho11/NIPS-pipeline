@@ -6,13 +6,19 @@ data in the corresponding notebook's `campaign_detailed` dataframe:
 
 | Notebook | Warm-start CSV | Current saved selection |
 | --- | --- | ---: |
-| `EVALUATE/campaign_trends.ipynb` | `polysulfone_polarclean.csv` | 119 samples |
-| `EVALUATE/primospire_nmp_campaign_trends.ipynb` | `primospire_nmp.csv` | 74 samples |
+| `EVALUATE/campaign_trends.ipynb` | `polysulfone_polarclean.csv` | 119 films, 459 retained punches |
+| `EVALUATE/primospire_nmp_campaign_trends.ipynb` | `primospire_nmp.csv` | 60 films, 180 retained punches |
 
 Rerunning the main trend-plot cell in either notebook refreshes its warm-start
 CSV and JSON, even when `SAVE_OUTPUTS = False`. It exports the actual selected
 dataframe, including campaign/date/chemistry filters, CV and discard limits,
-replicate-strain checks, stock ages, and manual exclusions. The exporter applies
+replicate-strain checks, stock ages, and manual exclusions. Each film also needs
+a valid aggregate objective pair and at least two distinct reviewed positions
+with passing modulus and pore-fraction fits and an explicit whole-curve
+`Good Fit=True` in the archived `reps.csv` row for that punch. The notebooks
+recalculate film means and within-film sample SDs using those positions.
+The per-property counts and `screened_position_count` accompany each film.
+The exporter applies
 no additional date caps, quality filters, deduplication, or bath corrections.
 Only AL report/provenance fields are enriched; measurements are not rounded.
 AL request formatting applies the separate two-decimal prompt-only rule.

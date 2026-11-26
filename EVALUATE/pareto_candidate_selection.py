@@ -37,8 +37,9 @@ def matching_settings(target, candidate, target_name, candidate_name):
 
 
 def assess_candidates(data, history=None):
-    """Eligible representatives; repeat statistics include poor historical repeats."""
-    history = load_campaign_data() if history is None else history.copy()
+    """Match recipes in the supplied history. Reviewed films use their own cohort by default."""
+    if history is None:
+        history = data if 'screened_position_count' in data else load_campaign_data()
     settings = recorded_settings(history)
     candidates = []
     seen = set()
@@ -91,7 +92,7 @@ def assess_candidates(data, history=None):
     return pd.DataFrame(candidates).reset_index(drop=True)
 
 
-def choose_candidates(candidates, count=5):
+def choose_candidates(candidates, count=5, *, id_prefix="V"):
     """Balance observed performance, repeat evidence, and response-space coverage."""
     if isinstance(count, bool) or not isinstance(count, int) or count < 2:
         raise ValueError('count must be an integer of at least two')
@@ -161,7 +162,7 @@ def choose_candidates(candidates, count=5):
                 chosen.loc[index, 'selection_reason'] += '; matched process contrast in bath-solvent content'
                 break
     chosen = chosen.sort_values('Pore Fraction median', kind='stable')
-    chosen.insert(0, 'validation_id', [f'V{i + 1}' for i in range(len(chosen))])
+    chosen.insert(0, 'validation_id', [f'{id_prefix}{i + 1}' for i in range(len(chosen))])
     chosen['sample_repeats'] = 3
     chosen['compression_tests_per_sample'] = 2
     return chosen, table

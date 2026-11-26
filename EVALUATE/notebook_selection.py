@@ -1,4 +1,4 @@
-"""Use the two analysis notebooks as the source of truth for warm-start selection.
+"""Use the two analysis notebooks as the source of truth for film selection.
 
 Only configuration, function definitions, and the loading/filtering cell run.
 Plotting, model fitting, exports, and later notebook cells are not executed.
@@ -33,14 +33,19 @@ def selection_settings(namespace):
     return settings
 
 
-def load_notebook_selection(notebook_name, root=ROOT, *, quiet=False):
+def load_notebook_selection(notebook_name, root=ROOT, *, quiet=False, stage="reviewed"):
+    """Run the notebook gates; the aggregate stage is available for screening audits."""
     if notebook_name not in NOTEBOOK_OUTPUTS:
         raise ValueError(f'Unsupported analysis notebook: {notebook_name}')
+    if stage not in {'aggregate', 'reviewed'}:
+        raise ValueError(f'Unknown notebook screening stage: {stage}')
     root = Path(root).resolve()
     path = root / 'EVALUATE' / notebook_name
     notebook = json.loads(path.read_text(encoding='utf-8'))
     cells = [''.join(c['source']) for c in notebook['cells'] if c['cell_type'] == 'code']
     markers = (r'^PROPERTIES\s*=\s*\[', r'^def infer_chemistry\(', r'^campaign = select_campaign\(all_data')
+    if stage == 'reviewed':
+        markers += (r'^campaign, screening_log = apply_position_screen\(',)
     selected = []
     for marker in markers:
         matches = [source for source in cells if re.search(marker, source, re.MULTILINE)]
@@ -55,6 +60,6 @@ def load_notebook_selection(notebook_name, root=ROOT, *, quiet=False):
         for index, source in enumerate(selected):
             exec(compile(source, f'{path}:selection-{index}', 'exec'), namespace)
     # This is the same enrichment performed by plot_detailed_campaign; it drops no rows.
-    data = namespace['campaign'].copy().sort_values('sample_time').reset_index(drop=True)
+    data = namespace['campaign'].sort_values(['sample_time', 'campaign', 'condition']).reset_index(drop=True)
     data['iteration'] = data.index + 1
     return data, selection_settings(namespace)

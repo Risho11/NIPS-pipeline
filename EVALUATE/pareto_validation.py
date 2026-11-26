@@ -8,7 +8,7 @@ from pareto_candidate_selection import assess_candidates, choose_candidates
 OBJECTIVES = ['Pore Fraction Mean', 'Elastic Modulus Mean']
 
 
-def select_validation_points(data, count=5):
+def select_validation_points(data, count=5, *, history=None, id_prefix="V"):
     """Prioritize reproducibility, typical performance and tradeoff coverage."""
     if isinstance(count, bool) or not isinstance(count, int) or count < 2:
         raise ValueError('count must be an integer of at least two')
@@ -25,7 +25,8 @@ def select_validation_points(data, count=5):
              .drop_duplicates(OBJECTIVES).copy())
     if front.empty:
         raise ValueError('No finite Pareto observations available for validation')
-    chosen, candidates = choose_candidates(assess_candidates(points), count=count)
+    chosen, candidates = choose_candidates(assess_candidates(points, history=history),
+                                           count=count, id_prefix=id_prefix)
     chosen.attrs['candidate_assessment'] = candidates
     return points, front, chosen
 
