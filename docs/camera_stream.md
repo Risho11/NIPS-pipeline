@@ -12,7 +12,8 @@ http://127.0.0.1:5000/video_feed/0. Missing cameras display a placeholder
 and retry every three seconds. Devices open when their stream is first requested
 and remain open until the server exits. Stop with Ctrl+C.
 
-Select cameras or reduce resolution and frame rate:
+Select cameras or change the resolution and frame rate for live streams
+and recordings:
 
 ```powershell
 uv run python src/pipeline/camera_stream.py --cameras 0 2 --width 1280 --height 720 --fps 10
@@ -48,6 +49,31 @@ $env:NIPS_CAMERA_RECORDING_PORT = '5001'
 
 The camera server saves to the repository's `recordings/` directory by default.
 Use `--record-dir` to choose another location.
+Recording requires FFmpeg with the `libx264` encoder on `PATH`. The browser
+feeds and the recorded grid share the `--width`, `--height`, and `--fps`
+settings, which default to 1920×1080 at 15 fps. The recorder rounds odd
+dimensions up to the next even pixel for encoding. Each MP4 targets 2.5 Mb/s,
+about 1.05 GiB per hour.
+While FFmpeg is writing, the file ends in `.mp4.part`. The recorder publishes
+the final `.mp4` name after FFmpeg finishes.
+
+Automatic cleanup is enabled by default. Use `--no-cleanup-recordings`
+to disable it. The default folder limit is 100 GiB and the default
+free-space floor is 30 GiB. To choose other limits, set both flags as needed.
+
+```powershell
+uv run python src/pipeline/camera_stream.py --recordings-limit-gib 80 --min-free-space-gib 40
+```
+
+The server checks storage before starting each recording and every five seconds
+while recording. It applies the folder limit and free-space floor to the
+recording drive. When the project is on a different drive, it also checks the
+project's free space. Cleanup deletes the oldest
+readable MP4s in dated recording folders first, using file modification times.
+Active `.mp4.part` files and other files count toward the folder limit.
+If cleanup cannot make room, the server refuses to start the recording or
+finalizes the one in progress and reports a warning. The live feeds continue.
+
 The camera server waits for a recording request, even while viewers are
 watching the stream. Each experiment starts one grid MP4 before submission.
 The run loop stops recording on the matching completion
