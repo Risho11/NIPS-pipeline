@@ -7,6 +7,8 @@ from xarm.wrapper import XArmAPI
 ip_address = "192.168.1.198"
 
 default_speed = 250 # mm/s
+putdown_speed = 50 # mm/s
+coupon_camera_spped = 50 # mms
 waypoint_speed = 250 # mm/s
 pullcast_speed = 50 # mm/s
 grab_speed = 100 # mm/s
@@ -126,9 +128,9 @@ positions = {
         "coupon angled waypoint": [300+6, -468-1, 302-3, 180, 45, -90],
         "coupon angled": [300+6, -468-1, 250-3, 180, 45, -90],
         
-        "cap waypoint": [300+2, -394-13, 242, 180, 0, -90],
-        "cap hover": [300+2, -449-13, 257, 180, 30, -90],
-        "cap": [300+2, -489, 268, 180, 40, -90],
+        "cap waypoint": [300+2, -394-13+3, 242, 180, 0, -90],
+        "cap hover": [300+2, -448-13+3, 257+2, 180, 30, -90],
+        "cap": [300+2, -486+3, 268, 180, 40, -90],
         "coupon bath cap": [265, -230, 121, 180, 45, -90],
         
         "coupon bath waypoint": [262+6, -225-8, 242, 180, 45, -90],
@@ -140,9 +142,9 @@ positions = {
         "cap bath": [262+6, -242-10, 137, 180, 40, -90]
     },
     "middle": {
-        "coupon bath waypoint": [262+6, -225-8, 242, 180, 45, -90],
+        "coupon bath waypoint": [262+6, -225-10, 242, 180, 45, -90],
         #"coupon bath cap": [270, -230, 119, 180, 45, -90],
-        "coupon bath": [262+6, -225-8, 117, 180, 45, -90],
+        "coupon bath": [262+6, -225-10, 117, 180, 45, -90],
         
         #"cap stand waypoint": [70, -308, 300, 180, 65, 0],
         #"cap stand": [0, -308, 200, 180, 45, 0],
@@ -151,28 +153,28 @@ positions = {
         
         "ring rack waypoint": [370, 0, 240, 180, 30, 0],
         "ring rack": [370, 0, 170, 180, 30, 0],
-        "ring bath waypoint": [269+3, -341-13, 242+3, 180, 90, -90],
-        "ring bath": [269+3, -341-13, 139+3, 180, 90, -90],
+        "ring bath waypoint": [269+3, -341-13, 242+2, 180, 90, -90],
+        "ring bath": [269+3, -341-13, 139+2, 180, 90, -90],
         #"coupon rack waypoint": [222, -3, 230, 180, 45, 0],
         #"coupon rack": [222, -3, 137, 180, 45, 0],
         "coupon rack waypoint": [222, -2+6, 230, 180, 45, 0],
         "coupon rack": [182, -2+6, 175, 180, 90, 0],
         "coupon rack back": [152, -3+6, 175 + 30, 180, 90, 0],
         
-        "camera open waypoint": [393, 70+10, 250+5, 180, 45, 90],
-        "camera open": [393, 70+10, 147+5, 180, 45, 90],
+        "camera open waypoint": [393-3, 70+10, 250+5, 180, 45, 90],
+        "camera open": [393-3, 70+10, 147+5, 180, 45, 90],
         "camera closed": [395 - 178, 70+10, 147+5, 180, 45, 90],
         "camera closed waypoint": [395 - 178, 70+10, 180+5, 180, 45, 90],
         
-        "coupon camera": [254, 94-10, 147, 180, 45, 90],
-        "coupon camera waypoint": [254, 94-10, 150 + 150, 180, 45, 90],
+        "coupon camera": [254, 94-10, 147+2, 180, 45, 90],
+        "coupon camera waypoint": [254, 94-10, 150 + 150+2, 180, 45, 90],
     },
     "tester": {
-        "coupon camera": [254, 94, 147, 180, 45, 90],
-        "coupon camera waypoint": [254, 94, 150 + 150, 180, 45, 90],
+        "coupon camera": [256-1, 94-2, 147+2, 180, 45, 90],
+        "coupon camera waypoint": [251-1, 94-2, 150 + 150+2, 180, 45, 90],
             
-        "coupon angled waypoint": [371, 333+3, 350, 180, 45, 91],
-        "coupon angled": [371, 333+3, 314, 182, 45, 91],
+        "coupon angled waypoint": [371+4, 333+3, 350, 180, 45, 91],
+        "coupon angled": [371+4, 333+3, 314, 182, 45, 91],
         "coupon flat waypoint": [380, 259, 270, 180, 0, 91],
         "coupon flat": [380, 259, 224, 180, 0, 91],
 
@@ -195,8 +197,8 @@ positions = {
         "discard waypoint": [20, 250-5, 350, 180, 45, 90], # new discard bath location
         "discard": [20, 250-5, 117+120, 180, 45, 90],
         
-        "2nd bath waypoint": [280+4, 240+1, 300, 180, 45, 89], # leave in bath
-        "2nd bath": [286+4, 247+1, 113, 180, 45, 89],
+        "2nd bath waypoint": [280+4, 240+3, 300, 180, 45, 89+2], # leave in bath
+        "2nd bath": [286+4, 247+3, 113, 180, 45, 89+2],
         "hover bath waypoint": [270, 225, 310, 180, 45, 90], # arm holds coupon in bath
         "hover bath": [270, 225, 170, 180, 45, 90],
         
@@ -316,11 +318,19 @@ class Arm():
     def go_to_position(self, zone, position, speed = default_speed, pitch = True):
         if zone != self.currentZone:
             self.immigrate(zone, pitch = pitch)
+        if (zone == "tester") & (position == "coupon camera"):
+            speed = coupon_camera_spped
+        if (zone == "tester") & (position == "coupon camera waypoint"):
+            speed = coupon_camera_spped
         self.go_to(positions[zone][position], speed = speed)
 
     def go_to_position_offset(self, zone, position, offset, speed = default_speed, pitch = True):
         if zone != self.currentZone:
             self.immigrate(zone, pitch = pitch)
+        if (zone == "tester") & (position == "coupon camera"):
+            speed = coupon_camera_spped
+        if (zone == "tester") & (position == "coupon camera waypoint"):
+            speed = coupon_camera_spped
         self.go_to_offset(positions[zone][position], offset, speed = speed)
     
     def pick_up(self, item, pitch = True, speed = default_speed):
@@ -330,7 +340,7 @@ class Arm():
         self.close_gripper()
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch, speed = speed)
     
-    def put_down(self, item, pitch = True, speed  = default_speed, offset = [0,0,0,0,0,0]):
+    def put_down(self, item, pitch = True, speed  = putdown_speed, offset = [0,0,0,0,0,0]):
         item = items[item]
         self.go_to_position(item["home zone"], item["home position"] + " waypoint", pitch = pitch)
         self.go_to_position_offset(item["home zone"], item["home position"], speed = speed, offset = offset)
