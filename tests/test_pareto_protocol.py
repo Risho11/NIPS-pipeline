@@ -218,6 +218,58 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual([job['condition']['validation_id'] for job in jobs],
                          ['V1'] * 3 + ['V2'] * 3 + ['V4'] * 3 + ['V5'] * 3)
 
+    def test_primospire_extension_previews_eight_jobs_and_preserves_baseline_order(self):
+        batch = next(b for b in self.plan['batches'] if b['batch_id'] == 'primospire-water')
+        conditions = {condition['validation_id']: condition for condition in batch['conditions']}
+        expected = [('V5', 1), ('V5', 2), ('V5', 3), ('V2', 4), ('V2', 5),
+                    ('V3', 4), ('V3', 5), ('V4', 4)]
+        jobs = runner.jobs_for_batch(batch, extend_primospire_water=True)
+        self.assertEqual(jobs[:15], runner.jobs_for_batch(batch))
+        self.assertEqual(jobs[12:], [dict(condition=conditions[variant], repeat=repeat)
+                                     for variant, repeat in expected])
+        with patch.object(runner.robot, 'check_health') as health, \
+             patch.object(runner, 'Campaign') as campaign, redirect_stdout(io.StringIO()) as output:
+            runner.main(['--batch', 'primospire-water', '--extend-primospire-water',
+                         '--campaign', 'primospire-reproducibility-2026-11-24'])
+        lines = output.getvalue().splitlines()
+        self.assertIn('4 conditions, 8 independent samples', lines[1])
+        self.assertEqual([line.split(':', 1)[0].strip() for line in lines[2:-1]],
+                         [f'{variant} repeat {repeat}' for variant, repeat in expected])
+        health.assert_not_called()
+        campaign.assert_not_called()
+
+    def test_primospire_extension_reuses_prepared_v5_and_requires_completed_baseline(self):
+        batch = next(b for b in self.plan['batches'] if b['batch_id'] == 'primospire-water')
+        with tempfile.TemporaryDirectory() as tmp, patch.object(runner, 'ROOT', Path(tmp)):
+            args = self.make_campaign(tmp).args
+            args.campaign = 'primospire-reproducibility-2026-11-24'
+            setup = dict(material_context=batch['material_context'], stock_metadata=dict(
+                stock_mode='polymer_solvent', polymer_stock_wt_percent=21.0))
+            runner.validate_setup(batch, setup)
+            original = runner.Campaign(self.plan, batch, setup, args)
+            original.save()
+            args.extend_primospire_water = True
+            with self.assertRaisesRegex(ValueError, 'twelve completed'):
+                runner.Campaign(self.plan, batch, setup, args)
+
+            for index, specification in enumerate(original.jobs[:12]):
+                original.prepare_job(specification, index)['status'] = 'completed'
+            first = original.prepare_job(original.jobs[12], 12)
+            self.assertEqual(first['payload']['validation_id'], 'V5')
+            self.assertEqual(first['payload']['compression_test_locations'], ['coupon test 2', 'coupon test 4'])
+            saved = original.state_path.read_bytes()
+            resumed = runner.Campaign(self.plan, batch, setup, args)
+            self.assertEqual(resumed.prepare_job(resumed.jobs[12], 12), first)
+            self.assertEqual(resumed.state_path.read_bytes(), saved)
+
+            for index in range(12, 15):
+                resumed.prepare_job(resumed.jobs[index], index)['status'] = 'completed'
+            appended = resumed.prepare_job(resumed.jobs[15], 15)
+            self.assertEqual((appended['payload']['validation_id'], appended['payload']['validation_repeat']), ('V2', 4))
+            args.extend_primospire_water = False
+            with self.assertRaisesRegex(ValueError, 'schedule'):
+                runner.Campaign(self.plan, batch, setup, args)
+
     def test_legacy_four_locations_and_bottom_only_validation(self):
         self.assertEqual(compression.resolve_test_locations(), compression.LEGACY_LOCATIONS)
         self.assertEqual(compression.resolve_test_locations(['coupon test 2', 'coupon test 4']), compression.OPPOSITE_LOCATIONS)

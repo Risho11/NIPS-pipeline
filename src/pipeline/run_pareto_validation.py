@@ -109,7 +109,7 @@ def load_plan(path):
     return plan
 
 
-def jobs_for_batch(batch, extend_psf_water=False, extend_psf_bath=False):
+def jobs_for_batch(batch, extend_psf_water=False, extend_psf_bath=False, *, extend_primospire_water=False):
     if extend_psf_bath and (batch['batch_id'] != 'psf-bath-10wt' or extend_psf_water):
         raise ValueError('The PSf bath extension requires psf-bath-10wt only')
     # Finish all independent synthesis repeats of one condition before advancing.
@@ -123,6 +123,14 @@ def jobs_for_batch(batch, extend_psf_water=False, extend_psf_bath=False):
     if extend_psf_bath:
         jobs.extend(dict(condition=condition, repeat=repeat)
                     for condition in batch['conditions'] for repeat in (4, 5))
+    if extend_primospire_water:
+        if batch['batch_id'] != 'primospire-water' or extend_psf_water or extend_psf_bath:
+            raise ValueError('The Primospire water extension requires primospire-water only')
+        if [c['validation_id'] for c in batch['conditions']] != ['V1', 'V2', 'V3', 'V4', 'V5']:
+            raise ValueError('Expected the original Primospire water condition order')
+        jobs.extend(dict(condition=condition, repeat=repeat)
+                    for condition in batch['conditions'][1:3] for repeat in (4, 5))
+        jobs.append(dict(condition=batch['conditions'][3], repeat=4))
     return jobs
 
 
@@ -266,7 +274,9 @@ class Campaign:
         self.lock = threading.RLock()
         self.camera = None
         extend_bath = getattr(args, 'extend_psf_bath', False) or getattr(args, 'sample_repeats', 3) == 5
-        self.jobs = jobs_for_batch(batch, getattr(args, 'extend_psf_water', False), extend_bath)
+        extend_primospire_water = getattr(args, 'extend_primospire_water', False)
+        self.jobs = jobs_for_batch(batch, getattr(args, 'extend_psf_water', False), extend_bath,
+                                   extend_primospire_water=extend_primospire_water)
         binding = dict(plan=plan, sample_order='condition_then_repeat', batch=batch['batch_id'], setup=setup,
                        locations=args.test_locations, csv_raw_path=str(Path(args.csv_raw_path).resolve()),
                        robot_url=args.robot_url, server_ip=args.server_ip, server_port=args.server_port,
@@ -284,11 +294,15 @@ class Campaign:
             self.state = dict(binding_sha256=digest(binding), jobs=[], current=None)
         saved_names = [job['name'] for job in self.state['jobs']]
         if saved_names != [self.sample_name(job) for job in self.jobs[:len(saved_names)]]:
-            raise ValueError('Saved jobs do not match this schedule. Reuse the --extend-psf-water or --extend-psf-bath flag used previously.')
+            raise ValueError('Saved jobs do not match this schedule. Reuse the original schedule flags.')
         if getattr(args, 'extend_psf_water', False) and (
             len(saved_names) < 9 or any(job['status'] != 'completed' for job in self.state['jobs'][:9])
         ):
             raise ValueError('The PSf water extension requires the nine completed baseline jobs')
+        if extend_primospire_water and (
+            len(saved_names) < 12 or any(job['status'] != 'completed' for job in self.state['jobs'][:12])
+        ):
+            raise ValueError('The Primospire water extension requires the twelve completed V1–V4 baseline jobs')
 
     def sample_name(self, specification):
         condition = specification['condition']
@@ -531,6 +545,8 @@ def main(argv=None):
                         help='Append V3 repeats 4 and 5 to the original three-repeat PSf 10 wt%% bath schedule')
     parser.add_argument('--extend-psf-water', action='store_true',
                         help='Append V1, V2 and V4 repeats 4 and 5 to the November 16 PSf water schedule')
+    parser.add_argument('--extend-primospire-water', '--primospire-followup', action='store_true',
+                        help='Append V2 and V3 repeats 4 and 5, and V4 repeat 4, to the November 24 PrS water schedule')
     parser.add_argument('--process-only', action='store_true', help='Process saved batch samples without network or hardware')
     parser.add_argument('--export-only', action='store_true', help='Refresh reproduce.csv from agg.csv without fitting or devices')
     parser.add_argument('--collect-only', action='store_true', help='Keep raw data; defer mechanical processing')
@@ -551,6 +567,11 @@ def main(argv=None):
         or args.export_only or args.process_only
     ):
         parser.error('--extend-psf-water requires the November 16 PSf water campaign and a preview or execution')
+    if args.extend_primospire_water and (
+        args.batch != 'primospire-water' or args.campaign != 'primospire-reproducibility-2026-11-24'
+        or args.export_only or args.process_only
+    ):
+        parser.error('--extend-primospire-water requires the November 24 Primospire water campaign and a preview or execution')
     plan = load_plan(args.plan)
     batches = [batch for batch in plan['batches'] if args.batch is None or batch['batch_id'] == args.batch]
     if not batches:
@@ -580,9 +601,13 @@ def main(argv=None):
             export_reproduce(results)
         return
     for batch in batches:
-        jobs = jobs_for_batch(batch, args.extend_psf_water, args.extend_psf_bath)
+        jobs = jobs_for_batch(batch, args.extend_psf_water, args.extend_psf_bath,
+                              extend_primospire_water=args.extend_primospire_water)
+        if args.extend_primospire_water:
+            jobs = jobs[12:]  # The preview starts after the completed V1–V4 runs.
+        condition_count = len({job['condition']['validation_id'] for job in jobs})
         print(f'Compression locations for future samples: {args.test_locations} (blank and membrane phases)')
-        print(f'{batch["batch_id"]}: {len(batch["conditions"])} conditions, '
+        print(f'{batch["batch_id"]}: {condition_count} conditions, '
               f'{len(jobs)} independent samples; {batch["material_context"]}')
         for job in jobs:
             print(f'  {job["condition"]["validation_id"]} repeat {job["repeat"]}: {job["condition"]["parameters"]}')

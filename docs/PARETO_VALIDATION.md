@@ -116,6 +116,34 @@ stock bottle, because that robot path skips heated mixing. Supply suitable
 stocks rather than silently changing the recorded temperature. This check does
 not establish equivalence of stock age, ambient conditions, or historical timing.
 
+## November 24 Primospire water extension
+
+Use `--extend-primospire-water` to continue the November 24 campaign after its
+twelve completed V1–V4 jobs. The runner finishes the original V5 repeats, then
+appends five jobs using the frozen recipes and the existing compression pair.
+If V5 rep 1 is already prepared, resume reuses its saved request ID.
+
+| Order | Recipe and repeat | Water bath |
+|---:|---|---:|
+| 1 | V5 rep 1 | 15 °C |
+| 2 | V5 rep 2 | 15 °C |
+| 3 | V5 rep 3 | 15 °C |
+| 4 | V2 rep 4 | 10 °C |
+| 5 | V2 rep 5 | 10 °C |
+| 6 | V3 rep 4 | 5 °C |
+| 7 | V3 rep 5 | 5 °C |
+| 8 | V4 rep 4 | 5 °C |
+
+Preview the eight-job segment with the campaign's original location pair:
+
+```powershell
+uv run --locked --no-sync python src/pipeline/run_pareto_validation.py --batch primospire-water --campaign primospire-reproducibility-2026-11-24 --extend-primospire-water --test-locations 2 4
+```
+
+For a physical run, add `--execute` and the same
+`--setup protocols/pareto_validation_setup.local.json` and any path or device
+overrides used by the original run. Keep the extension flag on resume.
+
 ## Run on the Mini PC
 
 After loading the appropriate physical materials and bath, run one batch:
